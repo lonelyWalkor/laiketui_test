@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title><?php echo $_GET['updata']? '系统升级':'系统安装';?></title>
+<title><?php echo isset($_GET['updata'])? '系统升级':'系统安装';?></title>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <style>
 html,body {
