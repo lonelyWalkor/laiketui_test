@@ -229,10 +229,13 @@ class IndexAction extends Action {
             $sql01 = "select a.id,b.product_title,b.volume,b.imgurl,a.draw_brandid,a.start_time,a.end_time,a.price as price11 from lkt_draw as a ,lkt_product_list as b  where b.num > 0 and a.draw_brandid = b.id and  a.start_time <= '".$datatime ."'and a.end_time >= '".$datatime."'";
 
             $r01 = $db -> select($sql01);
+            // print_r($r01);
+
             foreach ($r01 as $key => $value) {
-                $draw_brandid = $value->id;
+                $draw_brandid = $value->draw_brandid;
                 $sql002 = "select yprice from lkt_configure where num >0 and pid = '$draw_brandid' ";
                 $r002 = $db -> select($sql002);
+                // print_r($sql002);die;
                 $r01[$key]->yprice =$r002[0]->yprice;
                 
             }
