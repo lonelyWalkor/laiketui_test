@@ -85,18 +85,18 @@ MYSQL5.5+
 
 #### 安装教程
 
-1. 官网查看：[http://www.laiketui.com/](http://www.laiketui.com/)
+官网查看：[http://www.laiketui.com/](http://www.laiketui.com/)
 
 #### 使用说明
 
-1. 官网查看：[http://www.laiketui.com/help/](http://www.laiketui.com/help/)
+官网查看：[http://www.laiketui.com/help/](http://www.laiketui.com/help/)
 
 #### QQ交流群
 340645969
 
 
 #### 安装部署教程
-[点击查看](http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/)
+官网查看：[http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/)
 
 
 
