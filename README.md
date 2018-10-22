@@ -96,7 +96,7 @@ MYSQL5.5+
 
 
 #### 安装部署教程
-官网查看：[http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/)
+官网查看：[http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/](http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/)
 
 
 
