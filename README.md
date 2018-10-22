@@ -94,24 +94,9 @@ MYSQL5.5+
 #### QQ交流群
 340645969
 
-微信交流群
 
-![微信二维码](https://images.gitee.com/uploads/images/2018/0918/153522_c87bcd4b_1218936.png "微信图片_20180918153701.png")
-
-#### 线上部署
-1. 进入目录/app 下载后台代码
-2. 将下载（或者直接克隆到本地）至你的项目的根目录，其中包含两个文件：
-+ open_source_laike.zip  ———— 核心源码文件 无需解压直接上传到服务器 上传后由php执行解压操作
-+ index.php  核心系统文件  ————  首页逻辑处理等 直接上传到服务器
-+ 具体安装教程可前往官网下载 [http://www.laiketui.com](http://www.laiketui.com)
-3. 进入目录 miniprogram  /  zip 下载小程序端代码
+#### 安装部署教程
+[点击查看](http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/)
 
 
-#### 小程序配置
 
-+ 请求地址需要为https
-![地址路径](https://lg-8tgp2f4w-1252524862.cos.ap-shanghai.myqcloud.com/20180912101136.png)
-+ 更目录下 修改此两个文件的请求地址
------app.js
------request.js
-![小程序js修改](https://lg-8tgp2f4w-1252524862.cos.ap-shanghai.myqcloud.com/20180912100658.png)
