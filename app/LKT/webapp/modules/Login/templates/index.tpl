@@ -55,7 +55,7 @@
 
 
         <div class="login">
-
+            <form name="form1" action="index.php?module=Login" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
                 <div class="page_login">
 
                             <div class='login_title'>
@@ -100,10 +100,19 @@
 
                                 </div>
 
-                                <div class='login_fields__submit'>
-
-                                    <input type='button' value='登录'>
-
+                                <div class='login_fields__submit' >
+                                      <button  type="submit" style="border-radius: 50px;
+                                        background: transparent;
+                                        padding: 10px 50px;
+                                        border: 2px solid #4FA1D9;
+                                        color: #4FA1D9;
+                                        text-transform: uppercase;
+                                        font-size: 16px;
+                                        -webkit-transition-property: background,color;
+                                        transition-property: background,color;
+                                        -webkit-transition-duration: .2s;
+                                        transition-duration: .2s" name="Submit">登录</button> 
+                                    <!-- <input type='button' value='登录'> -->
                                 </div>
 
 
@@ -124,7 +133,7 @@
 
                 </div>
 
-        
+        </form>
 
         </div>
 
@@ -170,7 +179,7 @@
 
 <script src="style/loginSpecial/js/jquery.mockjax.js" type="text/javascript"></script>
 
-<script src="style/loginSpecial/js/controlLogin.js" type="text/javascript"></script>
+<!-- <script src="style/loginSpecial/js/controlLogin.js" type="text/javascript"></script> -->
 
 </body>
 

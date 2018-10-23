@@ -80,7 +80,11 @@ class payAction extends Action {
             $edition_url_name = 'apiclient_key_'.time().'.zip';
             $zip_file = $upload_file.$edition_url_name;
             move_uploaded_file($upload_cert,$zip_file);
+            //存放证书到两个地址
             $uzip_res = $this->unzip($zip_file,$upload_file,true);
+
+            $upload_file2 = MO_LIB_DIR.'/WxPayPubHelper/cacert/'; // 文件上传位置
+            $uzip_res = $this->unzip($zip_file,$upload_file2,true);
 
             $sql = "select * from lkt_config where id = '1'";
             $r = $db->select($sql);
@@ -91,7 +95,6 @@ class payAction extends Action {
                $mch_cert_url = " mch_cert = '$mch_cert', ";
             }
         }
-
         // 更新
         $sql = "update lkt_config set $mch_cert_url mch_id = '$mch_id', mch_key = '$mch_key',modify_date = CURRENT_TIMESTAMP where id = '1'";
         $r = $db->update($sql);
@@ -102,7 +105,25 @@ class payAction extends Action {
                 "location.href='index.php?module=system&action=pay';</script>";
             return $this->getDefaultView();
         } else {
-            header("Content-type:text/html;charset=utf-8");
+
+        //异步通知配置文件
+        $sql = "select appid,appsecret,mch_key,mch_id from lkt_config where id=1";
+        $r_db = $db -> select($sql);
+        // $f_db = $r_db[0];
+                // var_dump($f_db,$r_db,$sql);
+        $db_config = [];
+
+        foreach ($r_db[0] as $key => $value) {
+            $db_config[$key] = $value;
+        }
+
+        $conf = file_get_contents(MO_LIB_DIR . '/WxPay.tpl');
+        foreach ($db_config as $name => $value) {
+            $conf = str_replace("[{$name}]", $value, $conf);
+        }
+        file_put_contents(MO_LIB_DIR . '/WxPayPubHelper/WxPay.pub.config.php', $conf);
+        // exit;
+        header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('修改成功！');" .
                 "location.href='index.php?module=system&action=pay';</script>";

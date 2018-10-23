@@ -40,7 +40,7 @@ class IndexAction extends Action {
 	public function getDefaultView() {
 
 		$request = $this -> getContext() -> getRequest();
-
+// print_r(123);die;
 		$this -> getContext() -> getUser() -> setAuthenticated(false);
 
 		$request -> setAttribute("name", $request -> getParameter("name"));
@@ -54,7 +54,7 @@ class IndexAction extends Action {
 	public function execute() {
 
 		$db = DBAction::getInstance();
-
+// print_r(456);die;
 		// 获取输入的信息
 
 		$request = $this -> getContext() -> getRequest();
@@ -71,17 +71,23 @@ class IndexAction extends Action {
 
 		// 获取输入的用户名
 
-		$name = addslashes(trim(strtolower($request -> getParameter("name"))));
+		$name = addslashes(trim(strtolower($request -> getParameter("login"))));
 
 		// 获取输入的密码
 
-		$password = md5(strtolower($request -> getParameter("password")));
-
+		$password = md5(strtolower($request -> getParameter("pwd")));
+// print_r($name);
+// print_r($password);die;
 		if ($name == '' || $password == '') {
+			 header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('用户名或密码不能为空');" .
+                "</script>";
+            return $this->getDefaultView();
 
-			echo 0;
+			// echo 0;
 
-			exit ;
+			// exit ;
 
 		};
 
@@ -98,10 +104,15 @@ class IndexAction extends Action {
 			$sql = "insert into lkt_record (user_id,event) values ('$name','登录密码错误') ";
 
 			$r = $db -> update($sql);
+			header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('登录密码错误');" .
+                "</script>";
+            return $this->getDefaultView();
 
-			echo 0;
+			// echo 0;
 
-			exit ;
+			// exit ;
 
 		}
 
@@ -132,9 +143,13 @@ class IndexAction extends Action {
 		$this -> getContext() -> getStorage() -> write('admin_permission', $admin_permission);
 
 		// 登录成功后跳转地址
-
-		echo $r;
-		exit ;
+		  header("Content-type:text/html;charset=utf-8");
+        echo "<script type='text/javascript'>" .
+            "alert('登录成功');" .
+            "location.href='index.php?module=AdminLogin';</script>";
+        return;
+		// echo $r;
+		// exit ;
 
 	}
 
@@ -147,6 +162,7 @@ class IndexAction extends Action {
 	public function verify_num() {
 
 		$db = DBAction::getInstance();
+		// print_r(789);die;
 
 		$request = $this -> getContext() -> getRequest();
 
