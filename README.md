@@ -13,7 +13,8 @@
 ![购物车](https://xiaochengxu.laiketui.com/duan/LKT/images/auto-orient/20180716172005.jpg)|![订单中心](https://xiaochengxu.laiketui.com/duan/LKT/images/auto-orient/20180716171957.jpg)
 
 #### 游戏插件
-![九宫格游戏首页](https://images.gitee.com/uploads/images/2018/0930/104751_d5d6a94a_2029865.jpeg "WechatIMG7.jpeg")|![游戏排行](https://images.gitee.com/uploads/images/2018/0930/104805_8abc5235_2029865.jpeg "WechatIMG8.jpeg")
+
+![九宫格游戏首页](https://images.gitee.com/uploads/images/2018/1101/172257_4c90aab9_2029865.jpeg "104751_d5d6a94a_2029865.jpeg")|![游戏排行](https://images.gitee.com/uploads/images/2018/1101/172329_4531ab86_2029865.jpeg "104805_8abc5235_2029865.jpeg")
 ---|---
 
 
