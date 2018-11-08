@@ -17,6 +17,8 @@
 ![九宫格游戏首页](https://images.gitee.com/uploads/images/2018/1101/172257_4c90aab9_2029865.jpeg "104751_d5d6a94a_2029865.jpeg")|![游戏排行](https://images.gitee.com/uploads/images/2018/1101/172329_4531ab86_2029865.jpeg "104805_8abc5235_2029865.jpeg")
 ---|---
 
+#### 后台截图
+![输入图片说明](https://images.gitee.com/uploads/images/2018/1108/195946_1f1f0ad0_2029865.png "2018102604085011.png")
 
 #### 更新记录
 1. 2018-07-29 更新管理账户添加问题
