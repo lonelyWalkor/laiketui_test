@@ -112,6 +112,9 @@ MYSQL5.5+
 #### 安装部署教程
 官网查看：[http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/](http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/)
 
+#### 开发文档
+官网查看：[http://www.laiketui.com/docs/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/](http://www.laiketui.com/docs/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/)
+
 #### 相关思维导图
 ![前端](https://images.gitee.com/uploads/images/2018/1101/171831_05d3ecb6_2029865.jpeg "来客小程序.jpg")
 
