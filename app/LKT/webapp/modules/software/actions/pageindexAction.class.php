@@ -32,13 +32,19 @@ class pageindexAction extends Action {
         // 查询轮播图表，根据sort顺序排列
 
         $sql = "select * from lkt_index_page order by sort";
-
         $r = $db->select($sql);
 
         foreach ($r as $k => $v) {
-
-            $v->image = $uploadImg . $v->image;
-
+            if($v->type == 'img'){
+                $v->image = $uploadImg . $v->image; 
+           }else{
+                $cid = $v->url;
+                $sql = "select pname from lkt_product_class where cid = '$cid'";
+                $cr = $db->select($sql);
+                if($cr){
+                    $v->name =  $cr[0]->pname; // 分类名称
+                }
+           }
         }
 
         $request->setAttribute("list",$r);

@@ -42,14 +42,16 @@ public function getDefaultView() {
 
         $jifennum = $request->getParameter('jifennum');
         $switch = $request->getParameter('switch');
-// print_r($jifennum);die;
+        $rule = trim($request->getParameter('rule'));
+
         if($jifennum >= 0){
              $sql = "select * from lkt_software_jifen where id = 1";
              $r = $db->select($sql);
              if(!$r){
 
-                $sql = "insert into lkt_software_jifen(jifennum,switch) values('$jifennum','$switch')";
+                $sql = "insert into lkt_software_jifen(jifennum,switch,rule) values('$jifennum','$switch','$rule')";
                 $r = $db->insert($sql);
+                // var_dump($sql,$r);exit;
                 if($r > 0){
                     header("Content-type:text/html;charset=utf-8");
                     echo "<script type='text/javascript'>" .
@@ -58,8 +60,9 @@ public function getDefaultView() {
                     return $this->getDefaultView();
                 }
              }else{
-                $sql = "update lkt_software_jifen " ."set jifennum = '$jifennum', switch = '$switch' where id = 1";
+                $sql = "update lkt_software_jifen " ."set jifennum = '$jifennum', switch = '$switch',rule='$rule' where id = 1";
                 $r = $db->update($sql);
+                // var_dump($sql,$r);exit;
                 if($r > 0){
                     header("Content-type:text/html;charset=utf-8");
                     echo "<script type='text/javascript'>" .

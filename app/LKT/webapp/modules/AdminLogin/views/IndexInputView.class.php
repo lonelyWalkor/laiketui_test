@@ -1,20 +1,15 @@
 <?php
-
-/**
-
- * [Laike System] Copyright (c) 2018 laiketui.com
-
- * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
-
- */
 class IndexInputView extends SmartyView {
 // setTemplate() 为该视图设置模板。
     public function execute() {
-		$request = $this->getContext()->getRequest();
-		$this->setAttribute('version',$request->getAttribute('version'));
-		$this->setAttribute('userID',$request->getAttribute('userID'));
+        $request = $this->getContext()->getRequest();
+        $this->setAttribute('version',$request->getAttribute('version'));
+        $this->setAttribute('list',$request->getAttribute('list'));
         $this->setAttribute('admin_id',$request->getAttribute('admin_id'));
-		$this->setTemplate("index.tpl");
+        $this->setAttribute('type',$request->getAttribute('type'));
+        $this->setAttribute('login_time',$request->getAttribute('login_time'));
+        $this->setAttribute('domain',$request->getAttribute('domain'));
+        $this->setTemplate("index.tpl");
     }
 }
 ?>

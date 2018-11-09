@@ -38,14 +38,16 @@
 <title>活动设置</title>
 </head>
 <body>
+<nav class="breadcrumb">插件管理
+	<span class="c-gray en">&gt;</span>
+	拼团活动
+	<span class="c-gray en">&gt;</span>
+	添加拼团
+</nav>	
 <div class="page-container">
 	<form method="post" class="form form-horizontal" id="form-category-add" enctype="multipart/form-data">
 		<div id="tab-category" class="HuiTab">
-			<div class="tabBar cl" style="border-bottom: 2px #ff9900 solid;">	
-				<span style="background: #ff9900;">设置活动商品</span>
-			</div>
-	    
-	        <div class="tabCon">
+				<div class="tabCon">
 	           <div class="mt-20">
                   <table class="table table-border table-bordered table-bg table-hover table-sort" style="width:98%;margin:0 auto;">
                      <thead>
@@ -77,10 +79,15 @@
 	                    	    <input type="hidden" id="set_price_{$item->id}" value="{$item->price}">
 	                       </td>
 	                       <td>
-                            <input type="checkbox" name="group_member_{$item->id}" onchange="memberPrice({$item->id})" style="margin-left: -20px; "/>
-                              <input type="text" style="width:80px;margin-left: 10px;" data-id="{$item->id}" id="price_member_{$item->id}" style="margin-left: 12px;" onkeyup="checkDecimal(this,{$item->id})"/>
-                            
-                            
+		                       	<div style="height: 100%;text-align: center;align-items: center;display: flex;">
+		                       		<div style="margin: 0 auto;text-align: center;align-items: center;display: flex;">
+		                       		<input type="checkbox" class="inputC" id="group_member_{$item->id}" name="group_member_{$item->id}"
+		                       			 onchange="memberPrice({$item->id})" style=" display: inline-block;margin-left: -20px; "/>
+	                            <label for="group_member_{$item->id}" style="display: inline-block;"></label>
+	                            <input type="text" style="width:80px;height:30px;line-height: 30px;margin-left: 10px;border:1px solid #eee" 
+	                            	data-id="{$item->id}" id="price_member_{$item->id}" style="margin-left: 12px;" onkeyup="checkDecimal(this,{$item->id})"/>
+	                         		</div>
+		                       	</div>
                          </td>
 	                     </tr>
 	                   {/foreach}
@@ -89,15 +96,15 @@
               </div>
 	        </div>	
         </div>
-         {foreach from=$set item=item key=key}
+         <!-- {foreach from=$set item=item key=key}
             <input type="hidden" id="{$key}" value="{$item}">
-         {/foreach}  
+         {/foreach}  --> 
             
         </div>
-		<div class="row cl">
-			<div class="col-9 col-offset-3">
+		<div class="row cl" style="margin: 10px;margin-top: 0px;">
+			<div>
 				<input class="btn btn-primary radius" type="button" onclick="group_tijiao()" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-				<input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;返回&nbsp;&nbsp;" style="background: #EDEDED;border:0px;color:#000000;" onclick="javascript:history.back(-1);">
+				<input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;返回&nbsp;&nbsp;" style="background: #EDEDED;border:0px;color:#fff;" onclick="javascript:history.back(-1);">
 			</div>
 		</div>
 	</form>
@@ -201,10 +208,7 @@
      if($('input[name=group_member_'+i+']').prop('checked') == true){
         var price = $('#price_member_'+i).val();
           if(price == ''){
-              layer.alert('不允许为空！',{
-               icon: 5,
-               title: "提示",   
-              });
+              alert('不允许为空!');
               $('input[name=group_member_'+i+']').prop('checked',false);
           }else{
             $('#price_member_'+i).attr('disabled','disabled');
@@ -231,19 +235,43 @@
      }
   }
 
-
+   function getCookie(c_name)
+  {
+  if (document.cookie.length>0)
+    {
+    c_start=document.cookie.indexOf(c_name + "=")
+    if (c_start!=-1)
+      { 
+      c_start=c_start + c_name.length+1 
+      c_end=document.cookie.indexOf(";",c_start)
+      if (c_end==-1) c_end=document.cookie.length
+      return unescape(document.cookie.substring(c_start,c_end))
+      } 
+    }
+  return ""
+  }
+  
+   function delCookie(name)
+{
+var exp = new Date();
+exp.setTime(exp.getTime() - 1);
+var cval=getCookie(name);
+if(cval!=null)
+document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+}
+ 
     function group_tijiao() {
-    	var set = '{';
-    	set += '"'+$('input[id=groupname]').attr('id')+'":"'+$('input[id=groupname]').val()+'",';
-        set += '"'+$('input[id=peoplenum]').attr('id')+'":"'+$('input[id=peoplenum]').val()+'",';
-        set += '"'+$('input[id=timehour]').attr('id')+'":"'+$('input[id=timehour]').val()+'",';
-        set += '"'+$('input[id=timeminite]').attr('id')+'":"'+$('input[id=timeminite]').val()+'",';
-        set += '"'+$('input[id=starttime]').attr('id')+'":"'+$('input[id=starttime]').val()+'",';
-        set += '"'+$('input[id=endtime]').attr('id')+'":"'+$('input[id=endtime]').val()+'",';
-        set += '"'+$('input[id=groupnum]').attr('id')+'":"'+$('input[id=groupnum]').val()+'",';
-        set += '"'+$('input[id=productnum]').attr('id')+'":"'+$('input[id=productnum]').val()+'",';
-        set += '"'+$('input[id=radio]').attr('id')+'":"'+$('input[id=radio]').val()+'"}';
-
+    	// var set = '{';
+    	// set += '"'+$('input[id=groupname]').attr('id')+'":"'+$('input[id=groupname]').val()+'",';
+     //    set += '"'+$('input[id=peoplenum]').attr('id')+'":"'+$('input[id=peoplenum]').val()+'",';
+     //    set += '"'+$('input[id=timehour]').attr('id')+'":"'+$('input[id=timehour]').val()+'",';
+     //    set += '"'+$('input[id=timeminite]').attr('id')+'":"'+$('input[id=timeminite]').val()+'",';
+     //    set += '"'+$('input[id=starttime]').attr('id')+'":"'+$('input[id=starttime]').val()+'",';
+     //    set += '"'+$('input[id=endtime]').attr('id')+'":"'+$('input[id=endtime]').val()+'",';
+     //    set += '"'+$('input[id=groupnum]').attr('id')+'":"'+$('input[id=groupnum]').val()+'",';
+     //    set += '"'+$('input[id=productnum]').attr('id')+'":"'+$('input[id=productnum]').val()+'",';
+     //    set += '"'+$('input[id=radio]').attr('id')+'":"'+$('input[id=radio]').val()+'"}';
+    delCookie("proids");
         var str = '{';
         $.each(setgp,function(index,element){
               str+= '"'+index+'":"'+element+'",';
@@ -267,10 +295,11 @@
                dataType:"json",
                success:function(data) {
                    if(data.code == 1){
-                   	   layer.msg('发布成功!');
-                   	   window.parent.location.reload();
-                       var index = parent.layer.getFrameIndex(window.name);
-                       parent.layer.close(index);
+                   	   
+                       location.href = 'index.php?module=go_group&action=index';
+                   	   // window.parent.location.reload();
+                       // var index = parent.layer.getFrameIndex(window.name);
+                       // parent.layer.close(index);
                    }
                },
              })

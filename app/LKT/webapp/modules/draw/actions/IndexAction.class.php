@@ -17,6 +17,21 @@ class IndexAction extends Action {
         $db = DBAction::getInstance();
 
         $request = $this->getContext()->getRequest();
+
+        $pageto = $request -> getParameter('pageto');
+        // 每页显示多少条数据
+        $pagesize = $request -> getParameter('pagesize');
+        $pagesize = $pagesize ? $pagesize:'10';
+        // 页码
+        $page = $request -> getParameter('page');
+        if($page){
+            $page = $page;
+            $start = ($page-1)*10;
+        }else{
+            $page = 1;
+            $start = 0;
+        }
+
         $sql02 = "select * from lkt_lottery_parameters ";
         $r02 = $db->select($sql02);
         if(!empty($r02)){
@@ -27,7 +42,12 @@ class IndexAction extends Action {
             $id11 ='';
         }
 
-        $sql = "select * from lkt_draw order by found_time desc";
+        $sql01 = "select * from lkt_draw order by found_time desc";
+        $r01 = $db->select($sql01);
+        $total = count($r01);
+        $pager = new ShowPager($total, $pagesize, $page);
+        $offset = $pager -> offset;
+        $sql = "select * from lkt_draw order by found_time desc limit $offset,$pagesize";
         $r = $db->select($sql);
         if(!empty($r)){
             foreach ($r as $key => $value) {
@@ -75,10 +95,16 @@ class IndexAction extends Action {
 
             }
         }
-
+        $url = "index.php?module=draw&action=Index";
+        // $pages_show = $pager->multipage($url,ceil($total/$pagesize),$page, $para = '');
+        $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
+        // print_r($r);die;
         $request->setAttribute("list",$r);
         $request->setAttribute("parameters",$parameters);
         $request->setAttribute("id11",$id11);
+        $request -> setAttribute('pages_show', $pages_show);
+        $request -> setAttribute('pagesize', $pagesize);
+
 
         return View :: INPUT;
     }

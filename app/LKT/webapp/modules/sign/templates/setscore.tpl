@@ -39,14 +39,36 @@
 .isbad{
     border: 2px solid red;
 }
+.btn1{
+    	width: 80px;
+     	height: 40px;
+     	line-height: 40px;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    float: left;
+	    color: #6a7076;
+	    background-color: #fff;
+    }
+    .btn1:hover{
+    	text-decoration: none;
+    }
 </style>
 
 {/literal}
 </head>
 
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 系统管理 <span class="c-gray en">&gt;</span> 支付设置 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
-<div class="page-container">
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 配置管理 
+	<span class="c-gray en">&gt;</span> 积分设置 <i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+<div class="page-container" style="padding-top: 0px;">
+    <div class="swivch" style="margin-bottom: 20px;">
+    		
+        <a href="index.php?module=sign" class="btn1">活动列表</a>
+        <a href="index.php?module=sign&action=record" class="btn1">签到记录</a>
+        <div class="clearfix" style="margin-top: 5px;"></div>
+    </div>
     <form name="form1" action="" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
         <div id="tab-system" class="HuiTab">
             <div class="row cl">
@@ -55,7 +77,6 @@
                     <select name="bili" class="input-text">
                         
                     </select>
-                    
                 </div>
                 <div class="c-red" class="col-xs-4 col-sm-4">积分 = 1元人民币</div>
             </div>
@@ -81,19 +102,18 @@
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
                 <button class="btn btn-primary radius" type="button" name="savemsg" onclick="savevalues()" ><i class="Hui-iconfont">&#xe632;</i>修改</button>
-                <!-- <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;取消&nbsp;&nbsp;</button> -->
             </div>
         </div>
     </form>
     <div style="margin-left: 110px;">              
-                <div>
-                    <h4 class="c-red">消费规则修改说明: </h4>
-                    <ul>
-                    <li>当前等级订单额度必须大于上一等级订单金额,对应的积分也是如此.</li>
-                    <li>为保证商家利益,所设置的积分值对应的人民币不得超过订单金额的20%.</li>
-                    <li>最高只能添加3个等级.</li>
-                    </ul>
-                </div>           
+        <div>
+            <h4 class="c-red">消费规则修改说明: </h4>
+            <ul>
+            <li>当前等级订单额度必须大于上一等级订单金额,对应的积分也是如此.</li>
+            <li>为保证商家利益,所设置的积分值对应的人民币不得超过订单金额的20%.</li>
+            <li>最高只能添加3个等级.</li>
+            </ul>
+        </div>
     </div>
   </div>
 </div>

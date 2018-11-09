@@ -16,14 +16,26 @@ class indexAction extends Action {
         $db = DBAction::getInstance();
 
         $request = $this->getContext()->getRequest();
+        $status = trim($request->getParameter('status'));
+        $and = '';
+        $time = time();
+        if($status == 1){
+            $and .= " and starttime < '$time' and endtime > '$time' and is_show='0'";
+        }else if($status == 2){
+            $and .= " and starttime < '$time' and endtime > '$time' and is_show='1'";
+        }else if($status == 3){
+            $and .= " and endtime < '$time'";
+        }
         // 查询插件表
         $condition = '';
-        $sql = 'select * from lkt_group_buy';
+        $sql = "select * from lkt_group_buy where 1=1 $and";
+
         $res = $db -> select($sql);
         foreach ($res as $k => $v) {
-            $res[$k] -> time = date('Y-m-d',$v -> starttime).' ~ '.date('Y-m-d',$v -> endtime);
+            $res[$k] -> time = date('Y-m-d H:i:s',$v -> starttime).' 至 '.date('Y-m-d H:i:s',$v -> endtime);
             $arr = explode(':', $v -> time_over);
             $res[$k] -> time_over = $arr[0].'小时'.$arr[1].'分钟';
+
             if(time() < $v -> starttime){
                 $res[$k] -> code = 1;
             }else if(time() > $v -> starttime && time() < $v -> endtime){
@@ -47,6 +59,7 @@ class indexAction extends Action {
         }else if(isset($_GET['use']) && $_GET['use'] == 3){
             $this -> stopgroup();
         }
+        $request->setAttribute("status",$status);
 
         return View :: INPUT;
     }

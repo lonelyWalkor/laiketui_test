@@ -17,23 +17,45 @@
 <link rel="stylesheet" type="text/css" href="style/css/style.css" />
 {literal}
   <style type="text/css">
+   
+     .isclick a{
+        color: #ffffff;
+     }
      .status{
-     	margin-left:25px;
-     	text-align: center;     	
+     	width: 80px;
+     	height: 40px;
+     	line-height: 40px;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    background-color: #fff;
+	    margin-left: 0px;
+     }
+     .status a:hover{
+     	text-decoration: none;
+     	color: #fff;
+     }
+     .status:hover{
+     	background-color: #2890FF;
+     }
+     .status:hover a{
+     	color: #fFF;
      }
      .isclick{
-     	width:55px;
-     	height:30px;
-     	border-radius: 8px;
+     	width:80px;
+     	height:40px;
      	background: #3399ff;
      	display: flex;
      	flex-direction: row;
      	align-items: center;
      	justify-content: center;
      }
-     .isclick a{
-        color: #ffffff;
-     }
+     td a{
+            width: 44%;
+            float: left;
+            margin: 2%!important;
+        }
+
   </style>
 {/literal}
 <title>拼团活动管理</title>
@@ -44,20 +66,24 @@
 	拼团活动
 	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
 </nav>
-<div class="page-container" style="margin-top: 20px;width:98%;margin-left: 20px;">
+<div class="page-container" style="padding: 0px 10px;">
 	
-	<div class="cl pd-5 bg-1 bk-gray mt-20">
-		<span class="l">
-		<a class="btn btn-primary radius" onclick="system_category_add('添加拼团','index.php?module=go_group&action=addgroup',900,600)"><i class="Hui-iconfont">&#xe600;</i> 添加拼团</a>
-		</span>
+	
+	<div style="margin-top:10px;display: flex;flex-direction: row;">
+		<div class="status qh {if $status == 0}isclick{/if}"><a href="index.php?module=go_group&action=index&status=0" onclick="statusclick(0)">全部</a></div>
+		<div class="status qh {if $status == 1}isclick{/if}"><a href="index.php?module=go_group&action=index&status=1" onclick="statusclick(1)">未开始</a></div>
+		<div class="status qh {if $status == 2}isclick{/if}"><a href="index.php?module=go_group&action=index&status=2" onclick="statusclick(2)">进行中</a></div>
+		<div class="status qh {if $status == 3}isclick{/if}"><a href="index.php?module=go_group&action=index&status=3" onclick="statusclick(3)">已结束</a></div>
 	</div>
-	<div style="margin-top:20px;display: flex;flex-direction: row;">
-		<div class="status isclick"><a onclick="statusclick(0)" style="text-decoration:none;">全部</a></div>
-		<div class="status"><a onclick="statusclick(1)" style="text-decoration:none;">未开始</a></div>
-		<div class="status"><a onclick="statusclick(2)" style="text-decoration:none;">进行中</a></div>
-		<div class="status"><a onclick="statusclick(3)" style="text-decoration:none;">已结束</a></div>
+	<div style="margin-top: 20px;">
+			<a class="btn newBtn radius" href="index.php?module=go_group&action=addgroup'">
+				<div style="height: 100%;display: flex;align-items: center;">
+            <img src="images/icon1/add.png"/>&nbsp;添加拼团
+        </div>
+			</a>
 	</div>
 	<input type="hidden" id="is_have_show" value="{$is_show}" />
+	<!-- <input type="hidden" name="status" class="statusclick" value="{$status}" /> -->
 	<div class="mt-20">
 		<table class="table table-border table-bordered table-hover table-bg table-sort">
 			<thead>
@@ -67,10 +93,10 @@
 					<th width="80">拼团人数</th>
                     <th width="150">拼团时限</th>
                     <th width="180">活动时间</th>
-                    <th>用户限参团数</th>
-                    <th>用户限购件数</th>
+                    <th>限参团数</th>
+                    <th>限购件数</th>
 					<th width="180">活动状态</th>
-					<th width="120">操作</th>
+					<th style="width: 180px;">操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -84,36 +110,76 @@
 					<td>{$item->groupnum}</td>
                     <td>{$item->productnum}</td>
                     
-					<td style="width:200px;text-align: left;">
+					<td style="width:200px;text-align: center;">
+						{if $item->code==1}
+						<span style="color:#4169E1;margin-right: 58px;">未开始</span>
+						{elseif $item->code==2}
+									  {if $item->is_show==1}
+										  <span style="color:green;">执行中
+										  </span>
+									  {else}
+										  <span style="color:orange;">未开始
+										  </span>
+									  {/if}
+						{else}
+									  {if $item->is_show==1}
+										  <span style="color:green;">执行中
+										  </span>
+										  
+										  {else}
+										  <span style="color:red;">已结束</span>
+										{/if}
+						{/if}
+						 
+					</td>
+					
+					<td class="f-14">
+						
+						
+
+						
 						{if $item->code==1}
 						<span style="color:#4169E1;margin-right: 58px;">未到活动时间</span>
 						{elseif $item->code==2}
-						  {if $item->is_show==1}
-						  <span style="color:green;">正在执行...<a title="结束" href="javascript:;" onclick="system_category_del(this,{$item->status},3)" class="ml-5" style="margin-left: 20px;color:red;">结束执行</a>
-						  </span>
-						  {else}
-						  <span style="color:orange;">在活动时间内<a title="执行" href="javascript:;" onclick="system_category_del(this,{$item->status},2)" class="ml-5" style="margin-left: 20px;color:blue;margin-right: 10px;">执行</a>
-						  </span>
-						  {/if}
+									  {if $item->is_show==1}
+										
+										<a title="编辑活动" href="index.php?module=go_group&action=modify&set=msg&id={$item->status}&status=1" style="text-decoration:none;">
+										编辑活动
+										</a>
+										<a title="查看商品" href="index.php?module=go_group&action=grouppro&id={$item->status}&status=1" style="text-decoration:none;">
+											查看商品
+										</a>
+
+									  {else}
+									  <a title="编辑活动" href="index.php?module=go_group&action=modify&set=msg&id={$item->status}&status=1" style="text-decoration:none;">
+										编辑活动
+										</a>
+										<a title="编辑商品" href="index.php?module=go_group&action=grouppro&id={$item->status}" style="text-decoration:none;">
+											编辑商品
+										</a>
+										  <a title="执行" href="javascript:;" onclick="system_category_del(this,{$item->status},2)" class="ml-5" >执行</a>
+										  <a title="删除" href="javascript:;" onclick="system_category_del(this,{$item->status},1)" class="ml-5" >删除</a>
+									  {/if}
 						{else}
-						  {if $item->is_show==1}
-						  <span style="color:green;">正在执行...<a title="结束" href="javascript:;" onclick="system_category_del(this,{$item->status},3)" class="ml-5" style="margin-left: 20px;color:red;">结束执行</a>
-						  </span>
-						  {else}
-						  <span style="color:red;margin-right: 58px;">此活动已过期</span>
-						  {/if}
-						  {/if}
-						  <a title="删除" href="javascript:;" onclick="system_category_del(this,{$item->status},1)" class="ml-5" style="margin-left: 20px;color:blue;">删除</a>
-					</td>
-					
-					<td class="f-14"><a title="编辑活动" href="javascript:;" onclick="system_category_edit('编辑活动','index.php?module=go_group&action=modify&set=msg&id={$item->status}',{$item->status},900,600)" style="text-decoration:none;">编辑活动</a><br>
-						<a title="编辑活动商品" href="javascript:;" onclick="system_category_edit('编辑活动商品','index.php?module=go_group&action=grouppro&id={$item->status}',{$item->status},1000,600)" style="text-decoration:none;">编辑活动商品</a>
+									  {if $item->is_show==1}
+										<a title="编辑活动" href="index.php?module=go_group&action=modify&set=msg&id={$item->status}&status=1" style="text-decoration:none;">
+										编辑活动
+										</a>
+										<a title="查看商品" href="index.php?module=go_group&action=grouppro&id={$item->status}&status=1" style="text-decoration:none;">
+											查看商品
+										</a>
+										{else}
+										<a title="删除" href="javascript:;" onclick="system_category_del(this,{$item->status},1)" class="ml-5" >删除</a>
+										{/if}
+						{/if}
+						  
+						
+						
 						</td>
 				</tr>
                {/foreach}
 			</tbody>
 		</table>
-		
 	</div>
 </div>
 <!--_footer 作为公共模版分离出去-->
@@ -149,38 +215,40 @@ $('.table-sort').dataTable({
 	]
 });
 
-/*系统-栏目-添加*/
-function system_category_add(title,url,w,h){
-	layer_show(title,url,w,h);
-}
-/*系统-栏目-编辑*/
-function system_category_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
-}
+///*系统-栏目-添加*/
+//function system_category_add(title,url,w,h){
+//	layer_show(title,url,w,h);
+//}
+///*系统-栏目-编辑*/
+//function system_category_edit(title,url,id,w,h){
+//	layer_show(title,url,w,h);
+//}
 /*系统-栏目-删除*/
 function system_category_del(obj,id,control){
 	if(control == 1){
-	  layer.confirm('确认要删除吗？',function(index){
-        //alert(id);
-		$.ajax({
-			type: 'POST',
-			url: 'index.php?module=go_group&action=index&use=1',
-			dataType: 'json',
-            data:{id:id},
-			success: function(data){
-			  if(data.status == 1){
-				 layer.msg('已删除!',{icon:1,time:800});
-                 location.reload();
-                }
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});
-	});
-  }else if(control == 2){
+	  confirm('确认要删除吗？',id);
+		//   function(index){
+	 //        //alert(id);
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: 'index.php?module=go_group&action=index&use=1',
+		// 		dataType: 'json',
+	 //            data:{id:id},
+		// 		success: function(data){
+		// 		  if(data.status == 1){
+		// 			 layer.msg('已删除!',{icon:1,time:800});
+	 //                 location.replace(location.href);
+	 //                }
+		// 		},
+		// 		error:function(data) {
+		// 			console.log(data.msg);
+		// 		},
+		// 	});
+		// }
+  }
+	else if(control == 2){
   	if(parseInt($('#is_have_show').val()) > 0){
-  		layer.msg('已有活动正在执行，如必须要执行此活动，请先结束正在执行的活动 !');
+  		appendMask('已有活动正在执行，如必须要执行此活动，请先结束正在执行的活动 !',"ts");
   	}else{
   	 layer.confirm('确认要执行吗？',function(index){
         
@@ -221,6 +289,99 @@ function system_category_del(obj,id,control){
 		});
 	});
   }
+}
+function closeMask(id){
+	$(".maskNew").remove();
+    $.ajax({
+    	type:"post",
+    	url:"index.php?module=go_group&action=del&use=1&id="+id,
+    	async:true,
+    	success:function(res){ 		
+    		res = JSON.parse(res);
+    		if(res.status=='1'){
+    			appendMask("删除成功","cg");
+    		}
+    		else{
+    			appendMask("删除失败","ts");
+    		}
+    	}
+    });
+}
+function closeMask2(id){
+	$(".maskNew").remove();
+    $.ajax({
+    	type:"post",
+    	url:"index.php?module=go_group&action=enable&id="+id,
+    	async:true,
+    	success:function(res){
+    		console.log(res)
+    		if(res==1){
+    			appendMask("启用成功","cg");
+    		}
+    		else{
+    			appendMask("启用失败","ts");
+    		}
+    	}
+    });
+}
+function closeMask1(){
+	
+	$(".maskNew").remove();
+	location.replace(location.href);
+}
+function confirm (content,id){
+	$("body").append(`
+			<div class="maskNew">
+				<div class="maskNewContent">
+					<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+					<div class="maskTitle">提示</div>	
+					<div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+					<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+						${content}
+					</div>
+					<div style="text-align:center;margin-top:30px">
+						<button class="closeMask" style="margin-right:20px" onclick=closeMask("${id}") >确认</button>
+						<button class="closeMask" onclick=closeMask1()>取消</button>
+					</div>
+				</div>
+			</div>	
+		`)
+}
+function confirm1 (content,id){
+	$("body").append(`
+			<div class="maskNew">
+				<div class="maskNewContent" >
+					<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+					<div class="maskTitle">提示</div>	
+					<div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+					<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+						${content}
+					</div>
+					<div style="text-align:center;margin-top:30px">
+						<button class="closeMask" style="margin-right:20px" onclick=closeMask2("${id}") >确认</button>
+						<button class="closeMask" onclick=closeMask1() >取消</button>
+					</div>
+				</div>
+			</div>	
+		`)
+}
+function appendMask(content,src){
+	$("body").append(`
+			<div class="maskNew">
+				<div class="maskNewContent" style="height:400px">
+					<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+					<div class="maskTitle">提示</div>	
+					<div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+					<div style="height: 100px;position: relative;top:20px;font-size: 22px;text-align: center;">
+						${content}
+					</div>
+					<div style="text-align:center;margin-top:30px">
+						<button class="closeMask" onclick=closeMask1() >确认</button>
+					</div>
+					
+				</div>
+			</div>	
+		`)
 }
 </script>
 {/literal}

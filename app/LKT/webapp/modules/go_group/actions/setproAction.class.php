@@ -22,27 +22,15 @@ class setproAction extends Action {
 
       $request = $this->getContext()->getRequest();
 
-      
 
       if(isset($_GET['from']) && $_GET['from'] == 'pro'){
+      // var_dump($_GET['from']);die;
 
-       $str = $request -> getParameter('str');
-
-       $str = json_decode($str); 
-
-       $str = (array)$str;
-
-       $game = json_decode($request -> getParameter('game'));
-
-       $game -> overtime = $game -> timehour.':'.$game -> timeminite;
-
-       $game = (array)$game;
-
+       $str = $_COOKIE['proids'];
        
-
+       $str = substr($str,1,-1);
+         
        $this->getContext()->getStorage()->write('susu',$str);
-
-       $this->getContext()->getStorage()->write('zhou',$game);
 
        echo json_encode(array('code' => 1));exit;
 
@@ -50,10 +38,10 @@ class setproAction extends Action {
 
        $str = $this->getContext()->getStorage()->read('susu');
 
-       $game = $this->getContext()->getStorage()->read('zhou');
-
+       // $game = $this->getContext()->getStorage()->read('zhou');
+       // var_dump($game);
        $arr = array();
-
+       $idarr = explode(',', $str);
        // 查询系统参数
 
         $sql1 = "select * from lkt_config where id = 1";
@@ -74,47 +62,30 @@ class setproAction extends Action {
 
         }
 
-       foreach ($str as $k => $v) {
+       
 
-           $sql = 'select c.*,l.product_title from lkt_configure as c left join lkt_product_list as l on c.pid=l.id where c.pid='.intval($k).' order by c.pid';
+           $sql = 'select c.*,l.product_title from lkt_configure as c left join lkt_product_list as l on c.pid=l.id where c.pid in ('.$str.') order by c.pid';
 
            $res = $db -> select($sql);
-
-           
-
+           // var_dump($res);die;
            foreach ($res as $key => $value) {
-
-            if($value -> pid == $k){
-
-              $value -> classname = $v;
-
-              }
-
+            
+            // if($value -> pid == $k){
+            //   $value -> classname = $v;
+            //   }
               $value -> image = $img.$value -> img;
-
               $arr[] = $value;
-
-           }
-
-          }
-
-       
-
-       $arr_id = array();
-
-       foreach ($arr as $k => $v) {
-
-          $arr_id[] = $v -> id;
-
-       }
-
+            
+           }    
+         
+       // $arr_id = array();
+       // foreach ($arr as $k => $v) {
+       //    $arr_id[] = $v -> id;
+       // }
        $this->getContext()->getStorage()->write('prod',$arr);
-
-       
-
-       $request->setAttribute("set",$game);
-
-       $request->setAttribute("arr",$arr);
+       //$request->setAttribute("set",$game);
+       //var_dump($res);
+       $request->setAttribute("arr",$res);
 
        return View :: INPUT;
 
@@ -198,17 +169,15 @@ class setproAction extends Action {
 
             }
 
-
-
             $newprod[($v['id'])] = (Object)$v;
 
        }
-
+       
           
-
+         //var_dump($newprod);die;
         foreach ($newprod as $k => $v) {
 
-         $sqlpro = "insert into lkt_group_product(attr_id,group_id,product_id,group_price,member_price,classname) values($v->id,'$num',$v->pid,'$v->gprice','$v->mprice','$v->classname')";
+         $sqlpro = "insert into lkt_group_product(attr_id,group_id,product_id,group_price,member_price) values($v->id,'$num',$v->pid,'$v->gprice','$v->mprice')";
 
          $respro = $db -> insert($sqlpro);
 

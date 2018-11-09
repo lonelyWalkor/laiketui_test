@@ -14,6 +14,15 @@
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
 <title>文章管理</title>
+{literal}
+<style>
+   	td a{
+        width: 44%;
+        margin: 2%!important;
+        float: left;
+    }
+</style>
+{/literal}
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe646;</i> 文章管理 <span class="c-gray en">&gt;</span> 所有文章 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -31,7 +40,7 @@
                     <th>排序号</th>
                     <th>发布时间</th>
                     <th>分享次数</th>
-                    <th>操作</th>
+                    <th >操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,11 +56,35 @@
                     <td>{$item->sort}</td>
                     <td>{$item->add_date}</td>
                     <td>{$item->share_num}</td>
-                    <td>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=Article&action=view&id={$item->Article_id}" title="查看分享列表" ><i class="Hui-iconfont">&#xe6ab;</i></a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=Article&action=amount&id={$item->Article_id}" title="分享红包设置" ><i class="Hui-iconfont" style="color: red;">&#xe6b7;</i></a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=Article&action=modify&id={$item->Article_id}&uploadImg={$uploadImg}" title="修改" ><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=Article&action=del&id={$item->Article_id}&uploadImg={$uploadImg}" onclick="return confirm('确定要删除此文章吗?')"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    <td style="width: 180px;">
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=Article&action=view&id={$item->Article_id}" title="查看分享列表" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/ck.png"/>&nbsp;查看分享
+                            	</div>
+            				</div>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=Article&action=amount&id={$item->Article_id}" title="分享红包设置" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/sx.png"/>&nbsp;分享设置
+                            	</div>
+            				</div>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=Article&action=modify&id={$item->Article_id}&uploadImg={$uploadImg}" title="修改" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/xg.png"/>&nbsp;修改
+                            	</div>
+            				</div>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=Article&action=del&id={$item->Article_id}&uploadImg={$uploadImg}" onclick="return confirm('确定要删除此文章吗?')">
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/del.png"/>&nbsp;删除
+                            	</div>
+            				</div>
+                        </a>
                     </td>
                 </tr>
             {/foreach}

@@ -14,6 +14,15 @@
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
 <title>公告列表</title>
+{literal}
+<style>
+   	td a{
+        width: 44%;
+        margin: 2%!important;
+        float: left;
+    }
+</style>
+{/literal}
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe62f;</i> 公告管理 <span class="c-gray en">&gt;</span> 公告列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -22,14 +31,14 @@
         <a class="btn btn-primary radius" href="index.php?module=notice&action=add"><i class="Hui-iconfont">&#xe610;</i>&nbsp;发布公告</a>
     </div>
     <div class="mt-20">
-        <table class="table table-border table-bordered table-bg table-hover table-sort" style="width: 1000px; margin: 0 auto;">
+        <table class="table table-border table-bordered table-bg table-hover table-sort" style=" margin: 0 auto;">
             <thead>
                 <tr class="text-c">
                     <th>id</th>
                     <th>公告名称</th>
                     <th>公告图片</th>
                     <th>添加时间</th>
-                    <th>操作</th>
+                    <th width="200px">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,8 +50,20 @@
                     <td><image class='pimg' src="{$uploadImg}{$item->img_url}" style="width: 100px;"/></td>
                     <td>{$item->time}</td>
                     <td>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=notice&action=modify&id={$item->id}&uploadImg={$uploadImg}" title="修改"><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=notice&action=del&id={$item->id}&uploadImg={$uploadImg}" onclick="return confirm('确定要删除此活动吗?')"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=notice&action=modify&id={$item->id}&uploadImg={$uploadImg}" title="修改">
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/xg.png"/>&nbsp;修改
+                            	</div>
+            				</div>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=notice&action=del&id={$item->id}&uploadImg={$uploadImg}" onclick="return confirm('确定要删除此活动吗?')">
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/del.png"/>&nbsp;删除
+                            	</div>
+            				</div>
+                        </a>
                     </td>
                 </tr>
                 {/foreach}

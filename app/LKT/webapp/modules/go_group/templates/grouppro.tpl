@@ -44,7 +44,7 @@
 			<div class="tabBar cl" style="border-bottom: 2px #ff9900 solid;">	
 				<span style="background: #ff9900;">查看活动商品</span>
 			</div>
-	    
+	       <input type="hidden" name="status" value="{$status}" />
 	        <div class="tabCon">
 	           <div class="mt-20">
                   <table class="table table-border table-bordered table-bg table-hover table-sort" style="width:95%;margin:0 auto;">
@@ -57,9 +57,9 @@
                       <th width="50">颜色</th>
                       <th width="50">规格</th>
 		                  <th>商品价格</th>
-		                  <th width="110" style="padding:0px;">拼团价格<div style="color:#666666;font-size: 10px;">(双击进行设置)</div></th>
-		                  <th width="110" style="padding:0px;">团长价格<div style="color:#666666;font-size: 10px;">(双击进行设置)</div></th>
-		                <th width="50">操作</th>
+		                  <th width="110" style="padding:0px;">拼团价格</th>
+		                  <th width="110" style="padding:0px;">团长价格</th>
+		                {if $status < 1}<th width="50">操作</th>{/if}
 		               </tr>
                      </thead>
                      <tbody>
@@ -73,15 +73,26 @@
                          <td>{$item->color}</td>
                          <td>{$item->guige}</td>
                          <td>{$item->market_price}</td>
+                         {if $status < 1}
 	                       <td id="{$item->id}">
-	                    	    <div name="modify_group_{$item->id}" ondblclick="set_group_price({$item->id})">{$item->group_price}</div>
-	                    	    <input type="hidden" id="set_group_{$item->id}" value="{$item->group_price}">    
+	                    	    <!-- <div name="modify_group_{$item->id}" ondblclick="set_group_price({$item->id})">{$item->group_price}</div> -->
+	                    	    <input type="number" name="modify_group_{$item->id}" id="set_group_{$item->id}" value="{$item->group_price}">  
 	                       </td>
 	                       <td id="m{$item->id}">
-                                <div name="modify_member_{$item->id}" ondblclick="set_member_price({$item->id})">{$item->member_price}</div>
-	                    	    <input type="hidden" id="set_member_{$item->id}" value="{$item->member_price}">    
+                            <!-- <div name="modify_member_{$item->id}" ondblclick="set_member_price({$item->id})">{$item->member_price}</div> -->
+	                    	    <input type="number" name="modify_member_{$item->id}" id="set_member_{$item->id}" value="{$item->member_price}"> 
                          </td>
+                         {else}
+                         <td id="{$item->id}">
+                            <div name="modify_group_{$item->id}" >{$item->group_price}</div>
+                         </td>
+                         <td id="m{$item->id}">
+                            <div name="modify_member_{$item->id}" >{$item->member_price}</div>
+                         </td>
+                         {/if}   
+                         {if $status < 1}
                          <td><a title="删除产品" href="javascript:;" onclick="system_category_del(this,{$item->id},1)" class="ml-5" style="color:blue;">删除</a></td>
+                         {/if}
 	                     </tr>
 	                   {/foreach}
                     </tbody>
@@ -91,11 +102,14 @@
         </div> 
             
         </div>
+    {if $status < 1}    
 		<div class="row cl" style="margin: 0 auto;">
 			<div class="col-9 col-offset-3">
 				<input class="btn btn-primary radius" type="button" onclick="modify_pro()" value="&nbsp;&nbsp;保存&nbsp;&nbsp;">			
 			</div>
 		</div>
+    {/if}
+
 	</form>
 </div>
 
@@ -250,18 +264,23 @@
                dataType:"json",
                success:function(data) {
                    if(data.gcode == 1 && data.mcode == 1){
-                       layer.msg('修改成功!');
-                       window.parent.location.reload();
-                       var index = parent.layer.getFrameIndex(window.name);
-                       parent.layer.close(index);
+                       // layer.msg('修改成功!');
+                       // window.parent.location.reload();
+                       // var index = parent.layer.getFrameIndex(window.name);
+                       // parent.layer.close(index);
+                       location.href = 'index.php?module=go_group&action=index';
                    }
                },
              })
          
       }
-
+    var prolen = '{/literal}{$len}{literal}';
+        prolen = parseInt(prolen);
 function system_category_del(obj,id,control){
-   
+        if(prolen <= 1){
+           layer.msg('删除失败,至少得保留一款产品!');
+           return false;
+        }
   layer.confirm('确认要删除吗？',function(index){        
     $.ajax({
       type: "post",

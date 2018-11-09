@@ -35,7 +35,7 @@ function change(){
 <div class="pd-20">
     <form name="form1" action="index.php?module=plug_ins&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <div class="row cl">
-            <label class="form-label col-4">首页插件名称：</label>
+            <label class="form-label col-4"><span class="c-red">*</span>首页插件名称：</label>
             <div class="formControls col-4">
                 <input type="text" class="input-text" value="" placeholder="" id="" name="name">
             </div>
@@ -62,7 +62,7 @@ function change(){
         </div>
         
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-4">请选择软件：</label>
+            <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>请选择软件：</label>
             <div class="formControls col-xs-8 col-sm-4"> 
                 <select name="software_id" class="select" style="width: 80px;height: 31px;vertical-align: middle;">
                     {$list}
@@ -71,7 +71,7 @@ function change(){
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-4">首页插件图标：</label>
+            <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>首页插件图标：</label>
             <div class="formControls col-xs-8 col-sm-4"> 
                 <img id="thumb_url1" src='../LKT/images/nopic.jpg' style="height:100px;width:150">
                 <input type="hidden"  id="picurl1" name="image" datatype="*" nullmsg="请选择图片"/> 
@@ -92,7 +92,7 @@ function change(){
         </div>
         
         <div class="row cl">
-            <label class="form-label col-4">首页链接：</label>
+            <label class="form-label col-4"><span class="c-red">*</span>首页链接：</label>
             <div class="formControls col-4">
                 <input type="text" class="input-text" value="" placeholder="" id="" name="url">
             </div>
@@ -112,7 +112,7 @@ function change(){
         <div class="row cl">
             <div class="col-10 col-offset-4">
                 <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-                <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+                <!-- <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button> -->
             </div>
         </div>
     </form>

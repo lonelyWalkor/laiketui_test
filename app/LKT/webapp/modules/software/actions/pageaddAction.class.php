@@ -121,55 +121,47 @@ class pageaddAction extends Action {
 		$db = DBAction::getInstance();
 		$request = $this->getContext()->getRequest();
         // 接收数据 
-        $image= addslashes($request->getParameter('image')); // 轮播图
+        $image= addslashes($request->getParameter('image')); // 图
         $url = addslashes(trim($request->getParameter('url'))); // 链接
         $sort = floatval(trim($request->getParameter('sort'))); // 排序
+        $type = trim($request->getParameter('type')); // 类型
+        $product_class = trim($request->getParameter('product_class')); // 分类
         if($image){
             $image = preg_replace('/.*\//','',$image);
         }
+        if(!$sort){
+                header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                "alert('排序号不能为空！');" .
+                "location.href='index.php?module=software&action=pageadd';</script>";
+                return $this->getDefaultView();
+        }
 
-        // 添加轮播图
-
-        $sql = "insert into lkt_index_page(image,url,sort,add_date) " .
-
-            "values('$image','$url','$sort',CURRENT_TIMESTAMP)";
-
+        if($type == 'img'){
+            if(!$image){
+                header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                "alert('图片不能为空！');" .
+                "location.href='index.php?module=software&action=pageadd';</script>";
+                return $this->getDefaultView();
+            }
+            $sql = "insert into lkt_index_page(type,image,url,sort,add_date) values('$type','$image','$url','$sort',CURRENT_TIMESTAMP)";
+        }else{
+            $sql = "insert into lkt_index_page(type,url,sort,add_date) values('$type','$product_class','$sort',CURRENT_TIMESTAMP)";
+        }
         $r = $db->insert($sql);
-
         if($r == -1){
-
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('未知原因，添加失败！');" .
                 "</script>";
             return $this->getDefaultView();
-
-
-
         }else{
-
-
-
             header("Content-type:text/html;charset=utf-8");
-
-
-
             echo "<script type='text/javascript'>" .
-
-
-
                 "alert('添加成功！');" .
-
-
-
                 "location.href='index.php?module=software&action=pageindex';</script>";
-
-
-
             return $this->getDefaultView();
-
-
-
         }
 
 

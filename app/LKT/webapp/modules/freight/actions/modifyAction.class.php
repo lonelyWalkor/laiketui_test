@@ -23,7 +23,7 @@ class modifyAction extends Action {
             $res = '';
             foreach ($freight as $k => $v){
                 $k1 = $k + 1;
-                $res .= "<tr class='tr_freight_num' id='tr_freight_'.$k1>" .
+                $res .= "<tr class='tr_freight_num' id='tr_freight_$k1'>" .
                     "<td>".$v['one']."</td>" .
                     "<td>".$v['two']."</td>" .
                     "<td>".$v['three']."</td>" .
@@ -46,6 +46,7 @@ class modifyAction extends Action {
 	public function execute(){
 		$db = DBAction::getInstance();
 		$request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
 
         // 接收数据
         $id = addslashes(trim($request->getParameter('id'))); // 规则id
@@ -81,11 +82,15 @@ class modifyAction extends Action {
         $sql = "update lkt_freight set name = '$name',type = '$type',freight = '$freight' where id = '$id'";
         $rr = $db->update($sql);
         if($rr > 0){
+            $db->admin_record($admin_id,' 修改规则id为 '.$id.' 的信息 ',2);
+
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('规则修改成功！');" .
                 "location.href='index.php?module=freight';</script>";
         }else{
+            $db->admin_record($admin_id,' 修改规则id为 '.$id.' 失败 ',2);
+
             echo "<script type='text/javascript'>" .
                 "alert('未知原因，规则修改失败！');" .
                 "location.href='index.php?module=freight';</script>";

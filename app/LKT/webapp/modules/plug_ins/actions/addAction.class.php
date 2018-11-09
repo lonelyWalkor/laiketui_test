@@ -15,7 +15,7 @@ class addAction extends Action {
             $new_arr = array();
             foreach($arr as $k => $v){
                 if(array_key_exists($v['name'],$new_arr)){
-                    $new_arr[$v['name']] = $new_arr[$v['name']].','.$v['id']; 
+                    $new_arr[$v['name']] = $new_arr[$v['name']].','.$v['id'];
                 }else{
                     $new_arr[$v['name']] = $v['id'];
                 }
@@ -33,6 +33,8 @@ class addAction extends Action {
 	public function execute(){
 		$db = DBAction::getInstance();
 		$request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         // 接收数据 
         $name = addslashes(trim($request->getParameter('name'))); // 首页插件名称
         $subtitle_name = addslashes(trim($request->getParameter('subtitle_name'))); // 个人中心插件名称
@@ -124,12 +126,16 @@ class addAction extends Action {
                 "values('$name','$software_id','$subtitle_name','$type','$image','$subtitle_image','$url','$subtitle_url',CURRENT_TIMESTAMP,'$sort',0)";
             $r = $db->insert($sql);
             if($r == -1){
+                $db->admin_record($admin_id,' 添加插件失败 ',1);
+
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('未知原因，添加失败！');" .
                     "</script>";
                 return $this->getDefaultView();
             }else{
+                $db->admin_record($admin_id,' 添加插件 '.$name,1);
+
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('添加成功！');" .

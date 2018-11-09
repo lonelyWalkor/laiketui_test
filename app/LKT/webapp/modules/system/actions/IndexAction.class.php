@@ -1,16 +1,4 @@
 <?php
-
-/**
-
- * [Laike System] Copyright (c) 2018 laiketui.com
-
- * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
-
- */
-/**
- * [Laike System] Copyright (c) 2018 laiketui.com
- * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
- */
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 require_once(MO_LIB_DIR . '/Tools.class.php');
 
@@ -120,8 +108,9 @@ class IndexAction extends Action {
         }else{
             $image = $oldpic;
         }
+
         // 更新
-        $sql = "update lkt_config set logo = '$image',company = '$company', appid = '$appid',appsecret = '$appsecret', domain = '$domain',uploadImg_domain = '$uploadImg_domain', uploadImg = '$uploadImg',upload_file = '$upload_file',ip = '$ip',modify_date = CURRENT_TIMESTAMP where id = '1'";
+        $sql = "update lkt_config set logo = '$image',company = '$company', appid = '$appid',appsecret = '$appsecret', domain = '$domain',uploadImg_domain = '$uploadImg_domain', uploadImg = '$uploadImg',upload_file = '$upload_file', ip = '$ip',modify_date = CURRENT_TIMESTAMP where id = '1'";
         $r = $db->update($sql);
 
         if($r == -1) {

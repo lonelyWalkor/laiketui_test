@@ -33,29 +33,56 @@ function check(f){
 <div class="pd-20">
     <form name="form1" action="index.php?module=brand_class&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <input type="hidden" name="cid" value="{$brand_id}" />
-        <input type="hidden" name="uploadImg" value="{$uploadImg}" >
+        <input type="hidden" name="uploadImg" value="{$uploadImg}" id="uploadImg">
         <div class="row cl">
-            <label class="form-label col-4"><span class="c-red"></span>品牌名称：</label>
+            <label class="form-label col-4"><span class="c-red">*</span>中文名称：</label>
             <div class="formControls col-4">
-                <input type="text" class="input-text" name="pname" value="{$brand_name}" datatype="*6-18" style="width: 260px;">
+                <input type="text" class="input-text" name="pname" id="pname" value="{$brand_name}" datatype="*6-18" style="width: 260px;">
             </div>
             <div class="col-4"> </div>
         </div>
-
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>品牌图片：</label>
+            <label class="form-label col-4"><span class="c-red"></span>英文名称：</label>
+            <div class="formControls col-6">
+                <input type="text" class="input-text" name="y_pname" id="y_pname" value="{$brand_name}" datatype="*6-18" style="width: 260px;" >
+            </div>
+            <div class="col-4"> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>品牌图片：</label>
             <div class="formControls col-xs-8 col-sm-4"> 
-                <img id="thumb_url" src='{$uploadImg}{$brand_pic}' style="height:100px;width:150">
+                <img id="thumb_url" src='{$uploadImg}{$brand_pic}' style="height:100px;width:150px;" >
                 <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
-                <input type="hidden" name="oldpic" value="{$brand_pic}">
+                <input type="hidden" name="oldpic" value="{$brand_pic}" id="oldpic">
                 <button class="btn btn-success" id="image"  type="button" >选择图片</button>
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-4"><span class="c-red" ></span>产地：</label>
+            <div class="formControls col-6">
+                <input type="text" class="input-text" name="producer" id="producer" datatype="*6-18" style="width: 260px;" value="{$producer}">
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-4"><span class="c-red"></span>排序：</label>
+            <div class="formControls col-6">
+                <input type="text" class="input-text" name="sort" id="sort" datatype="*6-18" value="{$sort}" style="width: 260px;">
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-4"><span class="c-red"></span>备注：</label>
+            <div class="formControls col-6">
+                <input type="text" class="input-text" name="remarks" id="remarks" datatype="*6-18" style="width: 260px;" value="{$remarks}">
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row cl">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius">
+                <input type="button" value="清空" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="empty()"/>
             </div>
         </div>
     </form>
@@ -68,6 +95,19 @@ function check(f){
 <script src="style/kindeditor/lang/zh_CN.js"></script>
 {literal}
 <script>
+// 清空
+function empty(){
+    $("#pname").val('');
+    $("#y_pname").val('');
+    $("#producer").val('');
+    $("#sort").val('');
+    $("#remarks").val('');
+    var src = $("#uploadImg").val();
+    src = src+'nopic.jpg';
+    $("#thumb_url").attr("src",src);
+    $("#picurl").val('');
+    $("#oldpic").val('');
+}
 KindEditor.ready(function(K) {
   var editor = K.editor({
       allowFileManager : true,       
@@ -78,7 +118,7 @@ KindEditor.ready(function(K) {
   K('#image').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurl').val(),
           clickFn : function(url, title, width, height, border, align) {

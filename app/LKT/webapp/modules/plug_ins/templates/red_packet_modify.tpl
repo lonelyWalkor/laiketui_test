@@ -12,7 +12,13 @@
 <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 <link href="style/css/style.css" rel="stylesheet" type="text/css" />
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-
+{literal}
+<style type="text/css">
+    .none{
+        display: none !important;
+    }
+</style>
+{/literal}
 <title>发红包</title>
 </head>
 <body>
@@ -45,21 +51,21 @@
                     </div>
                 </div>
 
-            <div class="row cl">
+            <div class="row cl none">
                <label class="form-label col-xs-4 col-sm-4"><span style='color:red'>*</span>可以发送红包个数</label>
                     <div class="formControls col-xs-8 col-sm-6">
                         <input type="number" name="send_redpacket" value="{$re.send_redpacket}" class="input-text" style="width: 150px;"> &nbsp;&nbsp; 
                         <span style='color:red;font-size: 5px;'>红包没有被领完和红包链接时间到期失效前</span>
                     </div>
             </div>
-            <div class="row cl">
+            <div class="row cl none">
                <label class="form-label col-xs-4 col-sm-4"><span style='color:red'>*</span>可以领取红包个数</label>
                     <div class="formControls col-xs-8 col-sm-6">
                         <input type="number" name="receive_redpacket" value="{$re.receive_redpacket}" class="input-text" style="width: 150px;"> &nbsp;&nbsp; 
                         <span style='color:red;font-size: 5px;'>红包使用前或者失效前</span>
                     </div>
             </div>
-            <div class="row cl">
+            <div class="row cl none">
                <label class="form-label col-xs-4 col-sm-4"><span style='color:red'>*</span>红包抵用比例</label>
                     <div id="hbtx" class="formControls col-xs-8 col-sm-6">
                        <input type="number" name="bili" value="{$re.bili}" class="input-text" style="width: 150px;">
@@ -67,7 +73,7 @@
                         <span style='color:red;font-size: 5px;'>比例越高，抵用红包金额越高</span>
                     </div>
             </div>
-            <div class="row cl">
+            <div class="row cl none">
                <label class="form-label col-xs-4 col-sm-4"><span style='color:red'>*</span>红包是否可以提现</label>
                     <div id="hbtx" class="formControls col-xs-8 col-sm-6">
                         <input type="radio" name="tixian" value="1" {if $re.tixian==1} checked="checked" {/if}> 是
@@ -76,7 +82,7 @@
                       
                     </div>
             </div>
-            <div class="row cl">
+            <div class="row cl none">
                <label class="form-label col-xs-4 col-sm-4"><span style='color:red'>*</span>红包链接失效时间</label>
                     <div class="formControls col-xs-8 col-sm-6">
                         <input type="number" name="shixiao_time" value="{$re.shixiao_time}" class="input-text" style="width: 150px;">
@@ -85,7 +91,7 @@
                     </div>
             </div>
 
-            <div class="row cl">
+            <div class="row cl none">
                <label class="form-label col-xs-4 col-sm-4"><span style='color:red'>*</span>红包失效时间</label>
                     <div class="formControls col-xs-8 col-sm-6">
                         <input  type="number"  name="shixiao_time1" value="{$re.shixiao_time1}" class="input-text" style="width: 150px;">
@@ -93,7 +99,7 @@
                         <span style='color:red;font-size: 5px;'>超过该时间红包过期</span>
                     </div>
             </div>
-            <div class="row cl">
+            <div class="row cl none">
                <label class="form-label col-xs-4 col-sm-4"><span style='color:red'>*</span>红包提现最小金额</label>
                     <div class="formControls col-xs-8 col-sm-6">
                         <input  type="number"  name="tixian_money" value="{$re.tixian_money}" class="input-text" style="width: 150px;">
@@ -110,7 +116,7 @@
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
                 <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
                 &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                <a href="index.php?module=plug_ins&action=index">
+                <a href="index.php?module=plug_ins">
                 <div style="height: 31px;width: 72.16px;background: #eee;text-align: center;line-height: 31px;border-radius: 5px;display: inline-block;vertical-align: -2px;">取消</div>
                 </a>
             </div>

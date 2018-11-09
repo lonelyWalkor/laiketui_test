@@ -13,6 +13,23 @@
 
 <script language="javascript"  src="modpub/js/check.js"> </script>
 {literal}
+<style type="text/css">
+.inputC{
+    display: inline-block!important;
+}
+.inputC + label{
+    display: inline-block!important;
+    width: 100px;
+    height: 20px;
+    border: none;
+}
+.inputC:checked +label::before{
+    display: inline-block;
+    position: absolute;
+    left: -17px;
+    top: 4px;
+}
+</style>
 <script type="text/javascript">
 function check(f){
 if(Trim(f.name.value)==""){
@@ -78,7 +95,6 @@ return true;
         <div class="row cl">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius">
             </div>
         </div>
     </form>
@@ -154,43 +170,43 @@ return true;
 <script src="style/kindeditor/kindeditor-min.js"></script>
 <script src="style/kindeditor/lang/zh_CN.js"></script>
 {literal}
-    <style>
-        .keep{
-            position: fixed;
-            top:0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            filter:alpha(opacity=70);
-            -moz-opacity:0.7;
-            opacity: 0.7;
-            background-color: #000;
-            z-index: 3000;
-        }
-        .pop_model{
-            position: fixed;
-            left:20%;
-            top: 10%;
-            background-color: #fff;
-            width: 65%;
-            box-shadow: 2px 2px 2px #000;
-            z-index: 3001;
-        }
-        .php_title{
-            height: 2rem;
-            background-color: #eee;
-            color: #333333;
-            line-height: 2rem;
-            padding-left: 1rem;
-            border-bottom: 1px solid #e1e1e1;
-        }
-        .content {
-            margin:  0 auto;
-            padding-top: 10px;
-        }
-    </style>
+<style>
+.keep{
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    filter:alpha(opacity=70);
+    -moz-opacity:0.7;
+    opacity: 0.7;
+    background-color: #000;
+    z-index: 3000;
+}
+.pop_model{
+    position: fixed;
+    left:20%;
+    top: 10%;
+    background-color: #fff;
+    width: 65%;
+    box-shadow: 2px 2px 2px #000;
+    z-index: 3001;
+}
+.php_title{
+    height: 2rem;
+    background-color: #eee;
+    color: #333333;
+    line-height: 2rem;
+    padding-left: 1rem;
+    border-bottom: 1px solid #e1e1e1;
+}
+.content {
+    margin:  0 auto;
+    padding-top: 10px;
+}
+</style>
 {/literal}
 {literal}
 <script>
@@ -213,6 +229,7 @@ function choice(){
         var hidden_freight = document.getElementById("hidden_freight").value;
         var data = hidden_freight;
     }
+
     var rew = '';
     $.get("index.php?module=freight&action=province",{data:data},function(res){
         var res = JSON.parse( res );
@@ -221,7 +238,7 @@ function choice(){
 
             for (var k in list) {
                 rew += "<div class='radio-box' style='width: 32%;'>" +
-                    "<input name='list' type='checkbox' id='sex-"+list[k]['GroupID']+"' value='"+list[k]['GroupID']+"'>" +
+                    "<input name='list' class='inputC' type='checkbox' id='sex-"+list[k]['GroupID']+"' value='"+list[k]['GroupID']+"'>" +
                     "<label for='sex-"+list[k]['GroupID']+"'>"+list[k]['G_CName']+"</label>" +
                     "</div>"
             }
@@ -235,6 +252,8 @@ function choice(){
                 $('.weight').show();
                 $('.piece').hide();
             }
+        }else{
+            appendMask("已经全选","cg");
         }
     });
 }
@@ -340,6 +359,27 @@ function freight_del(obj){
         $('.keep').hide();
         $('.pop_model').hide();
     }
+}
+
+function appendMask(content,src){
+    $("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">删除</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" onclick=closeMask1() >确认</button>
+                </div>
+            </div>
+        </div>
+    `)
+}
+function closeMask1(){
+    $(".maskNew").remove();
 }
 </script>
 {/literal}

@@ -4453,6 +4453,7 @@ function _ajax(url, fn, method, param, dataType) {
 	var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 	xhr.open(method, url, true);
 	xhr.onreadystatechange = function () {
+		console.log('122');
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			if (fn) {
 				var data = _trim(xhr.responseText);

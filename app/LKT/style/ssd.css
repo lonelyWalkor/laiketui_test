@@ -1,4 +1,4 @@
- .ww {
+ /*.ww {
   width:167px;
   top:9px;
   outline:none;
@@ -14,12 +14,12 @@
   margin-left:-161px;
   z-index:999999;
   outline:none;
-}
+}*/
 .search select option:hover {
   color:white;
   background-color:rgb(12,172,249);
 }
- .ww {
+.ww {
       width: 257px;
     top: 0px;
     outline: none;
@@ -36,7 +36,4 @@
     z-index: 999999;
     outline: none;
 }
-.search select option:hover {
-  color:white;
-  background-color:rgb(12,172,249);
-}
+

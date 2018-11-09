@@ -17,29 +17,32 @@
 <script type="text/javascript">
 function show(obj){
     if(obj.value=='2'){ // 节日/活动
+        document.getElementById("name").readOnly = false; // 活动名称
         document.getElementById('txt').style.display = ""; // 不显示
         document.getElementById('txt_1').style.display = ""; // 金额不显示
         document.getElementById('txt_2').style.display = "none"; // 减不显示
         document.getElementById('product_class_id').style.display = ""; // 优惠劵类型id
-        // document.getElementById('product_id').style.display = ""; // 优惠劵指定商品id
-        document.getElementById('z_money_1').style.display = ""; // 总金额显示
-        document.getElementById('z_money_2').style.display = "none"; // 满金额不显示
+        document.getElementById('num').style.display = ""; // 数量不显示
+        document.getElementById('z_money').style.display = "none"; // 满金额不显示
+        document.getElementById('time').style.display = ""; // 时间显示
     }else if(obj.value=='1'){ // 注册
+        document.getElementById("name").readOnly = false; // 活动名称
         document.getElementById('txt').style.display = ""; // 显示
         document.getElementById('txt_1').style.display = ""; // 金额显示
         document.getElementById('txt_2').style.display = "none"; // 减不显示
         document.getElementById('product_class_id').style.display = "none"; // 优惠劵类型id
-        // document.getElementById('product_id').style.display = "none"; // 优惠劵指定商品id
-        document.getElementById('z_money_1').style.display = ""; // 总金额显示
-        document.getElementById('z_money_2').style.display = "none"; // 满金额不显示
+        document.getElementById('num').style.display = "none"; // 数量
+        document.getElementById('z_money').style.display = "none"; // 满金额不显示
+        document.getElementById('time').style.display = "none"; // 时间不显示
     }else if(obj.value=='3'){ // 满减
+        document.getElementById("name").readOnly = true; // 活动名称
         document.getElementById('txt').style.display = ""; // 显示
         document.getElementById('txt_1').style.display = "none"; // 金额不显示
         document.getElementById('txt_2').style.display = ""; // 减显示
         document.getElementById('product_class_id').style.display = "none"; // 优惠劵类型id
-        // document.getElementById('product_id').style.display = "none"; // 优惠劵指定商品id
-        document.getElementById('z_money_1').style.display = "none"; // 总金额不显示
-        document.getElementById('z_money_2').style.display = ""; // 满金额显示
+        document.getElementById('num').style.display = ""; // 数量
+        document.getElementById('z_money').style.display = ""; // 满金额显示
+        document.getElementById('time').style.display = ""; // 时间显示
     }
 }
 function change(){
@@ -49,8 +52,6 @@ function change(){
         url: location.href+'&action=ajax&product_class_id='+product_class_id,
         data: "",
         success: function(msg){
-            // alert(msg);
-            console.log(msg)
             if(msg == 0){
                 document.getElementById('product_id').style.display = 'none';
             }else{
@@ -69,79 +70,73 @@ function change(){
 <div class="pd-20">
     <form name="form1" action="index.php?module=coupon&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <input type="hidden" name="id" value="{$id}">
+        <input type="hidden" name="status" class="status" value="{$status}">
         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red"></span>活动名称：</label>
-            <div class="formControls col-10">
-                <input type="text" class="input-text" placeholder="" value="{$name}" name="name">
+            <label class="form-label col-4"><span class="c-red">*</span>活动名称：</label>
+            <div class="formControls col-4">
+                <input type="text" class="input-text" placeholder="" id="name" value="{$name}" name="name" {if $activity_type==3}readonly{/if}>
             </div>
         </div>
-        <div class="row cl" >
-            <label class="form-label col-2">软件名称：</label>
-            <select name="software_id" class="select1" style="width: 80px;height: 31px;vertical-align: middle;">
-                {$software}
-            </select>
-            该活动属于哪个软件
-        </div>
         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red"></span>活动类型：</label>
-            <div class="formControls col-10 skin-minimal">
+            <label class="form-label col-4"><span class="c-red">*</span>活动类型：</label>
+            <div class="formControls col-4 skin-minimal">
                 <div class="radio-box">
-                    <input name="activity_type" type="radio" value="1" checked="checked" onClick="show(this)" {if $activity_type==1}checked="checked"{/if}/>
+                    <input name="activity_type" type="radio" value="1" class="activity_type" checked="checked" onClick="show(this)" {if $activity_type==1}checked="checked"{/if}/>
                     <label for="sex-1">注册</label>
                 </div>
                 <div class="radio-box">
-                    <input name="activity_type" type="radio" value="2" onClick="show(this)" {if $activity_type==2}checked="checked"{/if}/>
+                    <input name="activity_type" type="radio" value="2" class="activity_type" onClick="show(this)" {if $activity_type==2}checked="checked"{/if}/>
                     <label for="sex-2">节日/活动</label>
                 </div>
-                <div class="radio-box">
-                    <input name="activity_type" type="radio" value="3" onClick="show(this)" {if $activity_type==3}checked="checked"{/if}/>
-                    <label for="sex-3">满减</label>
-                </div>
+                {*<div class="radio-box">*}
+                    {*<input name="activity_type" type="radio" value="3" class="activity_type" onClick="show(this)" {if $activity_type==3}checked="checked"{/if}/>*}
+                    {*<label for="sex-3">满减</label>*}
+                {*</div>*}
             </div>
             <div class="col-4"> </div>
         </div>
 
         <div class="row cl" style="display:{if $activity_type != 2}none{/if};" id="product_class_id" onchange="change()">
-            <label class="form-label col-2">活动指定商品类型：</label>
+            <label class="form-label col-4">活动指定商品类型：</label>
             <select name="product_class_id" class="select1" style="width: 80px;height: 31px;vertical-align: middle;">
                 {$list}
             </select>
             全部代表通用
         </div>
-        <div class="row cl" style="display:{if $activity_type != 2}none{/if};" id="product_id">
-            <label class="form-label col-2">活动指定商品：</label>
+        <div class="row cl" style="display:{if $product_class_id == 0}none{/if};" id="product_id">
+            <label class="form-label col-4">活动指定商品：</label>
             <select name="product_id" class="select2" style="width: 80px;height: 31px;vertical-align: middle;">
                 {$list1}
             </select>
             全部代表该分类下面商品通用
         </div>
         
-        <div class="row cl" id="txt" style="display:{if $activity_type == 2}none{/if};">
-            <label class="form-label col-2" id="txt_1" style="display:{if $activity_type != 1}none{/if};">金额：</label>
-            <label class="form-label col-2" id="txt_2" style="display:{if $activity_type != 3}none{/if};">减：</label>
-            <div class="formControls col-2">
-                <input type="text" class="input-text" placeholder="" id="" value="{$money}" name="money">
+        <div class="row cl" id="txt">
+            <label class="form-label col-4" id="txt_1" style="display:{if $activity_type == 3}none{/if};"><span class="c-red">*</span>金额：</label>
+            <label class="form-label col-4" id="txt_2" style="display:{if $activity_type != 3}none{/if};"><span class="c-red">*</span>减：</label>
+            <div class="formControls col-4">
+                <input type="number" class="input-text" placeholder="" id="money" value="{$money}" name="money">
             </div>
         </div>
         
-        <div class="row cl">
-            <label class="form-label col-2" id="z_money_1" style="display:{if $activity_type == 3}none{/if};">总金额：</label>
-            <label class="form-label col-2" id="z_money_2" style="display:{if $activity_type != 3}none{/if};">金额满：</label>
-            <div class="formControls col-2">
-                <input type="text" class="input-text" placeholder="" id="" value="{$z_money}" name="z_money">
+        <div class="row cl" id="z_money" style="display:{if $activity_type != 3}none{/if};">
+            <label class="form-label col-4"><span class="c-red">*</span>金额满：</label>
+            <div class="formControls col-4">
+                <input type="number" class="input-text" placeholder="" id="z_money1" value="{$z_money}" name="z_money">
             </div>
         </div>
         
-        <div class="row cl" style="display:{if $activity_type != 3}none{/if};">
-            <label class="form-label col-2" >数量：</label>
+        <div class="row cl" id="num" style="display:{if $activity_type == 1}none{/if};">
+            <label class="form-label col-4" >数量：</label>
             <div class="formControls col-2">
-                <input type="text" class="input-text" placeholder="" value="{$num}" name="num">
+                <input type="number" class="input-text" placeholder="" value="{$num}" name="num" id="num1">
             </div>
+            <text style="line-height:30px;">0表示没限制数量</text>
         </div>
         
-        <div class="row cl">
-            <label class="form-label col-2">活动时间：</label>
-            <div class="formControls col-10">
+        <div class="row cl" id="time" style="display:{if $activity_type == 1}none{/if};">
+            <label class="form-label col-4"><span class="c-red">*</span>活动时间：</label>
+            <div class="formControls col-6">
                 <input name="start_time" value="{$start_time}" size="8" readonly class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;" />
                 <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.start_time);" />
                 -
@@ -151,13 +146,7 @@ function change(){
         </div>
         
         <div class="row cl">
-            <label class="form-label col-2">活动介绍：</label>
-            <div class="formControls col-10"> 
-                <script id="editor" type="text/plain" style="width:100%;height:400px;" name="content">{$content}</script> 
-            </div>
-        </div>
-        <div class="row cl">
-            <div class="col-10 col-offset-2">
+            <div class="col-10 col-offset-4">
                 <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
                 <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
             </div>
@@ -207,124 +196,76 @@ KindEditor.ready(function(K) {
     });
   });
 });
-</script>
-<script type="text/javascript">
-$(function(){
-    $('.skin-minimal input').iCheck({
-        checkboxClass: 'icheckbox-blue',
-        radioClass: 'iradio-blue',
-        increaseArea: '20%'
-    });
-    
-    $list = $("#fileList"),
-    $btn = $("#btn-star"), // 开始上传的id名称
-    state = "pending",
-    uploader;
-
-    var uploader = WebUploader.create({
-        auto: true,
-        swf: 'style/lib/webuploader/0.1.5/Uploader.swf',
-    
-        // 文件接收服务端。
-        server: 'http://lib.h-ui.net/webuploader/0.1.5/server/fileupload.php',
-    
-        // 选择文件的按钮。可选。
-        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#filePicker',
-    
-        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-        resize: false,
-        // 只允许选择图片文件。
-        accept: {
-            title: 'Images',
-            extensions: 'gif,jpg,jpeg,bmp,png',
-            mimeTypes: 'image/*'
+$("#money").blur(function(){
+    var money = document.getElementById('money').value; // 减
+    var z_money = document.getElementById('z_money1').value; // 满
+    var activity_type = document.getElementsByName("activity_type");
+    var selectvalue=null;   //  selectvalue为radio中选中的值
+    for(var i=0;i<activity_type.length;i++){
+        if(activity_type[i].checked==true) {
+            selectvalue=activity_type[i].value;
+            break;
         }
-    });
-    uploader.on( 'fileQueued', function( file ) {
-        var $li = $(
-            '<div id="' + file.id + '" class="item">' +
-                '<div class="pic-box"><img></div>'+
-                '<div class="info">' + file.name + '</div>' +
-                '<p class="state">等待上传...</p>'+
-            '</div>'
-        ),
-        $img = $li.find('img');
-        $list.append( $li );
-    
-        // 创建缩略图
-        // 如果为非图片文件，可以不用调用此方法。
-        // thumbnailWidth x thumbnailHeight 为 100 x 100
-        uploader.makeThumb( file, function( error, src ) {
-            if ( error ) {
-                $img.replaceWith('<span>不能预览</span>');
-                return;
+    }
+    if (money=='') {
+        alert('请输入');
+        return false;
+    }
+    if(money > 0){
+        money = parseInt(money);
+        $("#money").val(money);
+        if(selectvalue == 3){
+            if(z_money == ''){
+                $("#name").val('减'+money);
+            }else{
+                z_money = parseInt(z_money);
+                $("#name").val('满'+z_money+'减'+money);
             }
-    
-            $img.attr( 'src', src );
-        }, thumbnailWidth, thumbnailHeight );
-    });
-    // 文件上传过程中创建进度条实时显示。
-    uploader.on( 'uploadProgress', function( file, percentage ) {
-        var $li = $( '#'+file.id ),
-            $percent = $li.find('.progress-box .sr-only');
-    
-        // 避免重复创建
-        if ( !$percent.length ) {
-            $percent = $('<div class="progress-box"><span class="progress-bar radius"><span class="sr-only" style="width:0%"></span></span></div>').appendTo( $li ).find('.sr-only');
         }
-        $li.find(".state").text("上传中");
-        $percent.css( 'width', percentage * 100 + '%' );
-    });
-    
-    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    uploader.on( 'uploadSuccess', function( file ) {
-        $( '#'+file.id ).addClass('upload-state-success').find(".state").text("已上传");
-    });
-    
-    // 文件上传失败，显示上传出错。
-    uploader.on( 'uploadError', function( file ) {
-        $( '#'+file.id ).addClass('upload-state-error').find(".state").text("上传出错");
-    });
-    
-    // 完成上传完了，成功或者失败，先删除进度条。
-    uploader.on( 'uploadComplete', function( file ) {
-        $( '#'+file.id ).find('.progress-box').fadeOut();
-    });
-    uploader.on('all', function (type) {
-        if (type === 'startUpload') {
-            state = 'uploading';
-        } else if (type === 'stopUpload') {
-            state = 'paused';
-        } else if (type === 'uploadFinished') {
-            state = 'done';
-        }
+    }else{
+        $("#money").val('');
+        alert('输入的值要大于0');
+        return false;
+    }
+});
+$("#z_money1").blur(function(){
+    var money = document.getElementById('money').value; // 减
+    var z_money = document.getElementById('z_money1').value; // 满
+    if (z_money=='') {
+        alert('请输入');
+        return false;
+    }
+    if(z_money > 0){
+        z_money = parseInt(z_money);
+        $("#z_money1").val(z_money);
 
-        if (state === 'uploading') {
-            $btn.text('暂停上传');
-        } else {
-            $btn.text('开始上传');
+        if(money == ''){
+            $("#name").val('满'+z_money);
+        }else{
+            money = parseInt(money);
+            $("#name").val('满'+z_money+'减'+money);
         }
-    });
-
-    $btn.on('click', function () {
-        if (state === 'uploading') {
-            uploader.stop();
-        } else {
-            uploader.upload();
-        }
-    });
-
-    
-    
-    var ue = UE.getEditor('editor');
-    
+    }else{
+        $("#z_money1").val('');
+        alert('输入的值要大于0');
+        return false;
+    }
 });
 
-function mobanxuanze(){
-    
+
+if($(".status").val() == 1){
+    document.getElementById('name').readOnly = true;
+    document.getElementById('money').readOnly = true;
+    document.getElementById('z_money1').readOnly = true;
+    document.getElementById('num1').readOnly = true;
+    // document.getElementById('activity_type').disabled = 'true';
+    $('.activity_type').attr('disabled','disabled');
+    $('.select1').attr('disabled','disabled');
+    $('.select2').attr('disabled','disabled');
+
 }
 </script>
+
 {/literal}
 </body>
 </html>

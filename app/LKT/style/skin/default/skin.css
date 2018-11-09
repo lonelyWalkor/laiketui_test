@@ -5,7 +5,18 @@ a{color:#333}a:hover,a:focus,.maincolor,.maincolor a{color:#06c}
 .Hui-header{ color:#fff}/*头部颜色*/
 	.Hui-logo,.Hui-logo-m,.Hui-subtitle,.Hui-userbar{color:#fff}/*logo 及 用户信息文字颜色*/
 	.Hui-logo:hover,.Hui-logo-m:hover{color:#fff;text-decoration: none}
-	
+.bigUl .active{
+	background: #2b2b2b;
+}
+.color1 a{
+	background-color: #222!important;
+	color: #fff!important;
+}
+.color1 a:after{
+	content: '\2714';
+	font-size: 16px;
+	margin-left: 10px;	
+}
 .Hui-header{background-color:#222}/*顶部导航*/
 #Hui-nav > ul > li > a{ color:#fff}/*顶部导航文字颜色*/
 #Hui-nav > ul > li > a:hover,#Hui-nav > ul > li.current > a{ color:#fff}/*导航高亮状态*/

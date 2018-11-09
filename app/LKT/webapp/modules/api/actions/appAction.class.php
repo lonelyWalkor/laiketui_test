@@ -129,6 +129,7 @@ class appAction extends Action {
             $db->update($sql);
             $user_id = $rr[0]->user_id;
 
+
             $event = '会员' . $user_id . '登录';
             // 在操作列表里添加一条会员登录信息
             $sql = "insert into lkt_record (user_id,event,type) values ('$user_id','$event',0)";
@@ -206,7 +207,8 @@ class appAction extends Action {
             $sql = "select max(id) as userid from lkt_user";
             $r = $db->select($sql);
             $rr = $r[0]->userid;
-            $user_id = $rr+1;
+//            $user_id = $rr+1;
+            $user_id = 'user'.($rr+1);
             // 在会员列表添加一条数据
 
             // 默认头像和名称
@@ -220,7 +222,8 @@ class appAction extends Action {
             if(empty($sex) || $sex == 'undefined'){
                 $sex = '0';
             }
-            $sql = "insert into lkt_user (user_id,user_name,headimgurl,wx_name,sex,wx_id,Referee,access_token) values('$user_id','$wxname','$headimgurl','$wxname','$sex','$openid','$Referee','$access_token')";
+            $sql = "insert into lkt_user (user_id,user_name,headimgurl,wx_name,sex,wx_id,Referee,access_token,img_token,source) values('$user_id','$wxname','$headimgurl','$wxname','$sex','$openid','$Referee','$access_token','$access_token',1)";
+
             $r = $db->insert($sql);
 
             //查询首次注册所获积分
@@ -280,7 +283,6 @@ class appAction extends Action {
             // 查询签到活动
             $sql = "select * from lkt_sign_activity where status = 1";
             $r_activity = $db->select($sql);
-            $sign_status = 0; // 不用弹出签名框
             if($r_activity){
                 $sign_image = $img . $r_activity[0]->image; // 签到弹窗图
                 $endtime = $r_activity[0]->endtime; // 签到结束时间
@@ -298,6 +300,7 @@ class appAction extends Action {
                 }
             }else{
                 $sign_image = '';
+                $sign_status = 0;
             }
             
             $sql = "select * from lkt_user where wx_id = '$openid'";
@@ -319,23 +322,9 @@ class appAction extends Action {
         header("Content-type: text/html; charset=utf-8");
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $software_name = $request->getParameter('software_name'); // 软件名
-        $edition = trim($request->getParameter('edition')); // 版本号
 
-        $sql = "select name from lkt_software where type = 0 and id = '$software_name' order by id desc";
-        $rrrr_1 = $db->select($sql);
-        $name1 = $rrrr_1[0]->name;
-        // 根据软件名称，查询软件id和名称
-         $sql = "select id from lkt_software where name = '$name1' and edition = '$edition' and type = 0";
-         $r_software = $db->select($sql);
-         if($r_software){
-             $software_id = $r_software[0]->id;
-         }
-        $software_id = $software_name;
-        // echo $sql;
         // 查询插件表里,状态为启用的插件
-        $sql = "select name,image from lkt_plug_ins where status = 1 and type = 0 and software_id like '%$software_id%'";
-        // print_r($sql);die;
+        $sql = "select name,image from lkt_plug_ins where status = 1 and type = 0 ";
         $r_c = $db->select($sql);
 
         $coupon = false;
@@ -346,9 +335,9 @@ class appAction extends Action {
 
         if($r_c){
             foreach ($r_c as $k => $v) {
-                if(strpos($v->name,'优惠劵') !== false){ 
+                if(strpos($v->name,'劵') !== false){
                     // 判断字符串里是否有 优惠劵 
-                    $v->name = '优惠劵'; 
+                    $v->name = '优惠劵';
                     $coupon = true;
                 }
                 if($v->name == '钱包'){

@@ -1,12 +1,4 @@
 <?php
-
-/**
-
- * [Laike System] Copyright (c) 2018 laiketui.com
-
- * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
-
- */
 class IndexInputView extends SmartyView {
 // getContext() 检索当前应用程序上下文。
 // getRequest() 检索请求。
@@ -31,9 +23,13 @@ class IndexInputView extends SmartyView {
         $this->setAttribute('yingye',$request->getAttribute('yingye'));//营业额百分比
         $this->setAttribute('dingdan',$request->getAttribute('dingdan'));//订单百分比
         $this->setAttribute('day_yy',$request->getAttribute('day_yy'));//当日的营业额
+        $this->setAttribute('yes_yy',$request->getAttribute('yes_yy'));//昨日的营业额
         $this->setAttribute('yingye_day',$request->getAttribute('yingye_day'));//当日的营业额百分比
         $this->setAttribute('daydd',$request->getAttribute('daydd'));//当日的总订单
+        $this->setAttribute('yesdd',$request->getAttribute('yesdd'));//昨日的总订单
         $this->setAttribute('dingdan_day',$request->getAttribute('dingdan_day'));//当日的订单百分比
+        $this->setAttribute('authorization',$request->getAttribute('authorization'));//authorization
+
         $this->setAttribute('leiji_dd',$request->getAttribute('leiji_dd'));//累计订单数
         $this->setAttribute('couhuiyuan01',$request->getAttribute('couhuiyuan01'));//1
         $this->setAttribute('couhuiyuan02',$request->getAttribute('couhuiyuan02'));//2
@@ -51,7 +47,23 @@ class IndexInputView extends SmartyView {
         $this->setAttribute('liutian',$request->getAttribute('liutian'));//6
         $this->setAttribute('qitian',$request->getAttribute('qitian'));//7
         $this->setAttribute('couhuiyuan',$request->getAttribute('couhuiyuan'));//7
+        //访客人数
+        $this->setAttribute('fangke',$request->getAttribute('fangke'));//5
+        $this->setAttribute('fangke01',$request->getAttribute('fangke01'));//
+        $this->setAttribute('fangke02',$request->getAttribute('fangke02'));//
+        $this->setAttribute('fangkebizhi',$request->getAttribute('fangkebizhi'));//fangke比值
+        //本月
+        $this->setAttribute('fangke03',$request->getAttribute('fangke03'));//
+        //订单统计
+        $this->setAttribute('order01',$request->getAttribute('order01'));//1
+        $this->setAttribute('order02',$request->getAttribute('order02'));//2
+        $this->setAttribute('order03',$request->getAttribute('order03'));//3
+        $this->setAttribute('order04',$request->getAttribute('order04'));//4
+        $this->setAttribute('order05',$request->getAttribute('order05'));//5
+        $this->setAttribute('order06',$request->getAttribute('order06'));//6
+        $this->setAttribute('order07',$request->getAttribute('order07'));//7
         $this->setTemplate("index.tpl");
+
     }
 }
 ?>

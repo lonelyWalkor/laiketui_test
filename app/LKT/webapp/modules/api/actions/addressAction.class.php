@@ -30,6 +30,8 @@ class addressAction extends Action {
             $this->up_addsindex();
         }else if($m == 'up_adds'){
             $this->up_adds();
+        }else if($m == 'del_select'){
+            $this->del_select();
         }
 
         return;
@@ -55,6 +57,38 @@ class addressAction extends Action {
         echo json_encode(array('adds'=>$r));
         exit();
         return;
+    }
+    public function del_select()
+    {
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        $openid = trim($request->getParameter('openid')); // 微信id
+        $arr = trim($request->getParameter('id_arr')); // 微信id
+        $sql = "select * from lkt_user where wx_id = '$openid'";
+        $r = $db->select($sql);
+        if($r){
+           $user_id = $r[0]->user_id;
+
+         if(!empty($arr)){
+            $arrid = explode(',', $arr);
+            // print_r($arrid);die;
+            foreach ($arrid as $key => $value) {
+                if($value !=''){
+                    $sql = "delete from lkt_user_address where uid = '$user_id' and id = '$value'";
+                    $r = $db->delete($sql);
+                }
+                
+           }
+           echo json_encode(array('status'=>1,'succ'=>'删除成功!'));
+           exit();
+         }
+           
+        }else{
+            echo json_encode(array('status'=>0,'err'=>'删除失败!'));
+            exit();
+        }
+        // $user_id = $r[0]->user_id;
+        // echo json_encode(array('openid' => $openid,'arr'=>$arr ));
     }
     // 设置默认
     public function set_default(){

@@ -17,7 +17,7 @@
 <title>添加软件</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe654;</i> 软件管理 <span class="c-gray en">&gt;</span> 软件列表 <span class="c-gray en">&gt;</span> 添加软件 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=software';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe654;</i> 系统管理 <span class="c-gray en">&gt;</span> 版本管理 <span class="c-gray en">&gt;</span> 添加版本 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=software';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <form name="form1" action="index.php?module=software&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <div class="row cl">

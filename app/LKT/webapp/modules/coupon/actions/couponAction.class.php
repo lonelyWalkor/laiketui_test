@@ -20,56 +20,42 @@ class couponAction extends Action {
         $activity_overdue = $r_1[0]->activity_overdue; // 活动过期删除时间
 
         $name = addslashes(trim($request->getParameter('name'))); // 用户id
-        $software_id = addslashes(trim($request->getParameter('software_id'))); // 软件id
 
-        $sql = "select id,name from lkt_software order by id desc";
-        $rr = $db->select($sql);
-        if($rr){
-            $rew = '<option value="0" >全部(软件名)</option>';
-            $arr = json_decode(json_encode($rr),true);
-            $new_arr = array();
-            foreach($arr as $k => $v){
-                if(array_key_exists($v['name'],$new_arr)){
-                    $new_arr[$v['name']] = $new_arr[$v['name']].','.$v['id']; 
-                }else{
-                    $new_arr[$v['name']] = $v['id'];
-                }
-            }
-            foreach ($new_arr as $key => $value) {
-                $arr_list['id'] = $value;
-                $arr_list['name'] = $key;
-                $rew .= "<option  value='".$arr_list['id']."'>".$arr_list['name']."</option>";
-            }  
+        $pagesize = $request -> getParameter('pagesize');
+        $pagesize = $pagesize ? $pagesize:'10';
+        // 每页显示多少条数据
+        $page = $request -> getParameter('page');
+
+        // 页码
+        if($page){
+            $start = ($page-1)*$pagesize;
+        }else{
+            $start = 0;
         }
 
         $condition = '1 = 1';
         if($name != ''){   
             $condition .= " and b.name like '%$name%'";
         }
-        if($software_id != '' && $software_id != 0){
-            $condition .= " and a.software_id = '$software_id'";
-        }
-        $time = date('Y-m-d H:i:s'); // 当前时间
 
+        $time = date('Y-m-d H:i:s'); // 当前时间
         $sql = "select a.*,b.name from lkt_coupon as a LEFT JOIN lkt_coupon_activity as b ON a.hid = b.id where $condition";
+        $r = $db->select($sql);
+        $total = count($r);
+        $pager = new ShowPager($total,$pagesize,$page);
+
+        $sql = "select a.*,b.name from lkt_coupon as a LEFT JOIN lkt_coupon_activity as b ON a.hid = b.id where $condition order by a.add_time desc limit $start,$pagesize";
         $r = $db->select($sql); 
         if($r){
             foreach ($r as $k => $v) {
                 $id = $v->id; // 优惠券id
                 $hid = $v->hid; // 活动id
-                $software_id = $v->software_id; // 软件id
                 $expiry_time = $v->expiry_time; // 到期时间
 
                 $sql = "select * from lkt_coupon_config where id = 1";
                 $rr = $db->select($sql);
                 $coupon_overdue = $rr[0]->coupon_overdue; // 优惠券过期删除时间
                 $time_1 = date("Y-m-d H:i:s",strtotime("+$coupon_overdue day",strtotime($expiry_time))); // 优惠券过期删除时间
-
-                $typestr=trim($software_id,','); // 移除两侧的逗号
-                $typeArr=explode(',',$typestr); // 字符串打散为数组
-                $sql = "select name from lkt_software where id = $typeArr[0]";
-                $rr_1 = $db->select($sql);
-                $v->software_name = $rr_1[0]->name;
 
                 // 当前时间大于活动结束时间,优惠券已过期
                 if($time > $expiry_time){
@@ -93,9 +79,13 @@ class couponAction extends Action {
                 }
             }
         }
+        $url = "index.php?module=finance&action=Index&name=".urlencode($name)."&pagesize=".urlencode($pagesize);
+        $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
+
         $request->setAttribute("list",$r);
         $request->setAttribute("name",$name);
-        $request->setAttribute("software",$rew);
+        $request->setAttribute("pages_show",$pages_show);
+        $request->setAttribute("pagesize",$pagesize);
 
         return View :: INPUT;
     }

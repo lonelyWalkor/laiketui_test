@@ -26,7 +26,8 @@ class modifyAction extends Action {
         }else if($set == 'delpro'){
             $this -> delpro();
         }
-
+        $status = trim($request->getParameter('status')) ? 1:0;
+        $request->setAttribute("status",$status);
         return View :: INPUT;
     }
     public function setgroupmsg() {

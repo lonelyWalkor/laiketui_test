@@ -14,7 +14,7 @@
 
 
 
-		<title>完成-laiketui V1.2开源网店系统</title>
+		<title>完成-来客电商 V2.0 开源网店系统</title>
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-			<div class="rule_title">laiketui V1.2<span>安装协议</span></div>
+			<div class="rule_title">来客电商 V2.0<span>安装协议</span></div>
 
 
 

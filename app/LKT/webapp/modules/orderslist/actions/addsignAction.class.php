@@ -35,32 +35,44 @@ class addsignAction extends Action {
 	public function execute() {
 		$db = DBAction::getInstance();
 		$request = $this -> getContext() -> getRequest();
-		$sNo = trim($request -> getParameter('sNo'));
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+        //开启事务
+        $db->begin();
+        $sNo = trim($request -> getParameter('sNo')); // 订单号
 		$trade = intval($request -> getParameter('trade')) - 1;
-		$express_id = $request -> getParameter('express');
-		//快递公司id
-		$courier_num = $request -> getParameter('courier_num');
-		//快递单号
-		$freight = $request -> getParameter('freight');
-		//运费
-		$otype = addslashes(trim($request -> getParameter('otype')));
-		$express_name = $request -> getParameter('express_name');
-		//快递公司名称
+		$express_id = $request -> getParameter('express'); // 快递公司id
 
+		$courier_num = $request -> getParameter('courier_num'); // 快递单号
+
+		$otype = addslashes(trim($request -> getParameter('otype'))); // 类型
+		$express_name = $request -> getParameter('express_name'); // 快递公司名称
 
 		$time = date('Y-m-d H:i:s', time());
 		$con = " ";
 		if (!empty($express_id)) {
 			$con = ",express_id='$express_id'";
-		}
+		}else{
+			$db->rollback();
+            echo 2;
+            exit();
+        }
 		if (!empty($courier_num)) {
-			$con .= ",courier_num ='$courier_num '";
-		}
-		if (!empty($freight)) {
-			$con .= ",freight=' $freight '";
-		}
+		    $sql = "select id from lkt_order_details where r_sNo != '$sNo' and express_id = '$express_id' and courier_num = '$courier_num'";
+		    $rr = $db->select($sql);
+		    if($rr){
+		    	$db->rollback();
+                echo 0;
+                exit();
+            }else{
+                $con .= ",courier_num ='$courier_num '";
+            }
+		}else{
+			$db->rollback();
+            echo 3;
+            exit();
+        }
 		$con .= ",deliver_time= ' $time '";
-
+		// var_dump($otype);
 		if ($otype == 'yb') {
 
 			$sql_config = "select * from lkt_config where id=1";
@@ -74,11 +86,18 @@ class addsignAction extends Action {
 			}
 			$sqll = "update lkt_order set status='$trade' where sNo='$sNo'";
 			$rl = $db -> update($sqll);
+			if ($rl < 1) {
+                $db->rollback();
+                echo 0;
+				exit();
+			}
 			$sqld = "update lkt_order_details set r_status='$trade' $con where r_sNo='$sNo'";
 			$rd = $db -> update($sqld);
-//			echo "string11";
-//			var_dump($sqld,$sqll,$rl,$rd);
-//			exit;
+			if ($rd < 1) {
+                $db->rollback();
+                echo 0;
+				exit();
+			}
 			//查询订单信息
 			$sql_p = "select o.id,o.user_id,o.sNo,d.p_name,o.name,o.address from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.sNo='$sNo'";
 			$res_p = $db -> select($sql_p);
@@ -115,10 +134,10 @@ class addsignAction extends Action {
 				$this -> get_fromid($openid, $form_id);
 			}
 
-			if ($rl > 0 && $rd > 0) {
-				echo 1;
-				exit();
-			}
+            $db->admin_record($admin_id,' 使订单号为 '.$sNo.' 的订单发货 ',7);
+            $db->commit();
+            echo 1;
+			exit();
 
 		} else if ($otype == 'pt') {
 			$sqll = 'update lkt_order set status=2 where sNo="' . $sNo . '"';
@@ -147,13 +166,15 @@ class addsignAction extends Action {
 				$r = $db -> select($sql);
 				$template_id = $r[0] -> order_delivery;
 				$res = $this -> Send_success($msgres, $template_id);
-				echo 1;
+                $db->admin_record($admin_id,' 使订单号为 '.$sNo.' 的订单发货 ',7);
+                $db->commit();
+                echo 1;
 				exit();
 			}
-			echo "string2";exit;
 		}
-
-		return View::INPUT;
+				$db->rollback();
+		        echo 0;
+				exit();
 	}
 
 	public function Send_success($arr, $template_id) {

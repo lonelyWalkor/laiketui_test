@@ -512,11 +512,7 @@
 
 
 
-                            <label class="radio-inline"> 
-
-                            <input type="radio" name="type" value="4" {if $res->type ==4} checked="checked"{/if} /> 分销海报
-
-                        </label>
+                           
 
                           </div>
 

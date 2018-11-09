@@ -15,12 +15,49 @@
 <link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
 
 <title>退货详情</title>
+{literal}
+<style type="text/css">
+	table th{
+		border: none;
+		font-weight: normal!important;
+		color: #888f9e;
+		font-size: 14px;
+	}
+	.table th{
+		padding: 15px 20px;
+	}
+	table{
+		background-color: #fff;
+		border-bottom-left-radius: 10px;
+    	border-bottom-right-radius: 10px;
+	}
+	.ulTitle {
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+    padding-left: 20px;
+    font-size: 16px;
+    color: #414658;
+    font-weight: 600;
+    font-family: "微软雅黑";
+    margin-bottom: 0px;
+    margin-top: 20px;
+    border-bottom: 2px solid #eee;
+    background: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+</style>
+{/literal}
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 退货列表 <span class="c-gray en">&gt;</span> 退货详情 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=return';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <div class="Huiform">
-        <table class="table table-bg">
+    	<div class="ulTitle">
+    		退货详情
+    	</div>
+        <table class="table table-bg" >
             <tbody>
                 <tr>
                     <th width="100" class="text-r"> 用户名：</th>

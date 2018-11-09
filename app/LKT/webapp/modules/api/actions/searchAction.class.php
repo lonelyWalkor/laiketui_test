@@ -133,13 +133,13 @@ class searchAction extends Action {
       }
       $start = 10*($num-1);
       $end = 10;
-      $sqlb = "select a.id,product_title,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%$cid%' group by c.pid order by $select $sort  LIMIT $start,$end";
+      $sqlb = "select a.id,product_title,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%$cid%' and a.status = 0 group by c.pid order by $select $sort  LIMIT $start,$end";
       $data = $db -> select($sqlb);
       
     }else{   //如果不是商品分类名称，则直接搜产品
       $type = 1;
       $keyword = addslashes($keyword);
-      $sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_title like '%$keyword%' group by c.pid order by $select $sort";
+      $sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_title like '%$keyword%' and a.status = 0 group by c.pid order by $select $sort";
 
       $data = $db -> select($sqlb);
     }
@@ -206,7 +206,7 @@ class searchAction extends Action {
       $bg = $img.$r_c[0]->bg;
     }
 
-    $sql = "select a.id,a.product_title,volume,min(c.price) as price,c.yprice,c.img,c.name,c.color,c.size,a.s_type,c.id AS sizeid from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%$id%' and c.num >0 group by c.pid  order by $select $sort LIMIT $start,$end ";
+    $sql = "select a.id,a.product_title,volume,min(c.price) as price,c.yprice,c.img,c.name,c.color,c.size,a.s_type,c.id AS sizeid from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%$id%' and c.num >0 and a.status = 0 group by c.pid  order by $select $sort LIMIT $start,$end ";
 
     $r = $db->select($sql);
 

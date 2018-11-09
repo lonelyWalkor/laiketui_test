@@ -16,10 +16,9 @@
 <title>钱包参数</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 财务管理 <span class="c-gray en">&gt;</span> 钱包参数 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=plug_ins';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 配置管理 <span class="c-gray en">&gt;</span> 钱包参数 </nav>
 <div class="page-container">
     <form name="form1" action="index.php?module=finance&action=config" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
-        <input type="hidden" name="plug_ins_id" value="{$plug_ins_id}" >
         <div id="tab-system" class="HuiTab">
             <div class="row cl">
                 <label class="form-label col-4">最小充值金额：</label>
@@ -28,7 +27,7 @@
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-4">最少提现金额：</label>
+                <label class="form-label col-4">最小提现金额：</label>
                 <div class="formControls col-4">
                     <input type="text" class="input-text" value="{$min_amount}" id="min_amount" name="min_amount">
                 </div>
@@ -43,20 +42,39 @@
                 <label class="form-label col-4">手续费：</label>
                 <div class="formControls col-4">
                     <input type="text" class="input-text" value="{$service_charge}" id="service_charge" name="service_charge">
+                    <span style="color:#666;">手续费为大于0小于1的小数,如0.005</span>
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-4">小程序钱包单位：</label>
+                <label class="form-label col-4">小程序和APP钱包单位：</label>
                 <div class="formControls col-4">
                     <input type="text" class="input-text" value="{$unit}" id="unit" name="unit">
                 </div>
             </div>
-            
+
+            <div class="row cl">
+                <label class="form-label col-4">提现基数：</label>
+                <div class="formControls col-4">
+                    <input type="text" class="input-text" value="{$multiple}" id="multiple" name="multiple">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4">转账基数：</label>
+                <div class="formControls col-4">
+                    <input type="text" class="input-text" value="{$transfer_multiple}" id="transfer_multiple" name="transfer_multiple">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-4">充值基数：</label>
+                <div class="formControls col-4">
+                    <input type="text" class="input-text" value="{$cz_multiple}" id="cz_multiple" name="cz_multiple">
+                </div>
+            </div>
         </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
                 <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
-                <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;重置&nbsp;&nbsp;</button>
+                {*<button class="btn btn-default radius" type="reset">&nbsp;&nbsp;重置&nbsp;&nbsp;</button>*}
             </div>
         </div>
     </form>

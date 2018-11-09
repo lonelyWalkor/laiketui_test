@@ -97,6 +97,10 @@ class groupbuyAction extends Action {
           $this -> grouphome();
         }else if($m == 'isgrouppacked'){
           $this -> isgrouppacked();
+        }else if($m == 'up_out_trade_no'){
+          $this -> up_out_trade_no();
+        }else if($m == 'verification'){
+          $this -> verification();
         }
         return;
     }
@@ -257,8 +261,6 @@ class groupbuyAction extends Action {
             $sql_size = "select g.attr_id,g.product_id,g.group_price,g.member_price,p.attribute,p.num,p.price,p.yprice,p.img,p.id from lkt_group_product as g left join lkt_configure as p on g.attr_id=p.id where g.product_id = '$gid' and group_id='$group_id'";
             $r_size = $db->select($sql_size);
             
-            // $sql_size = "select * from lkt_configure where pid = '$id' AND num > 0";
-            // $r_size = $db->select($sql_size);
             $array_price = [];
             $array_yprice = [];
             $skuBeanList = [];
@@ -295,7 +297,7 @@ class groupbuyAction extends Action {
 
                     $cimgurl = $img.$value->img;
 
-                    $skuBeanList[$key] = array('name' => $name,'imgurl' => $cimgurl,'cid' => $value->id,'price' => $value->price,'count' => $value->num,'attributes' => $attributes);
+                    $skuBeanList[$key] = array('name' => $name,'imgurl' => $cimgurl,'cid' => $value->id,'member_price' => $value->member_price,'price' => $value->price,'count' => $value->num,'attributes' => $attributes);
                     
 
                     for ($i=0; $i < count($attrList); $i++) {
@@ -327,7 +329,7 @@ class groupbuyAction extends Action {
         
         
         //查询此商品评价记录
-        $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.wx_id where a.pid = '$gid' limit 2";
+        $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.user_id where a.pid = '$gid' and m.wx_id != '' limit 2";
             $r_c = $db->select($sql_c);
             $arr=[];
         
@@ -358,7 +360,6 @@ class groupbuyAction extends Action {
                 }
 
                 $va['reply'] = $reply_admin;
-                
                 $obj = (object)$va;
                 $arr[$key] = $obj;
             }
@@ -377,17 +378,22 @@ class groupbuyAction extends Action {
         		$com_num = array('bad'=>0,'good'=>0,'notbad'=>0);
         	}
         
-        $sql_kt = "select g.ptcode,g.ptnumber,g.endtime,u.user_name,u.headimgurl from lkt_group_open as g left join lkt_user as u on g.uid=u.wx_id where g.group_id='$group_id' and g.ptgoods_id=$gid and g.ptstatus=1";
+        $sql_kt = "select g.ptcode,g.ptnumber,g.endtime,u.user_name,u.headimgurl from lkt_group_open as g left join lkt_user as u on g.uid=u.wx_id where g.group_id='$group_id' and g.ptgoods_id=$gid and g.ptstatus=1 ";
         $res_kt = $db -> select($sql_kt);
+        $groupList = [];
         foreach ($res_kt as $key => $value) {
             $res_kt[$key] -> leftTime = strtotime($value -> endtime) - time();
+            if(strtotime($value -> endtime) - time() > 0){
+                array_push($groupList, $res_kt[$key]);
+            }
         }
 
         $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
         $plugopen = $db -> select($plugsql);
         $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
         
-        echo json_encode(array('control' =>$contres,'detail' => $guigeres,'attrList'=>$attrList,'skuBeanList'=>$skuBeanList,'comments'=>$arr,'comnum' => $com_num,'groupList' => $res_kt,'isplug' => $plugopen));exit;
+        $share = array('friends' => true, 'friend' => false);
+        echo json_encode(array('control' =>$contres,'share'=>$share,'detail' => $guigeres,'attrList'=>$attrList,'skuBeanList'=>$skuBeanList,'comments'=>$arr,'comnum' => $com_num,'groupList' => $groupList,'isplug' => $plugopen));exit;
     } 
 
     public function getcomment(){
@@ -426,7 +432,8 @@ class groupbuyAction extends Action {
         
         
         //查询此商品评价记录
-        $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.wx_id where a.pid = '$pid'".$condition." limit $page,8";
+        $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.user_id where a.pid = '$pid'".$condition." limit $page,8";
+
             $r_c = $db->select($sql_c);
             $arr=[];
           if(!empty($r_c)){
@@ -598,30 +605,61 @@ class groupbuyAction extends Action {
         $status = intval(trim($request->getParameter('status')));
         $ordstatus = $status == 1?9:0;
 
+        $db->begin();
         $group_num = 'KT'.substr(time(),5).mt_rand(10000,99999);
+
         $creattime = date('Y-m-d H:i:s');
+
         $time_over = explode(':', $time_over);
+
         $time_over = date('Y-m-d H:i:s',$time_over[0]*3600 + $time_over[1]*60 + time());
+
         $pro_size = $db -> select("select name,color,size from lkt_configure where id=$sizeid");
+
         $pro_size = $pro_size[0] -> name.$pro_size[0] -> color.$pro_size[0] -> size;
 
         $istsql1 = "insert into lkt_group_open(uid,ptgoods_id,ptcode,ptnumber,addtime,endtime,ptstatus,group_id) values('$uid',$pro_id,'$group_num',1,'$creattime','$time_over',$status,'$groupid')";
-        
         $res1 = $db -> insert($istsql1);
+
+        if($res1 < 1){
+            $db->rollback();
+            echo json_encode(array('code' => 0,'sql'=>$istsql1));exit;
+        }
         
+
         $user_id = $db -> select("select user_id from lkt_user where wx_id='$uid'");
+
         $uid = $user_id[0] -> user_id;
+
         $ordernum = 'PT'.mt_rand(10000,99999).date('Ymd').substr(time(),5);
+
         $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,status,otype,ptcode,pid,ptstatus,trade_no) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime',$ordstatus,'pt','$group_num','$groupid',$status,'$trade_no')";
         $res2 = $db -> insert($istsql2);
+        if($res2 < 1){
+            $db->rollback();
+            echo json_encode(array('code' => 0,'sql'=>$istsql2));exit;
+        }
         
+
         $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";
+
         $res3 = $db -> insert($istsql3);
+        if($res3 < 1){
+            $db->rollback();
+            echo json_encode(array('code' => 0,'sql'=>$istsql3));exit;
+        }
+        
+        
         
         $idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
+
         if(!empty($idres)) $idres = $idres[0] -> id;
         if($res1 > 0 && $res2 > 0 && $res3 > 0){
+            $db->commit();
             echo json_encode(array('order' => $ordernum,'gcode' => $group_num,'group_num' => $group_num,'id' => $idres,'code' => 1));exit;
+        }else{
+            $db->rollback();
+            echo json_encode(array('code' => 0));exit;
         }
         
        
@@ -657,12 +695,16 @@ class groupbuyAction extends Action {
      if($recd > 0){
         $sql = "select m.*,d.p_name,d.p_price,d.sid from (select k.ptgoods_id,k.ptnumber,k.addtime as cantime,k.endtime,k.ptstatus,p.name,p.num,p.sNo,p.sheng,p.shi,p.xian,p.address,p.mobile,p.status from lkt_group_open as k right join lkt_order as p on k.ptcode=p.ptcode where p.ptcode='$oid' and p.user_id='$userid') as m left join lkt_order_details as d on m.sNo=d.r_sNo";
         $res = $db -> select($sql);
-       //var_dump($res);
+        
        if($res){
+        // var_dump($res);
+        $ptgoods_id = $res[0]->ptgoods_id;
+        $aa = $db -> select("select min(group_price) as gprice from lkt_group_product where group_id='$groupid' and product_id=$ptgoods_id");
         $res = $res[0];
         $image = $db -> select("select img,yprice from lkt_configure where id=$res->sid");
         $res -> img = $img.$image[0] -> img;
-        $res -> yprice = $image[0] -> yprice; 
+        $res -> yprice = $image[0] -> yprice;
+        $res -> p_price = $aa[0] -> gprice;
         }else{
             $res = (object)array();
         }
@@ -673,6 +715,7 @@ class groupbuyAction extends Action {
         $goods = $db -> select($goodsql);
         $res -> p_name = $goods[0] -> pro_name;
         $res -> p_price = $goods[0] -> gprice;
+
         $res -> yprice = $goods[0] -> yprice;
         $res -> img = $img.$goods[0] -> image;
         $res -> p_num = $goods[0] -> num;
@@ -682,107 +725,103 @@ class groupbuyAction extends Action {
        $groupmember = $db -> select($memsql);
        
        $man_num = $db -> select("select productnum from lkt_group_buy where status='$groupid'");
-       $res -> productnum = $man_num[0] -> productnum;
-       $res -> groupmember = $groupmember;
-     
-       
-       $sumsql = "select count(m.sNo) as sum from (select o.sNo from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where d.p_id='$res->ptgoods_id') as m";
-       $sumres = $db -> select($sumsql);
-       
-       if(!empty($sumres)) $res -> sum = $sumres[0] -> sum;
-        switch ($res -> ptstatus) {
-            case 1:
-                $res -> groupStatus = '拼团中';
-                break;
-            case 2:
-                $res -> groupStatus = '拼团成功';
-                break;
-            case 3:
-                $res -> groupStatus = '拼团失败';
-                break;
-            default:
-                $res -> groupStatus = '未付歀';
-                break;
-        }
-        
-        $res -> leftTime = strtotime($res -> endtime) - time();    
-        
-            $sql_size = "select g.attr_id,g.product_id,g.group_price,g.member_price,p.attribute,p.num,p.price,p.img,p.yprice,p.id from lkt_group_product as g left join lkt_configure as p on g.attr_id=p.id where g.product_id = '$gid' and group_id='$groupid'";
-            $r_size = $db->select($sql_size);
-            $skuBeanList = [];
-            $attrList = [];
-            if ($r_size) {
-
-                $attrList = [];
-                $a = 0;
-                $attr = [];
-                foreach ($r_size as $key => $value) {
-                    $array_price[$key] = $value->price;
-                    $array_yprice[$key] = $value->yprice;
-                    $attribute = unserialize($value->attribute);
-                    $attnum = 0;
-                    $arrayName = [];
-                    foreach ($attribute as $k => $v) {
-                        if(!in_array($k, $arrayName)){
-                            array_push($arrayName, $k);
-                            $kkk = $attnum++;
-                            $attrList[$kkk] = array('attrName' => $k,'attrType' => '1','id' => md5($k),'attr' => [],'all'=>[]);
-                        }
-                    }
+       if(isset($man_num[0])){
+               $res -> productnum = $man_num[0] -> productnum;
+               $res -> groupmember = $groupmember;
+               $sumsql = "select count(m.sNo) as sum from (select o.sNo from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where d.p_id='$res->ptgoods_id') as m";
+               $sumres = $db -> select($sumsql);
+               
+               if(!empty($sumres)) $res -> sum = $sumres[0] -> sum;
+                switch ($res -> ptstatus) {
+                    case 1:
+                        $res -> groupStatus = '拼团中';
+                        break;
+                    case 2:
+                        $res -> groupStatus = '拼团成功';
+                        break;
+                    case 3:
+                        $res -> groupStatus = '拼团失败';
+                        break;
+                    default:
+                        $res -> groupStatus = '未付歀';
+                        break;
                 }
+                
+                $res -> leftTime = strtotime($res -> endtime) - time();    
+                
+                    $sql_size = "select g.attr_id,g.product_id,g.group_price as price,g.member_price,p.attribute,p.num,p.img,p.yprice,p.id from lkt_group_product as g left join lkt_configure as p on g.attr_id=p.id where g.product_id = '$gid' and group_id='$groupid'";
+                    $r_size = $db->select($sql_size);
+                    $skuBeanList = [];
+                    $attrList = [];
+                    if ($r_size) {
 
-
-                foreach ($r_size as $key => $value) {
-                    $attribute = unserialize($value->attribute);
-                    $attributes = [];
-                    $name = '';
-                    foreach ($attribute as $k => $v) {
-                       $attributes[] = array('attributeId' => md5($k), 'attributeValId' => md5($v));
-                       $name .= $v;
-                    }
-
-                    $cimgurl = $img.$value->img;
-
-                    $skuBeanList[$key] = array('name' => $name,'imgurl' => $cimgurl,'cid' => $value->id,'price' => $value->price,'count' => $value->num,'attributes' => $attributes);
-                    
-
-                    for ($i=0; $i < count($attrList); $i++) {
-                        $attr = $attrList[$i]['attr'];
-                        $all = $attrList[$i]['all'];
-                        foreach ($attribute as $k => $v) {
-                            if($attrList[$i]['attrName'] == $k){
-                                $attr_array = array('attributeId' => md5($k), 'id' =>md5($v), 'attributeValue' => $v, 'enable' => false, 'select' => false);
-
-                                if(empty($attr)){
-                                    array_push($attr, $attr_array);
-                                    array_push($all, $v);
-                                }else{
-                                    if(!in_array($v, $all)){
-                                        array_push($attr, $attr_array);
-                                        array_push($all, $v);
-                                    }
+                        $attrList = [];
+                        $a = 0;
+                        $attr = [];
+                        foreach ($r_size as $key => $value) {
+                            $array_price[$key] = $value->price;
+                            $array_yprice[$key] = $value->yprice;
+                            $attribute = unserialize($value->attribute);
+                            $attnum = 0;
+                            $arrayName = [];
+                            foreach ($attribute as $k => $v) {
+                                if(!in_array($k, $arrayName)){
+                                    array_push($arrayName, $k);
+                                    $kkk = $attnum++;
+                                    $attrList[$kkk] = array('attrName' => $k,'attrType' => '1','id' => md5($k),'attr' => [],'all'=>[]);
                                 }
-
                             }
                         }
-                        $attrList[$i]['all'] =$all;
-                        $attrList[$i]['attr'] =$attr;
+                        foreach ($r_size as $key => $value) {
+                            $attribute = unserialize($value->attribute);
+                            $attributes = [];
+                            $name = '';
+                            foreach ($attribute as $k => $v) {
+                               $attributes[] = array('attributeId' => md5($k), 'attributeValId' => md5($v));
+                               $name .= $v;
+                            }
+                            $cimgurl = $img.$value->img;
+                            $skuBeanList[$key] = array('name' => $name,'imgurl' => $cimgurl,'cid' => $value->id,'price' => $value->price,'count' => $value->num,'attributes' => $attributes);
+                            
+                            for ($i=0; $i < count($attrList); $i++) {
+                                $attr = $attrList[$i]['attr'];
+                                $all = $attrList[$i]['all'];
+                                foreach ($attribute as $k => $v) {
+                                    if($attrList[$i]['attrName'] == $k){
+                                        $attr_array = array('attributeId' => md5($k), 'id' =>md5($v), 'attributeValue' => $v, 'enable' => false, 'select' => false);
+                                        if(empty($attr)){
+                                            array_push($attr, $attr_array);
+                                            array_push($all, $v);
+                                        }else{
+                                            if(!in_array($v, $all)){
+                                                array_push($attr, $attr_array);
+                                                array_push($all, $v);
+                                            }
+                                        }
+                                    }
+                                }
+                                $attrList[$i]['all'] =$all;
+                                $attrList[$i]['attr'] =$attr;
+                            }
+                        }
+
                     }
-                    
-                }
 
-            }
+                $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
+                $plugopen = $db -> select($plugsql);
+                $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
+                
+                echo json_encode(array('groupmsg' => $res,'groupMember' => $groupmember,'skuBeanList' => $skuBeanList,'attrList' => $attrList,'isplug' => $plugopen));exit;
+        }else{
+           echo json_encode(array('groupmsg' => 0,'groupMember' => 0,'skuBeanList' => 0,'attrList' => 0,'isplug' => 0));exit; 
+        }
 
-        $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
-        $plugopen = $db -> select($plugsql);
-        $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
-        
-        echo json_encode(array('groupmsg' => $res,'groupMember' => $groupmember,'skuBeanList' => $skuBeanList,'attrList' => $attrList,'isplug' => $plugopen));exit;
 
     } 
     
     public function can_order(){
         $db = DBAction::getInstance();
+        $db->begin();
         $request = $this->getContext()->getRequest();
         $uid = addslashes(trim($request->getParameter('uid')));
         $form_id = addslashes(trim($request->getParameter('fromid')));
@@ -790,7 +829,7 @@ class groupbuyAction extends Action {
         $pro_id = intval(trim($request->getParameter('pro_id')));
         $sizeid = intval(trim($request->getParameter('sizeid')));
         $groupid = addslashes(trim($request->getParameter('groupid')));
-        $man_num = intval(trim($request->getParameter('man_mun')));
+        $man_num = intval(trim($request->getParameter('man_num')));
         $pro_name = addslashes(trim($request->getParameter('ptgoods_name')));
         $price = (float)(trim($request->getParameter('price')));
         $y_price = (float)(trim($request->getParameter('d_price')));
@@ -825,30 +864,69 @@ class groupbuyAction extends Action {
         if(($ptnumber+1) < $man_num){
             
             $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no')";
-            $res2 = $db -> insert($istsql2);    
+            $res2 = $db -> insert($istsql2);   
+            if($res2 < 1){
+                $db->rollback();
+                echo json_encode(array('code' => 3,'sql'=>$istsql2));exit;
+            }
+
             $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";   
             $res3 = $db -> insert($istsql3);
+            if($res3 < 1){
+                $db->rollback();
+                echo json_encode(array('code' => 3,'sql'=>$istsql3));exit;
+            }
+
             $updsql = "update lkt_group_open set ptnumber=ptnumber+1 where group_id='$groupid' and ptcode='$oid'";
             $updres = $db -> update($updsql);
-            if($res2 > 0 && $res3>0){
-            	$idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
+            if($updres < 1){
+                $db->rollback();
+                echo json_encode(array('code' => 3,'sql'=>$updsql));exit;
+            }
+
+            $db->commit();
+            $idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
                 if(!empty($idres)) $idres = $idres[0] -> id;
               echo json_encode(array('order' => $ordernum,'gcode' => $oid,'group_num' => $oid,'ptnumber' => $ptnumber, 'id' => $idres,'endtime' => $endtime,'code' => 1));exit;
-            }
+
+
         }else if(($ptnumber+1) === $man_num){
             $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no) values('$uid','$name','$tel',$buy_num,'$price','$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no')";
-            $res2 = $db -> insert($istsql2);    
+            $res2 = $db -> insert($istsql2);   
+
+            if($res2 < 1){
+                $db->rollback();
+                echo json_encode(array('code' => 3,'sql'=>$istsql2));exit;
+            }
+
             $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";
             $res3 = $db -> insert($istsql3);
+            if($res3 < 1){
+                $db->rollback();
+                echo json_encode(array('code' => 3,'sql'=>$istsql3));exit;
+            }
+
             $updsql = "update lkt_group_open set ptnumber=ptnumber+1,ptstatus=2 where group_id='$groupid' and ptcode='$oid'";
             $updres = $db -> update($updsql);
-            $db -> update("update lkt_order set ptstatus=2,status=1 where pid='$groupid' and ptcode='$oid'");
-
+            
+            if($updres < 1){
+                $db->rollback();
+                echo json_encode(array('code' => 3,'sql'=>$updsql));exit;
+            }
+            $updres = $db -> update("update lkt_order set ptstatus=2,status=1 where pid='$groupid' and ptcode='$oid'");
+            if($updres < 1){
+                $db->rollback();
+                echo json_encode(array('code' => 3,'sql'=>"update lkt_order set ptstatus=2,status=1 where pid='$groupid' and ptcode='$oid'"));exit;
+            }
             $selmsg = "select m.*,d.p_name,d.p_price,d.num,d.sid from (select o.id,o.user_id,o.ptcode,o.sNo,o.z_price,u.wx_id as uid from lkt_order as o left join lkt_user as u on o.user_id=u.user_id where o.pid='$groupid' and o.ptcode='$oid') as m left join lkt_order_details as d on m.sNo=d.r_sNo";
             $msgres = $db -> select($selmsg);
             
             foreach ($msgres as $k => $v) {
-                $db -> update("update lkt_configure set num=num-$v->num where id=$v->sid");
+                $updres = $db -> update("update lkt_configure set num=num-$v->num where id=$v->sid");
+                if($updres < 1){
+                    $db->rollback();
+                    echo json_encode(array('code' => 3,'sql'=>"update lkt_configure set num=num-$v->num where id=$v->sid"));exit;
+                }
                 $fromidsql = "select fromid,open_id from lkt_user_fromid where open_id='$v->uid' and id=(select max(id) from lkt_user_fromid where open_id='$v->uid')";
                 $fromidres = $db -> select($fromidsql);                           
                 foreach ($fromidres as $ke => $val) {
@@ -863,19 +941,36 @@ class groupbuyAction extends Action {
                 $template_id = $r[0]->group_success;
    
               $this -> Send_success($msgres,date('Y-m-d H:i:s',time()),$template_id,$pro_name);
+              $db->commit();
               echo json_encode(array('order' => $msgres,'gcode' => $oid,'code' => 2));exit;
             }
          }else if($ptnumber == $man_num){
-              $db -> update("update lkt_user set money=money+$price where user_id='$uid'");
-              echo json_encode(array('code' => 3));exit;
+                $updres = $db -> update("update lkt_user set money=money+$price where user_id='$uid'");
+                if($updres < 1){
+                    $db->rollback();
+                    echo json_encode(array('code' => 3,'sql'=>"update lkt_user set money=money+$price where user_id='$uid'"));exit;
+                }
+                $db->commit();
+                echo json_encode(array('code' => 3));exit;
+         }else{
+
          }
+
+
         }else{
-        	$db -> update("update lkt_user set money=money+$price where user_id='$uid'");
+        	$updres = $db -> update("update lkt_user set money=money+$price where user_id='$uid'");
+            if($updres < 1){
+                $db->rollback();
+                echo json_encode(array('code' => 3,'sql'=>"update lkt_user set money=money+$price where user_id='$uid'"));exit;
+            }
+            $db->commit();
             echo json_encode(array('code' => 4));exit;
         }
         
        
     }
+
+    
 
     public function isgrouppacked(){
     	$db = DBAction::getInstance();
@@ -884,8 +979,12 @@ class groupbuyAction extends Action {
         $selsql = "select ptnumber from lkt_group_open where ptcode='$oid'";
         
         $selres = $db -> select($selsql);
-        $hasnum = $selres[0] -> ptnumber;
-        echo json_encode(array('hasnum' => $hasnum));exit;
+        if($selres){
+            $hasnum = $selres[0] -> ptnumber;
+            echo json_encode(array('hasnum' => $hasnum));exit;
+        }else{
+            echo json_encode(array('hasnum' => 0));exit;
+        }
 
     } 
 
@@ -1522,8 +1621,73 @@ class groupbuyAction extends Action {
 
     public function getRequestMethods(){
         return Request :: POST;
-		// return Request :: GET;
     }
+
+    //临时存放微信付款信息
+    public function up_out_trade_no(){
+        $db = DBAction::getInstance();
+        $request = $this -> getContext() -> getRequest();
+        $pagefrom = trim($request->getParameter('pagefrom'));
+        $uid = addslashes(trim($request->getParameter('uid')));
+        $oid = addslashes(trim($request->getParameter('oid')));
+        $form_id = addslashes(trim($request->getParameter('fromid')));
+        $pro_id = intval(trim($request->getParameter('pro_id')));
+        $man_num =  intval(trim($request->getParameter('man_num')));
+        $sizeid = intval(trim($request->getParameter('sizeid')));
+        $groupid = addslashes(trim($request->getParameter('groupid')));
+        $pro_name = addslashes(trim($request->getParameter('ptgoods_name')));
+        $price = (float)(trim($request->getParameter('price')));
+        $y_price = (float)(trim($request->getParameter('d_price')));
+        $name = addslashes(trim($request->getParameter('name')));
+        $sheng = intval(trim($request->getParameter('sheng')));
+        $shi = intval(trim($request->getParameter('shi')));
+        $quyu = intval(trim($request->getParameter('quyu')));
+        $address = addslashes(trim($request->getParameter('address')));
+        $tel = addslashes(trim($request->getParameter('tel')));
+        $lack = intval(trim($request->getParameter('lack')));
+        $buy_num = intval(trim($request->getParameter('num')));
+        $paytype = addslashes(trim($request->getParameter('paytype')));
+        $trade_no = addslashes(trim($request->getParameter('trade_no')));
+        $status = intval(trim($request->getParameter('status')));
+        $time_over = addslashes(trim($request->getParameter('time_over')));
+        $ordstatus = $status == 1?9:0;
+
+        if($pagefrom == 'kaituan'){
+            $array = array('uid' => $uid,'form_id' => $form_id,'oid' => $oid,'pro_id' => $pro_id,'sizeid' => $sizeid,'groupid' => $groupid,'man_num' => $man_num,'pro_name' => $pro_name,'price' => $price,'y_price' => $y_price,'name' => $name,'sheng' => $sheng,'shi' => $shi,'quyu' => $quyu,'address' => $address,'tel' => $tel,'lack' => $lack,'buy_num' => $buy_num,'paytype' => $paytype,'trade_no' => $trade_no,'status' => $status,'ordstatus' => $ordstatus,'time_over'=>$time_over,'pagefrom'=>$pagefrom);
+        }else{
+            $array = array('uid' => $uid,'form_id' => $form_id,'oid' => $oid,'pro_id' => $pro_id,'sizeid' => $sizeid,'groupid' => $groupid,'man_num' => $man_num,'pro_name' => $pro_name,'price' => $price,'y_price' => $y_price,'name' => $name,'sheng' => $sheng,'shi' => $shi,'quyu' => $quyu,'address' => $address,'tel' => $tel,'lack' => $lack,'buy_num' => $buy_num,'paytype' => $paytype,'trade_no' => $trade_no,'status' => $status,'ordstatus' => $ordstatus,'pagefrom'=>$pagefrom);
+        }
+
+
+        $data = serialize($array);
+
+        $sql = "insert into lkt_order_data(trade_no,data,addtime) values('$trade_no','$data',CURRENT_TIMESTAMP)";
+        $rid = $db->insert($sql);
+
+        $yesterday= date("Y-m-d",strtotime("-1 day"));
+        $sql = "delete from lkt_order_data where addtime < '$yesterday'";
+        $db->delete($sql);
+
+        echo json_encode(array('data'=>$array));
+        exit();
+    }
+
+    public function verification()
+    {
+        $db = DBAction::getInstance();
+        $request = $this -> getContext() -> getRequest();
+        $trade_no = addslashes(trim($request->getParameter('trade_no')));
+        $gmsg = $db -> select("select id,sNo,ptcode from lkt_order where trade_no='$trade_no'");
+
+        if($gmsg){
+            echo json_encode(array('status'=>1,'data'=>$gmsg[0]));
+            exit();
+        }else{
+            echo json_encode(array('status'=>0));
+            exit();
+        }
+    }
+
 
 }
 

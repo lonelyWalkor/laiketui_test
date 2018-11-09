@@ -18,24 +18,44 @@
 <script language="javascript"  src="style\js\jquery-3.1.1.min.js"> </script>
 
 <title>添加抽奖活动</title>
+{literal}
+<style type="text/css">
+	input{
+		padding: 5px;
+		height: 30px!important;
+		box-sizing: border-box;
+		width: 500px!important;
+		border: 1px solid #eee!important;
+	}
+	.form-label{
+		padding-right: 10px;
+	}
+	.form-horizontal .form-label{
+		padding-right: 10px;
+	}
+	.row .form-label{
+		width: 20%!important;
+	}
+</style>
+{/literal}
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 插件管理 <span class="c-gray en">&gt;</span> 抽奖活动 <span class="c-gray en">&gt;</span> 添加新的抽奖活动 </a></nav>
-<div class="pd-20">
+<div class="pd-20" style="background-color: #fff;margin: 10px;margin-top: 0px;">
     <form name="form1" class="form form-horizontal" method="post" onsubmit="return check(this);">
         <input type="hidden" name="per_money" value="0">
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>活动名称：</label>
             <div class="formControls col-4">
-                <input type="text" class="input-text" name="huodongname" datatype="*6-18" style="width: 260px;height:40px;">
+                <input type="text" class="input-text" name="huodongname" datatype="*6-18" >
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>商品名称：</label>
-        <form name="hh" action="" method="post">
+        <!--<form name="hh" action="" method="post">-->
 <!--		    <span class="search">-->
-			    <input class="ww" id="makeInput" autocomplete="off" onkeyup="setContent(this,event);" onfocus="setDemo(this,event)" type="text" placeholder="请选择或输入" style="width: 258px;height:40px;">
+			    <input class="ww" id="makeInput" autocomplete="off" onkeyup="setContent(this,event);" onfocus="setDemo(this,event)" type="text" placeholder="请选择或输入">
 			    <select name="shangpin" class="selectName" id="hh" style="display: none;" onkeyup="getfocus(this,event)" onclick="choose(this)" size="10" id ="num1">
 				  	{if $res == 1}
 				     <option value="">还没有商品，请添加商品</option>
@@ -48,55 +68,55 @@
 			    </select>  
 			    
 <!--			</span>-->
-		</form>
+		<!--</form>-->
  
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>活动开始时间：</label>
             <div class="layui-inline formControls col-4">
-			  <input type="text" class="layui-input" id="test1" readonly="readonly"  name="start_time" style="width: 260px;height:40px;">
+			  <input type="text" class="layui-input" id="test1" readonly="readonly"  name="start_time">
 			</div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>活动结束时间：</label>
             <div class="layui-inline formControls col-4">
-			  <input type="text" class="layui-input" id="test2" readonly="readonly"  name="end_time" style="width: 260px;height:40px;">
+			  <input type="text" class="layui-input" id="test2" readonly="readonly"  name="end_time">
 			</div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>每团所需人数：</label>
             <div class="formControls col-4">
-                <input type="number" class="input-text" name="num" datatype="*6-18" style="width: 260px;height:40px;">
+                <input type="number" class="input-text" name="num" datatype="*6-18">
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>最少开团数：</label>
             <div class="formControls col-4">
-                <input type="number" class="input-text" name="collage_number" value="" datatype="*6-18" style="width: 260px;height:40px;">
+                <input type="number" class="input-text" name="collage_number" value="" datatype="*6-18">
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>用户最多参与次数：</label>
             <div class="formControls col-4">
-                <input type="number" class="input-text" name="cishu" datatype="*6-18" style="width: 260px;height:40px;">
+                <input type="number" class="input-text" name="cishu" datatype="*6-18">
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="price"></span>抽奖所需金额：</label>
             <div class="formControls col-4">
-                <input type="number" class="input-text" name="price" value="" datatype="*6-18" style="width: 260px;height:40px;">
+                <input type="number" class="input-text" name="price" value="" datatype="*6-18">
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>中奖次数：</label>
             <div class="formControls col-4">
-                <input type="number" class="input-text" name="spelling_number" datatype="*6-18" style="width: 260px;height:40px;">
+                <input type="number" class="input-text" name="spelling_number" datatype="*6-18">
            <!--     <span style="color: red;">*  </span><span>中奖次数：</span> -->
             </div>
             <div class="col-4"> </div>
@@ -104,14 +124,14 @@
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>备注：</label>
             <div class="formControls col-4">
-                <input type="text" class="input-text" name="type1" datatype="*6-18" style="width: 260px;height:40px;">
+                <input type="text" class="input-text" name="type1" datatype="*6-18">
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
-            <div class="col-8 col-offset-4">
-                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius Submit">
-                <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius">
+            <div class="col-offset-1">
+                <input type="submit" style="width: 100px!important;" name="Submit" value="提 交" class="btn btn-primary radius Submit">
+                <input type="reset" style="width: 100px!important;" name="reset" value="重 写"  class="btn btn-primary radius">
             </div>
         </div>
     </form>

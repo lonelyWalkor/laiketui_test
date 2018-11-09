@@ -13,23 +13,36 @@
 <link href="style/css/style.css" rel="stylesheet" type="text/css" />
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
-<title>产品品牌管理</title>
+<title>商品品牌</title>
+{literal}
+    <style type="text/css">
+        td a{
+            width: 29%;
+            float: left;
+            margin: 2%!important;
+        }
+    </style>
+{/literal}
+
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品品牌管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 商品品牌 </nav>
 <div class="pd-20">
     <div style="clear:both;">
-        <input type="button" class="btn btn-primary radius" value="添加新品牌" onclick="location.href='index.php?module=brand_class&action=add';" />
+        <button  class="btn newBtn radius" onclick="location.href='index.php?module=brand_class&action=add';">
+        	<img src="images/icon1/add.png" alt="" />新增分类
+        </button>
     </div>
     <div class="mt-20">
-        <table class="table table-border table-bordered table-bg table-hover table-sort">
+        <table class="table table-border table-bordered table-bg table-hover">
             <thead>
                 <tr class="text-c">
                     <th>ID</th>
                     <th>品牌图片</th>
                     <th>品牌名称</th>
                     <th>添加时间</th>
-                    <th>操作</th>
+                    <th>状态</th>
+                    <th style="width: 180px;">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,12 +52,43 @@
                     <td>{if $item->brand_pic != ''}<image class='pimg' src="{$uploadImg}{$item->brand_pic}" style="width: 50px;height:50px;"/>{else}<span>暂无图片</span>{/if}</td>
                     <td>{$item->brand_name}</td>
                     <td>{$item->brand_time}</td>
+                    <td>{if $item->status == 0}启用{else}禁用{/if}</td>
                     <td>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=brand_class&action=modify&cid={$item->brand_id}&uploadImg={$uploadImg}" title="修改" ><i class="Hui-iconfont">&#xe6df;</i></a>
+                        {if $item->status == 1}
+                            <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="confirm1('确定要启用此商品品牌吗?',{$item->brand_id},'启用')" title="启用" >
+                            	<div style="align-items: center;font-size: 12px;display: flex;">
+	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+	                                <img src="images/icon1/qy.png"/>&nbsp;启用
+	                            	</div>
+	                            </div>
+                            </a>
+                        {elseif $item->status == 0}
+                            <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="confirm1('确定要禁用此商品品牌吗?',{$item->brand_id},'禁用')" title="禁用" >
+                            	<div style="align-items: center;font-size: 12px;display: flex;">
+	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+	                                <img src="images/icon1/jy.png"/>&nbsp;禁用
+	                            	</div>
+	                            </div>
+                            </a>
+                        {/if}
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=brand_class&action=modify&cid={$item->brand_id}" title="修改" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/xg.png"/>&nbsp;修改
+                            	</div>
+                            </div>
+                        </a>
+
                         {if $item->tistrue=='1'}
                             <font class="ml-5" style="color:red;" title="已删除"><i class="Hui-iconfont">&#xe6e2;</i></font>
                         {else}
-                            <a style="text-decoration:none" class="ml-5" href="index.php?module=brand_class&action=del&cid={$item->brand_id}&uploadImg={$uploadImg}" onclick="return confirm('确定要删除此产品分类吗?')"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                            <a style="text-decoration:none" class="ml-5" href="javascript:void(0)" onclick="confirm('确定要删除此商品品牌吗?','{$item->brand_id}')">
+                            	<div style="align-items: center;font-size: 12px;display: flex;">
+	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+	                                <img src="images/icon1/del.png"/>&nbsp;删除
+	                            	</div>
+	                            </div>
+                            </a>
                         {/if}
                     </td>
                 </tr>
@@ -53,6 +97,7 @@
             </tbody>
         </table>
     </div>
+    <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
  <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div> 
 <script type="text/javascript" src="style/js/jquery.js"></script>
@@ -67,11 +112,11 @@
 {literal}
 <script type="text/javascript">
 $(function(){  
-        $(".pimg").click(function(){  
-            var _this = $(this);//将当前的pimg元素作为_this传入函数  
-            imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);  
-        });  
+    $(".pimg").click(function(){
+        var _this = $(this);//将当前的pimg元素作为_this传入函数
+        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
     });
+});
 function imgShow(outerdiv, innerdiv, bigimg, _this){  
     var src = _this.attr("src");//获取当前点击的pimg元素中的src属性  
     $(bigimg).attr("src", src);//设置#bigimg元素的src属性  
@@ -110,14 +155,106 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         $(this).fadeOut("fast");  
     });  
 }
-$('.table-sort').dataTable({
-    "aaSorting": [[ 1, "desc" ]],//默认第几个排序
-    "bStateSave": true,//状态保存
-    "aoColumnDefs": [
-      //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-      {"orderable":false,"aTargets":[0,4]}// 制定列不参与排序
-    ]
-});
+
+function appendMask(content,src){
+	$("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">提示</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" onclick=closeMask1() >确认</button>
+                </div>
+            </div>
+        </div>
+    `)
+}
+function closeMask(id){
+	$(".maskNew").remove();
+    $.ajax({
+    	type:"post",
+    	url:"index.php?module=brand_class&action=del&cid="+id,
+    	async:true,
+    	success:function(res){
+    		if(res==1){
+    			appendMask("删除成功","cg");
+            }else if(res==2){
+    			appendMask("该品牌正在使用，不允删除","ts");
+            }else{
+                appendMask("删除失败","ts");
+            }
+    	}
+    });
+}
+function closeMask1(){
+	$(".maskNew").remove();
+    location.replace(location.href);
+}
+function confirm (content,id){
+	$("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">提示</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" style="margin-right:20px" onclick=closeMask("${id}") >确认</button>
+                    <button class="closeMask" onclick=closeMask1() >取消</button>
+                </div>
+            </div>
+        </div>
+    `)
+}
+function confirm1 (content,id,content1){
+    $("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">提示</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" style="margin-right:20px" onclick=closeMask2("${id}","${content1}") >确认</button>
+                    <button class="closeMask" onclick=closeMask1() >取消</button>
+                </div>
+            </div>
+        </div>
+    `)
+}
+function closeMask2(id,content){
+    $(".maskNew").remove();
+    $.ajax({
+        type:"post",
+        url:"index.php?module=brand_class&action=status&id="+id,
+        async:true,
+        success:function(res){
+            if(content=="启用"){
+                if(res==1){
+                    appendMask("启用成功","cg");
+                }else{
+                    appendMask("启用失败","ts");
+                }
+            }else{
+                if(res==1){
+                    appendMask("禁用成功","cg");
+                }else if(res==2){
+                    appendMask("该品牌正在使用，不允禁用","ts");
+                }else{
+                    appendMask("禁用失败","ts");
+                }
+            }
+        }
+    });
+}
 </script>
 {/literal}
 </body>

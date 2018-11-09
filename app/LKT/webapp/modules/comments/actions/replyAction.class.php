@@ -61,10 +61,9 @@ class replyAction extends Action {
 
 
 	public function execute(){
-
 	   $db = DBAction::getInstance();
-
 	   $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
 
 	   $id = addslashes(trim($request->getParameter('id')));
 
@@ -73,6 +72,7 @@ class replyAction extends Action {
 	   $sql = "INSERT INTO lkt_reply_comments (`cid`, `uid`, `content`, `add_time`) VALUES ('$id', 'admin', '$comment_input', CURRENT_TIMESTAMP) ";
 
 	   $up = $db -> insert($sql);
+        $db->admin_record($admin_id,' 回复评论id为 '.$id.' 的信息',8);
 
 	   echo $up;
 

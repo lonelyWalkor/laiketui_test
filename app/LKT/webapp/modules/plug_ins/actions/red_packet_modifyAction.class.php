@@ -32,6 +32,8 @@ class red_packet_modifyAction extends Action {
     public function execute() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         $id = $request->getParameter('id');
         $data['name'] = $request->getParameter('name');//活动名称
         $data['bizhi'] = $request->getParameter('bizhi');//红包金额与数量比值
@@ -123,14 +125,14 @@ class red_packet_modifyAction extends Action {
                 return $this->getDefaultView();
         }
         $info=serialize($data);
-// print_r($info);die;
         if(!empty($id)){
 
             $sql = "update lkt_red_packet_config set sets = '$info' where id='$id'" ;
-              // print_r($sql);die;
                 $r = $db->update($sql);
 
             if($r>0){
+                $db->admin_record($admin_id,' 修改拆红包参数 ',2);
+
                 header('Content-type: text/html;charset=utf-8');
                 echo "<script type='text/javascript'>" .
                     "alert('修改成功！');" . 
@@ -138,12 +140,12 @@ class red_packet_modifyAction extends Action {
                 return $this->getDefaultView();
             }
         }else{
-            // print_r(2);die;
             $sql = "insert into lkt_red_packet_config (sets) values ('$info')" ;
-            // print_r($sql);die;
             $r = $db->insert($sql);
 
             if($r>0){
+                $db->admin_record($admin_id,' 添加拆红包参数 ',1);
+
                 header('Content-type: text/html;charset=utf-8');
                 echo "<script type='text/javascript'>" .
                     "alert('添加成功！');" . 

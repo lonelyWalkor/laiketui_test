@@ -58,10 +58,38 @@ class IndexAction extends Action {
       }
       if($sNo !== false) $condition .= ' and a.r_sNo like "%'.$sNo.'%" ';
 
-      $sql1 = 'select a.id as odid,a.r_sNo,a.p_price,a.p_name,a.r_status,c.* from lkt_order_details AS a LEFT JOIN lkt_comments AS c ON a.r_sNo = c.oid '.$condition.' and a.r_status = 5 AND a.sid = c.attribute_id order by c.add_time desc ';
+      $sql1 = 'select a.id as odid,a.r_sNo,a.p_price,a.p_name,a.r_status,c.*,o.otype from lkt_order_details AS a LEFT JOIN lkt_comments AS c ON a.r_sNo = c.oid LEFT JOIN lkt_order as o on a.r_sNo = o.sNo'.$condition.' and a.r_status = 5 AND a.sid = c.attribute_id order by c.add_time desc ';
 
       $res1 = $db -> select($sql1);
-      
+      if($res1){
+
+
+        foreach ($res1 as $k=>$v){
+            if(!$v->anonymous || $v->anonymous == ''){
+                $v->anonymous = '匿名';
+            }
+        }
+        if($res1[0]->id){
+          foreach ($res1 as $k01 => $v01) {
+            if($v01->CommentType ==5){
+              $res1[$k01]->CommentType1 ='GOOD';
+            }elseif ($v01->CommentType ==4) {
+              $res1[$k01]->CommentType1 ='GOOD';
+            }elseif ($v01->CommentType ==3) {
+              $res1[$k01]->CommentType1 ='NOTBAD';
+            }elseif ($v01->CommentType ==2) {
+              $res1[$k01]->CommentType1 ='BAD';
+            }elseif ($v01->CommentType ==1) {
+              $res1[$k01]->CommentType1 ='BAD';
+            }elseif ($v01->CommentType =='GOOD') {
+              $res1[$k01]->CommentType1 ='GOOD';
+            }elseif ($v01->CommentType =='NOTBAD') {
+             $res1[$k01]->CommentType1 ='NOTBAD';
+            }else{
+              $res1[$k01]->CommentType1 ='BAD';
+            }
+          }
+        }
       $total = count($res1);
       $pager = new ShowPager($total,$pagesize,$page);
       $offset = $pager->offset;
@@ -69,18 +97,18 @@ class IndexAction extends Action {
         $sql1 .= " limit $offset,$pagesize";
         $res1 = $db -> select($sql1);
       }
-
+      
       $request->setAttribute("startdate",$startdate);
       $request->setAttribute("enddate",$enddate);
       $request -> setAttribute("ordtype",$ordtype);
-
       $request -> setAttribute("order",$res1);
       $request -> setAttribute("sNo",$sNo);
       $request -> setAttribute("otype",$otype);
       $request -> setAttribute("status",$status);
       $request -> setAttribute("ostatus",$ostatus);
       $request->setAttribute('pageto',$pageto);
-      
+
+      }
       return View :: INPUT;
     }
 

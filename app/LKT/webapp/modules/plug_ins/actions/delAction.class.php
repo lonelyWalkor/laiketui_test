@@ -6,6 +6,8 @@ class delAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         // 接收信息
         $id = intval($request->getParameter('id')); // 插件id
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片路径
@@ -19,7 +21,10 @@ class delAction extends Action {
         @unlink ($uploadImg.$subtitle_image);
         // 根据轮播图id，删除轮播图信息
         $sql = "delete from lkt_plug_ins where id = '$id'";
-        $db->delete($sql);
+        $res = $db->delete($sql);
+
+        $db->admin_record($admin_id,' 删除插件id为 '.$id.' 的信息',3);
+		echo $res;exit;
         header("Content-type:text/html;charset=utf-8");
         echo "<script type='text/javascript'>" .
             "alert('删除成功！');" .

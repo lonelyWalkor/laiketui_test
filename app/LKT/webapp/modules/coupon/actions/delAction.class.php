@@ -14,16 +14,18 @@ class delAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         // 接收信息
         $id = intval($request->getParameter('id')); // 活动id
 
         // 根据产品id，删除产品信息
-        $sql = "delete from lkt_coupon_activity where id = '$id'";
-        $db->delete($sql);
-        header("Content-type:text/html;charset=utf-8");
-        echo "<script type='text/javascript'>" .
-            "alert('删除成功！');" .
-            "location.href='index.php?module=coupon';</script>";
+        $sql = "update lkt_coupon_activity set recycle = 1 where id = '$id' ";
+        $db->update($sql);
+
+        $db->admin_record($admin_id,' 删除商品id为 '.$id.' 的信息',3);
+
+        echo 1;
         return;
     }
 

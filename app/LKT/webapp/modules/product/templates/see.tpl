@@ -15,17 +15,21 @@
 <title>产品分类管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品列表管理 <span class="c-gray en">&gt;</span> 产品属性 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="history.go(-1);" title="关闭"><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品列表管理 <span class="c-gray en">&gt;</span> 产品属性 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="index.php?module=product&action={$url}" title="关闭"><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <h1 style="text-align: center;">{$product_title}</h1>
     </div>
     <div class="mt-20">
-        <table class="table table-border table-bordered table-bg table-hover table-sort">
+        <table class="table table-border table-bordered table-bg table-hover">
             <thead>
                 <tr class="text-c">
                     {foreach from=$attribute_key item=item name=f1}
-                        <th>{$item}</th>
+                        {if $smarty.foreach.f1.first}
+                            <input type="hidden" >
+                        {else}
+                            <th style='text-align: center;'>{$item}</th>
+                        {/if}
                     {/foreach}
                 </tr>
             </thead>
@@ -35,16 +39,13 @@
                     {foreach from=$item1 item=item2 name=f3 key=k3}
                         {if $smarty.foreach.f3.last}
                             <td style="text-align: center;">
-                                <image src='{$item2}' style='height:50px;width:50;' />
+                                <image src='{$uploadImg}{$item2}' style='height:50px;width:50px;' />
                             </td>
                         {else}
-
-                            {if $k3 == '数量'}
-                                <td style="width: 100px;">
-                                    <input type="number" class="input-text" name="num" id="num_{$k}" value="{$item2}" readOnly="readOnly" style="background-color: #eeeeee;" ondblclick="double({$k})" onblur="leave({$id},{$k},'{$product_title}');">
-                                </td>
+                            {if $smarty.foreach.f3.first}
+                                <input type="hidden" name="rid" id="rid_{$k+1}" value="{$item2}">
                             {else}
-                                <td>{$item2}</td>
+                                <td style="text-align: center;">{$item2}</td>
                             {/if}
                         {/if}
                     {/foreach}
@@ -64,41 +65,5 @@
 <script type="text/javascript" src="style/js/H-ui.js"></script> 
 <script type="text/javascript" src="style/js/H-ui.admin.js"></script>
 
-{literal}
-<script type="text/javascript">
-$('.table-sort').dataTable({
-    "aaSorting": [[ 1, "desc" ]],//默认第几个排序
-    "bStateSave": true,//状态保存
-    "aoColumnDefs": [
-      //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-      {"orderable":false,"aTargets":[0,3]}// 制定列不参与排序
-    ]
-});
-var ynum = 0;
-function double(attribute_id) {
-    ynum = $('#num_'+attribute_id).val();
-    $('#num_'+attribute_id).attr('readOnly',false);
-    document.getElementById('num_'+attribute_id).style.backgroundColor="#ffffff";
-}
-function leave(id,attribute_id,product_title) {
-    var num = $('#num_'+attribute_id).val();
-    $.ajax({
-        type: 'POST',
-        url: 'index.php?module=product&action=see',
-        data: 'id='+id+'&attribute_id='+attribute_id+'&num='+num,
-        success: function (res) {//此方法起到监视作用
-            if(res == 1){
-                alert('修改产品数量成功');
-            }else{
-                alert('修改产品数量失败');
-                $('#num_'+attribute_id).val(ynum);
-            }
-            $('#num_'+attribute_id).attr('readOnly',true);
-            document.getElementById('num_'+attribute_id).style.backgroundColor="#eeeeee";
-        }
-    });
-}
-</script>
-{/literal}
 </body>
 </html>

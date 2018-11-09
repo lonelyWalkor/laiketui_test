@@ -38,24 +38,21 @@ class DetailAction extends Action {
 
 
 
-      $sql = 'select l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo where l.id="'.$id.'"';
+      $sql = 'select u.user_name,l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.coupon_id,l.reduce_price,l.coupon_price,l.allow,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size,d.freight from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo left join lkt_user as u on u.user_id=l.user_id  where l.id="'.$id.'"';
 
       $res = $db -> select($sql);
 
 
-
+        $num = count($res);
       $data = array();
+        $reduce_price = 0; // 满减金额
+        $coupon_price = 0; // 优惠券金额
+        $allow = 0; // 积分
 
       foreach ($res as $k => $v) { 
 
         $sid = $v -> sid;
-
-//      $guige = $db -> select("select name,color,size from lkt_configure where id=$sid");
-//
-//      $size = $guige[0] -> name.' , '.$guige[0] -> color.' , '.$guige[0] -> size;
-//
-//      $res[$k] -> size = $size;
-
+		$data['user_name'] = $v -> user_name; // 联系人
         $data['name'] = $v -> name; // 联系人
 
         $data['sNo'] = $v -> sNo; // 订单号
@@ -88,11 +85,15 @@ class DetailAction extends Action {
 
         $data['courier_num'] = $v -> courier_num; // 快递单号
 
-        $data['drawid'] = $v -> drawid; // 抽奖ID 
+          $data['drawid'] = $v -> drawid; // 抽奖ID
+          $reduce_price = $v -> reduce_price; // 满减金额
+          $coupon_price = $v -> coupon_price; // 优惠券金额
+          $allow = $v -> allow; // 积分
 
         $data['paytype'] = $v -> pay; // 支付方式
 
-        $data['trade_no'] = $v -> trade_no; // 微信支付交易号   
+          $data['trade_no'] = $v -> trade_no; // 微信支付交易号
+          $data['freight'] = $v -> freight; // 运费
 
         $data['id'] = $id;
 
@@ -232,7 +233,7 @@ class DetailAction extends Action {
 
       }else if($data['r_status'] == 2){
 
-        $data['r_status'] = '待收货';
+        $data['r_status'] = '已发货';
 
       }else if($data['r_status'] == 3){
 
@@ -249,6 +250,10 @@ class DetailAction extends Action {
       }else if($data['r_status'] == 6){
 
         $data['r_status'] = '订单关闭';
+
+      }else if($data['r_status'] == 12){
+
+        $data['r_status'] = '已完成';
 
       }
 
@@ -308,17 +313,39 @@ class DetailAction extends Action {
 
       $r02 =$db->select($sql02);
 
-      
+//佣金信息
+      $sqllud = "select a.*,b.user_name,b.headimgurl from lkt_distribution_record as a ,lkt_user as b  where a.sNo = ".$data['sNo']." and a.level >0  and a.user_id = b.user_id order by level asc";
+            $rlud = $db -> select($sqllud);
+            if(empty($rlud)){
+                    $request -> setAttribute("fenxiaoshang",1);
+            }else{
+                  foreach ($rlud as $keyl => $valuel) {
+                  $user_id = $valuel->user_id;
+                  $sqlludd = "select user_name,headimgurl from lkt_user where user_id = '$user_id' ";
+                  $rludd = $db -> select($sqlludd);
+                  
+                  $dd[$keyl]['level'] = $valuel->level;
+                  $dd[$keyl]['money'] = $valuel->money;
+                  $dd[$keyl]['user_name'] = $rludd[0]->user_name;
+                  $dd[$keyl]['headimgurl'] = $rludd[0]->headimgurl;
+                  $request -> setAttribute("fenxiaoshang",$dd);
+                }
+            }
 
-// print_r($data);die;
-
-      $request -> setAttribute("uploadImg",$uploadImg);
-
-      $request -> setAttribute("data",$data);
-
-      $request -> setAttribute("detail",$res);
-
-      $request -> setAttribute("express",$r02);
+          $reduce_price = 0; // 满减金额
+          $coupon_price = 0; // 优惠券金额
+          $allow = 0; // 积分
+          $sql02 = "select * from lkt_express ";
+          $r02 = $db -> select($sql02);
+          $request -> setAttribute("express", $r02);
+          $request -> setAttribute("uploadImg",$uploadImg);
+          $request -> setAttribute("data",$data);
+          $request -> setAttribute("detail",$res);
+          $request -> setAttribute("express",$r02);
+          $request -> setAttribute("reduce_price",$reduce_price);
+          $request -> setAttribute("coupon_price",$coupon_price);
+          $request -> setAttribute("allow",$allow);
+          $request -> setAttribute("num",$num);
 
       return View :: INPUT;
 

@@ -22,124 +22,77 @@
 {literal}
 <script type="text/javascript">
 function check(f){
-  if(Trim(f.color_name.value) == "" ){
+  if(Trim(f.name.value) == "" ){
     alert('管理员名称不能为空！');
     return false;
   }
-  if(Trim(f.color.value) == 0 ){
-    alert('管理员代码不能为空！');
-    return false;
+  if(Trim(f.y_password.value) != ""){
+      if(Trim(f.password.value).length < 6){
+          alert('请输入最少6位密码！');
+          return false;
+      }
+      if(f.password.value != f.password1.value){
+          alert('确认密码不正确！');
+          return false;
+      }
   }
 }
+$(document).ready(function(){
+    $("input").blur(function(){
+        var mobi = $('input[name="y_password"]').val();
+        if(mobi.length != 0){
+            document.getElementById('password').style.display = ""; // 显示
+            document.getElementById('password1').style.display = ""; // 显示
+        }else{
+            document.getElementById('password').style.display = "none"; // 不显示
+            document.getElementById('password1').style.display = "none"; // 不显示
+        }
+    });
+});
 
-function checkcheck(id){
-  var url = "index.php?module=member&action=ajax&id="+id;
-  ajax(url,function(text){
-    var array=eval(text);
-    for(var i=0;i<array.length;i++){
-      document.getElementById(array[i]).checked=true;
-    }
-  });
-}
 </script>
 {/literal}
-<title>修改管理员信息</title>
+<title>修改管理员</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 管理员管理 <span class="c-gray en">&gt;</span> 管理员列表 <span class="c-gray en">&gt;</span> 修改管理员信息 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=member';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe62d;</i> 管理员管理 <span class="c-gray en">&gt;</span> 管理员列表 <span class="c-gray en">&gt;</span> 修改管理员 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=member';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
   <form name="form1" action="index.php?module=member&action=modify" class="form form-horizontal" method="post" onsubmit="return check(this);"  enctype="multipart/form-data" >
     <input type="hidden" name="id" value="{$id}" />
     <div class="row cl">
-      <label class="form-label col-2"><span class="c-red"></span>管理员名称：</label>
+      <label class="form-label col-2"><span class="c-red">*</span>管理员名称：</label>
       <div class="formControls col-10">
-        <input type="text" class="input-text" name="name" value="{$name}" >
+        <input type="text" class="input-text" name="name" value="{$name}" readonly="readonly">
       </div>
     </div>
     <div class="row cl">
       <label class="form-label col-2"><span class="c-red"></span>密码：</label>
       <div class="formControls col-10">
-        <input type="password" class="input-text" value="{$password}" name="password">
+        <input type="password" class="input-text" value="" name="y_password" >
       </div>
     </div>
-
-    <div class="row cl">
-      <label class="form-label col-2">权限分配：</label>
-      <div class="formControls col-10">
-        <dl class="permission-list">
-          <dt>
-            <label>
-              <input type="checkbox" value="" name="user-Character-0" id="user-Character-0">
-              所有权限</label>
-          </dt>
-          <dd>
-            <dl class="cl permission-list2">
-              <dt>
-                <label class="">
-                  <input type="checkbox" value="" name="user-Character-0-0" id="user-Character-0-0">
-                  轮播图管理：</label>
-              </dt>
-              <dd>
-                <label class="">
-                  <input type="checkbox" value="banner" name="permission[]" id="banner">
-                  轮播图</label>
-              </dd>
-            </dl>
-            <dl class="cl permission-list2">
-              <dt>
-                <label class="">
-                  <input type="checkbox" value="" name="user-Character-0-1" id="user-Character-0-1">
-                  新闻管理：</label>
-              </dt>
-              <dd>
-                <label class="">
-                  <input type="checkbox" name="permission[]"  value="newsclass"  id='newsclass' /> 新闻分类管理
-                  <input type="checkbox" name="permission[]"  value="newslist" id='newslist' /> 新闻列表管理
-                </label>
-              </dd>
-            </dl>
-            <dl class="cl permission-list2">
-              <dt>
-                <label class="">
-                  <input type="checkbox" value="" name="user-Character-0-1" id="user-Character-0-1">
-                  文章管理：</label>
-              </dt>
-              <dd>
-                <label class="">
-                  <input type="checkbox" name="permission[]"  value="Article"  id='Article' /> 文章列表
-                </label>
-              </dd>
-            </dl>
-            <dl class="cl permission-list2">
-              <dt>
-                <label class="">
-                  <input type="checkbox" value="" name="user-Character-0-1" id="user-Character-0-1">
-                  用户管理：</label>
-              </dt>
-              <dd>
-                <label class="">
-                  <input type="checkbox" name="permission[]"  value="userlist" id='userlist' /> 用户列表管理
-                </label>
-              </dd>
-            </dl>
-            <dl class="cl permission-list2">
-              <dt>
-                <label class="">
-                  <input type="checkbox" value="" name="user-Character-0-1" id="user-Character-0-1">
-                  系统管理：</label>
-              </dt>
-              <dd>
-                <label class="">
-                  <input type="checkbox" name="permission[]"  value="system" id='system' /> 系统参数
-                  <input type="checkbox" name="permission[]"  value="bgcolor"  id='bgcolor' /> 前台背景颜色
-                  <input type="checkbox" name="permission[]"  value="member" id='member' /> 管理员列表
-                </label>
-              </dd>
-            </dl>
-          </dd>
-        </dl>
+    <div class="row cl" style="display:none;" id="password">
+      <label class="form-label col-2"><span class="c-red">*</span>新密码：</label>
+      <div class="formControls col-8">
+        <input type="password" class="input-text" value="" placeholder="" name="password" >
       </div>
     </div>
+    <div class="row cl" style="display:none;" id="password1">
+      <label class="form-label col-2"><span class="c-red">*</span>确认密码：</label>
+      <div class="formControls col-8">
+        <input type="password" class="input-text" value="" placeholder="" name="password1" >
+      </div>
+    </div>
+    {if $admin_type == ''}
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>角色：</label>
+        <div class="formControls col-xs-8 col-sm-4"> <span class="select-box" style="width:150px;">
+          <select class="select" name="role" size="1">
+            {$list}
+          </select>
+        </span> </div>
+      </div>
+    {/if}
     <div class="row cl">
       <div class="col-10 col-offset-5">
         <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
@@ -149,30 +102,28 @@ function checkcheck(id){
   </form>
     
 </div>
-<script>checkcheck('{$id}');</script>
 
 {literal}
 <script>
 $(function(){
-  $(".permission-list dt input:checkbox").click(function(){
-    $(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
-  });
-  $(".permission-list2 dd input:checkbox").click(function(){
-    var l =$(this).parent().parent().find("input:checked").length;
-    var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
-    if($(this).prop("checked")){
-      $(this).closest("dl").find("dt input:checkbox").prop("checked",true);
-      $(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
-    }
-    else{
-      if(l==0){
-        $(this).closest("dl").find("dt input:checkbox").prop("checked",false);
-      }
-      if(l2==0){
-        $(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
-      }
-    }
-  });
+    $(".permission-list dt input:checkbox").click(function(){
+        $(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+    });
+    $(".permission-list2 dd input:checkbox").click(function(){
+        var l =$(this).parent().parent().find("input:checked").length;
+        var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+        if($(this).prop("checked")){
+            $(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+            $(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
+        }else{
+            if(l==0){
+                $(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+            }
+            if(l2==0){
+                $(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
+            }
+        }
+    });
 });
 </script>
 {/literal}

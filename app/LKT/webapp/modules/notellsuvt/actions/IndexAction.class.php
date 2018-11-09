@@ -17,16 +17,10 @@ class IndexAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $sql = "select m.name,n.* from (select s.id,u.name from lkt_system_message as s left join lkt_admin as u on s.senderid=u.id) as m left join (select r.title,r.content,r.time,r.id,a.user_name  as r_name ,a.headimgurl from lkt_system_message as r left join lkt_user as a on r.recipientid=a.id) as n on m.id=n.id ORDER BY  time desc";
-  
         $r = $db->select($sql);
-        // print_r($r);die;
-        if(!empty($r)){
-        	$re = $r;
-        }else{
-        	$re = 1;
-        }
 
-		$request->setAttribute("re",$re);
+
+		$request->setAttribute("re",$r);
 
         return View :: INPUT;
     }

@@ -14,43 +14,50 @@ class delAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         // 接收信息
         $id = intval($request->getParameter('id')); // 提现id
-        $m = intval($request->getParameter('m')); // 提现id
-        $name = $request->getParameter('name'); // 账户名
+        $m = intval($request->getParameter('m')); // 参数
+        $user_id = $request->getParameter('user_id'); // 用户id
         $money = $request->getParameter('money'); // 实际提款金额
         $s_charge = $request->getParameter('s_charge'); // 手续费
         $zmoney = $money + $s_charge;
+        $sql = "select * from lkt_user where user_id = '$user_id'";
+        $r = $db->select($sql);
+        $user_id = $r[0]->user_id; // 用户id
+        $ymoney = $r[0]->money; // 原有金额
         // 根据提现id，修改状态信息
         if($m == 1){
-            $sql = "select * from lkt_user where wx_name = '$name'";
-            $r = $db->select($sql);
-            $user_id = $r[0]->user_id; // 用户id
-            $ymoney = $r[0]->money; // 原有金额
             $event = $user_id . "提现了" . $zmoney;
-            // 根据微信昵称,修改会员列表里的金额
-            $sql = "update lkt_user set money = money-'$zmoney' where wx_name = '$name'";
-            $r = $db->update($sql);
             // 在操作列表里添加一条数据
-            $sql = "insert into lkt_record (user_id,money,oldmoney,event,type) values('$user_id','$zmoney','$ymoney','$event',2)";
+            $sql = "insert into lkt_record (user_id,money,oldmoney,event,type) values('$user_id','$zmoney','$ymoney','$event',21)";
             $r = $db->insert($sql);
 
             // 根据id,修改提现列表中数据的状态
         	$sql = "UPDATE lkt_withdraw SET status=1 WHERE id = '$id'";
 	        $db->update($sql);
-	        header("Content-type:text/html;charset=utf-8");
-	        echo "<script type='text/javascript'>" .
-	            "alert('审核成功！');" .
-	            "location.href='index.php?module=finance';</script>";
+
+            $db->admin_record($admin_id,' 通过id为 '.$id.' 的提现信息',6);
+            echo 1;
 	        return;
         }else{
+            // 根据微信昵称,修改会员列表里的金额
+            $sql = "update lkt_user set money = money+'$zmoney' where user_id = '$user_id'";
+            $r = $db->update($sql);
+
+            $event = $user_id . "提现" . $zmoney . "找拒绝";
+            // 在操作列表里添加一条数据
+            $sql = "insert into lkt_record (user_id,money,oldmoney,event,type) values('$user_id','$zmoney','$ymoney','$event',22)";
+            $r = $db->insert($sql);
+
         	$sql = "UPDATE lkt_withdraw SET status=2 WHERE id = '$id'";
 	        $db->update($sql);
-	        header("Content-type:text/html;charset=utf-8");
-	        echo "<script type='text/javascript'>" .
-	            "alert('已拒绝该该用户的申请！');" .
-	            "location.href='index.php?module=finance';</script>";
-	        return;
+
+            $db->admin_record($admin_id,' 拒绝id为 '.$id.' 的提现信息',6);
+
+            echo 1;
+            return;
         }
        
     }

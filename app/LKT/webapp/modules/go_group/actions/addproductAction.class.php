@@ -15,34 +15,95 @@ require_once(MO_LIB_DIR . '/DBAction.class.php');
 class addproductAction extends Action {
 
     
-
-
-
     public function getDefaultView() {
 
       $db = DBAction::getInstance();
 
       $request = $this->getContext()->getRequest();
-
-      $arr =[];
-
-      $sql_c = 'select cid,pname from lkt_product_class where sid=0 order by sort ';
-
-        $r_c = $db->select($sql_c);
-
-        
-
-        foreach ($r_c as $key => $value) {
-
-            $sql_e = "select id,product_title,imgurl,product_class from lkt_product_list where product_class like '-$value->cid%'";
-
-            $r_e = $db->select($sql_e);
-
-            foreach ($r_e as $k => $v) {
-
-               $arr[] = $v;
-
+      $product_class = $request->getParameter('cid'); // 分类名称
+      $product_title = $request->getParameter('pro_name'); // 标题
+      
+      // var_dump($_COOKIE['proids']);
+      $sql01 = "select cid,pname from lkt_product_class where sid = 0 ";
+      $rr = $db->select($sql01);
+      $res = '';
+      foreach ($rr as $key => $value) {
+        $c = '-'.$value->cid.'-';
+        //判断所属类别 添加默认标签
+        if ($product_class == $c) {
+          $res .= '<option selected="selected" value="'.$c.'">'.$value->pname.'</option>';
+        }else{
+          $res .= '<option  value="'.$c.'">'.$value->pname.'</option>';
+        }
+        //循环第一层
+        $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid";
+        $r_e = $db->select($sql_e);
+        if($r_e){
+          $hx = '-----';
+          foreach ($r_e as $ke => $ve){
+            $cone = $c . $ve->cid.'-';
+            //判断所属类别 添加默认标签
+            if ($product_class == $cone) {
+              $res .= '<option selected="selected" value="'.$cone.'">'.$hx.$ve->pname.'</option>';
+            }else{
+              $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
             }
+            //循环第二层
+            $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid";
+            $r_t = $db->select($sql_t);
+            if($r_t){
+              $hxe = $hx.'-----';
+              foreach ($r_t as $k => $v){
+                $ctow = $cone . $v->cid.'-';
+                //判断所属类别 添加默认标签
+                if ($product_class == $ctow) {
+                  $res .= '<option selected="selected" value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                }else{
+                  $res .= '<option  value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                }
+              }
+            }
+          }
+        }
+      }
+      $arr =[];
+      $condition = ' 1=1 ';
+      if($product_class != ''){   
+        $condition .= " and a.product_class like '%$product_class%' ";
+      }
+      
+      if($product_title != ''){
+        $condition .= " and a.product_title like '%$product_title%' ";
+      }
+      $sql = "select  a.id,a.product_title,a.imgurl,product_class from lkt_product_list as a where $condition" . ' order by status asc,a.add_date desc,a.sort desc ';
+      // print_r($sql);die;
+      $r = $db->select($sql);
+      $list = [];
+      $status_num = 0;
+      foreach ($r as $key => $value) {
+        $pid =  $value -> id;
+        $class =  $value -> product_class;
+        // $num =  $value -> num;
+        $typestr=trim($class,'-');
+        $typeArr=explode('-',$typestr);
+        //  取数组最后一个元素 并查询分类名称
+        $cid = end($typeArr);
+        $sql_p = "select pname from lkt_product_class where cid ='".$cid."'";
+        $r_p = $db->select($sql_p);
+        if($r_p){
+          $pname = $r_p['0']->pname;
+        }else{
+          $pname = '顶级';
+        }
+
+
+        foreach ($value as $k => $v) {
+          $arr[$k] = $v;
+        }
+        $arr['pname'] = $pname;
+
+        $list[$key] = (object)$arr;
+      }
 
             // 查询系统参数
 
@@ -63,30 +124,31 @@ class addproductAction extends Action {
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
 
         }
-
-            foreach ($arr as $ke => $ve) {
-
-               if(substr($ve -> product_class,1,1) == $value -> cid){
-
-                 $arr[$ke] -> pname = $value -> pname;
-
-               }
-
-               $arr[$ke] -> image = $img.$ve -> imgurl;
-
+            foreach ($list as $ke => $ve) {
+               $list[$ke] -> image = $img.$ve -> imgurl;
             }
 
-        }
+        $this -> addgroup();            //把活动设置储存在缓存里
+        
+        $str = isset($_COOKIE['proids'])?$_COOKIE['proids']:'';
 
-        if(isset($_GET['groupname'])){
-
-            $this -> addgroup();
-
-        }
-
-
-
-        $request->setAttribute("arr",$arr);
+        if(strlen($str) > 1){
+            $str = substr($str,1,-1);
+            $idarr = explode(',', $str);    
+            foreach ($list as $ke => $val) {
+              $val -> checked = 0;
+              foreach ($idarr as $v) {
+                if($val -> id == $v){
+                   $val -> checked = 1;
+                }
+              }
+              $list[$ke] = $val;
+            }
+        }  
+        
+        $request->setAttribute("arr",$list);
+        $request->setAttribute("class",$res);
+        $request->setAttribute("title",$product_title);
 
         return View :: INPUT;
 
@@ -99,12 +161,6 @@ class addproductAction extends Action {
        $db = DBAction::getInstance();
 
        $request = $this->getContext()->getRequest();
-
-       
-
-       
-
-
 
     }
 
@@ -121,7 +177,7 @@ class addproductAction extends Action {
        unset($_GET['action']);
 
        $set = $_GET;
-
+       $set['overtime'] = $set['timehour'].':'.$set['timeminite'];
        if(isset($set['starttime'])) $set['starttime'] = strtotime($set['starttime']);
 
        if(isset($set['radio']) && $set['radio'] == 1){
@@ -134,11 +190,9 @@ class addproductAction extends Action {
 
        }
 
-       
+       $this->getContext()->getStorage()->write('zhou',$set);
 
-       $request->setAttribute("set",$set);
-
-       
+       //$request->setAttribute("set",$set);   
 
     }
 
@@ -146,7 +200,7 @@ class addproductAction extends Action {
 
     public function getRequestMethods(){
 
-        return Request :: POST;
+        return Request :: NONE;
 
     }
 

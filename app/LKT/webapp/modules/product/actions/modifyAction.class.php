@@ -7,7 +7,7 @@ require_once(MO_LIB_DIR . '/DBAction.class.php');
 
 class modifyAction extends Action {
 
-	public function getDefaultView() {
+    public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
@@ -22,17 +22,24 @@ class modifyAction extends Action {
         $r = $db->select($sql);
 
         if($r){
+            $product_number = $r[0]->product_number; // 产品编号
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
+            $scan = $r[0]->scan; // 条形码
             $product_class = $r[0]->product_class ; // 产品类别
             $sort = $r[0]->sort; // 排序
             $brand_class = $r[0]->brand_id ; // 产品品牌
             $keyword = $r[0]->keyword ; // 关键词
+            $weight = $r[0]->weight ; // 重量
             $content = $r[0]->content; // 产品内容
             $num = $r[0]->num; //数量
             $imgurl = $r[0]->imgurl; //图片
             $s_type = $r[0]->s_type;
+            $distributor_id = $r[0]->distributor_id;//分销层级id
+            $is_distribution = $r[0]->is_distribution;//是否开启分销
+            $volume = $r[0]->volume;//volume拟定销量
             $freight_id = $r[0]->freight;
+            $is_zhekou = $r[0]->is_zhekou;
         }
         $arr = explode(',',$s_type);
 
@@ -40,6 +47,25 @@ class modifyAction extends Action {
             $sql01 = "select brand_id ,brand_name from lkt_brand_class where brand_id = $brand_class";
             $r01 = $db->select($sql01);
             $brand_name = $r01[0]->brand_name ; // 产品品牌
+        }
+
+        if($freight_id != 0){
+            $sql = "select id,name from lkt_freight where id = $freight_id";
+            $r_freight = $db->select($sql);
+            $freight_name = $r_freight[0]->name ; // 运费规则
+            $freight_list = "<option selected='selected' value='{$freight_id}'>{$freight_name}</option>";
+            $freight_list .= "<option value='0'>默认模板</option>";
+        }else{
+            $freight_list = "<option selected='selected' value='0'>默认模板</option>";
+            $sql = "select id,name from lkt_freight order by id ";
+            $r_freight = $db->select($sql);
+            if($r_freight){
+                foreach ($r_freight as $k => $v){
+                    $freight_id = $v->id ; // 运费规则id
+                    $freight_name = $v->name ; // 运费规则
+                    $freight_list .= "<option value='{$freight_id}'>{$freight_name}</option>";
+                }
+            }
         }
 
         //绑定产品分类
@@ -60,7 +86,7 @@ class modifyAction extends Action {
             if($r_e){
                 $hx = '-----';
                 foreach ($r_e as $ke => $ve){
-                   $cone = $c . $ve->cid.'-';
+                    $cone = $c . $ve->cid.'-';
                     //判断所属类别 添加默认标签
                     if ($product_class == $cone) {
                         $res .= '<option selected="selected" value="'.$cone.'">'.$hx.$ve->pname.'</option>';
@@ -87,23 +113,8 @@ class modifyAction extends Action {
         }
 
         //产品分类
-        $sql02 = "select brand_id ,brand_name from lkt_brand_class";
+        $sql02 = "select brand_id ,brand_name from lkt_brand_class where status = 0";
         $r02 = $db->select($sql02);
-
-        if($freight_id != 0){
-            $sql = "select id,name from lkt_freight where id = $freight_id";
-            $r_freight = $db->select($sql);
-            $freight_name = $r_freight[0]->name ; // 运费规则
-            $freight_list = "<option selected='selected' value='{$freight_id}'>{$freight_name}</option>";
-            $freight_list .= "<option value='0'>默认模板</option>";
-        }else{
-            $freight_list = "<option selected='selected' value='0'>默认模板</option>";
-        }
-        $sql = "select id,name from lkt_freight";
-        $freight_arr = $db->select($sql);
-        foreach ($freight_arr as $k => $v){
-            $freight_list .= "<option value='{$v->id}'>{$v->name}</option>";
-        }
 
         $imgs_sql = "select * from lkt_product_img where product_id = '$id'";
         $imgurls = $db->select($imgs_sql);
@@ -140,7 +151,7 @@ class modifyAction extends Action {
             array_pop($attribute_key1); // 循环去掉数组后面6个元素
         }
         if($unit == ''){
-            $rer = "<option value='$unit'>" .
+            $rer = "<option value='个'>" .
                 '个'.
                 "</option>";
         }else{
@@ -151,26 +162,33 @@ class modifyAction extends Action {
         $rew = '';
         foreach ($attribute_key1 as $key1 => $val1){
             if($key1 != 0){
-                $rew .= "<div style='margin: 5px auto;' class='attribute_".($key1+1)." option' id='cattribute_".($key1+1)."' >";
-                $rew .= "<input type='text' name='attribute_name' id='attribute_name_".($key1+1)."' placeholder='属性名称' value='".$val1."' class='input-text' readonly='readonly' style=' width:50%;background-color: #EEEEEE;' />" .
+                $rew .= "<div style='margin: 5px auto;' class='attribute_".($key1)." option' id='cattribute_".($key1)."' >";
+                $rew .= "<input type='text' name='attribute_name' id='attribute_name_".($key1)."' placeholder='属性名称' value='".$val1."' class='input-text' readonly='readonly' style=' width:50%;background-color: #EEEEEE;' />" .
                     " - " .
-                    "<input type='text' name='attribute_value' id='attribute_value_".($key1+1)."' placeholder='值' value='' class='input-text' style='width:45%' />";
+                    "<input type='text' name='attribute_value' id='attribute_value_".($key1)."' placeholder='值' value='' class='input-text' style='width:45%' />";
                 $rew .= "</div>";
             }
         }
-        $num_k = count($attribute_key1) + 1;
+        $num_k = count($attribute_key1);
         $rew .= "<div style='margin: 5px auto;display:none;' class='attribute_".$num_k." option' id='cattribute_".$num_k."' >" .
             "<input type='text' name='attribute_name' id='attribute_name_".$num_k."' placeholder='属性名称' value='' class='input-text' readonly='readonly' style=' width:50%;background-color: #EEEEEE;'  onblur='leave();'/>" .
             " - " .
             "<input type='text' name='attribute_value' id='attribute_value_".$num_k."' placeholder='值' value='' class='input-text' style='width:45%' onblur='leave();'/>" .
             "</div>";
-
-        $attribute_key2 = json_encode($attribute_key1);
+        $attribute_key2 = json_encode($attribute_key1,JSON_UNESCAPED_UNICODE);
         $attribute_val = [];
         foreach ($attribute as $k1 => $v1){
             $attribute_val[] = array_values($v1); // 属性表格
         }
+        $sql02 = "select id,sets from lkt_distribution_grade where is_ordinary = 0";
+        $r022222 = $db->select($sql02);
 
+        $distributors = [];
+        $distributors_opt = '';
+
+        $request->setAttribute("is_distribution",$is_distribution);
+        $request->setAttribute("distributors_opt",$distributors_opt);
+        $request->setAttribute("volume",$volume);
         $request->setAttribute("uploadImg",$uploadImg);
         $request->setAttribute("attribute",$attribute);
         $request->setAttribute("attribute1",$attribute1);
@@ -184,39 +202,50 @@ class modifyAction extends Action {
         $request->setAttribute('id', $id);
         $request->setAttribute('r02', $r02);//所有品牌
         $request->setAttribute("product_class",$product_class);
+        $request->setAttribute('product_number', isset($product_number) ? $product_number : '');
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');
+        $request->setAttribute('scan', isset($scan) ? $scan : '');
         $request->setAttribute('brand_name', isset($brand_name) ? $brand_name : '');//品牌名称
         $request->setAttribute('sort', isset($sort) ? $sort : '');
         $request->setAttribute('keyword', isset($keyword) ? $keyword : '');
+        $request->setAttribute('weight', isset($weight) ? $weight : '');
         $request->setAttribute('content', isset($content) ? $content : '');
         $request->setAttribute('num', isset($num) ? $num : '');
         $request->setAttribute('imgurl', isset($imgurl) ? $imgurl : '');
         $request->setAttribute('imgurls', isset($imgurls) ? $imgurls : '');
         $request->setAttribute('freight_list', $freight_list);// 运费
-
+        $request->setAttribute("is_zhekou",$is_zhekou);
         return View :: INPUT;
-	}
+    }
 
-	public function execute(){
-		$db = DBAction::getInstance();
-		$request = $this->getContext()->getRequest();
+    public function execute(){
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
 
         $id = intval($request->getParameter("id")); // 产品id
         $uploadImg = $request->getParameter('uploadImg'); // 图片上传位置
         $attribute = $request->getParameter('attribute'); // 属性
+        $product_number = addslashes(trim($request->getParameter('product_number'))); // 产品编号
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
+        $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 产品副标题
+        $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
+
         $brand_id = addslashes(trim($request->getParameter('brand_class'))); // 品牌
         $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
+        $weight = addslashes(trim($request->getParameter('weight'))); // 关键词
         $s_type = $request->getParameter('s_type'); // 显示类型
         $sort = floatval(trim($request->getParameter('sort'))); // 排序
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
         $image = addslashes(trim($request->getParameter('image'))); // 产品图片
         $img_oldpic = addslashes(trim($request->getParameter('img_oldpic'))); // 产品图片
-        $freight = $request->getParameter('freight'); // 运费
-
         $arr = json_decode($attribute,true);
+
+
+
+        $volume = trim($request->getParameter('volume')); //拟定销量
+        $freight = $request->getParameter('freight'); // 运费
 
         if($product_title == ''){
             echo "<script type='text/javascript'>" .
@@ -233,30 +262,71 @@ class modifyAction extends Action {
                 return $this->getDefaultView();
             }
         }
+        if($scan == ''){
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('条形码不能为空！');" .
+                "</script>";
+            return $this->getDefaultView();
+        }else{
+            $sql = "select id from lkt_product_list where scan = '$scan' and id != '$id'";
+            $r = $db->select($sql);
+            if($r){
+                header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('条形码重复！');" .
+                    "</script>";
+                return $this->getDefaultView();
+            }
+        }
         if($product_class == ''){
             echo "<script type='text/javascript'>" .
                 "alert('产品类别不能为空！');" .
-                "location.href='index.php?module=product&action=modify';</script>";
+                "</script>";
             return $this->getDefaultView();
         }
         if($brand_id == ''){
             echo "<script type='text/javascript'>" .
                 "alert('请选择品牌！');" .
-                "location.href='index.php?module=product&action=modify';</script>";
+                "</script>";
             return $this->getDefaultView();
         }
         if($keyword == ''){
             echo "<script type='text/javascript'>" .
                 "alert('请填写关键词！');" .
-                "location.href='index.php?module=product&action=modify';</script>";
+                "</script>";
             return $this->getDefaultView();
         }
-
+        if($weight == ''){
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('请填写商品重量！');" .
+                "</script>";
+            return $this->getDefaultView();
+        }else{
+            if(is_numeric($weight)){
+                if($weight < 0){
+                    header("Content-type:text/html;charset=utf-8");
+                    echo "<script type='text/javascript'>" .
+                        "alert('重量不能为负数！');" .
+                        "</script>";
+                    return $this->getDefaultView();
+                }else{
+                    $weight = number_format($weight,2);
+                }
+            }else{
+                header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('请填写数字！');" .
+                    "</script>";
+                return $this->getDefaultView();
+            }
+        }
         $z_num = 0;
         if(count($arr) == 0){
             echo "<script type='text/javascript'>" .
-                "alert('请填写属性1！');" .
-                "location.href='index.php?module=product&action=modify';</script>";
+                "alert('请填写属性！');" .
+                "</script>";
             return $this->getDefaultView();
         }else{
             foreach ($arr as $ke => $va){
@@ -315,8 +385,10 @@ class modifyAction extends Action {
         $sql = "select * from lkt_product_list where id = '$id'";
         $r_arr = $db->select($sql);
         // 根据产品id,修改产品信息
-        $sql_1 = "update lkt_product_list set product_title='$product_title',product_class='$product_class',brand_id ='$brand_id',keyword='$keyword',s_type='$type',num='$z_num',sort='$sort',content='$content',imgurl='$image',freight='$freight' where id = '$id'";
+        $sql_1 = "update lkt_product_list set product_number='$product_number',product_title='$product_title',scan='$scan',product_class='$product_class',brand_id ='$brand_id',keyword='$keyword',weight='$weight',s_type='$type',num='$z_num',sort='$sort',content='$content',imgurl='$image',subtitle='$subtitle',volume='$volume',freight='$freight' where id = '$id'";
+
         $r_update = $db->update($sql_1);
+
         if($r_update == -1 ){
             $rew1 = 0; // 修改失败
         }else{
@@ -332,25 +404,30 @@ class modifyAction extends Action {
         $r_count = count($r_zarr) - count($arr); // 原来的属性个数 - 现在的属性个数
 
         $r_num = 0;
+        $c_num = 0;
+
         foreach ($arr as $ke => $va){
             if(!empty($va['rid'])){
                 $r_id = $va['rid'];
                 $r_id1 = $va['rid'];
             }else{
+                $r_id = '';
                 $r_id1 = '';
             }
             $costprice = $va['成本价'];
             $yprice = $va['原价'];
             $price = $va['现价'];
             $num = $va['数量'];
+            $c_num += $num;
             $unit = $va['单位'];
             $img = trim(strrchr($va['图片'], '/'),'/');
             for ( $i = 0;$i < 6;$i++){
-                array_pop($va);
+                array_pop($va); // 删除数组最后一个元素
             }
             if($r_id1 != ''){
-                array_shift($va);
+                array_shift($va); // 删除数组第一个元素
             }
+
             $attribute_1 = $va;
             $attribute = serialize($attribute_1);
 
@@ -384,6 +461,12 @@ class modifyAction extends Action {
         }
 
         if($rew1 == 1 || $rew2 == 1){
+            if($c_num < 1){
+                $sql_1 = "update lkt_product_list set status='1' where id = '$id'";
+            }else{
+                $sql_1 = "update lkt_product_list set status='0' where id = '$id'";
+            }
+            $r_update = $db->update($sql_1);
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('产品修改成功！');" .
@@ -398,24 +481,11 @@ class modifyAction extends Action {
                 "location.href='index.php?module=product';</script>";
             return $this->getDefaultView();
         }
+        return;
+    }
 
-
-		return;
-
-	}
-
-
-
-	public function getRequestMethods(){
-
-		return Request :: POST;
-
-	}
-
-
-
+    public function getRequestMethods(){
+        return Request :: POST;
+    }
 }
-
-
-
 ?>

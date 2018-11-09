@@ -515,13 +515,6 @@
                         </label>
 
 
-
-                        <label class="radio-inline"> 
-
-                            <input type="radio" name="type" value="4"  /> 分销
-
-                        </label>
-
                           </div>
 
                         </div>

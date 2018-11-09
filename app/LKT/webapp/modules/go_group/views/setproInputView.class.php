@@ -16,7 +16,7 @@ class setproInputView extends SmartyView {
 
 		$this->setAttribute("arr",$request->getAttribute("arr"));
 
-		$this->setAttribute("set",$request->getAttribute("set"));	 
+		//$this->setAttribute("set",$request->getAttribute("set"));	 
 
 		$this->setTemplate("setpro.tpl");
 

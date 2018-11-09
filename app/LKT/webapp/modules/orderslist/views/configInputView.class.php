@@ -13,7 +13,9 @@ class configInputView extends SmartyView {
 		$this->setAttribute("days",$request->getAttribute("days"));
 		$this->setAttribute("content",$request->getAttribute("content"));
 		$this->setAttribute("back",$request->getAttribute("back"));
-		$this->setAttribute("order_overdue",$request->getAttribute("order_overdue"));
+        $this->setAttribute("order_failure",$request->getAttribute("order_failure"));
+        $this->setAttribute("company",$request->getAttribute("company"));
+        $this->setAttribute("order_overdue",$request->getAttribute("order_overdue"));
 		$this->setAttribute("unit",$request->getAttribute("unit"));
 		$this->setTemplate("config.tpl");
     }

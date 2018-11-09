@@ -28,6 +28,9 @@
    .content{
       border:2px red solid;
    }
+   .kznone{
+    display: none !important;
+   }
 </style>
 {/literal}
 <title>编辑活动</title>
@@ -42,7 +45,7 @@
             
             <div class="tabCon">
                 
-                <div class="row cl">
+                <div class="row cl {if $status > 0}kznone{/if}">
                     <label class="form-label col-xs-4 col-sm-3">
                         <span class="c-red">*</span>
                         拼团名称：</label>
@@ -54,7 +57,7 @@
                     </div>
                     
                 </div>
-                <div class="row cl">
+                <div class="row cl {if $status > 0}kznone{/if}">
                     <label class="form-label col-xs-4 col-sm-3">拼团人数：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="number" max="5" min="1" class="input-text" value="{$list->man_num}" placeholder="" id="" name="peoplenum" style="width:60px;">
@@ -64,7 +67,7 @@
                     <div class="col-3">
                     </div>
                 </div>
-                <div class="row cl">
+                <div class="row cl {if $status > 0}kznone{/if}">
                     <label class="form-label col-xs-4 col-sm-3">拼团时限：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="number" min="1" class="input-text" value="{$list->hour}" placeholder="" id="" name="timehour" style="width:60px;"><span> 小时 </span>
@@ -78,10 +81,10 @@
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-3">活动时间：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        
+                        <div class="{if $status > 0}kznone{/if}">
                           <span>开始时间</span><input type="text" class="input-text" value="{$list->starttime}" placeholder="" id="group_start_time" name="starttime" style="width:150px;margin-left: 10px;">
                           <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-
+                        </div>
                         <div style="margin-top: 10px;">
                           <span>结束时间</span>
                           {if $list->overtype==1}
@@ -100,7 +103,7 @@
                     <div class="col-3">
                     </div>
                 </div>
-                <div class="row cl" style="margin-left: 110px;">
+                <div class="row cl {if $status > 0}kznone{/if}" style="margin-left: 110px;">
                     <label class="form-label col-xs-4 col-sm-3">每位用户可同时进行的团数：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="number" min="1" class="input-text" value="{$list->groupnum}" placeholder="" id="" name="groupnum" style="width:60px;">
@@ -110,7 +113,7 @@
                     <div class="col-3">
                     </div>
                 </div>
-                <div class="row cl" style="margin-left: 110px;">
+                <div class="row cl {if $status > 0}kznone{/if}" style="margin-left: 110px;">
                     <label class="form-label col-xs-4 col-sm-3">用户每次参团时可购买件数：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="number" min="1" class="input-text" value="{$list->productnum}" placeholder="" id="" name="productnum" style="width:60px;">
@@ -125,7 +128,7 @@
         <div class="row cl">
             <div class="col-9 col-offset-3">
                 <input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" onclick="baocungroup()">
-                <input class="btn btn-primary radius" type="reset" value="&nbsp;&nbsp;取消&nbsp;&nbsp;" style="background: #EDEDED;border:0px;color:#000000;">
+                <!-- <input class="btn btn-primary radius" type="reset" value="&nbsp;&nbsp;取消&nbsp;&nbsp;" style="background: #EDEDED;border:0px;color:#000000;"> -->
             </div>
         </div>
     </form>
@@ -174,6 +177,7 @@
 
  function baocungroup(){
     
+
     var content = 1;
     var id = $("input[name=groupname]").attr('id');
     var groupname = $("input[name=groupname]").val();
@@ -248,10 +252,12 @@
                dataType:"json",
                success:function(data) {
                    if(data.code == 1){
-                       layer.msg('修改成功!');
-                       window.parent.location.reload();
-                       var index = parent.layer.getFrameIndex(window.name);
-                       parent.layer.close(index);
+                       // layer.msg('修改成功!');
+                       // window.parent.location.reload();
+                       // var index = parent.layer.getFrameIndex(window.name);
+                       // parent.layer.close(index);
+                       
+                       location.href = 'index.php?module=go_group&action=index';
                    }
                },
              })

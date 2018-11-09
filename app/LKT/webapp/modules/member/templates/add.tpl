@@ -9,20 +9,24 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
 <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 <link href="style/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 <link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 {literal}
 <script type="text/javascript">
 function check(f){
-    if(Trim(f.color_name.value) == "" ){
-        alert('管理员名称不能为空！');
+    if(Trim(f.name.value) == "" ){
+        appendMask('管理员名称不能为空！','ts');
         return false;
     }
-    if(Trim(f.color.value) == 0 ){
-       alert('管理员代码不能为空！');
-       return false;
+    if(Trim(f.password.value).length < 6){
+        appendMask('请输入最少6位密码！','ts');
+        return false;
+    }
+    if(f.password.value != f.password1.value){
+        appendMask('确认密码不正确！','ts');
+        return false;
     }
 }
 </script>
@@ -30,160 +34,73 @@ function check(f){
 <title>添加管理员</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 系统管理 <span class="c-gray en">&gt;</span> 背景管理员管理 <span class="c-gray en">&gt;</span> 添加管理员 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=member';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe62d;</i> 管理员管理 <span class="c-gray en">&gt;</span> 管理员列表 <span class="c-gray en">&gt;</span> 添加管理员 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=member';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <form name="form1" action="index.php?module=member&action=add" class="form form-horizontal" method="post" onsubmit="return check(this);"  enctype="multipart/form-data" >
         <div class="row cl">
-            <label class="form-label col-5"><span class="c-red"></span>管理员名称：</label>
-            <div class="formControls col-2">
+            <label class="form-label col-4"><span class="c-red">*</span>管理员名称：</label>
+            <div class="formControls col-4">
                 <input type="text" class="input-text" value="" placeholder="" name="name">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-5"><span class="c-red"></span>管理员密码：</label>
-            <div class="formControls col-2">
+            <label class="form-label col-4"><span class="c-red">*</span>管理员密码：</label>
+            <div class="formControls col-4">
                 <input type="password" class="input-text" value="" placeholder="" name="password">
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-4"><span class="c-red">*</span>确认密码：</label>
+            <div class="formControls col-4">
+                <input type="password" class="input-text" value="" placeholder="" name="password1">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>角色：</label>
+            <div class="formControls col-xs-8 col-sm-4"> <span class="select-box" style="width:150px;">
+			<select class="select" name="role" size="1">
+				{$list}
+			</select>
+			</span> </div>
+        </div>
+        <div class="row cl">
             <div class="col-10 col-offset-5">
-                <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-                <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+                <button class="btn btn-primary radius" id="btn1" type="submit" name="Submit">
+                	<i class="Hui-iconfont">&#xe632;</i> 提 交
+                </button>
+                <button class="btn btn-secondary radius" id="btn2" type="reset" name="reset">
+                	<i class="Hui-iconfont">&#xe632;</i> 重 置
+                </button>
             </div>
         </div>
     </form>
 </div>
 
 <script type="text/javascript" src="modpub/js/check.js" > </script>
-
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
-<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script> 
-<script type="text/javascript" src="style/lib/icheck/jquery.icheck.min.js"></script> 
-<script type="text/javascript" src="style/lib/Validform/5.3.2/Validform.min.js"></script> 
-<script type="text/javascript" src="style/lib/webuploader/0.1.5/webuploader.min.js"></script> 
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script> 
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> 
-<script type="text/javascript" src="style/js/H-ui.js"></script> 
-<script type="text/javascript" src="style/js/H-ui.admin.js"></script> 
-
+<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
 {literal}
 <script type="text/javascript">
-$(function(){
-    $('.skin-minimal input').iCheck({
-        checkboxClass: 'icheckbox-blue',
-        radioClass: 'iradio-blue',
-        increaseArea: '20%'
-    });
-    
-    $list = $("#fileList"),
-    $btn = $("#btn-star"), // 开始上传的id名称
-    state = "pending",
-    uploader;
-
-    var uploader = WebUploader.create({
-        auto: true,
-        swf: 'style/lib/webuploader/0.1.5/Uploader.swf',
-    
-        // 文件接收服务端。
-        server: 'http://lib.h-ui.net/webuploader/0.1.5/server/fileupload.php',
-    
-        // 选择文件的按钮。可选。
-        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#filePicker',
-    
-        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-        resize: false,
-        // 只允许选择图片文件。
-        accept: {
-            title: 'Images',
-            extensions: 'gif,jpg,jpeg,bmp,png',
-            mimeTypes: 'image/*'
-        }
-    });
-    uploader.on( 'fileQueued', function( file ) {
-        var $li = $(
-            '<div id="' + file.id + '" class="item">' +
-                '<div class="pic-box"><img></div>'+
-                '<div class="info">' + file.name + '</div>' +
-                '<p class="state">等待上传...</p>'+
-            '</div>'
-        ),
-        $img = $li.find('img');
-        $list.append( $li );
-    
-        // 创建缩略图
-        // 如果为非图片文件，可以不用调用此方法。
-        // thumbnailWidth x thumbnailHeight 为 100 x 100
-        uploader.makeThumb( file, function( error, src ) {
-            if ( error ) {
-                $img.replaceWith('<span>不能预览</span>');
-                return;
-            }
-    
-            $img.attr( 'src', src );
-        }, thumbnailWidth, thumbnailHeight );
-    });
-    // 文件上传过程中创建进度条实时显示。
-    uploader.on( 'uploadProgress', function( file, percentage ) {
-        var $li = $( '#'+file.id ),
-            $percent = $li.find('.progress-box .sr-only');
-    
-        // 避免重复创建
-        if ( !$percent.length ) {
-            $percent = $('<div class="progress-box"><span class="progress-bar radius"><span class="sr-only" style="width:0%"></span></span></div>').appendTo( $li ).find('.sr-only');
-        }
-        $li.find(".state").text("上传中");
-        $percent.css( 'width', percentage * 100 + '%' );
-    });
-    
-    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    uploader.on( 'uploadSuccess', function( file ) {
-        $( '#'+file.id ).addClass('upload-state-success').find(".state").text("已上传");
-    });
-    
-    // 文件上传失败，显示上传出错。
-    uploader.on( 'uploadError', function( file ) {
-        $( '#'+file.id ).addClass('upload-state-error').find(".state").text("上传出错");
-    });
-    
-    // 完成上传完了，成功或者失败，先删除进度条。
-    uploader.on( 'uploadComplete', function( file ) {
-        $( '#'+file.id ).find('.progress-box').fadeOut();
-    });
-    uploader.on('all', function (type) {
-        if (type === 'startUpload') {
-            state = 'uploading';
-        } else if (type === 'stopUpload') {
-            state = 'paused';
-        } else if (type === 'uploadFinished') {
-            state = 'done';
-        }
-
-        if (state === 'uploading') {
-            $btn.text('暂停上传');
-        } else {
-            $btn.text('开始上传');
-        }
-    });
-
-    $btn.on('click', function () {
-        if (state === 'uploading') {
-            uploader.stop();
-        } else {
-            uploader.upload();
-        }
-    });
-
-    
-    
-    var ue = UE.getEditor('editor');
-    
-});
-
-function mobanxuanze(){
-    
+function appendMask(content,src){
+	$("body").append(`
+		<div class="maskNew">
+			<div class="maskNewContent">
+				<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+				<div class="maskTitle">提示</div>	
+				<div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+				<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+					${content}
+				</div>
+				<div style="text-align:center;margin-top:30px">
+					<button class="closeMask" onclick=closeMask1() >确认</button>
+				</div>
+				
+			</div>
+		</div>	
+	`)
+}
+function closeMask1(){
+	
+	$(".maskNew").remove();
 }
 </script>
 {/literal}

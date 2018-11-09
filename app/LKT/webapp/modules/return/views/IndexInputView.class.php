@@ -14,6 +14,8 @@ class IndexInputView extends SmartyView {
 		$this->setAttribute("startdate",$request->getAttribute("startdate"));
 		$this->setAttribute("enddate",$request->getAttribute("enddate"));
 		$this->setAttribute("list",$request->getAttribute("list"));
+		$this->setAttribute("pages_show",$request->getAttribute("pages_show"));
+		$this->setAttribute("r_type",$request->getAttribute("r_type"));
 		$pageto = $request->getAttribute('pageto');
 		if($pageto != ''){
 			$r = rand();

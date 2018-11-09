@@ -28,18 +28,23 @@
    .content{
    	  border:2px red solid;
    }
+   .row .form-label{
+   	width: 18%!important;
+   }
 </style>
 {/literal}
 <title>活动设置</title>
 </head>
 <body>
-<div class="page-container">
+<nav class="breadcrumb">插件管理
+	<span class="c-gray en">&gt;</span>
+	拼团活动
+	<span class="c-gray en">&gt;</span>
+	添加拼团
+</nav>
+<div class="page-container" style="background-color: #fff;margin: 0px 10px;">
 	<form class="form form-horizontal" id="form-category-add" enctype="multipart/form-data">
 		<div id="tab-category" class="HuiTab">
-			<div class="tabBar cl" style="border-bottom: 2px #ff9900 solid;">		
-				<span style="background: #ff9900;">活动设置</span>
-			</div>
-			
 			<div class="tabCon">
 				
 				<div class="row cl">
@@ -95,7 +100,7 @@
 					<div class="col-3">
 					</div>
 				</div>
-				<div class="row cl" style="margin-left: 110px;">
+				<div class="row cl" >
 					<label class="form-label col-xs-4 col-sm-3">每位用户可同时进行的团数：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 						<input type="number" min="1" class="input-text" value="" placeholder="" id="" name="groupnum" style="width:60px;">
@@ -105,7 +110,7 @@
 					<div class="col-3">
 					</div>
 				</div>
-				<div class="row cl" style="margin-left: 110px;">
+				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-3">用户每次参团时可购买件数：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 						<input type="number" min="1" class="input-text" value="" placeholder="" id="" name="productnum" style="width:60px;">
@@ -116,15 +121,16 @@
 					</div>
 				</div>
 			</div>
-			
-		<div class="row cl">
-			<div class="col-9 col-offset-3">
-				<input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;下一步&nbsp;&nbsp;" onclick="baocungroup()">
-				<input class="btn btn-primary radius" type="reset" value="&nbsp;&nbsp;取消&nbsp;&nbsp;" style="background: #EDEDED;border:0px;color:#000000;">
-			</div>
-		</div>
 	</form>
 </div>
+</div>
+<div class="row cl" style="margin-left: 10px;">
+	<div>
+		<input class="btn btn-primary radius" type="button" value="下一步" onclick="baocungroup()">
+		<input class="btn btn-primary radius" onclick='javascript:history.back(-1)' type="reset" value="取消" style="background: #EDEDED;border:0px;color:#fff;">
+	</div>
+</div>
+	
 
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>

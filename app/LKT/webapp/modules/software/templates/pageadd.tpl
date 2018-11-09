@@ -194,11 +194,32 @@
 
       <input type="hidden" name="uploadImg" value="{$uploadImg}" >
 
+<div class="row cl">
+    <label class="form-label col-2">类型：</label>
+    <div class="formControls col-10 ">
+      <input type="radio" name="type" onclick="show(this)" value="img" checked="checked">图片 &nbsp;&nbsp; 
+      <input type="radio" name="type" onclick="show(this)" value="category">分类 &nbsp;&nbsp; 
+    </div>
+</div>
 
 
-    <div class="row cl">
+<div class="row cl tcategory" style="display: none;">
+            <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
+            <div class="formControls col-2"> <span class="select-box">
+                <select name="product_class" class="select">
+                  {foreach from=$list item=item name=f1}
+                    <option value="{$item->cid}">{$item->str}{$item->pname}</option>
+                   {/foreach}
+                </select>
+                </span>
+            </div>
+ </div>
 
-      <label ><span class="c-red">*</span>模块：</label>
+
+
+    <div class="row cl timg">
+
+      <label ><span class="c-red">*</span>图片：</label>
 
       <div > 
 
@@ -220,7 +241,7 @@
 
 
 
-      <div class="row cl">
+      <div class="row cl timg">
 
         <label class="">链接：</label>
 
@@ -235,6 +256,7 @@
         </div>
 
       </div>
+
 
       <div class="row cl">
 
@@ -380,14 +402,15 @@
 </li>
 
 <li>
-
-
-
 <span>文章</span>
 
 </li>
 
 
+<li>
+<span>幸运抽奖</span>
+
+</li>
 
 <div class="lanPos"></div>
 
@@ -618,6 +641,21 @@
 
 </div>
 
+<div class="examine-shortcut shortcut-element-list">
+
+<h5><span>幸运抽奖</span></h5>
+
+<ul class="shortcut-element-box clearfix">
+
+<li>
+
+<i class="fa fa-check-square-o"></i>
+
+<input type="hidden" value="../pond/index">
+
+<span>幸运抽奖</span>
+
+</li>
 </div>
 
 </div>
@@ -691,10 +729,6 @@ KindEditor.ready(function(K) {
 
       editor.plugin.imageDialog({
 
-        //showRemote : false, //网络图片不开启
-
-        //showLocal : false, //不开启本地图片上传
-
         imageUrl : K('#picurl').val(),
 
           clickFn : function(url, title, width, height, border, align) {
@@ -724,6 +758,19 @@ $(".select_link").click( function () {
 });
 
 
+
+  function show(obj) {
+    var kzxs = $(".kzxs");
+    var type = $(obj).val();
+    if(type == 'img'){
+      $(".tcategory").hide();
+      $(".timg").show();
+    }else{
+      $(".tcategory").show();
+      $(".timg").hide();
+    }
+    console.log($(obj),type);
+  }
 
 
 

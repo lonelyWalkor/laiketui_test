@@ -79,27 +79,29 @@ class rechargeAction extends Action {
 
     //充值成功金额增加
     public function cz(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
+        echo json_encode(array('status'=>1));
+        exit();
+        // $db = DBAction::getInstance();
+        // $request = $this->getContext()->getRequest();
 
-        $openid = $_POST['openid']; // 微信id
-        $cmoney = $_POST['cmoney']; // 充值金额
-        $type = addslashes(trim($request->getParameter('type'))); // 参数
-        // 查询会员信息
-        $sql = "select * from lkt_user where wx_id = '$openid'";
-        $r = $db -> select($sql);
-        $money = $r[0]->money; // 用户金额
-        $user_id = $r[0]->user_id; // 用户id
-        if(empty($type)){
-            //事件
-            $event = '会员' . $user_id . '充值' . $money;
-            $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$user_id','$cmoney','$money','$event',1)";
-            $rr = $db->insert($sqll);
-        }
-        //修改金额   
-        $sql = "update lkt_user set money = money+'$cmoney' where wx_id = '$openid'";
-        $r = $db->update($sql);
-        exit;
+        // $openid = $_POST['openid']; // 微信id
+        // $cmoney = $_POST['cmoney']; // 充值金额
+        // $type = addslashes(trim($request->getParameter('type'))); // 参数
+        // // 查询会员信息
+        // $sql = "select * from lkt_user where wx_id = '$openid'";
+        // $r = $db -> select($sql);
+        // $money = $r[0]->money; // 用户金额
+        // $user_id = $r[0]->user_id; // 用户id
+        // if(empty($type)){
+        //     //事件
+        //     $event = '会员' . $user_id . '充值' . $money;
+        //     $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$user_id','$cmoney','$money','$event',1)";
+        //     $rr = $db->insert($sqll);
+        // }
+        // //修改金额   
+        // $sql = "update lkt_user set money = money+'$cmoney' where wx_id = '$openid'";
+        // $r = $db->update($sql);
+        // exit;
     }
 
     //充值
@@ -110,6 +112,20 @@ class rechargeAction extends Action {
         // 接收信息
         $openid = $_POST['openid']; // 微信id
         $cmoney = $_POST['cmoney']; // 充值金额
+
+        // 查询余额参数表
+        $sql = "select cz_multiple from lkt_finance_config where id = 1";
+        $r = $db->select($sql);
+        $cz_multiple = $r[0]->cz_multiple;
+        if($cz_multiple){
+            if($cmoney%$cz_multiple == 0){
+
+            }else{
+                echo json_encode(array('state'=>0,'text'=>'充值金额需要是'.$cz_multiple.'的倍数'));
+                exit();
+            }
+        }
+
 
         $dingdanhao = "CZ".date("ymdhis").rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
         // 查询系统配置
@@ -122,7 +138,7 @@ class rechargeAction extends Action {
         $mch_id =       $rs[0]->mch_id; // 商户id
         $mch_key =      $rs[0]->mch_key; // 商户key
         $nonce_str =    $this->nonce_str(); // 随机字符串
-        $notify_url =   '回调的url【自己填写】';
+        $notify_url =   $rs[0]->uploadImg_domain.'/LKT/notify_url.php';
         $openid =       $openid; // 微信id
         $out_trade_no = $dingdanhao; // 商户订单号
         $spbill_create_ip = $rs[0]->ip; // ip地址

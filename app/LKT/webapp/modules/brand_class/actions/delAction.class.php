@@ -1,12 +1,4 @@
 <?php
-
-/**
-
- * [Laike System] Copyright (c) 2018 laiketui.com
-
- * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
-
- */
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 
 class delAction extends Action {
@@ -14,30 +6,36 @@ class delAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         $brand_id = intval($request->getParameter('cid')); // 品牌id
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片上传位置
         $sql = "select * from lkt_brand_class where brand_id = '$brand_id'";
         $r = $db->select($sql);
         $brand_pic = $r[0]->brand_pic;
         @unlink ($uploadImg.$brand_pic);
-        // 获取分类id
-        $brand_id = intval($request->getParameter('cid'));
+
+        $sql = "select id from lkt_product_list where brand_id = '$brand_id'";
+        $r = $db->select($sql);
+        if($r){
+            $db->admin_record($admin_id,' 删除商品品牌id为 '.$brand_id.' 失败',3);
+            echo 2;
+            exit;
+        }
         // 根据分类id,删除这条数据
-        $sql = "delete from lkt_brand_class where brand_id = '$brand_id'";
-        $res=$db->delete($sql);
-		if($res){
-			header("Content-type:text/html;charset=utf-8");
-	        echo "<script type='text/javascript'>" .
-	            "alert('删除成功！');" .
-	            "location.href='index.php?module=brand_class';</script>";
-	        return;
+        $sql = "update lkt_brand_class set recycle = 1 and status = 1 where brand_id = '$brand_id'";
+        $res = $db->update($sql);
+
+		if($res > 0){
+            $db->admin_record($admin_id,' 删除商品品牌id为 '.$brand_id.' 的信息',3);
+
+            echo 1;
+            exit;
 		}else{
-	        header("Content-type:text/html;charset=utf-8");
-	        echo "<script type='text/javascript'>" .
-	            "alert('删除失败！');" .
-	            "</script>";
-	        return;
-		}
+            $db->admin_record($admin_id,' 删除商品品牌id为 '.$brand_id.' 失败',3);
+            echo 0;
+            exit;
+		};
     }
 
     public function execute(){

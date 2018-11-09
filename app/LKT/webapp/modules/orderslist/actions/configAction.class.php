@@ -22,7 +22,9 @@ class configAction extends Action {
     if($r){
       $content = $r[0]->content;
       $back = $r[0]->back;
-      $order_overdue = $r[0]->order_overdue;
+        $order_failure = $r[0]->order_failure;
+        $company = $r[0]->company;
+        $order_overdue = $r[0]->order_overdue;
       $unit = $r[0]->unit;
       if($r[0]->days == 0){
         $days = '';
@@ -33,8 +35,19 @@ class configAction extends Action {
       $days = '';
       $content = '';
       $back = 2;
-      $order_overdue = 2;
-      $unit = '天';
+        $order_failure = 2;
+        $company = '天';
+        $order_overdue = 2;
+        $unit = '天';
+    }
+
+
+    if($company == '天'){
+        $company = '<option value="0">'.$company.'</option>';
+        $company .= '<option value="1">小时</option>';
+    }else{
+        $company = '<option value="1">'.$company.'</option>';
+        $company .= '<option value="0">天</option>';
     }
     if($unit == '天'){
       $unit = '<option value="0">'.$unit.'</option>';
@@ -47,7 +60,9 @@ class configAction extends Action {
     $request -> setAttribute("days",$days);
     $request -> setAttribute("content",$content);
     $request -> setAttribute("back",$back);
-    $request -> setAttribute("order_overdue",$order_overdue);
+    $request -> setAttribute("order_failure",$order_failure);
+      $request -> setAttribute("company",$company);
+      $request -> setAttribute("order_overdue",$order_overdue);
     $request -> setAttribute("unit",$unit);
     
     return View :: INPUT;
@@ -56,10 +71,12 @@ class configAction extends Action {
   public function execute() {
     $db = DBAction::getInstance();
     $request = $this->getContext()->getRequest();
+    $admin_id = $this->getContext()->getStorage()->read('admin_id');
     $days = addslashes(trim($request->getParameter('days'))); // 承若天数
     $content = addslashes(trim($request->getParameter('content'))); // 承若内容
     $back = addslashes(trim($request->getParameter('back'))); // 退货时间
-    $order_overdue = addslashes(trim($request->getParameter('order_overdue'))); // 订单过期删除时间
+    $order_overdue = trim($request->getParameter('order_failure')); // 订单过期删除时间
+    // var_dump($order_overdue);exit;
     $unit = addslashes(trim($request->getParameter('unit'))); // 单位
 
     if($days != ''){
@@ -122,29 +139,39 @@ class configAction extends Action {
     $sql = "select * from lkt_order_config";
     $r = $db->select($sql);
     if($r){
-      $sql = "update lkt_order_config set days = '$days',content = '$content',back = '$back',order_overdue = '$order_overdue',unit = '$unit',modify_date = CURRENT_TIMESTAMP where id = 1";
+      $days = $days ? $days:0;
+      $sql = "update lkt_order_config set days = '$days',content = '$content',back = '$back',order_failure = '$order_overdue',unit = '$unit',modify_date = CURRENT_TIMESTAMP where id = 1";
       $r_1 = $db->update($sql);
+      // var_dump($sql,$r_1);exit;
       if($r_1 == -1) {
-        echo "<script type='text/javascript'>" .
+          $db->admin_record($admin_id,' 修改订单设置失败 ',2);
+
+          echo "<script type='text/javascript'>" .
                 "alert('未知原因，订单设置修改失败！');" .
                 "location.href='index.php?module=orderslist&action=config';</script>";
             return $this->getDefaultView();
       } else {
-        header("Content-type:text/html;charset=utf-8");
+          $db->admin_record($admin_id,' 修改订单设置 ',2);
+
+          header("Content-type:text/html;charset=utf-8");
         echo "<script type='text/javascript'>" .
               "alert('订单设置修改成功！');" .
               "location.href='index.php?module=orderslist&action=config';</script>";
       }
     }else{
-      $sql = "insert into lkt_order_config(days,content,back,order_overdue,unit,modify_date) value('$days','$content','$back','$order_overdue','$unit',CURRENT_TIMESTAMP)";
+      $sql = "insert into lkt_order_config(days,content,back,order_failure,unit,modify_date) value('$days','$content','$back','$order_overdue','$unit',CURRENT_TIMESTAMP)";
       $r_1 = $db->insert($sql);
       if($r_1 == -1) {
-        echo "<script type='text/javascript'>" .
+          $db->admin_record($admin_id,' 修改订单设置失败 ',2);
+
+          echo "<script type='text/javascript'>" .
             "alert('未知原因，订单设置添加失败！');" .
             "location.href='index.php?module=orderslist&action=config';</script>";
         return $this->getDefaultView();
       } else {
-        header("Content-type:text/html;charset=utf-8");
+          $db->admin_record($admin_id,' 修改订单设置 ',2);
+
+          header("Content-type:text/html;charset=utf-8");
         echo "<script type='text/javascript'>" .
             "alert('订单设置添加成功！');" .
             "location.href='index.php?module=orderslist&action=config';</script>";

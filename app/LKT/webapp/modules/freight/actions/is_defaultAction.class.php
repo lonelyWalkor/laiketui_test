@@ -10,6 +10,8 @@ class is_defaultAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         // 接收信息
         $id = $request->getParameter('id'); // 产品id
 
@@ -39,6 +41,8 @@ class is_defaultAction extends Action {
                 $sql = "update lkt_freight set is_default = 1 where id = '$id'";
                 $db->update($sql);
             }
+            $db->admin_record($admin_id,' 修改规则id为 '.$id.' 的状态 ',2);
+
         }
         $res = array('status' => '1','info'=>'成功！');
         echo json_encode($res);

@@ -20,44 +20,27 @@
 <div class="page-container">
     <form name="form1" action="index.php?module=orderslist&action=config" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
         <div id="tab-system" class="HuiTab">
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4">承诺天数：</label>
-                <div class="formControls col-xs-8 col-sm-4">
-                    <input type="text" name="days" value="{$days}" class="input-text">
-                    <text>如：7天到货</text>
-                </div>
-                <label class="form-label col-xs-4 col-sm-0">天</label>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4">承诺内容：</label>
-                <div class="formControls col-xs-8 col-sm-4">
-                    <input type="text" name="content" value="{$content}" class="input-text">
-                    <text>如：7天没到货,包退</text>
-                </div>
-            </div>
-            <div class="row cl">
+           <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4">退货时间：</label>
                 <div class="formControls col-xs-8 col-sm-4">
-                    <input type="text" name="back" value="{$back}" class="input-text">
-                    <text>如：买家签收后,2天之内允许退货</text>
+                    <input type="text" name="back" value="{$back*24}" class="input-text">
+                    <!--<text style="color: red;">(如：买家签收后,2天之内允许退货)</text>-->
                 </div>
-                <label class="form-label col-xs-4 col-sm-0">天</label>
+                <label style="line-height: 30px;height: 30px;" class="col-xs-4 col-sm-0">小时</label>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4">订单过期删除时间：</label>
+                <label class="form-label col-xs-4 col-sm-4">订单失效时间：</label>
                 <div class="formControls col-xs-8 col-sm-4">
-                    <input type="text" name="order_overdue" value="{$order_overdue}" class="input-text">
-                    <text>如：生成订单,2天内没付款,删除订单. 0 表示不显示</text>
+                    <input type="text" name="order_failure" value="{$order_failure}" class="input-text">
+                    <text style="color: red;">(0表示不失效)</text>
                 </div>
-                <select name="unit" class="select" style="width: 52px;height: 31px;vertical-align: middle;">
-                    {$unit}
-                </select>
+	            <label style="line-height: 30px;height: 30px;" class="col-xs-4 col-sm-0">小时</label>
             </div>
         </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
                 <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
-                <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;重置&nbsp;&nbsp;</button>
+<!--                 <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;重置&nbsp;&nbsp;</button> -->
             </div>
         </div>
     </form>

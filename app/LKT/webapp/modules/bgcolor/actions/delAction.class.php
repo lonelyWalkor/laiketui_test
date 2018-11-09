@@ -18,7 +18,8 @@ class delAction extends Action {
         $id = intval($request->getParameter('id')); //id
         // 根据id删除信息
         $sql = "delete from lkt_background_color where id = '$id'";
-        $db->delete($sql);
+        $res = $db->delete($sql);
+        echo $res;exit;
         header("Content-type:text/html;charset=utf-8");
         echo "<script type='text/javascript'>" .
             "alert('删除成功！');" .

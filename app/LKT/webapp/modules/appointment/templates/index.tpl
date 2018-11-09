@@ -14,6 +14,15 @@
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
 <title>预约列表</title>
+{literal}
+<style>
+   	td a{
+        width: 28%;
+        margin: 2% auto!important;
+    }
+
+</style>
+{/literal}
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe687;</i> 客户管理 <span class="c-gray en">&gt;</span> 预约列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -23,12 +32,15 @@
             <input type="hidden" name="module" value="appointment" />
             <input type="text" name="name" size='8' value="{$name}" id="" placeholder=" 姓名" style="width:200px" class="input-text">
             日期范围：
-            <input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;" />
-            <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.startdate);" />
-            -
-            <input name="enddate" value="{$enddate}" size="8" readonly  class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;"/>
-            <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.enddate);" />
-            <input name="" id="" class="btn btn-success" type="submit" value="查询">
+            <div style="position: relative;display: inline-block;">
+				<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />
+				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 25px;top: 7px;" onclick="new Calendar().show(document.form1.startdate);" />~
+				</div>
+				<div style="position: relative;display: inline-block;">
+				<input  name="enddate" value="{$enddate}" size="8" readonly class="scinput_s iptRl" style="" />
+				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 10px;top: 7px;" onclick="new Calendar().show(document.form1.enddate);" />
+				</div>
+            <input name="" id="btn1" class="btn btn-success" type="submit" value="查询">
         </form>
     </div>
     <div class="mt-20">
@@ -55,11 +67,29 @@
                     <td>{$item->num}</td>
                     <td>{$item->add_date}</td>
                     <td>{if $item->status == 0}<span style="color: #ff2a1f;">等待预约</span>{elseif $item->status == 1}<span style="color: #30c02d;">已预约</span>{else}<span style="color: #7A7A7A;">取消预约</span>{/if}</td>
-                    <td>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=appointment&action=see&id={$item->id}" title="查看详情" ><i class="Hui-iconfont">&#xe695;</i></a>
+                    <td style="width: 220px;text-align: center;">
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=appointment&action=see&id={$item->id}" title="查看详情" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/ck.png"/>&nbsp;查看
+                            	</div>
+                    		</div>
+                        </a>
                         {if $item->status == 0}
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=appointment&action=make&id={$item->id}" title="预约" ><i class="Hui-iconfont" style="color: red;">&#xe6e1;</i></a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=appointment&action=cancel&id={$item->id}" title="取消预约" ><i class="Hui-iconfont">&#xe6dd;</i></a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=appointment&action=make&id={$item->id}" title="预约" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/ck.png"/>&nbsp;预约
+                            	</div>
+                    		</div>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=appointment&action=cancel&id={$item->id}" title="取消预约" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/ck.png"/>&nbsp;取消
+                            	</div>
+                    		</div>
+                        </a>
                         {/if}
                     </td>
                 </tr>

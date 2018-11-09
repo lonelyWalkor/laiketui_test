@@ -116,7 +116,11 @@ class StatusAction extends Action {
 
         $fromid = $db -> select($fromidsql);
 
-        if(!empty($fromid)) $fromid1 = $fromid[0] -> fromid;
+        if(!empty($fromid)){
+          $fromid1 = $fromid[0] -> fromid;
+        }else{
+          $fromid1 = '';
+        }
 
         $usermsg -> p_name = $p_name;
 

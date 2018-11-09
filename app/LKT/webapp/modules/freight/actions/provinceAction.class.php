@@ -23,10 +23,13 @@ class provinceAction extends Action {
         }
         if($data){ // 有运费信息
             $arr = json_decode($data,true);
+
+
             foreach ($arr as $k => $v){
                 $arr1 = $v['name']; // 获取该运费下的省信息
                 $arr2[] = explode(',',$arr1);  // 转数组
             }
+
             foreach($arr2 as $k1=>$v1) {
                 foreach ($v1 as $key => $val) {
                     $arr3[] = $val; // 二维数组转以为数组
@@ -42,8 +45,15 @@ class provinceAction extends Action {
                     }
                 }
             }
-            foreach ($res as $k4 => $v4){
-                $list[] = array('GroupID'=>$k4,'G_CName'=>$v4);
+            if($res != []){
+                foreach ($res as $k4 => $v4){
+                    $list[] = array('GroupID'=>$k4,'G_CName'=>$v4);
+                }
+            }else{
+                $list = array();
+                $res = array('status' => '0','info'=>'已经全选！');
+                echo json_encode($res);
+                return;
             }
         }else{
             $list = $r;

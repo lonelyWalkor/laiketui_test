@@ -9,15 +9,18 @@
  */
 class IndexInputView extends SmartyView {
     public function execute() {
-		$request = $this->getContext()->getRequest();
-		$this->setAttribute("product_title",$request->getAttribute("product_title"));
-		$this->setAttribute("uploadImg",$request->getAttribute("uploadImg"));
+        $request = $this->getContext()->getRequest();
+        $this->setAttribute("product_title",$request->getAttribute("product_title"));
+        $this->setAttribute("uploadImg",$request->getAttribute("uploadImg"));
         $this->setAttribute("class",$request->getAttribute("class"));
         $this->setAttribute("rew",$request->getAttribute("rew"));
         $this->setAttribute("s_type",$request->getAttribute("s_type"));
         $this->setAttribute("status",$request->getAttribute("status"));
-		$this->setAttribute("list",$request->getAttribute("list"));
-		$this->setTemplate("index.tpl");
+        $this->setAttribute("list",$request->getAttribute("list"));
+        $this->setAttribute("min_inventory",$request->getAttribute("min_inventory"));
+        $this->setAttribute("pages_show",$request->getAttribute("pages_show"));
+        $this->setAttribute("pagesize",$request->getAttribute("pagesize"));
+        $this->setTemplate("index.tpl");
     }
 }
 ?>

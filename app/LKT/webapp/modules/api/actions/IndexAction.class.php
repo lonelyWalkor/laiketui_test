@@ -55,6 +55,7 @@ class IndexAction extends Action {
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
         $title = $r_1[0]->company;
+        $logo = $img.$r_1[0]->logo;
         // 查询轮播图,根据排序、轮播图id顺序排列
         $sql = "select * from lkt_banner order by sort,id";
         $r = $db->select($sql);
@@ -70,28 +71,43 @@ class IndexAction extends Action {
 
         $shou = [];
         $sql = "select * from lkt_index_page order by sort desc";
-
         $r_t = $db->select($sql);
 
         foreach ($r_t as $k => $v) {
+            if($v->type == 'img'){
+                $imgurl = $img . $v->image;
+                $shou[$k] = array('id' => $v->id,'url' => $v->url,'imgurl' => $imgurl);
+            }else{
+                $ttcid = $v->url;
+                $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$ttcid-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
+                $r_cs = $db->select($sql_cs);
 
-            $imgurl = $img . $v->image;
-
-            $shou[$k] = array('id' => $v->id,'url' => $v->url,'imgurl' => $imgurl);
+                $cproduct = [];
+                if($r_cs){
+                    foreach ($r_cs as $keyc => $valuec) {
+                        $valuec->imgurl = $img . $valuec->imgurl;
+                        $cproduct[$keyc] = $valuec;
+                    }
+                    $shou[$k] = $cproduct;
+                }
+            }
         }
 
 
-        $sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name,a.distributor_id from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.num >0 group by c.pid  order by a.volume DESC LIMIT 0,10";
+        $sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name,a.distributor_id from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.distributor_id > '0' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,20";
         $r_t = $db->select($sql_t);
 
 
-        foreach ($r_t as $k => $v) {
-                $imgurl = $img .$v->imgurl;
-                $pid = $v->id;
-                $price =$v->yprice;
-                $price_yh =$v->price;
-                $distributor[$k] = array('id' => $v->id,'name' => $v->product_title,'price' => $price,'price_yh' => $price_yh,'imgurl' => $imgurl,'volume' => $v->volume);
+        if($r){
+             $sort= $r[0]->sort;
+        }else{
+            $sort=0;
         }
+        //查询用户等级判断是否升级
+        $distribus = [];
+        //列出等级关系
+        $distributor = [];
+
 
         //查询商品并分类显示返回JSON至小程序
         $sql_c = 'select cid,pname from lkt_product_class where sid=0 order by sort desc';
@@ -111,9 +127,10 @@ class IndexAction extends Action {
             }
 
             $ttcid = $value->cid;
-            $sql_s = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class  like '%-$ttcid-%' and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,20";
 
+            $sql_s = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$ttcid-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
             $r_s = $db->select($sql_s);
+
             $product = [];
             foreach ($r_s as $k => $v) {
                 $imgurl = $img .$v->imgurl;
@@ -122,12 +139,13 @@ class IndexAction extends Action {
                 $price_yh =$v->price;
                 $product[$k] = array('id' => $v->id,'name' => $v->product_title,'price' => $price,'price_yh' => $price_yh,'imgurl' => $imgurl,'volume' => $v->volume);
             }
-            $twoList['0'] = array('id' => '0','name' => '推荐','count' => 1,'twodata' => $shou,'distributor'=>$distributor);
+            $twoList['0'] = array('id' => '0','name' => '首页','count' => 1,'twodata' => $shou,'distributor'=>$distributor);
             $twoList[$key+1] = array('id' => $value->cid,'name' => $value->pname,'count' => 1,'twodata' => $product,'icons'=>$icons);
         }
         $sql = "select * from lkt_background_color where status = 1";
         $r = $db -> select($sql);
         $bgcolor = $r[0]->color;
+
 
         // 查询插件表里,状态为启用的插件
         $sql = "select * from lkt_plug_ins where status = 1 and type = 0 and software_id = 3";
@@ -141,10 +159,16 @@ class IndexAction extends Action {
                 if($v->name == '积分'){
                     unset($plug[$k]);
                 }
+
+                if(strpos($v->name,'红包') !== false){ 
+                    if(!$rfhb){
+                        unset($plug[$k]);
+                    }
+                }
             }
         }
-
-        echo json_encode(array('banner'=>$banner,'twoList'=>$twoList,'bgcolor'=>$bgcolor,'plug'=>$plug,'title'=>$title));
+        $pmd = [];
+        echo json_encode(array('banner'=>$banner,'twoList'=>$twoList,'bgcolor'=>$bgcolor,'plug'=>$plug,'title'=>$title,'logo'=>$logo,'list'=>$pmd));
         exit();
     }
 
@@ -169,32 +193,16 @@ class IndexAction extends Action {
         if(!$paegr){
             $paegr = 1;
         }
-        $start = 0;
-        $end = 10*($paegr+1);
+        $start = 10*$paegr;
+        $end = 10;
         //查询商品并分类显示返回JSON至小程序
         if(!$index){
-
-                $sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.s_type = '3' and a.num >0 group by c.pid  order by a.sort DESC LIMIT $start,$end";
-                $r_t = $db->select($sql_t);
-                $shou = [];
-                if($r_t){
-                    foreach ($r_t as $k => $v) {
-                        $imgurl = $img .$v->imgurl;/* end 保存*/
-                        $pid = $v->id;
-                        $price =$v->yprice;
-                         $price_yh =$v->price;
-                        $shou[$k] = array('id' => $v->id,'name' => $v->product_title,'price' => $price,'price_yh' => $price_yh,'imgurl' => $imgurl,'volume' => $v->volume);
-                    }
-                    echo json_encode(array('prolist'=>$shou,'status'=>1));
+                    echo json_encode(array('prolist'=>[],'status'=>0));
                     exit;
-                }else{
-                    echo json_encode(array('prolist'=>$shou,'status'=>0));
-                    exit;
-                }
                
         }else{
             //查询商品并分类显示返回JSON至小程序
-            $sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.num >0 and a.product_class  like '%-$index-%' group by c.pid  order by a.sort DESC LIMIT $start,$end";
+            $sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.num >0 and a.status = 0 and a.product_class like '%-$index-%' group by c.pid  order by a.sort DESC LIMIT $start,$end";
             $r_s = $db->select($sql_t);
             $product = [];
             if($r_s){
@@ -226,16 +234,14 @@ class IndexAction extends Action {
         if($type == 1){
         //参加抽奖商品
             $datatime = date("Y-m-d H:m:s",time());
-            $sql01 = "select a.id,b.product_title,b.volume,b.imgurl,a.draw_brandid,a.start_time,a.end_time,a.price as price11 from lkt_draw as a ,lkt_product_list as b  where b.num > 0 and a.draw_brandid = b.id and  a.start_time <= '".$datatime ."'and a.end_time >= '".$datatime."'";
+            $sql01 = "select b.id,b.product_title,b.volume,b.imgurl,a.draw_brandid,a.start_time,a.end_time,a.price as price11 from lkt_draw as a ,lkt_product_list as b  where b.num > 0 and a.draw_brandid = b.id and  a.start_time <= '".$datatime ."'and a.end_time >= '".$datatime."'";
 
             $r01 = $db -> select($sql01);
-            // print_r($r01);
-
             foreach ($r01 as $key => $value) {
-                $draw_brandid = $value->draw_brandid;
+                $draw_brandid = $value->id;
                 $sql002 = "select yprice from lkt_configure where num >0 and pid = '$draw_brandid' ";
                 $r002 = $db -> select($sql002);
-                // print_r($sql002);die;
+                // var_dump($r01,$value,$sql01,$r002,$sql002);
                 $r01[$key]->yprice =$r002[0]->yprice;
                 
             }

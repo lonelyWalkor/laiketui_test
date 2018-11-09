@@ -1,12 +1,4 @@
 <?php
-
-/**
-
- * [Laike System] Copyright (c) 2018 laiketui.com
-
- * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
-
- */
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 
 class delAction extends Action {
@@ -14,15 +6,26 @@ class delAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         // 接收信息
-        $id = intval($request->getParameter('id')); //id
-        // 根据id删除信息
-        $sql = "delete from lkt_admin where id = '$id'";
-        $db->delete($sql);
-        header("Content-type:text/html;charset=utf-8");
-        echo "<script type='text/javascript'>" .
-            "alert('删除成功！');" .
-            "location.href='index.php?module=member';</script>";
+        $id = $request->getParameter('id'); //id
+        $id = rtrim($id, ','); // 去掉最后一个逗号
+        $id = explode(',',$id); // 变成数组
+        foreach ($id as $k => $v){
+            $sql = "select name from lkt_admin where id = '$v'";
+            $r = $db->select($sql);
+            $admin_name = $r[0]->name;
+
+            $sql = "update lkt_admin set recycle = 1 , status = 1 where id = $v";
+            // print_r($sql);die;
+            $db->update($sql);
+
+            $db->admin_record($admin_id,' 删除管理员 '.$admin_name,3);
+        }
+
+        $res = array('status' => '1','info'=>'删除成功！');
+        echo json_encode($res);
         return;
     }
 

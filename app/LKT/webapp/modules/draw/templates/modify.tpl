@@ -39,12 +39,30 @@ function check(f){
     return true;
 }
 </script>
+<style type="text/css">
+	input{
+		padding: 5px;
+		height: 30px!important;
+		box-sizing: border-box;
+		width: 500px!important;
+		border: 1px solid #eee!important;
+	}
+	.form-label{
+		padding-right: 10px;
+	}
+	.form-horizontal .form-label{
+		padding-right: 10px;
+	}
+	.row .form-label{
+		width: 20%!important;
+	}
+</style>
 {/literal}
 <title>添加抽奖活动</title>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 插件管理 <span class="c-gray en">&gt;</span> 抽奖活动 <span class="c-gray en">&gt;</span> 修改抽奖活动 </a></nav>
-<div class="pd-20">
+<div class="pd-20" style="background-color: #fff;margin: 10px;margin-top: 10px;">
     <form name="form1" class="form form-horizontal" method="post" onsubmit="return check(this);">
         <input type="hidden" name="per_money" value="0">
         <div class="row cl">
@@ -132,10 +150,10 @@ function check(f){
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
-            <div class="col-8 col-offset-4">
-                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius Submit">
-                <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius">
-                <input type="reset" name="reset1" value="返回"  class="btn btn-primary radius reset1  " onclick="javascript:window.history.back(-1);">
+            <div class="col-8 col-offset-2">
+                <input type="submit" name="Submit" value="提 交" style="width: 100px!important;" class="btn btn-primary radius Submit">
+                <!-- <input type="reset" name="reset" value="重 写"  style="width: 100px!important;" class="btn btn-primary radius"> -->
+                <input type="button" name="reset1" value="返回"  style="width: 100px!important;" class="btn btn-primary radius reset1  " onclick="javascript:window.history.back(-1);">
             </div>
         </div>
     </form>

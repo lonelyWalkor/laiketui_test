@@ -16,38 +16,78 @@ class IndexAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-		$name = addslashes(trim($request->getParameter('name'))); // 用户名
-        $pageto = $request->getParameter('pageto'); // 导出
-        $pagesize = $request->getParameter('pagesize'); // 每页显示多少条数据
-        $page = $request->getParameter('page'); // 页码
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
 
-		$condition = 'status != 1';
+        $name = addslashes(trim($request->getParameter('name'))); // 用户名
+        $Bank_card_number = addslashes(trim($request->getParameter('Bank_card_number'))); // 卡号
+        $Cardholder = addslashes(trim($request->getParameter('Cardholder'))); // 持卡人姓名
+
+        $pageto = $request -> getParameter('pageto');
+        // 导出
+        $pagesize = $request -> getParameter('pagesize');
+        $pagesize = $pagesize ? $pagesize:'10';
+        // 每页显示多少条数据
+        $page = $request -> getParameter('page');
+
+        // 页码
+        if($page){
+            $start = ($page-1)*$pagesize;
+        }else{
+            $start = 0;
+        }
+
+		$condition = ' a.status = 0 ';
+
 		if($name != ''){
 			$condition .= " and a.name = '$name' ";
 		}
-        
-        $sql = "select a.id,a.name,a.add_date,a.money,a.s_charge,a.mobile,a.status,(select Bank_name from lkt_user b1 where b1.wx_name = a.name) as Bank_name,(select Cardholder from lkt_user b2 where b2.wx_name = a.name) as Cardholder,(select Bank_card_number from lkt_user b3 where b3.wx_name = a.name) as Bank_card_number from lkt_withdraw a where $condition";
-        $r = $db->select($sql);
-        $total = count($r);
-        $pager = new ShowPager($total,$pagesize,$page);
-        $offset = $pager->offset;
-      
-        if($pageto == 'all'){ // 导出全部
-            // 查询提现表(id、会员名称、提交时间、提现金额、提现手续费、联系电话、状态),根据会员表(微信昵称)与提现表(会员昵称),查询(银行名称、持卡人、银行卡号)，以id降序排列
-            $sql = "select a.id,a.name,a.add_date,a.money,a.s_charge,a.mobile,a.status,(select Bank_name from lkt_user b1 where b1.wx_name = a.name) as Bank_name,(select Cardholder from lkt_user b2 where b2.wx_name = a.name) as Cardholder,(select Bank_card_number from lkt_user b3 where b3.wx_name = a.name) as Bank_card_number from lkt_withdraw a where $condition order by a.id desc ";
-            $list = $db->select($sql);
-        }else if($pageto == 'ne'){ // 导出本页
-            $sql = "select t1.id,t1.name,t1.add_date,t1.money,t1.s_charge,t1.mobile,t1.status,(select Bank_name from lkt_user b1 where b1.wx_name = t1.name) as Bank_name,(select Cardholder from lkt_user b2 where b2.wx_name = t1.name) as Cardholder,(select Bank_card_number from lkt_user b3 where b3.wx_name = t1.name) as Bank_card_number from (select * from lkt_withdraw a where $condition order by a.id desc limit $offset,$pagesize) t1, lkt_user t2 where t1.name = t2.user_name ";
-            $list = $db->select($sql);
-        }else{ // 不导出
-            // 查询提现表(id、会员名称、提交时间、提现金额、提现手续费、联系电话、状态),根据会员表(微信昵称)与提现表(会员昵称),查询(银行名称、持卡人、银行卡号)
-            $sql = "select a.id,a.name,a.add_date,a.money,a.s_charge,a.mobile,a.status,(select Bank_name from lkt_user b1 where b1.wx_name = a.name) as Bank_name,(select Cardholder from lkt_user b2 where b2.wx_name = a.name) as Cardholder,(select Bank_card_number from lkt_user b3 where b3.wx_name = a.name) as Bank_card_number from lkt_withdraw a where $condition";
-            $list = $db->select($sql);
+        if($Bank_card_number != ''){
+            $condition .= " and b.Bank_card_number like '%$Bank_card_number%' ";
+        }
+        if($Cardholder != ''){
+            $condition .= " and b.Cardholder = '$Cardholder' ";
         }
 
-		$request->setAttribute("name",$name);
+        $list = array();
+        $sql = "select a.user_id from lkt_withdraw as a where a.status = 0 ";
+		$r = $db->select($sql);
+        $total = 0;
+        if($r){
+            $b = array_unique($r,SORT_REGULAR);
+            $total = count($b);
+
+            $sql = "select user_id,max(add_date) as t from lkt_withdraw where status = 0 group by user_id order by t desc limit $start,$pagesize";
+            $r1 = $db->select($sql);
+            $b1 = array_unique($r1,SORT_REGULAR);
+            foreach ($b1 as $k => $v){
+                $user_id = $v->user_id;
+                $sql = "select a.id,a.user_id,a.name,a.add_date,a.money,a.s_charge,a.mobile,a.status,b.Cardholder,b.Bank_name,b.Bank_card_number,b.mobile,c.source from lkt_withdraw as a left join lkt_user_bank_card as b on a.Bank_id = b.id right join lkt_user as c on a.user_id = c.user_id where $condition and a.user_id = '$user_id' order by a.add_date desc limit 1";
+                $rr = $db->select($sql);
+                if($rr){
+                    $list[] = $rr[0];
+                }
+            }
+            if($pageto == 'all') { // 导出全部
+                $db->admin_record($admin_id,' 导出提现待审核列表 ',4);
+            }else if($pageto == 'ne'){ // 导出本页
+                $db->admin_record($admin_id,' 导出提现待审核列表第 '.$page.'页'.$pagesize.'条数据',4);
+            }else{ // 不导出
+
+            }
+        }
+        $pager = new ShowPager($total,$pagesize,$page);
+
+        $url = "index.php?module=finance&action=Index&name=".urlencode($name)."&Bank_card_number=".urlencode($Bank_card_number)."&Cardholder=".urlencode($Cardholder)."&pagesize=".urlencode($pagesize);
+        $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
+
+        $request->setAttribute("name",$name);
+        $request->setAttribute("Bank_card_number",$Bank_card_number);
+        $request->setAttribute("Cardholder",$Cardholder);
         $request->setAttribute("list",$list);
         $request->setAttribute('pageto',$pageto);
+        $request -> setAttribute('pages_show', $pages_show);
+        $request -> setAttribute('pagesize', $pagesize);
+
         return View :: INPUT;
     }
 

@@ -29,12 +29,21 @@
 
 
 <title>首页布局管理</title>
+{literal}
+<style>
+   	td a{
+        width: 44%;
+        margin: 2%!important;
+        float: left;
+    }
+</style>
+{/literal}
 
 </head>
 
 <body>
 
-<nav class="breadcrumb" style="margin-top: 0;"><i class="Hui-iconfont">&#xe646;</i> 首页布局管理 <span class="c-gray en">&gt;</span> 首页布局 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe646;</i>软件管理 <span class="c-gray en">&gt;</span> 小程序首页 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 
 <div class="pd-20">
 
@@ -54,15 +63,15 @@
 
                     <th>序</th>
 
-                    <th>图片</th>
+                    <th>图片/分类</th>
 
-                    <th>链接</th>
+                    <th>链接/分类id</th>
 
                     <th>排序号</th>
 
                     <th>发布时间</th>
 
-                    <th>操作</th>
+                    <th style="width:140px">操作</th>
 
                 </tr>
 
@@ -76,7 +85,13 @@
 
                     <td>{$smarty.foreach.f1.iteration}</td>
 
-                    <td><image class='pimg' src="{$item->image}" style="width: 150px;height:80px;"/></td>
+                    <td>
+                        {if $item->type=='img'}
+                        <image class='pimg' src="{$item->image}" style="width: 150px;height:80px;"/>
+                         {else}
+                         {$item->name}
+                         {/if}
+                    </td>
 
                     <td>{$item->url}</td>
 
@@ -86,9 +101,21 @@
 
                     <td>
 
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=software&action=pagemodify&id={$item->id}&yimage={$item->image}" title="修改" ><i class="Hui-iconfont">&#xe6df;</i></a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=software&action=pagemodify&id={$item->id}&yimage={$item->image}" title="修改" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/xg.png"/>&nbsp;修改
+                            	</div>
+                    		</div>
+                        </a>
 
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=software&action=pagedel&id={$item->id}&yimage={$item->image}" onclick="return confirm('确定要删除此首页模块吗?')"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=software&action=pagedel&id={$item->id}&yimage={$item->image}" onclick="return confirm('确定要删除此首页模块吗?')">
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/del.png"/>&nbsp;删除
+                            	</div>
+                    		</div>
+                        </a>
 
                     </td>
 
@@ -132,7 +159,7 @@
 
 $('.table-sort').dataTable({
 
-    "aaSorting": [[ 1, "desc" ]],//默认第几个排序
+    "aaSorting": [[ 4, "desc" ]],//默认第几个排序
 
     "bStateSave": true,//状态保存
 

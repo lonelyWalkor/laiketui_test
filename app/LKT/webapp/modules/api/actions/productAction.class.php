@@ -127,6 +127,7 @@ class productAction extends Action {
             $sql = "select * from lkt_user where wx_id = '$openid'";
             $r = $db->select($sql);
             $user_id = $r[0]->user_id;
+
             // 根据用户id、产品id,获取收藏表信息
             $sql = "select * from lkt_user_collection where user_id = '$user_id' and p_id = '$id'";
             $rr = $db->select($sql);
@@ -147,16 +148,16 @@ class productAction extends Action {
                 $rrr = $db->insert($sql);
             }
 
-
-        }
+             $zhekou = '';
+            }
 
 
 
         // 根据产品id,查询产品数据
-        $sql = 'select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid '."where a.id =  $id ";
+        $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 ";
         $res = $db -> select($sql);
-        if($res == ''){
-            echo json_encode(array('status'=>0,'err'=>'网络繁忙！'));
+        if(!$res){
+            echo json_encode(array('status'=>0,'err'=>'该商品已下架！'));
             exit();
         }else{
             $img_arr =  [];
@@ -176,6 +177,10 @@ class productAction extends Action {
             $cid = end($typeArr);
             $sql_p = "select pname from lkt_product_class where cid ='".$cid."'";
             $r_p = $db->select($sql_p);
+            $pname = '自营';
+            if($r_p){
+                $pname = $r_p['0']->pname;
+            }
             $pname = $r_p['0']->pname;
             $product = [];
             $imgurl = $img.$res['0']->img;
@@ -206,6 +211,7 @@ class productAction extends Action {
             $product['img_arr'] = $img_arr;
             $product['choujiangid'] = $choujiangid? '':$choujiangid;
             $product['volume'] = $res['0']->volume;
+            $product['is_zhekou'] = $res['0']->is_zhekou;
             if($type1 == 1){
                 $product['type111'] = 1;
                 $wx_id =$wx_id ;
@@ -225,7 +231,7 @@ class productAction extends Action {
                  $product['brand_name'] = '无';
             }
 
-             $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.wx_id where a.pid = '$id'";
+             $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.user_id where a.pid = '$id'";
             $r_c = $db->select($sql_c);
             $arr=[];
             foreach ($r_c as $key => $value) {
@@ -334,8 +340,8 @@ class productAction extends Action {
             $qj_price = reset($array_price)==end($array_price)? reset($array_price):reset($array_price).'-'.end($array_price);
             $qj_yprice = reset($array_yprice)==end($array_yprice)? reset($array_yprice):reset($array_yprice).'-'.end($array_yprice);
             //返回JSON             $skuBeanList = []; $attrList = [];
-            $share = array('friends' => true, 'friend' => true);
-            echo json_encode(array('status'=>1,'pro'=>$product,'qj_price'=>$qj_price,'qj_yprice'=>$qj_yprice,'attrList'=>$attrList,'skuBeanList'=>$skuBeanList,'collection_id'=>$collection_id,'comments'=>$arr,'type'=>$type,'wx_id' =>$wx_id,'share'=>$share));
+            $share = array('friends' => true, 'friend' => false);
+            echo json_encode(array('status'=>1,'pro'=>$product,'qj_price'=>$qj_price,'qj_yprice'=>$qj_yprice,'attrList'=>$attrList,'skuBeanList'=>$skuBeanList,'collection_id'=>$collection_id,'comments'=>$arr,'type'=>$type,'wx_id' =>$wx_id,'share'=>$share,'zhekou'=>$zhekou));
             exit();
         }
     }
@@ -437,7 +443,7 @@ class productAction extends Action {
         }
         $start = ($paegr-1)*10;
         $end = $paegr*10;
-        $sql = 'select a.id,a.product_title,volume,c.price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like \'%-'.$id."-%' order by $select $sort LIMIT $start,$end ";
+        $sql = 'select a.id,a.product_title,volume,c.price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like \'%-'.$id."-%' and a.status = 0 order by $select $sort LIMIT $start,$end ";
         // echo $sql;
         $r = $db->select($sql);
         if($r){
@@ -490,11 +496,55 @@ class productAction extends Action {
         }
     }
 
+    public function freight($freight,$num,$address,$db)
+    {
+        $sql = "select * from lkt_freight where id = '$freight'";
+        $r_1 = $db->select($sql);
+        if($r_1){
+            $rule = $r_1[0];
+            $yunfei = 0;
+            if(empty($address)){
+                return 0;
+            }else{
+                $sheng = $address['sheng'];
+                $sql2 = "select G_CName from admin_cg_group where GroupID = '$sheng'";
+                $r_2 = $db->select($sql2);
+                if($r_2){
+                    $city = $r_2[0]->G_CName;
+                    $rule_1 = $r_1[0]->freight;
+                    $rule_2 = unserialize($rule_1);
+                    
+                    foreach ($rule_2 as $key => $value) {
+                        $citys_str = $value['name'];
+                        $citys_array=explode(',',$citys_str);
+                        $citys_arrays = [];
+                        foreach ($citys_array as $k => $v) {
+                            $citys_arrays[$v] = $v;
+                        }
+                        if(array_key_exists($city , $citys_arrays)){
+                            if($num > $value['three']){
+                                $yunfei += $value['two']; 
+                                $yunfei += ($num-$value['three'])*$value['four']; 
+                            }else{
+                                $yunfei += $value['two']; 
+                            }
+                        }
+                    }
+                    return $yunfei;
+                }else{
+                   return 0;
+                }
+            }
+        }else{
+            return 0;
+        }
+    }
+
+
     // 进入结算页面
     public function Settlement(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $software_name = trim($request->getParameter('software_name')); // 软件名称
         $cart_id = trim($request->getParameter('cart_id')); //  购物车id
         $uid = trim($request->getParameter('uid')); // 微信id
         // 查询系统参数
@@ -508,6 +558,10 @@ class productAction extends Action {
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
 
+        //地址
+        $address = [];
+        //计算运费
+        $yunfei = 0;
         // 根据微信id,查询用户id
         $sql_user = 'select user_id,money,consumer_money from lkt_user where wx_id=\''.$uid.'\'';
         $r_user = $db->select($sql_user);
@@ -529,47 +583,42 @@ class productAction extends Action {
                 // 根据用户id、默认地址,查询收货地址信息
                 $aaaid = $r_a[0]->id;
                 $sql_q = "select * from lkt_user_address where id= '$aaaid'";
-                $r_q = $db->select($sql_q);
-                $arr['adds'] = (array)$r_q['0']; // 收货地址 
+                $r_e = $db->select($sql_q);
+                $arr['adds'] = (array)$r_e['0']; // 收货地址 
                 $sql_u = "update lkt_user_address set is_default = 1 where id = '$aaaid'";
                 $db->update($sql_u);
             }
-            
+            $address = (array)$r_e['0']; // 收货地址
         }else{
             $arr['addemt']=1; // 没有收货地址
             $arr['adds'] = ''; // 收货地址
         }
+
         $typestr=trim($cart_id,','); // 移除两侧的逗号
         $typeArr=explode(',',$typestr); // 字符串打散为数组
         //  取数组最后一个元素 并查询分类名称
         $zong =0;
 
         //新增分销分销等级商品不能再次购买
-        $sql ="select a.id from lkt_product_list AS a RIGHT JOIN lkt_order_details AS c ON a.id = c.p_id where c.user_id = '$userid' and a.distributor_id > 0 and a.num >0 group by c.p_id";
-        $products = $db->select($sql);
-        foreach ($products as $key => $value) {
-            $products[$key] = $value->id;
-        }
-        $products = (array)$products;
+        $status= [];
+        $products = [];
         //查询是否是会员卡商品 限制支付方式只能为余额和微信
-        $sql_t = "select a.id,a.distributor_id from lkt_product_list AS a where a.distributor_id > '0' group by a.id  order by a.sort DESC ";
-        $r_t = $db->select($sql_t);
         $distributor_products = [];
-        foreach ($r_t as $kt => $vt) {
-            $distributor_products[$kt] = $vt->id;
-        }
-        $distributor_products = (array)$distributor_products;
+        
         //控制优惠方式
         $discount = true;
-
         $pstuat = true;
+
+        $usort = 0;
 
         foreach ($typeArr as $key => $value) {
             // 联合查询返回购物信息
-            $sql_c = 'select a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,c.price,c.attribute,c.img,c.yprice from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where c.num >0 and a.id = \''.$value.'\'';
+            $sql_c = "select a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,c.price,c.attribute,c.img,c.yprice,m.freight,m.product_class from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where c.num >0 and m.status ='0' and a.id = '$value'";
             $r_c = $db->select($sql_c);
             $product = (array)$r_c['0']; // 转数组
             $attribute = unserialize($product['attribute']);
+            $product_id[] = $product['Goods_id'];
+            $product_class[] = $product['product_class'];
             $size = '';
             foreach ($attribute as $ka => $va) {
                 $size .= ' '.$va;
@@ -577,11 +626,28 @@ class productAction extends Action {
             $Goods_id = $product['Goods_id'];
             if(in_array($Goods_id, $products)){
                 $pstuat = false;
+                $status_id = $Goods_id;
             }
 
-            if(in_array($Goods_id, $distributor_products)){
+            if(array_key_exists($Goods_id, $distributor_products)){ // 检查数组里是否有指定的键名或索引
                 $discount = false;
+                $grade_id = $distributor_products[$Goods_id];
+                if($grade_id){
+                    $sql_grade = "select sort from lkt_distribution_grade where id = '$grade_id' ";
+                    $r_grade = $db -> select($sql_grade);
+                    if($r_grade){
+                        $gsort = $r_grade[0]->sort;
+                        if($gsort <= $usort){
+                            echo json_encode(array('status'=>0,'err'=>'存在无法购买的商品！'));
+                            exit;
+                            break;
+                        }
+                    }
+                }
             }
+            //计算运费
+            $yunfei = $yunfei + $this->freight($product['freight'],$product['Goods_num'],$address,$db);
+
             $product['photo_x'] = $img.$product['img'];/* 拼接图片链接*/
             $num = $product['Goods_num']; // 产品数量
             $price = $product['price']; // 产品价格
@@ -590,118 +656,282 @@ class productAction extends Action {
             $res[$key] = $product; 
         }
 
-        if($pstuat){
-                $arr['price'] = $zong; // 产品总价
-                $arr['pro'] = $res; // 产品信息
+        // 查询自动满减设置
+        $sql = "select * from lkt_subtraction where id = 1";
+        $r_subtraction = $db->select($sql);
+        $subtraction = [];
+        if($r_subtraction){
+            $subtraction = unserialize($r_subtraction[0]->subtraction); // 自动满减
 
-                $time = date("Y-m-d H:i:s"); // 当前时间
-                // 查询当前有哪些满减活动
-                $sql = "select * from lkt_coupon_activity where start_time <= '$time' and '$time' < end_time and activity_type = 3 order by z_money";
-                $r_activity = $db->select($sql);
-                $reduce_money = 0;
-                $arr['name'] = ''; // 活动名称
-                $arr['reduce_money'] = ''; // 满减金额
-                if($r_activity){
-                    foreach ($r_activity as $k => $v) {
-                        $reduce_id = $v->id; // 满减活动id
-                        $z_money = $v->z_money; // 满足多少
-                        if($zong > $z_money){
-                            $arr['name'] = $v->name; // 活动名称
-                            $asd[] = $v->name; // 活动名称
-                            $reduce_money = $v->money; // 减的金额
-                            $arr['reduce_money'] = $v->money; // 满减金额
-                        }
-                    }
-                    $zong = $zong - $reduce_money;
-                }else{
-                    $arr['name'] = ''; // 活动名称
-                    $arr['reduce_money'] = ''; // 满减金额
-                }
+            if($r_subtraction[0]->status == 1){
+                $man_money = $r_subtraction[0]->man_money; // 满多少包邮
+                $region = $r_subtraction[0]->region; // 不包邮地区
+                $region_list = explode(',',$region);
+                if($man_money <= $zong){ // 当商品总价满足 包邮限制
+                    $sql = "select G_CName from admin_cg_group where GroupID = ".$address['sheng'];
+                    $r_address = $db->select($sql);
+                    $G_CName = $r_address[0]->G_CName;
 
-                $scoresql = 'select lever,ordernum,scorenum from lkt_setscore order by lever';  //查询消费金参数
-                $scoremsg = $db -> select($scoresql);
-                //$scoremsg = array_reverse($scoremsg);
-                foreach ($scoremsg as $k => $v) {
-                    if($v -> lever < 0){
-                        $arr['scorebl'] = $v -> ordernum;
-                        unset($scoremsg[$k]);
-                    }
-                }
-                $arr['scorebuy'] = $scoremsg;
-
-                $sql = "select name from lkt_software where type = 0 and id = '$software_name' order by id desc";
-                $rrrr_1 = $db->select($sql);
-                $name1 = $rrrr_1[0]->name;
-                 $sql = "select id from lkt_software where type = 0 and name = '$name1' order by id desc";
-                 $rrrr = $db->select($sql);
-                 foreach ($rrrr as $key => $value) {
-                     $software_id[] = $value->id;
-                 }
-                 foreach ($software_id as $ke => $val) {
-                    // 根据用户id,查询优惠券状态为 (使用中)
-                    $sql = "select * from lkt_coupon where user_id = '$userid' and software_id = '$val' and type = 1";
-                    $r = $db->select($sql);
-                    if($r){
-                        $r = $r;
-                        // break;
+                    if(in_array($G_CName, $region_list)){
+                        $arr['freight'] = $yunfei; // 运费
                     }else{
-                        $r = '';
+                        $arr['freight'] = 0; // 运费
                     }
-                 }
-                if($r){
-                    foreach ($r as $k => $v) {
-                        $id = $v->id; // 优惠券id
-                        // 根据优惠券id,查询订单表(查看优惠券是否绑定)
-                        $sql = "select id from lkt_order where coupon_id = '$id' ";
-                        $rr = $db->select($sql);
-                        if(empty($rr)){ // 没有数据,表示优惠券没绑定
-                            $money = $v->money; // 优惠券金额
-                            if($money >= $zong){
+                }else{ // 当订单总价不满足 包邮限制
+                    $arr['freight'] = $yunfei; // 运费
+                }
+            }else{
+                $arr['freight'] = $yunfei; // 运费
+            }
+        }
+
+        $order_zong = $zong + $yunfei; // 订单总价
+        $reduce_name = '';
+        $reduce = 0;
+        if($subtraction){
+            foreach ($subtraction as $kk => $vv){
+                foreach ($vv as $kk1 => $vv1){
+                    if($order_zong > $kk1){
+                        $reduce_name = '满'.$kk1.'减'.$vv1;
+                        $reduce = $vv1;
+                        break;
+                    }
+                }
+            }
+        }
+        $arr['name'] = $reduce_name;
+        $arr['reduce_money'] = $reduce;
+
+        $order_zong = $order_zong - $reduce;
+        if($pstuat){
+            $arr['price'] = $zong; // 产品总价
+            $arr['pro'] = $res; // 产品信息
+
+            $time = date("Y-m-d H:i:s"); // 当前时间
+
+            $scoresql = 'select lever,ordernum,scorenum from lkt_setscore order by lever';  //查询消费金参数
+            $scoremsg = $db -> select($scoresql);
+            foreach ($scoremsg as $k => $v) {
+                if($v -> lever < 0){
+                    $arr['scorebl'] = $v -> ordernum;
+                    unset($scoremsg[$k]);
+                }
+            }
+            $arr['scorebuy'] = $scoremsg;
+
+            // 根据用户id,查询优惠券状态为 (使用中)
+            $sql = "select * from lkt_coupon where user_id = '$userid' and type = 1";
+            $r = $db->select($sql);
+            if($r){
+                $r = $r;
+            }else{
+                $r = '';
+            }
+//            print_r($id);
+//            echo "<br>";
+            if($r){
+                foreach ($r as $k => $v) {
+                    $id = $v->id; // 优惠券id
+                    // 根据优惠券id,查询订单表(查看优惠券是否绑定)
+                    $sql = "select id from lkt_order where coupon_id = '$id' ";
+                    $rr = $db->select($sql);
+
+                    if(empty($rr)){ // 没有数据,表示优惠券没绑定
+                        $hid = $v->hid; // 活动id
+                        $money = $v->money; // 优惠券金额
+                        $sql = "select * from lkt_coupon_activity where id = '$hid'";
+                        $rr1 = $db->select($sql);
+                        $activity_type = $rr1[0]->activity_type; // 类型
+                        $product_class_id = $rr1[0]->product_class_id; // 分类id
+                        $product_id1 = $rr1[0]->product_id; // 商品id
+                        $z_money = $rr1[0]->z_money; // 满减金额
+                        if($activity_type == 1){ // 当活动为注册类型
+                            if($money >= $order_zong){
                                 // 当优惠券金额比总价格高时,修改优惠券状态为(未使用)
                                 $sql = "update lkt_coupon set type = 0 where id = '$id'";
                                 $db->update($sql);
                                 $arr['coupon_id'] = ''; // 付款金额
                                 $arr['money'] = ''; // 优惠券金额
-                                $arr['coupon_money'] = $zong; // 付款金额
+                                $arr['coupon_money'] = $order_zong; // 付款金额
                                 $arr['user_money'] = $user_money; // 用户余额
                                 $arr['discount'] = $discount; // 优惠控制
                                 $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
-                                echo json_encode(array('status'=>0,'arr'=>$arr,'err'=>'优惠券金额过大!'));
+                                echo json_encode(array('status'=>1,'arr'=>$arr));
                                 exit;
                             }else{
                                 $arr['coupon_id'] = $id; // 付款金额
                                 $arr['money'] = $v->money; // 优惠券金额
-                                $arr['coupon_money'] = $zong - $money; // 付款金额
+                                $arr['coupon_money'] = $order_zong - $money; // 付款金额
                                 $arr['user_money'] = $user_money; // 用户余额
                                 $arr['discount'] = $discount; // 优惠控制
                                 $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                 echo json_encode(array('status'=>1,'arr'=>$arr));
                                 exit;
                             }
-                        }else{ // 有数据
-                            $arr['coupon_id'] = ''; // 付款金额
-                            $arr['money'] = ''; // 优惠券金额
-                            $arr['coupon_money'] = $zong; // 付款金额
-                            $arr['user_money'] = $user_money; // 用户余额
-                            $arr['discount'] = $discount; // 优惠控制
-                            $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
-                            echo json_encode(array('status'=>1,'arr'=>$arr));
-                            exit;
+                        }else if($activity_type == 3){ // 当活动为满减类型
+                            if($order_zong < $z_money){
+                                // 当订单总价格不满足满减金额时,修改优惠券状态为(未使用)
+                                $sql = "update lkt_coupon set type = 0 where id = '$id'";
+                                $db->update($sql);
+                                $arr['coupon_id'] = ''; // 付款金额
+                                $arr['money'] = ''; // 优惠券金额
+                                $arr['coupon_money'] = $order_zong; // 付款金额
+                                $arr['user_money'] = $user_money; // 用户余额
+                                $arr['discount'] = $discount; // 优惠控制
+                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                echo json_encode(array('status' => 1, 'arr' => $arr));
+                            }else{
+                                $arr['coupon_id'] = $id; // 付款金额
+                                $arr['money'] = $v->money; // 优惠券金额
+                                $arr['coupon_money'] = $order_zong - $money; // 付款金额
+                                $arr['user_money'] = $user_money; // 用户余额
+                                $arr['discount'] = $discount; // 优惠控制
+                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                echo json_encode(array('status'=>1,'arr'=>$arr));
+                                exit;
+                            }
+                        }else{ // 活动类型为节日/活动
+                            if($product_class_id == 0){ // 当没设置商品分类
+                                if($money >= $order_zong){
+                                    // 当优惠券金额比总价格高时,修改优惠券状态为(未使用)
+                                    $sql = "update lkt_coupon set type = 0 where id = '$id'";
+                                    $db->update($sql);
+                                    $arr['coupon_id'] = ''; // 付款金额
+                                    $arr['money'] = ''; // 优惠券金额
+                                    $arr['coupon_money'] = $order_zong; // 付款金额
+                                    $arr['user_money'] = $user_money; // 用户余额
+                                    $arr['discount'] = $discount; // 优惠控制
+                                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                    echo json_encode(array('status'=>1,'arr'=>$arr));
+                                    exit;
+                                }else{
+                                    $arr['coupon_id'] = $id; // 付款金额
+                                    $arr['money'] = $v->money; // 优惠券金额
+                                    $arr['coupon_money'] = $order_zong - $money; // 付款金额
+                                    $arr['user_money'] = $user_money; // 用户余额
+                                    $arr['discount'] = $discount; // 优惠控制
+                                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                    echo json_encode(array('status'=>1,'arr'=>$arr));
+                                    exit;
+                                }
+                            }else{ // 当设置商品分类
+                                // 根据活动指定的商品分类查询所有商品的分类
+                                $sql = "select product_class from lkt_product_list where product_class like '%$product_class_id%'";
+                                $rr_1 = $db->select($sql);
+                                if($rr_1){
+                                    $calss_status = 1; // 商品属于优惠券指定的分类
+                                    foreach ($rr_1 as $k1 => $v1){
+                                        $rr_list[$k1] = $v1->product_class;
+                                    }
+                                    foreach ($product_class as $k2 => $v2){
+                                        if(!in_array($v2, $rr_list)){
+                                            $calss_status = 0; // 商品不属于优惠券指定的分类
+                                            break;
+                                        }
+                                    }
+                                    if($calss_status == 0){ // 当有商品不属于优惠券指定的分类
+                                        // 根据优惠券id,修改优惠券状态（未使用）
+                                        $sql = "update lkt_coupon set type = 0 where id = '$id'";
+                                        $db->update($sql);
+                                        $arr['coupon_id'] = ''; // 付款金额
+                                        $arr['money'] = ''; // 优惠券金额
+                                        $arr['coupon_money'] = $order_zong; // 付款金额
+                                        $arr['user_money'] = $user_money; // 用户余额
+                                        $arr['discount'] = $discount; // 优惠控制
+                                        $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                    }else{
+                                        $product_status = 1; // 商品属于优惠券指定商品
+                                        if ($product_id1 != 0) { // 当优惠券指定了商品
+                                            foreach ($product_id as $k3 => $v3){
+                                                if ($product_id1 != $v3) {
+                                                    $product_status = 0;
+                                                    break;
+                                                }
+                                            }
+                                            if($product_status == 0){
+                                                // 根据优惠券id,修改优惠券状态（未使用）
+                                                $sql = "update lkt_coupon set type = 0 where id = '$id'";
+                                                $db->update($sql);
+                                                $arr['coupon_id'] = ''; // 付款金额
+                                                $arr['money'] = ''; // 优惠券金额
+                                                $arr['coupon_money'] = $order_zong; // 付款金额
+                                                $arr['user_money'] = $user_money; // 用户余额
+                                                $arr['discount'] = $discount; // 优惠控制
+                                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                            }else{
+                                                if ($money >= $order_zong) {
+                                                    // 当优惠券金额比总价格高时,修改优惠券状态为(未使用)
+                                                    $sql = "update lkt_coupon set type = 0 where id = '$id'";
+                                                    $db->update($sql);
+                                                    $arr['coupon_id'] = ''; // 付款金额
+                                                    $arr['money'] = ''; // 优惠券金额
+                                                    $arr['coupon_money'] = $order_zong; // 付款金额
+                                                    $arr['user_money'] = $user_money; // 用户余额
+                                                    $arr['discount'] = $discount; // 优惠控制
+                                                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                                } else {
+                                                    $arr['coupon_id'] = $id; // 付款金额
+                                                    $arr['money'] = $v->money; // 优惠券金额
+                                                    $arr['coupon_money'] = $order_zong - $money; // 付款金额
+                                                    $arr['user_money'] = $user_money; // 用户余额
+                                                    $arr['discount'] = $discount; // 优惠控制
+                                                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                                }
+                                            }
+                                        }else { // 当优惠券没有指定商品
+                                            if ($money >= $order_zong) {
+                                                // 当优惠券金额比总价格高时,修改优惠券状态为(未使用)
+                                                $sql = "update lkt_coupon set type = 0 where id = '$id'";
+                                                $db->update($sql);
+                                                $arr['coupon_id'] = ''; // 付款金额
+                                                $arr['money'] = ''; // 优惠券金额
+                                                $arr['coupon_money'] = $order_zong; // 付款金额
+                                                $arr['user_money'] = $user_money; // 用户余额
+                                                $arr['discount'] = $discount; // 优惠控制
+                                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                            } else {
+                                                $arr['coupon_id'] = $id; // 付款金额
+                                                $arr['money'] = $v->money; // 优惠券金额
+                                                $arr['coupon_money'] = $order_zong - $money; // 付款金额
+                                                $arr['user_money'] = $user_money; // 用户余额
+                                                $arr['discount'] = $discount; // 优惠控制
+                                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
+                    }else{ // 有数据
+                        $arr['coupon_id'] = ''; // 付款金额
+                        $arr['money'] = ''; // 优惠券金额
+                        $arr['coupon_money'] = $order_zong; // 付款金额
+                        $arr['user_money'] = $user_money; // 用户余额
+                        $arr['discount'] = $discount; // 优惠控制
+                        $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                     }
-                }else{
-                    $arr['money'] = ''; 
-                    $arr['coupon_id'] = '';
-                    $arr['coupon_money'] = $zong; // 付款金额
-                    $arr['user_money'] = $user_money; // 用户余额
-                    $arr['discount'] = $discount; // 优惠控制
-                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
-                    echo json_encode(array('status'=>1,'arr'=>$arr));
-                    exit;
                 }
+                echo json_encode(array('status' => 1, 'arr' => $arr));
+                exit;
+            }else{
+                $arr['money'] = '';
+                $arr['coupon_id'] = '';
+                $arr['coupon_money'] = $order_zong; // 付款金额
+                $arr['user_money'] = $user_money; // 用户余额
+                $arr['discount'] = $discount; // 优惠控制
+                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
+                echo json_encode(array('status'=>1,'arr'=>$arr));
+                exit;
+            }
         }else{
-                    echo json_encode(array('status'=>0,'err'=>'存在无法购买的商品！'));
-                    exit;
+            if($status[$status_id] == 0){
+                echo json_encode(array('status'=>0,'err'=>'您有会员套餐未付款订单！'));
+                exit;
+            }else{
+                echo json_encode(array('status'=>0,'err'=>'存在无法购买的商品！'));
+                exit;  
+            }
+
         }
 
     }
@@ -870,13 +1100,15 @@ class productAction extends Action {
         $user_money = $r_user['0']->money; // 用户余额
         $userid = $r_user['0']->user_id; // 用户id
 
-        if($user_money > $total){
+        if($user_money >= $total){
             // 根据微信id,修改用户余额
-            $sql = "update lkt_user set money = money-'$total' where user_id = '$userid'";
-            $r = $db->update($sql);
-            $event = $userid.'使用了'.$total.'元余额';
-            $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$userid','$total','$user_money','$event',4)";
-            $rr = $db->insert($sqll);
+            if($total > 0){
+                $sql = "update lkt_user set money = money-'$total' where user_id = '$userid'";
+                $r = $db->update($sql);
+                $event = $userid.'使用了'.$total.'元余额';
+                $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$userid','$total','$user_money','$event',4)";
+                $rr = $db->insert($sqll);
+            }
             echo json_encode(array('status' => 1, 'succ' => '扣款成功!')); 
         }else{
             echo json_encode(array('status' => 0, 'err' => '余额不足！'));
@@ -887,13 +1119,16 @@ class productAction extends Action {
     // 创建订单操作
     public function payment(){
         $db = DBAction::getInstance();
+        //开启事务
+        $db->begin();
+
         $request = $this->getContext()->getRequest();
         $cart_id = trim($request->getParameter('cart_id')); // 购物车id
         $uid = trim($request->getParameter('uid')); // 微信id
         $type = trim($request->getParameter('type')); // 用户支付方式
         $coupon_id = trim($request->getParameter('coupon_id')); // 优惠券id
-        $r_name =  trim($request->getParameter('name')); // 用户使用满减金额名称
-        $reduce_money =  trim($request->getParameter('reduce_money')); // 用户使用满减金额
+        $r_name =  trim($request->getParameter('name')); // 自动满减金额名称
+        $reduce_money =  trim($request->getParameter('reduce_money')); // 自动满减金额
         $allow = trim($request->getParameter('allow')); // 用户使用积分
         $red_packet = trim($request->getParameter('red_packet')); // 用户使用红包
         $total = $_POST['total']; // 付款金额
@@ -934,16 +1169,22 @@ class productAction extends Action {
             $shi = $r_a['0']->city; // 市
             $xian = $r_a['0']->quyu; // 县
             $sNo = $this ->order_number(); // 生成订单号
+            // 根据省的id,查询省名称
+            $sql = "select G_CName from admin_cg_group where GroupID = '$sheng'";
+            $r1 = $db->select($sql);
+            if($r1){
+                $G_CName = $r1[0]->G_CName; // 省
+            }
+
+            $z_freight = 0; // 总运费
+
             //  拆分购物ID 依次插入数据库
             $typestr=trim($cart_id,',');
             $typeArr=explode(',',$typestr);
             foreach ($typeArr as $key => $value) {
                 // 联合查询返回购物信息
-                $sql_c = "select a.Size_id,a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,c.price,c.attribute,c.img,c.yprice from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$value' and c.num >= a.Goods_num ";
-
+                $sql_c = "select a.Size_id,a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,m.freight,c.price,c.attribute,c.img,c.yprice,c.unit from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$value' and c.num >= a.Goods_num ";
                 $r_c = $db->select($sql_c);
-                $od_id = [];
-                // var_dump($r_c);
                 if(!empty($r_c)){
                     $product = (array)$r_c['0']; // 转数组
                     $product['photo_x'] = $img.$product['img'];/* 拼接图片链接*/
@@ -953,7 +1194,61 @@ class productAction extends Action {
                     $z_price += $num*$price; // 总价
                     $pid = $product['Goods_id']; // 商品id
                     $product_title = $product['product_title']; // 商品名称
-                     $size_id = $product['Size_id']; // 商品Size_id  
+                    $size_id = $product['Size_id']; // 商品Size_id  
+                    $unit = $product['unit'];
+                    $freight_id = $r_c[0]->freight; // 运费id
+                    if(empty($freight_id) || $freight_id == 0){ // 当运费id不存在 或者 为0 时
+                        $freight = 0; // 运费为0
+                    }else{
+                        // 根据运费id,查询运费信息
+                        $sql = "select type,freight from lkt_freight where id = '$freight_id'";
+                        $r2 = $db->select($sql);
+                        if($r2){
+                            $freight_type = $r2[0]->type;
+                            $freight_1 = unserialize($r2[0]->freight);
+                            $freight_status = 0; // 表示收货地址不存在运费规则里
+                            $weight = 1;
+                            foreach ($freight_1 as $k2 => $v2){
+                                $province_arr = explode(',',$v2['name']); // 省份数组
+                                if(in_array($G_CName,$province_arr)){
+                                    $one = $v2['one']; // 首件/重
+                                    $two = $v2['two']; // 运费
+                                    $three = $v2['three']; // 续件/重
+                                    $four = $v2['four']; // 续费
+                                    $province_name = $G_CName; // 省
+                                    $freight_status = 1; // 表示收货地址存在运费规则里
+                                    continue;
+                                }
+                            }
+                            if($freight_status == 1){
+                                if($freight_type == 0){ // 运费为计件时
+                                    if($num > $one){ // 当购买数量大于首件数量时
+                                        $Goods_num_1 = $num - $one;
+                                        $freight = $two;
+                                        $frequency = ceil($Goods_num_1/$three);
+                                        $freight = $four * $frequency + $freight; // 运费
+                                    }else{ // 当购买数量低于或等于首件数量时
+                                        $freight = $two; // 运费
+                                    }
+                                }else{ // 运费为计重时
+                                    $z_weight = $num * $weight;
+                                    if($z_weight > $one){ // 当购买数量大于首件数量时
+                                        $z_weight_1 = $z_weight - $one;
+                                        $freight = $two;
+                                        $frequency = ceil($z_weight_1/$three);
+                                        $freight = $four * $frequency + $freight; // 运费
+                                    }else{ // 当购买数量低于或等于首件数量时
+                                        $freight = $two; // 运费
+                                    }
+                                }
+                            }else{
+                                $freight = 0; // 运费
+                            }
+                        }
+                    }
+
+                    $z_freight += $freight;
+
                     //写入配置
                     $attribute = unserialize($product['attribute']);
                     $size = '';
@@ -961,27 +1256,31 @@ class productAction extends Action {
                         $size .= $va.' ';
                     }
                     // 循环插入订单附表
-                   $sql_d = 'insert into lkt_order_details(user_id,p_id,p_name,p_price,num,unit,r_sNo,add_time,r_status,size,sid) VALUES '."('$userid','$pid','$product_title','$price','$num','件','$sNo',CURRENT_TIMESTAMP,0,'$size','$size_id')";
+                   $sql_d = 'insert into lkt_order_details(user_id,p_id,p_name,p_price,num,unit,r_sNo,add_time,r_status,size,sid,freight) VALUES '."('$userid','$pid','$product_title','$price','$num','$unit','$sNo',CURRENT_TIMESTAMP,0,'$size','$size_id','$freight')";
 
-                    $od_id[$key] = $db->insert($sql_d,'last_insert_id');
-
+                    $beres = $db->insert($sql_d);
+                    if($beres < 1){
+                        $db->rollback();
+                        echo json_encode(array('status' => 0, 'err' => '下单失败,请稍后再试!'));
+                        exit;
+                    }
                     // 删除对应购物车内容
                     $sql_del = 'delete from lkt_cart where id="'.$value.'"';
                     $res_del = $db -> delete($sql_del);
-
+                    if($res_del < 1){
+                        $db->rollback();
+                        echo json_encode(array('status' => 0, 'err' => '下单失败,请稍后再试!'));
+                        exit;
+                    }
                 }else{
                     //回滚删除已经创建的订单
-                    if(!empty($od_id)){
-                        foreach ($od_id as $key => $value) {
-                            $sql_del = 'delete from lkt_order_details where id="'.$value.'"';
-                            $db -> delete($sql_del);
-                        }
-                    }
+                    $db->rollback();
                     echo json_encode(array('status' => 0, 'err' => '下单失败,请稍后再试!'));
                     exit;
                 }
             }
-            $spz_price = $z_price;
+            $spz_price = $z_price; // 商品总价
+
             // 判断积分使用
             if ($allow >0 && $allow != 'undefined') {
                 $z_price = $z_price - $allow;
@@ -990,7 +1289,7 @@ class productAction extends Action {
             }
             // 判断红包使用
             if ($red_packet >0 && $red_packet != 'undefined') {
-                $z_price = $z_price - $red_packet;
+                // $z_price = $z_price - $red_packet;
             }else{
                 $red_packet = 0;
             }
@@ -1009,29 +1308,35 @@ class productAction extends Action {
             }else{
                 $coupon_id = 0;
                 $c_money = 0;
-                $z_price = $z_price;
             }
 
+            $z_price = $z_price + $z_freight; // 订单总价
+
             // 在订单表里添加一条数据
-            $sql_o = 'insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,remark,pay,add_time,status,coupon_id,consumer_money,coupon_activity_name,spz_price,reduce_price,coupon_price,red_packet) VALUES '.
-            "('$userid','$name','$mobile','$z_num','$z_price','$sNo','$sheng','$shi','$xian','$address',' ','$type',CURRENT_TIMESTAMP,0,'$coupon_id','$allow','$coupon_activity_name','$spz_price','$reduce_money','$c_money','$red_packet')";
+            $sql_o = 'insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,remark,pay,add_time,status,coupon_id,consumer_money,coupon_activity_name,spz_price,reduce_price,coupon_price,red_packet,source) VALUES '.
+            "('$userid','$name','$mobile','$z_num','$z_price','$sNo','$sheng','$shi','$xian','$address',' ','$type',CURRENT_TIMESTAMP,0,'$coupon_id','$allow','$coupon_activity_name','$spz_price','$reduce_money','$c_money','$red_packet',1)";
 
             $r_o = $db->insert($sql_o,"last_insert_id");
             if($r_o > 0){
                 if($allow){
+
                     $sql = "update lkt_user set consumer_money = consumer_money - '$allow' where user_id = '$userid'";
                     $db->update($sql);
+
                     $event = $userid.'抵用'.$allow.'元消费金';
                     //类型 1:转入(收入) 2:提现 3:管理佣金 4:使用消费金 5收入消费金 6 系统扣款
                     $sqlldr = "insert into lkt_distribution_record (user_id,from_id,money,sNo,level,event,type,add_date) values ('$userid','$userid','$allow','$sNo','0','$event','4',CURRENT_TIMESTAMP)";
                     $db->insert($sqlldr);
                 }
                 //返回
+                $db->commit();
                 $arr = array('pay_type' => $type,'sNo' => $sNo,'coupon_money' => $z_price,'coupon_id' => $coupon_id,'order_id' => $r_o);
                 echo json_encode(array('status' => 1, 'arr' => $arr));
                 exit;
             }else{
-                echo json_encode(array('status' => 0, 'err' => '请勿重复下单！'));
+                //回滚删除已经创建的订单
+                $db->rollback();
+                echo json_encode(array('status' => 0, 'err' => '下单失败,请稍后再试!'));
                 exit;
             }
         }
@@ -1042,30 +1347,25 @@ class productAction extends Action {
         return date('Ymd',time()).time().rand(10,99);//18位
     }
 
-    // 付款后修改订单状态,并修改商品库存-----计算分销
+    // 付款后修改订单状态,并修改商品库存-
     public function up_order(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $coupon_id = trim($request->getParameter('coupon_id')); // 优惠券id
-        $allow = trim($request->getParameter('allow')); // 用户使用积分
+        $allow = trim($request->getParameter('allow')); // 用户使用消费金
         $coupon_money = trim($request->getParameter('coupon_money')); // 付款金额
         $order_id = trim($request->getParameter('order_id')); // 订单号
         $user_id = trim($request->getParameter('user_id')); // 微信id
         $d_yuan = trim($request->getParameter('d_yuan')); // 抵扣余额
-        $trade_no = trim($request->getParameter('trade_no')); // 抵扣余额
-
+        $trade_no = trim($request->getParameter('trade_no')); // 微信支付单号
+        $pay =  trim($request->getParameter('pay'));
         // 根据微信id,查询用户id
         $sql_user = 'select user_id,money from lkt_user where wx_id=\''.$user_id.'\'';
         $r_user = $db->select($sql_user);
         if($r_user){
             $userid = $r_user['0']->user_id; // 用户id
             $user_money =  $r_user['0']->money; // 用户余额
-            if($allow ){
-                $event = "会员" . $userid . "使用了" . $allow . "消费金";
-                //类型 1:转入(收入) 2:提现 3:管理佣金 4:使用消费金 5收入消费金 6 系统扣款
-                $sqlldr = "insert into lkt_distribution_record (user_id,from_id,money,sNo,level,event,type,add_date) values ('$userid','$user_id','$allow','$order_id','0','$event','4',CURRENT_TIMESTAMP)";
-                $db->insert($sqlldr);
-            }
+
             if($d_yuan){
                 // 使用组合支付的时候 lkt_combined_pay
                 $sql = "update lkt_user set money = money-'$d_yuan' where user_id = '$userid'";
@@ -1091,12 +1391,45 @@ class productAction extends Action {
                 $rr = $db->insert($sqll);
             }
 
+            if($coupon_money <= 0 && $allow > 0){
+                // 根据订单号、用户id,修改订单状态(未发货)
+                $sql_u = "update lkt_order set status = 1,pay = 'consumer_pay',trade_no='$trade_no' where sNo = '$order_id' and user_id = '$userid' ";
+                $r_u = $db->update($sql_u);
+            }else{
+                // 根据订单号、用户id,修改订单状态(未发货)
+                $rpay = '';
+                if($pay){
+                    $rpay = " ,pay = '$pay'";
+                }
+                $sql_u = "update lkt_order set status = 1 $rpay,trade_no='$trade_no' where sNo = '$order_id' and user_id = '$userid' ";
+                $r_u = $db->update($sql_u);
+            }
+
+            if($allow && $coupon_money > 0){
+                // 使用组合支付的时候 lkt_combined_pay 消费金情况
+                if($pay == 'wallet_Pay'){
+                    $zpay = 'balance_pay';
+                }else{
+                    $zpay = 'weixin_pay';
+                }
+                //写入日志
+                $total = $allow + $coupon_money;
+                $sqll = "insert into lkt_combined_pay ($zpay,consumer_pay,total,order_id,add_time,user_id) values ('$coupon_money','$allow','$total','$order_id',CURRENT_TIMESTAMP,'$user_id')";
+                $rr = $db->insert($sqll);
+                // 根据修改支付方式
+                $sql_combined = "update lkt_order set pay = 'combined_Pay' where sNo = '$order_id' and user_id = '$userid' ";
+                $r_combined = $db->update($sql_combined);
+
+                //微信支付记录-写入日志
+                $event = $userid.'使用组合支付了'.$total.'元--订单号:'.$order_id;
+                $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$userid','$coupon_money','$d_yuan','$event',4)";
+                $rr = $db->insert($sqll);
+            }
+
             // 根据用户id、优惠券id,修改优惠券状态(已使用)
             $sql = "update lkt_coupon set type = 2 where user_id = '$userid' and id = '$coupon_id'";
             $db->update($sql);
-            // 根据订单号、用户id,修改订单状态(未发货)
-            $sql_u = "update lkt_order set status = 1,trade_no='$trade_no' where sNo = '$order_id' and user_id = '$userid' ";
-            $r_u = $db->update($sql_u);
+            
             // 根据订单号,查询商品id、商品名称、商品数量
             $sql_o = "select p_id,num,p_name,sid from lkt_order_details where r_sNo = '$order_id' ";
             $r_o = $db->select($sql_o);
@@ -1125,6 +1458,9 @@ class productAction extends Action {
                 $r_id = $db->select($sql_id);
                 $id = $r_id['0']->id; // 订单id
                 $time =date("Y-m-d h:i:s",time()); // 当前时间
+                // $ds =  $this->distribution($r_id); 
+                $ds =  false;
+
                 echo json_encode(array('status'=>1,'succ'=>'操作成功!','sNo' => $order_id,'coupon_money' => $coupon_money,'id' => $id,'pname'=>$pname,'time'=>$time,'qu'=>$ds));
                 exit;
             }else{
@@ -1136,6 +1472,7 @@ class productAction extends Action {
             exit;
         }
     }
+
 
      // 发送评论数据
     public function comment(){
@@ -1183,6 +1520,7 @@ class productAction extends Action {
     //添加评论
     public function t_comment(){
         $db = DBAction::getInstance();
+        $db->begin();
         $request = $this->getContext()->getRequest();
         $type = trim($request->getParameter('type'));
         if($type == 'file'){
@@ -1203,7 +1541,12 @@ class productAction extends Action {
             $sql ="insert into lkt_comments_img(comments_url,comments_id,add_time) VALUES ('$imgURL_name','$id',CURRENT_TIMESTAMP)";
             $res = $db->insert($sql);
             
-            if(!$res){
+            if($res){
+                $db->commit();
+                echo json_encode(array('status'=>1,'err'=>'修改成功','sql'=>$sql));
+                exit;
+            }else{
+                $db->rollback();
                 echo json_encode(array('status'=>0,'err'=>'修改失败'));
                 exit;
             }
@@ -1241,14 +1584,20 @@ class productAction extends Action {
                 $content = htmlentities($content);
 
                 $CommentType =  $value->score; // 评论类型
+
+                $sql = "select user_id from lkt_user where wx_id = '$uid'";
+                $r_name = $db->select($sql);
+                $user_id = $r_name[0]->user_id;
+
                 $arr = array();
                 if($content != '' || count($images) != 0){
                     $sql_c = "select oid from lkt_comments where oid = '$oid' and pid = '$pid' and attribute_id = '$attribute_id' ";
                     $r_c = $db->select($sql_c);
                     if(empty($r_c['0'])){
-                        $sql_d = 'insert into lkt_comments(oid,uid,pid,attribute_id,size,content,CommentType,add_time) VALUES '."('$oid','$uid','$pid','$attribute_id','$size','$content','$CommentType',CURRENT_TIMESTAMP)";
-                        $cid[$value->pingid] = $db->insert($sql_d,'last_insert_id');
-                        if($cid){
+                        $sql_d = 'insert into lkt_comments(oid,uid,pid,attribute_id,size,content,CommentType,add_time) VALUES '."('$oid','$user_id','$pid','$attribute_id','$size','$content','$CommentType',CURRENT_TIMESTAMP)";
+                        $lcid = $db->insert($sql_d,'last_insert_id');
+                        $cid[$value->pingid] = $lcid;
+                        if($lcid > 0){
                             $sql_d = "update lkt_order_details set r_status = 5 where r_sNo = '$oid' and sid = '$attribute_id'";
                             $r_d = $db->update($sql_d);
 
@@ -1264,18 +1613,28 @@ class productAction extends Action {
                                     $db->update($sql);
                                 }
                             }
-                            echo json_encode(array('status'=>1,'succ'=>'评论成功!','arrid'=>$cid));
-                            exit; 
+
                         }else{
+                            var_dump($sql_d);
                             echo json_encode(array('status'=>0,'err'=>'修改失败'));
                             exit;
                         }
                     }else{
+                        $db->rollback();
                         echo json_encode(array('status'=>0,'err'=>'亲!评论过了1'));
                         exit; 
                     } 
+                }else{
+                    $db->rollback();
+                    echo json_encode(array('status'=>0,'err'=>'修改失败'));
+                    exit;
                 }
+
             }
+
+            $db->commit();
+            echo json_encode(array('status'=>1,'succ'=>'评论成功!','arrid'=>$cid));
+            exit; 
         }
     }
     //替换
@@ -1345,13 +1704,13 @@ class productAction extends Action {
         $start = ($paegr-1)*10;
         $end = 10;
 
-        $sql ="select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.s_type = ".$id." and a.num >0 and a.distributor_id = 0 group by c.pid order by $select $sort LIMIT $start,$end ";
+        $sql ="select a.id,a.product_title,a.imgurl,a.volume,min(c.price) as price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.s_type like '%$id%' and a.status = 0 and a.num >0 group by c.pid order by $select $sort LIMIT $start,$end ";
 
         $r = $db->select($sql);
         if($r){
             $product = [];
             foreach ($r as $k => $v) {
-                $imgurl = $img.$v->img;/* end 保存*/
+                $imgurl = $img.$v->imgurl;/* end 保存*/
                 $pid = $v->id;
                 $sql_ttt = "select price,yprice from lkt_configure where pid ='$pid' order by price asc ";
                 $r_ttt = $db->select($sql_ttt);
@@ -1370,7 +1729,6 @@ class productAction extends Action {
     public function choujiangjiesuan(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // print_r($request);die;
         $productId = trim($request->getParameter('productId')); //  购物车id
         $uid = trim($request->getParameter('uid')); // 微信id
         $choujiangid = trim($request->getParameter('choujiangid')); //  活动id

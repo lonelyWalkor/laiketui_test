@@ -171,7 +171,12 @@ class signAction extends Action {
         // 查询签到参数
         $sql = "select * from lkt_sign_config where id = 1";
         $r = $db->select($sql);
-        $imgurl = $img . $r[0]->imgurl; // 签到图片
+        if($r){
+            $imgurl = $img . $r[0]->imgurl; // 签到图片
+        }else{
+            $imgurl = $img; // 签到图片
+        }
+        
 
         // 查询正在进行的签到活动
         $sql = "select * from lkt_sign_activity where status = 1";
@@ -262,21 +267,19 @@ class signAction extends Action {
 
         $sql01 = "select sign_score,sign_time,type from lkt_sign_record where user_id = '$user_id' order by sign_time desc";
         $list_1 = $db->select($sql01);
-        // print_r($sql01);die;
         $r_3 = [];
         if($list_1){
             foreach ($list_1 as $k => $v) {
-                if($v->type == 0 || $v->type == 4){
+                if($v->type == 0 || $v->type == 2 || $v->type == 4 || $v->type == 6 || $v->type == 7){
                     $v->sign_time = date("Y-m-d",strtotime($v->sign_time));
                     $r_3[]=$v;
-                    // print_r($r_3);die;
                 }
             }
         }
         $r_4 = [];
         if($list_1){
             foreach ($list_1 as $k => $v) {
-                if($v->type == 1 || $v->type == 3){
+                if($v->type == 1 || $v->type == 3 || $v->type == 5){
                     $v->sign_time = date("Y-m-d",strtotime($v->sign_time));
                     $r_4[]=$v;
                 }
@@ -286,7 +289,11 @@ class signAction extends Action {
         $r01 = $db->select($sql01);
         $switch = $r01[0]->switch;
 
-        echo json_encode(array('status'=>1,'logo'=>$logo,'score'=>$score,'sign'=>$r_3,'consumption'=>$r_4,'switch'=>$switch));
+        $sql = "select * from lkt_software_jifen where id = 1";
+        $rules = $db->select($sql);
+        $rule = $rules[0]->rule;
+
+        echo json_encode(array('status'=>1,'logo'=>$logo,'rule'=>$rule,'score'=>$score,'sign'=>$r_3,'consumption'=>$r_4,'switch'=>$switch));
         exit;
     }
 

@@ -19,6 +19,19 @@ class IndexAction extends Action {
         $request = $this->getContext()->getRequest();
 
         $m =$request->getParameter('m');
+
+        $pagesize = $request -> getParameter('pagesize');
+        $pagesize = $pagesize ? $pagesize:'10';
+        // 每页显示多少条数据
+        $page = $request -> getParameter('page');
+
+        // 页码
+        if($page){
+            $start = ($page-1)*$pagesize;
+        }else{
+            $start = 0;
+        }
+
         if(!empty($m)){
             if($m == 'del_simg'){
                  $res = $this-> del_simg();
@@ -28,6 +41,11 @@ class IndexAction extends Action {
         }
         // 查询推广图，根据sort顺序排列
         $sql = "select * from lkt_extension order by sort";
+        $r_pager = $db->select($sql);
+        $total = count($r_pager);
+        $pager = new ShowPager($total,$pagesize,$page);
+
+        $sql = "select * from lkt_extension order by add_date limit $start,$pagesize ";
         $r = $db->select($sql);
 
         // 查询配置表信息
@@ -40,8 +58,12 @@ class IndexAction extends Action {
         }else{ // 不存在
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
+        $url = "index.php?module=extension&action=Index&pagesize=".urlencode($pagesize);
+        $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
+
         $request->setAttribute("uploadImg",$uploadImg);
         $request->setAttribute("list",$r);
+        $request -> setAttribute('pages_show', $pages_show);
 
         return View :: INPUT;
     }

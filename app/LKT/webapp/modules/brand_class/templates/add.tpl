@@ -32,23 +32,50 @@ function check(f){
 <div class="pd-20">
     <form name="form1" action="index.php?module=brand_class&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <div class="row cl">
-            <label class="form-label col-4"><span class="c-red"></span>品牌名称：</label>
+            <label class="form-label col-4"><span class="c-red">*</span>中文名称：</label>
             <div class="formControls col-6">
                 <input type="text" class="input-text" name="pname" datatype="*6-18" style="width: 260px;">
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>品牌图片：</label>
+            <label class="form-label col-4"><span class="c-red"></span>英文名称：</label>
+            <div class="formControls col-6">
+                <input type="text" class="input-text" name="y_pname" datatype="*6-18" style="width: 260px;">
+            </div>
+            <div class="col-4"> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>品牌logo：</label>
             <div class="formControls col-xs-8 col-sm-6"> 
-                <img id="thumb_url" src='{$uploadImg}nopic.jpg' style="height:100px;width:150">
+                <img id="thumb_url" src='{$uploadImg}nopic.jpg' style="height:100px;width:150px;">
                 <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
                 <input type="hidden" name="oldpic" >
                 <button class="btn btn-success" id="image"  type="button" >选择图片</button>
             </div>
             <div class="col-4"> </div>
         </div>
-        
+        <div class="row cl">
+            <label class="form-label col-4"><span class="c-red"></span>产地：</label>
+            <div class="formControls col-6">
+                <input type="text" class="input-text" name="producer" datatype="*6-18" style="width: 260px;">
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-4"><span class="c-red"></span>排序：</label>
+            <div class="formControls col-6">
+                <input type="text" class="input-text" name="sort" datatype="*6-18" value="100" style="width: 260px;">
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-4"><span class="c-red"></span>备注：</label>
+            <div class="formControls col-6">
+                <input type="text" class="input-text" name="remarks" datatype="*6-18" style="width: 260px;">
+            </div>
+            <div class="col-4"></div>
+        </div>
         <div class="row cl">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
@@ -74,7 +101,7 @@ KindEditor.ready(function(K) {
   K('#image').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurl').val(),
           clickFn : function(url, title, width, height, border, align) {

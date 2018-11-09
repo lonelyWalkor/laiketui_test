@@ -96,6 +96,18 @@ class testAction extends Action {
         $delsql = "delete from lkt_user_fromid where UNIX_TIMESTAMP(lifetime) < '$now'";
         $delres = $db -> delete($delsql);
         
+        //十二宫格抽奖处理过期代码
+        $sql2 = "select * from lkt_twelve_draw_config where 1=1 ";
+        $r2 = $db->select($sql2);
+        $arr = unserialize($r2[0]->sets);
+
+        $time = $arr['invalid'];
+        if($time){
+            $date = date('Y-m-d H:i:s', strtotime("-$time days"));
+            $sql = "update lkt_twelve_draw_order set status='4' where id in(select a.id from(select id from lkt_twelve_draw_order where addtime < '$date' and status = '2')as a)";
+            $res = $db -> update($sql);
+        }
+        
     }
 
     public function Send_fail($uid,$fromid,$sNo,$p_name,$price,$template_id,$page){

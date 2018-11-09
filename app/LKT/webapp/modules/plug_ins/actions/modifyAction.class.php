@@ -71,6 +71,8 @@ class modifyAction extends Action {
 	public function execute(){
 		$db = DBAction::getInstance();
 		$request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         // 接收信息
 		$id = intval($request->getParameter('id'));
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片上传位置
@@ -169,11 +171,15 @@ class modifyAction extends Action {
             $r = $db->update($sql);
 
             if($r == -1) {
+                $db->admin_record($admin_id,' 修改插件id为 '.$id.' 的信息失败 ',2);
+
                 echo "<script type='text/javascript'>" .
                     "alert('未知原因，修改失败！');" .
                     "location.href='index.php?module=plug_ins';</script>";
                 return $this->getDefaultView();
             } else {
+                $db->admin_record($admin_id,' 修改插件id为 '.$id.' 的信息 ',2);
+
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('修改成功！');" .

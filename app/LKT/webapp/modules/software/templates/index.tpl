@@ -14,12 +14,25 @@
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
 <title>插件管理</title>
+{literal}
+<style>
+   	td a{
+        width: 44%;
+        margin: 2%!important;
+        float: left;
+    }
+</style>
+{/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe654;</i> 软件管理 <span class="c-gray en">&gt;</span> 软件列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe654;</i> 系统管理 <span class="c-gray en">&gt;</span> 版本管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
     <div style="clear:both;">
-        <input type="button" class="btn btn-primary radius" value="添加软件" onclick="location.href='index.php?module=software&action=add';" />
+        <button class="btn radius" style="background-color:#38b4ed;color: #fff;" onclick="location.href='index.php?module=software&action=add';" >
+        	<div style="height: 100%;display: flex;align-items: center;font-size: 14px;">
+                <img src="images/icon1/fsx.png"/>&nbsp;添加版本
+           	</div>
+        </button>
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort">
@@ -32,7 +45,7 @@
                     <th>软件版本</th>
                     <th>版本号</th>
                     <th>发布时间</th>
-                    <th>操作</th>
+                    <th style="width:140px">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,8 +63,20 @@
                     <td>{$item->edition}</td>
                     <td>{$item->add_time}</td>
                     <td>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=software&action=modify&id={$item->id}&uploadImg={$uploadImg}&upload_file={$upload_file}" title="修改" ><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=software&action=del&id={$item->id}&uploadImg={$uploadImg}&upload_file={$upload_file}" onclick="return confirm('确定要删除此软件吗?')"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=software&action=modify&id={$item->id}&uploadImg={$uploadImg}&upload_file={$upload_file}" title="修改" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/xg.png"/>&nbsp;修改
+                            	</div>
+                    		</div>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="confirm('确定要删除此软件吗?',{$item->id})">
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/del.png"/>&nbsp;删除
+                            	</div>
+                    		</div>
+                        </a>
                     </td>
                 </tr>
             {/foreach}
@@ -128,6 +153,65 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         $(this).fadeOut("fast");  
     });  
 }
+function appendMask(content,src){
+	$("body").append(`
+		<div class="maskNew">
+			<div class="maskNewContent">
+				<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+				<div class="maskTitle">删除订单</div>	
+				<div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+				<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+					${content}
+				</div>
+				<div style="text-align:center;margin-top:30px">
+					<button class="closeMask" onclick=closeMask1() >确认</button>
+				</div>
+				
+			</div>
+		</div>	
+	`)
+};
+function closeMask(id){
+	$.ajax({
+    	type:"get",
+//  	{$item->id}&uploadImg={$uploadImg}&upload_file={$upload_file}
+    	url:"index.php?module=software&action=del&id="+id,
+    	async:true,
+    	success:function(res){
+    		console.log(res)
+    		if(res==1){
+    			appendMask("删除成功","cg");
+    		}
+    		else{
+    			appendMask("删除失败","ts");
+    		}
+    	}
+    	
+   });
+  }
+function closeMask1(){
+			$(".maskNew").remove();
+			location.replace(location.href);
+		}
+function confirm (content,id){
+	
+	$("body").append(`
+		<div class="maskNew">
+			<div class="maskNewContent">
+				<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+				<div class="maskTitle">提示</div>	
+				<div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+				<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+					${content}
+				</div>
+				<div style="text-align:center;margin-top:30px">
+					<button class="closeMask" style="margin-right:20px" onclick=closeMask("${id}") >确认</button>
+					<button class="closeMask" onclick=closeMask1() >取消</button>
+				</div>
+			</div>
+		</div>	
+	`)
+};
 </script>
 {/literal}
 </body>

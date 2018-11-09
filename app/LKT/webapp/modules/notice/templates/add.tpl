@@ -21,17 +21,17 @@
 <div class="pd-20">
     <form name="form1" action="index.php?module=notice&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>公告图片：</label>
-			<div class="formControls col-xs-8 col-sm-8"> 
-				<img id="thumb_url" src='{$uploadImg}nopic.jpg' style="height:100px;width:150">
-				<input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
-				<input type="hidden" name="oldpic" >
-				<button class="btn btn-success" id="image"  type="button" >选择图片</button>
-			</div>
-			<div class="col-4"> </div>
-		</div>
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>公告图片：</label>
+            <div class="formControls col-xs-8 col-sm-8"> 
+                <img id="thumb_url" src='{$uploadImg}nopic.jpg' style="height:100px;width:150">
+                <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
+                <input type="hidden" name="oldpic" >
+                <button class="btn btn-success" id="image"  type="button" >选择图片</button>
+            </div>
+            <div class="col-4"> </div>
+        </div>
         <div class="row cl">
-            <label class="form-label col-2">公告介绍：</label>
+            <label class="form-label col-2">公告名称：</label>
             <div class="formControls col-10"> 
                <input type="text" name="notice">
             </div>
@@ -39,7 +39,7 @@
 
 
         <div class="row cl">
-            <label class="form-label col-2">公告介绍：</label>
+            <label class="form-label col-2">活动介绍：</label>
             <div class="formControls col-10"> 
                 <script id="editor" type="text/plain" style="width:100%;height:400px;" name="detail"></script> 
             </div>

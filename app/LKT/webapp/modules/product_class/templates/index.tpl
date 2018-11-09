@@ -13,41 +13,104 @@
 <link href="style/css/style.css" rel="stylesheet" type="text/css" />
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
-<title>产品分类管理</title>
+<title>商品分类</title>
+{literal}
+<style type="text/css">
+td a{
+    width: 28%;
+    float: left;
+    margin: 2%!important;
+}
+.pagination a, .pagination span {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #0275d8;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    text-decoration:none;
+}
+.pagination {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: .25rem;
+}
+</style>
+{/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品分类管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 商品分类 </nav>
 <div class="pd-20">
     <div style="clear:both;">
-        <input type="button" class="btn btn-primary radius" value="添加新分类" onclick="location.href='index.php?module=product_class&action=add';" />
+        <input type="hidden" name="cid" id="cid" value="{$cid}">
+        <input type="button" class="btn btn-primary radius" id="syj" value="返回上一级" onclick="javascript :history.back(-1);" {if !$level} style="display: none;"{/if} />
+        <button type="button" class="btn newBtn radius"  onclick="location.href='index.php?module=product_class&action=add';" >
+        	<img src="images/icon1/add.png" alt="" />新增分类
+        </button>
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
                 <tr class="text-c">
-                    <th>ID</th>
+                    <th>分类ID</th>
                     <th>分类图片</th>
                     <th>分类名称</th>
-                    <th>排序号</th>
+                    <th>分类级别</th>
                     <th>添加时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tbody">
             {foreach from=$list item=item name=f1}
                 <tr class="text-c">
-                    <td>{$smarty.foreach.f1.iteration}</td>
+                    <td>{$item->cid}</td>
                     <td>{if $item->img != ''}<image class="pimg" src="{$uploadImg}{$item->img}" style="width: 50px;height:50px;"/>{else}<span>暂无图片</span>{/if}</td>
-                    <td ><div style="text-align: left">{$item->str}{$item->pname}</div></td>
-                    <td>{$item->sort}</td>
+                    <td>{$item->pname}</td>
+                    <td>{$level_xs}</td>
                     <td>{$item->add_date}</td>
-                    <td>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=product_class&action=modify&cid={$item->cid}&uploadImg={$uploadImg}" title="修改" ><i class="Hui-iconfont">&#xe6df;</i></a>
-                        {if $item->tistrue=='1'}
-                            <font class="ml-5" style="color:red;" title="已删除"><i class="Hui-iconfont">&#xe6e2;</i></font>
-                        {else}
-                            <a style="text-decoration:none" class="ml-5" href="index.php?module=product_class&action=del&cid={$item->cid}&uploadImg={$uploadImg}" onclick="return confirm('确定要删除此产品分类吗?')"><i class="Hui-iconfont">&#xe6e2;</i></a>
-                        {/if}
+                    <td style="width: 180px;" >
+
+						<a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="on_top(this,'{$item->cid}','{$item->sid}')">
+							<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                    <img src="images/icon1/zd.png"/>&nbsp;置顶
+                            	</div>
+                            </div>
+						</a>
+						<a style="text-decoration:none;" class="ml-5" onclick="del(this,'{$item->cid}','{$item->status}')" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                                <div style="margin:0 auto;display: flex;align-items: center;">
+                                    <img src="images/icon1/del.png"/>&nbsp;删除
+                                </div>
+                            </div>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=product_class&action=modify&cid={$item->cid}" title="修改" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                    <img src="images/icon1/xg.png"/>&nbsp;修改
+                            	</div>
+                            </div>
+                        </a>
+                        <a style="text-decoration:none;width: 44%;" class="ml-5" href="index.php?module=product_class&action=add&cid={$item->cid}" title="在此分类下添加" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                    <img src="images/icon1/add_g.png"/>&nbsp;添加分类
+                            	</div>
+                            </div>
+                        </a>
+						<a style="text-decoration:none;width: 44%;" class="ml-5" href="index.php?module=product_class&action=Index&cid={$item->cid}" title="查看该分类的下级" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                    <img src="images/icon1/ck.png"/>&nbsp;查看下级
+                            	</div>
+                            </div>
+                        </a>
                     </td>
                 </tr>
             </form>
@@ -55,8 +118,9 @@
             </tbody>
         </table>
     </div>
+    <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
-<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div> 
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div>
 <script type="text/javascript" src="style/js/jquery.js"></script>
 
 <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
@@ -69,11 +133,29 @@
 {literal}
 <script type="text/javascript">
 $(function(){  
-        $(".pimg").click(function(){  
-            var _this = $(this);//将当前的pimg元素作为_this传入函数  
-            imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);  
-        });  
+    $(".pimg").click(function(){
+        var _this = $(this);//将当前的pimg元素作为_this传入函数
+        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
     });
+});
+
+function on_top(obj,cid,sid) {
+    $.ajax({
+       type: "POST",
+       url: location.href,
+       data: {
+            cid:cid,
+            sid:sid
+       },
+       success: function(msg){
+         if(msg == 1){
+            location.replace(location.href);
+        }else{
+            alert('修改失败！');
+        }
+       }
+    });
+}
 function imgShow(outerdiv, innerdiv, bigimg, _this){  
     var src = _this.attr("src");//获取当前点击的pimg元素中的src属性  
     $(bigimg).attr("src", src);//设置#bigimg元素的src属性  
@@ -112,14 +194,101 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         $(this).fadeOut("fast");  
     });  
 }
-// $('.table-sort').dataTable({
-//     "aaSorting": [[ 1, "desc" ]],//默认第几个排序
-//     "bStateSave": true,//状态保存
-//     "aoColumnDefs": [
-//       //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-//       {"orderable":false,"aTargets":[0,4]}// 制定列不参与排序
-//     ]
-// });
+
+// 选择
+function select(cid){
+    var v = $('#select_'+cid+' option:selected') .val();//选中的值
+    if(v == 1){
+        window.location.href = "index.php?module=product_class&action=add&cid="+cid;
+    }else if(v == 2){
+        window.location.href = "index.php?module=product_class&action=Index&cid="+cid;
+    }
+}
+
+function on_top(obj,cid,sid) {
+    $.ajax({
+        type: "POST",
+        url: location.href,
+        data: {
+            cid:cid,
+            sid:sid
+        },
+        success: function(msg){
+            if(msg == 1){
+                location.replace(location.href);
+            }else{
+                appendMask('修改失败！',"ts");
+                location.replace(location.href);
+            }
+        }
+    });
+}
+/*删除*/
+function del(obj,id,status){
+    if(status == 1){
+		let content="该分类有商品,不能删除!";
+		appendMask(content,"ts");
+    }else{
+        confirm("确认删除此分类？",id);
+    }
+}
+function appendMask(content,src){
+	$("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">删除</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" onclick=closeMask1() >确认</button>
+                </div>
+            </div>
+        </div>
+    `)
+}
+function closeMask(id){
+    $.ajax({
+        type: "POST",
+        url: "index.php?module=product_class&action=del",
+        data: {'cid':id},
+        dataType:"html",
+        success: function(res){
+            if(res==1){
+                appendMask("删除成功","cg")
+            }else if(res == 2){
+                appendMask("有下级不允删除","ts")
+            }else{
+                appendMask("删除失败","ts")
+            }
+        }
+    });
+    $(".maskNew").remove();
+}
+function closeMask1(){
+	$(".maskNew").remove();
+    location.replace(location.href);
+}
+function confirm (content,id){
+	$("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">删除</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" style="margin-right:20px" onclick=closeMask(${id}) >确认</button>
+                    <button class="closeMask" onclick=closeMask1() >取消</button>
+                </div>
+            </div>
+        </div>
+    `)
+}
 </script>
 {/literal}
 </body>

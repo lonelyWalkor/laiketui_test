@@ -19,7 +19,7 @@ class groupproAction extends Action {
         $sql = "select m.*,l.product_title as pro_name from (select p.id,p.product_id,p.group_id,c.img as image,p.group_price,p.member_price,c.price as market_price,c.name as attr_name,c.color,c.size as guige,p.classname from lkt_group_product as p left join lkt_configure as c on p.attr_id=c.id where p.group_id='$id' order by p.classname) as m left join lkt_product_list as l on m.product_id=l.id";
 
         $res = $db -> select($sql);
-        
+        $len = count($res);
                 // 查询系统参数
         $sql1 = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql1);
@@ -33,7 +33,10 @@ class groupproAction extends Action {
         foreach ($res as $k => $v) {
             $res[$k] -> image = $img.$v -> image;
         }
+        $status = trim($request->getParameter('status')) ? 1:0;
+        $request->setAttribute("status",$status);
         $request->setAttribute("list",$res);
+        $request->setAttribute("len",$len);
         return View :: INPUT;
     }
 

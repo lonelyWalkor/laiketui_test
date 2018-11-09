@@ -22,16 +22,7 @@ require_once(MO_LIB_DIR . '/DBAction.class.php');
 
 
 
-
-
-
-
 class pagemodifyAction extends Action {
-
-
-
-
-
 
 
 	public function getDefaultView() {
@@ -88,7 +79,7 @@ class pagemodifyAction extends Action {
 
             $sort = $r[0]->sort; // 排序
 
-
+            $type = $r[0]->type;
 
         }
 
@@ -126,23 +117,13 @@ class pagemodifyAction extends Action {
         $request->setAttribute('article', $article);      
         $request->setAttribute("list",$list);
         $request->setAttribute('products', $products);
-        
         $request->setAttribute("uploadImg",$uploadImg);
         $request->setAttribute("image",$image);
         $request->setAttribute('id', $id);
         $request->setAttribute('url', $url);
         $request->setAttribute('sort', $sort);
-
-
-
-
-
-
-
+        $request->setAttribute('type', $type);
         return View :: INPUT;
-
-
-
 	}
 
 
@@ -175,157 +156,50 @@ class pagemodifyAction extends Action {
 
 
 	public function execute(){
-
-
-
 		$db = DBAction::getInstance();
-
-
-
 		$request = $this->getContext()->getRequest();
-
-
-
         // 接收信息
-
-
-
 		$id = intval($request->getParameter('id'));
-
-
-
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片上传位置
-
-
-
         $image = addslashes(trim($request->getParameter('image'))); // 轮播图
-
-
-
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 原轮播图
-
-
-
         $url = addslashes(trim($request->getParameter('url'))); // 链接
-
-
-
         $sort = floatval(trim($request->getParameter('sort'))); // 排序
-
-
-
-
-
-
-
+        $type = trim($request->getParameter('type')); // 类型
+        $product_class = trim($request->getParameter('product_class')); // 分类
         if($image){
-
-
-
             $image = preg_replace('/.*\//','',$image);
-
-
-
             if($image != $oldpic){
-
-
-
                 @unlink ($uploadImg.$oldpic);
-
-
-
             }
-
-
-
         }else{
-
-
-
             $image = $oldpic;
-
-
-
         }
-
-
-
-
-
-
-
+        if($type == 'img'){
+           $sql = "update lkt_index_page set image = '$image',url = '$url', sort = '$sort',type = '$type' where id = '$id'"; 
+       }else{
+           $sql = "update lkt_index_page set url = '$product_class', sort = '$sort',type = '$type' where id = '$id'";
+       }
 		//更新数据表
-
-
-
-		$sql = "update lkt_index_page " .
-
-
-
-			"set image = '$image',url = '$url', sort = '$sort' "
-
-
-
-			."where id = '$id'";
-
-
-
+		
 		$r = $db->update($sql);
-
-
-
-
-
-
-
 		if($r == -1) {
-
-
-
 		echo "<script type='text/javascript'>" .
-
-
-
 				"alert('未知原因，修改失败！');" .
-
-
-
 				"location.href='index.php?module=software&action=pageindex';</script>";
-
-
-
 			return $this->getDefaultView();
-
-
 
 		}else {
 
-
-
 			header("Content-type:text/html;charset=utf-8");
-
-
 
 			echo "<script type='text/javascript'>" .
 
-
-
 				"alert('修改成功！');" .
 
-
-
 				"location.href='index.php?module=software&action=pageindex';</script>";
-
-
-
 		}
-
-
-
 		return;
-
-
-
 	}
 
 

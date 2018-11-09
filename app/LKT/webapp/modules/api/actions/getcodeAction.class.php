@@ -198,12 +198,27 @@ class getcodeAction extends Action {
         $yprice =$request->getParameter('yprice');
         $nickname =$request->getParameter('nickname');
         $head = $request->getParameter('head');
+        $regenerate = trim($request->getParameter('regenerate'));
+        
         //默认底图和logo
         $logo ='../LKT/images/ditu/logo.png';
 
-
         $path = $request->getParameter('path');
         $id = $request->getParameter('id');
+
+
+        // 生成密钥
+        $utoken = '';
+        $str = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890';
+        for ($i=0;$i<32;$i++){
+            $utoken .= $str[rand(0,61)];
+        }
+
+        $usql = "select img_token from lkt_user where user_id = '$id'";
+        $uur = $db->select($usql);
+        $lu_token = isset($uur[0]) ? md5($uur[0]->img_token):md5($id);
+        $img_token = isset($uur[0]) ? $uur[0]->img_token:false;
+
 	   //定义固定分享图片储存路径 以便删除
  		$imgDir = 'product_share_img/';
         $sql = "select * from lkt_config where id=1";
@@ -215,23 +230,37 @@ class getcodeAction extends Action {
 	        $uploadImg = $r[0]->uploadImg; // 图片上传位置
 	        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
 	            $img = $uploadImg_domain . $uploadImg; // 图片路径
-	        }else{ // 不存在
+	        }else{ 
+                // 不存在
 	            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
 	        }
 	        $product_img = $uploadImg.$product_img;
-            $font_file  = substr($uploadImg_domain,strripos($uploadImg_domain,"/")+1);
-            // define("FONT_ROOT", substr($uploadImg_domain,strripos($uploadImg_domain,"/")+1));
-        }
-
-        $pic = $id.'-'.$pid.'-'.$type.'-ewm.jpg';
-        if(is_file($uploadImg.$imgDir.$pic)) {
-            $url=$img.$imgDir.$pic;
-            echo json_encode(array('status' => true,'url' => $url));
-            exit;
+            $font_file_path = dirname(dirname(MO_WEBAPP_DIR));
+            $font_file  = $font_file_path.substr($uploadImg,2);
         }
 
         $tkt_sql = "select * from lkt_extension where type ='$type' and isdefault='1' ";
         $tkt_r = $db->select($tkt_sql);
+
+        $pic = $lu_token.'-'.$type.'-'.$pid.'-ewm.jpg';
+        if($regenerate || !$img_token){
+             //通过控制access_token 来校验不同二维码
+             @unlink ($uploadImg.$imgDir.$pic);
+             $lu_token = md5($utoken);
+             $sql = "update lkt_user set img_token = '$utoken' where user_id = '$id'";
+             $db->update($sql);
+             $pic = $lu_token.'-'.$type.'-ewm.jpg';
+        }
+
+        if(is_file($uploadImg.$imgDir.$pic)) {
+            $url=$img.$imgDir.$pic;
+            $waittext = isset($tkt_r[0]->waittext) ? $tkt_r[0]->waittext:'#fff';
+            echo json_encode(array('status' => true,'url' => $url,'waittext'=>$waittext));
+            exit;
+        }
+
+        $waittext = isset($tkt_r[0]->waittext) ? $tkt_r[0]->waittext:'#fff';
+  
         if(empty($tkt_r)){
                 $tkt_sql = "select * from lkt_extension where type ='$type'";
                 $tkt_r = $db->select($tkt_sql);
@@ -241,6 +270,7 @@ class getcodeAction extends Action {
                     exit;   
                 }
         }
+        
         if($type == '1'){
             //文章
             if(!empty($r)){
@@ -329,7 +359,7 @@ class getcodeAction extends Action {
 		// header("content-type:image/jpeg");
 		imagejpeg($dest,$uploadImg.$imgDir.$pic);
 		$url=$img.$imgDir.$pic;
-		echo json_encode(array('status' => true,'url' => $url));
+		echo json_encode(array('status' => true,'url' => $url,'waittext'=>$waittext));
 		exit;
 	}
 	//创建图片 根据类型
@@ -394,6 +424,7 @@ class getcodeAction extends Action {
         $letter = $arr[0];
         foreach($letter as $l) {
             $teststr = $content.$l;
+            // var_dump($fontsize, $angle, $fontface, $teststr);
             $testbox = imagettfbbox($fontsize, $angle, $fontface, $teststr);
             if (($testbox[2] > $width) && ($content !== "")) {
                 $content .= PHP_EOL;
@@ -411,7 +442,10 @@ class getcodeAction extends Action {
         }else{
             $width = imagesx($dest)*2;
         }
-        $font_file = ($_SERVER['DOCUMENT_ROOT']).'/'.$fontfile.'/LKT/images/simhei.ttf';
+
+        $font_file = $fontfile.'simhei.ttf';
+
+        // var_dump($font_file);
         $colors = $this->hex2rgb($data['color']);
         $color  = imagecolorallocate($dest,$colors['red'], $colors['green'], $colors['blue']);//背景色
         $string = $this->autowrap($data['size'], 0, $font_file, $string,$width);
@@ -509,7 +543,9 @@ class getcodeAction extends Action {
 
             $da = $this->httpsRequest($url,$data);
             //发送post带参数请求 
+            // var_dump($da);exit;
             // header('content-type:image/jpeg');
+            // echo $da;exit;
             $newFile = fopen($newFilePath,"w"); //打开文件准备写入
             fwrite($newFile,$da); //写入二进制流到文件
             fclose($newFile); //关闭文件
@@ -644,6 +680,7 @@ class getcodeAction extends Action {
 			$currentTime = time();
 			// 2.修改文件时间
 			$fileName = "accessToken"; // 文件名
+            // var_dump(is_file($fileName),$fileName);
 			if(is_file($fileName)) {
 				$modifyTime = filemtime($fileName);
 				if(($currentTime - $modifyTime) < 7200) {

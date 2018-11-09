@@ -37,7 +37,7 @@ class delAction extends Action {
         $sql = "select * from lkt_software where id = '$id'";
 
         $r = $db->select($sql);
-
+		
         $image = $r[0]->image;
 
         // $subtitle_image = $r[0]->subtitle_image;
@@ -52,7 +52,8 @@ class delAction extends Action {
 
         $sql = "delete from lkt_software where id = '$id'";
 
-        $db->delete($sql);
+        $res=$db->delete($sql);
+        echo $res;exit;
 
         header("Content-type:text/html;charset=utf-8");
 

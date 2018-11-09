@@ -14,6 +14,23 @@
 
 <script language="javascript"  src="modpub/js/check.js"> </script>
 {literal}
+<style type="text/css">
+.inputC{
+	display: inline-block!important;
+	}
+.inputC + label{
+	display: inline-block!important;
+	width: 100px;
+    height: 20px;
+    border: none;
+	}
+.inputC:checked +label::before{
+	display: inline-block;
+	position: absolute;
+    left: -17px;
+    top: 4px;
+}	
+</style>
 <script type="text/javascript">
 function check(f){
     if(Trim(f.name.value)==""){
@@ -77,7 +94,6 @@ function check(f){
         <div class="row cl">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius">
             </div>
         </div>
     </form>
@@ -226,7 +242,7 @@ function choice(){
 
             for (var k in list) {
                 rew += "<div class='radio-box' style='width: 32%;'>" +
-                    "<input name='list' type='checkbox' id='sex-"+list[k]['GroupID']+"' value='"+list[k]['GroupID']+"'>" +
+                    "<input name='list' class='inputC' type='checkbox' id='sex-"+list[k]['GroupID']+"' value='"+list[k]['GroupID']+"'>" +
                     "<label for='sex-"+list[k]['GroupID']+"'>"+list[k]['G_CName']+"</label>" +
                     "</div>"
             }
@@ -240,6 +256,9 @@ function choice(){
                 $('.weight').show();
                 $('.piece').hide();
             }
+        }else{
+            appendMask("已经全选","cg");
+            location.replace(location.href);
         }
     });
 }
@@ -340,6 +359,27 @@ function freight_del(obj){
         $('.keep').hide();
         $('.pop_model').hide();
     }
+}
+
+function appendMask(content,src){
+    $("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">删除</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" onclick=closeMask1() >确认</button>
+                </div>
+            </div>
+        </div>
+    `)
+}
+function closeMask1(){
+    $(".maskNew").remove();
 }
 </script>
 {/literal}

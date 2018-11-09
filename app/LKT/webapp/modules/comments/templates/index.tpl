@@ -15,6 +15,13 @@
 <title>评价管理</title>
 {literal}
 <style type="text/css">
+	  #btn1:hover{
+            	background-color: #2481e5!important;
+            }
+             #btn1{
+            	height: 36px;
+            	line-height: 36px;
+            }
 @font-face {font-family: "iconfont";
   src: url('iconfont.eot?t=1529402722179'); /* IE9*/
   src: url('iconfont.eot?t=1529402722179#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -22,7 +29,10 @@
   url('iconfont.ttf?t=1529402722179') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
   url('iconfont.svg?t=1529402722179#iconfont') format('svg'); /* iOS 4.1- */
 }
-
+ table a{
+ 	width: 27%;
+ 	margin: 2%!important;
+ }
 .iconfont {
   font-family:"iconfont" !important;
   font-size:16px;
@@ -48,7 +58,7 @@
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 评价管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 评价列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
     <div class="text-c"> 
         <form name="form1" action="index.php" method="get">
@@ -68,7 +78,7 @@
             至
             <input name="enddate" value="{$enddate}" size="8" readonly  class="scinput_s" style="width: 100px; height:26px;font-size: 14px;vertical-align: middle;"/>
             <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.enddate);" />
-            <input class="btn btn-success" type="submit" value="查询">
+            <input class="btn btn-success" id="btn1" type="submit" value="查询">
 
         </form>
     </div>
@@ -78,6 +88,7 @@
             <thead>
                 <tr class="text-c">
                     <th>id</th>
+                    <th>评价人</th>
                     <th>订单编号</th>
                     <th>商品名称</th>
                     <th>评价类型</th>
@@ -85,27 +96,46 @@
                     <th>添加时间</th>
                     <th>订单金额</th>
                     <th>订单类型</th>
-                    <th>操作</th>
+                    <th style="width: 180px">操作</th>
                 </tr>
             </thead>
             <tbody>
             {foreach from=$order item=item name=f1}
                 <tr class="text-c">
                     <td>{$item->id}</td>
+                    <td style="width: 60px">{$item->anonymous}</td>
                     <td>{$item->r_sNo}</td>
-                    <td>{$item->p_name}</td>
-                    <td>
-        {if $item->CommentType == 'GOOD'}<span class="icon iconfont icon-haoping" style="color: #43CD80;"></span>{elseif $item->CommentType == 'NOTBAD'}<span style="color: #EEAD0E;" class="icon iconfont icon-zhongping"></span>{else}<span style="color: #EE4000;" class="icon iconfont icon-frown"></span>{/if}
+                    <td style="text-align: left;">{$item->p_name}</td>
+                    <td style="width: 70px">
+        {if $item->CommentType1 == 'GOOD'}<span class="icon iconfont icon-haoping" style="color: #43CD80;"></span>{elseif $item->CommentType1 == 'NOTBAD'}<span style="color: #EEAD0E;" class="icon iconfont icon-zhongping"></span>{else}<span style="color: #EE4000;" class="icon iconfont icon-frown"></span>{/if}
                     </td>
-                    <td>{$item->content}</td>
+                    <td style="width: 70px">{$item->content}</td>
                     <td>{$item->add_time}</td>
-                    <td>{$item->p_price}</td> 
-                    <td>{if $item->otype == 'pt'}<span>拼团订单</span>{else}{if $item->drawid>0}<span>抽奖订单</span>{else}<span>普通订单</span>{/if}{/if}</td>
-                    <td>
-                      <a style="text-decoration:none" class="ml-5" href="index.php?module=comments&action=reply&id={$item->id}" title="回复评论" ><i class="Hui-iconfont">&#xe622;</i></a>
+                    <td style="width: 70px">{$item->p_price}</td> 
+                    <td style="width: 70px">{if $item->otype == 'pt'}<span>拼团订单</span>{else}{if $item->drawid>0}<span>抽奖订单</span>{else}<span>普通订单</span>{/if}{/if}</td>
+                    <td style="width: 180px">
+                      <a style="text-decoration:none" class="ml-5" href="index.php?module=comments&action=reply&id={$item->id}" title="回复评论" >
+                      	<div style="align-items: center;font-size: 12px;display: flex;">
+                        	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                            <img src="images/icon1/hf.png"/>&nbsp;回复
+                        	</div>
+                    		</div>
+                      </a>
 
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=comments&action=modify&id={$item->id}" title="修改评价" ><i class="Hui-iconfont">&#xe647;</i></a>
-                         <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="del_coms(this,{$item->id})" title="删除评价" ><i class="Hui-iconfont">&#xe609;</i></a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=comments&action=modify&id={$item->id}" title="修改评价" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/xg.png"/>&nbsp;修改
+                            	</div>
+                        	</div>
+                        </a>
+                         <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="del_coms(this,{$item->id})" title="删除评价" >
+                         	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/del.png"/>&nbsp;删除
+                            	</div>
+                        	</div>
+                         </a>
                     </td>
                 </tr>
             {/foreach}
@@ -120,7 +150,7 @@
 {literal}
 <script type="text/javascript">
     function del_coms(obj,id) {
-    var r=confirm("确定删除本条评论吗？")
+    var r=confirm("确定删除本条评论吗？",id)
     if (r==true){
         $.ajax({
            type: "POST",
@@ -140,6 +170,66 @@
     }
 
     }
+    function appendMask(content,src){
+			$("body").append(`
+					<div class="maskNew">
+						<div class="maskNewContent">
+							<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+							<div class="maskTitle">删除订单</div>	
+							<div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+							<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+								${content}
+							</div>
+							<div style="text-align:center;margin-top:30px">
+								<button class="closeMask" onclick=closeMask1() >确认</button>
+							</div>
+							
+						</div>
+					</div>	
+				`)
+		}
+		function closeMask(id){
+			$(".maskNew").remove();
+		    $.ajax({
+		    	type:"post",
+		    	url:"index.php?module=comments&action=del&cid="+id,
+		    	async:true,
+		    	success:function(res){
+		    		if(res==1){
+		    			appendMask("删除成功","cg");
+		    			$(obj).parents(".text-c").remove();
+		    			location.href="index.php?module=product";
+		    		}
+		    		else{
+		    			appendMask("删除失败","ts");
+		    		}
+		    	}
+		    	
+		    });
+		}
+		function closeMask1(){
+			
+			$(".maskNew").remove();
+		}
+		function confirm (content,id){
+			console.log("index.php?module=product&action=del&cid=",id);
+			$("body").append(`
+					<div class="maskNew">
+						<div class="maskNewContent">
+							<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+							<div class="maskTitle">删除评论</div>	
+							<div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+							<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+								${content}
+							</div>
+							<div style="text-align:center;margin-top:30px">
+								<button class="closeMask" style="margin-right:20px" onclick=closeMask("${id}") >确认</button>
+								<button class="closeMask" onclick=closeMask1() >取消</button>
+							</div>
+						</div>
+					</div>	
+				`)
+		}
 </script> 
 {/literal}
 <script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script> 

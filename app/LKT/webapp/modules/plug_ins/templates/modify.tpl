@@ -37,7 +37,7 @@ function change(){
     <input type="hidden" name="id" value="{$id}" >
     <input type="hidden" name="uploadImg" value="{$uploadImg}" >
     <div class="row cl">
-      <label class="form-label col-4">首页插件名称：</label>
+      <label class="form-label col-4"><span class="c-red">*</span>首页插件名称：</label>
       <div class="formControls col-4">
         <input type="text" class="input-text" value="{$name}" placeholder="" id="" name="name">
       </div>
@@ -63,7 +63,7 @@ function change(){
         <div class="col-4"> </div>
     </div>
     <div class="row cl">
-        <label class="form-label col-xs-4 col-sm-4">请选择软件：</label>
+        <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>请选择软件：</label>
         <div class="formControls col-xs-8 col-sm-4"> 
             <select name="software_id" class="select" style="width: 80px;height: 31px;vertical-align: middle;">
                 {$list}
@@ -72,7 +72,7 @@ function change(){
         <div class="col-4"> </div>
     </div>
     <div class="row cl">
-      <label class="form-label col-xs-4 col-sm-4">首页插件图标：</label>
+      <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>首页插件图标：</label>
       <div class="formControls col-xs-8 col-sm-4"> 
         {if $image != ''}
             <img id="thumb_url1" src='{$uploadImg}{$image}' style="height:100px;width:150">
@@ -100,7 +100,7 @@ function change(){
       <div class="col-4"> </div>
     </div>
     <div class="row cl">
-      <label class="form-label col-4">首页链接：</label>
+      <label class="form-label col-4"><span class="c-red">*</span>首页链接：</label>
       <div class="formControls col-4">
         <input type="text" class="input-text" value="{$url}" placeholder="" id="" name="url">
       </div>
@@ -126,7 +126,7 @@ function change(){
     <div class="row cl">
       <div class="col-10 col-offset-4">
         <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-        <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+        <!-- <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button> -->
       </div>
     </div>
   </form>

@@ -10,6 +10,8 @@ class operationAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $admin_id = $this->getContext()->getStorage()->read('admin_id');
+
         // 接收信息
         $id = $request->getParameter('id'); // 产品id
         $type = $request->getParameter('type');
@@ -21,7 +23,14 @@ class operationAction extends Action {
             $s_type1 = $r[0]->s_type;
             $s_type = explode(',',$s_type1);
             if($type == 1 || $type == 2){
-                $sql = "update lkt_product_list set status = '$type' where id = '$v'";
+                if($type == 1){
+                    $status = 0;
+                }else{
+                    $status = 1;
+                }
+                $sql = "update lkt_product_list set status = '$status' where id = '$v'";
+
+                $db->admin_record($admin_id,' 修改商品id为 '.$v.' 的状态 ',2);
             }else if($type >= 3) {
                 if ($type == 3) {
                     $add_type = 1; // 新品
@@ -81,11 +90,12 @@ class operationAction extends Action {
                         $sql = "update lkt_product_list set s_type = '$s_type3' where id = '$v'";
                     }
                 }
+                $db->admin_record($admin_id,' 修改商品id为 '.$v.' 的类型 ',2);
             }
             $db->update($sql);
         }
 
-        $res = array('status' => '1','info'=>'删除成功！');
+        $res = array('status' => '1','info'=>'操作成功！');
         echo json_encode($res);
         return;
     }

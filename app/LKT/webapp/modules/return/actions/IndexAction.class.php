@@ -21,31 +21,81 @@ class IndexAction extends Action {
         $startdate = $request->getParameter("startdate");
         $enddate = $request->getParameter("enddate");
         $pageto = $request->getParameter('pageto'); // 导出
-        $pagesize = $request->getParameter('pagesize'); // 每页显示多少条数据
-        $page = $request->getParameter('page'); // 页码
+        $sort_name = $request->getParameter('sort_name'); // 排序名称
+        $sort = $request->getParameter('sort'); // 升/降
+
+        $r_type = trim($request->getParameter('r_type'));
+
+
+
 
         $condition = ' r_status = 4 ';
         if($p_name != ''){
             $condition .= " and r_sNo like '%$p_name%' ";
         }
+        if($r_type){
+
+            if($r_type ==1){
+                 $condition .= " and r_type = '0' ";
+            }else if($r_type ==2){
+                 $condition .= " and (r_type = '1' OR r_type = '6') ";
+            }else if($r_type ==3){
+                 $condition .= " and (r_type = '2' OR r_type = '8') ";
+            }else if($r_type ==4){
+                 $condition .= " and r_type = '3' ";
+            }else if($r_type ==5){
+                 $condition .= " and (r_type = '4' OR r_type = '9') ";
+            }else{
+                 $condition .= " and r_type = '5' ";
+            }
+        }
+
+
         if($startdate != ''){
             $condition .= "and arrive_time >= '$startdate 00:00:00' ";
         }
         if($enddate != ''){
             $condition .= "and arrive_time <= '$enddate 23:59:59' ";
         }
+
+
+        $con = '';
+        foreach ($_GET as $key => $value001) {
+            $con .= "&$key=$value001";
+        }
+        // 查询插件表
         $sql1 = "select * from lkt_order_details where $condition";
-        $r1 = $db->select($sql1);
-        $total = count($r1);
+        $total = $db->selectrow($sql1);
+        // 导出
+        $pagesize = $request -> getParameter('pagesize');
+        $pagesize = $pagesize ? $pagesize:10;
+        // 页码
+        $page = $request -> getParameter('page');
+        if($page){
+            $start = ($page-1)*$pagesize;
+        }else{
+            $start = 0;
+        }
+        // $sql .= " order by add_time desc limit $start,$pagesize ";
+        // $r = $db->select($sql);
+
         $pager = new ShowPager($total,$pagesize,$page);
-        $offset = $pager->offset;
-        if($pageto == 'ne'){// 导出本页
-            $sql = "select * from lkt_order_details where $condition  order by id asc limit $offset,$pagesize  ";
+        $url = 'index.php?module=return'.$con;
+        $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
+
+
+        if($pageto == 'all') { // 导出全部
+            $sql = "select * from lkt_order_details where $condition order by $sort_name $sort ";
+            $r = $db->select($sql);
+        }else if($pageto == 'ne'){// 导出本页
+            $sql = "select * from lkt_order_details where $condition order by $sort_name $sort limit $start,$pagesize ";
             $r = $db->select($sql);
         }else{
-            $r = $r1;
+            $sql = "select * from lkt_order_details where $condition limit $start,$pagesize ";
+            $r = $db->select($sql);
         }
-       
+        $request->setAttribute("pages_show",$pages_show);
+        $request->setAttribute("r_type",$r_type);
         $request->setAttribute("p_name",$p_name);
         $request->setAttribute("startdate",$startdate);
         $request->setAttribute("enddate",$enddate);

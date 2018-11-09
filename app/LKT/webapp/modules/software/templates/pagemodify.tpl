@@ -186,7 +186,7 @@
 
 <body>
 
-<nav class="breadcrumb" style="    line-height: 3;"><i class="Hui-iconfont">&#xe646;</i> 小程序首页管理 <span class="c-gray en">&gt;</span> 模块 <span class="c-gray en">&gt;</span> 修改模块 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px;float: right;" href="#" onclick="location.href='index.php?module=banner';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb" style="    line-height: 3;"><i class="Hui-iconfont">&#xe646;</i> 小程序首页管理 <span class="c-gray en">&gt;</span> 模块 <span class="c-gray en">&gt;</span> 修改模块 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px;float: right;" href="#" onclick="location.href='index.php?module=software&action=pageindex';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 
 <div class="pd-20">
 
@@ -194,7 +194,33 @@
 
       <input type="hidden" name="uploadImg" value="{$uploadImg}" >
 
-      <div class="row cl">
+<div class="row cl">
+    <label class="form-label col-2">类型：</label>
+    <div class="formControls col-10 ">
+
+      <input type="radio" name="type" onclick="show(this)" {if $type=='img'}checked="checked"{/if} value="img" >图片 &nbsp;&nbsp; 
+      <input type="radio" name="type" onclick="show(this)" {if $type=='category'}checked="checked"{/if} value="category">分类 &nbsp;&nbsp; 
+    </div>
+</div>
+
+
+<div class="row cl tcategory" style="display: none;">
+            <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
+            <div class="formControls col-2"> <span class="select-box">
+                <select name="product_class" class="select">
+                  {foreach from=$list item=item name=f1}
+                    {if $url == $item->cid}
+                    <option selected="selected" value="{$item->cid}">{$item->str}{$item->pname}</option>
+                    {else}
+                    <option value="{$item->cid}">{$item->str}{$item->pname}</option>
+                    {/if}
+                   {/foreach}
+                </select>
+                </span>
+            </div>
+ </div>
+
+      <div class="row cl timg">
 
         <label class=""><span class="c-red">*</span>模块：</label>
 
@@ -214,7 +240,7 @@
 
       </div>
 
-      <div class="row cl">
+      <div class="row cl timg">
 
         <label class="">链接：</label>
 
@@ -291,13 +317,7 @@
 
 <div class="shortcut-search-form mid">
 
-<!-- <form action="">
 
-<i class="fa fa-search"></i>
-
-<input type="search" placeholder="请输入要查询的组件...">
-
-</form> -->
 
 </div>
 
@@ -374,14 +394,12 @@
 </li>
 
 <li>
-
-
-
 <span>文章</span>
-
 </li>
 
-
+<li>
+<span>幸运抽奖</span>
+</li>
 
 <div class="lanPos"></div>
 
@@ -612,6 +630,28 @@
 
 </div>
 
+<div class="examine-shortcut shortcut-element-list">
+
+<h5><span>幸运抽奖</span></h5>
+
+<ul class="shortcut-element-box clearfix">
+
+<li>
+
+<i class="fa fa-check-square-o"></i>
+
+<input type="hidden" value="../pond/index">
+
+<span>幸运抽奖</span>
+
+</li>
+
+
+
+</ul>
+
+</div>
+
 </div>
 
 </div>
@@ -718,8 +758,27 @@ $(".select_link").click( function () {
 
 
 
+  function show(obj) {
+    var kzxs = $(".kzxs");
+    var type = $(obj).val();
+    if(type == 'img'){
+      $(".tcategory").hide();
+      $(".timg").show();
+    }else{
+      $(".tcategory").show();
+      $(".timg").hide();
+    }
+    console.log($(obj),type);
+  }
 
-
+var tt = $('input[name="type"]:checked').val();
+if(tt == 'img'){
+  $(".tcategory").hide();
+  $(".timg").show();
+}else{
+  $(".tcategory").show();
+  $(".timg").hide();
+}
 </script>
 
 {/literal}

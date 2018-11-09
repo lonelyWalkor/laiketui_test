@@ -19,7 +19,13 @@ td {
     width: 200px;
     height: 50px;
 }
+td a{
+        width: 44%;
+        margin: 2%!important;
+        float: left;
+    }
 </style>
+
 {/literal}
 <title>推广图管理</title>
 </head>
@@ -33,28 +39,28 @@ td {
     </div>
 
     <div class="mt-20">
-        <table class="table table-border table-bordered table-bg table-hover table-sort">
+        <table class="table table-border table-bordered table-bg table-hover">
             <thead>
                 <tr class="text-c">
-                    <th>序</th>
+                    {*<th>序</th>*}
                     <th>图片</th>
                     <th>名称</th>
                     <th>类型</th>
                     <th>是否默认</th>
                     <th>发布时间</th>
-                    <th>操作</th>
+                    <th width="200px">操作</th>
                 </tr>
             </thead>
             <tbody>
             {foreach from=$list item=item name=f1}
                 <tr class="text-c">
-                    <td>{$smarty.foreach.f1.iteration}</td>
+                    {*<td>{$smarty.foreach.f1.iteration}</td>*}
                     <td>
-                            {if $item->image != ''}
+                        {if $item->image != ''}
                             <image class='pimg' src="{$uploadImg}{$item->image}" style="width: 15%;"/>
-                            {else}
+                        {else}
                             <span>暂无图片</span>
-                            {/if}
+                        {/if}
                     </td>
                     <td>{$item->name}</td>
                     <td>
@@ -65,7 +71,7 @@ td {
                         {elseif $item->type == '3'}
                         <span style="border-radius: 10px;background: #8DB6CD;padding:0 10px;color:#fff;">商品海报</span>
                         {elseif $item->type == '4'}
-                        <span style="border-radius: 10px;background: #63B8FF;padding:0 10px;color:#fff;">分销海报</span>
+
                         {else}
                         <span style="border-radius: 10px;background: #EEEE00;padding:0 10px;color:#fff;">商城海报</span>
                         {/if}
@@ -73,14 +79,27 @@ td {
                     <td>{if $item->isdefault == '1'}是 {else}否{/if}</td>
                     <td>{$item->add_date}</td>
                     <td>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=extension&action=modify&id={$item->id}" title="修改" ><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=extension&action=del&id={$item->id}" onclick="return confirm('确定要删除此推广图吗?')"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=extension&action=modify&id={$item->id}" title="修改" >
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/xg.png"/>&nbsp;修改
+                            	</div>
+            				</div>
+                        </a>
+                        <a style="text-decoration:none" class="ml-5" onclick="del(this,{$item->id})">
+                        	<div style="align-items: center;font-size: 12px;display: flex;">
+                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                                <img src="images/icon1/del.png"/>&nbsp;删除
+                            	</div>
+            				</div>
+                        </a>
                     </td>
                 </tr>
             {/foreach}
             </tbody>
         </table>
     </div>
+    <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div> 
 
@@ -95,20 +114,12 @@ td {
 
 {literal}
 <script type="text/javascript">
-$('.table-sort').dataTable({
-    "aaSorting": [[ 1, "desc" ]],//默认第几个排序
-    "bStateSave": true,//状态保存
-    "aoColumnDefs": [
-      //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-      {"orderable":false,"aTargets":[0,5]}// 制定列不参与排序
-    ]
-});
-$(function(){  
-        $(".pimg").click(function(){  
-            var _this = $(this);//将当前的pimg元素作为_this传入函数  
-            imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);  
-        });  
+$(function(){
+    $(".pimg").click(function(){
+        var _this = $(this);//将当前的pimg元素作为_this传入函数
+        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
     });
+});
 function imgShow(outerdiv, innerdiv, bigimg, _this){  
     var src = _this.attr("src");//获取当前点击的pimg元素中的src属性  
     $(bigimg).attr("src", src);//设置#bigimg元素的src属性  
@@ -156,12 +167,69 @@ function del_simg() {
    data: "m=del_simg",
    success: function(msg){
      if(msg == 1){
-        alert('清理成功！');
+         appendMask("清理成功","cg");
+         // location.replace(location.href);
      }else{
-        alert('清理失败！');
+         appendMask("清理失败","ts");
+         // location.replace(location.href);
      }
    }
 });
+}
+/*删除*/
+function del(obj,id){
+    confirm("确认删除此商品吗？",id);
+}
+function confirm (content,id){
+    $("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">删除</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" style="margin-right:20px" onclick=closeMask('${id}') >确认</button>
+                    <button class="closeMask" onclick=closeMask1() >取消</button>
+                </div>
+            </div>
+        </div>
+    `)
+}
+function closeMask1(){
+    $(".maskNew").remove();
+    location.replace(location.href);
+}
+function closeMask(id){
+    $.get("index.php?module=extension&action=del",{'id':id},function(res){
+        if(res=="1"){
+            appendMask("删除成功","cg");
+            // location.replace(location.href);
+        }else{
+            appendMask("删除失败","ts");
+            // location.replace(location.href);
+        }
+    },"json");
+    $(".maskNew").remove();
+}
+function appendMask(content,src){
+    $("body").append(`
+        <div class="maskNew">
+            <div class="maskNewContent">
+                <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+                <div class="maskTitle">删除</div>
+                <div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+                <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+                    ${content}
+                </div>
+                <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" onclick=closeMask1() >确认</button>
+                </div>
+            </div>
+        </div>
+    `)
 }
 </script>
 {/literal}

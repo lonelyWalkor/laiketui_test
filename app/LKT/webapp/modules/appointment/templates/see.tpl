@@ -18,7 +18,7 @@
 
 <title>预约信息</title>
 </head>
-<body>
+<body style="background-color: none;">
 
 <div class="pd-20">
 <div style="text-align:center;font-size: 20px;margin-bottom: 30px;">会员{$name}预约信息</div>

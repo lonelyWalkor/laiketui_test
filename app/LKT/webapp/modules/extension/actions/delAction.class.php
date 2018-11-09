@@ -19,10 +19,7 @@ class delAction extends Action {
         // 根据轮播图id，删除轮播图信息
         $sql = "delete from lkt_extension where id = '$id'";
         $db->delete($sql);
-        header("Content-type:text/html;charset=utf-8");
-        echo "<script type='text/javascript'>" .
-            "alert('删除成功！');" .
-            "location.href='index.php?module=extension';</script>";
+        echo 1;
         return;
     }
 
