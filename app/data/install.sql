@@ -438,7 +438,7 @@ CREATE TABLE `lkt_configure` (
 
 LOCK TABLES `lkt_configure` WRITE;
 /*!40000 ALTER TABLE `lkt_configure` DISABLE KEYS */;
-INSERT INTO `lkt_configure` VALUES (1,'默认','默认','默认',0.00,60.00,100.00,'1541597053657.jpeg',49,64,'',0.00,2,'a:3:{s:6:\"类型\";s:6:\"默认\";s:6:\"颜色\";s:6:\"默认\";s:6:\"规格\";s:6:\"默认\";}',0);
+INSERT INTO `lkt_configure` VALUES (1,'默认','默认','默认',0.00,60.00,100.00,'1541597053657.jpeg',1,64,'',0.00,2,'a:3:{s:6:\"类型\";s:6:\"默认\";s:6:\"颜色\";s:6:\"默认\";s:6:\"规格\";s:6:\"默认\";}',0);
 /*!40000 ALTER TABLE `lkt_configure` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1519,7 +1519,7 @@ CREATE TABLE `lkt_product_img` (
 
 LOCK TABLES `lkt_product_img` WRITE;
 /*!40000 ALTER TABLE `lkt_product_img` DISABLE KEYS */;
-INSERT INTO `lkt_product_img` VALUES (1,'1541597062168.jpg',49,'','2018-04-19 10:23:39');
+INSERT INTO `lkt_product_img` VALUES (1,'154164716539.jpg',1,'','2018-04-19 10:23:39');
 /*!40000 ALTER TABLE `lkt_product_img` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2006,7 +2006,7 @@ CREATE TABLE `lkt_user` (
   `mima` varchar(32) DEFAULT NULL COMMENT '密码',
   `source` tinyint(4) NOT NULL DEFAULT '1' COMMENT '来源 1.小程序 2.app',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='会员列表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='会员列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2015,7 +2015,7 @@ CREATE TABLE `lkt_user` (
 
 LOCK TABLES `lkt_user` WRITE;
 /*!40000 ALTER TABLE `lkt_user` DISABLE KEYS */;
-INSERT INTO `lkt_user` VALUES (37,'0','总店',NULL,NULL,'oFF694qGPOHZ6txsdasdasdfsdf','总店',1,'https://lg-8tgp2f4w-1252524862.cos.ap-shanghai.myqcloud.com/ewm.png','','','',NULL,0.00,0,NULL,'2018-09-08 11:05:15',NULL,NULL,'','','',NULL,NULL,NULL,NULL,0,'','TfjyVzjUtAsuPoyfyOd81RCZeW1ht49o',0.00,NULL,NULL,NULL,0),(39,'user38','简单点🌱',NULL,NULL,'oHNXh5PFOSFH22WZ0aBWGVka9v34','简单点🌱',1,'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTL5D3DLA9vDOVmhTvtPmnpupaniaJFGRZvpxwqCX1Vj82pz6RLsfhoKyMtoASicfg1k2FkCmcxEic3DA/132','','','',NULL,0.00,30,NULL,'2018-11-09 13:38:07',NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,0,'','kP842I4I7W8RHOuxsjN3Hl8M4XjF8boQ',0.00,'XeVx6dLhFCxpFdRIN3iv47RwCEC5SS7W',NULL,NULL,1);
+INSERT INTO `lkt_user` VALUES (1,'0','总店',NULL,NULL,'oFF694qGPOHZ6txsdasdasdfsdf','总店',1,'https://lg-8tgp2f4w-1252524862.cos.ap-shanghai.myqcloud.com/ewm.png','','','',NULL,0.00,0,NULL,'2018-09-08 11:05:15',NULL,NULL,'','','',NULL,NULL,NULL,NULL,0,'','TfjyVzjUtAsuPoyfyOd81RCZeW1ht49o',0.00,NULL,NULL,NULL,0);
 /*!40000 ALTER TABLE `lkt_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
