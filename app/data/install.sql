@@ -94,7 +94,7 @@ DROP TABLE IF EXISTS `lkt_article`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lkt_article` (
-  `Article_id` int(11) unsigned NOT NULL COMMENT '文章id',
+  `Article_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章id',
   `Article_title` varchar(100) NOT NULL DEFAULT '' COMMENT '文章标题',
   `Article_prompt` varchar(100) NOT NULL DEFAULT '' COMMENT '文章提示',
   `Article_imgurl` varchar(200) NOT NULL DEFAULT '' COMMENT '文章图片',
