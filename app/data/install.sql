@@ -2107,37 +2107,6 @@ LOCK TABLES `lkt_user_collection` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `lkt_user_distribution`
---
-
-DROP TABLE IF EXISTS `lkt_user_distribution`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `lkt_user_distribution` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `user_id` varchar(32) NOT NULL COMMENT '用户ID',
-  `pid` varchar(32) NOT NULL COMMENT '上级id',
-  `level` int(11) NOT NULL COMMENT '等级',
-  `lt` int(11) NOT NULL COMMENT 'lt',
-  `rt` int(11) NOT NULL COMMENT 'rt',
-  `uplevel` int(11) NOT NULL COMMENT '第几代',
-  `add_date` timestamp NULL DEFAULT NULL COMMENT '添加时间',
-  `usets` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='分销关联表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `lkt_user_distribution`
---
-
-LOCK TABLES `lkt_user_distribution` WRITE;
-/*!40000 ALTER TABLE `lkt_user_distribution` DISABLE KEYS */;
-INSERT INTO `lkt_user_distribution` VALUES (1,'0','admin',4,0,1,1,'2018-08-22 06:45:57','');
-/*!40000 ALTER TABLE `lkt_user_distribution` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `lkt_user_footprint`
 --
 
