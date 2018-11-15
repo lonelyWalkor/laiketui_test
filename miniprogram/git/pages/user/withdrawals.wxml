@@ -31,7 +31,7 @@
         <text class='t_3'>提现金额： </text>
       </view>
       <view class='inp'>
-        <input  name="money" style='font-size:13px;width:100%;' name='amoney' placeholder="提现金额:{{min_amount}}-{{max_amount}}{{unit}}" type='digit' />
+        <input  name="money" style='font-size:13px;width:100%;' name='amoney' placeholder="{{min_amount}}-{{max_amount}}{{unit}}且是{{multiple}}的倍数" type='digit' />
       </view>
     </view>
     <view class='xt'></view>

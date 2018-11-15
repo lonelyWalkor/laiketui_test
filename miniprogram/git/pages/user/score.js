@@ -1,5 +1,5 @@
 // pages/user/score.js
-//获取应用实例  
+var WxParse = require('../../wxParse/wxParse.js');
 var app = getApp()
 Page({
   data: {
@@ -47,6 +47,13 @@ Page({
 
     });
   },
+  onPullDownRefresh: function () {
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    setTimeout(function () {
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    }, 1500);
+  },
   /** 
    * 滑动切换tab 
    */
@@ -82,9 +89,12 @@ Page({
          'Content-Type': 'application/x-www-form-urlencoded'
        },
        success: function (res) {
+         var content = res.data.rule;
+         WxParse.wxParse('content', 'html', content, that, 5);
           that.setData({
             score: res.data.score, // 积分
             logo: res.data.logo, 
+            // rule: res.data.rule,
             sign: res.data.sign, // 获取记录
             consumption: res.data.consumption, // 使用记录
             switch: res.data.switch//转账按钮（0 关闭  1.开启）

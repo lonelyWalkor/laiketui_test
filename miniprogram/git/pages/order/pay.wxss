@@ -91,9 +91,10 @@ page{
   background: #fff;
   height:51px;
   line-height: 51px;
-  text-align: center;
+  text-align: left;
   color: #666;
   width:65%;
+  padding-left:10px;
   border-top:1px solid #eee;
   font-size:18px;
 }

@@ -28,11 +28,11 @@
       <!-- 用户基本信息 -->
       <view class='user_top' style="background-color:{{bgcolor}}">
         <view class='user_top_two'>
-              <image style='display:block;' src="{{user.headimgurl ? user.headimgurl:'../../images/users.png'}}" />
+              <image style='display:block;' class='user_top_image' src="{{user.headimgurl ? user.headimgurl:'../../images/users.png'}}" />
               <view class='user_mc' bindtap="copyText" data-text="{{user.user_id}}" style='display:block;'>
                 <view>{{user.wx_name}}</view>
                 <text class='username_font'>用户ID：{{user.user_id}}</text>
-                <text class='username_font' wx:if="{{tjr}}" style="margin-left: 16px;">推荐人：{{tjr}}</text>
+                <text class='username_font' wx:if="{{tjr}}" style="margin-left: 16px;">{{tjr}}</text>
               </view>
         </view>  
         <!-- 我的订单 -->
@@ -88,7 +88,7 @@
           <!-- 功能列表 -->
           <view class="function" style='background:#fff'>
             <block wx:for="{{plug_ins}}" wx:key="{{item.id}}">
-              <navigator class="function_list" url="{{item.subtitle_url}}">
+              <view class="function_list" bindtap='go' data-url="{{item.subtitle_url}}">
                 <view class='function_left'>
                   <image style="width: 25px;height: 25px;margin: auto;" src='{{item.subtitle_image}}'></image>
                   <view class='function_text'>{{item.subtitle_name}} </view>
@@ -96,7 +96,7 @@
                 <view class='function_right jiantou'>
                   <image src="../../images/x_right.png"></image>
                 </view>
-              </navigator>
+              </view>
             </block>
           </view>
           <view class="function" style='background:#fff'>
@@ -124,20 +124,9 @@
           </view>
           <view class='bottom'>
             <view class='bottom_1'><image src="{{logo}}"></image></view>
+            {{support}}
           </view>
         </view>
       </view>
     </view>
   </block>
-<!-- 自定义弹框开始 -->
-  <view wx:if="{{userlogin}}" class="mask"></view>
-  <view wx:if="{{userlogin}}" class="model">
-    <view class="modelTitle">
-    获取微信授权信息
-    </view>
-    <view class="modelBody">微信登录需要获取您的用户信息，请前往设置</view>
-    <view class="btns" style='border-radius:10px;'>
-      <button open-type="getUserInfo" style="color:#00CD00;background-color: #fff;border-radius:0 0 10px 10px;" class="agree" bindgetuserinfo="agreeGetUser" lang="zh_CN">去设置</button>
-    </view>  
-  </view> 
-<!-- 自定义弹框结束 --> 

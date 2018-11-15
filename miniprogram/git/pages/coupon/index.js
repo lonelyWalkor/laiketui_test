@@ -18,11 +18,11 @@ Page({
   //页面加载完成函数
   onReady: function () {
     var that = this;
-    setTimeout(function () {
-      that.setData({
-        remind: ''
-      });
-    }, 1000);
+    // setTimeout(function () {
+    //   that.setData({
+        
+    //   });
+    // }, 1000);
   },
   onLoad: function (options) {
     wx.setNavigationBarColor({
@@ -92,6 +92,7 @@ Page({
         var list = res.data.list;
         that.setData({
           list: list,
+          remind: ''
         });
       },
       error: function (e) {

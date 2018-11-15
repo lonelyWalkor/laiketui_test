@@ -10,6 +10,7 @@ Page({
     remind: true,
     comments: [],
     comnum: {},
+    quan:'',
     good: '',
     notbad: '',
     bad: '',
@@ -24,11 +25,13 @@ Page({
   onLoad: function (options) {
     var that = this
     that.pid = options.pid
+    console.log(options)
     wx.setNavigationBarColor({
       frontColor: app.d.frontColor,//
       backgroundColor: app.d.bgcolor //页面标题为路由参数
     });
     that.setData({
+      quan: parseInt(options.good) + parseInt(options.notbad) + parseInt(options.bad),
       good: options.good,
       notbad: options.notbad,
       bad: options.bad
@@ -49,6 +52,16 @@ Page({
           remind: false
         })
       }
+    })
+  },
+  previewImage: function (e) {
+    var current = e.target.dataset.src;
+    // 路径和 图片的数组
+    var arr = [current];
+    // 图片预览函数
+    wx.previewImage({
+      current: current, // 当前显示图片的http链接  
+      urls: arr, // 需要预览的图片http链接列表  
     })
   },
   getMore: function () {
@@ -105,7 +118,7 @@ Page({
   onReady: function () {
   
   },
-  
+
   checkBtn:function (e) {
     var that = this
     var checked = e.currentTarget.dataset.key
@@ -113,7 +126,9 @@ Page({
          checked: checked,
          remind: true,
          page: 0,
-         comments: []
+         comments: [],
+         more:true,
+         loading:false
        })
       app.request.wxRequest({
          url: '&action=groupbuy&m=getcomment',
@@ -122,12 +137,10 @@ Page({
          success: function (res) {
            that.setData({
              comments: res.comment,
-             remind: false
+             remind: false,
            })
-           
          }
        })
-       
   },
 
   /**

@@ -5,10 +5,11 @@ App({
     appKey:"", // 小程序密钥
     purchase: 0,//设置购物车刷新
     indexchase: false,//设置首页刷新
-    frontColor:'#000000',
+    frontColor:'#ffffff',
     one:false,
     bf_color:'#FF6347',
-    // 后台请求接口路径  如需修改系统请求路径还需要修改request.js中的url
+    h_color:'#FF63477',
+    order:{},
     ceshiUrl: 'http://test.com/LKT/index.php?module=api&software_name=3&edition=1.0', 
   },
   onLaunch: function (options) {
@@ -16,27 +17,27 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs);
-    this.request = request;  
+    this.request = request;
   },
   //控制授权登入
-  userlogin: function (login) {
-    if (this.globalData.userlogin) {
-      
-    } else {
-      if (login){
-        wx.switchTab({
-          url: '../index/index'
+  userlogin: function (page) {
+    // console.log(this.globalData.userInfo.nickName, this.globalData.userInfo.openid)
+    if (this.globalData.userInfo.nickName == '' || this.globalData.userInfo.nickName == '简单的奇迹' || !this.globalData.userInfo.nickName || this.globalData.userInfo.openid == '' || !this.globalData.userInfo.openid) {
+      if (page) {
+        wx.navigateTo({
+          url: '../login/login'
         })
-      }else{
-        wx.switchTab({
-          url: 'pages/index/index'
+      } else {
+        wx.navigateTo({
+          url: 'pages/login/login'
         })
       }
-
+    }else{
+      console.log(this.globalData.userInfo)
     }
   },
   onShow: function (options) {
-    console.log(options)
+      console.log(options)
       var referee_openid = options.query.userid ? options.query.userid:'';
       this.globalData.referee_openid = referee_openid;
       this.getUserInfo();
@@ -73,11 +74,7 @@ App({
         }
       });
     }
-    
-
     //添加控制在同一秒执行同一个方法两次
-
-
   },
   // 获取用户会话密钥
   getUserSessionKey: function (code, cb, stype){
@@ -95,10 +92,6 @@ App({
         var data = res.data;
         var bgcolor = res.data.bgcolor;
         that.d.bgcolor = bgcolor;
-        wx.setNavigationBarColor({
-          frontColor: that.d.frontColor,//
-          backgroundColor: bgcolor//页面标题为路由参数
-        })
         if(data.status==0){
           wx.showToast({
             title: data.err,
@@ -123,8 +116,8 @@ App({
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           success: function (res) {
-            that.d.ceshiUrl = that.d.ceshiUrl + '&token=' + res.data.access_token; // 线上密钥            
-            that.d.localhost = that.d.localhost + '&token=' + res.data.access_token; // 本地密钥         
+            that.d.ceshiUrl = that.d.ceshiUrl + '&token=' + res.data.access_token; // 线上密钥
+            that.d.localhost = that.d.localhost + '&token=' + res.data.access_token; // 本地密钥 
             that.globalData.userInfo['plug_ins'] = res.data.plug_ins; // 插件状态
             that.globalData.userInfo['coupon'] = res.data.coupon; // 优惠券状态
             that.globalData.userInfo['wallet'] = res.data.wallet; //  钱包状态

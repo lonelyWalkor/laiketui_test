@@ -42,6 +42,15 @@ Page({
 			}
 		],
 	},
+  //提醒发货
+  add_fix: function (e) {
+    console.log(1)
+    wx.showToast({
+      title: '已为您通知卖家提醒发货',
+      icon: 'none',
+      duration: 2000,
+    });
+  },
 	selectSorting: function(e) {
 		var index = e.currentTarget.dataset.index;
 		var otype = e.currentTarget.dataset.otype;
@@ -143,7 +152,6 @@ Page({
 	// 获取订单
 	loadOrderList: function() {
 		var that = this;
-		console.log('请求了');
 		var isStatus1 = that.options.order_type1
 		wx.request({
       url: app.d.ceshiUrl + '&action=order&m=index',
@@ -269,6 +277,7 @@ Page({
 					url: app.d.ceshiUrl + '&action=order&m=removeOrder',
 					method: 'post',
 					data: {
+            openid: app.globalData.userInfo.openid,
 						id: orderId,
 					},
 					header: {
@@ -403,7 +412,7 @@ Page({
 		var coupon_id = e.detail.target.dataset.coupon_id // 优惠券id
 		// 调起微信支付
 		wx.request({
-			url: app.d.ceshiUrl + '&action=recharge&m=recharge',
+			url: app.d.ceshiUrl + '&action=pay&m=pay',
 			data: {
 				cmoney: price, // 实付金额
 				openid: user_id, // 微信id
@@ -503,13 +512,45 @@ Page({
       content: '小二正在努力为您发货,确定要取消吗？',
       success: function (res) {
         if (res.confirm) {
-          console.log('用户点击确定');
+          console.log('用户点击确定' + "../return_goods/return_goods?id=" + id + "&type=1&oid=" + sNo);
           wx.redirectTo({
             url: "../return_goods/return_goods?id=" + id + "&type=1&oid=" + sNo
           })
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
+        // res.confirm && wx.request({
+        //   url: app.d.ceshiUrl + '&action=order&m=removeOrder',
+        //   method: 'post',
+        //   data: {
+        //     openid: app.globalData.userInfo.openid,
+        //     id: id,
+        //   },
+        //   header: {
+        //     'Content-Type': 'application/x-www-form-urlencoded'
+        //   },
+        //   success: function (res) {
+        //     var status = res.data.status;
+        //     if (status == 1) {
+        //       wx.showToast({
+        //         title: res.data.err,
+        //         success: 2000
+        //       });
+        //       that.loadOrderList();
+        //     } else {
+        //       wx.showToast({
+        //         title: res.data.err,
+        //         duration: 2000
+        //       });
+        //     }
+        //   },
+        //   fail: function () {
+        //     wx.showToast({
+        //       title: '网络异常！',
+        //       duration: 2000
+        //     });
+        //   }
+        // });
       }
     });
   }

@@ -7,12 +7,12 @@ Page({
   },
   //页面加载完成函数 remind: '加载中',
   onReady: function () {
-    var that = this;
-    setTimeout(function () {
-      that.setData({
-        remind: ''
-      });
-    }, 1000);
+    // var that = this;
+    // setTimeout(function () {
+    //   that.setData({
+    //     remind: ''
+    //   });
+    // }, 1000);
   },
   bindblur: function (e) {
     var money = e.detail.value;
@@ -64,6 +64,11 @@ Page({
           that.setData({
             money: user.money
           });
+          setTimeout(function () {
+            that.setData({
+              remind: ''
+            });
+          }, 1000);
         } else {
           wx.showToast({
             title: '非法操作！',
@@ -106,7 +111,7 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function (res) {  
-          if (res.data){
+          if (res.data.state){
             var dingdanhao = res.data.out_trade_no;
             wx.requestPayment({
               timeStamp: res.data.timeStamp,
@@ -146,6 +151,12 @@ Page({
                   confirmText: "确定"
                 })
               }
+            })
+          }else{
+            wx.showModal({
+              content: res.data.text,
+              showCancel: false,
+              confirmText: "确定"
             })
           }
         },

@@ -35,6 +35,13 @@ Page({
     that.y_detail(id);
     that.storage();
   },
+  onPullDownRefresh: function () {
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    setTimeout(function () {
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    }, 1500);
+  },
   // 获取文章详情
   y_detail: function (id) {
     var that = this;
@@ -96,7 +103,7 @@ Page({
     return {
       title: Article_title,
       imageUrl:that.data.article.Article_imgurl,
-      path: '/pages/index/indexid?p_openid=' + app.globalData.userInfo.openid,
+      path: '/pages/index/index?id?p_openid=' + app.globalData.userInfo.openid,
       // path: '/pages/user/envelope?id=' + id + '&p_openid=' + app.globalData.userInfo.openid,
       success: function (res) {
         // 转发成功

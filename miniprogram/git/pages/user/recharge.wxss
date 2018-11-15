@@ -40,7 +40,7 @@
 
 }
 .dibu{
-  width: 90%;
+  width: 345px;
   margin: 0 auto;
   margin-top: 20px;
 }

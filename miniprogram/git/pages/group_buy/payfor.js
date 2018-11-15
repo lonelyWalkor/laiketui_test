@@ -143,11 +143,12 @@ Page({
       that.setData({
         remind: ''
       });
-    }, 800);
+    }, 1500);
   },
 
   // 选择支付方式
   switchChange: function (e) {
+    console.log(e)
     var that = this;
     var check = e.currentTarget.dataset.check;
     var index = e.currentTarget.dataset.index;
@@ -161,10 +162,13 @@ Page({
       pays.checked = false;
     }
     var pay_type = that.data.pays;
-    var i = 0
+    var i = 0;
+    var one_pay = '';
+    console.log(pay_type)
     for (var j = 0; j < pay_type.length; j++) {
       if (pay_type[j].checked) {
         i += 1;
+        one_pay = pay_type[j].value;
       }
     }
     if (i == 0) {
@@ -177,35 +181,44 @@ Page({
       var yuan = that.data.yuan;
       if (yuan) {
         that.setData({
-          paytype: check,
+          paytype: one_pay,
           coupon_money: yuan,
           d_yuan: false,
         });
       } else {
         that.setData({
-          paytype: check,
+          paytype: one_pay,
         });
       }
-      //如果是密码支付先验证密码
-      if (check == 'wallet_Pay') {
+
+      if (one_pay == 'wallet_Pay') {
         if (user_money < coupon_money) {
           wx.showToast({
             title: '余额不足，请更换支付方式或选择组合支付！',
             icon: 'none',
             duration: 2000,
           });
-          var pays = that.data.pays;
+
+          for (var j = 0; j < pay_type.length; j++) {
+            if (pay_type[j].value == 'wxPay') {
+              pay_type[j].checked = true;
+            } else {
+              pay_type[j].checked = false;
+            }
+          }
+
           that.setData({
             paytype: false,
-            pays: pays
+            pays: pay_type
           });
         }
       }
     } else if (i == 2) {
+      console.log('两种支付方式')
       //两种支付方式时当支付金额大于用户余额 则抵扣全部余额 并验证 //否则 直接选择默认钱包支付
-      if (user_money > coupon_money) {
+      if (Number(user_money) >= Number(coupon_money)) {
         for (var j = 0; j < pay_type.length; j++) {
-          if (pay_type[j].value == 'wallet_Pay') {
+          if (pay_type[j].value == check) {
             pay_type[j].checked = true;
           } else {
             pay_type[j].checked = false;
@@ -213,15 +226,10 @@ Page({
         }
         //设置支付方式和点击默认
         that.setData({
-          paytype: 'wallet_Pay',
+          paytype: check,
           pays: pay_type
         });
-        //安全提示
-        wx.showToast({
-          title: '已默认钱包支付',
-          icon: 'none',
-          duration: 2000,
-        });
+
       } else {
         // 组合支付
         wx.showModal({
@@ -239,12 +247,22 @@ Page({
               });
             } else if (res.cancel) {
               //设置支付方式和点击默认
+              for (var j = 0; j < pay_type.length; j++) {
+                if (pay_type[j].value == 'wxPay') {
+                  pay_type[j].checked = true;
+                } else {
+                  pay_type[j].checked = false;
+                }
+              }
+
               that.setData({
+                paytype: false,
                 pays: pay_type
               });
               //安全提示
               wx.showToast({
                 title: '已取消',
+                icon:'none',
                 duration: 2000,
               });
             }
@@ -311,7 +329,8 @@ Page({
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           success: function (res) {
-            if (res.data.hasnum >= that.data.groupres.man_num){
+            console.log(res.data.hasnum,that.data.groupres.man_num)
+            if (Number(res.data.hasnum) >= Number(that.data.groupres.man_num)){
               wx.showModal({
                 content: "此团已满，请选择其他团或重新开团!",
                 showCancel: false,
@@ -332,12 +351,6 @@ Page({
               if (res.confirm) {
                 //组合支付 替换数据
                 that.wallet_pay()
-              } else if (res.cancel) {
-                if (that.data.pagefrom == 'kaituan') {
-                  //that.createGroupOrder(0,'')
-                } else if (that.data.pagefrom == 'cantuan') {
-                  //that.canGroupOrder(0,'')
-                }
               }
             }
           })
@@ -385,10 +398,6 @@ Page({
   // 发起钱包支付
   wallet_pay: function () {
     var that = this;
-    /*
-    1.支付成功
-    2.支付失败：提示；清空密码；自动聚焦isFocus:true，拉起键盘再次输入
-    */
     var coupon_money = that.data.coupon_money;
       var user_money = that.data.user_money; 
     if (user_money > coupon_money) {
@@ -434,7 +443,7 @@ Page({
         uid: app.globalData.userInfo.openid,
         fromid: that.data.form_id, 
         pro_id: that.data.pro_id,
-        man_mun: that.data.groupres.man_num, //拼团人数
+        man_num: that.data.groupres.man_num, //拼团人数
         time_over: that.data.groupres.time_over, //结束时间
         sizeid: that.data.sizeid, //商品规格id
         groupid: that.data.groupres.status,//拼团id
@@ -468,6 +477,12 @@ Page({
             }
           })   
           that.openGroupNotice(res.order, that.user_name, that.data.groupres.time_over, that.data.proattr.member_price, that.coupon_money, app.globalData.userInfo.openid, that.data.form_id, that.data.pro_name, 'pages/order/detail?orderId=' + res.id);
+        }else{
+          wx.showModal({
+            content: "参团失败！支付金额已退还到您钱包账户",
+            showCancel: false,
+            confirmText: "确定",
+          })
         }
       }
     })
@@ -482,7 +497,7 @@ Page({
         fromid: that.data.form_id,
         oid: that.oid, //拼团号
         pro_id: that.data.pro_id,
-        man_mun: that.data.groupres.man_num, //拼团人数
+        man_num: that.data.groupres.man_num, //拼团人数
         sizeid: that.data.sizeid, //商品规格id
         groupid: that.data.groupres.status,//拼团id
         ptgoods_name: that.data.proattr.pro_name,//商品名称
@@ -553,22 +568,21 @@ Page({
   wxpay: function(){
     var that = this;
     var cmoney = that.data.coupon_money;
-     
       wx.request({
-        url: app.d.ceshiUrl + '&action=recharge&m=recharge',
+        url: app.d.ceshiUrl + '&action=pay&m=pay',
         data: {
           cmoney: cmoney, // 付款金额
           openid: app.globalData.userInfo.openid, // 微信id
-          type: 1,
+          type: 'PT',
         },
         method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
         header: {
           'Content-Type':  'application/x-www-form-urlencoded'
         }, // 设置请求的 header
         success: function (res) {
-          
           if (res.data) {
             var dingdanhao = res.data.out_trade_no;
+            that.up_out_trade_no(1, dingdanhao)
             wx.requestPayment({
               timeStamp: res.data.timeStamp,
               nonceStr: res.data.nonceStr,
@@ -576,23 +590,30 @@ Page({
               signType: 'MD5',
               paySign: res.data.paySign,
               success: function (res) {
-                if (that.data.pagefrom == 'kaituan') {
-                  that.createGroupOrder(1, dingdanhao)
-                } else if (that.data.pagefrom == 'cantuan') {
-                  that.canGroupOrder(1, dingdanhao)
-                }
+                console.log(res)
+                that.verification(dingdanhao)
               },
               fail: function (res) {
+                // wx.request({
+                //   url: 'http://192.168.0.104/589fec3364886bd29ccb4536c3c9290a/LKT/notify_url.php?trade_no=' + dingdanhao,
+                //   method: 'post',
+                //   data: {
+                //     trade_no: dingdanhao //微信交易单号
+                //   },
+                //   header: {
+                //     'Content-Type': 'application/x-www-form-urlencoded'
+                //   },
+                //   success: function (res) {
+                //     console.log(res)
+                //     that.verification(dingdanhao)
+                //   }
+                // })
                 wx.showModal({
                   content: "取消支付！",
                   showCancel: false,
                   confirmText: "确定",
                   success: function (res) {
-                    if (that.data.pagefrom == 'kaituan') {
-                      //that.createGroupOrder(0,'')
-                    } else if (that.data.pagefrom == 'cantuan') {
-                      //that.canGroupOrder(0,'')
-                    }
+                    
                   }
                 })
               }
@@ -658,7 +679,79 @@ Page({
         console.log('信息发送成功')
       }
     })
+  },
+  up_out_trade_no: function (status,trade_no) {
+    var that = this;
+    wx.request({
+      url: app.d.ceshiUrl + '&action=groupbuy&m=up_out_trade_no',
+      method: 'post',
+      data: {
+        uid: app.globalData.userInfo.openid,
+        fromid: that.data.form_id,
+        oid: that.oid, //拼团号
+        pro_id: that.data.pro_id,
+        time_over: that.data.groupres.time_over, //结束时间
+        man_num: that.data.groupres.man_num, //拼团人数
+        sizeid: that.data.sizeid, //商品规格id
+        groupid: that.data.groupres.status,//拼团id
+        ptgoods_name: that.data.proattr.pro_name,//商品名称
+        d_price: that.data.proattr.group_price, //单价
+        price: that.coupon_money,//付款金额
+        name: that.data.buymsg.name,//收件人姓名
+        sheng: that.data.buymsg.sheng,//省
+        shi: that.data.buymsg.city,//市
+        quyu: that.data.buymsg.quyu,//县
+        address: that.data.buymsg.address_xq,//收货人地址
+        tel: that.data.buymsg.tel,//收货人电话
+        lack: that.data.proattr.num,//是否缺货
+        num: that.data.pro_num,//购买数量
+        paytype: that.data.paytype, //支付方式
+        status: status, //拼团状态
+        trade_no: trade_no, //微信交易单号
+        pagefrom:that.data.pagefrom
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log(res)
+      }
+    })
+  },
+  verification: function (trade_no) {
+    var that = this;
+    wx.request({
+      url: app.d.ceshiUrl + '&action=groupbuy&m=verification',
+      method: 'post',
+      data: {
+        trade_no: trade_no //微信交易单号
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log(res)
+        if (res.data.status) {
+          wx.showModal({
+            content: "恭喜您,拼团成功！",
+            showCancel: false,
+            confirmText: "确定",
+            success: function () {
+              wx.redirectTo({
+                url: '../group_buy/cantuan?id=' + res.data.data.ptcode + '&groupid=' + that.data.groupres.status + '&pro_id=' +
+                  that.data.pro_id + '&man_num=' + that.data.groupres.man_num
+              })
+            }
+          })
+        } else {
+          wx.showModal({
+            content: "参团失败！支付金额已退还到您钱包账户",
+            showCancel: false,
+            confirmText: "确定",
+          })
+        }
+      }
+    })
   }
-  
 
 })

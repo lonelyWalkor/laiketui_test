@@ -14,10 +14,13 @@ page{
 .pay_bottom{
   height:60px;
   width:100%;
-  position:fixed;
-  bottom:0;
   background:#fff;
 }
+.sqsh{
+  color: #333;
+}
+.pay_bottom .pay_foot{margin:15px 12px 0 0;}
+
 .swiper-tab{  
     width: 100%;  
     border-bottom: 1px solid #eee;  
@@ -97,7 +100,7 @@ page{
     overflow: hidden;
     font-size: 13px;
     color: #fc0628;
-    height:80rpx;
+    height:120rpx;
 }
 .dle{
     color: #999;
@@ -173,7 +176,7 @@ page{
 }
 
 .top_1{
-  padding: 4% 4% 4% 10px;
+  padding: 15px 4% 15px 10px;
   font-size:12px;
   display: flex;
   justify-content:space-between;
@@ -181,7 +184,7 @@ page{
   /* border-top: 1px solid #eee; */
 }
 .top{
-  padding: 4% 4% 4% 10px;
+  padding: 15px 4% 15px 10px;
   font-size:12px;
   display: flex;
   justify-content:space-between;

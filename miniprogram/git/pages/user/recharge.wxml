@@ -32,14 +32,14 @@
             <text class='t_3'>充值金额： </text>
           </view>
           <view class='inp'>
-            <input  name="money" style='font-size:13px;' type="text" maxlength="5" bindblur="bindblur" placeholder="充值金额不得小于{{min_cz}}元" />
+            <input  name="money" style='font-size:13px;' type="number" maxlength="5" bindblur="bindblur" placeholder="充值金额不得小于{{min_cz}}元" />
           </view>
         </view>
 			</view>
     </view>
     <input  name="min_cz" value='{{min_cz}}' style='display:none' />
     <view class="dibu">
-      <button form-type='submit' class="cz" hover-class="czz" style="background-color:#09bb07">立即支付</button>
+      <button form-type='submit' class="cz" hover-class="czz" style="background-color:#09bb07;height: 45px;">立即支付</button>
     </view>
   </form>
 </view>

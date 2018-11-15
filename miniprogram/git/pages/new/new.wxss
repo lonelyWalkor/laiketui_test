@@ -172,7 +172,8 @@ margin-left:20rpx;
   height: 285rpx;
 }
 .shu{
-  padding-left:10rpx;
+  padding-left:10px;
+  padding-right:10px;
 }
 .cont .title {
   font-size: 28rpx;
@@ -235,7 +236,6 @@ display:-webkit-box;
   text-align:right;
   width:77%;
   font-size:26rpx;
-  margin-right:7px;
   text-decoration:line-through;
   color:#999;
 }
@@ -259,8 +259,7 @@ display:-webkit-box;
 }
 .ku{
   text-align: right;
-  width: 50%; font-size: 26rpx;
-  margin-right:10rpx;
+  width: 100%; font-size: 26rpx;
   color: #666;
 }
 

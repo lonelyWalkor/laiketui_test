@@ -13,11 +13,11 @@ Page({
   //页面加载完成函数 remind: '加载中',
   onReady: function () {
     var that = this;
-    setTimeout(function () {
-      that.setData({
-        remind: ''
-      });
-    }, 1000);
+    // setTimeout(function () {
+    //   that.setData({
+        
+    //   });
+    // }, 1000);
   },
   //下拉刷新
   onPullDownRefresh: function () {
@@ -416,9 +416,9 @@ onShow: function () {
             var data = res.data;
             if(data.status == 1){
               that.loadProductData();
-              that.setData({
-                upstatus: false
-              });
+              // that.setData({
+              //   upstatus: false
+              // });
             }else{
               wx.showToast({
                 title: '操作失败！',
@@ -456,7 +456,7 @@ onShow: function () {
             carts: cart,
             selectedAllStatus: false,
             total: '￥0.00',
-            upstatus: false
+            remind: ''
           });
         },
       }); 

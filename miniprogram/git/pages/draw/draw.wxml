@@ -27,13 +27,9 @@
  <view class="page">
 <!-- 加载页面开始 -->
       <scroll-view scroll-y="true">
-        <!-- <swiper class="swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" > 
-                <navigator >
-                  <swiper-item> -->
+
           <image src="{{banner}}" wx:if="{{banner != ''}}"  class="slide-image" width="100%" height="2%"  />
-                  <!-- </swiper-item>
-                </navigator>
-            </swiper> -->
+
             <view class="cont" wx:if="{{choujiang != 1}}">
               <navigator class="pr" url="../product/detail?productId={{choujiang.draw_brandid}}&type1=1&choujiangid={{choujiang.id}}" hover-class="changestyle" wx:for="{{choujiang}}" wx:for-item="choujiang" wx:key="id">
                 <image class="photo" src="https://xiaochengxu.laiketui.com/duan/LKT/images/{{choujiang.imgurl}}"></image>
@@ -73,10 +69,10 @@
             </view>
           </view>
 
-            <view wx:if="{{item.twodata == ''}}" class='tishi'>
-              <view><image style='width:67%;height:173px;' src='/images/meile.png'></image></view>
-              <view>没有更多数据了</view>
-            </view>
+          <view wx:if="{{choujiang.length < 1}}" class='tishi'>
+            <view><image class='scimg' style="margin-top: 25%;" src='/images/icon-no.png'></image></view>
+            <view style='font-size:13px;color:#666;'>暂无活动开启</view>
+          </view>
       </scroll-view>
  </view> 
     

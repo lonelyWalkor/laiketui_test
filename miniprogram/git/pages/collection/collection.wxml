@@ -47,7 +47,7 @@
   </view>
   <view style="height:50px;"></view>
   <view class="dibu" wx:if="{{list.length}}">
-    <button bindtap="alldel" class="cz" hover-class="czz" style="background-color:{{bgcolor}}">全部取消收藏</button>
+    <button bindtap="alldel" class="cz" hover-class="czz" style="background-color:{{bgcolor}};height: 45px;line-height: 45px;">全部取消收藏</button>
   </view>
 </view>
 </block>

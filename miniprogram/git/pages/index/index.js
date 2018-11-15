@@ -1,7 +1,9 @@
 var app = getApp();
+var zi = 0;
 var cont_time=0;//首页tab点击
 Page({
   data: {
+    inforList: [],//公告
     banner: [],
     indicatorDots: true, // 是否显示面板指示点
     autoplay: true, // 是否自动切换
@@ -10,6 +12,7 @@ Page({
     circular: true, // 是否采用衔接滑动
     scrollLeft: 0, //tab标题的滚动条位置
     current: 0,//当前选中的Tab项
+    current1:0,
     page: 1,
     index: 1,
     cont:1,
@@ -18,6 +21,11 @@ Page({
     remind: '加载中',
     showModal: false,
     plug: [],
+    timestamp:0,
+    searchView:false,
+    images:{},
+    zjList: {},
+    zjList_box:false,
   },
   //下拉事件
   onPullDownRefresh: function () {
@@ -28,10 +36,32 @@ Page({
     }, 1800);
     this.onLoad();
   },
+  current1Change:function(e){
+    this.setData({
+      current1: e.detail.current,
+    })
+  },
+  imgW: function (e) {
+    var $width = e.detail.width,    //获取图片真实宽度
+      $height = e.detail.height,
+      ratio = $width / $height;    //图片的真实宽高比例
+    var viewWidth = 718,           //设置图片显示宽度，左右留有16rpx边距
+      viewHeight = 718 / ratio;    //计算的高度值
+    var image = this.data.images;
+    //将图片的datadata-index作为image对象的key,然后存储图片的宽高值
+    image[e.target.dataset.index] = {
+      width: viewWidth,
+      height: viewHeight
+    }
+    this.setData({
+      images: image
+    })
+  },
   getMore: function (e) {
     var that = this;
     var page = that.data.page;
     var index = that.data.tabid;
+    var current = that.data.current;
     wx.request({
       url: app.d.ceshiUrl + '&action=Index&m=get_more',
       method: 'post',
@@ -46,13 +76,16 @@ Page({
         var prolist = res.data.prolist;
         if (prolist == '' || res.data.status == 0) {
           wx.showToast({
-            title: '没有更多数据！',
+            title: '已为您全部加载完毕!',
+            icon:'none',
             duration: 2000
           });
           return false;
         }else{
           var twoList = that.data.twoList;
-          twoList[index].twodata = prolist;
+          for (var i = 0; i < prolist.length; i++) {
+            twoList[current].twodata.push(prolist[i])
+          }
           that.setData({
             page: page + 1,
             twoList: twoList
@@ -79,23 +112,44 @@ Page({
         })
       }
   },
+  searchView:function(e){
+    console.log(e);
+     this.setData({
+       searchView:!this.data.searchView,
+     });
+  },
   inputBlur: function (e) {
     this.setData({
       value: e.detail.value,
     });
+    this.searchView();
   },
-  search_cancel: function () {
-    var that = this, value = this.data.value;
-    if (value != '' && value != 'undefined' && value) {
+  search_cancel: function (e) {
+    var formId = e.detail.formId;
+    var value = e.detail.value.search_value;
+    console.log(this.data.value,e);
+    if(value.length > 0){
       wx.navigateTo({
         url: "../listdetail/listdetail?keyword=" + value
       })
     }else{
-      setTimeout(function () {
-         that.search_cancel();
-      }, 1000);
+      wx.showToast({
+        title: '请输入关键词！',
+        icon:'none',
+        duration: 2000
+      });
     }
+    if (formId != 'the formId is a mock one') {
+      var page = 'pages/index/index'
+      app.request.wxRequest({
+        url: '&action=product&m=save_formid',
+        data: { from_id: formId, userid: app.globalData.userInfo.openid },
+        method: 'post',
+        success: function (res) {
 
+        }
+      })
+    }
   },
   search: function () {
     var that = this, value = this.data.value;
@@ -119,6 +173,7 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function (res) {
+          app.userlogin(1);
           var banner = res.data.banner; // 轮播图
           var twoList = res.data.twoList;     //产品显示
           var bgcolor = res.data.bgcolor;     //产品显示
@@ -126,24 +181,42 @@ Page({
           var title = res.data.title;
           app.d.bgcolor = bgcolor;
           var arr = Object.keys(twoList[0].distributor);
-          console.log(arr.length); 
+          var notice = res.data.notice;
           that.setData({
             distributor: arr,
+            inforList: notice,
             banner: banner,
             twoList: twoList,
             bgcolor: bgcolor,
-            plug: plug
+            plug: plug,
+            mch_name: title,
+            logo: res.data.logo,
+            djname: res.data.djname,
+            zjList:res.data.list
           });
 
           wx.setNavigationBarColor({
-            frontColor: '#000000',//
+            frontColor: app.d.frontColor,
             backgroundColor: app.d.bgcolor //页面标题为路由参数
           });
+          
           wx.setNavigationBarTitle({
             title: title,
             success: function () {
             },
           });
+
+          that.setData({
+            remind: ''
+          });
+          
+          console.log(res.data.list.length)
+          if (res.data.list.length){
+            setTimeout(function () {
+              that.listnsg();
+            }, 2000);
+          }
+
         },
         fail: function (e) {
           wx.showToast({
@@ -153,7 +226,44 @@ Page({
         },
       })
     }else{
-      app.getUserInfo(that);
+      setTimeout(function () {
+        that.loadProductDetail();
+      }, 1000);
+    }
+  },
+  onHide: function () {
+    clearTimeout();
+  },
+  listnsg:function(){
+    var zjList = this.data.zjList;
+    var that = this;
+    //随机
+    // var max = 10000, min = 1000;
+    // parseInt(Math.random() * (max - min + 1) + min, 10);
+    // var time = Math.floor(Math.random() * (max - min + 1) + min);
+    var time = 1500;
+    if (zjList[zi].type == 2){
+      time = 6000;
+    }else{
+      time = 1500;
+    }
+    setTimeout(function () {
+      that.setData({
+        zjList_box: false
+      })
+      setTimeout(function () {
+        that.listnsg();
+      }, 2000);
+    }, time);
+    that.setData({
+      headimgurl: zjList[zi].headimgurl,
+      user_name: zjList[zi].user_name,
+      pname: zjList[zi].name,
+      zjList_box: true
+    })
+    zi++;
+    if (zi == zjList.length){
+      zi = 0;
     }
   },
   //上拉事件
@@ -170,7 +280,29 @@ Page({
     that.setData({
       loading: true,
     });
-    
+  },
+  obm: function () {
+    var that = this;
+    var timestamp = Date.parse(new Date());
+    console.log(timestamp, that.data.timestamp)
+    if (timestamp - that.data.timestamp > 2000){
+      that.setData({
+        timestamp: timestamp,
+      });
+
+      setTimeout(function () {
+        that.getMore();
+        wx.hideNavigationBarLoading() //完成停止加载
+        wx.stopPullDownRefresh() //停止下拉刷新
+        that.setData({
+          loading: false,
+        });
+      }, 1800);
+      that.setData({
+        loading: true,
+      });
+    }
+
   },
   /**
    * Tab的点击切换事件
@@ -202,7 +334,7 @@ Page({
   },
   //设置点击tab大于第七个是自动跳到后面
   checkCor: function (e) {
-    if (this.data.current > 6) {
+    if (this.data.current > 4) {
       this.setData({
         scrollLeft: 800
       })
@@ -234,14 +366,10 @@ Page({
       that.onLoad();
       app.d.indexchase = false;
     }
+    
   },
   onReady: function () {
-    var that = this;
-    setTimeout(function () {
-      that.setData({
-        remind: ''
-      });
-    }, 1000);
+
   },
   onLoad: function (e) {
     var that = this;
@@ -263,44 +391,7 @@ Page({
       }
     },5000);
     that.loadProductDetail();
-    // wx.request({
-    //   url: app.d.ceshiUrl + '&action=Index&m=index',
-    //   method: 'post',
-    //   data: {},
-    //   header: {
-    //     'Content-Type': 'application/x-www-form-urlencoded'
-    //   },
-    //   success: function (res) {
-    //     var banner = res.data.banner; // 轮播图
-    //     var twoList = res.data.twoList;     //产品显示
-    //     var bgcolor = res.data.bgcolor;     //产品显示
-    //     var plug = res.data.plug;     //抽奖产品
-    //     var title = res.data.title;
-    //     app.d.bgcolor = bgcolor;
-    //     that.setData({
-    //        banner: banner,
-    //        twoList: twoList,
-    //        bgcolor: bgcolor,
-    //        plug: plug
-    //     });
-        
-    //     wx.setNavigationBarColor({
-    //       frontColor: app.d.frontColor,//
-    //       backgroundColor: app.d.bgcolor //页面标题为路由参数
-    //     });
-    //     wx.setNavigationBarTitle({
-    //       title: title,
-    //       success: function () {
-    //       },
-    //     });
-    //   },
-    //   fail: function (e) {
-    //     wx.showToast({
-    //       title: '网络异常！',
-    //       duration: 2000
-    //     });
-    //   },
-    // })
+    
   },
 
   preventTouchMove: function () {
@@ -466,5 +557,28 @@ Page({
         that.onLoad();
       }
     })
+  },
+
+  onShareAppMessage: function (res) {
+    var that = this;
+    var id = that.data.productId;
+    var type1 = that.data.type1;
+    var uname = app.globalData.userInfo.nickName ? app.globalData.userInfo.nickName : '' ;
+    var title = uname + '邀请你来' + that.data.mch_name;
+    var user_id = app.globalData.userInfo.user_id;
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+    }
+    return {
+      title: title,
+      imageUrl: that.data.logo,
+      path: 'pages/index/index?userid='+ user_id,
+      success: function (res) {
+        console.log('转发成功');
+      },
+      fail: function (res) {
+        console.log('转发失败')
+      }
+    }
   },
 });

@@ -28,12 +28,14 @@ Page({
 
     var orderId = options.orderId;
     var details = options.details ? options.details:'';
+    var type = options.type ? options.type : '';
     wx.request({
       url: app.d.ceshiUrl + '&action=order&m=logistics',
       method: 'post',
       data: {
         id: orderId,
-        details: details
+        details: details,
+        type: type
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -78,7 +80,17 @@ Page({
       });
     }, 1000);
   },
-
+  copyText: function (t) {
+    var a = t.currentTarget.dataset.text;
+    wx.setClipboardData({
+      data: a,
+      success: function () {
+        wx.showToast({
+          title: "已复制"
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */

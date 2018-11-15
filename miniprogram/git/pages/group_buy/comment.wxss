@@ -1,7 +1,7 @@
 /* pages/group_buy/comment.wxss */
 .comment_text_bq{
   float: left;
-  width: 180rpx;
+  width: 155rpx;
   height: 43rpx;
   background: #ffe4e4;
   border-radius: 30rpx;
@@ -88,7 +88,8 @@
   display: flex;  
   flex-direction: row;  
   align-items:center;
-  padding: 3% 5% 3% 5%;
+  width: 90%;
+  padding: 10px 5% 0px 5%;
 }
 .comment_text{
   font-size:14px;
@@ -98,9 +99,9 @@
 .comment_content{
   /* background:#eee; */
   font-size:14px;
-  width:100%;
+  width:90%;
   /* height:100px; */
-  margin:auto 12px;
+  margin:10px auto;
 }
 .comment_img{
   width:90%;

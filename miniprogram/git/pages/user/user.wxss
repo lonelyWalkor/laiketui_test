@@ -52,7 +52,7 @@ background:#fff;
 margin-bottom:10px;
 border-radius:5px;
 }
-.user_top image{
+.user_top_image{
   width:80px;
   height: 80px;
   border-radius:100px;
@@ -189,6 +189,9 @@ border-radius:5px;
 }
 .bottom{
   padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
 }
 .bottom_1{
   display:flex;
@@ -201,8 +204,8 @@ border-radius:5px;
   font-size: 14px;
 }
 .bottom_1 image{
-  width:100px;
-  height:40px;
+  width:30px;
+  height:30px;
 }
 .function_right{
   margin-right:5px;
@@ -243,10 +246,10 @@ border-radius:5px;
   width: 25px;
   height: 25px;
 }
-
+/* 
 .bottom_1 image{
   border-radius: 0;
-}
+} */
 
 .img{
   display:flex;

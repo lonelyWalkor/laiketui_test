@@ -11,7 +11,7 @@ Page({
     isTodayWeek: false,
     todayIndex: 0,
     remind: '加载中',
-    bgcolor:'#7a896c',
+    bgcolor:'',
   },
   onReady: function () {
     var that = this;
@@ -24,7 +24,7 @@ Page({
   onLoad: function () {
     wx.setNavigationBarColor({
       frontColor: app.d.frontColor,
-      backgroundColor: this.data.bgcolor, //页面标题为路由参数
+      backgroundColor: app.d.bgcolor, //页面标题为路由参数
       animation: {
         duration: 400,
         timingFunc: 'easeIn'
@@ -35,7 +35,7 @@ Page({
     let month = now.getMonth() + 1; // 获得月份
     this.dateInit();
     this.setData({
-      // bgcolor: this.data.bgcolor,
+      bgcolor: app.d.bgcolor,
       sign_status: app.globalData.userInfo.sign_status, // 是否签到
       year: year,
       month: month,
@@ -164,6 +164,7 @@ Page({
           });
           wx.showToast({
             title: res.data.err,
+            icon:'none',
             duration: 2000
           });
         }
@@ -212,6 +213,7 @@ Page({
         }else{
           wx.showToast({
             title: res.data.err,
+            icon: 'none',
             duration: 2000
           });
         }

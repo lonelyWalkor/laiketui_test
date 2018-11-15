@@ -119,7 +119,7 @@ page{
 .carts-list {
   display: flex;
   flex-direction: column;
-  padding: 20rpx 40rpx;
+  padding:0 40rpx 20rpx 40rpx;
    background: #fff;
 }
  
@@ -136,8 +136,9 @@ page{
  
 /*左部图片*/
 .carts-image {
-  width:150rpx;
-  height:150rpx;
+  width:160rpx;
+  height:160rpx;
+  border: 1px solid #eee;
 }
  .kong{
      width:200rpx;
@@ -147,24 +148,31 @@ page{
 /*右部描述*/
 .carts-text {
   width: 100%;
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
   position:relative;
-  padding-left:5px;
+  padding-left:10px;
+}
+
+.title{
+  clear: both;
+  width: 100%;
+  height:40rpx;
 }
 
  
 /*右上部分标题*/
 .carts-title {
-  margin: 10rpx;
+  margin-top: 1px;
+  margin-bottom: 10rpx;
   font-size: 28rpx;
+  line-height:34rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-   width: 80%; 
+   width: 100%; 
 } 
 /*右下部分价格与数量*/
 .carts-subtitle {
@@ -179,7 +187,6 @@ page{
 /*价格*/
 .carts-price {
   color: #f60;
-  padding:10px;
 }
 /*底部按钮*/
 .carts-footer {
@@ -230,23 +237,32 @@ page{
 .stepper text {
   background-color: #f2f2f2;
   margin: 0;
-  width: 26px;
-  height: 26px;
-  line-height: 26px;
+  width: 23px;
+  height: 23px;
+  line-height: 23px;
   text-align: center;
   font-weight: 900;
   color: #939393;
-  border-radius:6rpx; 
-  border:1px solid #fff;
+  border-radius:6rpx;
+  border: 0
 }
 .stepper input {
   width: 43px;
-  height: 25px;
+  /* height: 25px; */
   text-align: center;
   border-radius:6rpx; 
   border-top: 1px solid #f2f2f2;
     border-bottom: 1px solid #f2f2f2
 }
+
+.cart_number{
+  height: 21px!important;
+  font-size: 28rpx;
+  line-height: 20px;
+  min-height: 21px!important;
+  color: #666
+}
+
 .modal-close{
     float:right;
     position:absolute;

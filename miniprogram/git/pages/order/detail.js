@@ -54,6 +54,13 @@ Page({
 		yuan: 0, //临时储存先前的总价格
 		d_yuan: 0, //抵扣余额显示
 	},
+  return_goods: function (e) {
+    var that = this, id = e.target.dataset.orderId;
+    var sNo = that.data.sNo;
+    wx.redirectTo({
+      url: "../return_goods/return_goods?id=" + id + "&type=1&oid=" + sNo
+    })
+  },
   // 选择支付方式
   switchChange: function (e) {
     var that = this;
@@ -62,10 +69,9 @@ Page({
     var value = e.detail.value;
     var checked_one = '';
     var pays = that.data.pays[index];
-    var coupon_money = that.data.z_price;
+    var payment = that.data.z_price;
     var user_money = that.data.user_money;
-
-    if (Number(coupon_money) >= 0) {
+    if (Number(payment) >= 0) {
 
       if (value) {
         pays.checked = true;
@@ -94,7 +100,7 @@ Page({
           }
           that.setData({
             paytype: check,
-            coupon_money: yuan,
+            payment: yuan,
             d_yuan: false,
           });
         } else {
@@ -104,10 +110,12 @@ Page({
         }
         // 如果是余额支付
         if (checked_one == 'wallet_Pay') {
-          if (coupon_money == yuan) {
-            if (user_money < coupon_money) {
+          console.log(payment, yuan)
+          if (user_money >= payment) {
+            // console.log(user_money, payment)
+            if (user_money < payment) {
               wx.showToast({
-                title: '余额不足，请更换支付方式或选择组合支付！',
+                title: '余额不足，请更换支付方式或选择组合支付2！',
                 icon: 'none',
                 duration: 2000,
               });
@@ -126,7 +134,7 @@ Page({
             }
           } else {
             wx.showToast({
-              title: '余额不足，请更换支付方式或选择组合支付！',
+              title: '余额不足，请更换支付方式或选择组合支付1！',
               icon: 'none',
               duration: 2000,
             });
@@ -147,9 +155,9 @@ Page({
         }
       } else if (i == 2) {
         //两种支付方式时当支付金额大于用户余额 则抵扣全部余额 并验证 //否则 直接选择默认钱包支付
-        if (Number(user_money) > Number(coupon_money)) {
+        if (Number(user_money) >= Number(payment)) {
           for (var j = 0; j < pay_type.length; j++) {
-            if (pay_type[j].value == 'wallet_Pay') {
+            if (pay_type[j].value == check) {
               pay_type[j].checked = true;
             } else {
               pay_type[j].checked = false;
@@ -157,14 +165,8 @@ Page({
           }
           //设置支付方式和点击默认
           that.setData({
-            paytype: 'wallet_Pay',
+            paytype: check,
             pays: pay_type
-          });
-          //安全提示
-          wx.showToast({
-            title: '已默认钱包支付',
-            icon: 'none',
-            duration: 2000,
           });
         } else {
           // 组合支付
@@ -194,21 +196,31 @@ Page({
               success: function (res) {
                 if (res.confirm) {
                   //组合支付 替换数据
-                  var price = Number(coupon_money) - Number(user_money); //防止出现小数点后多余2位以上  .toFixed(2)
+                  var price = Number(payment) - Number(user_money); //防止出现小数点后多余2位以上  .toFixed(2)
                   that.setData({
                     paytype: 'wxPay',
-                    yuan: coupon_money,
-                    coupon_money: price.toFixed(2),
+                    yuan: payment,
+                    payment: price.toFixed(2),
                     d_yuan: user_money,
                   });
                 } else if (res.cancel) {
                   //设置支付方式和点击默认
+                  for (var j = 0; j < pay_type.length; j++) {
+                    if (pay_type[j].value == 'wxPay') {
+                      pay_type[j].checked = true;
+                    } else {
+                      pay_type[j].checked = false;
+                    }
+                  }
+
                   that.setData({
+                    paytype: false,
                     pays: pay_type
                   });
                   //安全提示
                   wx.showToast({
                     title: '已取消',
+                    icon: 'none',
                     duration: 2000,
                   });
                 }
@@ -230,6 +242,7 @@ Page({
       });
     }
   },
+
 	onLoad: function(options) {
     console.log(options)
     this.get_plug();
@@ -279,6 +292,9 @@ Page({
       }
     })
   },
+  
+  
+  
   getUserformid: function (e) {
     //储存id 并跳转
     var formid = e.detail.formId;
@@ -315,6 +331,7 @@ Page({
 			},
 			success: function(res) {
 				var status = res.data.status;
+        
 				var type1 = res.data.type1;
 				var dr = res.data.dr;
 				var wx_id = res.data.wx_id;
@@ -325,6 +342,7 @@ Page({
         var list= res.data.list;
         var z_price = Number(res.data.z_price);
         var pro_price = 0;
+        var freight = res.data.freight ? res.data.freight : 0;
         var red_packet = res.data.red_packet;
         for (var i = 0; i < list.length; i++) {
           pro_price = Number(pro_price) + Number(list[i].p_price) * Number(list[i].num); 
@@ -332,6 +350,7 @@ Page({
 				if(status == 1) {
 					that.setData({
             pro_price: pro_price,
+            freight: freight,
 						id: res.data.id,
 						sNo: res.data.sNo,
 						z_price: z_price,
@@ -358,6 +377,7 @@ Page({
             man_num: res.data.man_num,
             groupid: res.data.pid,
             red_packet: red_packet,
+            payment: z_price,
 					});
 
 					//支付倒计时
@@ -397,6 +417,7 @@ Page({
 					url: app.d.ceshiUrl + '&action=order&m=removeOrder',
 					method: 'post',
 					data: {
+            openid: app.globalData.userInfo.openid,
 						id: orderId,
 					},
 					header: {
@@ -532,13 +553,16 @@ Page({
 
 	// 微信支付
 	payOrderByWechat: function(order_id, order_sn, price) {
+    var that = this;
 		var user_id = app.globalData.userInfo.openid;
 		//调起微信支付
+    console.log(price)
+    // var cmoney = price.toFixed(2);
 		wx.request({
-			url: app.d.ceshiUrl + '&action=recharge&m=recharge',
+			url: app.d.ceshiUrl + '&action=pay&m=pay',
 			data: {
 				order_id: order_sn,
-				cmoney: price,
+        cmoney: price,
 				openid: user_id,
 				type: 1
 			},
@@ -548,7 +572,12 @@ Page({
 			}, // 设置请求的 header
 			success: function(res) {
 				if(res.data) {
-					var dingdanhao = res.data.out_trade_no;
+          var dingdanhao = res.data.out_trade_no;
+
+          that.up_out_trade_no(dingdanhao);
+          that.setData({
+            trade_no: dingdanhao
+          })
 					wx.requestPayment({
 						timeStamp: res.data.timeStamp,
 						nonceStr: res.data.nonceStr,
@@ -556,33 +585,18 @@ Page({
 						signType: 'MD5',
 						paySign: res.data.paySign,
 						success: function(res) {
-							wx.request({
-								url: app.d.ceshiUrl + '&action=product&m=up_order',
-								method: 'post',
-								data: {
-									order_id: order_sn,
-									user_id: user_id,
-								},
-								header: {
-									'Content-Type': 'application/x-www-form-urlencoded'
-								},
-								success: function(res) {
-									var orderId = res.data.sNo;
-									var oid = res.data.id;
-									wx.showModal({
-										content: "支付成功！",
-										showCancel: false,
-										confirmText: "确定",
-										success: function(res) {
-											setTimeout(function() {
-												wx.redirectTo({
-													url: '../order/detail?orderId=' + oid
-												})
-											}, 1000);
-										}
-									})
-								}
-							})
+              wx.showModal({
+                content: "支付成功！",
+                showCancel: false,
+                confirmText: "确定",
+                success: function (res) {
+                  setTimeout(function () {
+                    wx.redirectTo({
+                      url: '../order/detail?orderId=' + that.data.orderId
+                    })
+                  }, 1000);
+                }
+              })
 						},
 						fail: function(res) {
 							wx.showModal({
@@ -698,11 +712,12 @@ Page({
 			url: app.d.ceshiUrl + '&action=product&m=up_order',
 			method: 'post',
 			data: {
-				coupon_id: that.data.coupon_id, // 优惠券id
+        coupon_id: that.data.coupon_id ? that.data.coupon_id:'', // 优惠券id
         consumer_money: that.data.consumer_money, // 使用积分
 				coupon_money: that.data.z_price, // 付款金额
 				order_id: that.data.sNo, // 订单号
 				user_id: app.globalData.userInfo.openid, // 微信id
+        pay: that.data.paytype
 			},
 			header: {
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -774,6 +789,30 @@ Page({
   t_index: function () {
     wx.switchTab({
       url: '../index/index'
+    })
+  },
+  up_out_trade_no: function (out_trade_no) {
+    var that = this;
+    wx.request({
+      url: app.d.ceshiUrl + '&action=order&m=up_out_trade_no',
+      method: 'post',
+      data: {
+        allow: that.data.allow, // 使用积分
+        d_yuan: that.data.d_yuan,
+        trade_no: out_trade_no,
+        coupon_id: that.data.coupon_id ? that.data.coupon_id : '', // 优惠券id
+        consumer_money: that.data.consumer_money, // 使用积分
+        coupon_money: that.data.z_price, // 付款金额
+        order_id: that.data.sNo, // 订单号
+        user_id: app.globalData.userInfo.openid, // 微信id
+        pay: that.data.paytype
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log(res)
+      }
     })
   },
 })

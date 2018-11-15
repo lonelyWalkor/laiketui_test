@@ -125,13 +125,21 @@ Page({
   //滑动事件
   bindChange: function (e) {
     var val = e.detail.value
+    console.log(val);
+    console.log(index);
     //判断滑动的是第几个column
     //若省份column做了滑动则定位到地级市和区县第一位
     if (index[0] != val[0]) {
+      val[1] = 0;
+      val[2] = 0;
+      index[1] = 0;
+      index[2] = 0;
       this.getCityArr(val[0]);//获取地级市数据
       this.getCountyInfo(val[0], val[1]);//获取区县数据
     } else {    //若省份column未做滑动，地级市做了滑动则定位区县第一位
       if (index[1] != val[1]) {
+        val[2] = 0;
+        index[2] = 0;
         this.getCountyInfo(val[0], val[1]);//获取区县数据
       }
     }

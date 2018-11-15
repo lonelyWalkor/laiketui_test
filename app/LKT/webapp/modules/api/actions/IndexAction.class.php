@@ -168,8 +168,16 @@ class IndexAction extends Action {
             }
         }
         $pmd = [];
-        echo json_encode(array('banner'=>$banner,'twoList'=>$twoList,'bgcolor'=>$bgcolor,'plug'=>$plug,'title'=>$title,'logo'=>$logo,'list'=>$pmd));
+
+        $lkt_set_notice = "select id,name from lkt_set_notice order by time desc";
+        $notice = [];
+        $res_notice= $db -> select($lkt_set_notice);//公告
+        foreach ($res_notice as $key => $value) {
+           $notice[$key] = array('url' => $value->id, 'title' => $value->name);
+        }
+        echo json_encode(array('banner'=>$banner,'notice'=>$notice,'djname'=>'','twoList'=>$twoList,'bgcolor'=>$bgcolor,'plug'=>$plug,'title'=>$title,'logo'=>$logo,'list'=>$pmd));
         exit();
+        
     }
 
     // 加载更多商品

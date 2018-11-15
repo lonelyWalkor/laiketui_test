@@ -43,16 +43,26 @@
         <view wx:else>
           <view wx:if="{{type1 == 1}}">
             ￥ <text style='font-size:40rpx;'>{{itemData.price11}}</text>
+             <view  wx:if="{{is_zhekou == 1 && zhekou !='all' && zhekou}}" style='width:100px;height:19px;float:right;'>会员折扣：{{zhekou}} 折</view>
           </view>
           <block wx:else>
             ￥ <text style='font-size:40rpx;'>{{qj_price}}</text>
+             <view wx:if="{{is_zhekou == 1 && zhekou !='all' && zhekou}}" style='width:100px;height:19px;float:right;'>会员折扣： {{zhekou}} 折</view>
           </block>
+         
           <view style='color:#666;font-size:25rpx;'>价格 <text style='text-decoration:line-through;'>￥{{qj_yprice}}</text></view>
         </view>
         
       </view>
       <view class='dd_details_text'>
-        <view class='ovh1' style='-webkit-line-clamp:2;float:left;font-size:32rpx;color:#333;font-weight:700;width:85%;'>{{itemData.name}}</view>
+        <view class='ovh1' style='-webkit-line-clamp:2;float:left;font-size:32rpx;color:#333;font-weight:700;width:85%;'>
+        <text class='de_text'>[</text>
+          <text class='de_text'  wx:if="{{itemData.xp == 1}}">新品</text>
+          <text class='de_text'  wx:if="{{itemData.rexiao == 1}}">热销</text>
+          <text class='de_text'  wx:if="{{itemData.tuijian == 1}}">推荐</text>
+          <text class='de_text'>]</text>
+          {{itemData.name}}
+        </view>
         <view style='float:right;margin-top:-4px;'>
 
       <view class="df_1 l_h15 pt5">
@@ -69,7 +79,7 @@
         <view style='clear:both;'></view>
       </view>
       <view class='kd_xl'>
-        <text class="c6 font_14" style='color:#ccc;margin-right:90px;'>快递： 0.00</text>
+        <text class="c6 font_14" style='color:#ccc;margin-right:90px;'>快递：{{itemData.freight}}</text>
         <text class="c6 font_14" style='color:#ccc'>销量：{{itemData.volume}}</text>
       </view>
     </view>
@@ -119,8 +129,8 @@
         <scroll-view scroll-y="true" style="height:100%;">     
 <!-- 属性选择 -->
 <view wx:for="{{attrList}}" wx:for-index="idx" wx:key="userInfoListId" class="outStyle">
-  <view class='outStyleText textStyle buttonPaddingStyle'>{{item.attrName}}</view>
-  <view class='typeStyle textStyle'>
+  <view class='outStyleText textStyle buttonPaddingStyle' style="padding-left:0">{{item.attrName}}</view>
+  <view class='typeStyle textStyle' style="margin-left:0">
     <view wx:for="{{item.attr}}" data-item='{{item.attr[index]}}' data-index='{{index}}' data-idx='{{idx}}' wx:key="userInfoListId" bindtap="onChangeShowState" wx:for-item="items">
       <view class="{{items.enable == true ?(items.select==true?'orange':'back') : 'bai'}} textStyle buttonPaddingStyle">
         {{items.attributeValue}}
@@ -190,10 +200,10 @@
               <view class="name">商品名称：</view>
               <view class="df_1 c3">{{itemData.name}}</view>
             </view>
-            <view class="canshu df">
+            <!-- <view class="canshu df">
               <view class="name">品牌：</view>
               <view class="df_1 c3">{{itemData.brand_name}}</view>
-            </view>
+            </view> -->
             <view class="canshu df">
               <view class="name">商品编号：</view>
               <view class="df_1 c3">{{itemData.pro_number}}</view>
@@ -202,10 +212,10 @@
               <view class="name">分类：</view>
               <view class="df_1 c3">{{itemData.cat_name}}</view>
             </view>
-            <view class="canshu df">
+            <!-- <view class="canshu df">
               <view class="name">售后：</view>
               <view class="df_1 c3">签收之日48小时内无条件退货</view>
-            </view>
+            </view> -->
           </view>
         </scroll-view>
       </swiper-item>
@@ -338,7 +348,7 @@
   </view>
   <view wx:if="{{share.friend}}" class='fx_img_box' bindtap='user_share' >
     <view> <image class='fx_img' src='/images/pyq.png'></image></view> 
-      <view>朋友圈</view>
+      <view>二维码</view>
   </view>
 </view>
 
@@ -347,7 +357,7 @@
   <view class='imagePathBox' hidden="{{maskHidden == false}}">
     <view class='images_bg'>
         <view class='share_top'>
-        分享到朋友圈
+        查看二维码
         <view class='close_share' bindtap='close_share'>x</view>
         </view>
         <image src="{{imagePath}}" data-src="{{imagePath}}" catchtap="previewImage" class='shengcheng'></image>

@@ -1,9 +1,14 @@
 <view class="w100">
-  <view class="p_all">请填写退货信息</view>
+  <view class="p_all">请填写售后信息</view>
   <form bindsubmit="submitReturnData" report-submit="true" > 
+    <view class="p_all01 mt10 bg" bindtap="actionSheetTap">
+          <view class="text">
+            <text class='t_3'>选择售后类型： </text>{{itemList_text}}
+          </view>
+    </view>
     <view class="p_all01 mt10 bg">
-      <view class=" mt10">
-        <textarea class="min_60 inputStyle" auto-height name="remark" placeholder="退款原因" value="{{remark}}"/> 
+      <view >
+        <textarea class="min_60 inputStyle" auto-height name="remark" placeholder="请填写原因" value="{{remark}}"/> 
       </view>
     </view>
     <view class="p_all01 mtt0">

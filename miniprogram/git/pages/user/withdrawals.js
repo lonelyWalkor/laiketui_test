@@ -8,6 +8,7 @@ Page({
     iv:'',
     encryptedData:'',
     islogin: false,
+    lai:'lai',
     remind: '加载中',
     bank_name:''
   },
@@ -74,6 +75,7 @@ Page({
             money: user.money,
             min_amount: user.min_amount,
             max_amount: user.max_amount,
+            multiple: user.multiple,
             unit: user.unit,
             Bank_name: user.Bank_name,
             Cardholder: user.Cardholder,
@@ -102,6 +104,8 @@ Page({
     var encryptedData = e.detail.encryptedData;
     var that = this;
     if (e.detail.errMsg == 'getPhoneNumber:fail user deny') {
+      console.log(111)
+      
       wx.showModal({
         title: '提示',
         showCancel: false,
@@ -109,6 +113,8 @@ Page({
         success: function (res) { }
       })
     } else {
+      console.log(222)
+      
       wx.showModal({
         title: '提示',
         showCancel: false,
@@ -220,7 +226,7 @@ Page({
           } else {
             wx.showToast({
               title: res.data.info,
-              icon: 'loading',
+              icon: 'none',
               duration: 1500
             });
           }

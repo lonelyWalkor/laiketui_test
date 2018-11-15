@@ -51,13 +51,13 @@ Page({
     // app.userlogin(true);
     var cont = this.data.cont;
     var that = this;
-    if (cont > 1) {
-      that.onLoad();
-    } else {
-      that.setData({
-        cont: cont + 1
-      })
-    }
+    // if (cont > 1) {
+    //   that.onLoad();
+    // } else {
+    //   that.setData({
+    //     cont: cont + 1
+    //   })
+    // }
   },
   onLoad: function (options) {
     var that = this;
@@ -85,7 +85,22 @@ Page({
       curIndex: index
     })
   },
+  search_confirmType: function (e) {
+    console.log('-----');
+    var that = this, value = e.detail.value;
+    this.setData({
+      value: e.detail.value,
+    });
+
+    if (value != '') {
+      WxSearch.wxSearchAddHisKey(that);
+      wx.navigateTo({
+        url: "../listdetail/listdetail?keyword=" + value
+      })
+    }
+  },
   wxSearchFn: function (e) {
+    console.log(e)
     var that = this
     WxSearch.wxSearchAddHisKey(that);
     setTimeout(function () {

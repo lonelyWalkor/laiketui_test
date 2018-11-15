@@ -1,4 +1,3 @@
-// pages/goods/detail.js
 var WxParse = require('../../wxParse/wxParse.js');
 var app = getApp();
 Page({
@@ -56,7 +55,9 @@ Page({
       data: { gid: gid, group_id: group_id, userid:app.globalData.userInfo.openid},
       method:'post',
       success:function(res){
+        console.log(res);
         WxParse.wxParse('content', 'html', res.detail.content, self, 5);
+        
         if (res.isplug === '0'){
           wx.showModal({
             title: '温馨提示!',
@@ -101,7 +102,8 @@ Page({
           comments: res.comments,
           comnum: res.comnum,
           control: res.control,
-          remind: ''
+          remind: '',
+          share: res.share,
         })
         
         var timestamp = Date.parse(new Date())/1000;
@@ -110,10 +112,50 @@ Page({
              is_over: true
            })
         }
-        self.onData();
+        self.one();
       }
     })
     
+  },
+  //首次进去选中
+  one: function () {
+    var attrListIn = this.data.attrList;
+    var skuBeanListIn = this.data.skuBeanList;
+    var select_list = skuBeanListIn[0];
+    for (var i = 0; i < attrListIn.length; i++) {
+      for (var j = 0; j < attrListIn[i].attr.length; j++) {
+        for (var b = 0; b < select_list.attributes.length; b++) {
+          if (select_list.attributes[b].attributeId == attrListIn[i].attr[j].attributeId && select_list.attributes[b].attributeValId == attrListIn[i].attr[j].id) {
+            attrListIn[i].attr[j].select = true;
+          }
+        }
+      }
+    }
+    var itemData = this.data.itemData;
+    itemData.photo_x = select_list.imgurl;
+    itemData.price_yh = select_list.price;
+    itemData.num = select_list.count;
+    var sizeid = select_list.cid;
+
+    // 重新赋值
+    this.setData({
+      attrList: attrListIn,
+      skuBeanList: skuBeanListIn,
+      itemData: itemData,
+      sizeid: sizeid,
+      value: select_list.name
+    })
+    this.onData();
+  },
+  previewImage: function (e) {
+    var current = e.target.dataset.src;
+    // 路径和 图片的数组
+    var arr = [current];
+    // 图片预览函数
+    wx.previewImage({
+      current: current, // 当前显示图片的http链接  
+      urls: arr, // 需要预览的图片http链接列表  
+    })
   },
   //分享朋友圈 查看保存图片
   user_share: function () {
@@ -242,10 +284,12 @@ Page({
       // 来自页面内转发按钮
       console.log(res.target)
     }
-    
+    this.setData({
+      show_share: false
+    });
     return {
       title: this.data.itemData.pro_name,
-      path: "/pages/group_buy/detail?gid=" + this.gid + '&sum=' + this.data.sum + '&group_id=' + this.data.groupid + '&pagefrom=share',
+      path: "/pages/group_buy/detail?gid=" + this.gid + '&sum=' + this.data.sum + '&group_id=' + this.data.groupid + '&pagefrom=share&userid=' + app.globalData.userInfo.user_id,
       imageUrl: this.data.itemData.images[0],
       success:function(res){
         console.log(res)
@@ -343,7 +387,7 @@ Page({
   getformidToo: function (e) {
     var that = this
     var formid = e.detail.formId;
-    var paytype = e.currentTarget.dataset.type;
+    var paytype = e.currentTarget.dataset.type; 
     
   if (paytype == 'group') {
     that.sendFormid(formid, 'kt2')
@@ -387,6 +431,7 @@ Page({
           //设置购物车刷新
           app.d.purchase = 1;
           var data = res.data;
+          
           if (data.status == 1) {      
               wx.redirectTo({
                 url: '../order/pay?cartId=' + data.cart_id + '&pid=' + that.data.productId,
@@ -468,15 +513,11 @@ Page({
    * 根据所有出当前类别之外的选择 判断按钮的enable ？ false or true
    */
   onData: function () {
-
     var attrListIn = this.data.attrList;
-
-    console.log(this.data.attrList, "待扫描 列表清单");
-    console.log(this.data.skuBeanList, "待扫描 库存清单");
-
+    // console.log(this.data.attrList, "待扫描 列表清单");
+    // console.log(this.data.skuBeanList, "待扫描 库存清单");
     for (var i = 0; i < attrListIn.length; i++) {
       var attrListBig = attrListIn[i];
-
       //当前类别之外的选择列表
       var attrsOtherSelect = [];
       for (var j = 0; j < attrListIn.length; j++) {
@@ -492,9 +533,7 @@ Page({
       }
 
       var enableIds = [];
-
       var skuBeanListIn = this.data.skuBeanList;
-
       for (var z = 0; z < skuBeanListIn.length; z++) {
         var ism = true;
         var skuBean = skuBeanListIn[z];
@@ -502,7 +541,6 @@ Page({
         for (var j = 0; j < attrsOtherSelect.length; j++) {
           var enable = false;
           for (var k = 0; k < skuBean.attributes.length; k++) {
-
             var goodAttrBean = skuBean.attributes[k];
             if (attrsOtherSelect[j].attributeId == goodAttrBean.attributeId
               && attrsOtherSelect[j].id == goodAttrBean.attributeValId) {
@@ -525,14 +563,10 @@ Page({
         }
       }
 
-      console.log(enableIds, "sku算法 扫描结果");
-
       var integers = enableIds;
       for (var s = 0; s < attrListBig.attr.length; s++) {
         var attrItem = attrListBig.attr[s];
-
         attrItem.enable = integers.indexOf(attrItem.id) != -1;
-
       }
     }
 
@@ -591,14 +625,12 @@ Page({
           }
         } else {
           canGetInfoLog = "库存清单不存在此属性" + " ";
-
         }
       }
       if (iListCount == skuBeanList[skuBeanIndex].attributes.length) {
         haveSkuBean.push(skuBeanList[skuBeanIndex]);
       }
     }
-
     console.log(haveSkuBean, "存在于库存清单");
 
     for (var iox = 0; iox < canGetInfo.length; iox++) {
@@ -606,20 +638,23 @@ Page({
     }
 
     if (haveSkuBean.length != 0) {
-      console.log(canGetInfoLog)
-      // canGetInfoLog += "价钱:" + haveSkuBean[0].price + " 库存量:" + haveSkuBean[0].count + " cid:" + haveSkuBean[0].cid;
-
+      //选中
       var itemData = that.data.itemData;
-      itemData.photo_x = haveSkuBean[0].imgurl;
-      itemData.price_yh = haveSkuBean[0].price;
+      itemData.image = haveSkuBean[0].imgurl;
+      console.log(that.data.paytype, haveSkuBean[0].member_price);
+      if (that.data.paytype == 'group'){
+        itemData.member_price = haveSkuBean[0].member_price;
+      }else{
+        itemData.market_price = haveSkuBean[0].price;
+      }
+      // itemData.member_price = haveSkuBean[0].price;
       itemData.num = haveSkuBean[0].count;
-      var choujiangid = that.data.choujiangid;
+
       var sizeid = haveSkuBean[0].cid;
       console.log(sizeid)
       that.setData({
         itemData: itemData,
         sizeid: sizeid,
-        choujiangid: choujiangid,
         value: canGetInfoLog
       });
     } else {

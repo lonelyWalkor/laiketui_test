@@ -11,6 +11,5 @@ request.wxRequest = function(obj){
         typeof(obj.success)=='function' && obj.success(res.data);    
     }
   })
-
 }
 module.exports = request

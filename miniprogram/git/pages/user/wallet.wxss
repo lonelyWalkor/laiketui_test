@@ -101,7 +101,7 @@ contact-button{
 .dibu{
   background-color: #48474c;
   width: 100%;
-  height: 7%;
+  height: 45px;
   display: flex;
   justify-content:space-around;
   position: absolute;
@@ -144,6 +144,9 @@ contact-button{
   width: 100%;  
   text-align: center;  
   line-height: 80rpx;
+  position:absolute;
+  top:-80rpx;
+  left:0;
 }  
 .swiper-tab-list{  
     font-size: 30rpx;  
@@ -161,6 +164,7 @@ contact-button{
   margin:0 auto;
   height:100%;
   text-align:center;
+  overflow: auto
 }
 
 .jf_obtain{
@@ -170,27 +174,32 @@ contact-button{
   font-size:30rpx;
   height: 38px;
   border-bottom:1px solid #eee;
-  padding: 5px;
+  padding: 5px 0;
 }
 
 .on{ 
-  color:#FF6347;
-  border-bottom:5rpx solid #FF6347;
+  color:#7a896c;
+  border-bottom:5rpx solid #7a896c;
 } 
 .obtain_bt_1{
   width: 0;
 }
 .obtain_bt_2{
-  width: 33%;
+  width: 40%;
   line-height:38px;
   text-align:left;
-  padding-left:5px;
+  margin: 0 10px 0 20px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  margin-left: 10%;
 }
 .obtain_bt_3{
   width: 50%;
-  margin:auto;
-  text-align:left;
-  margin-left:55px;
+  text-align:center;
+  float: left;
+  line-height: 38px;
+  margin: 0 14px;
 }
 
 

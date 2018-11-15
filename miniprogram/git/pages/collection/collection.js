@@ -26,11 +26,11 @@ Page({
   //页面加载完成函数
   onReady: function () {
     var that = this;
-    setTimeout(function () {
-      that.setData({
-        remind: ''
-      });
-    }, 1000);
+    // setTimeout(function () {
+    //   that.setData({
+        
+    //   });
+    // }, 1000);
   },
   onShow: function () {
     // 页面显示
@@ -98,12 +98,14 @@ Page({
         if (status == 1){
           that.setData({
             list: res.data.list,
-            bgcolor: app.d.bf_color
+            bgcolor: app.d.bf_color,
+            remind: ''
           });
         }else{
           wx.showToast({
             title: '暂时还没有收藏!',
-            duration: 2000
+            duration: 2000,
+            remind: ''
           });
         }
       },

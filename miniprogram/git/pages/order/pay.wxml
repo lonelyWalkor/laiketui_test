@@ -29,7 +29,7 @@
     <view class="w100" style='padding-bottom:100px;'>
       <!-- 收货地址 -->
       <view class="p_all bg_white mt10 font_14 top_xt" wx:if="{{addrId != ''}}">
-        <navigator url="../address/index?cartId={{cartId}}" hover-class="none">
+        <view bindtap='go' data-url="../address/index?cartId={{cartId}}" hover-class="none">
           <view class="df">
             <view class='iconfont icon-dizhi' style='margin:auto 0;'></view>
             <view class="df_1 c6">
@@ -39,12 +39,12 @@
             </view>
             <image class="x_right mt15" src="/images/x_right.png"></image>			
           </view>
-        </navigator>
+        </view>
       </view>
       <view class="p_all bg_white mt10 font_14" wx:else>
-        <navigator url="../address/index?cartId={{cartId}}" hover-class="none">
+        <view bindtap='go' data-url="../address/index?cartId={{cartId}}" hover-class="none">
           <view class="df">添加收货地址</view>
-        </navigator>
+        </view>
       </view>
       <!-- 产品信息 -->
       <view wx:if="{{type1 == 11}}">
@@ -124,7 +124,13 @@
               <view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{item.size}}]</view>
             </view>
             <view class="sp_jg">
-              <view class='guige'>¥ {{item.price}} </view> 
+            <view  wx:if="{{item.is_zhekou == 1 && zhekou !='all'}}">
+               <view class='guige' >¥ {{item.price * zhekou /100}} </view>
+              <view class='guige' style='color:#666;font-size:25rpx;'><text style='text-decoration:line-through;'>￥{{item.price}}</text></view>
+            </view>
+            <block wx:else> 
+            <view class='guige' >¥ {{item.price}} </view>
+            </block>
               <view class='guige'>x{{item.Goods_num}}</view>
             </view>
           </view>
@@ -140,22 +146,29 @@
           <text wx:if="{{d_yuan}}" class="right" >余额抵扣{{d_yuan}}</text>
           <text wx:else class="right" >{{user_money}}元</text> 
         </view>
+
+        <view class="pay_qb pd" style='border-bottom:1px solid #eee;'>
+          <text class="left">运费</text>
+          <text wx:if="{{freight == 0}}" class="right" >包邮</text>
+          <text wx:else class="right" >{{freight}}元</text> 
+        </view>
+
       <view wx:if="{{plug_coupon && discount}}" bindtap="setModalStatus" data-type="" data-status="1" style='border-bottom:1px solid #eee;padding:10px;'>
-        <view style='float:left;font-size:16px;'>优惠卷</view>
+        <view style='float:left;font-size:16px;'>优惠券</view>
         <view style='float:right'>
            <text wx:if="{{money}}" class="right" style="font-size: 16px;" >使用优惠券:{{money}}</text><image src='../../images/x_right.png' style='width:25rpx;height:25rpx;'></image>
         </view>
         <view style='clear:both;'></view>
       </view>
-      <view wx:if="{{plug_coupon}}" class="pay_zf pd"  wx:if="{{name}}">
+      <view class="pay_zf pd"  wx:if="{{name && plug_coupon}}">
         <text class="left">活动</text>
         <text class="right" style='color:{{bgcolor}};'>{{name}}</text>
       </view>
-      <view wx:if="{{plug_integral && discount}}" class="pay_zf pd" style='border-bottom:1px solid #eee;;'>
+      <!-- <view wx:if="{{plug_integral && discount}}" class="pay_zf pd" style='border-bottom:1px solid #eee;;'>
         <text class="left">消费金</text>
         <text class="right">{{user_consumer_money}}</text>
-      </view>
-      <view wx:if="{{plug_integral && discount}}" class="pay_zf pd">
+      </view> -->
+      <!-- <view wx:if="{{plug_integral && discount}}" class="pay_zf pd">
         <text class="left">抵用消费金 <text wx:if="{{checked}}" style="font-size:.30rpx;color:{{bgcolor}};"> {{allow}}</text></text>
         <view class="right" >
           <view>
@@ -163,22 +176,7 @@
             <icon wx:else type="circle" size="20" style='vertical-align:-4px;padding-left:7px;'bindtap='bindcheckbox'></icon>
           </view>
         </view>
-      </view>
-      <!-- 红包 -->
-         <view wx:if="{{red_packet && discount}}" class="pay_zf pd" style='border-bottom:1px solid #eee;;'>
-        <text class="left">红包</text>
-        <text class="right">{{red_total}}</text>
-      </view>
-      <view wx:if="{{red_packet && discount}}" class="pay_zf pd">
-        <text class="left">抵用红包 <text wx:if="{{checked01}}" style="font-size:.30rpx;color:{{bgcolor}};"> {{allow01}}</text></text>
-        <view class="right" >
-          <view>
-            <icon wx:if="{{checked01}}" style='vertical-align:-4px;padding-left:7px;' type="success" size="20" bindtap='bindcheckbox01'></icon>
-            <icon wx:else type="circle" size="20" style='vertical-align:-4px;padding-left:7px;'bindtap='bindcheckbox01'></icon>
-          </view>
-        </view>
-      </view> 
-      <!-- 红包 -->
+      </view> -->
 
 <view wx:if="{{pay_xs}}">
       <view style='height:10px;widht:100%;background:#eee;'></view>
@@ -202,9 +200,13 @@
       <!--普通结束 -->
       <!-- 结算 -->
       <view class='pay_foot'>
-        <view class="pay_fk">
-          <view class="zhifu mt10 " >合计：<span class="font_20 red" total="{{total}}">¥ {{coupon_money}}</span></view>
-          <button class="right btn_zf" type="primary" id="{{paytype}}" style='background:{{bgcolor}};border-radius:0;' disabled="{{btnDisabled}}" formType="submit" >立即支付</button>
+        <view class="pay_fk" >
+          <view class="zhifu mt10 ">合计：
+            <span class="font_20 red" total="{{total}}">¥ {{coupon_money}}</span>
+          </view>
+          <button wx:if="{{pay_xs}}" class="right btn_zf" type="primary" id="{{paytype}}" style='background:{{bgcolor}};border-radius:0;' disabled="{{btnDisabled}}" formType="submit" >立即支付</button>
+          <button wx:else class="right btn_zf" type="primary" id="{{paytype}}" style='background:{{bgcolor}};border-radius:0;' disabled="{{btnDisabled}}" formType="submit" >提交订单</button>
+
         </view>
       </view>
       </block>
@@ -221,7 +223,7 @@
   <scroll-view scroll-y="true" style="height: 93%;background: #eee;">
     <view class='coupon_box' wx:key="key" wx:for="{{list}}">
       <view class='coupon_left'>
-        <view style='margin-left:50px;font-size:35px;color:#ff6347;'>
+        <view style='margin-left:30px;font-size:35px;color:#ff6347;'>
           ￥
           <text style='font-size:50px;'>{{item.money}}</text>
           <view class='gs'></view>

@@ -3,6 +3,12 @@ page{
   height: 100%;
   width: 100%;
 }
+.de_text{
+  padding:0px 4px 0 0;
+  color: #d9002f;
+  font-size: 32rpx
+}
+
 .df_1 {
 -webkit-box-flex:1;
 -webkit-flex:1;
@@ -685,9 +691,11 @@ word-break: break-all;
   background: #eee;
 }
 .kd_xl{
-  width: 90%;
-  margin: auto;
+  width:90%;
+  margin:auto;
   padding-bottom:5px;
+  display:flex;
+  justify-content:space-between;
 }
 
 .imagePathBox{

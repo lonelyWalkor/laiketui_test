@@ -29,13 +29,14 @@ Page({
       wx.stopPullDownRefresh() //停止下拉刷新
     }, 1500);
     var that = this;
+    var objectId = that.data.objectId;
     var select = that.data.select;
     var sort = that.data.sort;
-    //ajax请求数据
     wx.request({
       url: app.d.ceshiUrl + '&action=product&m=new_product',
       method: 'post',
       data: {
+        page: 1,
         cid: 1,
         select: select,
         sort: sort,
@@ -46,7 +47,9 @@ Page({
       success: function (res) {
         var shoplist = res.data.pro;
         that.setData({
-          shopList: shoplist
+          shopList: shoplist,
+          page:2,
+          period: false
         })
       },
       error: function (e) {
@@ -224,16 +227,12 @@ Page({
   //页面加载完成函数
   onReady: function () {
     var that = this;
-    setTimeout(function () {
-      that.setData({
-        remind: ''
-      });
-    }, 800);
+    app.userlogin(1);
   },
-  //点击加载更多
+  // 点击加载更多
   getMore: function (e) {
     var that = this;
-    var page = that.data.page + 1;
+    var page = that.data.page;
     var objectId = that.data.objectId;
     var select = that.data.select;
     var sort = that.data.sort;
@@ -252,19 +251,21 @@ Page({
       success: function (res) {
         var prolist = res.data.pro;
         if (prolist == '' || res.data.status == 0) {
-          wx.showToast({
-            title: '没有更多数据！',
-            icon: 'warn',
-            duration: 2000
-          });
+          // wx.showToast({
+          //   title: '没有更多数据！',
+          //   icon: 'warn',
+          //   duration: 2000
+          // });
           that.setData({
             period: true
           });
           return false;
         }
+
         //成功返回设置数据
         that.setData({
-          page: page,
+          remind: '',
+          page: page+1,
           shopList: that.data.shopList.concat(prolist)
         });
 
@@ -287,6 +288,7 @@ Page({
         cont: cont + 1
       })
     }
+    
   },
   onLoad: function (options) {
     this.setData({
@@ -297,45 +299,8 @@ Page({
       backgroundColor: app.d.bgcolor //页面标题为路由参数
     })
     //页面初始化 options为页面跳转所带来的参数
-    var that = this;
-    var select = that.data.select;
-    var sort = that.data.sort;
-    var page = that.data.page;
-    //ajax请求数据
-    wx.request({
-      url: app.d.ceshiUrl + '&action=product&m=new_product',
-      method: 'post',
-      data: {
-        cid: 1,
-        select: select,
-        sort: sort,
-        page: page
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        var shoplist = res.data.pro;
-        var prolist = that.data.shopList;
-        if (prolist.length > 1){
-          that.setData({
-            page: page,
-            shopList: that.data.shopList.concat(shoplist)
-          });
-        }else{
-          that.setData({
-            shopList: shoplist
-          })
-        }
+    this.getMore();
 
-      },
-      error: function (e) {
-        wx.showToast({
-          title: '网络异常！',
-          duration: 2000
-        });
-      }
-    })
 
   },
   //详情页跳转

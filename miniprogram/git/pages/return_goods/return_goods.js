@@ -6,9 +6,32 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    itemList: [],
+    itemList_text:'退货退款',
+    tapIndex:1
   },
+  actionSheetTap: function () {
+    var that = this;
+    wx.showActionSheet({
+      itemList: that.data.itemList,
+      success: function (e) {
 
+        var arrayType = that.data.arrayType, itemList = that.data.itemList;
+
+        for (var i = 0; i < arrayType.length; i++) {
+          if (itemList[e.tapIndex] == arrayType[i].text){
+            that.setData({
+              tapIndex: arrayType[i].id,
+            })
+         }
+        }
+        that.setData({
+          itemList_text: itemList[e.tapIndex]
+        })
+
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -24,10 +47,46 @@ Page({
     var otype = options.type ? options.type:false;
     console.log(options)
     this.setData({
-      bgcolor: app.d.bgcolor,
+      bgcolor: app.d.bf_color,
       id: options.id,
       oid:options.oid,
       otype: otype
+    });
+    this.loadate();
+  },
+  loadate: function (e) {
+    var that = this;
+    wx.request({
+      url: app.d.ceshiUrl + '&action=order&m=return_type',
+      method: 'post',
+      data: {
+        id: that.data.id,
+        oid: that.data.oid,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        var status = res.data.status;
+        if (status == 1) {
+          var arrayType = res.data.arrayType, itemList = [];
+          for (var i = 0; i < arrayType.length; i++) {
+            itemList.push(arrayType[i].text);
+          }
+
+          that.setData({
+            itemList: itemList,
+            arrayType: res.data.arrayType,
+            itemList_text: res.data.itemList_text,
+            tapIndex: res.data.tapIndex
+          });
+        } else {
+          wx.showToast({
+            title: res.data.err,
+            duration: 2000
+          });
+        }
+      },
     });
   },
   remarkInput: function (e) {
@@ -36,7 +95,6 @@ Page({
     });
   },
   submitReturnData: function(e){
-    console.log(e)
     var remark = e.detail.value.remark;
     var that = this;
     var formId = e.detail.formId;
@@ -69,6 +127,7 @@ Page({
         id: that.data.id,
         oid: that.data.oid,
         otype: that.data.otype,
+        re_type: that.data.tapIndex,
         back_remark: remark,
       },
       header: {

@@ -52,12 +52,13 @@
         <view class="sp_jg">
           <view class='guige'>¥ {{item.p_price}} </view> 
           <view class='guige'>x{{item.num}}</view>
+          <view wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype == ''}}" class='guige sqsh' bindtap='return_goods' data-order-id="{{item.id}}">申请售后</view>
         </view>
       </view>
       <view style='clear:both;'></view>
       <view style='margin-top: 5px;'>
         <!--抽奖订单状态  -->
-        <view wx:if="{{type1 == 11 }}"> 
+         <!--<view wx:if="{{type1 == 11 }}"> 
            <navigator url="../draw/cantuan?orderId={{orderId}}" class="font_12 red fl_r mr_5" style="width: 50px;" wx:if="{{item.r_status == 1}}">{{lottery_status}}</navigator>
             <view class="font_12 red fl_r mr_5" wx:if="{{item.r_status == 5}}">已评价</view>
             <view class="font_12 red fl_r mr_5" style='color:#dd2727;' bindtap="recOrder" data-order-id="{{item.id}}" wx:if="{{item.r_status == 2}}">确认收货</view>
@@ -67,10 +68,10 @@
             <view class="font_12 red fl_r mr_5" data-order-id="{{item.id}}" wx:if="{{item.r_status == 4 && item.r_type == 0}}">审核中</view>
             <view class="font_12 red fl_r mr_5" data-order-id="{{item.id}}" wx:if="{{item.r_status == 4 && item.r_type == 1}}">同意</view>
             <view class="font_12 red fl_r mr_5" data-order-id="{{item.id}}" wx:if="{{item.r_status == 4 && item.r_type == 2}}">拒绝</view>
-        </view>
-        <block wx:else>
+        </view> -->
+        <!--<block wx:else>-->
         <!--普通订单状态  -->
-        <view class="font_12 red fl_r mr_5" wx:if="{{item.r_status == 1 && status_pid == ''}}">发货中
+        <!--<view class="font_12 red fl_r mr_5" wx:if="{{item.r_status == 1 && status_pid == ''}}">发货中
         </view>
         <view class="font_12 red fl_r mr_5" wx:if="{{item.r_status == 5 && status_pid == ''}}">已评价</view>
         <view class="font_12 red fl_r mr_5" style='color:#dd2727;' bindtap="recOrder" data-order-id="{{item.id}}" wx:if="{{item.r_status == 2 && status_pid == ''}}">确认收货</view>
@@ -88,7 +89,7 @@
         <navigator url="../comment/comment?id={{item.id}}&ordersn={{sNo}}&pid={{item.p_id}}" wx:if="{{item.r_status == 3 && status_pid != ''}}" class="font_12 red fl_r mr_6" style='color:#dd2727;'>已签收-去评价</navigator>
         <view class="font_12 red fl_r mr_6" data-order-id="{{item.id}}" wx:if="{{item.r_status == 10 && status_pid != ''}}">拼团失败-未退款</view>
         <view class="font_12 red fl_r mr_6" data-order-id="{{item.id}}" wx:if="{{item.r_status == 11 && status_pid != ''}}">拼团失败-已退款</view>
-        </block> 
+        </block> -->
       </view>
       <view style='clear:both'></view>
     </view>
@@ -105,7 +106,7 @@
       <view class='ddlb_v' wx:if="{{red_packet != 0}}">红包：<text class='fright'>-{{red_packet}}</text></view>
       <view class='ddlb_v' wx:if="{{coupon_activity_name != ''}}">满减：<text class='fright'>{{coupon_activity_name}}</text></view>
       
-      <view class='ddlb_v'>运费：<text class='fright'>￥0.00</text></view>
+      <view class='ddlb_v'>运费：<text class='fright'>￥{{freight}}</text></view>
       <view class='ddlb_v'>订单总价：<text class='fright'>￥{{z_price}}</text></view>
     </view>
     <view style='clear:both'></view>
@@ -116,7 +117,7 @@
     </view>
   </view>
 
-  <view wx:if="{{rstatus == 0}}">
+  <view wx:if="{{rstatus == 0}}" style='margin:15px 0 0 0;border-bottom:1px solid #eee;padding-bottom:15px'>
     <view class="pay_zf pd" >
       <text class="left" style='font-size:15px;'>选择支付方式</text>
     </view>
@@ -125,35 +126,39 @@
         <label class="radio" wx:for-items="{{pays}}" wx:key="key"  style='border-bottom:1px solid #eee;'>
           <view style='width:100%;padding:13px 0;'>
             <image class='img' src='{{item.icon}}' style='width:20px;height:20px;vertical-align:-5px;'></image> {{item.name}}
-            <switch bindchange="switchChange" checked="{{item.checked}}" data-index="{{index}}"  data-check="{{item.value}}" class="right" style='vertical-align:2px;float:right;margin-bottom:20px;' />
+            <switch bindchange="switchChange" checked="{{item.checked}}" data-index="{{index}}"  data-check="{{item.value}}" class="right" style='vertical-align:2px;float:right;margin-bottom:15px;' />
           </view>  
         </label>
       </checkbox-group>   
     </view>
   </view> 
-    <view class='pay_bottom'  wx:if="{{rstatus == 0}}">
-        <view class="font_12 red fl_r mr_5" style='border:0;height:50px;display:flex;justify-content:center;width:100%;padding:0;' >
+    <view class='pay_bottom'  wx:if="{{rstatus == 0}}" style='padding-top: 8px'>
+        <view class="font_12 red fl_r mr_5" style='border:0;height: 60px;width:100%;padding:0;' >
+        
 
+        <form bindsubmit="payOrder" report-submit="true" style='width: 90px;height: 50px;float: right;padding-right:12px;'>
+          <button class="pay_foot" style='color:{{bgcolor}};border:1px solid {{bgcolor}};border-radius:30px;margin: 12px 0!important;font-size:14px;padding:0;width:90px;height:32px;line-height:32px;' wx:if="{{rstatus == 0}}" data-pay="{{paytype}}" data-orderId="{{id}}"  data-price="{{payment}}" data-ordersn="{{sNo}}"  formType="submit" wx:if="{{rstatus == 0}}">立即支付</button> 
+        </form>
         <view style='color:#808080;border-color:#808080;font-size:14px;width:60px;height:30px;line-height:30px;border-radius:30px;' class="font_12 red fl_r mr_5 anniu" bindtap="t_index" wx:if="{{rstatus == 0}}" data-order-id="{{id}}">返回首页</view>
 
-        <form bindsubmit="payOrder" report-submit="true" >
-        <button class="pay_foot" style='color:{{bgcolor}};border:1px solid {{bgcolor}};border-radius:30px;magin:0;font-size:14px;padding:0;width:90px;height:33px;line-height:32px;' wx:if="{{rstatus == 0}}" data-pay="{{paytype}}" data-orderId="{{id}}"  data-price="{{z_price}}" data-ordersn="{{sNo}}"  formType="submit" wx:if="{{rstatus == 0}}">立即支付</button> 
-        </form>
+        <view style='color:#808080;border-color:#808080;font-size:14px;width:60px;height:30px;line-height:30px;border-radius:30px;margin:12px 0' class="font_12 red fl_r mr_5 " bindtap="removeOrder" wx:if="{{rstatus == 0}}" data-order-id="{{id}}">取消订单</view>
+
+
         </view> 
     </view>
 
-    <view class='pay_bottom' style="border-top: 1px solid #eee;height:52px;" wx:if="{{rstatus == 1}}">
-      <view class="font_12 red fl_r mr_5" style='border: 0;height: 50px;display: flex;justify-content: flex-end	;width: 100%;padding: 0;'  >
-         <form bindsubmit="add_fromid" report-submit="true" > 
-          <button class="pay_foot" style='color: #808080;border: 1px solid #808080;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;' formType="submit" data-order-id="{{id}}" >返回首页</button> 
+    <view class='pay_bottom' wx:if="{{rstatus == 1}}" style='padding-top: 8px'>
+      <view class="font_12 red fl_r mr_5" style='border: 0;height: 60px;display: flex;justify-content: flex-end	;width: 100%;padding: 0;'  >   
+		 <form bindsubmit="add_fromid" report-submit="true" > 
+          <button class="pay_foot" style='color: #808080;height: 50px;border: 1px solid #808080;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;' formType="submit" data-order-id="{{id}}" >返回首页</button> 
          </form> 
            <button class="pay_foot" style='color: #fff;background: #FF6347;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;' data-orderId="{{id}}" data-ordersn="{{sNo}}" open-type="contact" >联系客服</button> 
   
       </view> 
   </view>
 
-    <view class='pay_bottom' style="border-top: 1px solid #eee;height:52px;" wx:if="{{rstatus != 0 && type1 == 11 && dr != 11}}">
-      <view class="font_12 red fl_r mr_5" style='border: 0;height: 50px;display: flex;justify-content: flex-end	;width: 100%;padding: 0;'  >
+    <view class='pay_bottom'  wx:if="{{rstatus != 0 && type1 == 11 && dr != 11}}" style='padding-top: 8px'>
+      <view class="font_12 red fl_r mr_5" style='border: 0;height: 60px;display: flex;justify-content: flex-end	;width: 100%;padding: 0;'  >
         <form bindsubmit="getUserformid" report-submit="true" >
           <button class="pay_foot" style='color: #808080;border: 1px solid #808080;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;' data-orderId="{{id}}"  data-ordersn="{{sNo}}"  formType="submit" >拼单详情</button> 
         </form>
@@ -163,8 +168,8 @@
       </view> 
   </view>
 
-  <view class='pay_bottom' style="border-top: 1px solid #eee;height:52px;" wx:if="{{rstatus != 0 && otype == 'pt'}}">
-    <view class="font_12 red fl_r mr_5" style='border: 0;height: 50px;display: flex;justify-content: flex-end	;width: 100%;padding: 0;'  >
+  <view class='pay_bottom'  wx:if="{{rstatus != 0 && otype == 'pt'}}" style='padding-top: 8px'>
+    <view class="font_12 red fl_r mr_5" style='border: 0;height: 60px;display: flex;justify-content: flex-end	;width: 100%;padding: 0;'  >
     <navigator url="../group_buy/cantuan?id={{ptcode}}&groupid={{groupid}}&pro_id={{p_id}}&man_num={{man_num}}" >
       <view style='color: #808080;border: 1px solid #808080;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;' class="pay_foot">拼单详情</view>
     </navigator>

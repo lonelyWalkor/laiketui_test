@@ -19,8 +19,11 @@ page{
 .nav_left{  
   /*设置行内块级元素（没使用定位）*/  
   display: inline-block;  
-  width: 25%;  
-  height: 100%;  
+  width: 25%;
+  position: fixed;
+  top: 47px;
+  bottom: 0;
+  left: 0;
   /*主盒子设置背景色为灰色*/  
   background: #f5f5f5;  
   text-align: center;  

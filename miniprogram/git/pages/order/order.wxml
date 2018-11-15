@@ -31,7 +31,8 @@
 		</view>
 		<!-- 下拉菜单 -->
 		<view class="swiper-tab-list phone_personal {{currentTab==0 ? 'on' : ''}} " hover-class="click-once-opaque" bindtap="clickPerson">
-			{{activeSortingName}} <text class='icon iconfont {{sortingChioceIcon}}'></text>
+			{{activeSortingName}}
+			<text class='icon iconfont {{sortingChioceIcon}}'></text>
 		</view>
 		<!-- </view> -->
 		<view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" data-otype="payment" bindtap="swichNav">待付款</view>
@@ -53,7 +54,8 @@
 				<view class='tab_tab' wx:for="{{ordert0}}">
 					<navigator url="../order/detail?orderId={{item.id}}">
 						<view class="top">
-							<view>订单号：{{item.sNo}}
+							<view>
+								订单号：{{item.sNo}}
 								<!-- 抽奖订单的状态 -->
 								<view class='tab_statu' wx:if="{{item.drawid > 0 }}">{{item.lottery_status1}}</view>
 								<!-- 除拼团订单的状态 -->
@@ -64,7 +66,7 @@
 									<view class='tab_statu' wx:if="{{item.status == 3}}">等待买家评价</view>
 									<view class='tab_statu' wx:if="{{item.status == 4}}">退货中</view>
 									<view class='tab_statu' wx:if="{{item.status == 5}}">交易成功</view>
-                  <view class='tab_statu' wx:if="{{item.status == 6}}">订单关闭</view>
+									<view class='tab_statu' wx:if="{{item.status == 6}}">订单关闭</view>
 								</block>
 								<!-- 拼团订单的状态 -->
 								<block wx:if="{{item.pid > 0}}">
@@ -73,6 +75,7 @@
 									<view class='tab_statu' wx:if="{{item.status == 1}}">拼团成功-待发货</view>
 									<view class='tab_statu' wx:if="{{item.status == 2}}">拼团成功-已发货</view>
 									<view class='tab_statu' wx:if="{{item.status == 3}}">拼团成功-已签收</view>
+                  <view class='tab_statu' wx:if="{{item.status == 5}}">拼团成功-已评价</view>
 									<view class='tab_statu' wx:if="{{item.status == 10}}">拼团失败-未退款</view>
 									<view class='tab_statu' wx:if="{{item.status == 11}}">拼团失败-已退款</view>
 								</block>
@@ -90,7 +93,7 @@
 										<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
 									</view>
 									<view class="sp_jg">
-										<view class='guige'>¥ {{list.p_price}} </view>
+										<view class='guige'>¥ {{list.p_price}}</view>
 										<view class='guige'>x{{list.num}}</view>
 									</view>
 								</view>
@@ -100,40 +103,32 @@
 
 					</navigator>
 					<view class="total">
-						<view class="zhifu mt10" style=''>合计：
+						<view class="zhifu mt10" style=''>
+							合计：
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info != 0}}">¥ {{item.z_price}}</span>
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info == 0}}">¥ {{item.total}}</span>
 						</view>
 					</view>
 					<view class="bottom" wx:if="{{item.drawid > 0}}">
 						<!--抽奖订单显示  -->
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.lottery_status <=1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.lottery_status >1}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 2 || item.status == 3}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status > 3  }}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
-						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
-						<button wx:if="{{item.lottery_status == 0  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}" >分享好友</button>
-						<button wx:if="{{item.lottery_status == 1  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
+
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
+						<button wx:if="{{item.pid > 0  && item.status > 0}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}" >分享好友</button>
+						<button wx:if="{{item.lottery_status == 1 && item.status > 0}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 					</view>
 					<view class="bottom" wx:if="{{item.drawid == 0}}">
-                    	<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
-	          
-             <view class="font_12 red fl_r mr_5" bindtap="escOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 1}}" data-order-id="{{item.id}}" data-sno="{{item.sNo}}">取消订单</view> 
-             
-						<navigator wx:if="{{item.status != 1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.drawid == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
-
+						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
+            <view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
+<view class="font_12 red fl_r mr_5" bindtap="add_fix" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 1}}" >提醒发货</view>
+						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status > 1 && item.status <= 5 && item.status != 4}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<view class="font_12 red fl_r mr_5" wx:if="{{item.status == 5 && item.pid < 0}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' data-order-id="{{item.id}}">订单完成</view>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
 						<navigator class="font_12 red fl_r mr_5" url="../comment/comment?ordersn={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">立即评价</navigator>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
-						<navigator wx:if="{{item.pid > 0 &&item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{item.pid}}&pro_id={{item.pro_id}}&man_num={{item.man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
+						<navigator wx:if="{{item.pid > 0 && item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{item.pid}}&pro_id={{item.pro_id}}&man_num={{item.man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
 					</view>
 				</view>
 			</scroll-view>
@@ -151,7 +146,8 @@
 				<view class='tab_tab' wx:for="{{ordert1}}">
 					<navigator url="../order/detail?orderId={{item.id}}">
 						<view class="top">
-							<view>订单号：{{item.sNo}}
+							<view>
+								订单号：{{item.sNo}}
 								<view class='tab_statu' wx:if="{{item.status == 6}}">.. /</view>
 								<view class='tab_statu' wx:if="{{item.drawid > 0 }}">{{item.lottery_status1}}</view>
 								<!-- 除拼团订单的状态 -->
@@ -185,45 +181,40 @@
 									<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
 								</view>
 								<view class="sp_jg">
-									<view class='guige'>¥ {{list.p_price}} </view>
+									<view class='guige'>¥ {{list.p_price}}</view>
 									<view class='guige'>x{{list.num}}</view>
 								</view>
 							</view>
 						</view>
 					</navigator>
 					<view class="total">
-						<view class="zhifu mt10">合计：
+						<view class="zhifu mt10">
+							合计：
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info != 0}}">¥ {{item.z_price}}</span>
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info == 0}}">¥ {{item.total}}</span>
 						</view>
 					</view>
 					<view class="bottom" wx:if="{{item.drawid > 0}}">
 						<!--抽奖订单显示  -->
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.lottery_status <=1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.lottery_status >1}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 2 || item.status == 3}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status > 3  }}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
 						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
-
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
 						<button wx:if="{{item.lottery_status == 0  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 						<button wx:if="{{item.lottery_status == 1  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 
 					</view>
 					<view class="bottom" wx:if="{{item.drawid == 0}}">
-						<navigator wx:if="{{item.status != 1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.drawid == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
+						<!-- <navigator wx:if="{{item.status != 1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator> -->
+						<!-- <navigator wx:if="{{item.status == 1 && item.drawid == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator> -->
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
 						<view class="font_12 red fl_r mr_5" wx:if="{{item.status == 5 && item.pid < 0}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' data-order-id="{{item.id}}">订单完成</view>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
 						<navigator class="font_12 red fl_r mr_5" url="../comment/comment?ordersn={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">立即评价</navigator>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
-						<navigator wx:if="{{item.pid > 0 &&item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{groupid}}&pro_id={{item.list.p_id}}&man_num={{man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
+						<navigator wx:if="{{item.pid > 0 &&item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{item.pid}}&pro_id={{item.pro_id}}&man_num={{item.man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
 					</view>
 				</view>
 			</scroll-view>
@@ -241,7 +232,8 @@
 				<view class='tab_tab' wx:for="{{ordert2}}">
 					<navigator url="../order/detail?orderId={{item.id}}">
 						<view class="top">
-							<view>订单号：{{item.sNo}}
+							<view>
+								订单号：{{item.sNo}}
 								<view class='tab_statu' wx:if="{{item.drawid > 0}}">{{item.lottery_status1}}</view>
 								<!-- 除拼团订单的状态 -->
 								<block wx:if="{{item.drawid == 0 && item.pid ==''}}">
@@ -274,48 +266,40 @@
 									<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
 								</view>
 								<view class="sp_jg">
-									<view class='guige'>¥ {{list.p_price}} </view>
+									<view class='guige'>¥ {{list.p_price}}</view>
 									<view class='guige'>x{{list.num}}</view>
 								</view>
 							</view>
 						</view>
 					</navigator>
 					<view class="total">
-						<view class="zhifu mt10">合计：
+						<view class="zhifu mt10">
+							合计：
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info != 0}}">¥ {{item.z_price}}</span>
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info == 0}}">¥ {{item.total}}</span>
 						</view>
 					</view>
 					<view class="bottom" wx:if="{{item.drawid > 0}}">
 						<!--抽奖订单显示  -->
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.lottery_status <=1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.lottery_status >1}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 2 || item.status == 3}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status > 3  }}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
-						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
+						<!-- <view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view> -->
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
 						<button wx:if="{{item.lottery_status == 0  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 						<button wx:if="{{item.lottery_status == 1  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 					</view>
 					<view class="bottom" wx:if="{{item.drawid == 0}}">
-          	<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
-	          
-             <view class="font_12 red fl_r mr_5" bindtap="escOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 1}}" data-order-id="{{item.id}}" data-sno="{{item.sNo}}">取消订单</view> 
+						<!-- <view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
+						<view class="font_12 red fl_r mr_5" bindtap="escOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 1}}" data-order-id="{{item.id}}" data-sno="{{item.sNo}}">取消订单</view> -->
 
-
-						<navigator wx:if="{{item.status != 1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.drawid == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
+						<view class="font_12 red fl_r mr_5" bindtap="add_fix" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 1}}" >提醒发货</view>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
-
 						<view class="font_12 red fl_r mr_5" wx:if="{{item.status == 5 && item.pid < 0}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' data-order-id="{{item.id}}">订单完成</view>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
 						<navigator class="font_12 red fl_r mr_5" url="../comment/comment?ordersn={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">立即评价</navigator>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
-						<navigator wx:if="{{item.pid > 0 &&item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{groupid}}&pro_id={{item.list.p_id}}&man_num={{man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
+						<navigator wx:if="{{item.pid > 0 && item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{item.pid}}&pro_id={{item.pro_id}}&man_num={{item.man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
 					</view>
 				</view>
 			</scroll-view>
@@ -333,7 +317,8 @@
 				<view class='tab_tab' wx:for="{{ordert3}}">
 					<navigator url="../order/detail?orderId={{item.id}}">
 						<view class="top">
-							<view>订单号：{{item.sNo}}
+							<view>
+								订单号：{{item.sNo}}
 								<view class='tab_statu' wx:if="{{item.status == 6}}">.. /</view>
 								<view class='tab_statu' wx:if="{{item.drawid > 0 }}">{{item.lottery_status1}}</view>
 								<!-- 除拼团订单的状态 -->
@@ -367,43 +352,38 @@
 									<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
 								</view>
 								<view class="sp_jg">
-									<view class='guige'>¥ {{list.p_price}} </view>
+									<view class='guige'>¥ {{list.p_price}}</view>
 									<view class='guige'>x{{list.num}}</view>
 								</view>
 							</view>
 						</view>
 					</navigator>
 					<view class="total">
-						<view class="zhifu mt10">合计：
+						<view class="zhifu mt10">
+							合计：
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info != 0}}">¥ {{item.z_price}}</span>
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info == 0}}">¥ {{item.total}}</span>
 						</view>
 					</view>
 					<view class="bottom" wx:if="{{item.drawid > 0}}">
 						<!--抽奖订单显示  -->
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.lottery_status <=1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.lottery_status >1}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 2 || item.status == 3}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status > 3  }}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
-						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
+						<!-- <view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view> -->
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
 						<button wx:if="{{item.lottery_status == 0  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 						<button wx:if="{{item.lottery_status == 1  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 					</view>
 					<view class="bottom" wx:if="{{item.drawid == 0}}">
-						<navigator wx:if="{{item.status != 1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator wx:if="{{item.status == 1 && item.drawid == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
+
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
-						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
+						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">申请退货</view>
 						<view class="font_12 red fl_r mr_5" wx:if="{{item.status == 5 && item.pid < 0}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' data-order-id="{{item.id}}">订单完成</view>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
 						<navigator class="font_12 red fl_r mr_5" url="../comment/comment?ordersn={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">立即评价</navigator>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
-						<navigator wx:if="{{item.pid > 0 &&item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{groupid}}&pro_id={{item.list.p_id}}&man_num={{man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
+							<navigator wx:if="{{item.pid > 0 &&item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{item.pid}}&pro_id={{item.pro_id}}&man_num={{item.man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
 					</view>
 				</view>
 			</scroll-view>
@@ -421,7 +401,8 @@
 				<view class='tab_tab' wx:for="{{ordert4}}">
 					<navigator url="../order/detail?orderId={{item.id}}">
 						<view class="top">
-							<view>订单号：{{item.sNo}}
+							<view>
+								订单号：{{item.sNo}}
 								<view class='tab_statu' wx:if="{{item.status == 6}}">.. /</view>
 								<view class='tab_statu' wx:if="{{item.drawid > 0}}">{{item.lottery_status1}}</view>
 								<!-- 除拼团订单的状态 -->
@@ -455,14 +436,15 @@
 									<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
 								</view>
 								<view class="sp_jg">
-									<view class='guige'>¥ {{list.p_price}} </view>
+									<view class='guige'>¥ {{list.p_price}}</view>
 									<view class='guige'>x{{list.num}}</view>
 								</view>
 							</view>
 						</view>
 					</navigator>
 					<view class="total">
-						<view class="zhifu mt10">合计：
+						<view class="zhifu mt10">
+							合计：
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info != 0}}">¥ {{item.z_price}}</span>
 							<span class="font_20 red" style="margin-left:5px;" wx:if="{{item.info == 0}}">¥ {{item.total}}</span>
 						</view>
@@ -477,8 +459,8 @@
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
-						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
+						<!-- <view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view> -->
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
 						<button wx:if="{{item.lottery_status == 0  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 						<button wx:if="{{item.lottery_status == 1  && item.status == 1}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};width:77px;line-height:15px;height:27px;font-size:12px;background-color:#fff;margin: 0 10px 0 0;' class="font_12 red fl_r mr_5" bindtap="openshare" data-order-id="{{item.id}}">分享好友</button>
 					</view>
@@ -486,17 +468,16 @@
 						<navigator wx:if="{{item.status != 1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
 						<navigator wx:if="{{item.status == 1 && item.drawid == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
-						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
+						<!-- <view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view> -->
 						<view class="font_12 red fl_r mr_5" wx:if="{{item.status == 5 && item.pid < 0}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' data-order-id="{{item.id}}">订单完成</view>
 						<view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2}}" data-sNo="{{item.sNo}}">确认收货</view>
 						<navigator class="font_12 red fl_r mr_5" url="../comment/comment?ordersn={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 3}}" data-order-id="{{item.id}}">立即评价</navigator>
-						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">去支付</navigator>
-						<navigator wx:if="{{item.pid > 0 &&item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{groupid}}&pro_id={{item.list.p_id}}&man_num={{man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
+						<navigator wx:if="{{item.status == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">立即支付</navigator>
+						<navigator wx:if="{{item.pid > 0 &&item.status > 0}}" url="../group_buy/cantuan?id={{item.ptcode}}&groupid={{item.pid}}&pro_id={{item.pro_id}}&man_num={{item.man_num}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">分享好友</navigator>
 					</view>
 				</view>
 			</scroll-view>
 		</swiper-item>
 	</swiper>
 </block>
-<view bindtap="hideAllChioce" class="mask" hidden="{{!chioceDistrict&&!chioceSorting&&!chioceFilter}}">
-</view>
+<view bindtap="hideAllChioce" class="mask" hidden="{{!chioceDistrict&&!chioceSorting&&!chioceFilter}}"></view>

@@ -58,7 +58,33 @@
   margin-left: 50rpx;  
 }
 
-
+.logInf{
+  height: 100rpx;
+  padding:15rpx 30rpx;
+  position: relative;
+}
+.logInf .view1{
+  height: 50%;
+  font-size: 28rpx;
+  line-height: 50rpx
+}
+.text1{
+ color: #999999;
+ margin-right: 20rpx
+}
+.copy{
+  font-size: 22rpx;
+  color: #999;
+  display: inline-block;
+  width: 100rpx;
+  height: 40rpx;
+  position: absolute;
+  bottom: 20rpx;
+  right: 30rpx;
+  border: 1px solid #999999;
+  text-align: center;
+  line-height: 40rpx;
+}
 
 
 @font-face {font-family: "iconfont";

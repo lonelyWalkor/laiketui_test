@@ -51,6 +51,6 @@
 </view>
 <view style="height:50px;"></view>
 <view class="dibu" wx:if="{{arr.length}}">
-    <button bindtap="alldel" class="cz" hover-class="czz" style='background-color:{{bgcolor}};border-radius:0px;color:#fff;'>清除全部记录</button>
+    <button bindtap="alldel" class="cz" hover-class="czz" style='background-color:{{bgcolor}};border-radius:0px;color:#fff;height: 45px;line-height: 45px;'>清除全部记录</button>
 </view>
 </block>

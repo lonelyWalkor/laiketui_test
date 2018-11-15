@@ -23,16 +23,26 @@ Page({
 		score: 0, //用户积分
 		allowscore: 0, //当前订单可用积分
     checked01: false,
-    red_packet: 0, //用户红包
-    allowred_packet: 0, //当前订单可用红包
 		allow: 0,
 		pass_num: 4,
-		remind: '加载中',
+		remind: true,
 		title: '请输入支付密码',
 		xsmoney: true, //控制显示金额
 		money: false,
     pay_xs:true,
+    pages_sx:true,
+    dz_stu: false,
 	},
+  go: function (e) {
+    console.log(e);
+    this.setData({
+      dz_stu: true,
+    });
+    var url = e.currentTarget.dataset.url
+    wx.navigateTo({
+      url: url
+    })
+  },
 	//下拉刷新
 	onPullDownRefresh: function() {
 		wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -107,16 +117,27 @@ Page({
 	},
 	//页面加载完成函数
 	onReady: function() {
-		var that = this;
-		setTimeout(function() {
-			that.setData({
-				remind: ''
-			});
-		}, 800);
+
 	},
-	onShow: function() {
-		this.Settlement();
-	},
+  onShow: function () {
+    var that = this;
+    console.log(that.data.dz_stu)
+    if (that.data.dz_stu) {
+      that.setData({
+        dz_stu: false,
+      });
+      wx.redirectTo({
+        url: '../order/pay?cartId=' + that.data.cartId,
+      });
+    }
+
+    if (that.data.pages_sx) {
+      setTimeout(function () {
+        that.Settlement();
+      }, 500);
+    }
+
+  },
 	// 进入结算页面
 	Settlement: function() {
 		var that = this;
@@ -148,6 +169,10 @@ Page({
 						total: res.data.arr.price, // 总价
 						size: res.data.arr.size, //型号
 						type1: 11,
+            remind:false,
+            coupon_money: res.data.arr.price, // 总价
+            money: res.data.arr.price, // 优惠券金额
+            user_money: res.data.arr.adds.user_money, // 用户余额
 					});
 					if(status == 0) {
 						wx.showToast({
@@ -177,14 +202,13 @@ Page({
 				success: function(res) {
 					var status = res.data.status;
           
-					if(status) {
+					if(status == 1) {
 						if(that.data.allow) {
 							res.data.arr.coupon_money = Number(res.data.arr.coupon_money) - Number(that.data.allow);
 						}
 						if(that.data.d_yuan) {
 							res.data.arr.coupon_money = Number(res.data.arr.coupon_money) - Number(that.data.user_money);
 						}
-            
 						that.setData({
 							addemt: res.data.arr.addemt, // 是否有收货地址
 							address: res.data.arr.adds, // 收货地址
@@ -196,13 +220,20 @@ Page({
 							user_money: res.data.arr.user_money, // 用户余额
               user_consumer_money: res.data.arr.user_consumer_money, // 用户余额
 							coupon_id: res.data.arr.coupon_id, // 优惠券id
-							name: res.data.arr.name, // 满减活动名称
-							reduce_money: res.data.arr.reduce_money, // 满减金额
+              name: res.data.arr.name ? res.data.arr.name:'', // 满减活动名称
+              reduce_money: res.data.arr.reduce_money ? res.data.arr.reduce_money : '', // 满减金额
               scorebl: res.data.arr.scorebl, //积分兑换比例
               discount: res.data.arr.discount,//控制优惠方式
-              scorebuy: res.data.arr.scorebuy   //积分消费规则
+              scorebuy: res.data.arr.scorebuy,   //积分消费规则
+              zhekou: res.data.arr.zhekou ? res.data.arr.zhekou:'',   //会员折扣
+              freight: res.data.arr.freight ? res.data.arr.freight : 0,//运费
 						});
-            
+
+            setTimeout(function () {
+              that.setData({
+                remind: false
+              });
+            }, 1000);
 					} else {
             that.setData({
               remind: true
@@ -212,11 +243,19 @@ Page({
               icon: 'none',
               duration: 2000,
             });
-            setTimeout(function () {
-              wx.navigateBack({
-                delta: 1
-              })
-            }, 2000);
+            if (status == 0) {
+              setTimeout(function () {
+                wx.navigateBack({
+                  delta: 1
+                })
+              }, 2000);
+            }else{
+              setTimeout(function () {
+                wx.redirectTo({
+                  url: '../order/order?currentTab=1&order_type1=payment&otype=pay'
+                })
+              }, 2000);
+            }
 					}
 				},
 				error: function(e) {
@@ -226,23 +265,6 @@ Page({
 					});
 				}
 			});
-// 红包数据
-      wx.request({
-        url: app.d.ceshiUrl + '&action=red_packet&m=send',
-        method: 'post',
-        data: {
-          openid: app.globalData.userInfo.openid,
-        },
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        success: function (res) {
-          that.setData({
-            red_total: res.data.total,//红包总金额
-            bili: res.data.re01.bili,//红包总金额
-          });
-        },
-      });
 		}
 
 	},
@@ -265,6 +287,7 @@ Page({
 			method: 'post',
 			data: {
 				openid: app.globalData.userInfo.openid,
+        cart_id: that.data.cartId, // 购物车id
 			},
 			header: {
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -323,7 +346,7 @@ Page({
 			}
 		});
 	},
-	// 点击抵用积分
+	// 点击抵用消费金
 	bindcheckbox: function() {
 		var that = this;
     var allowscore = that.data.allowscore ? that.data.allowscore : that.data.user_consumer_money;
@@ -343,7 +366,7 @@ Page({
 				checked: checked,
 			})
       var user_consumer_money = that.data.user_consumer_money, total = that.data.total;
-      
+      console.log(user_consumer_money)
       if (Number(total) > Number(user_consumer_money)){
         allow = user_consumer_money;
       }else{
@@ -354,11 +377,15 @@ Page({
         allow: allow,
         allowscore: that.data.coupon_money
 			});
+      console.log(that.data.coupon_money)
 			if(checked) {
+        console.log(allow)
         var coupon_money = Number(that.data.coupon_money) - Number(allow); // 付款金额 减去 积分
 			} else {
-        var coupon_money = Number(that.data.coupon_money) + Number(allowscore); // 付款金额 加上 积分
+        console.log(allowscore)
+        var coupon_money = Number(allowscore); // 付款金额 加上 积分
 			}
+      console.log(coupon_money)
       if (Number(coupon_money) == 0){
         //设置为余额支付
         console.log(1111)
@@ -380,177 +407,66 @@ Page({
           pay_xs: true,
         });
       }
+      console.log(coupon_money)
       that.setData({
         coupon_money: coupon_money.toFixed(2)
       })
 		}
 	},
 
-  // 点击抵用红包
-  bindcheckbox01: function () {
+  // 选择支付方式
+  switchChange: function (e) {
+    console.log(e)
     var that = this;
-    // console.log(that);
-    // console.log(667755);
-      var checked01 = !that.data.checked01;
-      var ddd = that.data.bili;//红包抵用比例
-      var total01 = that.data.total;//订单金额
-      var red_total01 = that.data.red_total;//红包金额
-      that.setData({
-        checked01: checked01,
-      })
-      if(total01 >= red_total01 *ddd/100){//当付款金额大于等于红包抵用金额时，红包可以按比例抵扣
-        var allowscore01 = (red_total01 * ddd / 100).toFixed(2);//抵用红包金额
-        console.log(allowscore01);
-        console.log(667755);
-        var red_yue = red_total01 - allowscore01;//抵用后剩余金额
-      }else{
-        var allowscore01 = (red_total01 * ddd / 100).toFixed(2);//抵用红包金额
-        var red_yue = red_total01 - allowscore01;//抵用后剩余金额 
+    var check = e.currentTarget.dataset.check;
+    var index = e.currentTarget.dataset.index;
+    var value = e.detail.value;
+    var pays = that.data.pays[index];
+    var coupon_money = that.data.coupon_money;
+    var user_money = that.data.user_money;
+    if (value) {
+      pays.checked = true;
+    } else {
+      pays.checked = false;
+    }
+    var pay_type = that.data.pays;
+    var i = 0;
+    var one_pay = '';
+    console.log(pay_type)
+    for (var j = 0; j < pay_type.length; j++) {
+      if (pay_type[j].checked) {
+        i += 1;
+        one_pay = pay_type[j].value;
       }
-      var allow01 = checked01 == true ? allowscore01 : 0;
+    }
+    if (i == 0) {
       that.setData({
-        allowscore01: allowscore01,
-        allow01: allow01
+        paytype: false,
       });
-      if (checked01) {
-        var coupon_money = that.data.coupon_money  - allowscore01; // 付款金额 减去 红包
+    } else if (i == 1) {
+      //单选支付方式时 设置支付方式
+      //如果是之前点击了钱包支付 需要还原金额
+      var yuan = that.data.yuan;
+      if (yuan) {
         that.setData({
-          coupon_money: coupon_money.toFixed(2)
-        })
+          paytype: one_pay,
+          coupon_money: yuan,
+          d_yuan: false,
+        });
       } else {
-        var coupon_money = Number(that.data.coupon_money) + Number(allowscore01); // 付款金额 加上 红包
         that.setData({
-          coupon_money: coupon_money.toFixed(2)
-        })
+          paytype: one_pay,
+        });
       }
-    
-  },
 
-	// 选择支付方式
-	switchChange: function(e) {
-		var that = this;
-		var check = e.currentTarget.dataset.check;
-		var index = e.currentTarget.dataset.index;
-		var value = e.detail.value;
-    var checked_one = '';
-		var pays = that.data.pays[index];
-		if(that.data.type1 !== 11) {
-			var coupon_money = that.data.coupon_money;
-			var user_money = that.data.user_money;
-		} else {
-			var coupon_money = that.data.total;
-			var user_money = that.data.address.user_money;
-		}
+      if (one_pay == 'wallet_Pay') {
+        if (user_money < coupon_money) {
+          wx.showToast({
+            title: '余额不足，请更换支付方式或选择组合支付！',
+            icon: 'none',
+            duration: 2000,
+          });
 
-    if (Number(coupon_money) >= 0){
-
-		if(value) {
-			pays.checked = true;
-		} else {
-			pays.checked = false;
-		}
-		var pay_type = that.data.pays;
-		var i = 0
-		for(var j = 0; j < pay_type.length; j++) {
-			if(pay_type[j].checked) {
-				i += 1;
-        checked_one = pay_type[j].value;
-			}
-		}
-		if(i == 0) {
-			that.setData({
-				paytype: false,
-			});
-		} else if(i == 1) {
-			//单选支付方式时 设置支付方式
-			//如果是之前点击了钱包支付 需要还原金额
-			var yuan = that.data.yuan;
-			if(yuan) {
-				if(that.data.allow) {
-					yuan = Number(yuan) - Number(that.data.allow);
-				}
-				that.setData({
-					paytype: check,
-					coupon_money: yuan,
-					d_yuan: false,
-				});
-			} else {
-				that.setData({
-					paytype: check,
-				});
-			}
-			// 如果是余额支付
-      if (checked_one == 'wallet_Pay') {
-        if (coupon_money == yuan){
-          
-          if (user_money < coupon_money) {
-            wx.showToast({
-              title: '余额不足，请更换支付方式或选择组合支付！',
-              icon: 'none',
-              duration: 2000,
-            });
-            for (var j = 0; j < pay_type.length; j++) {
-              if (pay_type[j].value == 'wxPay') {
-                pay_type[j].checked = true;
-              } else {
-                pay_type[j].checked = false;
-              }
-            }
-            //设置支付方式和点击默认
-            that.setData({
-              paytype: 'wxPay',
-              pays: pay_type
-            });
-          }
-        }else{
-          console.log(user_money, coupon_money)
-          if (user_money < coupon_money) {
-            wx.showToast({
-              title: '余额不足，请更换支付方式或选择组合支付！',
-              icon: 'none',
-              duration: 2000,
-            });
-            for (var j = 0; j < pay_type.length; j++) {
-              if (pay_type[j].value == 'wxPay') {
-                pay_type[j].checked = true;
-              } else {
-                pay_type[j].checked = false;
-              }
-            }
-            //设置支付方式和点击默认
-            that.setData({
-              paytype: 'wxPay',
-              pays: pay_type
-            });
-          }
-
-        }
-
-			}
-		} else if(i == 2) {
-			//两种支付方式时当支付金额大于用户余额 则抵扣全部余额 并验证 //否则 直接选择默认钱包支付
-			if(Number(user_money) > Number(coupon_money)) {
-				for(var j = 0; j < pay_type.length; j++) {
-					if(pay_type[j].value == 'wallet_Pay') {
-						pay_type[j].checked = true;
-					} else {
-						pay_type[j].checked = false;
-					}
-				}
-				//设置支付方式和点击默认
-				that.setData({
-					paytype: 'wallet_Pay',
-					pays: pay_type
-				});
-				//安全提示
-				wx.showToast({
-					title: '已默认钱包支付',
-					icon: 'none',
-					duration: 2000,
-				});
-			} else {
-				// 组合支付
-        if (Number(user_money) <= 0) {
           for (var j = 0; j < pay_type.length; j++) {
             if (pay_type[j].value == 'wxPay') {
               pay_type[j].checked = true;
@@ -558,60 +474,71 @@ Page({
               pay_type[j].checked = false;
             }
           }
-          //设置支付方式和点击默认
+
           that.setData({
-            paytype: 'wxPay',
+            paytype: false,
             pays: pay_type
           });
-          //安全提示
-          wx.showToast({
-            title: '余额不足，已默认微信支付！',
-            icon: 'none',
-            duration: 2000,
-          });
-        }else{
-          wx.showModal({
-            title: '组合支付',
-            content: '是否使用余额抵用？',
-            success: function (res) {
-              if (res.confirm) {
-                //组合支付 替换数据
-                var price = Number(coupon_money) - Number(user_money); //防止出现小数点后多余2位以上  .toFixed(2)
-                that.setData({
-                  paytype: 'wxPay',
-                  yuan: coupon_money,
-                  coupon_money: price.toFixed(2),
-                  d_yuan: user_money,
-                });
-              } else if (res.cancel) {
-                //设置支付方式和点击默认
-                that.setData({
-                  pays: pay_type
-                });
-                //安全提示
-                wx.showToast({
-                  title: '已取消',
-                  duration: 2000,
-                });
-              }
-            }
-          })
         }
+      }
+    } else if (i == 2) {
+      console.log('两种支付方式')
+      //两种支付方式时当支付金额大于用户余额 则抵扣全部余额 并验证 //否则 直接选择默认钱包支付
+      if (Number(user_money) >= Number(coupon_money)) {
+        for (var j = 0; j < pay_type.length; j++) {
+          if (pay_type[j].value == check) {
+            pay_type[j].checked = true;
+          } else {
+            pay_type[j].checked = false;
+          }
+        }
+        //设置支付方式和点击默认
+        that.setData({
+          paytype: check,
+          pays: pay_type
+        });
 
-			}
-		}
+      } else {
+        // 组合支付
+        wx.showModal({
+          title: '组合支付',
+          content: '是否使用余额抵用？',
+          success: function (res) {
+            if (res.confirm) {
+              //组合支付 替换数据
+              var price = Number(coupon_money) - Number(user_money); //防止出现小数点后多余2位以上  .toFixed(2)
+              that.setData({
+                paytype: 'wxPay',
+                yuan: coupon_money,
+                coupon_money: price.toFixed(2),
+                d_yuan: user_money,
+              });
+            } else if (res.cancel) {
+              //设置支付方式和点击默认
+              for (var j = 0; j < pay_type.length; j++) {
+                if (pay_type[j].value == 'wxPay') {
+                  pay_type[j].checked = true;
+                } else {
+                  pay_type[j].checked = false;
+                }
+              }
 
-    } else {
-      wx.showToast({
-        title: '付款金额有误！',
-        icon: 'none',
-        duration: 2000,
-      });
-      that.setData({
-        paytype: false,
-      });
+              that.setData({
+                paytype: false,
+                pays: pay_type
+              });
+              //安全提示
+              wx.showToast({
+                title: '已取消',
+                icon: 'none',
+                duration: 2000,
+              });
+            }
+          }
+        })
+      }
     }
-	},
+  },
 	// 提交订单支付
 	createProductOrderByWX: function(e) {
 		var that = this;
@@ -649,19 +576,36 @@ Page({
 		if(address) {
 			// 收货地址存在
 			if(paytype == 'wallet_Pay') {
-				wx.showModal({
-					title: '余额支付',
-					content: '是否使用余额支付？',
-					success: function(res) {
-						if(res.confirm) {
-							//组合支付 替换数据
-							that.createProductOrder();
-							console.log('用户点击确定');
-						} else if(res.cancel) {
-							console.log('用户点击取消')
-						}
-					}
-				})
+        if (that.data.pay_xs){
+          wx.showModal({
+            title: '余额支付',
+            content: '是否使用余额支付？',
+            success: function (res) {
+              if (res.confirm) {
+                //组合支付 替换数据
+                that.createProductOrder();
+                console.log('用户点击确定');
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }else{
+          wx.showModal({
+            title: '订单提交',
+            content: '是否使用消费金支付？',
+            success: function (res) {
+              if (res.confirm) {
+                //组合支付 替换数据
+                that.createProductOrder();
+                console.log('用户点击确定');
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+
 			} else {
 				that.createProductOrder();
 			}
@@ -679,7 +623,8 @@ Page({
 	createProductOrder: function() {
 		var that = this;
 		this.setData({
-			btnDisabled: false,
+      btnDisabledbtnDisabled: false,
+      pages_sx: false
 		})
 		var paytype = that.data.paytype;
 		var type1 = that.data.type1;
@@ -762,7 +707,7 @@ Page({
 					name: that.data.name, // 满减金额名称
 					reduce_money: that.data.reduce_money, // 满减金额
 					dkyuan: that.data.d_yuan,
-          red_packet: that.data.allow01, // 使用红包的金额
+          freight: that.data.freight,
 				},
 				header: {
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -794,24 +739,6 @@ Page({
 					});
 				}
 			});
-      wx.request({//红包记录
-        url: app.d.ceshiUrl + '&action=red_packet&m=jilu',
-        method: 'post',
-        data: {
-          openid: app.globalData.userInfo.openid,
-          total: that.data.allow01, // 使用红包的金额
-        },
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        fail: function (e) {
-          wx.showToast({
-            title: '网络异常！err:createProductOrder',
-            duration: 2000
-          });
-        }
-      });
-
 		}
 	},
 
@@ -841,7 +768,7 @@ Page({
 			var user_money = that.data.user_money;
 		}
 
-		if(Number(user_money) > Number(coupon_money)) {
+		if(Number(user_money) >= Number(coupon_money)) {
 			wx.request({
 				url: app.d.ceshiUrl + '&action=product&m=wallet_pay',
 				method: 'post',
@@ -886,12 +813,17 @@ Page({
 	wxpay: function(order) {
     console.log(order)
 		var that = this;
-    var d_yuan = that.data.d_yuan, cmoney = order.coupon_money, oid = order.order_id
+    app.d.order = order;
+    this.setData({
+      order: order
+    })
+    var d_yuan = Number(that.data.d_yuan), cmoney = Number(order.coupon_money), oid = order.order_id
 		if(d_yuan) {
 			cmoney = Number(cmoney) - Number(d_yuan); //防止出现小数点后多余2位以上  .toFixed(2)
 		}
+    cmoney = cmoney.toFixed(2);
 		wx.request({
-			url: app.d.ceshiUrl + '&action=recharge&m=recharge',
+			url: app.d.ceshiUrl + '&action=pay&m=pay',
 			data: {
 				cmoney: cmoney, // 付款金额
 				openid: app.globalData.userInfo.openid, // 微信id
@@ -904,9 +836,12 @@ Page({
 			success: function(res) {
 				if(res.data) {
 					var dingdanhao = res.data.out_trade_no;
+          console.log(order.sNo)
+          that.up_out_trade_no(order, dingdanhao);
           that.setData({
             trade_no: dingdanhao
           })
+          
 					wx.requestPayment({
 						timeStamp: res.data.timeStamp,
 						nonceStr: res.data.nonceStr,
@@ -914,8 +849,23 @@ Page({
 						signType: 'MD5',
 						paySign: res.data.paySign,
 						success: function(res) {
-							// 成功后修改订单状态
-							that.up_order(order);
+
+              wx.showModal({
+                content: "支付成功！",
+                showCancel: false,
+                confirmText: "确定",
+                success: function (res) {
+                  if (that.data.type1 == 11) {
+                    wx.redirectTo({
+                      url: '../draw/cantuan?orderId=' + oid + '&&type1=11'
+                    })
+                  } else {
+                    wx.redirectTo({
+                      url: '../order/detail?orderId=' + oid + '&&type1=22'
+                    })
+                  }
+                }
+              });
 						},
 						fail: function(res) {
 							wx.showModal({
@@ -965,7 +915,8 @@ Page({
 				order_id: order.sNo, // 订单号
 				user_id: app.globalData.userInfo.openid, // 微信id
 				d_yuan: d_yuan,
-        trade_no: trade_no
+        trade_no: trade_no,
+        pay: that.data.paytype,
 			},
 			header: {
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -1007,6 +958,7 @@ Page({
 				});
 			}
 		})
+
 	},
   //获取插件
   get_plug: function (e) {
@@ -1091,4 +1043,33 @@ Page({
 		}.bind(this), 200);
 
 	},
+  up_out_trade_no: function (order, out_trade_no){
+    var that = this;
+    var sNo = order.sNo;
+    var d_yuan = that.data.d_yuan;
+    var cmoney = order.coupon_money;
+    if (d_yuan) {
+      cmoney = cmoney - d_yuan;
+    }
+    wx.request({
+      url: app.d.ceshiUrl + '&action=order&m=up_out_trade_no',
+      method: 'post',
+      data: {
+        coupon_id: order.coupon_id, // 优惠券id
+        allow: that.data.allow, // 使用积分
+        coupon_money: order.coupon_money, // 付款金额
+        order_id: order.sNo, // 订单号
+        user_id: app.globalData.userInfo.openid, // 微信id
+        d_yuan: d_yuan,
+        trade_no: out_trade_no,
+        pay: that.data.paytype,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log(res)
+      }
+    })
+  },
 });

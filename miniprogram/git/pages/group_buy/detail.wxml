@@ -158,14 +158,14 @@
     拼团规则：
     <text>1、卖家点击商品详情查看活动，下单支付成功算开团，成为团长</text>
     <text>2、开团后进入团详情，分享给好友，好友拍下支付成功则开团成功</text>
-    <text>3、店铺优惠卷不可用，支付方式不支持货到付款以及到店自提</text>
+    <text>3、消费金不可用，支付方式不支持货到付款以及到店自提</text>
     </view>
      <view style='padding:5px 0 5px 0;'>
     温馨提示：
     <text style='color:#eb3737;'>开团后有效期为24小时；<text style='display:inline;'>有效期内凑成人数算成团；等待商家发货，若有效期内没成团，原路退回。</text></text>
     </view>
     <view style='padding-bottom:5px;'>关于运费：
-    <text style='display: inline-block'>拼团商品全部包邮，最终解释权归来客商城所有。</text>
+    <text style='display: inline-block'>拼团商品全部包邮，最终解释权归本商城所有。</text>
     </view>
   </view>
 
@@ -229,7 +229,7 @@
       </view>
       <view class="mingcheng">
         <view style="font-size:38rpx;color:red">
-        开团价: ¥{{itemData.member_price}}</view>
+        <text wx:if="{{paytype == 'group'}}">开团价:</text>¥<text wx:if="{{paytype == 'group'}}">{{itemData.member_price}}</text><text wx:else>{{itemData.market_price}}</text></view>
         <view style="font-size:26rpx;color:#ccc">库存：{{itemData.num}}</view>
       </view>
       <view style='clear:both;'></view>
@@ -240,10 +240,10 @@
 
 <!-- 属性选择 -->
 <view wx:for="{{attrList}}" wx:for-index="idx" wx:key="userInfoListId" class="outStyle">
-  <view class='outStyleText textStyle buttonPaddingStyle'>{{item.attrName}}</view>
-  <view class='typeStyle textStyle'>
+  <view class='outStyleText textStyle buttonPaddingStyle' style="padding-left:0">{{item.attrName}}</view>
+  <view class='typeStyle textStyle' style="margin-left:0">
     <view wx:for="{{item.attr}}" data-item='{{item.attr[index]}}' data-index='{{index}}' data-idx='{{idx}}' wx:key="userInfoListId" bindtap="onChangeShowState" wx:for-item="items">
-      <view class="{{items.enable == true ?(items.select==true?'orange':'back') : 'bai'}} textStyle buttonPaddingStyle">
+      <view class="{{items.enable == true ?(items.select==true?'orange':'back') : 'bai'}} textStyle buttonPaddingStyle de_left">
         {{items.attributeValue}}
       </view>
     </view>
@@ -292,13 +292,13 @@
   </view> 
 <view  class='fx_box'> 
   
- <view class='fx_img_box'>
+    <view wx:if="{{share.friends}}" class='fx_img_box'>
      <button open-type="share" hover-class="button-hover" style='line-height:normal;border:0;border-radius:0px;padding:0;font-size:12px;display:inline;'>
         <view><image class='fx_img' src='/images/wx.png'></image></view>
         <view>微信好友</view>
      </button>
     </view>
-    <view class='fx_img_box' bindtap='user_share' >
+    <view class='fx_img_box' wx:if="{{share.friend}}" bindtap='user_share' >
     <view> <image class='fx_img' src='/images/pyq.png'></image></view> 
       <view>朋友圈</view>
     </view>

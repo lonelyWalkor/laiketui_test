@@ -12,11 +12,9 @@ Page({
   //页面加载完成函数
   onReady: function () {
     var that = this;
-    setTimeout(function () {
-      that.setData({
-        remind: ''
-      });
-    }, 1000);
+    // setTimeout(function () {
+      
+    // }, 1000);
   },
   onLoad: function (options) {
     that = this;
@@ -79,8 +77,6 @@ Page({
               commentList[i].addHide = commentList[i].images.length;
             }
           }else{
-            // console.log(commentList)
-            // console.log(i)
             commentList[0].commentType = 'GOOD';
             commentList[0].images = '';
             commentList[0].id = 0;
@@ -88,14 +84,20 @@ Page({
           }
           that.setData({
             commentList: commentList,
-            bgcolor: app.d.bgcolor,
+            bgcolor: '#09bb07',
             orderId: orderId,
+            remind: ''
           });
         } else {
           wx.showToast({
             title: '已经评论过了哦，亲!',
             duration: 2000
           });
+          setTimeout(function () {
+            wx.navigateBack({
+              delta: 2
+            })
+          }, 2000);
         }
       },
       fail: function () {
@@ -245,9 +247,14 @@ Page({
             duration: 2000
           });
           setTimeout(function () {
-            wx.redirectTo({
-              url: '../order/order?currentTab=4&order_type1=evaluate&otype=pay'
+            // wx.navigateTo({
+            //   url: '../order/order?currentTab=4&order_type1=evaluate&otype=pay'
+            // })
+
+            wx.navigateBack({
+              delta: 1
             })
+
           }, 2000);
         } else {
           wx.showToast({
