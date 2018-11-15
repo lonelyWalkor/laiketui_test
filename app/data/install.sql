@@ -1391,7 +1391,7 @@ CREATE TABLE `lkt_order_details` (
   `r_type` tinyint(4) DEFAULT '0' COMMENT '类型 0:审核中 1:同意并发货 2:拒绝 3:用户已快递 4:同意并退款 5：拒绝并退回商品',
   `express_id` int(255) DEFAULT NULL COMMENT '快递公司id',
   `courier_num` varchar(40) DEFAULT NULL COMMENT '快递单号',
-  `freight` int(4) DEFAULT '12' COMMENT '运费',
+  `freight` int(4) DEFAULT '0' COMMENT '运费',
   `size` varchar(100) DEFAULT NULL COMMENT '配置名称',
   `sid` char(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
