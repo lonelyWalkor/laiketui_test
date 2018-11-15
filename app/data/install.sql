@@ -401,7 +401,7 @@ CREATE TABLE `lkt_config` (
 
 LOCK TABLES `lkt_config` WRITE;
 /*!40000 ALTER TABLE `lkt_config` DISABLE KEYS */;
-INSERT INTO `lkt_config` VALUES (1,'1541601350533.jpeg','来客电商','wx9d12fe23eb053c4f','7c3a13a7fe68d8abbb71adb02deffce6','http://127.0.0.1/test/LKT/index.php?module=api',NULL,'','http://127.0.0.1/test','../LKT/images/','../LKT/zip','2018-11-09 13:36:19','','');
+INSERT INTO `lkt_config` VALUES (1,'1541601350533.jpeg','来客电商','','','',NULL,'','','../LKT/images/','../LKT/zip','2018-11-09 13:36:19','','');
 /*!40000 ALTER TABLE `lkt_config` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -60,12 +60,7 @@
                     <input type="text" name="domain" value="{$domain}" class="input-text">
                 </div>
             </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>商户id：</label>
-                <div class="formControls col-xs-8 col-sm-6">
-                    <input type="text" name="mch_id" value="{$mch_id}" class="input-text">
-                </div>
-            </div>
+
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>ip地址：</label>
                 <div class="formControls col-xs-8 col-sm-6">
