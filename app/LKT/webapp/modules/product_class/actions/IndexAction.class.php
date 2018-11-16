@@ -33,7 +33,7 @@ class IndexAction extends Action {
         foreach ($_GET as $key => $value001) {
             $con .= "&$key=$value001";
         }
-        print_r($cid);
+        
         if($cid){ // 上级id
             // 根据分类id,查询所有下级
             $sql = "select * from lkt_product_class where recycle = 0 and sid = '$cid' order by sort desc limit $start,$pagesize";
