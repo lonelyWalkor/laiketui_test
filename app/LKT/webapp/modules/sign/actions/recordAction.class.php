@@ -52,7 +52,7 @@ class recordAction extends Action {
         if($r){
             $list = $r;
         }else{
-            $list = '';
+            $list = [];
         }
         $url = "index.php?module=sign&action=record&source=".urlencode($source)."&name=".urlencode($name)."&tel=".urlencode($tel)."&pagesize=".urlencode($pagesize);
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
