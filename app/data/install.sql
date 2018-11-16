@@ -534,16 +534,7 @@ CREATE TABLE `lkt_coupon_activity` (
   `recycle` tinyint(4) NOT NULL DEFAULT '0' COMMENT '回收站 0.不回收 1.回收',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='优惠劵活动表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `lkt_coupon_activity`
---
-
-LOCK TABLES `lkt_coupon_activity` WRITE;
-/*!40000 ALTER TABLE `lkt_coupon_activity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `lkt_coupon_activity` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `lkt_coupon_config`
