@@ -147,7 +147,6 @@ class productAction extends Action {
                 $sql = "insert into lkt_user_footprint(user_id,p_id,add_time) values('$user_id','$id',CURRENT_TIMESTAMP)";
                 $rrr = $db->insert($sql);
             }
-
              $zhekou = '';
             }
 
@@ -168,7 +167,7 @@ class productAction extends Action {
                     $img_arr[$key] = $img.$value->product_url;
                 }
             }else{
-                $img_arr['0'] = $img.$res['0']->img;
+                $img_arr['0'] = $img.$res['0']->imgurl;
             }
             $class =  $res['0'] -> product_class;
             $typestr=trim($class,'-');
@@ -191,6 +190,38 @@ class productAction extends Action {
                 $newa = $uploadImg_domain;
             }
             $new_content = preg_replace('/(<img.+?src=")(.*?)/',"$1$newa$2", $content);
+
+            $freight_id = $res[0]->freight;
+            $sql = "select * from lkt_freight where id = '$freight_id'";
+            $r_freight = $db->select($sql);
+            if($r_freight){
+                $freight = unserialize($r_freight[0]->freight); // 属性
+                foreach ($freight as $k => $v){
+                    foreach ($v as $k1 => $v1){
+                        $freight_list[$k]['freight'] = $v['two'];
+                        $freight_list[$k]['freight_name'] = $v['name'];
+                    }
+                }
+                $product['freight'] = $freight[0]['two'];
+            }else{
+                $product['freight'] = 0.00;
+            }
+            $s_type = explode(',',$res['0']->s_type);
+            $xp = 0;
+            $rexiao = 0;
+            $tuijian = 0;
+            foreach ($s_type as $k1 => $v1){
+                if($v1 == 1){
+                    $xp = 1;
+                }else if($v1 == 2){
+                    $rexiao = 1;
+                }else if($v1 == 3){
+                    $tuijian = 1;
+                }
+            }
+            $product['xp'] = $xp;
+            $product['rexiao'] = $rexiao;
+            $product['tuijian'] = $tuijian;
 
             $product['id'] = $res['0']->id;
             $product['shop_id'] = $res['0']->id;
@@ -340,7 +371,7 @@ class productAction extends Action {
             $qj_price = reset($array_price)==end($array_price)? reset($array_price):reset($array_price).'-'.end($array_price);
             $qj_yprice = reset($array_yprice)==end($array_yprice)? reset($array_yprice):reset($array_yprice).'-'.end($array_yprice);
             //返回JSON             $skuBeanList = []; $attrList = [];
-            $share = array('friends' => true, 'friend' => false);
+            $share = array('friends' => true, 'friend' => true);
             echo json_encode(array('status'=>1,'pro'=>$product,'qj_price'=>$qj_price,'qj_yprice'=>$qj_yprice,'attrList'=>$attrList,'skuBeanList'=>$skuBeanList,'collection_id'=>$collection_id,'comments'=>$arr,'type'=>$type,'wx_id' =>$wx_id,'share'=>$share,'zhekou'=>$zhekou));
             exit();
         }
