@@ -148,12 +148,14 @@ class groupbuyAction extends Action {
             $gid = $restime[0] -> status;
 
         $sql = "select w.*,l.product_title as pro_name from (select z.*,c.img as image,c.price as market_price from (select p.id,min(p.attr_id) as attr_id,p.product_id,p.group_price,p.group_id,s.sum from lkt_group_product as p left join (select sum(m.num) as sum,m.p_id from (select o.num,d.p_id from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.pid='$gid' and o.status>0) as m group by m.p_id) as s on p.product_id=s.p_id where p.group_id='$gid' group by p.product_id order by $select$sort limit $start,$end) as z left join lkt_configure as c on z.attr_id=c.id) as w left join lkt_product_list as l on w.product_id=l.id";
-        $res = $db -> select($sql);        
-        foreach ($res as $k => $v) {
-            $res[$k] = $v;
-            $res[$k] -> imgurl = $img.$v -> image;
-            if($v -> sum === null) $res[$k] -> sum = 0;
-        } 
+        $res = $db -> select($sql);  
+         if(!empty($res)){     
+            foreach ($res as $k => $v) {
+                $res[$k] = $v;
+                $res[$k] -> imgurl = $img.$v -> image;
+                if($v -> sum === null) $res[$k] -> sum = 0;
+            }
+        }
         echo json_encode(array('code' => 1,'list' => $res,'groupman' => $g_man,'groupid' => $gid));exit;
         }else{
         	echo json_encode(array('code' => 0));exit;
@@ -332,7 +334,7 @@ class groupbuyAction extends Action {
         $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.user_id where a.pid = '$gid' and m.wx_id != '' limit 2";
             $r_c = $db->select($sql_c);
             $arr=[];
-        
+        if(!empty($r_c)){
             foreach ($r_c as $key => $value) {
                 $va = (array)$value;
                 $va['time'] = substr($va['add_time'],0,10);
@@ -363,6 +365,7 @@ class groupbuyAction extends Action {
                 $obj = (object)$va;
                 $arr[$key] = $obj;
             }
+         }
            if(!empty($r_c)){
                 $goodsql = "select count(*) as num from lkt_comments where pid='$gid' and CommentType='GOOD'";
                 $goodnum = $db -> select($goodsql);
@@ -381,13 +384,14 @@ class groupbuyAction extends Action {
         $sql_kt = "select g.ptcode,g.ptnumber,g.endtime,u.user_name,u.headimgurl from lkt_group_open as g left join lkt_user as u on g.uid=u.wx_id where g.group_id='$group_id' and g.ptgoods_id=$gid and g.ptstatus=1 ";
         $res_kt = $db -> select($sql_kt);
         $groupList = [];
-        foreach ($res_kt as $key => $value) {
-            $res_kt[$key] -> leftTime = strtotime($value -> endtime) - time();
-            if(strtotime($value -> endtime) - time() > 0){
-                array_push($groupList, $res_kt[$key]);
+        if(!empty($res_kt)){
+            foreach ($res_kt as $key => $value) {
+                $res_kt[$key] -> leftTime = strtotime($value -> endtime) - time();
+                if(strtotime($value -> endtime) - time() > 0){
+                    array_push($groupList, $res_kt[$key]);
+                }
             }
         }
-
         $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
         $plugopen = $db -> select($plugsql);
         $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;

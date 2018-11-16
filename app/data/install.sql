@@ -1981,7 +1981,7 @@ CREATE TABLE `lkt_user` (
   `Register_data` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
   `e_mail` varchar(30) DEFAULT NULL COMMENT '邮箱',
   `real_name` varchar(100) DEFAULT NULL COMMENT '真实姓名',
-  `mobile` varchar(20) DEFAULT NULL COMMENT '手机',
+  `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `birthday` varchar(32) DEFAULT '' COMMENT '生日',
   `wechat_id` varchar(50) DEFAULT '' COMMENT '微信号',
   `address` varchar(300) DEFAULT NULL COMMENT '地址',

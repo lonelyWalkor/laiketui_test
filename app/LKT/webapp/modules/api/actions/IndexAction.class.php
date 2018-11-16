@@ -130,8 +130,10 @@ class IndexAction extends Action {
 
             $sql_s = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$ttcid-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
             $r_s = $db->select($sql_s);
-
             $product = [];
+
+            $r_s = empty($r_s)? []:($r_s ? $r_s:[]);
+
             foreach ($r_s as $k => $v) {
                 $imgurl = $img .$v->imgurl;
                 $pid = $v->id;
@@ -144,7 +146,11 @@ class IndexAction extends Action {
         }
         $sql = "select * from lkt_background_color where status = 1";
         $r = $db -> select($sql);
-        $bgcolor = $r[0]->color;
+        if($r){
+            $bgcolor = $r[0]->color;
+        }else{
+            $bgcolor = '#FF6347';
+        }
 
 
         // 查询插件表里,状态为启用的插件
@@ -172,8 +178,10 @@ class IndexAction extends Action {
         $lkt_set_notice = "select id,name from lkt_set_notice order by time desc";
         $notice = [];
         $res_notice= $db -> select($lkt_set_notice);//公告
-        foreach ($res_notice as $key => $value) {
-           $notice[$key] = array('url' => $value->id, 'title' => $value->name);
+        if($res_notice){
+            foreach ($res_notice as $key => $value) {
+               $notice[$key] = array('url' => $value->id, 'title' => $value->name);
+            }
         }
         echo json_encode(array('banner'=>$banner,'notice'=>$notice,'djname'=>'','twoList'=>$twoList,'bgcolor'=>$bgcolor,'plug'=>$plug,'title'=>$title,'logo'=>$logo,'list'=>$pmd));
         exit();

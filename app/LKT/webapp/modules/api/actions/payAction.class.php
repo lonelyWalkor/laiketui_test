@@ -55,17 +55,29 @@ class payAction extends Action {
         // 查询系统配置
         $ss = "select * from lkt_config where id = 1";
         $rs = $db->select($ss);
+        if($rs){
+            // 进入支付页面
+            $appid =        $rs[0]->appid; // 如果是公众号 就是公众号的appid
+            $body =         $rs[0]->company; // 公司名称
+            $mch_id =       $rs[0]->mch_id; // 商户id
+            $mch_key =      $rs[0]->mch_key; // 商户key
+            $nonce_str =    $this->nonce_str(); // 随机字符串
+            $notify_url =   $rs[0]->uploadImg_domain.'/LKT/notify_url.php';
+            $openid =       $openid; // 微信id
+            $out_trade_no = $dingdanhao; // 商户订单号
+            $spbill_create_ip = $rs[0]->ip; // ip地址
+        }else{
+            $appid = ''; // 如果是公众号 就是公众号的appid
+            $body = ''; // 公司名称
+            $mch_id = ''; // 商户id
+            $mch_key = ''; // 商户key
+            $nonce_str = ''; // 随机字符串
+            $notify_url = '';
+            $openid = $openid; // 微信id
+            $out_trade_no = $dingdanhao; // 商户订单号
+            $spbill_create_ip = ''; // ip地址
+        }
 
-        // 进入支付页面
-        $appid =        $rs[0]->appid; // 如果是公众号 就是公众号的appid
-        $body =         $rs[0]->company; // 公司名称
-        $mch_id =       $rs[0]->mch_id; // 商户id
-        $mch_key =      $rs[0]->mch_key; // 商户key
-        $nonce_str =    $this->nonce_str(); // 随机字符串
-        $notify_url =   $rs[0]->uploadImg_domain.'/LKT/notify_url.php';
-        $openid =       $openid; // 微信id
-        $out_trade_no = $dingdanhao; // 商户订单号
-        $spbill_create_ip = $rs[0]->ip; // ip地址
         $total_fee =    $cmoney*100; // 因为充值金额最小是1 而且单位为分 如果是充值1元所以这里需要*100
         $trade_type = 'JSAPI'; // 交易类型 默认
 

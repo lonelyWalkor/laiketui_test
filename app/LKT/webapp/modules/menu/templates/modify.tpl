@@ -32,7 +32,11 @@ function check(f){
 <title>修改菜单</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 管理员管理 <span class="c-gray en">&gt;</span> 菜单列表 <span class="c-gray en">&gt;</span> 修改菜单 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=menu';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+	<nav class="breadcrumb">
+	配置管理 <span class="c-gray en">&gt;</span> 菜单列管理
+	<span class="c-gray en">&gt;</span> 修改菜单 
+	</nav>
+
 <div class="pd-20">
   <form name="form1" action="index.php?module=menu&action=modify" class="form form-horizontal" method="post" onsubmit="return check(this);"  enctype="multipart/form-data" >
     <input type="hidden" name="id" value="{$id}" />

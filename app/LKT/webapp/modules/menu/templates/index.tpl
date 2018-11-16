@@ -34,16 +34,18 @@
             <input type="text" name="cart_id" size='8' value="{$cart_id}" id="" placeholder="菜单id" style="width:200px" class="input-text">
             <input type="text" name="title" size='8' value="{$title}" id="" placeholder="菜单名称" style="width:200px" class="input-text">
             <input name="" id="btn1" class="btn btn-success" type="submit" value="查询">
-            <a class="btn newBtn radius"  onclick="location.href='index.php?module=menu&action=add';">
+            
+        </form>
+        
+    </div>
+    <a style="margin-top: 10px;" class="btn newBtn radius"  onclick="location.href='index.php?module=menu&action=add';">
             	<div style="height: 100%;display: flex;align-items: center;font-size: 14px;">
                 <img src="images/icon1/add.png"/>&nbsp;添加菜单
            		</div>
-            </a>
-        </form>
-    </div>
+    </a>
     <div style="clear:both;">
     </div>
-    <div class="mt-20">
+    <div class="mt-10">
         <table class="table table-border table-bordered table-bg table-hover">
             <thead>
                 <tr class="text-c">

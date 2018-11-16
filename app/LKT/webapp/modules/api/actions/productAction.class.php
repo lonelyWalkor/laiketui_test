@@ -96,10 +96,18 @@ class productAction extends Action {
         if($type1 == 1){
             $sql0101="select * from lkt_draw where id = '$choujiangid'";
             $re = $db->select($sql0101);
-            $price01 = $re[0]->price;
-            $type01 =$re[0]->type;
-            $start_time = $re[0]->start_time;//活动开始时间
-            $end_time =$re[0]->end_time;//活动结束时间
+            if($re){
+                $price01 = $re[0]->price;
+                $type01 =$re[0]->type;
+                $start_time = $re[0]->start_time;//活动开始时间
+                $end_time =$re[0]->end_time;//活动结束时间
+            }else{
+                $price01 = '';
+                $type01 ='';
+                $start_time = '';//活动开始时间
+                $end_time ='';//活动结束时间
+            }
+
             $time = date('Y-m-d H:i:s',time());//当前时间
             if($start_time<$time && $end_time < $time){//判断用户进入抽奖详情页面抽奖活动是否结束
                 echo json_encode(array('status'=>3,'err'=>'活动已结束!'));
@@ -112,45 +120,49 @@ class productAction extends Action {
 
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ 
-            // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{
+                // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
+
         $type = 0;
         $collection_id = '';
-        if($openid){
+        $zhekou = '';
 
+        if($openid){
             $sql = "select * from lkt_user where wx_id = '$openid'";
             $r = $db->select($sql);
-            $user_id = $r[0]->user_id;
+            if($r){
+                $user_id = $r[0]->user_id;
+                // 根据用户id、产品id,获取收藏表信息
+                $sql = "select * from lkt_user_collection where user_id = '$user_id' and p_id = '$id'";
+                $rr = $db->select($sql);
+                if($rr){
+                    $type = 1;
+                    $collection_id = $rr['0']->id;
+                }else{
+                    $type = 0;
+                    $collection_id = '';
+                }
+                $time = date("Y-m-d");
+                // 根据用户id,在足迹表里插入一条数据
+                $sql_collection = "select * from lkt_user_footprint where user_id = '$user_id' and p_id = '$id' and add_time like '$time%' ";
+                $rr_collection = $db->select($sql_collection);
 
-            // 根据用户id、产品id,获取收藏表信息
-            $sql = "select * from lkt_user_collection where user_id = '$user_id' and p_id = '$id'";
-            $rr = $db->select($sql);
-            if($rr){
-                $type = 1;
-                $collection_id = $rr['0']->id;
-            }else{
-                $type = 0;
-                $collection_id = '';
+                if(empty($rr_collection)){
+                    $sql = "insert into lkt_user_footprint(user_id,p_id,add_time) values('$user_id','$id',CURRENT_TIMESTAMP)";
+                    $rrr = $db->insert($sql);
+                }
             }
-            $time = date("Y-m-d");
-            // 根据用户id,在足迹表里插入一条数据
-            $sql_collection = "select * from lkt_user_footprint where user_id = '$user_id' and p_id = '$id' and add_time like '$time%' ";
-            $rr_collection = $db->select($sql_collection);
-
-            if(empty($rr_collection)){
-                $sql = "insert into lkt_user_footprint(user_id,p_id,add_time) values('$user_id','$id',CURRENT_TIMESTAMP)";
-                $rrr = $db->insert($sql);
-            }
-             $zhekou = '';
-            }
-
-
+        }
 
         // 根据产品id,查询产品数据
         $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 ";
@@ -247,8 +259,8 @@ class productAction extends Action {
                 $product['type111'] = 1;
                 $wx_id =$wx_id ;
             }else{
-            $product['type111'] = 2;
-            $wx_id ='';
+                $product['type111'] = 2;
+                $wx_id ='';
             }
 
             if(!empty($res[0]->brand_id)){
@@ -262,40 +274,43 @@ class productAction extends Action {
                  $product['brand_name'] = '无';
             }
 
-             $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.user_id where a.pid = '$id'";
+            $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.user_id where a.pid = '$id'";
             $r_c = $db->select($sql_c);
             $arr=[];
-            foreach ($r_c as $key => $value) {
-                $va = (array)$value;
-                $va['time'] = substr($va['add_time'],0,10);
-                //-------------2018-05-03  修改  作用:返回评论图片
-                $comments_id = $va['id'];
-                $comments_sql = "select comments_url from lkt_comments_img where comments_id = '$comments_id' ";
-                $comment_res = $db->select($comments_sql);
-                $va['images'] ='';
-                if($comment_res){
-                    $va['images'] = $comment_res;
-                    $array_c = [];
-                    foreach ($comment_res as $kc => $vc) {
-                       $url = $vc->comments_url;
-                       $array_c[$kc] = array('url' =>$img.$url);
+            if($r_c){
+                foreach ($r_c as $key => $value) {
+                    $va = (array)$value;
+                    $va['time'] = substr($va['add_time'],0,10);
+                    //-------------2018-05-03  修改  作用:返回评论图片
+                    $comments_id = $va['id'];
+                    $comments_sql = "select comments_url from lkt_comments_img where comments_id = '$comments_id' ";
+                    $comment_res = $db->select($comments_sql);
+                    $va['images'] ='';
+                    if($comment_res){
+                        $va['images'] = $comment_res;
+                        $array_c = [];
+                        foreach ($comment_res as $kc => $vc) {
+                            $url = $vc->comments_url;
+                            $array_c[$kc] = array('url' =>$img.$url);
+                        }
+                        $va['images'] = $array_c;
                     }
-                    $va['images'] = $array_c;
-                }
-                //-------------2018-07-27  修改
-                $ad_sql = "select content from lkt_reply_comments where cid = '$comments_id' and uid = 'admin' ";
-                $ad_res = $db->select($ad_sql);
-                if($ad_res){
-                    $reply_admin = $ad_res[0]->content;
-                }else{
-                    $reply_admin = '';
-                }
+                    //-------------2018-07-27  修改
+                    $ad_sql = "select content from lkt_reply_comments where cid = '$comments_id' and uid = 'admin' ";
+                    $ad_res = $db->select($ad_sql);
+                    if($ad_res){
+                        $reply_admin = $ad_res[0]->content;
+                    }else{
+                        $reply_admin = '';
+                    }
 
-                $va['reply'] = $reply_admin;
+                    $va['reply'] = $reply_admin;
 
-                $obj = (object)$va;
-                $arr[$key] = $obj;
+                    $obj = (object)$va;
+                    $arr[$key] = $obj;
+                }
             }
+
             $commodityAttr = [];
             $sql_size = "select * from lkt_configure where pid = '$id' AND num > 0";
             $r_size = $db->select($sql_size);
@@ -304,7 +319,6 @@ class productAction extends Action {
             $skuBeanList = [];
             $attrList = [];
             if ($r_size) {
-
                 $attrList = [];
                 $a = 0;
                 $attr = [];
@@ -322,7 +336,6 @@ class productAction extends Action {
                         }
                     }
                 }
-
 
                 foreach ($r_size as $key => $value) {
                     $attribute = unserialize($value->attribute);
@@ -354,15 +367,12 @@ class productAction extends Action {
                                         array_push($all, $v);
                                     }
                                 }
-
                             }
                         }
                         $attrList[$i]['all'] =$all;
                         $attrList[$i]['attr'] =$attr;
                     }
-                    
                 }
-
             }
             //排序
             asort($array_price);
@@ -385,9 +395,9 @@ class productAction extends Action {
         $formid = addslashes(trim($request->getParameter('from_id')));
         $lifetime = date('Y-m-d H:i:s',time() + 7*24*3600);
         if($formid != 'the formId is a mock one' && $formid != ''){          
-                $addsql = "insert into lkt_user_fromid(open_id,fromid,lifetime) values('$uid','$formid','$lifetime')";
-                $addres = $db -> insert($addsql);
-                echo json_encode(array('status'=>1,'succ'=>$addres));
+            $addsql = "insert into lkt_user_fromid(open_id,fromid,lifetime) values('$uid','$formid','$lifetime')";
+            $addres = $db -> insert($addsql);
+            echo json_encode(array('status'=>1,'succ'=>$addres));
         }
     }
 
@@ -405,11 +415,19 @@ class productAction extends Action {
         }else{
             $sql = "select user_id from lkt_user where wx_id = '$Uid'";
             $r_1 = $db->select($sql);
-            $user_id = $r_1[0]->user_id;
+            if($r_1){
+                $user_id = $r_1[0]->user_id;
+            }else{
+                $user_id = '';
+            }
 
             $sql_k = "select num from lkt_configure where pid = '$Goods_id' and num >0";
             $res_k = $db->select($sql_k);
-            $num = $res_k[0]->num;
+            if($res_k){
+                $num = $res_k[0]->num;
+            }else{
+                $num = 0;
+            }
             if($num >= $Goods_num){
                 //查询购物车是否有过改商品，有则修改 无则新增
                 $sql_c = "select Goods_num,id from lkt_cart where Uid = '$Uid' and Goods_id = '$Goods_id' and Size_id = '$size_id'";
@@ -462,12 +480,16 @@ class productAction extends Action {
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
         if(!$paegr){
             $paegr = 1;
@@ -475,7 +497,6 @@ class productAction extends Action {
         $start = ($paegr-1)*10;
         $end = $paegr*10;
         $sql = 'select a.id,a.product_title,volume,c.price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like \'%-'.$id."-%' and a.status = 0 order by $select $sort LIMIT $start,$end ";
-        // echo $sql;
         $r = $db->select($sql);
         if($r){
             $product = [];
@@ -499,12 +520,16 @@ class productAction extends Action {
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
         if(!$paegr){
             $paegr = 1;
@@ -581,12 +606,16 @@ class productAction extends Action {
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
 
         //地址
@@ -596,9 +625,15 @@ class productAction extends Action {
         // 根据微信id,查询用户id
         $sql_user = 'select user_id,money,consumer_money from lkt_user where wx_id=\''.$uid.'\'';
         $r_user = $db->select($sql_user);
-        $userid = $r_user['0']->user_id; // 用户id
-        $user_money = $r_user['0']->money; // 用户余额
-        $user_consumer_money = $r_user['0']->consumer_money; // 用户消费金
+        if($r_user){
+            $userid = $r_user['0']->user_id; // 用户id
+            $user_money = $r_user['0']->money; // 用户余额
+            $user_consumer_money = $r_user['0']->consumer_money; // 用户消费金
+        }else{
+            $userid = ''; // 用户id
+            $user_money = ''; // 用户余额
+            $user_consumer_money = ''; // 用户消费金
+        }
 
         // 根据用户id,查询收货地址
         $sql_a = 'select id from lkt_user_address where uid=\''.$userid.'\'';
@@ -646,45 +681,51 @@ class productAction extends Action {
             // 联合查询返回购物信息
             $sql_c = "select a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,c.price,c.attribute,c.img,c.yprice,m.freight,m.product_class from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where c.num >0 and m.status ='0' and a.id = '$value'";
             $r_c = $db->select($sql_c);
-            $product = (array)$r_c['0']; // 转数组
-            $attribute = unserialize($product['attribute']);
-            $product_id[] = $product['Goods_id'];
-            $product_class[] = $product['product_class'];
-            $size = '';
-            foreach ($attribute as $ka => $va) {
-                $size .= ' '.$va;
-            }
-            $Goods_id = $product['Goods_id'];
-            if(in_array($Goods_id, $products)){
-                $pstuat = false;
-                $status_id = $Goods_id;
-            }
+            if($r_c){
+                $product = (array)$r_c['0']; // 转数组
+                $attribute = unserialize($product['attribute']);
+                $product_id[] = $product['Goods_id'];
+                $product_class[] = $product['product_class'];
+                $size = '';
+                foreach ($attribute as $ka => $va) {
+                    $size .= ' '.$va;
+                }
+                $Goods_id = $product['Goods_id'];
+                if(in_array($Goods_id, $products)){
+                    $pstuat = false;
+                    $status_id = $Goods_id;
+                }
 
-            if(array_key_exists($Goods_id, $distributor_products)){ // 检查数组里是否有指定的键名或索引
-                $discount = false;
-                $grade_id = $distributor_products[$Goods_id];
-                if($grade_id){
-                    $sql_grade = "select sort from lkt_distribution_grade where id = '$grade_id' ";
-                    $r_grade = $db -> select($sql_grade);
-                    if($r_grade){
-                        $gsort = $r_grade[0]->sort;
-                        if($gsort <= $usort){
-                            echo json_encode(array('status'=>0,'err'=>'存在无法购买的商品！'));
-                            exit;
-                            break;
+                if(array_key_exists($Goods_id, $distributor_products)){ // 检查数组里是否有指定的键名或索引
+                    $discount = false;
+                    $grade_id = $distributor_products[$Goods_id];
+                    if($grade_id){
+                        $sql_grade = "select sort from lkt_distribution_grade where id = '$grade_id' ";
+                        $r_grade = $db -> select($sql_grade);
+                        if($r_grade){
+                            $gsort = $r_grade[0]->sort;
+                            if($gsort <= $usort){
+                                echo json_encode(array('status'=>0,'err'=>'存在无法购买的商品！'));
+                                exit;
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            //计算运费
-            $yunfei = $yunfei + $this->freight($product['freight'],$product['Goods_num'],$address,$db);
+                //计算运费
+                $yunfei = $yunfei + $this->freight($product['freight'],$product['Goods_num'],$address,$db);
 
-            $product['photo_x'] = $img.$product['img'];/* 拼接图片链接*/
-            $num = $product['Goods_num']; // 产品数量
-            $price = $product['price']; // 产品价格
-            $product['size'] = $size; // 产品价格
-            $zong += $num*$price; // 产品总价
-            $res[$key] = $product; 
+                $product['photo_x'] = $img.$product['img'];/* 拼接图片链接*/
+                $num = $product['Goods_num']; // 产品数量
+                $price = $product['price']; // 产品价格
+                $product['size'] = $size; // 产品价格
+                $zong += $num*$price; // 产品总价
+                $res[$key] = $product;
+            }else{
+                $res[$key] = '';
+                $yunfei = 0;
+                $zong = 0;
+            }
         }
 
         // 查询自动满减设置
@@ -701,10 +742,13 @@ class productAction extends Action {
                 if($man_money <= $zong){ // 当商品总价满足 包邮限制
                     $sql = "select G_CName from admin_cg_group where GroupID = ".$address['sheng'];
                     $r_address = $db->select($sql);
-                    $G_CName = $r_address[0]->G_CName;
-
-                    if(in_array($G_CName, $region_list)){
-                        $arr['freight'] = $yunfei; // 运费
+                    if($r_address){
+                        $G_CName = $r_address[0]->G_CName;
+                        if(in_array($G_CName, $region_list)){
+                            $arr['freight'] = $yunfei; // 运费
+                        }else{
+                            $arr['freight'] = 0; // 运费
+                        }
                     }else{
                         $arr['freight'] = 0; // 运费
                     }
@@ -742,13 +786,18 @@ class productAction extends Action {
 
             $scoresql = 'select lever,ordernum,scorenum from lkt_setscore order by lever';  //查询消费金参数
             $scoremsg = $db -> select($scoresql);
-            foreach ($scoremsg as $k => $v) {
-                if($v -> lever < 0){
-                    $arr['scorebl'] = $v -> ordernum;
-                    unset($scoremsg[$k]);
+            if($scoremsg){
+                foreach ($scoremsg as $k => $v) {
+                    if($v -> lever < 0){
+                        $arr['scorebl'] = $v -> ordernum;
+                        unset($scoremsg[$k]);
+                    }
                 }
+                $arr['scorebuy'] = $scoremsg;
+            }else{
+                $arr['scorebuy'] = '';
             }
-            $arr['scorebuy'] = $scoremsg;
+
 
             // 根据用户id,查询优惠券状态为 (使用中)
             $sql = "select * from lkt_coupon where user_id = '$userid' and type = 1";
@@ -758,8 +807,6 @@ class productAction extends Action {
             }else{
                 $r = '';
             }
-//            print_r($id);
-//            echo "<br>";
             if($r){
                 foreach ($r as $k => $v) {
                     $id = $v->id; // 优惠券id
@@ -964,7 +1011,6 @@ class productAction extends Action {
             }
 
         }
-
     }
     // 显示购物车列表
     public function Shopping(){
@@ -973,29 +1019,37 @@ class productAction extends Action {
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
+
         $arr = [];
         $uid = trim($request->getParameter('user_id')); //  '分类ID'
         $sql_c = 'select a.*,c.price,c.attribute,c.img,c.num as pnum,m.product_title,c.id AS sizeid from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$uid.'\'';
         
         $r_c = $db->select($sql_c);
-        foreach ($r_c as $key => $value) {
-            $imgurl = $img.$value->img;/* end 保存*/
+        if($r_c){
+            foreach ($r_c as $key => $value) {
+                $imgurl = $img.$value->img;/* end 保存*/
 
-            $attribute = unserialize($value->attribute);
-            $size = '';
-            foreach ($attribute as $ka => $va) {
-                $size .= ' '.$va;
+                $attribute = unserialize($value->attribute);
+                $size = '';
+                foreach ($attribute as $ka => $va) {
+                    $size .= ' '.$va;
+                }
+
+                $arr[$key] = array('id' => $value->id,'uid' => $uid,'pnum' => $value->pnum,'sizeid' => $value->sizeid,'pid' => $value->Goods_id,'size' => $size,'price' => $value->price,'num' => $value->Goods_num,'pro_name' => $value->product_title,'imgurl' =>$imgurl);
             }
-
-            $arr[$key] = array('id' => $value->id,'uid' => $uid,'pnum' => $value->pnum,'sizeid' => $value->sizeid,'pid' => $value->Goods_id,'size' => $size,'price' => $value->price,'num' => $value->Goods_num,'pro_name' => $value->product_title,'imgurl' =>$imgurl);
         }
+
         echo json_encode(array('status' => 1, 'cart' => $arr));
         exit;
     }
@@ -1056,7 +1110,11 @@ class productAction extends Action {
             //查询商品id
             $csql = "select Goods_id from lkt_cart where id='$value' ";
             $cres = $db -> select($csql);
-            $pid = $cres[0]->Goods_id;
+            if($cres){
+                $pid = $cres[0]->Goods_id;
+            }else{
+                $pid = 0;
+            }
             //添加至收藏
             $this->addFavorites($userid,$pid);
             //删除指定购物车id
@@ -1078,14 +1136,16 @@ class productAction extends Action {
         $request = $this->getContext()->getRequest();
         $sql = "select user_id from lkt_user where wx_id = '$openid'";
         $r = $db->select($sql);
-        $user_id = $r[0]->user_id;
-        // 根据用户id,产品id,查询收藏表
-        $sql = "select * from lkt_user_collection where user_id = '$user_id' and p_id = '$pid'";
-        $r = $db->select($sql);
-        if (!$r) {
-            // 在收藏表里添加一条数据
-            $sql = "insert into lkt_user_collection(user_id,p_id,add_time) values('$user_id','$pid',CURRENT_TIMESTAMP)";
-            $r = $db->insert($sql);
+        if($r){
+            $user_id = $r[0]->user_id;
+            // 根据用户id,产品id,查询收藏表
+            $sql = "select * from lkt_user_collection where user_id = '$user_id' and p_id = '$pid'";
+            $r = $db->select($sql);
+            if (!$r) {
+                // 在收藏表里添加一条数据
+                $sql = "insert into lkt_user_collection(user_id,p_id,add_time) values('$user_id','$pid',CURRENT_TIMESTAMP)";
+                $r = $db->insert($sql);
+            }
         }
     }
 
@@ -1099,24 +1159,26 @@ class productAction extends Action {
 
         $sql_num = "select c.num from lkt_cart as a LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$cart_id'";
         $r_num = $db->select($sql_num);
-        $pnum = $r_num[0]->num;
-
-        if($pnum > $num){
-            $sql_u = "update lkt_cart set Goods_num = '$num' where id = '$cart_id' and Uid = '$user_id'";
-            $r_u = $db->update($sql_u);
-            if($r_u){
-                echo json_encode(array('status'=>1,'succ'=>'操作成功!'));
-                exit;
+        if($r_num){
+            $pnum = $r_num[0]->num;
+            if($pnum > $num){
+                $sql_u = "update lkt_cart set Goods_num = '$num' where id = '$cart_id' and Uid = '$user_id'";
+                $r_u = $db->update($sql_u);
+                if($r_u){
+                    echo json_encode(array('status'=>1,'succ'=>'操作成功!'));
+                    exit;
+                }else{
+                    echo json_encode(array('status'=>0,'err'=>'操作失败!'));
+                    exit;
+                }
             }else{
-                echo json_encode(array('status'=>0,'err'=>'操作失败!'));
-                exit;
-            }   
-        }else{
                 echo json_encode(array('status'=>0,'err'=>'库存不足!'));
                 exit;
+            }
+        }else{
+            echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
+            exit;
         }
-
-    
     }
 
     //余额支付
@@ -1128,21 +1190,26 @@ class productAction extends Action {
         // 根据微信id,查询用户列表(支付密码,钱包余额,用户id)
         $sql_user = "select password,money,user_id from lkt_user where wx_id='$uid'";
         $r_user = $db->select($sql_user);
-        $user_money = $r_user['0']->money; // 用户余额
-        $userid = $r_user['0']->user_id; // 用户id
+        if($r_user){
+            $user_money = $r_user['0']->money; // 用户余额
+            $userid = $r_user['0']->user_id; // 用户id
 
-        if($user_money >= $total){
-            // 根据微信id,修改用户余额
-            if($total > 0){
-                $sql = "update lkt_user set money = money-'$total' where user_id = '$userid'";
-                $r = $db->update($sql);
-                $event = $userid.'使用了'.$total.'元余额';
-                $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$userid','$total','$user_money','$event',4)";
-                $rr = $db->insert($sqll);
+            if($user_money >= $total){
+                // 根据微信id,修改用户余额
+                if($total > 0){
+                    $sql = "update lkt_user set money = money-'$total' where user_id = '$userid'";
+                    $r = $db->update($sql);
+                    $event = $userid.'使用了'.$total.'元余额';
+                    $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$userid','$total','$user_money','$event',4)";
+                    $rr = $db->insert($sqll);
+                }
+                echo json_encode(array('status' => 1, 'succ' => '扣款成功!'));
+            }else{
+                echo json_encode(array('status' => 0, 'err' => '余额不足！'));
             }
-            echo json_encode(array('status' => 1, 'succ' => '扣款成功!')); 
         }else{
-            echo json_encode(array('status' => 0, 'err' => '余额不足！'));
+            echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
+            exit;
         }
         exit;
     }
@@ -1166,13 +1233,18 @@ class productAction extends Action {
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
+
         if($r_name){
             $coupon_activity_name = $r_name;
         }else{
@@ -1181,8 +1253,14 @@ class productAction extends Action {
         // 根据微信id,查询用户id
         $sql_user = 'select user_id,money from lkt_user where wx_id=\''.$uid.'\'';
         $r_user = $db->select($sql_user);
-        $userid = $r_user['0']->user_id; // 用户id
-        $user_money = $r_user['0']->money; // 用户余额
+        if($r_user){
+            $userid = $r_user['0']->user_id; // 用户id
+            $user_money = $r_user['0']->money; // 用户余额
+        }else{
+            $userid = ''; // 用户id
+            $user_money = 0; // 用户余额
+        }
+
         
         if($type == 'wallet_Pay' && $user_money < $total){ // 当余额小于付款金额
             echo json_encode(array('status' => 0, 'err' => '余额不足！'));
@@ -1191,20 +1269,32 @@ class productAction extends Action {
             // 根据用户id、默认地址,查询地址信息
             $sql_a = 'select * from lkt_user_address where uid=\''.$userid.'\' and is_default = 1';
             $r_a = $db->select($sql_a);
-            $name = $r_a['0']->name; // 联系人
-            $mobile = $r_a['0']->tel; // 联系电话
-            $address = $r_a['0']->address_xq; // 加省市县的详细地址
+            if($r_a){
+                $name = $r_a['0']->name; // 联系人
+                $mobile = $r_a['0']->tel; // 联系电话
+                $address = $r_a['0']->address_xq; // 加省市县的详细地址
+                $sheng = $r_a['0']->sheng; // 省
+                $shi = $r_a['0']->city; // 市
+                $xian = $r_a['0']->quyu; // 县
+            }else{
+                $name = ''; // 联系人
+                $mobile = ''; // 联系电话
+                $address = ''; // 加省市县的详细地址
+                $sheng = ''; // 省
+                $shi = ''; // 市
+                $xian = ''; // 县
+            }
+
             $z_num = 0;
             $z_price = 0;
-            $sheng = $r_a['0']->sheng; // 省
-            $shi = $r_a['0']->city; // 市
-            $xian = $r_a['0']->quyu; // 县
             $sNo = $this ->order_number(); // 生成订单号
             // 根据省的id,查询省名称
             $sql = "select G_CName from admin_cg_group where GroupID = '$sheng'";
             $r1 = $db->select($sql);
             if($r1){
                 $G_CName = $r1[0]->G_CName; // 省
+            }else{
+                $G_CName = '';
             }
 
             $z_freight = 0; // 总运费
@@ -1334,7 +1424,11 @@ class productAction extends Action {
             if($coupon_id){
                 $sql = "select * from lkt_coupon where id = '$coupon_id'";
                 $r_coupon = $db->select($sql);
-                $c_money = $r_coupon[0]->money;
+                if($r_coupon){
+                    $c_money = $r_coupon[0]->money;
+                }else{
+                    $c_money = 0;
+                }
                 $z_price = $z_price - $c_money;
             }else{
                 $coupon_id = 0;
@@ -1487,9 +1581,12 @@ class productAction extends Action {
                 // 根据订单号,查询订单id、订单金额
                 $sql_id = "select * from lkt_order where sNo = '$order_id' ";
                 $r_id = $db->select($sql_id);
-                $id = $r_id['0']->id; // 订单id
+                if($r_id){
+                    $id = $r_id['0']->id; // 订单id
+                }else{
+                    $id = 0;
+                }
                 $time =date("Y-m-d h:i:s",time()); // 当前时间
-                // $ds =  $this->distribution($r_id); 
                 $ds =  false;
 
                 echo json_encode(array('status'=>1,'succ'=>'操作成功!','sNo' => $order_id,'coupon_money' => $coupon_money,'id' => $id,'pname'=>$pname,'time'=>$time,'qu'=>$ds));
@@ -1516,12 +1613,16 @@ class productAction extends Action {
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
 
         $sql_user = 'select user_id from lkt_user where wx_id=\''.$user_id.'\'';
@@ -1560,11 +1661,16 @@ class productAction extends Action {
             // 查询配置表信息
             $sql = "select * from lkt_config where id = '1'";
             $r = $db->select($sql);
-            $uploadImg = $r[0]->uploadImg;  
-            // 图片上传位置
-            if(empty($uploadImg)){
+            if($r){
+                $uploadImg = $r[0]->uploadImg;
+                // 图片上传位置
+                if(empty($uploadImg)){
+                    $uploadImg = "../LKT/images";
+                }
+            }else{
                 $uploadImg = "../LKT/images";
             }
+
             $imgURL=($_FILES['imgFile']['tmp_name']);
             $type = str_replace('image/', '.', $_FILES['imgFile']['type']);
             $imgURL_name=time().mt_rand(1,1000).$type;
@@ -1591,11 +1697,16 @@ class productAction extends Action {
             // 查询配置表信息
             $sql = "select * from lkt_config where id = '1'";
             $r = $db->select($sql);
-            $uploadImg = $r[0]->uploadImg; 
-            // 图片上传位置
-            if(empty($uploadImg)){
+            if($r){
+                $uploadImg = $r[0]->uploadImg;
+                // 图片上传位置
+                if(empty($uploadImg)){
+                    $uploadImg = "../LKT/images";
+                }
+            }else{
                 $uploadImg = "../LKT/images";
             }
+
             //敏感词表
             require('badword.src.php');
 
@@ -1618,7 +1729,11 @@ class productAction extends Action {
 
                 $sql = "select user_id from lkt_user where wx_id = '$uid'";
                 $r_name = $db->select($sql);
-                $user_id = $r_name[0]->user_id;
+                if($r_name){
+                    $user_id = $r_name[0]->user_id;
+                }else{
+                    $user_id = '';
+                }
 
                 $arr = array();
                 if($content != '' || count($images) != 0){
@@ -1644,23 +1759,20 @@ class productAction extends Action {
                                     $db->update($sql);
                                 }
                             }
-
                         }else{
-                            var_dump($sql_d);
                             echo json_encode(array('status'=>0,'err'=>'修改失败'));
                             exit;
                         }
                     }else{
                         $db->rollback();
                         echo json_encode(array('status'=>0,'err'=>'亲!评论过了1'));
-                        exit; 
-                    } 
+                        exit;
+                    }
                 }else{
                     $db->rollback();
                     echo json_encode(array('status'=>0,'err'=>'修改失败'));
                     exit;
                 }
-
             }
 
             $db->commit();
@@ -1722,13 +1834,18 @@ class productAction extends Action {
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
+
         if(!$paegr){
             $paegr = 1;
         }
@@ -1768,8 +1885,14 @@ class productAction extends Action {
         // 根据微信id,查询用户id
         $sql_user = 'select user_id,money from lkt_user where wx_id=\''.$uid.'\'';
         $r_user = $db->select($sql_user);
-        $userid = $r_user['0']->user_id; // 用户id
-        $user_money = $r_user['0']->money; // 用户余额
+        if($r_user){
+            $userid = $r_user['0']->user_id; // 用户id
+            $user_money = $r_user['0']->money; // 用户余额
+        }else{
+            $userid = '';
+            $user_money = 0;
+        }
+
 
         // 根据用户id,查询收货地址
         $sql_a = 'select id from lkt_user_address where uid=\''.$userid.'\'';
@@ -1789,24 +1912,28 @@ class productAction extends Action {
 
         $sql_d = 'select * from lkt_configure where id = '.$size;
         $r_d = $db->select($sql_d);
-
-        $attribute = unserialize($r_d[0]->attribute);
         $size1 = '';
-        foreach ($attribute as $ka => $va) {
-            $size1 .= $va.' ';
+        if($r_d){
+            $attribute = unserialize($r_d[0]->attribute);
+            foreach ($attribute as $ka => $va) {
+                $size1 .= $va.' ';
+            }
         }
-
 
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        if($r_1){
+            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+        }else{
+            $img = '';
         }
-
+        $product = array();
         $sql_c = "select * from lkt_draw as a ,lkt_product_list as b where a.id = '$choujiangid' and a.draw_brandid = b.id";
         $r_c = $db->select($sql_c);
         // 联合查询返回购物信息
@@ -1818,7 +1945,6 @@ class productAction extends Action {
             $product_title = $product['product_title']; // 商品名称
             $size1 = $size1?$size1:'默认';
         }
-
 
         if($re){
             $arr['price'] = $re[0]->price; // 产品总价
@@ -1850,16 +1976,25 @@ class productAction extends Action {
         $role = $request->getParameter('role');//分享订单ID
         if(!empty($role) && $role !='undefined'){//通过分享ID查询该团成员总数与设定拼团人数
             $sql04 = "select num,spelling_number,collage_number from lkt_draw where id = $choujiangid ";//查询
-                $r04 = $db->select($sql04);
+            $r04 = $db->select($sql04);
+            if($r04){
                 $num1 = $r04[0]->num;//每个团所需人数
                 $spelling_number = $r04[0]->spelling_number;//可抽中奖次数（默认为1）
                 $collage_number = $r04[0]->collage_number;//最少开奖团数（默认为1）
-                $sql05 = "select count(id) as aa from lkt_draw_user where draw_id = $choujiangid and role = '$role'";
-                $r05 = $db->select($sql05);
+            }else{
+                $num1 = 0;
+            }
+
+            $sql05 = "select count(id) as aa from lkt_draw_user where draw_id = $choujiangid and role = '$role'";
+            $r05 = $db->select($sql05);
+            if($r05){
                 $bb = $r05[0]->aa;
-                if($bb>=$num1){
-                    $role = 0;
-                }
+            }else{
+                $bb = 0;
+            }
+            if($bb>=$num1){
+                $role = 0;
+            }
         }
 
         // 根据微信id,查询用户id
@@ -1870,9 +2005,8 @@ class productAction extends Action {
         if(!empty($role) && $role !='undefined'){
             $role =$role;
         }else{
-             $role = 0;
+            $role = 0;
         }
-       
 
         if($type == 'balance_Pay' && $user_money < $total){ // 当余额小于付款金额
             echo json_encode(array('status' => 0, 'err' => '余额不足！'));
@@ -1882,67 +2016,75 @@ class productAction extends Action {
             // 根据用户id、默认地址,查询地址信息
             $sql_a = 'select * from lkt_user_address where uid=\''.$userid.'\' and is_default = 1';
             $r_a = $db->select($sql_a);
-            $name = $r_a['0']->name; // 联系人
-            $mobile = $r_a['0']->tel; // 联系电话
-            $address = $r_a['0']->address_xq; // 加省市县的详细地址
-            $z_num = 0;
-            $z_price = 0;
-            $sheng = $r_a['0']->sheng; // 省
-            $shi = $r_a['0']->city; // 市
-            $xian = $r_a['0']->quyu; // 县
-            $sNo = $this ->order_number(); // 生成订单号
-                $size_id = $size;//商品Size_id 
-            $sql_d = 'select * from lkt_configure where id = '.$size;
-            $r_d = $db->select($sql_d);
-            $attribute = unserialize($r_d[0]->attribute);
-            $size = '';
-            foreach ($attribute as $ka => $va) {
-                $size .= $va.' ';
+            if($r_a){
+                $name = $r_a['0']->name; // 联系人
+                $mobile = $r_a['0']->tel; // 联系电话
+                $address = $r_a['0']->address_xq; // 加省市县的详细地址
+                $sheng = $r_a['0']->sheng; // 省
+                $shi = $r_a['0']->city; // 市
+                $xian = $r_a['0']->quyu; // 县
+            }else{
+                $name = ''; // 联系人
+                $mobile = ''; // 联系电话
+                $address = ''; // 加省市县的详细地址
+                $sheng = ''; // 省
+                $shi = ''; // 市
+                $xian = ''; // 县
             }
 
+            $z_num = 0;
+            $z_price = 0;
 
-            $sql_c = "select *from lkt_draw as a ,lkt_product_list as b where a.id = '$choujiangid' and a.draw_brandid = b.id";
-                $r_c = $db->select($sql_c);
-
-                // 联合查询返回购物信息
-
-                if(!empty($r_c)){
-                    
-                    $product = (array)$r_c['0']; // 转数组
-                    $product['photo_x'] = 'http://'.$_SERVER['HTTP_HOST'].$product['imgurl'];/* 拼接图片链接*/
-                    $num =1; // 商品数量
-                    $z_num += $num; // 商品数量
-                    $price = $total; // 商品价格
-                    $z_price += $num*$price; // 总价
-                    $pid = $product['draw_brandid']; // 商品id
-                    $product_title = $product['product_title']; // 商品名称
-                    $size = $size?$size:'默认';
-                 
-                    // 循环插入订单附表
-                    $sql_d = 'insert into lkt_order_details(user_id,p_id,p_name,p_price,num,unit,r_sNo,add_time,r_status,size,sid) VALUES '."('$userid','$pid','$product_title','$price','$num','件','$sNo',CURRENT_TIMESTAMP,0,'$size','$size_id')";
-                    $r_d = $db->insert($sql_d);
-                }else{
-                    echo json_encode(array('status' => 0, 'err' => '请勿重复下单！'));
-                    exit;
+            $sNo = $this ->order_number(); // 生成订单号
+            $size_id = $size;//商品Size_id
+            $sql_d = 'select * from lkt_configure where id = '.$size;
+            $r_d = $db->select($sql_d);
+            $size = '';
+            if($r_d){
+                $attribute = unserialize($r_d[0]->attribute);
+                foreach ($attribute as $ka => $va) {
+                    $size .= $va.' ';
                 }
+            }
+
+            $sql_c = "select * from lkt_draw as a ,lkt_product_list as b where a.id = '$choujiangid' and a.draw_brandid = b.id";
+            $r_c = $db->select($sql_c);
+
+            // 联合查询返回购物信息
+            if(!empty($r_c)){
+
+                $product = (array)$r_c['0']; // 转数组
+                $product['photo_x'] = 'http://'.$_SERVER['HTTP_HOST'].$product['imgurl'];/* 拼接图片链接*/
+                $num =1; // 商品数量
+                $z_num += $num; // 商品数量
+                $price = $total; // 商品价格
+                $z_price += $num*$price; // 总价
+                $pid = $product['draw_brandid']; // 商品id
+                $product_title = $product['product_title']; // 商品名称
+                $size = $size?$size:'默认';
+
+                // 循环插入订单附表
+                $sql_d = 'insert into lkt_order_details(user_id,p_id,p_name,p_price,num,unit,r_sNo,add_time,r_status,size,sid) VALUES '."('$userid','$pid','$product_title','$price','$num','件','$sNo',CURRENT_TIMESTAMP,0,'$size','$size_id')";
+                $r_d = $db->insert($sql_d);
+            }else{
+                echo json_encode(array('status' => 0, 'err' => '请勿重复下单！'));
+                exit;
+            }
             // 插入抽奖与用户关联表
-                $sql0003 ='insert into lkt_draw_user(draw_id,user_id,time,role) VALUES '."('$choujiangid','$userid',CURRENT_TIMESTAMP,'$role')";
-                // print_r($sql0003);die;
-                $r_r = $db->insert($sql0003,"last_insert_id");
+            $sql0003 ='insert into lkt_draw_user(draw_id,user_id,time,role) VALUES '."('$choujiangid','$userid',CURRENT_TIMESTAMP,'$role')";
+            $r_r = $db->insert($sql0003,"last_insert_id");
             // 在订单表里添加一条数据
             $sql_o = 'insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,remark,pay,add_time,status,coupon_id,allow,drawid) VALUES '."('$userid','$name','$mobile','$z_num','$z_price','$sNo','$sheng','$shi','$xian','$address','$remark','$type',CURRENT_TIMESTAMP,0,'0','0','$r_r')";
-            // print_r($sql_o);die;
             $r_o = $db->insert($sql_o,"last_insert_id");
-                    if( $role == 0){
-                      //把抽奖与用户关联的
-                        $sql06 = "update lkt_draw_user set role ='$r_r' where id = '$r_r' ";
-                        $r06 = $db->update($sql06);  
-                    }
+            if( $role == 0){
+              //把抽奖与用户关联的
+                $sql06 = "update lkt_draw_user set role ='$r_r' where id = '$r_r' ";
+                $r06 = $db->update($sql06);
+            }
             if($r_d > 0 && $r_o > 0){
-                
                 //返回
                 $arr = array('pay_type' => $type,'sNo' => $sNo,'coupon_money' => $total,'coupon_id' => 0,'order_id' => $r_o , 'type1' => 11);
-               if(!empty($bb)){
+                if(!empty($bb)){
                     if($bb>=$num1){
                         echo json_encode(array('status' => 1, 'arr' => $arr, 'err' => '该团已满，生成新团！'));
                         exit;
@@ -1955,7 +2097,6 @@ class productAction extends Action {
                     echo json_encode(array('status' => 1, 'arr' => $arr, 'err' => ''));
                         exit;
                 }
-                
             }else{
                 echo json_encode(array('status' => 0, 'err' => '请勿重复下单2！'));
                 exit;

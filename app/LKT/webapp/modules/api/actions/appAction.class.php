@@ -255,7 +255,7 @@ class appAction extends Action {
          if($r_software){
              $software_id = $r_software[0]->id;
          }
-//        $software_id = $software_name;
+
         // 查询插件表里,状态为启用的插件
         $sql = "select * from lkt_plug_ins where status = 1 and type = 0 and software_id like '%$software_id%'";
         $r_c = $db->select($sql);

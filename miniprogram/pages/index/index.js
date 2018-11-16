@@ -181,11 +181,14 @@ Page({
           var title = res.data.title;
           app.d.bgcolor = bgcolor;
           var arr = Object.keys(twoList[0].distributor);
+          var banner_num = Object.keys(banner); // 轮播图
+          console.log(banner_num, 123333, banner.length)
           var notice = res.data.notice;
           that.setData({
             distributor: arr,
             inforList: notice,
             banner: banner,
+            banner_num: banner_num,
             twoList: twoList,
             bgcolor: bgcolor,
             plug: plug,

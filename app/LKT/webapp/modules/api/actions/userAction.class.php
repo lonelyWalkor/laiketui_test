@@ -97,10 +97,17 @@ class userAction extends Action {
         // 查询会员信息
         $sql = "select * from lkt_user where wx_id = '$openid'";
         $r = $db -> select($sql);
-        $user['headimgurl'] = $r[0]->headimgurl;
-        $user['wx_name'] = $r[0]->wx_name;
-        $user['user_id'] = $r[0]->user_id;
-        $wx_name = $r[0]->user_id;
+        if($r){
+            $user['headimgurl'] = $r[0]->headimgurl;
+            $user['wx_name'] = $r[0]->wx_name;
+            $user['user_id'] = $r[0]->user_id;
+            $wx_name = $r[0]->user_id;
+        }else{
+            $user['headimgurl'] = '';
+            $user['wx_name'] = '';
+            $user['user_id'] = '';
+            $wx_name = '';
+        }
 
         // 查询会员信息
         $sqlu = "select u.user_name from lkt_user_distribution as d LEFT JOIN lkt_user as u  ON d.pid = u.user_id where d.user_id = '$wx_name' ";
@@ -121,29 +128,27 @@ class userAction extends Action {
                 $res_order[$key] =  $order_num;
             }else{
                 if($value==1){
-                     $sql_order01 = "select drawid from lkt_order where status = '$value' and  user_id = '$wx_name'" ;
-                     $re = $db->select($sql_order01);
-                     if(!empty($re)){//未发货
+                    $sql_order01 = "select drawid from lkt_order where status = '$value' and  user_id = '$wx_name'" ;
+                    $re = $db->select($sql_order01);
+                    if(!empty($re)){//未发货
                         foreach ($re as $key001 => $value001) {
-                                $drawid = $value001->drawid ;
-                                if($drawid > 0){
-                                   $sql0001 = "select lottery_status,draw_id from lkt_draw_user where id= '$drawid'";
-                                    $ddd= $db->select($sql0001);
-                                        if(!empty($ddd)){
-                                         $lottery_status = $ddd[0]->lottery_status;
-                                        if($lottery_status !=4){
-                                            //抽奖成功
-                                            unset($re[$key001]);
-                                        }
+                            $drawid = $value001->drawid ;
+                            if($drawid > 0){
+                                $sql0001 = "select lottery_status,draw_id from lkt_draw_user where id= '$drawid'";
+                                $ddd= $db->select($sql0001);
+                                if(!empty($ddd)){
+                                    $lottery_status = $ddd[0]->lottery_status;
+                                    if($lottery_status !=4){
+                                        //抽奖成功
+                                        unset($re[$key001]);
                                     }
-
                                 }
+                            }
                         }
-                     }
-                     $res_order[$key] =  sizeof($re);
-                     
+                    }
+                    $res_order[$key] =  sizeof($re);
                 }else{
-                   $sql_order = "select num from lkt_order where status = '$value' and  user_id = '$wx_name'" ;
+                    $sql_order = "select num from lkt_order where status = '$value' and  user_id = '$wx_name'" ;
                     $order_num = $db -> selectrow($sql_order);
                     $res_order[$key] =  $order_num; 
                 }
@@ -214,14 +219,11 @@ class userAction extends Action {
                 exit();
             }
         }else{
-
-             echo json_encode(array('status'=>0,'err'=>'NO1'));
-                exit();
+            echo json_encode(array('status'=>0,'err'=>'NO1'));
+            exit();
         }
-        
     }
-    
-    
+
     // 请求我的详细数据
     public function details(){
         $db = DBAction::getInstance();
@@ -231,11 +233,17 @@ class userAction extends Action {
         // 查询单位
         $sql = "select * from lkt_finance_config where id = 1";
         $r_1 = $db->select($sql);
-        $user['min_amount'] = $r_1[0]->min_amount; // 最小提现金额
-        $user['max_amount'] = $r_1[0]->max_amount; // 最大提现金额
-        $user['unit'] = $r_1[0]->unit; // 单位
-        $user['multiple'] = $r_1[0]->multiple; // 提现倍数
-
+        if($r_1){
+            $user['min_amount'] = $r_1[0]->min_amount; // 最小提现金额
+            $user['max_amount'] = $r_1[0]->max_amount; // 最大提现金额
+            $user['unit'] = $r_1[0]->unit; // 单位
+            $user['multiple'] = $r_1[0]->multiple; // 提现倍数
+        }else{
+            $user['min_amount'] = 0; // 最小提现金额
+            $user['max_amount'] = 0; // 最大提现金额
+            $user['unit'] = 0; // 单位
+            $user['multiple'] = 0; // 提现倍数
+        }
 
         // 查询会员信息
         $sql = "select * from lkt_user where wx_id = '$openid'";
@@ -316,13 +324,14 @@ class userAction extends Action {
             $r = $db->select($sql);
             if($r){
                 $appid = $r[0]->appid; // 小程序唯一标识
+            }else{
+                $appid = '';
             }
 
             include_once "wxBizDataCrypt.php";
             $data = '';
             $pc = new WXBizDataCrypt($appid, $sessionKey);
             $errCode = $pc->decryptData($encryptedData, $iv, $data );
-            
             if ($errCode == 0) {
                 $arr = json_decode($data,true);
                 $mobile = $arr['phoneNumber'];
@@ -357,102 +366,109 @@ class userAction extends Action {
         // 根据微信id,查询会员金额
         $sql = "select * from lkt_user where wx_id = '$openid'";
         $r = $db -> select($sql);
-        $money = $r[0]->money; // 会员金额
-        // 提现金额是否小于等于0,或者大于现有金额
-        if($amoney > $money || $amoney <= 0){
-            echo json_encode(array('status'=>0,'info'=>'输入金额不正确!'));
-            exit();
-        }
-        // 提现金额小于最小提现金额
-        if($amoney < $min_amount){
-            echo json_encode(array('status'=>0,'info'=>'提现金额过少!'));
-            exit();
-        }
-        // 提现金额大于最大提现金额
-        if($amoney > $max_amount){
-            echo json_encode(array('status'=>0,'info'=>'提现金额过多!'));
-            exit();
-        }
-        // 银行卡号不为数字
-        if(is_numeric($Bank_card_number) == false){
-            echo json_encode(array('status'=>0,'info'=>'请输入卡号!'));
-            exit();
-        }
-        // 根据卡号,查询银行名称
-        require_once('bankList.php'); 
-        $r = $this->bankInfo($Bank_card_number,$bankList);
-        if($r == ''){
-            echo json_encode(array('status'=>0,'info'=>'卡号不正确!'));
-            exit();
-        }else{
-            $name = strstr($r,'银行',true) . "银行";
-            if($name != $Bank_name){
-                echo json_encode(array('status'=>0,'info'=>'银行信息不匹配!'));
+        if($r){
+            $money = $r[0]->money; // 会员金额
+
+            // 提现金额是否小于等于0,或者大于现有金额
+            if($amoney > $money || $amoney <= 0){
+                echo json_encode(array('status'=>0,'info'=>'输入金额不正确!'));
                 exit();
             }
-        }
-        // 查询提现参数表(手续费)
-        $sql = "select * from lkt_finance_config where id = 1";
-        $r = $db->select($sql);
-        $multiple = $r[0]->multiple;
-        $tax = $r[0]->service_charge; // 设置的手续费参数
-        $jine = $amoney; // 提现金额
-        //开启整数倍提现
-        if($multiple){
-            if($amoney%$multiple == 0){
-
+            // 提现金额小于最小提现金额
+            if($amoney < $min_amount){
+                echo json_encode(array('status'=>0,'info'=>'提现金额过少!'));
+                exit();
+            }
+            // 提现金额大于最大提现金额
+            if($amoney > $max_amount){
+                echo json_encode(array('status'=>0,'info'=>'提现金额过多!'));
+                exit();
+            }
+            // 银行卡号不为数字
+            if(is_numeric($Bank_card_number) == false){
+                echo json_encode(array('status'=>0,'info'=>'请输入卡号!'));
+                exit();
+            }
+            // 根据卡号,查询银行名称
+            require_once('bankList.php');
+            $r = $this->bankInfo($Bank_card_number,$bankList);
+            if($r == ''){
+                echo json_encode(array('status'=>0,'info'=>'卡号不正确!'));
+                exit();
             }else{
-                echo json_encode(array('status'=>0,'info'=>'提现金额需要是'.$multiple.'的倍数'));
-                exit();
-            }
-        }
-
-        $cost = $amoney * $tax;  // 实际的手续费
-        $amoney = $amoney - $cost; // 实际提现金额
-        // 根据wx_id查询会员id
-        $sql = "select money,user_name,user_id from lkt_user where wx_id = '$openid'";
-        $r = $db->select($sql);
-        $user_name = $r[0]->user_name; // 用户名
-        $user_id =  $r[0]->user_id; // user_id
-        // 根据用户id和未核审,查询数据
-        $sql = "select count(id) as a from lkt_withdraw where status = 0 and user_id = '$user_id'";
-        $rnum = $db->select($sql);
-        $count = $rnum[0]->a; // 条数
-        if($count > 0){
-            echo json_encode(array('status'=>0,'info'=>'已有正在审核的申请'));
-            exit();
-        }else{
-            // 根据银行名称、卡号，查询用户银行卡信息
-            $sql = "select id,Cardholder from lkt_user_bank_card where Bank_name = '$Bank_name' and Bank_card_number = '$Bank_card_number' and user_id = '$user_id'";
-            $r1 = $db->select($sql);
-            if($r1){
-                $bank_id = $r1[0]->id;
-                if($Cardholder != $r1[0]->Cardholder){
-                    echo json_encode(array('status'=>0,'info'=>'持卡人信息错误'));
+                $name = strstr($r,'银行',true) . "银行";
+                if($name != $Bank_name){
+                    echo json_encode(array('status'=>0,'info'=>'银行信息不匹配!'));
                     exit();
                 }
-            }else{
-                $sql = "insert into lkt_user_bank_card(user_id,Cardholder,Bank_name,Bank_card_number,mobile,add_date,is_default) values ('$user_id','$Cardholder','$Bank_name','$Bank_card_number','$mobile',CURRENT_TIMESTAMP,1)";
-                $bank_id = $db->insert($sql,'affectedrows');
             }
-            $sql = "update lkt_user set money = money - '$jine' where wx_id = '$openid'";
-            $res = $db->update($sql);
-            // 在提现列表里添加一条数据
-            $sql = "insert into lkt_withdraw (name,user_id,wx_id,mobile,bank_id,money,s_charge,status,add_date) values ('$user_name','$user_id','$openid','$mobile','$bank_id','$amoney','$cost',0,CURRENT_TIMESTAMP)";
-            $res = $db->insert($sql);
-            if($res == 1){
-                $event = $user_id.'申请提现'.$jine.'元余额';
-                $user_money = $r[0]->money;
-                $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$user_id','$jine','$user_money','$event',2)";
-                $db->insert($sqll);
+            // 查询提现参数表(手续费)
+            $sql = "select * from lkt_finance_config where id = 1";
+            $r = $db->select($sql);
+            $multiple = $r[0]->multiple;
+            $tax = $r[0]->service_charge; // 设置的手续费参数
+            $jine = $amoney; // 提现金额
+            //开启整数倍提现
+            if($multiple){
+                if($amoney%$multiple == 0){
 
-                echo json_encode(array('status'=>1,'info'=>'申请成功!'));
+                }else{
+                    echo json_encode(array('status'=>0,'info'=>'提现金额需要是'.$multiple.'的倍数'));
+                    exit();
+                }
+            }
+
+            $cost = $amoney * $tax;  // 实际的手续费
+            $amoney = $amoney - $cost; // 实际提现金额
+            // 根据wx_id查询会员id
+            $sql = "select money,user_name,user_id from lkt_user where wx_id = '$openid'";
+            $r = $db->select($sql);
+            $user_name = $r[0]->user_name; // 用户名
+            $user_id =  $r[0]->user_id; // user_id
+            // 根据用户id和未核审,查询数据
+            $sql = "select count(id) as a from lkt_withdraw where status = 0 and user_id = '$user_id'";
+            $rnum = $db->select($sql);
+            $count = $rnum[0]->a; // 条数
+            if($count > 0){
+                echo json_encode(array('status'=>0,'info'=>'已有正在审核的申请'));
                 exit();
             }else{
-                echo json_encode(array('status'=>0,'info'=>'申请失败!'));
-                exit();
+                // 根据银行名称、卡号，查询用户银行卡信息
+                $sql = "select id,Cardholder from lkt_user_bank_card where Bank_name = '$Bank_name' and Bank_card_number = '$Bank_card_number' and user_id = '$user_id'";
+                $r1 = $db->select($sql);
+                if($r1){
+                    $bank_id = $r1[0]->id;
+                    if($Cardholder != $r1[0]->Cardholder){
+                        echo json_encode(array('status'=>0,'info'=>'持卡人信息错误'));
+                        exit();
+                    }
+                }else{
+                    $sql = "insert into lkt_user_bank_card(user_id,Cardholder,Bank_name,Bank_card_number,mobile,add_date,is_default) values ('$user_id','$Cardholder','$Bank_name','$Bank_card_number','$mobile',CURRENT_TIMESTAMP,1)";
+                    $bank_id = $db->insert($sql,'affectedrows');
+                }
+                $sql = "update lkt_user set money = money - '$jine' where wx_id = '$openid'";
+                $res = $db->update($sql);
+                // 在提现列表里添加一条数据
+                $sql = "insert into lkt_withdraw (name,user_id,wx_id,mobile,bank_id,money,s_charge,status,add_date) values ('$user_name','$user_id','$openid','$mobile','$bank_id','$amoney','$cost',0,CURRENT_TIMESTAMP)";
+                $res = $db->insert($sql);
+                if($res == 1){
+                    $event = $user_id.'申请提现'.$jine.'元余额';
+                    $user_money = $r[0]->money;
+                    $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$user_id','$jine','$user_money','$event',2)";
+                    $db->insert($sqll);
+
+                    echo json_encode(array('status'=>1,'info'=>'申请成功!'));
+                    exit();
+                }else{
+                    echo json_encode(array('status'=>0,'info'=>'申请失败!'));
+                    exit();
+                }
             }
+        }else{
+            echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
+            exit();
         }
+
         return;
     }
     public function verify_bank()
@@ -504,79 +520,100 @@ class userAction extends Action {
             // 根据新闻id,查询新闻信息
             $sql = "select * from lkt_news_list where id = '$id'";
             $r = $db->select($sql);
-            $total_amount = $r[0]->total_amount; // 红包总金额
-            $total_num = $r[0]->total_num; // 红包数量
-            $wishing = $r[0]->wishing; // 祝福语
-            $min=0.01;//每个人最少能收到0.01元   
-            if(!empty($total_amount) && $total_num !=1 ){
-                $safe_total=($total_amount-($total_num-1)*$min)/($total_num-1); // 随机安全上限   
-                $money=mt_rand($min*100,$safe_total*100)/100;  // 红包金额 
-                $total_amount=$total_amount-$money; // 剩余金额
-                // 把剩余金额替换原数据库金额
-                $sql = "update lkt_news_list set total_amount=$total_amount,total_num='$total_num'-1 where id = '$id'";
-                $r = $db->update($sql);
-                // 根据wxid,查询会员信息
-                $sql = "select * from lkt_user where wx_id = '$openid'";
-                $r = $db->select($sql);
-                $user_id = $r[0]->user_id; // 用户id
-                $wx_name = $r[0]->wx_name; // 微信昵称
-                $sex = $r[0]->sex; // 性别
-                // 在分享列表添加一条数据
-                $sql = "insert into lkt_share (user_id,wx_id,wx_name,sex,type,Article_id,coupon) values ('$user_id','$openid','$wx_name','$sex','$n','$id','$money')";
-                $r = $db->insert($sql);
+            if($r){
+                $total_amount = $r[0]->total_amount; // 红包总金额
+                $total_num = $r[0]->total_num; // 红包数量
+                $wishing = $r[0]->wishing; // 祝福语
+                $min=0.01;//每个人最少能收到0.01元
+                if(!empty($total_amount) && $total_num !=1 ){
+                    $safe_total=($total_amount-($total_num-1)*$min)/($total_num-1); // 随机安全上限
+                    $money=mt_rand($min*100,$safe_total*100)/100;  // 红包金额
+                    $total_amount=$total_amount-$money; // 剩余金额
+                    // 把剩余金额替换原数据库金额
+                    $sql = "update lkt_news_list set total_amount=$total_amount,total_num='$total_num'-1 where id = '$id'";
+                    $db->update($sql);
+                    // 根据wxid,查询会员信息
+                    $sql = "select * from lkt_user where wx_id = '$openid'";
+                    $rr = $db->select($sql);
+                    if($rr){
+                        $user_id = $rr[0]->user_id; // 用户id
+                        $wx_name = $rr[0]->wx_name; // 微信昵称
+                        $sex = $rr[0]->sex; // 性别
+                        // 在分享列表添加一条数据
+                        $sql = "insert into lkt_share (user_id,wx_id,wx_name,sex,type,Article_id,coupon) values ('$user_id','$openid','$wx_name','$sex','$n','$id','$money')";
+                        $db->insert($sql);
 
-                $sql = "update lkt_user set money = money+'$money' where wx_id = '$openid'";
-                $r = $db->update($sql);
-                
-                //添加日志
-                $ymoney = $r[0]->money;
-                $event = $user_id.'分享获得了'.$money.'元';
-                $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$user_id','$money','$ymoney','$event',3)";
-                $rr = $db->insert($sqll);
+                        $sql = "update lkt_user set money = money+'$money' where wx_id = '$openid'";
+                        $db->update($sql);
 
-                $text = $wx_name . '领取了' . $money . '元';
-                echo json_encode(array('status'=>1,'text'=>$money,'wishing'=>$wishing));
-                exit();
+                        //添加日志
+                        $ymoney = $r[0]->money;
+                        $event = $user_id.'分享获得了'.$money.'元';
+                        $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$user_id','$money','$ymoney','$event',3)";
+                        $rr = $db->insert($sqll);
+
+                        $text = $wx_name . '领取了' . $money . '元';
+                        echo json_encode(array('status'=>1,'text'=>$money,'wishing'=>$wishing));
+                        exit();
+                    }else{
+                        echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
+                        exit();
+                    }
+                }else{
+                    $text = "红包已抢完";
+                    $wishing = '';
+                    echo json_encode(array('status'=>1,'text'=>$text,'wishing'=>$wishing));
+                    exit();
+                }
             }else{
-                $text = "红包已抢完";
-                $wishing = '';
-                echo json_encode(array('status'=>1,'text'=>$text,'wishing'=>$wishing));
+                echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
                 exit();
             }
         }else if($n == 1){
             // 根据文章id,查询文章信息
             $sql = "select * from lkt_article where Article_id = '$id'";
             $r = $db->select($sql);
-            $total_amount = $r[0]->total_amount; // 红包总金额
-            $total_num = $r[0]->total_num; // 红包数量
-            $wishing = $r[0]->wishing; // 祝福语
-            $min=0.01;//每个人最少能收到0.01元   
-            if(!empty($total_amount) && $total_num !=1 ){
-                $safe_total=($total_amount-($total_num-1)*$min)/($total_num-1); // 随机安全上限   
-                $money=mt_rand($min*100,$safe_total*100)/100;  // 红包金额 
-                $total_amount=$total_amount-$money; // 剩余金额
-                // 把剩余金额替换原数据库金额
-                $sql = "update lkt_article set total_amount=$total_amount,total_num='$total_num'-1 where Article_id = '$id'";
-                $r = $db->update($sql);
-                // 根据wxid,查询会员信息
-                $sql = "select * from lkt_user where wx_id = '$openid'";
-                $r = $db->select($sql);
-                $user_id = $r[0]->user_id; // 用户id
-                $wx_name = $r[0]->wx_name; // 微信昵称
-                $sex = $r[0]->sex; // 性别
-                // 在分享列表添加一条数据
-                $sql = "insert into lkt_share (user_id,wx_id,wx_name,sex,type,Article_id,coupon) values ('$user_id','$openid','$wx_name','$sex','$n','$id','$money')";
-                $r = $db->insert($sql);
+            if($r){
+                $total_amount = $r[0]->total_amount; // 红包总金额
+                $total_num = $r[0]->total_num; // 红包数量
+                $wishing = $r[0]->wishing; // 祝福语
+                $min=0.01;//每个人最少能收到0.01元
+                if(!empty($total_amount) && $total_num !=1 ){
+                    $safe_total=($total_amount-($total_num-1)*$min)/($total_num-1); // 随机安全上限
+                    $money=mt_rand($min*100,$safe_total*100)/100;  // 红包金额
+                    $total_amount=$total_amount-$money; // 剩余金额
+                    // 把剩余金额替换原数据库金额
+                    $sql = "update lkt_article set total_amount=$total_amount,total_num='$total_num'-1 where Article_id = '$id'";
+                    $db->update($sql);
+                    // 根据wxid,查询会员信息
+                    $sql = "select * from lkt_user where wx_id = '$openid'";
+                    $rr = $db->select($sql);
+                    if($rr){
+                        $user_id = $rr[0]->user_id; // 用户id
+                        $wx_name = $rr[0]->wx_name; // 微信昵称
+                        $sex = $rr[0]->sex; // 性别
 
-                $sql = "update lkt_user set money = money+'$money' where wx_id = '$openid'";
-                $r = $db->update($sql);
+                        // 在分享列表添加一条数据
+                        $sql = "insert into lkt_share (user_id,wx_id,wx_name,sex,type,Article_id,coupon) values ('$user_id','$openid','$wx_name','$sex','$n','$id','$money')";
+                        $db->insert($sql);
 
-                echo json_encode(array('status'=>1,'text'=>$money,'wishing'=>$wishing));
-                exit();
+                        $sql = "update lkt_user set money = money+'$money' where wx_id = '$openid'";
+                        $db->update($sql);
+
+                        echo json_encode(array('status'=>1,'text'=>$money,'wishing'=>$wishing));
+                        exit();
+                    }else{
+                        echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
+                        exit();
+                    }
+                }else{
+                    $text = "红包已抢完";
+                    $wishing = '';
+                    echo json_encode(array('status'=>1,'text'=>$text,'wishing'=>$wishing));
+                    exit();
+                }
             }else{
-                $text = "红包已抢完";
-                $wishing = '';
-                echo json_encode(array('status'=>1,'text'=>$text,'wishing'=>$wishing));
+                echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
                 exit();
             }
         }
@@ -598,43 +635,51 @@ class userAction extends Action {
             $province = $r[0]->province;
             $city = $r[0]->city;
             $county = $r[0]->county;
-
+            $sheng = [];
+            $shi = [];
+            $xian = [];
             // 查询省
             $sql = "select  *  from admin_cg_group a  where a.G_ParentID=0";
             $rr = $db->select($sql);
-            foreach ($rr as $k => $v) {
-                $result = array();
-                $result['GroupID'] = $v->GroupID; // 编号
-                $result['G_CName'] = $v->G_CName; // 省名
-                $result['G_ParentID'] = $v->G_ParentID; // 类型
-                $sheng[] = $result;
-                unset($result); // 销毁指定变量
+            if($rr){
+                foreach ($rr as $k => $v) {
+                    $result = array();
+                    $result['GroupID'] = $v->GroupID; // 编号
+                    $result['G_CName'] = $v->G_CName; // 省名
+                    $result['G_ParentID'] = $v->G_ParentID; // 类型
+                    $sheng[] = $result;
+                    unset($result); // 销毁指定变量
+                }
             }
-            
+
             // 查询市
             $sql = "select  *  from admin_cg_group a  where a.G_ParentID=2";
             $rr = $db->select($sql);
-            foreach ($rr as $k => $v) {
-                $result = array();
-                $result['GroupID'] = $v->GroupID; // 编号
-                $result['G_CName'] = $v->G_CName; // 市名
-                $result['G_ParentID'] = $v->G_ParentID; // 类型
-                $shi[] = $result;
-                unset($result); // 销毁指定变量
+            if($rr){
+                foreach ($rr as $k => $v) {
+                    $result = array();
+                    $result['GroupID'] = $v->GroupID; // 编号
+                    $result['G_CName'] = $v->G_CName; // 市名
+                    $result['G_ParentID'] = $v->G_ParentID; // 类型
+                    $shi[] = $result;
+                    unset($result); // 销毁指定变量
+                }
             }
 
-                
             // 查询县
             $sql = "select  *  from admin_cg_group a  where a.G_ParentID=35";
             $rr = $db->select($sql);
-            foreach ($rr as $k => $v) {
-                $result = array();
-                $result['GroupID'] = $v->GroupID; // 编号
-                $result['G_CName'] = $v->G_CName; // 县名
-                $result['G_ParentID'] = $v->G_ParentID; // 类型
-                $xian[] = $result;
-                unset($result); // 销毁指定变量
+            if($rr){
+                foreach ($rr as $k => $v) {
+                    $result = array();
+                    $result['GroupID'] = $v->GroupID; // 编号
+                    $result['G_CName'] = $v->G_CName; // 县名
+                    $result['G_ParentID'] = $v->G_ParentID; // 类型
+                    $xian[] = $result;
+                    unset($result); // 销毁指定变量
+                }
             }
+
             echo json_encode(array('status'=>1,'sheng'=>$sheng,'shi'=>$shi,'xian'=>$xian));
             exit();
         }else{
@@ -656,17 +701,25 @@ class userAction extends Action {
         // 查询省的编号
         $sql = "select * from admin_cg_group a where a.G_ParentID=0";
         $r = $db->select($sql);
-        $GroupID = $r[$count]->GroupID; // 根据行数,获取第几条数据
+        if($r){
+            $GroupID = $r[$count]->GroupID; // 根据行数,获取第几条数据
+        }else{
+            $GroupID = 0;
+        }
+        $shi = [];
+
         // 根据省查询市
         $sql = "select * from admin_cg_group a where a.G_ParentID='$GroupID'";
         $r = $db->select($sql);
-        foreach ($r as $k => $v) {
-            $result = array();
-            $result['GroupID'] = $v->GroupID; // 编号
-            $result['G_CName'] = $v->G_CName; // 市名
-            $result['G_ParentID'] = $v->G_ParentID; // 类型
-            $shi[] = $result;
-            unset($result); // 销毁指定变量
+        if($r){
+            foreach ($r as $k => $v) {
+                $result = array();
+                $result['GroupID'] = $v->GroupID; // 编号
+                $result['G_CName'] = $v->G_CName; // 市名
+                $result['G_ParentID'] = $v->G_ParentID; // 类型
+                $shi[] = $result;
+                unset($result); // 销毁指定变量
+            }
         }
         echo json_encode(array('status'=>1,'shi'=>$shi,));
         exit();
@@ -681,22 +734,34 @@ class userAction extends Action {
         // 查询省的编号
         $sql = "select * from admin_cg_group a where a.G_ParentID=0";
         $r = $db->select($sql);
-        $GroupID = $r[$count]->GroupID;
+        if($r){
+            $GroupID = $r[$count]->GroupID; // 根据行数,获取第几条数据
+        }else{
+            $GroupID = 0;
+        }
+        $xian = [];
         // 根据省查询市
         $sql = "select * from admin_cg_group a where a.G_ParentID='$GroupID'";
         $r = $db->select($sql);
-        $GroupID = $r[$column]->GroupID;
+        if($r){
+            $GroupID = $r[$column]->GroupID; // 根据行数,获取第几条数据
+        }else{
+            $GroupID = 0;
+        }
         // 根据市查询县
         $sql = "select * from admin_cg_group a where a.G_ParentID='$GroupID'";
         $r = $db->select($sql);
-        foreach ($r as $k => $v) {
-            $result = array();
-            $result['GroupID'] = $v->GroupID; // 编号
-            $result['G_CName'] = $v->G_CName; // 县名
-            $result['G_ParentID'] = $v->G_ParentID; // 类型
-            $xian[] = $result;
-            unset($result); // 销毁指定变量
+        if($r){
+            foreach ($r as $k => $v) {
+                $result = array();
+                $result['GroupID'] = $v->GroupID; // 编号
+                $result['G_CName'] = $v->G_CName; // 县名
+                $result['G_ParentID'] = $v->G_ParentID; // 类型
+                $xian[] = $result;
+                unset($result); // 销毁指定变量
+            }
         }
+
         echo json_encode(array('status'=>1,'xian'=>$xian,));
         exit();
         return;
@@ -712,19 +777,35 @@ class userAction extends Action {
         // 查询省的编号
         $sql = "select * from admin_cg_group a where a.G_ParentID=0";
         $r = $db->select($sql);
-        $GroupID = $r[$sheng]->GroupID;
-        $province = $r[$sheng]->G_CName;
+        if($r){
+            $GroupID = $r[$sheng]->GroupID;
+            $province = $r[$sheng]->G_CName;
+        }else{
+            $GroupID = 0;
+            $province = '';
+        }
+
         // 根据省查询市
         $sql = "select * from admin_cg_group a where a.G_ParentID='$GroupID'";
         $r = $db->select($sql);
-        $GroupID = $r[$shi]->GroupID;
-        $city = $r[$shi]->G_CName;
+        if($r){
+            $GroupID = $r[$shi]->GroupID;
+            $city = $r[$shi]->G_CName;
+        }else{
+            $GroupID = 0;
+            $city = '';
+        }
 
         // 根据市查询县
         $sql = "select * from admin_cg_group a where a.G_ParentID='$GroupID'";
         $r = $db->select($sql);
-        $GroupID = $r[$xuan]->GroupID;
-        $county = $r[$xuan]->G_CName;
+        if($r){
+            $GroupID = $r[$xuan]->GroupID;
+            $county = $r[$xuan]->G_CName;
+        }else{
+            $GroupID = 0;
+            $county = '';
+        }
 
         echo json_encode(array('status'=>1,'province'=>$province,'city'=>$city,'county'=>$county));
         exit();
@@ -746,36 +827,52 @@ class userAction extends Action {
         // 查询省的编号
         $sql ="select GroupID from admin_cg_group where G_CName='$province'";
         $r = $db->select($sql);
-        $sheng = $r[0]->GroupID;
+        if($r){
+            $sheng = $r[0]->GroupID;
+        }else{
+            $sheng = 0;
+        }
         // 查询市的编号
         $sql ="select GroupID from admin_cg_group where G_CName='$city'";
         $r = $db->select($sql);
-        $shi = $r[0]->GroupID;
+        if($r){
+            $shi = $r[0]->GroupID;
+        }else{
+            $shi = 0;
+        }
         // 查询县的编号
         $sql ="select GroupID from admin_cg_group where G_CName='$county'";
         $r = $db->select($sql);
-        $xian = $r[0]->GroupID;
-        //   "/^1[345789]\d{9}$/"
+        if($r){
+            $xian = $r[0]->GroupID;
+        }else{
+            $xian = 0;
+        }
         if(preg_match("/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$/", $mobile)){
             // 根据微信id,查询会员id
             $sql = "select * from lkt_user where wx_id = '$openid'";
             $r = $db->select($sql);
-            $user_id = $r[0]->user_id; // 用户id
-            $address_xq = $province . $city . $county . $address; // 带省市县的详细地址
-            $sql = "select id from lkt_user_address where uid = '$user_id'";
-            $r = $db->select($sql);
             if($r){
-                $sql = "insert into lkt_user_address(name,tel,sheng,city,quyu,address,address_xq,uid,is_default) values('$user_name','$mobile','$sheng','$shi','$xian','$address','$address_xq','$user_id',0)";
-                $rr = $db->insert($sql);
+                $user_id = $r[0]->user_id; // 用户id
+                $address_xq = $province . $city . $county . $address; // 带省市县的详细地址
+                $sql = "select id from lkt_user_address where uid = '$user_id'";
+                $r = $db->select($sql);
+                if($r){
+                    $sql = "insert into lkt_user_address(name,tel,sheng,city,quyu,address,address_xq,uid,is_default) values('$user_name','$mobile','$sheng','$shi','$xian','$address','$address_xq','$user_id',0)";
+                    $rr = $db->insert($sql);
+                }else{
+                    $sql = "insert into lkt_user_address(name,tel,sheng,city,quyu,address,address_xq,uid,is_default) values('$user_name','$mobile','$sheng','$shi','$xian','$address','$address_xq','$user_id',1)";
+                    $rr = $db->insert($sql);
+                }
+                if($rr >= 0){
+                    echo json_encode(array('status'=>1,'info'=>'保存成功'));
+                    exit();
+                } else {
+                    echo json_encode(array('status'=>0,'info'=>'未知原因,修改失败！'));
+                    exit();
+                }
             }else{
-                $sql = "insert into lkt_user_address(name,tel,sheng,city,quyu,address,address_xq,uid,is_default) values('$user_name','$mobile','$sheng','$shi','$xian','$address','$address_xq','$user_id',1)";
-                $rr = $db->insert($sql);
-            }
-            if($rr >= 0){
-                echo json_encode(array('status'=>1,'info'=>'保存成功'));
-                exit();
-            } else {
-                echo json_encode(array('status'=>0,'info'=>'未知原因,修改失败！'));
+                echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
                 exit();
             }
         }else{
@@ -792,21 +889,43 @@ class userAction extends Action {
         $openid = $_POST['openid'];
         $sql = "select * from lkt_user where user_id = '$user_id'";
         $r = $db->select($sql);
-
-        $sql001 = "select * from lkt_user where wx_id = '$openid'";
-        $r001 = $db->select($sql001);
-
-            // 查询余额参数表
-            $sql0001 = "select * from lkt_finance_config where id = 1";
-            $r0001 = $db->select($sql0001);
-            $transfer_multiple = $r0001[0]->transfer_multiple;
-        if(!empty($r)){
+        if($r){
             $user['wx_name'] = $r[0]->wx_name;
             $user['headimgurl'] = $r[0]->headimgurl;
             $user['user_id'] = $r[0]->user_id;
+        }else{
+            $user['wx_name'] = '';
+            $user['headimgurl'] = '';
+            $user['user_id'] = '';
+        }
+        $sql001 = "select * from lkt_user where wx_id = '$openid'";
+        $r001 = $db->select($sql001);
+        if($r001){
             $user['money'] = $r001[0]->money;
             $user['score'] = $r001[0]->score;
+        }else{
+            $user['money'] = 0;
+            $user['score'] = 0;
+        }
+
+        // 查询余额参数表
+        $sql0001 = "select * from lkt_finance_config where id = 1";
+        $r0001 = $db->select($sql0001);
+        if($r0001){
+            $transfer_multiple = $r0001[0]->transfer_multiple;
             $user['transfer_multiple'] = $transfer_multiple;
+        }else{
+            $transfer_multiple = 0;
+            $user['transfer_multiple'] = '';
+        }
+
+        if(!empty($r)){
+//            $user['wx_name'] = $r[0]->wx_name;
+//            $user['headimgurl'] = $r[0]->headimgurl;
+//            $user['user_id'] = $r[0]->user_id;
+//            $user['money'] = $r001[0]->money;
+//            $user['score'] = $r001[0]->score;
+//            $user['transfer_multiple'] = $transfer_multiple;
             echo json_encode(array('status'=>1,'user'=>$user));
             exit();
         }else{
@@ -827,50 +946,58 @@ class userAction extends Action {
         if($money <= 0 || $money == ''){
             echo json_encode(array('status'=>1,'err'=>'正确填写转账金额'));
             exit();
-         }else{
-
+        }else{
             // 查询余额参数表
             $sql = "select * from lkt_finance_config where id = 1";
             $r = $db->select($sql);
-            $transfer_multiple = $r[0]->transfer_multiple;
-            if($transfer_multiple){
-                if($money%$transfer_multiple == 0){
+            if($r){
+                $transfer_multiple = $r[0]->transfer_multiple;
+                if($transfer_multiple){
+                    if($money%$transfer_multiple == 0){
 
-                }else{
-                    echo json_encode(array('status'=>0,'err'=>'转账金额需要是'.$transfer_multiple.'的倍数'));
-                    exit();
+                    }else{
+                        echo json_encode(array('status'=>0,'err'=>'转账金额需要是'.$transfer_multiple.'的倍数'));
+                        exit();
+                    }
                 }
             }
 
             $sql001 = "select user_id,money from lkt_user where wx_id = '$openid'";
             $r001 = $db->select($sql001);//本人
-            $user_id001 = $r001[0]->user_id;
-            $money001 = $r001[0]->money;
+            if($r001){
+                $user_id001 = $r001[0]->user_id;
+                $money001 = $r001[0]->money;
+            }else{
+                $user_id001 = '';
+                $money001 = 0;
+            }
 
             $sql002 = "select money from lkt_user where user_id = '$user_id'";
             $r002 = $db->select($sql002);//好友
-            $money002 = $r002[0]->money;
+            if($r002){
+                $money002 = $r002[0]->money;
+            }else{
+                $money002 = 0;
+            }
 
-             $sql01 = "update lkt_user set money = money - '$money'  where wx_id = '$openid'";
-             $r01 = $db->update($sql01);//本人
-             $sql02 = "update lkt_user set money = money + '$money'  where user_id = '$user_id'";
-             $r02 = $db->update($sql02);//好友
-             $sql0001 = "insert into lkt_record (user_id,money,oldmoney,add_date,event,type) values ('$user_id001','$money','$money001','$date_time','转账给好友','12')"; //本人
-             $r0001 = $db->insert($sql0001);
-             $sql0002 = "insert into lkt_record (user_id,money,oldmoney,add_date,event,type) values ('$user_id','$money','$money002','$date_time','好友转账','13')";//好友
-             $r0002 = $db->insert($sql0002);
-             if($r01>0&&$r02>0){
+            $sql01 = "update lkt_user set money = money - '$money'  where wx_id = '$openid'";
+            $r01 = $db->update($sql01);//本人
+            $sql02 = "update lkt_user set money = money + '$money'  where user_id = '$user_id'";
+            $r02 = $db->update($sql02);//好友
+            $sql0001 = "insert into lkt_record (user_id,money,oldmoney,add_date,event,type) values ('$user_id001','$money','$money001','$date_time','转账给好友','12')"; //本人
+            $r0001 = $db->insert($sql0001);
+            $sql0002 = "insert into lkt_record (user_id,money,oldmoney,add_date,event,type) values ('$user_id','$money','$money002','$date_time','好友转账','13')";//好友
+            $r0002 = $db->insert($sql0002);
+            if($r01>0&&$r02>0){
                 $db->commit();
                 echo json_encode(array('status'=>1,'err'=>'转账成功！'));
                 exit();
-             }else{
+            }else{
                 $db->rollback();
                 echo json_encode(array('status'=>0,'err'=>'转账失败！'));
                 exit();
-             }
-         }
-       
-
+            }
+        }
     }
 
     public function perfect_index()
@@ -880,17 +1007,16 @@ class userAction extends Action {
         $user_id = trim($request->getParameter('user_id')); // 微信id
         $sql002 = "select real_name as name,mobile,sex,province,city,county,wechat_id,birthday from lkt_user where user_id = '$user_id'";
         $r002 = $db->select($sql002);//好友
-        // var_dump($r002);
         if($r002){
             if(empty($r002[0]->name)||empty($r002[0]->mobile)){
                echo json_encode(array('status'=>1,'data'=>$r002[0],'binding'=>0)); 
             }else{
                echo json_encode(array('status'=>1,'data'=>$r002[0],'binding'=>1)); 
             }
-         }else{
+        }else{
             echo json_encode(array('status'=>0));
-         }
-         exit();
+        }
+        exit();
     }
 
     public function perfect()
@@ -912,9 +1038,7 @@ class userAction extends Action {
         $name = base64_decode($name);
 
         $sql02 = "update lkt_user set real_name = '$name',mobile='$mobile',sex='$sex',province='$province',city='$city',county='$county',wechat_id='$wx_id',birthday='$date' where user_id = '$user_id'";
-
         $r02 = $db->update($sql02);
-        // var_dump($sql02,$r02, base64_decode($name));
         if($r02){
             echo json_encode(array('status'=>1,'succ'=>'修改成功！'));
          }else{
