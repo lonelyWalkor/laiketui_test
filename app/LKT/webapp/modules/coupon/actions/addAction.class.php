@@ -133,8 +133,8 @@ class addAction extends Action {
         }
         if($activity_type == 1){
             // 添加活动
-            $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,money,num,add_time,start_time,end_time,status) " .
-                "values('$name','$activity_type','$product_class_id','$product_id','$money','$num',CURRENT_TIMESTAMP,'$time','',1)";
+            $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,money,num,add_time,start_time,status) " .
+                "values('$name','$activity_type','$product_class_id','$product_id','$money','$num',CURRENT_TIMESTAMP,'$time',1)";
             $rr = $db->insert($sql);
         }else{
             // 活动开始时间大于当前时间,活动还没开始
@@ -165,7 +165,7 @@ class addAction extends Action {
         }
         if($rr == -1 ){
             $db->admin_record($admin_id,' 添加活动失败 ',1);
-
+            // echo $sql;exit;
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('未知原因，活动添加失败！');" .
