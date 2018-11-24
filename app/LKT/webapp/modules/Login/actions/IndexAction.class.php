@@ -60,9 +60,9 @@ class IndexAction extends Action {
 			  exit;
 		}
 		// 获取输入的用户名
-		$name = addslashes(trim(strtolower($request->getParameter("login"))));
+		$name = addslashes(trim($request->getParameter("login")));
 		// 获取输入的密码
-		$password = md5(strtolower($request->getParameter("pwd")));
+		$password = md5($request->getParameter("pwd"));
 
         if($name == '' || $password == ''){
         	echo 0;
