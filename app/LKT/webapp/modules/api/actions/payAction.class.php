@@ -109,11 +109,14 @@ class payAction extends Action {
         //统一接口prepay_id
         $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
         $xml = $this->http_request($url,$post_xml);
+        // var_dump($xml);exit;
         $array = $this->xml($xml);//全要大写
+
+        // var_dump($array,$array['RETURN_CODE']);
                     //print_r($array) ;exit;
         if($array['RETURN_CODE'] == 'SUCCESS' && $array['RESULT_CODE'] == 'SUCCESS'){
             $time = time();
-            $tmp='';//临时数组用于签名
+            $tmp=[];//临时数组用于签名
             $tmp['appId'] = $appid;
             $tmp['nonceStr'] = $nonce_str;
             $tmp['package'] = 'prepay_id='.$array['PREPAY_ID'];
@@ -184,7 +187,8 @@ class payAction extends Action {
     }
 
     //获取xml
-    private function xml($xml){
+    private function xml123($xml){
+        // var_dump($xml);exit;
         $p = xml_parser_create();
         xml_parse_into_struct($p, $xml, $vals, $index);
         xml_parser_free($p);
@@ -194,6 +198,24 @@ class payAction extends Action {
             $tag = $vals[$value[0]]['tag'];
             $value = $vals[$value[0]]['value'];
             $data[$tag] = $value;
+        }
+        return $data;
+    }
+
+
+    //将xml数据转换为数组,接收微信返回数据时用到
+    public function xml($xml)
+    {
+        if(!$xml){
+            echo "xml数据异常！";
+        }
+        //将XML转为array
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        $data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+
+        foreach ($data as $key => $value) {
+            $data[strtoupper($key)] = $value;
         }
         return $data;
     }

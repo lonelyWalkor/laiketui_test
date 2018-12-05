@@ -932,11 +932,11 @@ class orderAction extends Action {
         $sql = "insert into lkt_order_data(trade_no,data,addtime) values('$trade_no','$data',CURRENT_TIMESTAMP)";
         $rid = $db->insert($sql);
 
-        $yesterday= date("Y-m-d",strtotime("-1 day"));
-        $sql = "delete from lkt_order_data where addtime < '$yesterday'";
-        $db->delete($sql);
+        // $yesterday= date("Y-m-d",strtotime("-1 day"));
+        // $sql = "delete from lkt_order_data where addtime < '$yesterday'";
+        // $db->delete($sql);
 
-        echo json_encode(array('status'=>$r_u));
+        echo json_encode(array('status'=>$rid));
         exit();
     }
 

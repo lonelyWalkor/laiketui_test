@@ -1336,11 +1336,12 @@ DROP TABLE IF EXISTS `lkt_order_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lkt_order_data` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `trade_no` char(32) DEFAULT NULL COMMENT '微信订单号',
   `data` text,
-  `addtime` datetime NOT NULL COMMENT '创建时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='订单临时信息表';
+  `addtime` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='订单临时信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

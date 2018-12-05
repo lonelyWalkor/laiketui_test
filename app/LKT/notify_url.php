@@ -144,24 +144,16 @@ class order
                 $sql_x = "update lkt_product_list set volume = volume + $num,num = num-$num where id = $pid";
                 $r_x = $db->update($sql_x); 
             }
-
+            return true;
         }
 
     }
-
-
+    
 
     //充值成功金额增加
-
     public function cz($openid,$cmoney,$trade_no){
 
         $db = DBAction::getInstance();
-
-        // $openid = $_POST['openid']; // 微信id
-
-        // $cmoney = $_POST['cmoney']; // 充值金额
-
-        // 查询会员信息
 
         $sql = "select * from lkt_user where wx_id = '$openid'";
 
@@ -188,7 +180,6 @@ class order
     }
 
     //开团
-
     public function creatgroup($order){
 
         $db = DBAction::getInstance();
@@ -306,7 +297,6 @@ class order
     } 
 
     //参团
-
     public function can_order($order){
 
         $db = DBAction::getInstance();
@@ -526,49 +516,11 @@ class order
 
     }
 
-    //单独分销
-
-    public function separate_distribution($from_id,$sd_cmoney,$sNo,$db,$lt,$rt,$uplevel,$snum)
-    {
-        $num = count($sd_cmoney);
-        $sqlxj = "select * from lkt_user_distribution as lud LEFT JOIN lkt_distribution_grade as ldg ON ldg.id = lud.level where lud.lt<'$lt' and lud.rt>'$rt' ORDER BY lud.uplevel desc LIMIT 0,$num ";
-        $variable = $db -> select($sqlxj);
-        foreach ($variable as $key => $value) {
-            if(isset($sd_cmoney[$key])){
-                $money = $sd_cmoney[$key]*$snum;
-                $user_id = $value->user_id;
-                if($money && $money > 0.1 && $user_id){
-                    $sql = "update lkt_user set money = money+'$money' where user_id = '$user_id'";
-                    $beres = $db->update($sql);
-                    if($beres < 1){
-                        $db->rollback();
-                        echo json_encode(array('status'=>0,'err'=>'参数错误 code:41','sql'=>$sql));
-                        exit;
-                    }
-                    $event = $user_id . "获得了" . $money . "单独佣金";
-                    $level = $key+1;
-                    $sqlldr = "insert into lkt_distribution_record (user_id,from_id,money,sNo,level,event,type,add_date) values ('$user_id','$from_id','$money','$sNo','$level','$event','1',CURRENT_TIMESTAMP)";
-                    $beres = $db->insert($sqlldr); 
-                    //事务
-                    if($beres < 1){
-                        $db->rollback();
-                        echo json_encode(array('status'=>0,'err'=>'参数错误 code:42','sql'=>$sqlldr));
-                        exit;
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
-
 }
 
 
 
-// $trade_no = 'GM181022100040437545';
+// $trade_no = 'GM181205091325772072';
 
 // $sql = "select * from lkt_order where trade_no='$trade_no'";
 
@@ -606,25 +558,18 @@ class order
 
 //                      $order = new order;
 
-//                      $order -> up_order($data);
+//                      $abc = $order -> up_order($data);
 
-//                      echo "1111";exit;
+//                      var_dump($abc);exit;
 
-//                      $log_->log_result($log_name,"【data】:\n".$dres[0]->data."\n");
+//                      // $log_->log_result($log_name,"【data】:\n".$dres[0]->data."\n");
 
-
-
-//                //分销结算结束
 
 //               // }
 
 //  // }
-
-
-
 // }
-
-         // exit;
+//          exit;
 
 
 
@@ -636,7 +581,11 @@ class order
 
     //存储微信的回调 s
 
-    $xml = $GLOBALS['HTTP_RAW_POST_DATA'];  
+   
+    $xml = PHP_VERSION <= 5.6 ? $GLOBALS['HTTP_RAW_POST_DATA']:file_get_contents('php://input');
+    
+    // $xml = $GLOBALS['HTTP_RAW_POST_DATA']:;   php <= 5.6
+    // $xml = file_get_contents('php://input');    //php >5.6
 
     $notify->saveData($xml);
 
