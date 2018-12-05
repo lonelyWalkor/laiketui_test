@@ -84,8 +84,10 @@ Page({
             price: self.goodsInfo.p_price,
             yprice: self.goodsInfo.yprice,
             skuBeanList: res.skuBeanList,
-            attrList: res.attrList
+            attrList: res.attrList,
+            prostatus: res.prostatus
           })
+          
           self.one();
         }
       });
@@ -194,7 +196,14 @@ Page({
     var that = this;
     var obj = '';
     var value = [];
-    
+    if (that.data.prostatus == 1) {
+      wx.showToast({
+        title: '此商品已下架!',
+        icon: 'none',
+        duration: 2000
+      })
+      return false;
+    }
     if (that.data.num > that.goodsInfo.productnum) {
       wx.showToast({
         title: '抱歉，一次最多只能购买' + that.goodsInfo.productnum + '件产品！',

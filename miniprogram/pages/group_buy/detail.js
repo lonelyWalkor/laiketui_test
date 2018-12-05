@@ -104,6 +104,7 @@ Page({
           control: res.control,
           remind: '',
           share: res.share,
+          pro_status: res.detail.status
         })
         
         var timestamp = Date.parse(new Date())/1000;
@@ -334,6 +335,14 @@ Page({
     var that = this;
     var obj = '';
     var value = [];
+    if (that.data.pro_status == 1) {
+      wx.showToast({
+        title: '此商品已下架!',
+        icon: 'none',
+        duration: 2000
+      })
+      return false;
+    }
   if (that.data.num > that.data.itemData.num){
     wx.showToast({
       title: '抱歉,此属性的产品库存不足!',
@@ -414,6 +423,14 @@ Page({
   addShopCart: function () {
     //添加到购物车
     var that = this;
+    if (that.data.pro_status == 1) {
+      wx.showToast({
+        title: '此商品已下架!',
+        icon: 'none',
+        duration: 2000
+      })
+      return false;
+    }
       wx.request({
         url: app.d.ceshiUrl + '&action=product&m=add_cart',
         method: 'post',

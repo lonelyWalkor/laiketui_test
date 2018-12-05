@@ -148,7 +148,8 @@ class groupbuyAction extends Action {
             $gid = $restime[0] -> status;
 
         $sql = "select w.*,l.product_title as pro_name from (select z.*,c.img as image,c.price as market_price from (select p.id,min(p.attr_id) as attr_id,p.product_id,p.group_price,p.group_id,s.sum from lkt_group_product as p left join (select sum(m.num) as sum,m.p_id from (select o.num,d.p_id from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.pid='$gid' and o.status>0) as m group by m.p_id) as s on p.product_id=s.p_id where p.group_id='$gid' group by p.product_id order by $select$sort limit $start,$end) as z left join lkt_configure as c on z.attr_id=c.id) as w left join lkt_product_list as l on w.product_id=l.id";
-        $res = $db -> select($sql);  
+        $res = $db -> select($sql);
+
          if(!empty($res)){     
             foreach ($res as $k => $v) {
                 $res[$k] = $v;
@@ -156,6 +157,7 @@ class groupbuyAction extends Action {
                 if($v -> sum === null) $res[$k] -> sum = 0;
             }
         }
+
         echo json_encode(array('code' => 1,'list' => $res,'groupman' => $g_man,'groupid' => $gid));exit;
         }else{
         	echo json_encode(array('code' => 0));exit;
@@ -223,7 +225,7 @@ class groupbuyAction extends Action {
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
         
-        $guigesql = 'select m.*,c.num,c.img as image,c.price as market_price from (select min(attr_id) as attr_id,product_id,group_price,member_price,product_title as pro_name,classname,content from lkt_group_product left join lkt_product_list as l on product_id=l.id where group_id="'.$group_id.'" and product_id='.$gid.') as m left join lkt_configure as c on m.attr_id=c.id';
+        $guigesql = 'select m.*,c.num,c.img as image,c.price as market_price from (select min(attr_id) as attr_id,product_id,group_price,member_price,product_title as pro_name,classname,content,l.status from lkt_group_product left join lkt_product_list as l on product_id=l.id where group_id="'.$group_id.'" and product_id='.$gid.') as m left join lkt_configure as c on m.attr_id=c.id';
         $guigeres = $db -> select($guigesql);
         list($guigeres) = $guigeres;
         
@@ -814,8 +816,11 @@ class groupbuyAction extends Action {
                 $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
                 $plugopen = $db -> select($plugsql);
                 $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
+
+                $prostatus = $db -> select("select status from lkt_product_list where id='$gid'");
+                $prostatus = $prostatus[0] -> status;
                 
-                echo json_encode(array('groupmsg' => $res,'groupMember' => $groupmember,'skuBeanList' => $skuBeanList,'attrList' => $attrList,'isplug' => $plugopen));exit;
+                echo json_encode(array('groupmsg' => $res,'groupMember' => $groupmember,'skuBeanList' => $skuBeanList,'attrList' => $attrList,'isplug' => $plugopen,'prostatus' => $prostatus));exit;
         }else{
            echo json_encode(array('groupmsg' => 0,'groupMember' => 0,'skuBeanList' => 0,'attrList' => 0,'isplug' => 0));exit; 
         }

@@ -115,7 +115,9 @@ class testAction extends Action {
         }else{
             $arr = [];
         }
-
+        
+        $endsql = "update lkt_group_buy set is_show=0 where is_show=1 and endtime<='$now'";    //结束已经到期的拼团活动
+        $db -> update($endsql);
         $time = $arr['invalid'];
         if($time){
             $date = date('Y-m-d H:i:s', strtotime("-$time days"));
