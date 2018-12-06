@@ -24,6 +24,7 @@ class signAction extends Action {
     }
 
     public function execute(){
+
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
@@ -248,10 +249,12 @@ class signAction extends Action {
                 echo json_encode(array('status'=>1,'sign_time'=>'','imgurl'=>$imgurl,'num'=>$num,'details'=>$details));
                 exit;
             }
+            $time1 = date('Y-m',time());
 
             $sign_time = [];
-            $sql = "select sign_time from lkt_sign_record where user_id = '$user_id' and sign_time > '$startdate' and sign_time < '$enddate' and type = 0";
+            $sql = "select sign_time from lkt_sign_record where user_id = '$user_id' and sign_time like '$time1%' and type = 0";
             $r_2 = $db->select($sql);
+            // var_dump($sql,$r_2);
             if($r_2){
                 foreach ($r_2 as $k => $v) {
                     $y = date("Y",strtotime($v->sign_time));
