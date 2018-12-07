@@ -7,11 +7,13 @@
 
 ![扫码体验](https://xiaochengxu.laiketui.com/xiaochengxu.jpeg)
 
+#### 稳定版皮肤
 ![首页](https://xiaochengxu.laiketui.com/duan/LKT/images/auto-orient/20180716172029.jpg)|![分类](https://xiaochengxu.laiketui.com/duan/LKT/images/auto-orient/20180716172012.jpg)
 ---|---
 
 #### 新皮肤上线
 ![首页](https://images.gitee.com/uploads/images/2018/1207/224336_706ae698_2029865.png "x2.png")
+![会员中心](https://images.gitee.com/uploads/images/2018/1207/224515_3123e2ac_2029865.png "x5.png")
 
 #### 游戏插件
 
