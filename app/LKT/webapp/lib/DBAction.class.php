@@ -17,7 +17,7 @@ class DBAction {
     private static $instances = null; //连接实例
 
     public function DBConnect() {
-        $this->mConnId = mysqli_connect(MYSQL_SERVER, MYSQL_USER, MYSQL_PASSWORD,MYSQL_DATABASE);
+        $this->mConnId = mysqli_connect(MYSQL_SERVER, MYSQL_USER, MYSQL_PASSWORD,MYSQL_DATABASE,MYSQL_PORT);
         if (!$this->mConnId) {
             print " 连接数据库失败!可能是mysql数据库用户名或密码不正确!<br>";
             //DELETE BY FLY AT 2010-9-18
