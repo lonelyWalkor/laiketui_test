@@ -3,23 +3,32 @@
 #### QQ交流群
 340645969  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=427109459854834986069455266c718998467b63c78f455940d6291de01a7d0b)
 
+微信小程序电商平台（前后端开源PHP），包含分销，拼团，抽奖，红包，九宫格(老虎机)游戏等功能，整个系统架构非常简单，适合小型团队或者个人开发者二次开发。
+
+小程序 + APP + 公众号 + PC + 生活号
+
+注重界面美感与用户体验，打造独特电商系统生态圈
+
+#### 软件架构
+
+PHP5.6+ MYSQL5.5+ 自主研发框架
+
+#### 安装教程
+
+http://www.laiketui.com
+
 #### 来客电商微信小程序客户端截图(扫码体验效果更好！！！！)
 
 ![扫码体验](https://xiaochengxu.laiketui.com/xiaochengxu.jpeg)
 
-#### 稳定版皮肤
-![首页](https://xiaochengxu.laiketui.com/duan/LKT/images/auto-orient/20180716172029.jpg)|![分类](https://xiaochengxu.laiketui.com/duan/LKT/images/auto-orient/20180716172012.jpg)
----|---
+#### 小程序端截图(新款皮肤)
+![首页](http://www.laiketui.com/x3.png "在这里输入图片标题")
+![会员中心](http://www.laiketui.com/x5.png "在这里输入图片标题")
 
-#### 新皮肤上线
-![首页](https://images.gitee.com/uploads/images/2018/1207/224336_706ae698_2029865.png "x2.png")
+#### 小程序端截图(稳定版皮肤)
+![稳定版皮肤](https://static.oschina.net/uploads/space/2018/1012/174754_S0De_3902514.png "在这里输入图片标题")
 
-![会员中心](https://images.gitee.com/uploads/images/2018/1207/224515_3123e2ac_2029865.png "x5.png")
 
-#### 游戏插件
-
-![九宫格游戏首页](https://images.gitee.com/uploads/images/2018/1101/172257_4c90aab9_2029865.jpeg "104751_d5d6a94a_2029865.jpeg")|![游戏排行](https://images.gitee.com/uploads/images/2018/1101/172329_4531ab86_2029865.jpeg "104805_8abc5235_2029865.jpeg")
----|---
 
 #### 后台截图
 ![输入图片说明](https://images.gitee.com/uploads/images/2018/1108/195946_1f1f0ad0_2029865.png "2018102604085011.png")
