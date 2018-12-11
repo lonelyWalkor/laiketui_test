@@ -110,8 +110,10 @@ class IndexAction extends Action {
 
 
         //查询商品并分类显示返回JSON至小程序
-        $sql_c = 'select cid,pname from lkt_product_class where sid=0 order by sort desc';
+        $sql_c = 'select cid,pname from lkt_product_class where sid=0 and recycle!=1 order by sort desc';
         $r_c = $db->select($sql_c);
+        
+
         $twoList = [];
         foreach ($r_c as $key => $value) {
             $sql_e = 'select cid,pname,img from lkt_product_class where sid=\''.$value->cid.'\' order by sort desc LIMIT 0,10';
