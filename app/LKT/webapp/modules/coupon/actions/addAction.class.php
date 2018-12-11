@@ -21,7 +21,7 @@ class addAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
-        $sql = "select cid,pname from lkt_product_class where sid = 0 ";
+        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle != 1 ";
         $r = $db->select($sql);
 
         $res = '<option value="0" >全部</option>';
@@ -69,6 +69,7 @@ class addAction extends Action {
         $num = addslashes(trim($request->getParameter('num'))); // 数量
         $start_time = $request->getParameter('start_time'); // 活动开始时间
         $end_time = $request->getParameter('end_time'); // 活动结束时间
+        $image=$request->getParameter('image');
         if($name == ''){
             header('Content-type: text/html;charset=utf-8');
             echo "<script type='text/javascript'>" .
@@ -87,6 +88,7 @@ class addAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
+        
 
         if($money == ''){
             header('Content-Type: text/html;charset=utf-8');
@@ -131,34 +133,42 @@ class addAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
+       //添加设置product_id,image
+       $product_id= empty($product_id) ? 0 : $product_id;
+       $image=empty($image) ? '' : $image;
         if($activity_type == 1){
-            // 添加活动
-            $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,money,num,add_time,start_time,status) " .
-                "values('$name','$activity_type','$product_class_id','$product_id','$money','$num',CURRENT_TIMESTAMP,'$time',1)";
-            $rr = $db->insert($sql);
+           
+           
+                 // 添加活动
+              $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,image,money,num,add_time,start_time,status)" .
+                    "values('$name','$activity_type','$product_class_id','$product_id','$image','$money','$num',CURRENT_TIMESTAMP,'$time',1)";
+              $rr = $db->insert($sql);
+         
+            
+
         }else{
             // 活动开始时间大于当前时间,活动还没开始
             if($start_time > $time){
                 if($activity_type == 2){
                     // 添加活动
-                    $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,money,num,add_time,start_time,end_time,status) " .
-                        "values('$name','$activity_type','$product_class_id','$product_id','$money','$num',CURRENT_TIMESTAMP,'$start_time','$end_time',0)";
+                    $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,image,money,num,add_time,start_time,end_time,status) " .
+                        "values('$name','$activity_type','$product_class_id','$product_id','$image','$money','$num',CURRENT_TIMESTAMP,'$start_time','$end_time',0)";
                 }else{
                     // 添加活动
-                    $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,money,z_money,num,add_time,start_time,end_time,status) " .
-                        "values('$name','$activity_type','$product_class_id','$product_id','$money','$z_money','$num',CURRENT_TIMESTAMP,'$start_time','$end_time',0)";
+                    $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,image,money,z_money,num,add_time,start_time,end_time,status) " .
+                        "values('$name','$activity_type','$product_class_id','$product_id','$image','$money','$z_money','$num',CURRENT_TIMESTAMP,'$start_time','$end_time',0)";
                 }
                 $rr = $db->insert($sql);
 
             }else{
                 if($activity_type == 2){
                     // 添加活动
-                    $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,money,num,add_time,start_time,end_time,status) " .
-                        "values('$name','$activity_type','$product_class_id','$product_id','$money','$num',CURRENT_TIMESTAMP,'$start_time','$end_time',1)";
+                    $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,image,money,num,add_time,start_time,end_time,status) " .
+                        "values('$name','$activity_type','$product_class_id','$product_id','$image','$money','$num',CURRENT_TIMESTAMP,'$start_time','$end_time',1)";
                 }else{
                     // 添加活动
-                    $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,money,z_money,num,add_time,start_time,end_time,status) " .
-                        "values('$name','$activity_type','$product_class_id','$product_id','$money','$z_money','$num',CURRENT_TIMESTAMP,'$start_time','$end_time',1)";
+                    $sql = "insert into lkt_coupon_activity(name,activity_type,product_class_id,product_id,image,money,z_money,num,add_time,start_time,end_time,status) " .
+                        "values('$name','$activity_type','$product_class_id','$product_id','$image','$money','$z_money','$num',CURRENT_TIMESTAMP,'$start_time','$end_time',1)";
                 }
                 $rr = $db->insert($sql);
             }

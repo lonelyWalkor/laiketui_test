@@ -18,7 +18,7 @@ class modifyAction extends Action {
         // 接收信息
         $id = intval($request->getParameter("id")); // 活动id
         $res = '';
-        $sql = "select * from lkt_coupon_activity where id = '$id'";
+        $sql = "select * from lkt_coupon_activity where id = '$id' ";
         $r = $db->select($sql);
         if($r){
             $activity_type = $r[0]->activity_type; // 活动类型
@@ -41,8 +41,9 @@ class modifyAction extends Action {
             $product_class_id = $arr[$count];
 
             // 根据商品分类id,查询分类id、分类名称
-            $sql = "select cid,pname from lkt_product_class where cid = '$product_class_id' ";
+            $sql = "select cid,pname from lkt_product_class where cid = '$product_class_id'";
             $rr = $db->select($sql);
+
             $cid = $rr[0]->cid; // 商品分类id
             $pname = $rr[0]->pname; // 商品分类名称
             $hx = '-----';
@@ -77,7 +78,7 @@ class modifyAction extends Action {
             $rew = '';
         }
         // 查询所有一级分类
-        $sql = "select cid,pname from lkt_product_class where sid = 0 ";
+        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle != 1 ";
         $r_1 = $db->select($sql);
         foreach ($r_1 as $key => $value) {
             $c = '-'.$value->cid.'-';
