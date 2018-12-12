@@ -53,15 +53,16 @@ class searchAction extends Action {
     }
 
     //查询商品并分类显示返回JSON至小程序
-    $sql_c = 'select cid,pname,img,bg from lkt_product_class where sid=0 order by sort desc';
+    $sql_c = "select cid,pname,img,bg from lkt_product_class where sid=0 and recycle != 1 order by sort desc";
     $r_c = $db->select($sql_c);
+   
     $twoList = [];
     $abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $st = 0;
     $icons=[];
     if($r_c){
         foreach ($r_c as $key => $value) {
-            $sql_e = 'select cid,pname,img from lkt_product_class where sid=\''.$value->cid.'\' order by sort ';
+            $sql_e = 'select cid,pname,img from lkt_product_class where sid=\''.$value->cid.'\' and recycle != 1 order by sort ';
             $r_e = $db->select($sql_e);
             $son=[];
             if($r_e){
@@ -132,7 +133,7 @@ class searchAction extends Action {
     }
 
     //查出所有产品分类
-    $sql = 'select pname from lkt_product_class';
+    $sql = 'select pname from lkt_product_class where recycle != 1';
     $res = $db -> select($sql);
     if($res){
         foreach ($res as $key => $value) {
@@ -144,7 +145,7 @@ class searchAction extends Action {
     if(in_array($keyword, $res)){
       $type = 0;
       $keyword = addslashes($keyword);
-      $sqla = "select cid from lkt_product_class where pname='$keyword'";
+      $sqla = "select cid from lkt_product_class where pname='$keyword' and recycle != 1";
       $a = $db -> select($sqla);
       if(!empty($a)){
         $cid = $a['0']->cid; // 分类id
