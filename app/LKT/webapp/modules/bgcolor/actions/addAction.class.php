@@ -40,13 +40,15 @@ class addAction extends Action {
 
         $sort = floatval(trim($request->getParameter('sort')));
 
-
-
+        $sql_1="ALTER TABLE `lkt_background_color`
+       MODIFY COLUMN `id`  int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id' FIRST ";
+        $db->query($sql_1);
+        
         $sql = "insert into lkt_background_color(color_name,color,sort) " .
 
             "values('$color_name','$color','$sort')";
 
-        $r = $db->insert($sql);
+        $r=$db->insert($sql);
 
         if($r == -1){
 

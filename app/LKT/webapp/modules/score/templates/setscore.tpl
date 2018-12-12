@@ -123,8 +123,10 @@
 <script type="text/javascript">
    var retbili = $("input[name=returnbili]").val();
    var retbuy = '{/literal}{$res}{literal}';
+   
+   
    retbuy = JSON.parse(retbuy);
-   var a = retbuy.length+1;
+   
    
    var optarr = ['1','10','50','100'];
    var option = '';
@@ -136,9 +138,14 @@
       }
    });
    $("select[name=bili]").append(option);
-    
+  if(retbuy[0]){
    $("input[name=order1]").val(retbuy[0].ordernum);
    $("input[name=score1]").val(retbuy[0].scorenum);
+   
+   var a = retbuy.length+1;
+  }else{
+   var a = 2;
+  }
    retbuy.shift();
    //console.log(retbuy);
    var levs = '';

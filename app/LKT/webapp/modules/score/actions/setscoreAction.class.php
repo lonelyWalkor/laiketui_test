@@ -17,9 +17,10 @@ class setscoreAction extends Action {
         $request = $this->getContext()->getRequest();
         $sql = 'select lever,ordernum,scorenum from lkt_setscore order by lever';
         $res = $db -> select($sql);
-        $bili = '';
+        $bili = '1';
         $str = '[';
         //$res = array_reverse($res);
+        if(!empty($res)){
         foreach ($res as $k => $v) {
         	if($v -> lever == -1){
                $bili = $v -> ordernum;
@@ -28,8 +29,10 @@ class setscoreAction extends Action {
         	  $str .= '{"lever":'.$v -> lever.',"ordernum":'.$v -> ordernum.',"scorenum":'.$v -> scorenum.'},';
         	}
         }
-        $str = substr($str,0,-1).']';
-           
+        $str = substr($str,0,-1);
+    }
+        $str .= ']';
+        
         $request->setAttribute("bili",$bili);
         $request->setAttribute("res",$str);
         return View :: INPUT;
