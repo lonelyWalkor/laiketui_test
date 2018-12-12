@@ -58,7 +58,7 @@ class addAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
-        $sql = "select id from lkt_core_menu where title = '$title' and s_id = '$s_id'";
+        $sql = "select id from lkt_core_menu where title = '$title' and s_id = '$s_id' and recycle = 0";
         $rr = $db->select($sql);
         if($rr){
             header("Content-type:text/html;charset=utf-8");
