@@ -142,7 +142,7 @@ DROP TABLE IF EXISTS `lkt_banner`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lkt_banner` (
-  `id` int(11) unsigned NOT NULL COMMENT 'id',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `image` varchar(200) NOT NULL DEFAULT '' COMMENT '图片',
   `url` varchar(100) NOT NULL DEFAULT '' COMMENT '链接',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
