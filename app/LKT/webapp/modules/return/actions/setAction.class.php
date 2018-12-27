@@ -47,7 +47,7 @@ class setAction extends Action {
             $sql = "update lkt_user_address set name = '$name', tel = '$tel',address = '$address' where uid = 'admin'";
             $r = $db->update($sql);
         }else{
-            $sqll = "insert into lkt_record (name,tel,address) values ('$name','$tel','$address')";
+            $sqll = "insert into lkt_user_address (uid,name,tel,address) values ('admin','$name','$tel','$address')";
             $r = $db -> insert($sqll);
         }
         if($r == -1) {
