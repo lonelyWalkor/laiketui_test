@@ -1916,15 +1916,7 @@ CREATE TABLE `lkt_subtraction` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='满减表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `lkt_subtraction`
---
 
-LOCK TABLES `lkt_subtraction` WRITE;
-/*!40000 ALTER TABLE `lkt_subtraction` DISABLE KEYS */;
-INSERT INTO `lkt_subtraction` VALUES (1,2,100.00,'内蒙古自治区,西藏自治区,新疆省,台湾省,香港特别行政区','a:2:{i:0;a:1:{i:100;s:1:\"5\";}i:1;a:1:{i:200;s:2:\"20\";}}','2018-10-26 01:34:41');
-/*!40000 ALTER TABLE `lkt_subtraction` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `lkt_system_message`
