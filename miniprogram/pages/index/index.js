@@ -74,6 +74,13 @@ Page({
       },
       success: function (res) {
         var prolist = res.data.prolist;
+
+        wx.hideNavigationBarLoading() //完成停止加载
+        wx.stopPullDownRefresh() //停止下拉刷新
+        that.setData({
+          loading: false,
+        });
+
         if (prolist == '' || res.data.status == 0) {
           wx.showToast({
             title: '已为您全部加载完毕!',
@@ -272,6 +279,11 @@ Page({
   //上拉事件
   onReachBottom: function () {
     var that = this;
+    that.setData({
+      loading: true,
+    });
+    that.getMore();
+    /*
     setTimeout(function () {
       that.getMore();
       wx.hideNavigationBarLoading() //完成停止加载
@@ -283,6 +295,7 @@ Page({
     that.setData({
       loading: true,
     });
+    */
   },
   obm: function () {
     var that = this;
@@ -292,7 +305,7 @@ Page({
       that.setData({
         timestamp: timestamp,
       });
-
+      /*
       setTimeout(function () {
         that.getMore();
         wx.hideNavigationBarLoading() //完成停止加载
@@ -304,6 +317,7 @@ Page({
       that.setData({
         loading: true,
       });
+      */
     }
 
   },
