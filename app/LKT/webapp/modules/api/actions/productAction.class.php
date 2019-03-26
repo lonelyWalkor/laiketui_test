@@ -330,9 +330,11 @@ class productAction extends Action {
                     $arrayName = [];
                     foreach ($attribute as $k => $v) {
                         if(!in_array($k, $arrayName)){
-                            array_push($arrayName, $k);
-                            $kkk = $attnum++;
-                            $attrList[$kkk] = array('attrName' => $k,'attrType' => '1','id' => md5($k),'attr' => [],'all'=>[]);
+                            if ($k!='rid') {
+                                array_push($arrayName, $k);
+                                $kkk = $attnum++;
+                                $attrList[$kkk] = array('attrName' => $k,'attrType' => '1','id' => md5($k),'attr' => [],'all'=>[]);
+                            }
                         }
                     }
                 }
