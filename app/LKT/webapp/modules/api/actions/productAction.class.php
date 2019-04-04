@@ -344,8 +344,11 @@ class productAction extends Action {
                     $attributes = [];
                     $name = '';
                     foreach ($attribute as $k => $v) {
-                       $attributes[] = array('attributeId' => md5($k), 'attributeValId' => md5($v));
-                       $name .= $v;
+                        if($v){
+                            $attributes[] = array('attributeId' => md5($k), 'attributeValId' => md5($v));
+                            $name .= $v;
+                        }
+                       
                     }
 
                     $cimgurl = $img.$value->img;
