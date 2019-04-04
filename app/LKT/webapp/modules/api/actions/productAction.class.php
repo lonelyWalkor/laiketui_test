@@ -693,7 +693,10 @@ class productAction extends Action {
                 $product_class[] = $product['product_class'];
                 $size = '';
                 foreach ($attribute as $ka => $va) {
-                    $size .= ' '.$va;
+                    if($va){
+                        $size .= ' '.$va;
+                    }
+                    
                 }
                 $Goods_id = $product['Goods_id'];
                 if(in_array($Goods_id, $products)){
