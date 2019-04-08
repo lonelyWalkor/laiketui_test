@@ -107,22 +107,11 @@ class testAction extends Action {
         $delsql = "delete from lkt_user_fromid where UNIX_TIMESTAMP(lifetime) < '$now'";
         $delres = $db -> delete($delsql);
         
-        $sql2 = "select * from lkt_group_config where 1=1 ";
-        $r2 = $db->select($sql2);
-        if($r2){
-            $arr = unserialize($r2[0]->sets);
-        }else{
-            $arr = [];
-        }
+        
         
         $endsql = "update lkt_group_buy set is_show=0 where is_show=1 and endtime<='$now'";    //结束已经到期的拼团活动
         $db -> update($endsql);
-        $time = $arr['invalid'];
-        if($time){
-            $date = date('Y-m-d H:i:s', strtotime("-$time days"));
-            $sql = "update lkt_twelve_draw_order set status='4' where id in(select a.id from(select id from lkt_twelve_draw_order where addtime < '$date' and status = '2')as a)";
-            $res = $db -> update($sql);
-        }
+        
         
     }
 
