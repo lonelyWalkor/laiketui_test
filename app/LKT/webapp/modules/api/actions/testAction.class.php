@@ -107,8 +107,7 @@ class testAction extends Action {
         $delsql = "delete from lkt_user_fromid where UNIX_TIMESTAMP(lifetime) < '$now'";
         $delres = $db -> delete($delsql);
         
-        //十二宫格抽奖处理过期代码
-        $sql2 = "select * from lkt_twelve_draw_config where 1=1 ";
+        $sql2 = "select * from lkt_group_config where 1=1 ";
         $r2 = $db->select($sql2);
         if($r2){
             $arr = unserialize($r2[0]->sets);
