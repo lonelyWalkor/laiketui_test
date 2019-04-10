@@ -130,7 +130,7 @@
 <!-- 属性选择 -->
 <view wx:for="{{attrList}}" wx:for-index="idx" wx:key="userInfoListId" class="outStyle">
   <view class='outStyleText textStyle buttonPaddingStyle' style="padding-left:0">{{item.attrName}}</view>
-  <view class='typeStyle textStyle' style="margin-left:0">
+  <view class='typeStyle textStyle' style="margin-left:0;flex-wrap: wrap;">
     <view wx:for="{{item.attr}}" data-item='{{item.attr[index]}}' data-index='{{index}}' data-idx='{{idx}}' wx:key="userInfoListId" bindtap="onChangeShowState" wx:for-item="items">
       <view class="{{items.enable == true ?(items.select==true?'orange':'back') : 'bai'}} textStyle buttonPaddingStyle">
         {{items.attributeValue}}

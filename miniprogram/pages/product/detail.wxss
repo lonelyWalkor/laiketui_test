@@ -926,6 +926,7 @@ button[class="baocun"]::after{
   padding-right:10px;
   padding-top:5px;
   padding-bottom:5px;
+  margin-bottom:5px;
 }
 .textStyle {
   font-size:14px;
