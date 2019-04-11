@@ -195,7 +195,7 @@ class rechargeAction extends Action {
                     //print_r($array) ;exit;
         if($array['RETURN_CODE'] == 'SUCCESS' && $array['RESULT_CODE'] == 'SUCCESS'){
             $time = time();
-            $tmp='';//临时数组用于签名
+            $tmp=array();//临时数组用于签名
             $tmp['appId'] = $appid;
             $tmp['nonceStr'] = $nonce_str;
             $tmp['package'] = 'prepay_id='.$array['PREPAY_ID'];
