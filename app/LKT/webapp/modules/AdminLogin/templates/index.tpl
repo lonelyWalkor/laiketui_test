@@ -544,8 +544,10 @@
 </section>
 <div class="mask1">
 	<div class="mask1Content">
-		<div style="height: 100px;position: relative;top: 30%;font-size: 22px;text-align: center;">
-			平台开发中，敬请期待！
+		<div style="height: 100px;position: relative;top: 20%;font-size: 22px;text-align: center;">
+			更多功能查看商业V3版<br/>
+			APP+小程序+H5+多店铺+完美的二开神器+已经打通微信+支付宝APP支付<br/>
+			<a target="_blank" style="color:red" href="http://www.laiketui.com/action/">【点击查看】</a>
 		</div>
 		<button class="closeMask">确认</button>
 	</div>
