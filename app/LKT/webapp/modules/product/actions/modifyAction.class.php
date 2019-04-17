@@ -317,7 +317,7 @@ class modifyAction extends Action {
             }else{
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
-                    "alert('请填写数字！');" .
+                    "alert('请填写正确的商品重量值！');" .
                     "</script>";
                 return $this->getDefaultView();
             }
