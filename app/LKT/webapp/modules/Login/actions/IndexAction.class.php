@@ -116,7 +116,6 @@ class IndexAction extends Action {
 		$this->getContext()->getStorage()->write('admin_permission',$admin_permission);
 		// 登录成功后跳转地址
 		echo "<script type='text/javascript'>" .
-            "alert('登录成功');" .
             "location.href='index.php?module=AdminLogin';</script>";
         return;exit;
     }
