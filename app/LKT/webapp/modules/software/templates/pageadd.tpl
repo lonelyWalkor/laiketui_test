@@ -28,8 +28,6 @@
 
 <link href="style/kjfs/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
-
 <link href="style/kjfs/css/style.css" rel="stylesheet" type="text/css" />
 
 {literal}
@@ -164,9 +162,8 @@
 
     display: table;
 
-    width: 22%;
 
-    margin-left: 40%;
+    margin-left: 10%;
 
 }
 
@@ -186,7 +183,9 @@
 
 <body>
 
-<nav class="breadcrumb" style="    line-height: 3;"><i class="Hui-iconfont">&#xe646;</i> 小程序首页管理 <span class="c-gray en">&gt;</span> 模块 <span class="c-gray en">&gt;</span> 修改模块 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px;float: right;" href="#" onclick="location.href='index.php?module=software&action=pageindex';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb" style="    line-height: 3;">
+<i class="Hui-iconfont">&#xe646;</i> 
+小程序首页管理 <span class="c-gray en">&gt;</span> 模块 <span class="c-gray en">&gt;</span> 修改模块 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px;float: right;" href="#" onclick="location.href='index.php?module=software&action=pageindex';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 
 <div class="pd-20">
 

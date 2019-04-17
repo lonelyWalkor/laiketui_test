@@ -483,7 +483,7 @@
 	<div class="menu_dropdown bk_2">
 		{if $type == 0}
 		<dl id="menu-article"  class="active sp2 sp5">
-			<dt>
+			<dt >
 				<span class="asideImgWrap">
 					<img class="asideImg" src="images/iIcon/sy_1.png" />
 					<img class="asideImg" src="images/iIcon/sy.png" />
@@ -496,7 +496,7 @@
 		{/if}
 		{foreach from=$list item=item name=f1}
 			<dl class="menu-system">
-				<dt>
+				<dt {if $smarty.foreach.f1.index==0 && $type !=0 }class="selected"{/if} >
 					<span class="asideImgWrap">
 						<img class="asideImg" src="{$item->image}" style="width: 19px;height: 18px;"/>
 						<img class="asideImg" src="{$item->image1}" style="width: 19px;height: 18px;"/>
@@ -507,7 +507,7 @@
 						<img class="asideImgRight" src="images/iIcon/zk.png"/>
 					</span>
 				</dt>
-				<dd>
+				<dd {if $smarty.foreach.f1.index==0 && $type !=0}style="display: block;"{/if} >
 					<ul>
 						{foreach from=$item->res item=item1 name=f2}
 							<li class="textApi"><a _href="{$item1->url}" data-title="{$item1->title}" href="javascript:void(0)">{$item1->title}</a></li>
