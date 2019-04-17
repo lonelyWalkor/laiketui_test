@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="style/css/message.css">
 	<link rel="stylesheet" href="style/css/changeIndex.css" />
 
-	<title>电商管理系统界面</title>
+	<title>来客电商管理系统</title>
 	{literal}
 		<style type="text/css">
 			.bk_2{
