@@ -9,7 +9,7 @@
 
 注重界面美感与用户体验，打造独特电商系统生态圈
 
-####  **最新版体验后台** ：[进入](http://www.laiketui.com/action/)
+####  **最新版体验后台** ：[http://www.laiketui.com/action/](http://www.laiketui.com/action/)
 
 #### 软件架构
 
