@@ -9,6 +9,8 @@
 
 注重界面美感与用户体验，打造独特电商系统生态圈
 
+####  **最新版体验后台** ：[http://www.laiketui.com/action/](http://www.laiketui.com/action/)
+
 #### 软件架构
 
 PHP5.6+ MYSQL5.5+ 自主研发框架
@@ -19,11 +21,11 @@ http://www.laiketui.com
 
 #### 来客电商微信小程序客户端截图(扫码体验效果更好！！！！)
 
-![扫码体验](https://xiaochengxu.laiketui.com/xiaochengxu.jpeg)
+![扫码体验](https://images.gitee.com/uploads/images/2019/0418/094953_2048c86e_2029865.jpeg)
 
 #### 小程序端截图(新款皮肤)
-![首页](http://www.laiketui.com/x3.png "在这里输入图片标题")
-![会员中心](http://www.laiketui.com/x5.png "在这里输入图片标题")
+![首页](https://images.gitee.com/uploads/images/2019/0418/094952_742088f7_2029865.png "在这里输入图片标题")
+![会员中心](https://images.gitee.com/uploads/images/2019/0418/094947_553d0c87_2029865.png "在这里输入图片标题")
 
 #### 小程序端截图(稳定版皮肤)
 ![稳定版皮肤](https://static.oschina.net/uploads/space/2018/1012/174754_S0De_3902514.png "在这里输入图片标题")
