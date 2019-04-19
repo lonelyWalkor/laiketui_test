@@ -22,13 +22,13 @@
 <div class="pd-20">
     <form name="form1" action="index.php?module=software&action=jifen" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <div class="row cl">
-            <label class="form-label col-2">首次注册，设置积分值：</label>
+            <label class="form-label col-2">默认积分值：</label>
             <div class="formControls col-10 " >
                 <input type="number" class="input-text" value="{$r[0]->jifennum}" placeholder="" id="" name="jifennum">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-2">是否开启积分转让：</label>
+            <label class="form-label col-2">积分转让开关：</label>
             <div class="formControls col-10 " >
             <input type="radio" name="switch" value="0" {if $r[0]->switch ==0} checked="checked"{/if}>关闭 &nbsp;&nbsp; 
             <input type="radio" name="switch" value="1" {if $r[0]->switch ==1} checked="checked"{/if}>开启 &nbsp;&nbsp; 
