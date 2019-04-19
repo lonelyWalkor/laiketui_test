@@ -51,7 +51,7 @@
                 <th>产品标题</th>
                 <th>发布时间</th>
                 <th>价格</th>
-                <th>数量</th>
+                <th>数量（双击修改）</th>
                 {*<th width="100px">操作</th>*}
             </tr>
             </thead>
