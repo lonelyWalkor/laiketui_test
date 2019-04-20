@@ -149,6 +149,9 @@
 										<a title="查看商品" href="index.php?module=go_group&action=grouppro&id={$item->status}&status=1" style="text-decoration:none;">
 											查看商品
 										</a>
+										
+										<a title="结束" href="javascript:;" onclick="system_category_del(this,{$item->status},3)" class="ml-5" >结束</a>
+										
 
 									  {else}
 									  <a title="编辑活动" href="index.php?module=go_group&action=modify&set=msg&id={$item->status}&status=1" style="text-decoration:none;">
