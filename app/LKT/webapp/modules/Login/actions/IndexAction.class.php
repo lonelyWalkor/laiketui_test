@@ -105,11 +105,15 @@ class IndexAction extends Action {
         // 设置该用户为登录状态
 		$this->getContext()->getUser()->setAuthenticated(true);
 		// 将数据存储起来
-		$sql = "select * from lkt_config where id = '1'";
+		$sql = "select * from lkt_config where id = '1' ";
         $r2 = $db->select($sql);
-        $uploadImg = $r2[0]->uploadImg; // 图片上传位置
+		$uploadImg = "";
+		if($r2){
+			 $uploadImg = $r2[0]->uploadImg; // 图片上传位置
+			 
+		}
+		$this->getContext()->getStorage()->write('uploadImg',$uploadImg);
         $login_time = time();
-        $this->getContext()->getStorage()->write('uploadImg',$uploadImg);
         $this->getContext()->getStorage()->write('login_time',$login_time);
 		$this->getContext()->getStorage()->write('admin_id',$admin_id);
 		$this->getContext()->getStorage()->write('admin_type',$admin_type);
