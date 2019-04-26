@@ -23,4 +23,17 @@ function moneyFormat($m){
 	}
 }
 
+function jump($url,$msg=null){
+	//header("Content-type:text/html;charset=utf-8");
+	if($msg){
+		echo "<script type='text/javascript'>" .
+				"alert('$msg');" .
+				"location.href='$url';</script>";
+	}else{
+		echo "<script type='text/javascript'>" .
+				"location.href='$url';</script>";
+	}
+	exit;
+}
+
 ?>
