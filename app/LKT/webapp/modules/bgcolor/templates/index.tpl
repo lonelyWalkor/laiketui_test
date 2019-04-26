@@ -62,13 +62,7 @@
                             	</div>
             				</div>
                         </a>
-                        <a style="text-decoration:none" class="ml-5" href="" title="修改" >
-	                        <div style="align-items: center;font-size: 12px;display: flex;">
-                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
-                                <img src="images/icon1/xg.png"/>&nbsp;修改
-                            	</div>
-            				</div>
-                        </a>
+                        
                         <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="confirm('确定要删除这个颜色吗?',{$item->id})">
                         	<div style="align-items: center;font-size: 12px;display: flex;">
                             	<div style="margin:0 auto;;display: flex;align-items: center;"> 
