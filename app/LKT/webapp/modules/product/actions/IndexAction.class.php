@@ -107,16 +107,16 @@ class IndexAction extends Action {
 
         $condition = ' recycle = 0 ';
         if($product_class != 0){
-            $condition .= " and a.product_class like '%$product_class%' ";
+            $condition .= " and a.product_class = '$product_class' ";
         }
         if ($brand_id != 0) {
-            $condition .= " and brand_id like '$brand_id' ";
+            $condition .= " and brand_id = '$brand_id' ";
         }
         if ($status != 0) {
             if($status == 1){
-                $condition .= " and status like 1 ";
+                $condition .= " and status = 1 ";
             }else if($status == 2){
-                $condition .= " and status like 0 ";
+                $condition .= " and status = 0 ";
             }
         }
         if ($s_type != 0) {
