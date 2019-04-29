@@ -102,7 +102,7 @@ form .select{
             </select>
             <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入产品名称" style="width:200px" class="input-text">
             <input name="" id="btn9" class="btn btn-success" type="submit" value="查询">
-            <input type="reset" value="清空" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="empty()" />
+            <input type="reset" value="清空" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset"  />
         </form>
     </div>
     <div style="clear:both;margin-top: 10px;" class="btnDiv">
