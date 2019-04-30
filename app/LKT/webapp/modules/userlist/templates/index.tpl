@@ -465,7 +465,7 @@ a{
             <thead>
                 <tr class="text-c">
                     <th width="40">选择</th>
-                    <th width="40">ID</th>
+                    <th width="50">用户ID</th>
                     <th width="100">头像</th>
                     <th width="150">用户昵称</th>
                     <th width="100">余额</th>
@@ -489,7 +489,7 @@ a{
                         </div>
                     	
                     </td>
-                    <td>{$item->id}</td>
+                    <td>{$item->user_id}</td>
                     <td><image class='pimg' src="{$item->headimgurl}" style="width: 60px;height:60px;border-radius: 30px;border: 1px solid darkgray;"/></td>
                     <td>{$item->user_name}</td>
                     <td>￥{$item->money}</td>

@@ -35,7 +35,7 @@
 		<table class="table table-border table-bordered table-bg table-hover">
 			<thead>
 			<tr class="text-c">
-				<th width="150">用户id</th>
+				<th width="150">用户ID</th>
 				<th width="150">用户昵称</th>
 				<th width="130">操作金额</th>
 				<th width="50">来源</th>
