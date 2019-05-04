@@ -47,9 +47,9 @@
             <input type="hidden" name="action" value="record" />
             <input type="hidden" name="pagesize" value="{$pagesize}" />
             <select name="source" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
-                <option value="0" selected>用户来源</option>
+                <option value="" selected>用户来源</option>
                 <option value="1" {if $source == 1} selected {/if}>小程序</option>
-                <option value="2" {if $source == 2} selected {/if}>手机app</option>
+                <option value="2" {if $source == 2} selected {/if}>app</option>
             </select>
             <input type="text" class="input-text" style="width:200px" placeholder="用户名" name="name" value="{$name}">
             <input type="text" class="input-text" style="width:200px" placeholder="手机号码" name="tel" value="{$tel}">
@@ -61,7 +61,7 @@
             <thead>
                 <tr class="text-c">
                     <th>序</th>
-                    <th>用户id</th>
+                    <th>用户ID</th>
                     <th>来源</th>
                     <th>签到积分</th>
                     <th>事件</th>

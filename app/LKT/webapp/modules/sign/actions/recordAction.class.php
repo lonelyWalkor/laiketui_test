@@ -16,9 +16,9 @@ class recordAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $source = addslashes(trim($request->getParameter('source'))); // 用户id
-        $name = addslashes(trim($request->getParameter('name'))); // 用户id
-        $tel = addslashes(trim($request->getParameter('tel'))); // 用户id
+        $source = addslashes(trim($request->getParameter('source'))); 
+        $name = addslashes(trim($request->getParameter('name'))); 
+        $tel = addslashes(trim($request->getParameter('tel'))); 
 
         $pagesize = $request -> getParameter('pagesize');
         $pagesize = $pagesize ? $pagesize:'10';
@@ -37,7 +37,7 @@ class recordAction extends Action {
             $condition .= " and b.source like '$source'";
         }
         if($name != ''){
-            $condition .= " and b.user_name like '$name'";
+            $condition .= " and a.user_id like '$name'";
         }
         if($tel != ''){
             $condition .= " and b.mobile like '$tel'";
@@ -48,7 +48,8 @@ class recordAction extends Action {
         $pager = new ShowPager($total,$pagesize,$page);
 
         $sql = "select a.*,b.user_name,b.mobile,b.source from lkt_sign_record as a left join lkt_user as b on a.user_id = b.user_id where $condition order by sign_time desc limit $start,$pagesize";
-        $r = $db->select($sql);
+        
+		$r = $db->select($sql);
         if($r){
             $list = $r;
         }else{
