@@ -56,7 +56,7 @@ td a{
                 <option value="2" {if $activity_type == '2'}selected{/if}>节日/活动</option>
                 <option value="3" {if $activity_type == '3'}selected{/if}>满减</option>
             </select>
-            <input type="text" name="name" size='8' value="{$name}" id="" placeholder="活动名称" style="width:200px" class="input-text">
+            <input type="text" name="name" size='8' value="{$name}" id="" placeholder="活动名称" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="" class="btn btn-success" type="submit" value="查询" >
             <a class="btn newBtn radius" href="index.php?module=coupon&action=add" style="height: 31px!important;border: none;">
             	<div style="height: 100%;display: flex;align-items: center;font-size: 14px;">

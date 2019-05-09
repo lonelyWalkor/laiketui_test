@@ -23,7 +23,7 @@
             <input type="hidden" name="action" value="member_record" />
             <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
-            <input type="text" name="admin_name" size='8' value="{$admin_name}" id="" placeholder="管理员账号" style="width:200px" class="input-text">
+            <input type="text" name="admin_name" size='8' value="{$admin_name}" id="" placeholder="管理员账号" autocomplete="off" style="width:200px" class="input-text">
             <input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s" style="width: 100px; height:26px;font-size: 14px;vertical-align: middle;" />
             <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.startdate);" />
             至

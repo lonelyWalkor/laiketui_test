@@ -72,7 +72,7 @@
                 {/foreach} 
             </select>
 
-            <input type="text" name="sNo" size='8' value="{$sNo}" id="" placeholder=" 订单编号" style="width:200px" class="input-text">
+            <input type="text" name="sNo" size='8' value="{$sNo}" id="" placeholder=" 订单编号" autocomplete="off" style="width:200px" class="input-text">
             <input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s" style="width: 100px; height:26px;font-size: 14px;vertical-align: middle;" />
             <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.startdate);" />
             至

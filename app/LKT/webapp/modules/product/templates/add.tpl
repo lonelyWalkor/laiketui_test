@@ -298,7 +298,7 @@ function check(f) {
                 </die>
                 <die style="float:left;margin-top: 5px;margin-left: -1px;">
                     <input type="hidden" id="picurl1" class="td-input" name="img[]" datatype="*" nullmsg="请选择图片"/>
-                    <img id="thumb_url1" src=''>
+                    <img id="thumb_url1" src='' >
                     <span class="btn btn-success" id="image1" type="button">选择图片</span>
                 </die>
                 <die style="float:right;margin-top: 5px;">
@@ -491,7 +491,10 @@ KindEditor.ready(function (K) {
                 clickFn: function (url, title, width, height, border, align) {
                     K('#picurl1').val(url);
                     $('#thumb_url1').attr("src", url);
-                    document.getElementById("thumb_url1").style.height='31px';
+                    document.getElementById("thumb_url1").width=27;
+                    // document.getElementById("thumb_url1").style.marginRight=0;
+                    var addTrWidth = document.getElementById("add-tr").offsetWidth;
+                    document.getElementById("add-tr").style.width = addTrWidth + 37 + "px";
 
                     //                    document.getElementById("thumb_url1").style.display='block';
                     editor.hideDialog();
@@ -733,7 +736,7 @@ function Preservation() {
                 rew1 += "<td style='width: 138px;'>" +
                     "<die style='margin-top: 5px;'>" +
                     "<input type='hidden' id='picurl_" + rnum + "' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>\n" +
-                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' style='height:31px;width:50px;'>" +
+                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' width=27 '>" +
                     "<span class='btn btn-success' id='image_" + rnum + "' type='button' style='margin-left: 5px;' onclick='image_click(" + rnum + ")'>选择图片</span>" +
                     "</die>"+
                     "</td>";
@@ -772,7 +775,7 @@ function Preservation() {
                 rew2 += "<td style='width: 138px;'>" +
                     "<die style='margin-top: 5px;'>" +
                     "<input type='hidden' id='picurl_" + rnum + "' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>" +
-                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' style='height:31px;width:50px;'>" +
+                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' style='height:31px;width:31px;'>" +
                     "<span class='btn btn-success' id='image_" + rnum + "' type='button' style='margin-left: 5px;' onclick='image_click(" + rnum + ")'>选择图片</span>" +
                     "</die>"+
                     "</td>";

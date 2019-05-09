@@ -65,7 +65,7 @@ td a{
 					<option value="22" {if $type =='22'} selected{/if}>提现失败</option>
 					<option value="23" {if $type =='23'} selected{/if}>取消订单</option>
 				</select>
-				<input type="text" class="input-text" style="width:150px" placeholder="用户ID" name="name" value="{$name}">
+				<input type="text" class="input-text" style="width:150px" placeholder="用户ID" autocomplete="off" name="name" value="{$name}">
 
 				<div style="position: relative;display: inline-block;">
 				<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />

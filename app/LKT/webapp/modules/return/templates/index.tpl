@@ -456,7 +456,7 @@ i{
     <div class="text-c"> 
         <form name="form1" action="index.php" method="get">
             <input type="hidden" name="module" value="return" />
-            <input type="text" name="p_name" size='8' value="{$p_name}" id="" placeholder="订单号" style="width:200px" class="input-text">
+            <input type="text" name="p_name" size='8' value="{$p_name}" id="" placeholder="订单号" autocomplete="off" style="width:200px" class="input-text">
             <select name="r_type" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
                 <option value="">订单状态</option>
 <option {if $r_type == 1}selected="selected"{/if} value="1">审核中</option>
