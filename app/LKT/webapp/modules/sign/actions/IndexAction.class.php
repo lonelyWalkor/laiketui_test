@@ -42,6 +42,14 @@ class IndexAction extends Action {
         $r = $db->select($sql);
         if(!empty($r)){
             foreach ($r as $k => $v) {
+                $dtime = date("Y-m-d H:i:s");
+                if($dtime>$v->endtime){//判断该活动是否过期
+                    $v->status = '2';
+                    //更新数据表
+            $sql01 = "update lkt_sign_activity set status = 2 " . "where id = ".$v->id;
+            $r01 = $db->update($sql01);
+                }
+                // print_r($dtime);die;
                 if($v->image == ''){
                     $v->image = 'nopic.jpg';
                 }
