@@ -135,7 +135,7 @@ Page({
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        console.log(res)
+        console.log(8888888)
         if (res.data.status == 1) {
           WxParse.wxParse('content', 'html', res.data.details, that, 5);
           var sign_time = res.data.sign_time;
@@ -156,6 +156,16 @@ Page({
             dateArr: dateArr, // 签到数组 
             imgurl: res.data.imgurl, // 签到图片
             num: num, // 连续签到天数
+          });
+        } else if (res.data.status == 2) {
+          wx.navigateBack({
+            delta: 1
+          });
+          wx.showToast({
+            title: res.data.err,
+            icon: 'none',
+            duration: 2000
+
           });
         } else {
           WxParse.wxParse('content', 'html', res.data.details, that, 5);
@@ -210,12 +220,26 @@ Page({
             sign_status: 0 // 是否签到
           });
           app.globalData.userInfo.sign_status = 0; // 修改签到状态(签到)
-        }else{
+        } else if (res.data.status == 2){
+            wx.navigateBack({
+              delta: 1
+            });
+          wx.showToast({
+            title: res.data.err,
+            icon: 'none',
+            duration: 2000
+            
+          });
+      
+      
+    
+        }else{ 
           wx.showToast({
             title: res.data.err,
             icon: 'none',
             duration: 2000
           });
+
         }
       },
       fail: function (e) {
