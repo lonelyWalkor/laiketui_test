@@ -43,6 +43,7 @@ bindMinus: function(e) {
     if(num < 1){
       wx.showToast({
         title: '数量不能小于1!',
+        icon: 'none',
         duration: 2000
       });
     }else{
