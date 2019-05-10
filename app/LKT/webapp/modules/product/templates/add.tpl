@@ -674,7 +674,7 @@ function Preservation() {
                     return false;
                 }else{
                     if (Number(n[j].value) > 0) {
-                        if (n[j].value < n[0].value) {
+                        if (Number(n[j].value) < Number(n[0].value)) {
                             alert("现价低于成本价");
                         }
                         All['现价'] = n[j].value;
