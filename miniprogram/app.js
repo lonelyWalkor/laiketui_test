@@ -10,7 +10,7 @@ App({
     bf_color:'#FF6347',
     h_color:'#FF63477',
     order:{},
-    ceshiUrl: 'http://127.0.0.1/LKT/index.php?module=api&software_name=3&edition=1.0', 
+    ceshiUrl: 'http://192.168.0.104/test/LKT/index.php?module=api&software_name=3&edition=1.0',
   },
   onLaunch: function (options) {
     //调用API从本地缓存中获取数据
