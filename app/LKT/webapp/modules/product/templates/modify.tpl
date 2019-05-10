@@ -306,7 +306,7 @@ form[name=form1] input{
                                 <td style='width: 138px;text-align: center;'>
                                     <die style='margin-top: 5px;'>
                                         <input type='hidden' id='picurl_{$k+1}' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>
-                                        <img id='thumb_url_{$k+1}' src='{$item2}' style='height:31px;width:50px;'>
+                                        <img id='thumb_url_{$k+1}' src='{$item2}' width=27 >
                                         <span class='btn btn-success' id='image_{$k+1}' type='button' onclick='image_click({$k+1})'>选择图片</span>
                                     </die>
                                 </td>
@@ -468,7 +468,11 @@ KindEditor.ready(function(K) {
                 clickFn : function(url, title, width, height, border, align) {
                     K('#picurl1').val(url);
                     $('#thumb_url1').attr("src",url);
-                    document.getElementById("thumb_url1").style.height='31px';
+                    document.getElementById("thumb_url1").width=27;
+                    var _addTr = document.getElementById("add-tr");
+                    _addTr.style.width = 978 + "px";
+                    var addTrWidth = _addTr.offsetWidth;
+                    _addTr.style.width = addTrWidth + 37 + "px";
                     editor.hideDialog();
                 }
             });
@@ -705,10 +709,10 @@ function Preservation() {
         for (var k in All) {
             for_num++;
             if (k == '图片') {
-                rew1 += "<td style='width: 138px;'>" +
+                rew1 += "<td style='width: 138px; text-align: center;'>" +
                     "<die style='margin-top: 5px;'>" +
                     "<input type='hidden' id='picurl_" + rnum + "' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>\n" +
-                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' style='height:31px;width:50px;'>" +
+                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' width=27'>" +
                     "<span class='btn btn-success' id='image_" + rnum + "' type='button' style='margin-left: 5px;' onclick='image_click(" + rnum + ")'>选择图片</span>" +
                     "</die>"+
                     "</td>";
@@ -746,10 +750,10 @@ function Preservation() {
         for (var k in All) {
             for_num++;
             if (k == '图片') {
-                rew2 += "<td style='width: 138px;'>" +
+                rew2 += "<td style='width: 138px; text-align: center'>" +
                     "<die style='margin-top: 5px;'>" +
                     "<input type='hidden' id='picurl_" + rnum + "' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>" +
-                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' style='height:31px;width:50px;'>" +
+                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' width=27'>" +
                     "<span class='btn btn-success' id='image_" + rnum + "' type='button' style='margin-left: 5px;' onclick='image_click(" + rnum + ")'>选择图片</span>" +
                     "</die>"+
                     "</td>";

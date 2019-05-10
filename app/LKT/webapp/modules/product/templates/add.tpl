@@ -134,7 +134,7 @@ function check(f) {
 <title>添加产品</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品列表管理 <span class="c-gray en">&gt;</span> 发布产品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> <a href="index.php?module=product" style="text-decoration:none;">产品列表管理</a> <span class="c-gray en">&gt;</span> 发布产品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 
 <div class="pd-20">
     <form name="form1" action="index.php?module=product&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return check(this);">
@@ -328,7 +328,7 @@ function check(f) {
                                     <td style='width: 138px;'>
                                         <die style='margin-top: 5px;'>
                                             <input type='hidden' id='picurl_{$k+1}' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>
-                                            <img id='thumb_url_{$k+1}' src='{$item2}' style='height:31px;width:50px;'>
+                                            <img id='thumb_url_{$k+1}' src='{$item2}' width=27 >
                                             <span class='btn btn-success' id='image_{$k+1}' type='button' onclick='image_click({$k+1})'>选择图片</span>
                                         </die>
                                     </td>
@@ -493,9 +493,10 @@ KindEditor.ready(function (K) {
                     $('#thumb_url1').attr("src", url);
                     document.getElementById("thumb_url1").width=27;
                     // document.getElementById("thumb_url1").style.marginRight=0;
-                    var addTrWidth = document.getElementById("add-tr").offsetWidth;
-                    document.getElementById("add-tr").style.width = addTrWidth + 37 + "px";
-
+                    var _addTr = document.getElementById("add-tr");
+                    _addTr.style.width = 978 + "px";
+                    var addTrWidth = _addTr.offsetWidth;
+                    _addTr.style.width = addTrWidth + 37 + "px";
                     //                    document.getElementById("thumb_url1").style.display='block';
                     editor.hideDialog();
                 }
@@ -775,7 +776,7 @@ function Preservation() {
                 rew2 += "<td style='width: 138px;'>" +
                     "<die style='margin-top: 5px;'>" +
                     "<input type='hidden' id='picurl_" + rnum + "' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>" +
-                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' style='height:31px;width:31px;'>" +
+                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' width=27'>" +
                     "<span class='btn btn-success' id='image_" + rnum + "' type='button' style='margin-left: 5px;' onclick='image_click(" + rnum + ")'>选择图片</span>" +
                     "</die>"+
                     "</td>";
