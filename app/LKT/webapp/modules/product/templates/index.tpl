@@ -100,9 +100,9 @@ form .select{
                 <option value="2" {if $status == 2}selected="selected"{/if}>上架</option>
                 <option value="1" {if $status == 1}selected="selected"{/if}>下架</option>
             </select>
-            <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入产品名称" style="width:200px" class="input-text">
+            <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入产品名称" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="btn9" class="btn btn-success" type="submit" value="查询">
-            <input type="reset" value="清空" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset"  />
+            <input type="button" value="重 置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="resetButton()"  />
         </form>
     </div>
     <div style="clear:both;margin-top: 10px;" class="btnDiv">
@@ -399,6 +399,13 @@ function closeMask3(id,type){
         }
     },"json");
     $(".maskNew").remove();
+}
+function resetButton(){
+        $("#product_title").val("");
+        $("#cid option[value='0']").attr("selected", "selected");
+        $("#brand_id option[value='0']").attr("selected", "selected");
+        $("#s_type option[value='0']").attr("selected", "selected");
+        $("#status option[value='0']").attr("selected", "selected");
 }
 </script>
 {/literal}

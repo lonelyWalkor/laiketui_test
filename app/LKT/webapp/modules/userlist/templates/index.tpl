@@ -428,7 +428,7 @@ a{
             <div style="height:30px; border-left:solid 1px #fff;">
                 <input type="hidden" name="module" value="userlist"  />
                 <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
-                <input type="text" class="input-text" style="width:200px" placeholder="用户名" name="name" value="{$name}">
+                <input type="text" class="input-text" style="width:200px" autocomplete="off" placeholder="用户名" name="name" value="{$name}">
                 <input type="text" class="input-text" style="width:200px" placeholder="手机号码" name="tel" value="{$tel}">
                 <select name="source" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
                     <option value="0" selected>用户来源</option>

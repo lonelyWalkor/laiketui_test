@@ -38,7 +38,7 @@
             <input type="hidden" name="module" value="freight" />
             <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
-            <input type="text" name="name" size='8' value="{$name}" id="" placeholder="规则名称" style="width:200px" class="input-text">
+            <input type="text" name="name" size='8' value="{$name}" id="" placeholder="规则名称" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="btn1" class="btn btn-success" type="submit" value="查询">
             <a class="btn newBtn radius" style="border: none!important;" href="index.php?module=freight&action=add"><img src="images/icon1/add.png" />&nbsp;添加规则</a>
         	<a href="javascript:;" onclick="datadel()" style="background-color: #fff!important;color: #6a7076!important; width: 80px;margin-left: 10px;" class="btn newBtn radius"><img src="images/icon1/del.png" />删除</a>

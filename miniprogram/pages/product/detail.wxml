@@ -56,11 +56,11 @@
       </view>
       <view class='dd_details_text'>
         <view class='ovh1' style='-webkit-line-clamp:2;float:left;font-size:32rpx;color:#333;font-weight:700;width:85%;'>
-        <text class='de_text'>[</text>
+        <text class='de_text' wx:if="{{itemData.xp == 1 || itemData.rexiao == 1 || itemData.tuijian == 1}}">[</text>
           <text class='de_text'  wx:if="{{itemData.xp == 1}}">新品</text>
           <text class='de_text'  wx:if="{{itemData.rexiao == 1}}">热销</text>
           <text class='de_text'  wx:if="{{itemData.tuijian == 1}}">推荐</text>
-          <text class='de_text'>]</text>
+          <text class='de_text' wx:if="{{itemData.xp == 1 || itemData.rexiao == 1 || itemData.tuijian == 1}}">]</text>
           {{itemData.name}}
         </view>
         <view style='float:right;margin-top:-4px;'>

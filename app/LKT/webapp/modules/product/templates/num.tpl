@@ -37,7 +37,7 @@
         <form name="form1" action="index.php" method="get">
             <input type="hidden" name="module" value="product" />
             <input type="hidden" name="action" value="num" />
-            <input type="text" name="product_title" size='8' value="{$product_title}" id="" placeholder=" 产品标题" style="width:200px" class="input-text">
+            <input type="text" name="product_title" size='8' value="{$product_title}" id="" placeholder=" 产品标题" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="btn1" class="btn btn-success" type="submit" value="查询">
             <input type="button" value="清空" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="empty()" />
         </form>

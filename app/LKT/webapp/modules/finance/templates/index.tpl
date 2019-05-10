@@ -54,9 +54,9 @@ td a{
 			<input type="hidden" name="module" value="finance" />
 			<input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
-			<input type="text" class="input-text" style="width:250px" placeholder="用户名" name="name" value="{$name}">
-			<input type="text" class="input-text" style="width:250px" placeholder="卡号" name="Bank_card_number" value="{$Bank_card_number}">
-			<input type="text" class="input-text" style="width:250px" placeholder="持卡人姓名" name="Cardholder" value="{$Cardholder}">
+			<input type="text" class="input-text" style="width:250px" autocomplete="off" placeholder="用户名" name="name" value="{$name}">
+			<input type="text" class="input-text" style="width:250px" autocomplete="off" placeholder="卡号" name="Bank_card_number" value="{$Bank_card_number}">
+			<input type="text" class="input-text" style="width:250px" autocomplete="off" placeholder="持卡人姓名" name="Cardholder" value="{$Cardholder}">
 	        <input type="submit" class="btn btn-success" value="查 询">
 			<!--<input type="button" value="导出本页" class="btn btn-success" onclick="excel('ne')">-->
 			<input type="button" value="导出" class="btn btn-success" onclick="excel('all')">

@@ -25,20 +25,20 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>联系人：</label>
                 <div class="formControls col-xs-8 col-sm-6">
-                    <input type="text" name="name" value="{$list->name}" class="input-text">
+                    <input type="text" name="name" autocomplete="off" value="{$list->name}" class="input-text">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>联系电话：</label>
                 <div class="formControls col-xs-8 col-sm-6">
-                    <input type="text" name="tel" value="{$list->tel}" class="input-text">
+                    <input type="text" name="tel" autocomplete="off" value="{$list->tel}" class="input-text">
                 </div>
             </div>
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>详细地址：</label>
                 <div class="formControls col-xs-8 col-sm-6">
-                    <input type="text" name="address" value="{$list->address}" class="input-text">
+                    <input type="text" name="address" autocomplete="off" value="{$list->address}" class="input-text">
                 </div>
             </div>
 

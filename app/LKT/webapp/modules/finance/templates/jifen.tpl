@@ -59,8 +59,8 @@ td a{
 					<option value="6" {if $type =='6' } selected{/if}>系统充值</option>
 					<option value="7" {if $type =='7' } selected{/if}>抽奖</option>
 				</select>
-				<input type="text" class="input-text" style="width:250px" placeholder="用户名" name="user_name" value="{$user_name}">
-				<input type="text" class="input-text" style="width:250px" placeholder="手机号" name="mobile" value="{$mobile}">
+				<input type="text" class="input-text" style="width:250px" placeholder="用户名" autocomplete="off" name="user_name" value="{$user_name}">
+				<input type="text" class="input-text" style="width:250px" placeholder="手机号" autocomplete="off" name="mobile" value="{$mobile}">
 
 				{*<div style="position: relative;display: inline-block;">*}
 				{*<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />*}
