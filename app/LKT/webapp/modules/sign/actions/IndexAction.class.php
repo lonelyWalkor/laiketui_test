@@ -28,7 +28,15 @@ class IndexAction extends Action {
         }else{
             $start = 0;
         }
-
+        //查询签到配置表，找出活动过期后是否删除
+        $sql01 = "select * from lkt_sign_config ";
+        $r01 = $db->select($sql01);
+        if($r01){
+            $activity_overdue = $r01[0]->activity_overdue;
+        }else{
+            $activity_overdue = 0;
+        }
+        
         $sql = "select * from lkt_config where id = '1'";
         $r = $db->select($sql);
         $uploadImg = $r[0]->uploadImg; // 图片上传位置
@@ -43,11 +51,18 @@ class IndexAction extends Action {
         if(!empty($r)){
             foreach ($r as $k => $v) {
                 $dtime = date("Y-m-d H:i:s");
+                $dtime1 = date('Y-m-d H:i:s',strtotime('-2 day'));//判断过期后多久活动删除
                 if($dtime>$v->endtime){//判断该活动是否过期
                     $v->status = '2';
-                    //更新数据表
-            $sql01 = "update lkt_sign_activity set status = 2 " . "where id = ".$v->id;
-            $r01 = $db->update($sql01);
+                    if($activity_overdue > 0 && $dtime1>$v->endtime){//过期活动删除
+                        $sql = 'delete from lkt_sign_activity where id='.$v->id;
+                        $res = $db -> delete($sql);
+                    }else{
+                        //更新数据表
+                        $sql02 = "update lkt_sign_activity set status = 2 where id = ".$v->id;
+                        $r02 = $db->update($sql02);
+
+                    }
                 }
                 // print_r($dtime);die;
                 if($v->image == ''){
