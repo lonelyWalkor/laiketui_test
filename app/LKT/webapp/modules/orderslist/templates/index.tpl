@@ -280,7 +280,7 @@
 			<input type="text" name="sNo" size='8' value="{$sNo}" id="" placeholder=" 订单编号或收件人姓名/电话..." autocomplete="off" style="width:200px" class="input-text">
 			<div style="position: relative;display: inline-block;">
 				<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />
-				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 25px;top: 7px;" onclick="new Calendar().show(document.form1.startdate);" />
+				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 10px;top: 7px;" onclick="new Calendar().show(document.form1.startdate);" />
 			</div>至
 			<div style="position: relative;display: inline-block;margin-left: 5px;">
 				<input  name="enddate" value="{$enddate}" size="8" readonly class="scinput_s iptRl" style="" />
