@@ -8,19 +8,19 @@
 
 ### QQ交流群
 
-340645969  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=427109459854834986069455266c718998467b63c78f455940d6291de01a7d0b)
+- 340645969  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=427109459854834986069455266c718998467b63c78f455940d6291de01a7d0b)
 
 ### 最新版体验后台
 
-[http://www.laiketui.com/action/](http://www.laiketui.com/action/)
+- [http://www.laiketui.com/action/](http://www.laiketui.com/action/)
 
 ### 软件架构
 
-PHP5.6+ MYSQL5.5+ 自主研发框架
+- PHP5.6+ MYSQL5.5+ 自主研发框架
 
 ### 安装教程、开发文档、操作手册请进入官网查询
 
-http://www.laiketui.com
+- http://www.laiketui.com
 
 ### 来客电商微信小程序客户端截图[扫码体验效果更好！！！！]
 
