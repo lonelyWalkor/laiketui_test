@@ -22,7 +22,7 @@
 
 - http://www.laiketui.com
 
-### 来客电商微信小程序客户端截图[扫码体验效果更好！！！！]
+### 来客最新版微信扫码查看示例
 
 ![扫码体验](https://images.gitee.com/uploads/images/2019/0418/094953_2048c86e_2029865.jpeg)
 
