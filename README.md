@@ -30,14 +30,20 @@
 
 ![扫码体验](https://images.gitee.com/uploads/images/2019/0418/094953_2048c86e_2029865.jpeg)
 
-### 小程序端截图(稳定版皮肤)
+### 小程序端截图
+
+| http://www.laiketui.com/wp-content/uploads/2018/12/x2.png | http://www.laiketui.com/wp-content/uploads/2018/12/x4.png |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| http://www.laiketui.com/wp-content/uploads/2018/12/x3.png | http://www.laiketui.com/wp-content/uploads/2018/12/x5.png |
+
+
 ![稳定版皮肤](https://images.gitee.com/uploads/images/2019/0514/100638_e7f9fbc9_2029865.png "在这里输入图片标题")
 
 ### 后台截图
 
-| ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143003_6b9ecd53_2029865.png "在这里输入图片标题") | ![输入图片说明](http://www.laiketui.com/wp-content/uploads/2018/12/2018122808153463.png "在这里输入图片标题") |
+| ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143003_6b9ecd53_2029865.png "在这里输入图片标题") | ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143319_3864b098_2029865.png "在这里输入图片标题") |
 | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143110_9cda6231_2029865.png "在这里输入图片标题") | ![输入图片说明](http://www.laiketui.com/wp-content/uploads/2018/12/2018122808250212.png "在这里输入图片标题") |
+| ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143110_9cda6231_2029865.png "在这里输入图片标题") | ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143318_7e7574f6_2029865.png "在这里输入图片标题") |
 
 
 ### 功能列表 
