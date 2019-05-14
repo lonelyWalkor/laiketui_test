@@ -22,7 +22,7 @@
 
 - http://www.laiketui.com
 
-### 来客最新版微信扫码查看示例
+### APP+公众号+小程序演示请用微信扫码
 
 ![扫码体验](https://images.gitee.com/uploads/images/2019/0418/094953_2048c86e_2029865.jpeg)
 
