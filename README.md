@@ -23,17 +23,11 @@ http://www.laiketui.com
 
 ![扫码体验](https://images.gitee.com/uploads/images/2019/0418/094953_2048c86e_2029865.jpeg)
 
-#### 小程序端截图(新款皮肤)
-![首页](https://images.gitee.com/uploads/images/2019/0514/100639_66cf8a9e_2029865.png "在这里输入图片标题")
-![多款插件](http://www.laiketui.com/wp-content/uploads/2018/12/x4.png "在这里输入图片标题")
-
 #### 小程序端截图(稳定版皮肤)
 ![稳定版皮肤](https://images.gitee.com/uploads/images/2019/0514/100638_e7f9fbc9_2029865.png "在这里输入图片标题")
 
-
 #### 后台截图
 ![输入图片说明](https://images.gitee.com/uploads/images/2018/1108/195946_1f1f0ad0_2029865.png "2018102604085011.png")
-
 
 #### 功能列表 
 1. 产品管理（产品分类管理、产品品牌管理、产品列表管理）
@@ -53,8 +47,6 @@ http://www.laiketui.com
 15. 拼团活动（发布活动、活动列表）
 16. 抽奖管理（发布活动、开奖管理）
 18. saas服务插件
-
-
 
 #### 相关思维导图
 ![前端](https://images.gitee.com/uploads/images/2018/1101/171831_05d3ecb6_2029865.jpeg "来客小程序.jpg")
