@@ -15,7 +15,7 @@
 
 PHP5.6+ MYSQL5.5+ 自主研发框架
 
-#### 安装教程
+#### 安装教程、开发文档、操作手册请进入官网查询
 
 http://www.laiketui.com
 
@@ -24,11 +24,11 @@ http://www.laiketui.com
 ![扫码体验](https://images.gitee.com/uploads/images/2019/0418/094953_2048c86e_2029865.jpeg)
 
 #### 小程序端截图(新款皮肤)
-![首页](https://images.gitee.com/uploads/images/2019/0418/094952_742088f7_2029865.png "在这里输入图片标题")
-![会员中心](https://images.gitee.com/uploads/images/2019/0418/094947_553d0c87_2029865.png "在这里输入图片标题")
+![首页](https://images.gitee.com/uploads/images/2019/0514/100639_66cf8a9e_2029865.png "在这里输入图片标题")
+![多款插件](http://www.laiketui.com/wp-content/uploads/2018/12/x4.png "在这里输入图片标题")
 
 #### 小程序端截图(稳定版皮肤)
-![稳定版皮肤](https://static.oschina.net/uploads/space/2018/1012/174754_S0De_3902514.png "在这里输入图片标题")
+![稳定版皮肤](https://images.gitee.com/uploads/images/2019/0514/100638_e7f9fbc9_2029865.png "在这里输入图片标题")
 
 
 #### 后台截图
@@ -52,30 +52,12 @@ http://www.laiketui.com
 14. 系统管理（系统参数配置、推广图设置、热门关键词、管理员列表、新增管理员、权限设置）
 15. 拼团活动（发布活动、活动列表）
 16. 抽奖管理（发布活动、开奖管理）
+18. saas服务插件
 
 
-#### 安装教程
-
-官网查看：[http://www.laiketui.com/](http://www.laiketui.com/)
-
-#### 使用说明
-
-官网查看：[http://www.laiketui.com/help/](http://www.laiketui.com/help/)
-
-#### QQ交流群
-340645969
-
-
-#### 安装部署教程
-官网查看：[http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/](http://www.laiketui.com/docs/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-2/)
-
-#### 开发文档
-官网查看：[http://www.laiketui.com/docs/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/](http://www.laiketui.com/docs/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/)
 
 #### 相关思维导图
 ![前端](https://images.gitee.com/uploads/images/2018/1101/171831_05d3ecb6_2029865.jpeg "来客小程序.jpg")
 
 ![后台](https://images.gitee.com/uploads/images/2018/1101/171848_6ec689ed_2029865.jpeg "来客后台.jpg")
-
-
 
