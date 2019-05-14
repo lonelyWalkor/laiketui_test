@@ -32,9 +32,9 @@
 
 ### 小程序端截图
 
-| http://www.laiketui.com/wp-content/uploads/2018/12/x2.png | http://www.laiketui.com/wp-content/uploads/2018/12/x4.png |
+| ![输入图片说明](http://www.laiketui.com/wp-content/uploads/2018/12/x2.png "在这里输入图片标题") | ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143650_b37ca76e_2029865.png "在这里输入图片标题") |
 | --------------------------------------------------------- | --------------------------------------------------------- |
-| http://www.laiketui.com/wp-content/uploads/2018/12/x3.png | http://www.laiketui.com/wp-content/uploads/2018/12/x5.png |
+| ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143653_5bf1e0db_2029865.png "在这里输入图片标题") |  |
 
 
 ![稳定版皮肤](https://images.gitee.com/uploads/images/2019/0514/100638_e7f9fbc9_2029865.png "在这里输入图片标题")
@@ -75,3 +75,4 @@
 ![前端](https://images.gitee.com/uploads/images/2018/1101/171831_05d3ecb6_2029865.jpeg "来客小程序.jpg")
 
 ![后台](https://images.gitee.com/uploads/images/2018/1101/171848_6ec689ed_2029865.jpeg "来客后台.jpg")
+![输入图片说明](http://www.laiketui.com/wp-content/uploads/2018/12/x5.png "在这里输入图片标题")
