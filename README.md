@@ -26,7 +26,7 @@
 
 - http://www.laiketui.com
 
-### APP+公众号+小程序演示请用微信扫码
+### APP+公众号+小程序更多演示请用微信扫码
 
 ![扫码体验](https://images.gitee.com/uploads/images/2019/0418/094953_2048c86e_2029865.jpeg)
 
@@ -34,10 +34,8 @@
 
 | ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143851_4873d4b1_2029865.png "在这里输入图片标题") | ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/143905_8775e557_2029865.png "在这里输入图片标题") |
 | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| ![输入图片说明](http://www.laiketui.com/wp-content/uploads/2018/12/x3.png "在这里输入图片标题")                     | ![输入图片说明](http://www.laiketui.com/wp-content/uploads/2018/12/x5.png "在这里输入图片标题")                     |
+| ![输入图片说明](http://www.laiketui.com/wp-content/uploads/2018/12/x3.png "在这里输入图片标题")                     | ![输入图片说明](https://images.gitee.com/uploads/images/2019/0514/144036_d70a43d6_2029865.png "在这里输入图片标题")                     |
 
-
-![稳定版皮肤](https://images.gitee.com/uploads/images/2019/0514/100638_e7f9fbc9_2029865.png "在这里输入图片标题")
 
 ### 后台截图
 
@@ -70,6 +68,9 @@
 20. 多店铺插件+独立商家APP
 
 ```
+### 分销小程序特殊版本截图
+
+![稳定版皮肤](https://images.gitee.com/uploads/images/2019/0514/100638_e7f9fbc9_2029865.png "在这里输入图片标题")
 
 ### 相关思维导图
 ![前端](https://images.gitee.com/uploads/images/2018/1101/171831_05d3ecb6_2029865.jpeg "来客小程序.jpg")
