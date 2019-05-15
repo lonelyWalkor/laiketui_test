@@ -545,7 +545,7 @@
                                 </div>
                                 <div class="news" style="margin-bottom: 6px">
                                     <div class="realDivTitle" style="border-bottom: 2px solid #eee;">公告</div>
-                                    <ul style="height: 120px;overflow: auto;">
+                                    <ul style="height: 91px;overflow: auto;">
                                         {foreach from=$res_notice item = item1 name=f1}
                                             <li>
                                                 <a href="index.php?module=notice&action=article&id={$item1->id}">
