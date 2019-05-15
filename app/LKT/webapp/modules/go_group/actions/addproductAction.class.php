@@ -75,7 +75,7 @@ class addproductAction extends Action {
       if($product_title != ''){
         $condition .= " and a.product_title like '%$product_title%' ";
       }
-      $sql = "select  a.id,a.product_title,a.imgurl,product_class from lkt_product_list as a where $condition" . ' order by status asc,a.add_date desc,a.sort desc ';
+      $sql = "select  a.id,a.product_title,a.imgurl,product_class from lkt_product_list as a where $condition and recycle =0" . ' order by status asc,a.add_date desc,a.sort desc ';
       // print_r($sql);die;
       $r = $db->select($sql);
       $list = [];
