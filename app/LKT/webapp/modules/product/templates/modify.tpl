@@ -138,32 +138,32 @@ form[name=form1] input{
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>产品编号：</label>
             <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$product_number}" placeholder="" id="" name="product_number">
+                <input type="text" class="input-text" value="{$product_number}" placeholder="" id="product_numberId" name="product_number">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$product_title}" placeholder="" id="" name="product_title">
+                <input type="text" class="input-text" value="{$product_title}" placeholder="" id="product_titleId" name="product_title">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>副标题：</label>
             <div class="formControls" style="display: inline-block;">
-                <input type="text" class="input-text" value="{$subtitle}" placeholder="" id="" name="subtitle">
+                <input type="text" class="input-text" value="{$subtitle}" placeholder="" id="subtitleId" name="subtitle">
             </div>
             <text style="line-height:30px;">*简洁表达产品，用来显示在首页产品，避免截取时不能表达是什么产品。</text>
         </div>
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>商品条形码：</label>
             <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$scan}" placeholder="" id="" name="scan">
+                <input type="text" class="input-text" value="{$scan}" placeholder="" id="scanId" name="scan">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
             <div class="formControls col-2"> <span class="select-box">
-                <select name="product_class" class="select">
+                <select name="product_class" class="select" id="product_classId">
                     <option selected="selected" value="0">请选择类别</option>
                     {$ctypes}
                 </select>
@@ -173,8 +173,9 @@ form[name=form1] input{
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>产品品牌：</label>
             <div class="formControls col-2"> <span class="select-box">
-                <select name="brand_class" class="select">
+                <select name="brand_class" class="select" id="brand_classId">
                     {foreach from=$r02 item=item name=f1}
+                        <option selected="selected" value="0">请选择品牌</option>
                         <option {if $item->brand_name == $brand_name} selected="selected" {/if} value="{$item->brand_id}">{$item->brand_name}</option>
                     {/foreach}
                 </select>
@@ -184,13 +185,13 @@ form[name=form1] input{
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>关键词：</label>
             <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$keyword}" placeholder="" id="" name="keyword">
+                <input type="text" class="input-text" value="{$keyword}" placeholder="" id="keywordId" name="keyword">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
             <div class="formControls col-4" style="width: 26.8%;">
-                <input type="text" class="input-text" value="{$weight}" placeholder="" id="" name="weight">
+                <input type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight">
             </div>
             <text style="line-height:30px;">克</text>
         </div>
@@ -361,7 +362,7 @@ form[name=form1] input{
         <div class="row cl">
             <label class="form-label col-2">拟定销量：</label>
             <div class="formControls col-2">
-                <input type="number" class="input-text" value="{$volume}" name="volume">
+                <input type="number" class="input-text" value="{$volume}" name="volume" id="volumeId">
             </div>
         </div>
 
@@ -397,7 +398,7 @@ form[name=form1] input{
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>运费设置：</label>
             <div class="formControls col-2"> <span class="select-box">
-                <select name="freight" class="select">
+                <select name="freight" class="select" id="freightId">
                     {$freight_list}
                 </select>
                 </span>
@@ -412,7 +413,7 @@ form[name=form1] input{
         <div class="row cl">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius">
+                <input type="button" name="reset" value="重 写"  class="btn btn-primary radius" id="resetId" onclick="resetButton()">
             </div>
         </div>
     </form>
@@ -1045,6 +1046,22 @@ function image_click(rr_num) {
             });
         });
     });
+}
+function resetButton(){
+    $('#product_numberId').val("");
+    $('#product_titleId').val("");
+    $('#subtitleId').val("");
+    $('#scanId').val("");
+    $("#product_classId option[value='0']").attr("selected", "selected");
+    $("#brand_classId option[value='0']").attr("selected", "selected");
+    $('#keywordId').val("");
+    $('#weightId').val("");
+    $('#sex-1').attr("checked","");
+    $('#sex-2').attr("checked","");
+    $('#sex-3').attr("checked","");
+    $('#volumeId').val("");
+    $("#freightId option[value='0']").attr("selected", "selected");
+    $('#ueditor_0').contents().find('p').html("");
 }
 </script>
 {/literal}
