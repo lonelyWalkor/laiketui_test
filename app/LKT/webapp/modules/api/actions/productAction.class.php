@@ -440,10 +440,10 @@ class productAction extends Action {
                 if ($res) {
                     //根据点击的类型进行修改
                     if($pro_type == 'buynow'){
-                        $sql_u = "update lkt_cart set Goods_num = '$Goods_num' where Uid = '$Uid' and Goods_id = '$Goods_id' and Size_id = '$size_id'";
+                        $sql_u = "update lkt_cart set Goods_num = '$Goods_num',Create_time = CURRENT_TIMESTAM where Uid = '$Uid' and Goods_id = '$Goods_id' and Size_id = '$size_id'";
                         $r_u = $db->update($sql_u);
                     }else{
-                        $sql_u = "update lkt_cart set Goods_num = Goods_num+'$Goods_num' where Uid = '$Uid' and Goods_id = '$Goods_id' and Size_id = '$size_id'";
+                        $sql_u = "update lkt_cart set Goods_num = Goods_num+'$Goods_num',Create_time = CURRENT_TIMESTAMP where Uid = '$Uid' and Goods_id = '$Goods_id' and Size_id = '$size_id'";
                         $r_u = $db->update($sql_u);
                     }
                     echo json_encode(array('status'=>1,'cart_id'=>$res['0']->id));
@@ -1041,9 +1041,10 @@ class productAction extends Action {
 
         $arr = [];
         $uid = trim($request->getParameter('user_id')); //  '分类ID'
-        $sql_c = 'select a.*,c.price,c.attribute,c.img,c.num as pnum,m.product_title,c.id AS sizeid from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$uid.'\'';
+        $sql_c = 'select a.*,c.price,c.attribute,c.img,c.num as pnum,m.product_title,c.id AS sizeid from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$uid.'\' order by Create_time desc';
         
         $r_c = $db->select($sql_c);
+
         if($r_c){
             foreach ($r_c as $key => $value) {
                 $imgurl = $img.$value->img;/* end 保存*/
