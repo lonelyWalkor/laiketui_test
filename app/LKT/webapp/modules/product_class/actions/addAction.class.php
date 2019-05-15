@@ -78,6 +78,7 @@ class addAction extends Action {
 	public function execute(){
 		$db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+     
         // 获取分类名称和排序号
         $pname = addslashes(trim($request->getParameter('pname'))); // 分类名称
         $sid = $request->getParameter('val'); // 产品类别
@@ -85,6 +86,54 @@ class addAction extends Action {
         $image = addslashes(trim($request->getParameter('image'))); // 图片
 		$sort = floatval(trim($request->getParameter('sort'))); // 排序
         $bg = addslashes(trim($request->getParameter('bg'))); // 展示图片
+
+        $select_c = $request->getParameter('select_c'); // 级别
+        $select_1 = $request->getParameter('select_1'); // 级别
+        $select_2 = $request->getParameter('select_2'); // 级别
+        $select_3 = $request->getParameter('select_3'); // 级别
+        $select_4 = $request->getParameter('select_4'); // 级别
+        $select_5 = $request->getParameter('select_5'); // 级别
+        if($select_c ==1 && $select_1 ==0){
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('上级分类不能为空！');" .
+                "</script>";
+            return $this->getDefaultView();
+
+        }
+         if($select_c ==2 && $select_2 ==0){
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('上级分类不能为空！');" .
+                "</script>";
+            return $this->getDefaultView();
+
+        }
+         if($select_c ==3 && $select_3 ==0){
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('上级分类不能为空！');" .
+                "</script>";
+            return $this->getDefaultView();
+
+        }
+         if($select_c ==4 && $select_4 ==0){
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('上级分类不能为空！');" .
+                "</script>";
+            return $this->getDefaultView();
+
+        }
+         if($select_c ==5 && $select_5 ==0){
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('上级分类不能为空！');" .
+                "</script>";
+            return $this->getDefaultView();
+
+        }
+
 		if($image){
             $image = preg_replace('/.*\//','',$image);
         }
