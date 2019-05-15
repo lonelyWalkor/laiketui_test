@@ -42,11 +42,35 @@ class addAction extends Action {
 		$r = $db->select($sql);
 		// 如果有数据 并且 数据条数大于0
         if ($r && count($r) > 0) {
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('商品品牌中文名称{$brand_name} 已经存在，请选用其他名称！');" .
-                "</script>";
-            return $this->getDefaultView();
+        	$recycle = $r[0]->recycle;
+        	$brand_id = $r[0]->brand_id;
+        	if($recycle ==1){//该商品名称存在，但被回收，取消回收
+        		$sql = "update lkt_brand_class set recycle = 0 , status = 0 ,brand_pic='$image' where brand_id = '$brand_id'";
+        		$res = $db->update($sql);
+        		if($res == -1) {
+		            $db->admin_record($admin_id,'添加商品品牌'.$brand_name.'失败',1);
+
+		            header("Content-type:text/html;charset=utf-8");
+					echo "<script type='text/javascript'>" .
+						"alert('未知原因，添加产品品牌失败！');" .
+						"</script>";
+					return $this->getDefaultView();
+				} else {
+		            $db->admin_record($admin_id,'添加商品品牌'.$brand_name,1);
+
+		            header("Content-type:text/html;charset=utf-8");
+					echo "<script type='text/javascript'>" .
+						"alert('添加产品品牌成功！');" .
+						"location.href='index.php?module=brand_class';</script>";
+					return $this->getDefaultView();
+				}
+        	}else{
+	            header("Content-type:text/html;charset=utf-8");
+	            echo "<script type='text/javascript'>" .
+	                "alert('商品品牌中文名称{$brand_name} 已经存在，请选用其他名称！');" .
+	                "</script>";
+	            return $this->getDefaultView();
+	        }
         }
 		//添加分类
 		$sql = "insert into lkt_brand_class(brand_name,brand_y_name,brand_pic,producer,remarks,brand_time,sort) "

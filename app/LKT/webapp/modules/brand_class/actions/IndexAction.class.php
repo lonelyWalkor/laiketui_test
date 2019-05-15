@@ -33,7 +33,7 @@ class IndexAction extends Action {
         $pager = new ShowPager($total,$pagesize,$page);
 
         // 查询新闻分类表，根据sort顺序排列
-        $sql = "select * from lkt_brand_class where recycle = 0 order by brand_time desc limit $start,$pagesize ";
+        $sql = "select * from lkt_brand_class where recycle = 0 order by sort asc, brand_time desc limit $start,$pagesize ";
         $r = $db->select($sql);
 
         $url = "index.php?module=product&action=Index&pagesize=".urlencode($pagesize);

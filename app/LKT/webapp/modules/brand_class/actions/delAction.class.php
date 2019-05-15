@@ -9,11 +9,15 @@ class delAction extends Action {
         $admin_id = $this->getContext()->getStorage()->read('admin_id');
 
         $brand_id = intval($request->getParameter('cid')); // 品牌id
-        $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片上传位置
+        // $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); 
+        $uploadImg = $this->getContext()->getStorage()->read('uploadImg');// 图片上传位置
         $sql = "select * from lkt_brand_class where brand_id = '$brand_id'";
         $r = $db->select($sql);
         $brand_pic = $r[0]->brand_pic;
         @unlink ($uploadImg.$brand_pic);
+
+        // $sql01 = "delete from lkt_banner where id = '$id'";
+        // $res01=$db->delete($sql01);
 
         $sql = "select id from lkt_product_list where brand_id = '$brand_id'";
         $r = $db->select($sql);
@@ -23,7 +27,7 @@ class delAction extends Action {
             exit;
         }
         // 根据分类id,删除这条数据
-        $sql = "update lkt_brand_class set recycle = 1 and status = 1 where brand_id = '$brand_id'";
+        $sql = "update lkt_brand_class set recycle = 1 , status = 1 where brand_id = '$brand_id'";
         $res = $db->update($sql);
 
 		if($res > 0){
