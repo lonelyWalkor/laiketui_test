@@ -21,7 +21,8 @@ class modifyAction extends Action {
             $type = $r[0]->type; // 规则类型
             $freight = unserialize($r[0]->freight); // 属性
             $res = '';
-            foreach ($freight as $k => $v){
+            if($freight){
+                foreach ($freight as $k => $v){
                 $k1 = $k + 1;
                 $res .= "<tr class='tr_freight_num' id='tr_freight_$k1'>" .
                     "<td>".$v['one']."</td>" .
@@ -31,8 +32,12 @@ class modifyAction extends Action {
                     "<td>".$v['name']."</td>" .
                     "<td><span class='btn btn-secondary radius' onclick='freight_del($k1)' >删除</span></td>" .
                     "</tr>";
+                }
+                $freight = json_encode($freight);
+            }else{
+                $freight ='';
             }
-            $freight = json_encode($freight);
+            
         }
         $request->setAttribute("id",$id);
         $request->setAttribute("name",$name);
@@ -57,12 +62,16 @@ class modifyAction extends Action {
             $freight_list = json_decode($hidden_freight,true);
             $freight = serialize($freight_list);
         }else{
-            $freight = '';
+            // $freight = '';
+            echo "<script type='text/javascript'>" .
+                "alert('运费规则不能为空！');" .
+                "location.href='index.php?module=freight&action=modify&id=$id ';</script>";
+            return $this->getDefaultView();
         }
         if($name == ''){
             echo "<script type='text/javascript'>" .
                 "alert('规则名称不能为空！');" .
-                "location.href='index.php?module=freight&action=add';</script>";
+                "location.href='index.php?module=freight&action=modify&id=$id';</script>";
             return $this->getDefaultView();
         }else{
             $sql = "select * from lkt_freight where id != '$id'";
@@ -72,7 +81,7 @@ class modifyAction extends Action {
                     if($name == $v->name){
                         echo "<script type='text/javascript'>" .
                             "alert('规则名称 {$name} 已经存在，请选用其他名称！');" .
-                            "location.href='index.php?module=freight&action=add';</script>";
+                            "location.href='index.php?module=freight&action=modify&id=$id';</script>";
                         return $this->getDefaultView();
                     }
                 }

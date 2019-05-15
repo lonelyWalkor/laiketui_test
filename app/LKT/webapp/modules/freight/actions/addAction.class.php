@@ -35,8 +35,13 @@ class addAction extends Action {
             $freight_list = json_decode($hidden_freight,true);
             $freight = serialize($freight_list);
         }else{
-            $freight = '';
+            // $freight = '';
+             echo "<script type='text/javascript'>" .
+                "alert('运费规则不能为空！');" .
+                "location.href='index.php?module=freight&action=add';</script>";
+            return $this->getDefaultView();
         }
+
 
 		if($name == ''){
             echo "<script type='text/javascript'>" .
