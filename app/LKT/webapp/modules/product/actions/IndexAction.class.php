@@ -85,7 +85,7 @@ class IndexAction extends Action {
           }
         }
         }
-        $sql = "select * from lkt_brand_class where recycle = 0";
+        $sql = "select * from lkt_brand_class where recycle = 0 and status = 0";
         $rr1 = $db->select($sql);
         $rew = '';
         foreach ($rr1 as $key => $value) {

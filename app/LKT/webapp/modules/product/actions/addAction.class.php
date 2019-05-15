@@ -59,6 +59,7 @@ class addAction extends Action {
             }
             $attribute3 = json_encode($attribute2);
 
+
             for ($i=0;$i<6;$i++){
                 array_pop($attribute_key1); // 循环去掉数组后面6个元素
             }
@@ -88,14 +89,14 @@ class addAction extends Action {
         $uploadImg = $r[0]->uploadImg; // 图片上传位置
 
         //获取产品类别
-        $sql = "select cid,pname from lkt_product_class where sid = 0 ";
+        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle =0";
         $r = $db->select($sql);
         $res = '';
         foreach ($r as $key => $value) {
             $c = '-'.$value->cid.'-';
             $res .= '<option  value="-'.$value->cid.'-">'.$value->pname.'</option>';
             //循环第一层
-            $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid";
+            $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid and recycle =0";
             $r_e = $db->select($sql_e);
             if($r_e){
                 $hx = '-----';
@@ -103,7 +104,7 @@ class addAction extends Action {
                     $cone = $c . $ve->cid.'-';
                     $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
                     //循环第二层
-                    $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid";
+                    $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid and recycle =0";
                     $r_t = $db->select($sql_t);
                     if($r_t){
                         $hxe = $hx.'-----';
