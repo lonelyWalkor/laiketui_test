@@ -21,6 +21,7 @@ class maskContentAction extends Action {
                 echo json_encode($res);
                 exit();
             }
+            
         if(!empty($nickname) || !empty($birthday)  || !empty($sex)|| !empty($tel)){
              $sql01 = "update lkt_admin set nickname = '$nickname',birthday = '$birthday',sex = '$sex',tel = '$tel' where name ='$admin_name'";
 

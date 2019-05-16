@@ -6,6 +6,7 @@ class IndexAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $admin_name = $this->getContext()->getStorage()->read('admin_id');
+        $nickname = $this->getContext()->getStorage()->read('nickname');
         $login_time = $this->getContext()->getStorage()->read('login_time');
 
         $type = intval($request->getParameter("type"));
@@ -17,6 +18,7 @@ class IndexAction extends Action {
 
         $sql = "select * from lkt_admin where name = '$admin_name'";
         $r = $db->select($sql);
+        $nickname = $r[0]->nickname;
         if($r[0]->sid == 0){
             $sql = "select * from lkt_core_menu where type = '$type' and recycle = 0 and s_id = 0 order by sort,id";
             $r_1 = $db->select($sql);
@@ -98,6 +100,7 @@ class IndexAction extends Action {
         $request->setAttribute('version',$version);
         $request->setAttribute('list',$list);
         $request->setAttribute('admin_id',$admin_name);
+        $request->setAttribute('nickname',$nickname);
         $request->setAttribute('type',$type);
         $request->setAttribute('login_time',$login_time);
         $request->setAttribute('domain',$domain);
