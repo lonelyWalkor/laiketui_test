@@ -34,14 +34,15 @@ class member_recordAction extends Action {
 
         $condition = ' 1=1';
         if($startdate != ''){
-            $condition .= " and add_time >= '$startdate 00:00:00' ";
+            $condition .= " and add_date >= '$startdate 00:00:00' ";
         }
         if($enddate != ''){
-            $condition .= " and add_time <= '$enddate 23:59:59' ";
+            $condition .= " and add_date <= '$enddate 23:59:59' ";
         }
         if($admin_name != ''){
             $condition .= " and admin_name = '$admin_name' ";
         }
+
         $sql = "select * from lkt_admin_record where $condition order by add_date desc";
         $r = $db->select($sql);
         $total = count($r);
@@ -70,7 +71,7 @@ class member_recordAction extends Action {
     }
 
     public function execute() {
-
+        print_r(222);die;
     }
 
     public function getRequestMethods(){
