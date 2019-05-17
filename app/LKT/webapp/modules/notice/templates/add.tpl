@@ -19,7 +19,7 @@
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe62f;</i> 公告管理 <span class="c-gray en">&gt;</span> 发布公告 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
-    <form name="form1" action="index.php?module=notice&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" >
+    <form name="form1" action="index.php?module=notice&action=add" class="form form-horizontal" method="post" onsubmit="return checkUser()" enctype="multipart/form-data" >
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>公告图片：</label>
             <div class="formControls col-xs-8 col-sm-8"> 
@@ -33,7 +33,8 @@
         <div class="row cl">
             <label class="form-label col-2">公告名称：</label>
             <div class="formControls col-10"> 
-               <input type="text" name="notice">
+               <input type="text" name="notice" required="required" id="noticeId">
+               <input type="hidden" id="hiddenId" >
             </div>
         </div>
 
@@ -46,8 +47,8 @@
         </div>
         <div class="row cl">
             <div class="col-10 col-offset-2">
-                <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-                <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+                <button class="btn btn-primary radius" name="Submit" ><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
+                <button class="btn btn-secondary radius" type="button" name="reset" onclick="resetButton()"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
             </div>
         </div>
     </form>
@@ -212,6 +213,27 @@ $(function(){
 
 function mobanxuanze(){
     
+}
+function resetButton(){
+    var ue = UE.getEditor('editor');
+    $('#noticeId').val('');
+    ue.execCommand('cleardoc');
+}
+function checkUser(){
+    var _pic = $('#picurl').val();
+    if(_pic == ""){
+        alert("公告活动图片不能为空！")
+        return false
+    }
+    var ue = UE.getEditor('editor');
+    var content = ue.hasContents();
+    if(!content){
+        alert('公告内容不能为空！')
+        return false;
+    }
+}
+function closeMask1(){       
+    $(".maskNew").remove();
 }
 </script>
 {/literal}
