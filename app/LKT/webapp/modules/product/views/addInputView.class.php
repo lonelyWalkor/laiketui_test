@@ -15,6 +15,7 @@ class addInputView extends SmartyView {
         $this->setAttribute("uploadImg",$request->getAttribute("uploadImg"));
         $this->setAttribute("ctype",$request->getAttribute("ctype"));
         $this->setAttribute("brand",$request->getAttribute("brand"));
+        
         $this->setAttribute("freight",$request->getAttribute("freight"));
 
         $this->setAttribute("attribute",$request->getAttribute("attribute"));
