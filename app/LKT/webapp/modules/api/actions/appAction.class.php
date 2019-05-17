@@ -45,9 +45,11 @@ class appAction extends Action {
         // 查询小程序配置
         $sql = "select * from lkt_config where id=1";
         $r = $db->select($sql);
+
         if($r){
             $appid = $r[0]->appid; // 小程序唯一标识
             $appsecret = $r[0]->appsecret; // 小程序的 app secret
+            $company = $r[0]->company; // 小程序的 标题
         }
         if (!$code) {
             echo json_encode(array('status'=>0,'err'=>'非法操作！'));
@@ -73,6 +75,7 @@ class appAction extends Action {
         $sql = "select * from lkt_background_color where status = 1";
         $r = $db -> select($sql);
         $user['bgcolor'] = $r[0]->color;
+        $user['company'] = $company;
         echo json_encode($user);
         exit();
         return;
