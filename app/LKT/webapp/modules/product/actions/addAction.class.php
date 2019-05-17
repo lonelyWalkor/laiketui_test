@@ -22,6 +22,7 @@ class addAction extends Action {
         $product_number = addslashes(trim($request->getParameter('product_number'))); // 产品编号
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $brand_id1 = addslashes(trim($request->getParameter('brand_class'))); // 品牌
+        $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
 
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 小标题
         $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
@@ -87,54 +88,107 @@ class addAction extends Action {
         $sql = "select * from lkt_config where id = '1'";
         $r = $db->select($sql);
         $uploadImg = $r[0]->uploadImg; // 图片上传位置
+        $res='';
+      
+        if(!empty($product_class)){     
+            // print_r(111);
+                    //获取产品类别
+            $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle =0";
+            $r = $db->select($sql);
+            
+            foreach ($r as $key => $value) {
+                $c = '-'.$value->cid.'-';
+                    if($c == $product_class){
+                        $res .= '<option selected  value="-'.$value->cid.'-" >'.$value->pname.'</option>';
 
-        //获取产品类别
-        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle =0";
-        $r = $db->select($sql);
-        $res = '';
-        foreach ($r as $key => $value) {
-            $c = '-'.$value->cid.'-';
-            $res .= '<option  value="-'.$value->cid.'-">'.$value->pname.'</option>';
-            //循环第一层
-            $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid and recycle =0";
-            $r_e = $db->select($sql_e);
-            if($r_e){
-                $hx = '-----';
-                foreach ($r_e as $ke => $ve){
-                    $cone = $c . $ve->cid.'-';
-                    $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
-                    //循环第二层
-                    $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid and recycle =0";
-                    $r_t = $db->select($sql_t);
-                    if($r_t){
-                        $hxe = $hx.'-----';
-                        foreach ($r_t as $k => $v){
-                            $ctow = $cone . $v->cid.'-';
-                            $res .= '<option  value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                    }else{
+                        $res .= '<option  value="-'.$value->cid.'-">'.$value->pname.'</option>';
+                    }
+                    
+                    //循环第一层
+                    $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid and recycle =0";
+                    $r_e = $db->select($sql_e);
+                    if($r_e){
+                        $hx = '-----';
+                        foreach ($r_e as $ke => $ve){
+                            $cone = $c . $ve->cid.'-';
+                             if($cone == $product_class){
+                                $res .= '<option selected  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
+                             }else{
+                                $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
+                             }
+                            
+                            //循环第二层
+                            $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid and recycle =0";
+                            $r_t = $db->select($sql_t);
+                            if($r_t){
+                                $hxe = $hx.'-----';
+                                foreach ($r_t as $k => $v){
+                                    $ctow = $cone . $v->cid.'-';
+                                 
+                                    if($ctow == $product_class){
+                                        $res .= '<option selected value="'.$ctow.'">'.$hxe.$v->pname.'11111'.'</option>';
+
+                                    }else{
+                                        $res .= '<option  value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                                    }
+                            }
                         }
                     }
                 }
             }
-        }
+        }else{
+            // print_r(2);
+                    //获取产品类别
+            $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle =0";
+            $r = $db->select($sql);
+            
+            foreach ($r as $key => $value) {
+                $c = '-'.$value->cid.'-';
+                $res .= '<option  value="-'.$value->cid.'-">'.$value->pname.'</option>';
+                //循环第一层
+                $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid and recycle =0";
+                $r_e = $db->select($sql_e);
+                if($r_e){
+                    $hx = '-----';
+                    foreach ($r_e as $ke => $ve){
+                        $cone = $c . $ve->cid.'-';
+                        $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
+                        //循环第二层
+                        $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid and recycle =0";
+                        $r_t = $db->select($sql_t);
+                        if($r_t){
+                            $hxe = $hx.'-----';
+                            foreach ($r_t as $k => $v){
+                                $ctow = $cone . $v->cid.'-';
+                                $res .= '<option  value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                            }
+                        }
+                    }
+                }
+            }
+        }    
+
+
         // 品牌
         $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0";
         $r01 = $db->select($sql01);
-        $brand = [];
+        $brand = '';
         $brand_num = 0;
         if($r01){
             if($brand_id1){
-                $sql = "select brand_id ,brand_name from lkt_brand_class where brand_id = '$brand_id1'";
-                $r011= $db->select($sql);
-                $brand[$brand_num] = (object)array('brand_id'=> $r011[0]->brand_id,'brand_name'=> $r011[0]->brand_name);
-                $brand_num++;
-                $brand[$brand_num] = (object)array('brand_id'=>0,'brand_name'=>'请选择品牌');
+                foreach ($r01 as $k01 =>$v01){
+                    if($v01->brand_id ==$brand_id1 ){
+                         $brand .= '<option selected value="'.$v01->brand_id.'">'.$v01->brand_name.'</option>';
+                     }else{
+                         $brand .= '<option  value="'.$v01->brand_id.'">'.$v01->brand_name.'</option>';
+                     }               
+                }                
             }else{
-                $brand[$brand_num] = (object)array('brand_id'=>0,'brand_name'=>'请选择品牌');
-            }
-
-            foreach ($r01 as $k2 =>$v2){
-                $brand_num++;
-                $brand[$brand_num] = (object)array('brand_id'=> $v2->brand_id,'brand_name'=> $v2->brand_name);
+                foreach ($r01 as $k2 =>$v2){
+                    $brand .= '<option  value="'.$v2->brand_id.'">'.$v2->brand_name.'</option>';
+                
+                }
             }
         }
 
@@ -161,12 +215,14 @@ class addAction extends Action {
                 $freight[$freight_num] = (object)array('id'=> $v1->id,'name'=> $v1->name);
             }
         }
-        $request->setAttribute("distributors",$distributors);
+        $request->setAttribute("
+            ",$distributors);
 
         $request->setAttribute("uploadImg",$uploadImg);
         $request->setAttribute("ctype",$res);
         $request->setAttribute("brand",$brand);
         $request->setAttribute("freight",$rr);
+        $request->setAttribute("brand_id1",isset($brand_id1) ? $brand_id1 : '');
 
         $request->setAttribute('attribute', isset($attribute3) ? $attribute3 : '');
         $request->setAttribute('attribute_num', isset($attribute_num) ? $attribute_num : '');
@@ -190,6 +246,8 @@ class addAction extends Action {
 
         $request->setAttribute('content', isset($content) ? $content : '');
         $request->setAttribute('volume', $volume ? $volume : '0');
+      
+        
         return View :: INPUT;
     }
 
