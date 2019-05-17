@@ -420,7 +420,7 @@
 		<li class="dropDown dropDown_hover headerLi">
 			<a href="#" class="dropDown_A">
 				<img class="userIdImg" src="images/iIcon/tx.png" alt="" />
-				{$admin_id}
+				{$nickname}
 				<i class="Hui-iconfont">&#xe6d5;</i>
 			</a>
 			<ul class=" sp1 dropDown-menu radius box-shadow sysBtn">
@@ -604,8 +604,8 @@
 			<a class="closeA clsCPW chang_click"><img src="images/icon1/gb.png"/></a>
 			<div class="maskTitle">个人信息</div>
 			<form  action="javascript:void(0);" method="post">
-			<!-- 	<input type="hidden" name="module" value="AdminLogin" />
-				<input type="hidden" name="action" value="maskContent" /> -->
+				<input type="hidden" name="module" value="AdminLogin" />
+				<input type="hidden" name="action" value="maskContent" /> 
 				<div class="mezl_div">
 					<div class="mezl_img">
 						<img style="border-radius: 50%;" src="images/iIcon/tx.png" alt="" />
@@ -620,7 +620,7 @@
 						昵称：
 					</div>
 					<div class="iptRight">
-						<input type="text" placeholder="请填写您的昵称" name="name" value="" />
+						<input type="text" placeholder="请填写您的昵称" name="name" id="nameId" value="" />
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -654,7 +654,7 @@
 						手机号码：
 					</div>
 					<div class="iptRight">
-						<input type="number" placeholder="请填写您的手机号" name="tel" value="" />
+						<input type="number" placeholder="请填写您的手机号" name="tel" id="telId" value="" />
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -701,10 +701,10 @@
 			dataType:"json",
 			success:function(data){
 				data1=data.re[0];
+				console.log(data1)
 				
 			}
 		});
-		
 		$("#changePsw").click(function(){
 			let oldPW=$("[name=oldPW]").val();
 			let newPW=$("[name=newPW]").val();
@@ -1096,21 +1096,36 @@
             
             $(".sysBtn li a").eq(1).click(function(){
                 $("#jbxx").show();
-                if($("[name=name]").val().length=!0){
-					$("[name=name]").val(data1.nickname)
-				}
-				if($("[name=tel]").val().length=!0){
-					$("[name=tel]").val(data1.tel)
-				}
-				$("[name=sex]").eq(data1.sex).attr("selected");
-				let birthday1=data1.birthday.split("-");
-				console.log(birthday1)
-				if($("#select1").val()=="1918" && $("#select2").val()=='1' && $("#select3").val()=="1"){
-					$("#select1").val(birthday1[0]);
-					$("#select2").val(birthday1[1]);
-					$("#select3").val(birthday1[2]);
-				}
-                
+                if(data1){
+                	if($("[name=name]").val().length=!0){
+						$("[name=name]").val(data1.nickname)
+					}
+					if($("[name=tel]").val().length=!0){
+						$("[name=tel]").val(data1.tel)
+					}
+					$("[name=sex]").eq(data1.sex).attr("selected");
+					let birthday1=data1.birthday.split("-");
+					console.log(birthday1)
+                }
+				$.ajax({
+					type:"get",
+					url:"index.php?module=AdminLogin&action=maskContent",
+					dataType:"json",
+					success:function(res){
+						var _data = res.re[0];
+						if(res&&res.re&&res.re[0]){
+							console.log(_data.nickname)
+							$('#nameId').attr('value', _data.nickname)
+							$('#telId').attr('value', _data.tel)
+							$('#r'+_data.sex).attr('checked', 'checked')
+							var _date = _data.birthday.split("-")
+							console.log(_date);
+							$("#select1").val(_date[0]);
+							$("#select2").val(_date[1]);
+							$("#select3").val(_date[2]);
+						}
+					}
+				});
             })
             $(".closeA").on("mouseover",function(){
             	$(this).find("img").attr("src","images/icon1/gb_h.png");
@@ -1124,7 +1139,7 @@
 					<div class="maskNew">
 						<div class="maskNewContent">
 							<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
-							<div class="maskTitle">删除订单</div>	
+							<div class="maskTitle">基本信息</div>	
 							<div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
 							<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
 								${content}
@@ -1140,32 +1155,6 @@
         function closeMask1(){
 			$(".maskNew").remove();
 		}
-
-	//循环执行，每隔1秒钟执行一次 1000   ---------------------------验证登入----------------------------------------------
-	    // var t1=window.setInterval(refreshCount, 30000);
-	    // function refreshCount() {
-     //        $.ajax({
-     //            url: location.href,
-     //            type: "post",
-     //            data: {
-     //            	'm':'check'
-     //            },
-     //            success: function(res) {
-     //            	var data = JSON.parse(res);
-     //            	console.log(data);
-     //                if(data.code == 1) {
-     //                	 window.clearInterval(t1);
-     //                	parent.location.href='index.php?module=Login&action=logout';
-     //                }else if(data.code == 2){
-     //                	 window.clearInterval(t1);
-     //                	alert('您的账户在其他地方登入，您被迫下线！'); parent.location.href='index.php?module=Login&action=logout';
-     //                }else{
-
-     //                }
-     //            },
-     //        });
-	    //   console.log("定时检查登入----");
-	    // }
 	</script>
 {/literal}
 </body>
