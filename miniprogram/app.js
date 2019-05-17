@@ -10,9 +10,13 @@ App({
     bf_color:'#FF6347',
     h_color:'#FF63477',
     order:{},
-    ceshiUrl: 'http://192.168.0.104/test/LKT/index.php?module=api&software_name=3&edition=1.0',
+    ceshiUrl: 'http://127.0.0.1/LKT/index.php?module=api&software_name=3&edition=1.0',
+    titlee:'',
+    bgcolor :'',
+    
   },
   onLaunch: function (options) {
+
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -24,10 +28,12 @@ App({
     // console.log(this.globalData.userInfo.nickName, this.globalData.userInfo.openid)
     if (this.globalData.userInfo.nickName == '' || this.globalData.userInfo.nickName == '简单的奇迹' || !this.globalData.userInfo.nickName || this.globalData.userInfo.openid == '' || !this.globalData.userInfo.openid) {
       if (page) {
+        
         wx.navigateTo({
           url: '../login/login'
         })
       } else {
+        // console.log(11112222);
         wx.navigateTo({
           url: 'pages/login/login'
         })
@@ -36,8 +42,8 @@ App({
       console.log(this.globalData.userInfo)
     }
   },
+
   onShow: function (options) {
-      console.log(options)
       var referee_openid = options.query.userid ? options.query.userid:'';
       this.globalData.referee_openid = referee_openid;
       this.getUserInfo();
@@ -91,7 +97,18 @@ App({
       success: function (res) {   
         var data = res.data;
         var bgcolor = res.data.bgcolor;
+        var titlee = res.data.company;
         that.d.bgcolor = bgcolor;
+
+        that.d.titlee = titlee;
+        wx.setNavigationBarTitle({
+          title: titlee, //修改页面标题
+           
+        });
+        wx.setNavigationBarColor({//修改页面标题背景颜色
+          frontColor: '#ffffff',
+          backgroundColor: bgcolor
+        });
         if(data.status==0){
           wx.showToast({
             title: data.err,
