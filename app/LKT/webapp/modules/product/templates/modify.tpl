@@ -174,10 +174,8 @@ form[name=form1] input{
             <label class="form-label col-2"><span class="c-red"></span>产品品牌：</label>
             <div class="formControls col-2"> <span class="select-box">
                 <select name="brand_class" class="select" id="brand_classId">
-                    {foreach from=$r02 item=item name=f1}
-                        <option selected="selected" value="0">请选择品牌</option>
-                        <option {if $item->brand_name == $brand_name} selected="selected" {/if} value="{$item->brand_id}">{$item->brand_name}</option>
-                    {/foreach}
+                    <option selected="selected" value="0">请选择品牌</option>
+                        {$r02}
                 </select>
                 </span>
             </div>
