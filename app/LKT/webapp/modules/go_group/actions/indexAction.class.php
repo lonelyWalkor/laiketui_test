@@ -17,10 +17,24 @@ class indexAction extends Action {
 
         $request = $this->getContext()->getRequest();
         $status = trim($request->getParameter('status'));
+//显示之前查询过期活动，改为未执行
+
+        $sql001 = "select * from lkt_group_buy where is_show = 1 ";
+        $res001 = $db -> select($sql001);
+        if(!empty($res001)){
+            foreach ($res001 as $k01 => $v01) {
+               // $timee = date('Y-m-d H:i:s',$v -> endtime);
+                if(time() > $v01 -> endtime){
+                    $sql = 'update lkt_group_buy set is_show=0 where id="'.$v01 ->id.'"';
+                    // print_r($sql);die;
+                    $res = $db -> update($sql);
+                }
+            }
+        }
         $and = '';
         $time = time();
         if($status == 1){
-            $and .= " and starttime < '$time' and endtime > '$time' and is_show='0'";
+            $and .= " and starttime > '$time' and endtime > '$time' and is_show='0'";
         }else if($status == 2){
             $and .= " and starttime < '$time' and endtime > '$time' and is_show='1'";
         }else if($status == 3){
@@ -28,19 +42,19 @@ class indexAction extends Action {
         }
         // 查询插件表
         $condition = '';
-        $sql = "select * from lkt_group_buy where 1=1 $and";
-
+        $sql = "select * from lkt_group_buy where 1=1  $and";
+        // print_r($sql);die;
         $res = $db -> select($sql);
         foreach ($res as $k => $v) {
             $res[$k] -> time = date('Y-m-d H:i:s',$v -> starttime).' 至 '.date('Y-m-d H:i:s',$v -> endtime);
             $arr = explode(':', $v -> time_over);
             $res[$k] -> time_over = $arr[0].'小时'.$arr[1].'分钟';
 
-            if(time() < $v -> starttime){
+            if(time() < $v -> starttime){//未开始
                 $res[$k] -> code = 1;
-            }else if(time() > $v -> starttime && time() < $v -> endtime){
+            }else if(time() > $v -> starttime && time() < $v -> endtime){//进行中
                 $res[$k] -> code = 2;
-            }else if(time() > $v -> endtime){
+            }else if(time() > $v -> endtime){//结束
                 $res[$k] -> code = 3;
             }
         }
@@ -49,6 +63,7 @@ class indexAction extends Action {
         $showres = $db -> selectarray($showsql);
         list($showres) = $showres[0];
         
+// print_r($res);die;
         $request->setAttribute("is_show",$showres);
         $request->setAttribute("list",$res);
 
