@@ -97,6 +97,7 @@
                           <div style="margin-left: 60px;">
                             <input type="radio" value="2" placeholder="" id="dtime" name="endtime" onchange="radioChange(2)" style="width:50px;" {if $list->overtype=='2'}checked{/if}><span style="margin-left: -10px;">定期结束</span><input type="text" class="input-text" {if $list->overtype=='2'}value="{$list->endtime}"{else}value=""{/if} placeholder="" id="group_end_time" name="group_end_time" style="width:150px;margin-left: 10px;">
                             <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
+                            <span style="margin-left: 10px;font-size: 10px;color:#666666;">结束日期至少选此时的一小时后</span>
                           </div>
                         </div>
                     </div>
@@ -265,6 +266,19 @@
    }
  }
  
+ // 得到当前日期
+function getFormatDate(){
+    var nowDate = new Date();
+    var year = nowDate.getFullYear();
+    var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
+    var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
+    var hour = nowDate.getHours()< 10 ? "0" + nowDate.getHours() : nowDate.getHours();
+    var minute = nowDate.getMinutes()< 10 ? "0" + nowDate.getMinutes() : nowDate.getMinutes();
+    var second = nowDate.getSeconds()< 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds();
+
+    return year + "-" + month + "-" +date+" "+(hour+1)+":"+minute+":"+second;
+}
+var _nowDate = getFormatDate();
 
  laydate.render({
   elem: '#group_start_time', //指定元素
@@ -272,7 +286,8 @@
 });
  laydate.render({
   elem: '#group_end_time', 
-  type: 'datetime'
+  type: 'datetime',
+  min: _nowDate
 });
 
 
