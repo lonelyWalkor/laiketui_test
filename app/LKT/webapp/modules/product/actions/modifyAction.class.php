@@ -112,9 +112,29 @@ class modifyAction extends Action {
             }
         }
 
-        //产品分类
-        $sql02 = "select brand_id ,brand_name from lkt_brand_class where status = 0";
-        $r02 = $db->select($sql02);
+        // 品牌
+        $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0 and recycle = 0 ";
+        $r01 = $db->select($sql01);
+        $brand = '';
+        $brand_num = 0;
+        if($r01){
+            if($brand_class){
+                foreach ($r01 as $k01 =>$v01){
+                    if($v01->brand_id ==$brand_class ){
+                         $brand .= '<option selected value="'.$v01->brand_id.'">'.$v01->brand_name.'</option>';
+                     }else{
+                         $brand .= '<option  value="'.$v01->brand_id.'">'.$v01->brand_name.'</option>';
+                     }               
+                }                
+            }else{
+                foreach ($r01 as $k2 =>$v2){
+                    $brand .= '<option  value="'.$v2->brand_id.'">'.$v2->brand_name.'</option>';
+                
+                }
+            }
+        }
+
+        
 
         $imgs_sql = "select * from lkt_product_img where product_id = '$id'";
         $imgurls = $db->select($imgs_sql);
@@ -200,13 +220,13 @@ class modifyAction extends Action {
         $request->setAttribute('s_type', $arr);  //s_type
         $request->setAttribute("ctypes",$res);
         $request->setAttribute('id', $id);
-        $request->setAttribute('r02', $r02);//所有品牌
+        $request->setAttribute('r02', $brand);//所有品牌
         $request->setAttribute("product_class",$product_class);
         $request->setAttribute('product_number', isset($product_number) ? $product_number : '');
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');
         $request->setAttribute('scan', isset($scan) ? $scan : '');
-        $request->setAttribute('brand_name', isset($brand_name) ? $brand_name : '');//品牌名称
+        // $request->setAttribute('brand_name', isset($brand_name) ? $brand_name : '');//品牌名称
         $request->setAttribute('sort', isset($sort) ? $sort : '');
         $request->setAttribute('keyword', isset($keyword) ? $keyword : '');
         $request->setAttribute('weight', isset($weight) ? $weight : '');

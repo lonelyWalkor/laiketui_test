@@ -127,7 +127,7 @@ class addAction extends Action {
                                     $ctow = $cone . $v->cid.'-';
                                  
                                     if($ctow == $product_class){
-                                        $res .= '<option selected value="'.$ctow.'">'.$hxe.$v->pname.'11111'.'</option>';
+                                        $res .= '<option selected value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
 
                                     }else{
                                         $res .= '<option  value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
@@ -171,7 +171,7 @@ class addAction extends Action {
 
 
         // 品牌
-        $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0";
+        $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0 and recycle = 0 ";
         $r01 = $db->select($sql01);
         $brand = '';
         $brand_num = 0;
