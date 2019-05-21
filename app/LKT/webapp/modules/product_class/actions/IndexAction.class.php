@@ -44,7 +44,7 @@ class IndexAction extends Action {
                 // 循环查询该分类是否有商品
                 foreach ($rr as $k => $v){
                     $product_class = '-' . $v->cid . '-';
-                    $sql = "select id from lkt_product_list where product_class like '%$product_class%' order by sort desc";
+                    $sql = "select id from lkt_product_list where product_class like '%$product_class%' and recycle = 0  order by sort desc";
                     $rr1 = $db->select($sql);
                     if($rr1){
                         $v->status = 1; // 有商品，隐藏删除按钮
@@ -66,7 +66,7 @@ class IndexAction extends Action {
             $level = 0;
             foreach ($rr as $k => $v){
                 $product_class = '-' . $v->cid . '-';
-                $sql = "select id from lkt_product_list where product_class like '%$product_class%' order by sort desc";
+                $sql = "select id from lkt_product_list where recycle = 0 and product_class like '%$product_class%' order by sort desc";
                 $rr1 = $db->select($sql);
                 if($rr1){
                     $v->status = 1;
