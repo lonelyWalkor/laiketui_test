@@ -85,7 +85,7 @@
 	<input type="hidden" id="is_have_show" value="{$is_show}" />
 	<!-- <input type="hidden" name="status" class="statusclick" value="{$status}" /> -->
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-hover table-bg table-sort">
+		<table class="table table-border table-bordered table-hover table-bg ">
 			<thead>
 				<tr class="text-c">
                     <th width="120">项目名称</th>

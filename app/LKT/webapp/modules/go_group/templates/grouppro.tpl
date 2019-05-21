@@ -1,4 +1,4 @@
-<!--_meta 作为公共模版分离出去-->
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -53,13 +53,12 @@
                       <th width="50">团号</th>
 		                  <th width="100">商品名称</th>
 		                  <th width="80">商品图片</th>
-                      <th width="50">配置名</th>
-                      <th width="50">颜色</th>
-                      <th width="50">规格</th>
+                      <th width="100">属性</th>
 		                  <th>商品价格</th>
 		                  <th width="110" style="padding:0px;">拼团价格</th>
 		                  <th width="110" style="padding:0px;">团长价格</th>
 		                {if $status < 1}<th width="50">操作</th>{/if}
+                    
 		               </tr>
                      </thead>
                      <tbody>
@@ -69,9 +68,12 @@
 	                       <td>
                           <div class="product_title">{$item->pro_name}</div></td>
 	                       <td><image src="{$item->image}" style="width: 90%;height:60px;"/></td>
-	                       <td>{$item->attr_name}</td>
-                         <td>{$item->color}</td>
-                         <td>{$item->guige}</td>
+
+	                       <td width="100" style="text-align: center;">
+                          {$item->attribute}
+                         </td>
+                         
+
                          <td>{$item->market_price}</td>
                          {if $status < 1}
 	                       <td id="{$item->id}">
