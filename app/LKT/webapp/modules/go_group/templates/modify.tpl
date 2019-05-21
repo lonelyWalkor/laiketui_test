@@ -287,7 +287,8 @@ var _nowDate = getFormatDate();
  laydate.render({
   elem: '#group_end_time', 
   type: 'datetime',
-  min: _nowDate
+  min: _nowDate,
+  btns: ['clear', 'confirm']
 });
 
 

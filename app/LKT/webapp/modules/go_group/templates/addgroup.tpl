@@ -268,6 +268,7 @@ var _nowDate = getFormatDate();
   elem: '#group_end_time', 
   type: 'datetime',
   min: _nowDate,
+  btns: ['clear', 'confirm'],
   done: function(value, date, endDate){
     date2 = value;
     dateCompare();
@@ -281,9 +282,10 @@ function dateCompare(){
 	var _date2 = new Date(date2).getTime();
 	if(_date1&&_date2){
 		if( _date1 >= _date2){
-			alert('开始时间不能小于结束时间！');
+			alert('开始时间不能大于结束时间！');
 			$('#group_end_time').val('');
 			$('#group_start_time').val('');
+			return false;
 		}
 	}else{
 		return
