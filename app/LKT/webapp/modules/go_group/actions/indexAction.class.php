@@ -42,7 +42,7 @@ class indexAction extends Action {
         }
         // 查询插件表
         $condition = '';
-        $sql = "select * from lkt_group_buy where 1=1  $and";
+        $sql = "select * from lkt_group_buy where 1=1  $and order by is_show desc ";
         // print_r($sql);die;
         $res = $db -> select($sql);
         foreach ($res as $k => $v) {
@@ -59,11 +59,12 @@ class indexAction extends Action {
             }
         }
 
-        $showsql='select count(*) from lkt_group_buy where is_show=1';
+        $showsql='select count(*) from lkt_group_buy where is_show=1 ';
         $showres = $db -> selectarray($showsql);
         list($showres) = $showres[0];
-        
-// print_r($res);die;
+
+      // $this -> arraySort($res,'code','SORT_DESC');  //排序
+
         $request->setAttribute("is_show",$showres);
         $request->setAttribute("list",$res);
 
@@ -118,7 +119,35 @@ class indexAction extends Action {
             echo json_encode(array('status' => 1));exit;
         }
     }
+    /*
+    $array:需要排序的数组
+    $keys:需要根据某个key排序
+    $sort:倒叙还是顺序
+　　sort 对数组的值按照升序排列(rsort降序)，不保留原始的键
 
+　　ksort 对数组的键按照升序排列(krsort降序) 保留键值关系
+
+　　asort 对数组的值按照升序排列(arsort降序)，保留键值关系
+    */
+    public function arraySort($arrUsers,$keys,$sort) {
+      
+        $sort = array(
+                'direction' => $sort, //排序顺序标志 SORT_DESC 降序；SORT_ASC 升序
+                'field'     => $keys,       //排序字段
+        );
+        $arrSort = array();
+        foreach($arrUsers AS $uniqid => $row){
+            foreach($row AS $key=>$value){
+                $arrSort[$key][$uniqid] = $value;
+            }
+        }
+
+        if($sort['direction']){
+           $newArr= array_multisort($arrSort[$sort['field']], constant($sort['direction']), $arrUsers);
+        }
+// print_r($arrSort[$sort['field']]);die;
+        return $newArr;
+    }
     public function execute() {
 
     }

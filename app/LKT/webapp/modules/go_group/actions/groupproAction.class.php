@@ -33,7 +33,21 @@ class groupproAction extends Action {
         }
         foreach ($res as $k => $v) {
             $res[$k] -> image = $img.$v -> image;
-        }
+            $attribute_2 = unserialize($v->attribute); // 属性
+            if(!empty($attribute_2)){
+                foreach ($attribute_2 as $key => $value) {
+                    $d[]= '<tt style="text-align: center;">'.$key.' : '. $value .'</tt><br/>';
+                }
+                if (!empty($d)) {
+                    $dd = implode( ' ', $d);
+                }else{
+                    $dd = '';
+                }
+                $res[$k]->attribute =  $dd;
+                 unset($dd);
+                 unset($d);
+            } 
+        } 
         $status = trim($request->getParameter('status')) ? 1:0;
         $request->setAttribute("status",$status);
         $request->setAttribute("list",$res);
@@ -42,8 +56,7 @@ class groupproAction extends Action {
     }
 
     public function execute(){
-        
-        
+
     }
 
     public function getRequestMethods(){
