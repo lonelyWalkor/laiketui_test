@@ -47,6 +47,7 @@ function check(f) {
         return false;
     }
     f.sort.value = Trim(f.sort.value);
+    console.log(f.sort.value)
     if (!/^(([1-9][0-9]*)|0)(\.[0-9]{1,2})?$/.test(f.sort.value)) {
         alert("排序号必须为数字，且格式为 ####.## ！");
         f.sort.value = '';
@@ -185,10 +186,8 @@ function check(f) {
             <div class="formControls col-2">
                 <span class="select-box">
                     <select name="brand_class" id="brand_classId" class="select">
-                        {*<option selected="selected" value="0">请选择品牌</option>*}
-                        {foreach from=$brand item=item name=f1}
-                            <option value="{$item->brand_id}">{$item->brand_name}</option>
-                        {/foreach}
+                        <option selected="selected" value="0">请选择品牌</option>
+                        {$brand}
                     </select>
                 </span>
             </div>
@@ -431,7 +430,7 @@ function check(f) {
         </div>
         <div class="row cl">
             <div class="col-8 col-offset-4">
-                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
+                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius" onclick="submitButton()">
                 <input type="button" name="reset" value="重 写" onclick="resetButton()" class="btn btn-primary radius">
             </div>
         </div>
@@ -1069,7 +1068,7 @@ function resetButton(){
     $('#sex-3').attr("checked","");
     $('#volumeId').val("");
     $("#freightId option[value='0']").attr("selected", "selected");
-    $('#ueditor_0').contents().find('p').html("");
+    $('#ueditor_0').contents().find('p').html(""); 
 }
 </script>
 {/literal}
