@@ -15,6 +15,18 @@
 <script language="javascript"  src="modpub/js/check.js"> </script>
 <script type="text/javascript" src="style/js/jquery.js"></script>
 {literal}
+<style type="text/css">
+#select_c {
+    /*将默认的select选择框样式清除*/
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    /*文字居中*/
+    padding-left: 9px;
+    /*文字颜色变灰*/
+    color: #ccc;
+}
+</style>
 <script type="text/javascript">
 function check(f){
     if(Trim(f.pname.value)==""){
@@ -85,7 +97,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品分类管理 <span class="c-gray en">&gt;</span> 修改产品分类 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
-    <form name="form1" action="index.php?module=product_class&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" >
+    <form name="form1" action="index.php?module=product_class&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return removeDisable()">
         <input type="hidden" name="cid" value="{$cid_r}" />
         <input type="hidden" name="uploadImg" value="{$uploadImg}" />
         <input type="hidden" name="val" class="val" value="{$cid}" >
@@ -94,7 +106,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>分类级别：</label>
             <div class="formControls col-1"> <span class="select-box">
-                <select name="select_c" class="select" onchange="slevel()" id="select_c">
+                <select name="select_c" class="select" onchange="slevel()" id="select_c"disabled="disabled" style="cursor: auto;">
                     <option {if $level == 0}selected="true"{/if} value="0">顶级</option>
                     <option {if $level == 1}selected="true"{/if} value="1">一级</option>
                     <option {if $level == 2}selected="true"{/if} value="2">二级</option>
@@ -225,8 +237,8 @@ function onlaod() {
         arr.push(str_option[i]); //属性
         keds.push(i);
     }
-    console.log(keds);
-    console.log(arr);
+    // console.log(keds);
+    // console.log(arr);
     for (var i = 0; i < arr.length; i++) {
         // console.log('str_option',str_option);
         var tid = i+1;
@@ -249,7 +261,7 @@ function onlaod() {
 function slevel() {
     var select_c = $("#select_c").val();
     
-    console.log(select_c);
+    // console.log(select_c);
     if(select_c < 1){
        $(".slevel_box").hide(); 
     }else{
@@ -442,6 +454,10 @@ function RemoveDropDownList(obj){
             }
         }
     }
+}
+// 提交前移除select_c的disable
+function removeDisable(){
+    $('#select_c').removeAttr("disabled");
 }
 </script>
 {/literal}
