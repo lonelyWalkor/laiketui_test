@@ -69,7 +69,7 @@ class modifyAction extends Action {
         }
 
         //绑定产品分类
-        $sql = "select cid,pname from lkt_product_class where sid = 0 ";
+        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle = 0";
         $r = $db->select($sql);
         $res = '';
         foreach ($r as $key => $value) {
@@ -81,7 +81,7 @@ class modifyAction extends Action {
                 $res .= '<option  value="'.$c.'">'.$value->pname.'</option>';
             }
             //循环第一层
-            $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid";
+            $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid and recycle = 0";
             $r_e = $db->select($sql_e);
             if($r_e){
                 $hx = '-----';
@@ -94,7 +94,7 @@ class modifyAction extends Action {
                         $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
                     }
                     //循环第二层
-                    $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid";
+                    $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid and recycle = 0";
                     $r_t = $db->select($sql_t);
                     if($r_t){
                         $hxe = $hx.'-----';

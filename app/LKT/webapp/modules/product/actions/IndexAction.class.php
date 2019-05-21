@@ -42,7 +42,7 @@ class IndexAction extends Action {
             $start = 0;
         }
 
-
+        //分类
         $sql = "select cid,pname from lkt_product_class where recycle = 0 and sid = 0 ";
         $rr = $db->select($sql);
         $res = '';
@@ -56,35 +56,37 @@ class IndexAction extends Action {
             }
             //循环第一层
             $sql_e = "select cid,pname from lkt_product_class where recycle = 0 and sid = $value->cid";
+
             $r_e = $db->select($sql_e);
             if($r_e){
-          $hx = '-----';
-          foreach ($r_e as $ke => $ve){
-            $cone = $c . $ve->cid.'-';
-            //判断所属类别 添加默认标签
-            if ($product_class == $cone) {
-              $res .= '<option selected="selected" value="'.$cone.'">'.$hx.$ve->pname.'</option>';
-            }else{
-              $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
-            }
-            //循环第二层
-            $sql_t = "select cid,pname from lkt_product_class where recycle = 0 and sid = $ve->cid";
-            $r_t = $db->select($sql_t);
-            if($r_t){
-              $hxe = $hx.'-----';
-              foreach ($r_t as $k => $v){
-                $ctow = $cone . $v->cid.'-';
+              $hx = '-----';
+              foreach ($r_e as $ke => $ve){
+                $cone = $c . $ve->cid.'-';
                 //判断所属类别 添加默认标签
-                if ($product_class == $ctow) {
-                  $res .= '<option selected="selected" value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                if ($product_class == $cone) {
+                  $res .= '<option selected="selected" value="'.$cone.'">'.$hx.$ve->pname.'</option>';
                 }else{
-                  $res .= '<option  value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                  $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
+                }
+                //循环第二层
+                $sql_t = "select cid,pname from lkt_product_class where recycle = 0 and sid = $ve->cid";
+                $r_t = $db->select($sql_t);
+                if($r_t){
+                  $hxe = $hx.'-----';
+                  foreach ($r_t as $k => $v){
+                    $ctow = $cone . $v->cid.'-';
+                    //判断所属类别 添加默认标签
+                    if ($product_class == $ctow) {
+                      $res .= '<option selected="selected" value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                    }else{
+                      $res .= '<option  value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
+                    }
+                  }
                 }
               }
             }
-          }
         }
-        }
+        //品牌
         $sql = "select * from lkt_brand_class where recycle = 0 and status = 0";
         $rr1 = $db->select($sql);
         $rew = '';
@@ -104,10 +106,19 @@ class IndexAction extends Action {
         }else{
             $min_inventory = 0;
         }
-
+        $k = '';
+        $con ='';
         $condition = ' recycle = 0 ';
-        if($product_class != 0){
-            $condition .= " and a.product_class = '$product_class' ";
+        if($product_class != 0){//存在产品类别
+            $k = $this-> class_sort($product_class);
+                if($k){
+                    foreach ($k as $key => $value) {
+                        $con[]= "  a.product_class = '$value' ";
+                    }
+                    $dd = implode( 'or', $con);
+                    $condition .= "and (".$dd .")";
+                }
+           
         }
         if ($brand_id != 0) {
             $condition .= " and brand_id = '$brand_id' ";
@@ -135,6 +146,7 @@ class IndexAction extends Action {
         $pager = new ShowPager($total,$pagesize,$page);
 
         $sql = "select * from lkt_product_list as a where $condition" . " order by status asc,a.add_date desc,a.sort desc limit $start,$pagesize ";
+        // print_r($sql);die;
         $r = $db->select($sql);
         $list = [];
         $status_num = 0;
@@ -228,6 +240,35 @@ class IndexAction extends Action {
         return View :: INPUT;
     }
 
+    public function class_sort($product_class)//根据类别查询下一级
+    {
+          $db = DBAction::getInstance();
+         $typestr=trim($product_class,'-');
+            $typeArr=explode('-',$typestr);
+            //  取数组最后一个元素 并查询分类名称
+            $cid = end($typeArr);//找到本级ID
+            $k[] = $product_class;
+           
+            if(!empty($cid)){//循环下一级
+                $sql_e = "select cid,pname from lkt_product_class where recycle = 0 and sid = $cid";
+                $r_e = $db->select($sql_e);
+                if($r_e){
+                    foreach ($r_e as $k01 => $v01) {//循环第三级
+                        $k[] = $product_class.$v01->cid.'-';
+                        $sql_e01 = "select cid,pname from lkt_product_class where recycle = 0 and sid = $v01->cid";
+                        $r_e01 = $db->select($sql_e01); 
+
+                        if($r_e01){
+                            foreach ($r_e01 as $k02 => $v02) {
+                                
+                               $k[] = $product_class.$v01->cid.'-'.$v02->cid.'-';
+                            }
+                        } 
+                    }  
+                }
+            }
+            return $k;
+    }
     public function execute() {
 
     }
