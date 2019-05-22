@@ -31,8 +31,6 @@ class IndexAction extends Action {
             $this->index();
         }elseif ($m == 'get_more') {
             $this->get_more();
-        }elseif ($m == 'draw') {
-            $this->draw();
         }
         return;
     }
@@ -78,8 +76,16 @@ class IndexAction extends Action {
                 $imgurl = $img . $v->image;
                 $shou[$k] = array('id' => $v->id,'url' => $v->url,'imgurl' => $imgurl);
             }else{
-                $ttcid = $v->url;
-                $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$ttcid-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
+                $product_class = $v->url;
+                $kk = $this-> class_sort($product_class);
+                // if($kk){
+                //     foreach ($kk as $key => $value) {
+                //         $con[]= "  a.product_class = '$value' ";
+                //     }
+                //     $dd = implode( 'or', $con);
+                //     $condition .= "and (".$dd .")";
+                // }
+                $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$product_class-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
                 $r_cs = $db->select($sql_cs);
 
                 $cproduct = [];
@@ -240,35 +246,35 @@ class IndexAction extends Action {
         }
 
     }
-    //抽奖商品显示
-    public function draw(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $sql02 = "select status from lkt_plug_ins  where id = 4 ";
-        $r02 = $db -> select($sql02);
-        $type =  $r02[0]->status;
-        $banner = '';
+  public function class_sort($product_class)//根据类别查询下一级
+    {
+          $db = DBAction::getInstance();
+         $typestr=trim($product_class,'-');
+            $typeArr=explode('-',$typestr);
+            //  取数组最后一个元素 并查询分类名称
+            $cid = end($typeArr);//找到本级ID
+            $k[] = '-'.$product_class.'-';
 
-        if($type == 1){
-        //参加抽奖商品
-            $datatime = date("Y-m-d H:m:s",time());
-            $sql01 = "select b.id,b.product_title,b.volume,b.imgurl,a.draw_brandid,a.start_time,a.end_time,a.price as price11 from lkt_draw as a ,lkt_product_list as b  where b.num > 0 and a.draw_brandid = b.id and  a.start_time <= '".$datatime ."'and a.end_time >= '".$datatime."'";
+            if(!empty($cid)){//循环下一级
+                $sql_e = "select cid,pname from lkt_product_class where recycle = 0 and sid = $cid";
+                $r_e = $db->select($sql_e);
 
-            $r01 = $db -> select($sql01);
-            foreach ($r01 as $key => $value) {
-                $draw_brandid = $value->id;
-                $sql002 = "select yprice from lkt_configure where num >0 and pid = '$draw_brandid' ";
-                $r002 = $db -> select($sql002);
-                // var_dump($r01,$value,$sql01,$r002,$sql002);
-                $r01[$key]->yprice =$r002[0]->yprice;
-                
+                if($r_e){
+                    foreach ($r_e as $k01 => $v01) {//循环第三级
+                        $k[] = '-'.$product_class.'-'.$v01->cid.'-';
+                        $sql_e01 = "select cid,pname from lkt_product_class where recycle = 0 and sid = $v01->cid";
+                        $r_e01 = $db->select($sql_e01); 
+
+                        if($r_e01){
+                            foreach ($r_e01 as $k02 => $v02) {
+                                
+                               $k[] = '-'.$product_class.'-'.$v01->cid.'-'.$v02->cid.'-';
+                            }
+                        } 
+                    }  
+                }
             }
-
-        }else {
-                $r01 = "1";
-        }
-        echo json_encode(array('r01'=>$r01,'banner'=>$banner,'status'=>1));
-                    exit;
+            return $k;
     }
 }
 

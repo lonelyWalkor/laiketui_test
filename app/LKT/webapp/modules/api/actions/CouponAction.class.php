@@ -624,6 +624,7 @@ class CouponAction extends Action {
                 if(empty($rr)){ // 没有数据,表示该优惠券没绑定
                     // 根据用户id,查询优惠券状态为使用中的数据
                     $sql = "select id,money from lkt_coupon where user_id = '$user_id' and id = '$id'";
+
                     $r_2 = $db->select($sql);
                     if($r_2){
                         $r_2[0]->point = '正在使用';
@@ -635,6 +636,7 @@ class CouponAction extends Action {
         }
         // 根据用户id,查询优惠券状态为(未使用),以优惠券过期时间顺序排列
         $sql = "select id,money,hid from lkt_coupon where user_id = '$user_id' and type = 0 order by expiry_time";
+
         $rr = $db->select($sql);
 
         if($rr){
@@ -703,10 +705,14 @@ class CouponAction extends Action {
                     }
                 }
             }
+
+        }else{
+            $arr = '';
         }
-        ksort($arr);
+        
 
         if($arr != ''){
+            ksort($arr);
             echo json_encode(array('list'=>$arr));
             exit();
         }else{
