@@ -34,7 +34,7 @@ class indexAction extends Action {
         $and = '';
         $time = time();
         if($status == 1){
-            $and .= " and starttime > '$time' and endtime > '$time' and is_show='0'";
+            $and .= "  and endtime > '$time' and is_show='0'";
         }else if($status == 2){
             $and .= " and starttime < '$time' and endtime > '$time' and is_show='1'";
         }else if($status == 3){

@@ -24,7 +24,7 @@ class addproductAction extends Action {
       $product_title = $request->getParameter('pro_name'); // 标题
       
       // var_dump($_COOKIE['proids']);
-      $sql01 = "select cid,pname from lkt_product_class where sid = 0 ";
+      $sql01 = "select cid,pname from lkt_product_class where sid = 0 and recycle = 0";
       $rr = $db->select($sql01);
       $res = '';
       foreach ($rr as $key => $value) {
@@ -36,7 +36,7 @@ class addproductAction extends Action {
           $res .= '<option  value="'.$c.'">'.$value->pname.'</option>';
         }
         //循环第一层
-        $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid";
+        $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid and recycle = 0 ";
         $r_e = $db->select($sql_e);
         if($r_e){
           $hx = '-----';
@@ -49,7 +49,7 @@ class addproductAction extends Action {
               $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
             }
             //循环第二层
-            $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid";
+            $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid and recycle = 0";
             $r_t = $db->select($sql_t);
             if($r_t){
               $hxe = $hx.'-----';
@@ -88,7 +88,7 @@ class addproductAction extends Action {
         $typeArr=explode('-',$typestr);
         //  取数组最后一个元素 并查询分类名称
         $cid = end($typeArr);
-        $sql_p = "select pname from lkt_product_class where cid ='".$cid."'";
+        $sql_p = "select pname from lkt_product_class where cid ='".$cid."' and recycle = 0";
         $r_p = $db->select($sql_p);
         if($r_p){
           $pname = $r_p['0']->pname;

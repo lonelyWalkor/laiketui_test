@@ -36,10 +36,7 @@ class setproAction extends Action {
 
      }else if(isset($_GET['from']) && $_GET['from'] == 'attr'){
 
-       $str = $this->getContext()->getStorage()->read('susu');
-
-       // $game = $this->getContext()->getStorage()->read('zhou');
-       // var_dump($game);
+       $str = $this->getContext()->getStorage()->read('susu');//读取多个商品ID
        $arr = array();
        $idarr = explode(',', $str);
        // 查询系统参数
@@ -67,24 +64,30 @@ class setproAction extends Action {
            $sql = 'select c.*,l.product_title from lkt_configure as c left join lkt_product_list as l on c.pid=l.id where c.pid in ('.$str.') order by c.pid';
 
            $res = $db -> select($sql);
-           // var_dump($res);die;
            foreach ($res as $key => $value) {
-            
-            // if($value -> pid == $k){
-            //   $value -> classname = $v;
-            //   }
               $value -> image = $img.$value -> img;
+
+              $attribute_2 = unserialize($value->attribute); // 属性
+            if(!empty($attribute_2)){
+                foreach ($attribute_2 as $k => $v) {
+                    $d[]= '<tt style="text-align: center;">'.$k.' : '. $v .'</tt><br/>';
+                }
+                if (!empty($d)) {
+                    $dd = implode( ' ', $d);
+                }else{
+                    $dd = '';
+                }
+
+                $value ->attribute =  $dd;
+                 unset($dd);
+                 unset($d);
+            } 
+
               $arr[] = $value;
             
            }    
-         
-       // $arr_id = array();
-       // foreach ($arr as $k => $v) {
-       //    $arr_id[] = $v -> id;
-       // }
+           // print_r($arr);die;
        $this->getContext()->getStorage()->write('prod',$arr);
-       //$request->setAttribute("set",$game);
-       //var_dump($res);
        $request->setAttribute("arr",$res);
 
        return View :: INPUT;
