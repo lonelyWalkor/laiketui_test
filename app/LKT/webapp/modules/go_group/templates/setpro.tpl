@@ -55,9 +55,7 @@
                       <th width="50">商品id</th>
 		                  <th width="100">商品名称</th>
 		                  <th width="80">商品图片</th>
-                      <th width="50">配置名</th>
-                      <th width="50">颜色</th>
-                      <th width="50">规格</th>
+                       <th width="100">属性</th>
 		                  <th width="80">商品价格</th>
 		                  <th width="120">拼团价格<div style="color:#666666;font-size: 10px;">(双击可进行设置)</div></th>
 		                  <th>是否支持团长优惠<div style="color:#666666;font-size: 10px;">(如支持,填写后请打勾确定.如不支持,可以不填,直接提交)</div></th>
@@ -70,9 +68,9 @@
 	                       <td>
                           <div class="product_title">{$item->product_title}</div></td>
 	                       <td><image src="{$item->image}" style="width: 90%;height:60px;"/></td>
-	                       <td>{$item->name}</td>
-                         <td>{$item->color}</td>
-                         <td>{$item->size}</td>
+	                        <td width="100" style="text-align: center;">
+                          {$item->attribute}
+                         </td>
                          <td>{$item->price}</td>
 	                       <td id="{$item->id}">
 	                    	    <div name="{$item->id}" ondblclick="set_group_price({$item->id})">{$item->price}</div>
