@@ -46,6 +46,7 @@ function setSize() {
 }
 /*alert弹出层*/
 function jqalert(param) {
+    console.log(param)
     var title = param.title,
         content = param.content,
         yestext = param.yestext,
@@ -69,7 +70,6 @@ function jqalert(param) {
         else if(type=="money"){
             title="金额充值"
         }
-    console.log(id);
     if (click_bg === undefined){
         click_bg = true;
     }
@@ -95,7 +95,7 @@ function jqalert(param) {
         }
         htm += '<div class="content"  style="text-align:center;font-size:22px;margin:0 auto;"><div class="prompt">';
         htm += `<span class="prompt-content"style=" display:inline-block;text-align:center;font-size:16px;margin-top:30px;padding-right:10px">${prompt}</span>
-                    <input type="number" style="width:200px;padding-left:20px" placeholder="请输入充值的金额"  maxlength="11" oninput="if(value.length>10)value=value.slice(0,10)"
+                    <input type="number" style="width:200px;padding-left:20px" name="chargeInput" placeholder="请输入充值的金额"  maxlength="11" oninput="if(value.length>10)value=value.slice(0,10)""
                     min="0" max="1000000" class="prompt-text textIpt">
                     <div style="color:#ff453d;font-size:12px;margin-top:10px;"><i><img style="margin-right:5px;width:12px;height:12px;" src="images/icon1/ts1.png"/></i>扣除请添加负号</div>
 
@@ -156,7 +156,7 @@ function jqalert(param) {
                         location.replace(location.href);
                     },300);
                 }else{
-                    jqtoast('操作失败!');
+                    alert('操作失败!');
                 }
             }
         });
@@ -708,7 +708,7 @@ function confirm (content,id){
 		</div>	
 	`)
 };
-    </script>
+</script>
 {/literal}
 </body>
 </html>
