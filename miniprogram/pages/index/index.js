@@ -189,7 +189,7 @@ Page({
           app.d.bgcolor = bgcolor;
           var arr = Object.keys(twoList[0].distributor);
           var banner_num = Object.keys(banner); // 轮播图
-          console.log(banner_num, 123333, banner.length)
+        
           var notice = res.data.notice;
           that.setData({
             distributor: arr,
@@ -394,19 +394,26 @@ Page({
     setTimeout(function(){
       that.setData({
         sign_image: app.globalData.userInfo.sign_image, // 签到图片
-        sign_status: app.globalData.userInfo.sign_status // 是否签名
+        sign_status: app.globalData.userInfo.sign_status, // 是否签名
+        sign: app.globalData.userInfo.sign // 签名插件是否开启
       })
-      //如果用户今日已签到则不再显示
-      if (app.globalData.userInfo.sign_status == 1){
-        that.setData({
-          showModal: true
-        })
-      }else{
+  
+      if (app.globalData.userInfo.sign == true){
+        //如果用户今日已签到则不再显示
+        if (app.globalData.userInfo.sign_status == 1) {
+          that.setData({
+            showModal: true
+          })
+        } else {
+          that.setData({
+            showModal: false
+          })
+        }
+      } else {
         that.setData({
           showModal: false
         })
-      }
-    },5000);
+      }},5000);
     that.loadProductDetail();
     
   },
