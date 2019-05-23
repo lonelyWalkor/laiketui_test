@@ -90,7 +90,7 @@
 								<view class="sp_text">
 									<view style='width:70%;'>
 										<view class="sp_tit ovh1" style="color: #000;">{{list.p_name}}</view>
-										<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
+										<view class="sp_tit ovh1" style='color:#808080'> [{{list.size}}]</view>
 									</view>
 									<view class="sp_jg">
 										<view class='guige'>¥ {{list.p_price}}</view>
@@ -178,7 +178,7 @@
 							<view class="sp_text">
 								<view style='width:70%;'>
 									<view class="sp_tit ovh1" style="color: #000;">{{list.p_name}}</view>
-									<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
+									<view class="sp_tit ovh1" style='color:#808080'>[{{list.size}}]</view>
 								</view>
 								<view class="sp_jg">
 									<view class='guige'>¥ {{list.p_price}}</view>
@@ -263,7 +263,7 @@
 							<view class="sp_text">
 								<view style='width:70%;'>
 									<view class="sp_tit ovh1" style="color: #000;">{{list.p_name}}</view>
-									<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
+									<view class="sp_tit ovh1" style='color:#808080'> [{{list.size}}]</view>
 								</view>
 								<view class="sp_jg">
 									<view class='guige'>¥ {{list.p_price}}</view>
@@ -349,7 +349,7 @@
 							<view class="sp_text">
 								<view style='width:70%;'>
 									<view class="sp_tit ovh1" style="color: #000;">{{list.p_name}}</view>
-									<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
+									<view class="sp_tit ovh1" style='color:#808080'>[{{list.size}}]</view>
 								</view>
 								<view class="sp_jg">
 									<view class='guige'>¥ {{list.p_price}}</view>
@@ -433,7 +433,7 @@
 							<view class="sp_text">
 								<view style='width:70%;'>
 									<view class="sp_tit ovh1" style="color: #000;">{{list.p_name}}</view>
-									<view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{list.size}}]</view>
+									<view class="sp_tit ovh1" style='color:#808080'>[{{list.size}}]</view>
 								</view>
 								<view class="sp_jg">
 									<view class='guige'>¥ {{list.p_price}}</view>

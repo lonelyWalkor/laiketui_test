@@ -31,11 +31,6 @@ Page({
 				otype: 'pay'
 			},
 			{
-				key: 2,
-				value: "抽奖",
-				otype: 'pay5'
-			},
-			{
 				key: 3,
 				value: "拼团",
 				otype: 'pay6'

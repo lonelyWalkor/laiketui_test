@@ -58,7 +58,7 @@
               <view class="sp_text">
                 <view style='width:70%;'>
                   <view class="sp_tit ovh1" style="color: #000;">{{address.product_title}}</view>
-                  <view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{address.size1}}]</view>
+                  <view class="sp_tit ovh1" style='color:#808080'> [{{address.size1}}]</view>
                 </view>
                 <view class="sp_jg">
                   <view class='guige'>¥ {{total}} </view> 
@@ -121,7 +121,7 @@
           <view class="sp_text">
             <view style='width:70%;'>
               <view class="sp_tit ovh1" style="color: #000;">{{item.product_title}}</view>
-              <view class="sp_tit ovh1" style='color:#808080'>颜色规格: [{{item.size}}]</view>
+              <view class="sp_tit ovh1" style='color:#808080'>[{{item.size}}]</view>
             </view>
             <view class="sp_jg">
             <view  wx:if="{{item.is_zhekou == 1 && zhekou !='all'}}">
