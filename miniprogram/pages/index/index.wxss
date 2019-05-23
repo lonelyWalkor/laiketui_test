@@ -725,3 +725,6 @@ button{
   border-radius: 25px;
   margin-right: 5px;
 }
+.main{
+  position: relative;
+}

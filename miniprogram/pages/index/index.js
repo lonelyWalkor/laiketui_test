@@ -26,6 +26,7 @@ Page({
     images:{},
     zjList: {},
     zjList_box:false,
+    mainHeight: 0,
   },
   //下拉事件
   onPullDownRefresh: function () {
@@ -239,7 +240,7 @@ Page({
       setTimeout(function () {
         that.loadProductDetail();
       }, 1000);
-    }
+    } 
   },
   onHide: function () {
     clearTimeout();
@@ -382,11 +383,9 @@ Page({
     if (indexchase){
       that.onLoad();
       app.d.indexchase = false;
-    }
-    
+    } 
   },
   onReady: function () {
-
   },
   onLoad: function (e) {
     var that = this;
@@ -415,7 +414,7 @@ Page({
         })
       }},5000);
     that.loadProductDetail();
-    
+    that.getContHeight();  
   },
 
   preventTouchMove: function () {
@@ -605,4 +604,18 @@ Page({
       }
     }
   },
+  getContHeight: function(){
+    var that = this;
+    //动态设置高度
+    setTimeout(function () {
+      var query = wx.createSelectorQuery();
+      query.select('.cont').boundingClientRect();
+      query.exec(function (res) {
+        if (res[0] === null) return;
+        that.setData({
+          mainHeight: res[0].height + 330
+        })
+      });
+    }, 5000);
+  }
 });
