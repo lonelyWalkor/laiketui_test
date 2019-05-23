@@ -240,6 +240,7 @@ class IndexAction extends Action {
         return View :: INPUT;
     }
 
+
     public function class_sort($product_class)//根据类别查询下一级
     {
           $db = DBAction::getInstance();
