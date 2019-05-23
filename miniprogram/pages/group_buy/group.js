@@ -22,7 +22,8 @@ Page({
     select:0,//选中
     sort: 0,// 1 asc 升序   0 desc 降序
     groupman: '',
-    groupid: ''
+    groupid: '',
+     titlee: '',
   },
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -46,12 +47,18 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
+        var titlee = res.data.groupname;
+        wx.setNavigationBarTitle({
+          title: titlee, //修改页面标题
+        });
         if (res.data.code == 1){
         that.setData({
           list: res.data.list,
           groupman: res.data.groupman,
-          groupid: res.data.groupid
+          groupid: res.data.groupid,
+          
         })
+          
         }
       },
       error: function (e) {
@@ -220,6 +227,11 @@ Page({
           groupman: res.data.groupman,
           groupid: res.data.groupid
         })
+          var titlee = res.data.groupname;
+          wx.setNavigationBarTitle({
+            title: titlee, //修改页面标题
+
+          });
         }
       },
       error: function (e) {
@@ -278,6 +290,11 @@ Page({
           groupman: res.data.groupman,
           groupid: res.data.groupid
         });
+        var titlee = res.data.groupname;
+        // wx.setNavigationBarTitle({
+        //   title: titlee, //修改页面标题
+
+        // });
 
       },
       fail: function (e) {
@@ -327,10 +344,16 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        
+        var titlee = res.data.groupname;
+        wx.setNavigationBarTitle({
+          title: titlee, //修改页面标题
+
+        });
       if(res.data.code == 1){
         var list = res.data.list;
         var prolist = that.data.list;
+       
+       
         if (prolist.length > 1){
           that.setData({
             page: page,
@@ -338,12 +361,14 @@ Page({
             groupman: res.data.groupman,
             groupid: res.data.groupid
           });
+          
         }else{
           that.setData({
             list: list,
             groupman: res.data.groupman,
-            groupid: res.data.groupid
+            groupid: res.data.groupid,
           })
+         
         }
       }
       
