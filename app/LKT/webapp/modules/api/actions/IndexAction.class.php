@@ -77,15 +77,9 @@ class IndexAction extends Action {
                 $shou[$k] = array('id' => $v->id,'url' => $v->url,'imgurl' => $imgurl);
             }else{
                 $product_class = $v->url;
-                $kk = $this-> class_sort($product_class);
-                // if($kk){
-                //     foreach ($kk as $key => $value) {
-                //         $con[]= "  a.product_class = '$value' ";
-                //     }
-                //     $dd = implode( 'or', $con);
-                //     $condition .= "and (".$dd .")";
-                // }
+               
                 $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$product_class-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
+                // print_r($sql_cs);die;
                 $r_cs = $db->select($sql_cs);
 
                 $cproduct = [];

@@ -59,10 +59,6 @@ class productAction extends Action {
             $this->new_product();
         }else if($m == 'wallet_pay'){
             $this->wallet_pay();
-        }else if($m == 'choujiangjiesuan'){//抽奖创建结算页面
-            $this->choujiangjiesuan();
-        }else if ($m == 'choujiangpayment') {//抽奖创建订单
-              $this->choujiangpayment();
         }else if ($m == 'select_size') {
                //属性选择
               $this->select_size();
@@ -314,12 +310,13 @@ class productAction extends Action {
             $commodityAttr = [];
             $sql_size = "select * from lkt_configure where pid = '$id' AND num > 0";
             $r_size = $db->select($sql_size);
+            // print_r($r_size);die;
             $array_price = [];
             $array_yprice = [];
             $skuBeanList = [];
             $attrList = [];
             if ($r_size) {
-                $attrList = [];
+                // $attrList = [];
                 $a = 0;
                 $attr = [];
                 foreach ($r_size as $key => $value) {
@@ -1882,235 +1879,6 @@ class productAction extends Action {
             exit;
         }
     }
-    //抽奖结算页面
-    public function choujiangjiesuan(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $productId = trim($request->getParameter('productId')); //  购物车id
-        $uid = trim($request->getParameter('uid')); // 微信id
-        $choujiangid = trim($request->getParameter('choujiangid')); //  活动id
-        $size =trim($request->getParameter('size')); //型号
-        $wx_id = $request->getParameter('size');//分享人ID
-        // 根据微信id,查询用户id
-        $sql_user = 'select user_id,money from lkt_user where wx_id=\''.$uid.'\'';
-        $r_user = $db->select($sql_user);
-        if($r_user){
-            $userid = $r_user['0']->user_id; // 用户id
-            $user_money = $r_user['0']->money; // 用户余额
-        }else{
-            $userid = '';
-            $user_money = 0;
-        }
 
-
-        // 根据用户id,查询收货地址
-        $sql_a = 'select id from lkt_user_address where uid=\''.$userid.'\'';
-        $r_a = $db->select($sql_a);
-        if($r_a){
-            $arr['addemt']=0; // 有收货地址
-            // 根据用户id、默认地址,查询收货地址信息
-            $sql_e = 'select * from lkt_user_address where uid=\''.$userid.'\' and is_default = 1';
-            $r_e = $db->select($sql_e);
-            $arr['adds'] = (array)$r_e['0']; // 收货地址
-        }else{
-            $arr['addemt']=1; // 没有收货地址
-            $arr['adds'] = ''; // 收货地址
-        }
-        $sql1 = "select price from  lkt_draw where id = $choujiangid";
-        $re = $db->select($sql1);
-
-        $sql_d = 'select * from lkt_configure where id = '.$size;
-        $r_d = $db->select($sql_d);
-        $size1 = '';
-        if($r_d){
-            $attribute = unserialize($r_d[0]->attribute);
-            foreach ($attribute as $ka => $va) {
-                $size1 .= $va.' ';
-            }
-        }
-
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
-        $product = array();
-        $sql_c = "select * from lkt_draw as a ,lkt_product_list as b where a.id = '$choujiangid' and a.draw_brandid = b.id";
-        $r_c = $db->select($sql_c);
-        // 联合查询返回购物信息
-        if(!empty($r_c)){
-            $product = (array)$r_c['0']; // 转数组
-            $product['photo_x'] = $img.$product['imgurl'];/* 拼接图片链接*/
-            $num =1; // 商品数量
-            $pid = $product['draw_brandid']; // 商品id
-            $product_title = $product['product_title']; // 商品名称
-            $size1 = $size1?$size1:'默认';
-        }
-
-        if($re){
-            $arr['price'] = $re[0]->price; // 产品总价
-        }else{
-            $arr['price'] = ' '; // 产品总价
-        }
-        $arr['adds']['photo_x']=$product['photo_x']?$product['photo_x']:'';
-        $arr['adds']['num']=$num;
-        $arr['adds']['pid']=$pid;
-        $arr['adds']['product_title']=$product_title;
-        $arr['adds']['choujiangid'] = $choujiangid; // 付款金额
-        $arr['adds']['user_money'] = $user_money; // 用户余额
-        $arr['adds']['size1'] = $size1; //型号
-        $arr['size'] = $size; //型号
-        echo json_encode(array('status'=>1,'arr'=>$arr));
-        exit;
-    }
-       //抽奖创建订单
-    public function choujiangpayment(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        // print_r($request);die;
-        $choujiangid = trim($request->getParameter('choujiangid')); // 抽奖id
-        $uid = trim($request->getParameter('uid')); // 微信id
-        $and = trim($request->getParameter('remark')); // 用户备注
-        $type = trim($request->getParameter('type')); // 用户支付方式
-        $size = trim($request->getParameter('size'));
-        $total = $_POST['total']; // 付款金额
-        $role = $request->getParameter('role');//分享订单ID
-        if(!empty($role) && $role !='undefined'){//通过分享ID查询该团成员总数与设定拼团人数
-            $sql04 = "select num,spelling_number,collage_number from lkt_draw where id = $choujiangid ";//查询
-            $r04 = $db->select($sql04);
-            if($r04){
-                $num1 = $r04[0]->num;//每个团所需人数
-                $spelling_number = $r04[0]->spelling_number;//可抽中奖次数（默认为1）
-                $collage_number = $r04[0]->collage_number;//最少开奖团数（默认为1）
-            }else{
-                $num1 = 0;
-            }
-
-            $sql05 = "select count(id) as aa from lkt_draw_user where draw_id = $choujiangid and role = '$role'";
-            $r05 = $db->select($sql05);
-            if($r05){
-                $bb = $r05[0]->aa;
-            }else{
-                $bb = 0;
-            }
-            if($bb>=$num1){
-                $role = 0;
-            }
-        }
-
-        // 根据微信id,查询用户id
-        $sql_user = 'select user_id,money from lkt_user where wx_id=\''.$uid.'\'';
-        $r_user = $db->select($sql_user);
-        $userid = $r_user['0']->user_id; // 用户id
-        $user_money = $r_user['0']->money; // 用户余额
-        if(!empty($role) && $role !='undefined'){
-            $role =$role;
-        }else{
-            $role = 0;
-        }
-
-        if($type == 'balance_Pay' && $user_money < $total){ // 当余额小于付款金额
-            echo json_encode(array('status' => 0, 'err' => '余额不足！'));
-            exit;
-        }else{
-            $remark = preg_replace('/[ ]/', '', $and);
-            // 根据用户id、默认地址,查询地址信息
-            $sql_a = 'select * from lkt_user_address where uid=\''.$userid.'\' and is_default = 1';
-            $r_a = $db->select($sql_a);
-            if($r_a){
-                $name = $r_a['0']->name; // 联系人
-                $mobile = $r_a['0']->tel; // 联系电话
-                $address = $r_a['0']->address_xq; // 加省市县的详细地址
-                $sheng = $r_a['0']->sheng; // 省
-                $shi = $r_a['0']->city; // 市
-                $xian = $r_a['0']->quyu; // 县
-            }else{
-                $name = ''; // 联系人
-                $mobile = ''; // 联系电话
-                $address = ''; // 加省市县的详细地址
-                $sheng = ''; // 省
-                $shi = ''; // 市
-                $xian = ''; // 县
-            }
-
-            $z_num = 0;
-            $z_price = 0;
-
-            $sNo = $this ->order_number(); // 生成订单号
-            $size_id = $size;//商品Size_id
-            $sql_d = 'select * from lkt_configure where id = '.$size;
-            $r_d = $db->select($sql_d);
-            $size = '';
-            if($r_d){
-                $attribute = unserialize($r_d[0]->attribute);
-                foreach ($attribute as $ka => $va) {
-                    $size .= $va.' ';
-                }
-            }
-
-            $sql_c = "select * from lkt_draw as a ,lkt_product_list as b where a.id = '$choujiangid' and a.draw_brandid = b.id";
-            $r_c = $db->select($sql_c);
-
-            // 联合查询返回购物信息
-            if(!empty($r_c)){
-
-                $product = (array)$r_c['0']; // 转数组
-                $product['photo_x'] = 'http://'.$_SERVER['HTTP_HOST'].$product['imgurl'];/* 拼接图片链接*/
-                $num =1; // 商品数量
-                $z_num += $num; // 商品数量
-                $price = $total; // 商品价格
-                $z_price += $num*$price; // 总价
-                $pid = $product['draw_brandid']; // 商品id
-                $product_title = $product['product_title']; // 商品名称
-                $size = $size?$size:'默认';
-
-                // 循环插入订单附表
-                $sql_d = 'insert into lkt_order_details(user_id,p_id,p_name,p_price,num,unit,r_sNo,add_time,r_status,size,sid) VALUES '."('$userid','$pid','$product_title','$price','$num','件','$sNo',CURRENT_TIMESTAMP,0,'$size','$size_id')";
-                $r_d = $db->insert($sql_d);
-            }else{
-                echo json_encode(array('status' => 0, 'err' => '请勿重复下单！'));
-                exit;
-            }
-            // 插入抽奖与用户关联表
-            $sql0003 ='insert into lkt_draw_user(draw_id,user_id,time,role) VALUES '."('$choujiangid','$userid',CURRENT_TIMESTAMP,'$role')";
-            $r_r = $db->insert($sql0003,"last_insert_id");
-            // 在订单表里添加一条数据
-            $sql_o = 'insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,remark,pay,add_time,status,coupon_id,allow,drawid) VALUES '."('$userid','$name','$mobile','$z_num','$z_price','$sNo','$sheng','$shi','$xian','$address','$remark','$type',CURRENT_TIMESTAMP,0,'0','0','$r_r')";
-            $r_o = $db->insert($sql_o,"last_insert_id");
-            if( $role == 0){
-              //把抽奖与用户关联的
-                $sql06 = "update lkt_draw_user set role ='$r_r' where id = '$r_r' ";
-                $r06 = $db->update($sql06);
-            }
-            if($r_d > 0 && $r_o > 0){
-                //返回
-                $arr = array('pay_type' => $type,'sNo' => $sNo,'coupon_money' => $total,'coupon_id' => 0,'order_id' => $r_o , 'type1' => 11);
-                if(!empty($bb)){
-                    if($bb>=$num1){
-                        echo json_encode(array('status' => 1, 'arr' => $arr, 'err' => '该团已满，生成新团！'));
-                        exit;
-                        
-                    }else{
-                        echo json_encode(array('status' => 1, 'arr' => $arr, 'err' => ''));
-                        exit;
-                    }
-                }else{
-                    echo json_encode(array('status' => 1, 'arr' => $arr, 'err' => ''));
-                        exit;
-                }
-            }else{
-                echo json_encode(array('status' => 0, 'err' => '请勿重复下单2！'));
-                exit;
-            }
-        }
-    }
 }
 ?>

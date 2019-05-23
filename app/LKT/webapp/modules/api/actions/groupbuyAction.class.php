@@ -140,12 +140,13 @@ class groupbuyAction extends Action {
         $start = ($paegr-1)*10;
         $end = $paegr*10;
 
-        $sqltime = 'select man_num,endtime,status from lkt_group_buy where is_show=1';
+        $sqltime = 'select man_num,endtime,status,groupname  from lkt_group_buy where is_show=1';
          $restime = $db -> select($sqltime);
          if(!empty($restime)){
             //$endtime = date('Y-m-d H:i:s',$restime[0] -> endtime);
             $g_man = $restime[0] -> man_num;
             $gid = $restime[0] -> status;
+            $groupname = $restime[0] -> groupname;
 
         $sql = "select w.*,l.product_title as pro_name from (select z.*,c.img as image,c.price as market_price from (select p.id,min(p.attr_id) as attr_id,p.product_id,p.group_price,p.group_id,s.sum from lkt_group_product as p left join (select sum(m.num) as sum,m.p_id from (select o.num,d.p_id from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.pid='$gid' and o.status>0) as m group by m.p_id) as s on p.product_id=s.p_id where p.group_id='$gid' group by p.product_id order by $select$sort limit $start,$end) as z left join lkt_configure as c on z.attr_id=c.id) as w left join lkt_product_list as l on w.product_id=l.id";
         $res = $db -> select($sql);
@@ -158,7 +159,7 @@ class groupbuyAction extends Action {
             }
         }
 
-        echo json_encode(array('code' => 1,'list' => $res,'groupman' => $g_man,'groupid' => $gid));exit;
+        echo json_encode(array('code' => 1,'list' => $res,'groupman' => $g_man,'groupid' => $gid,'groupname' => $groupname));exit;
         }else{
         	echo json_encode(array('code' => 0));exit;
         }
@@ -264,7 +265,7 @@ class groupbuyAction extends Action {
         $commodityAttr = [];
             $sql_size = "select g.attr_id,g.product_id,g.group_price,g.member_price,p.attribute,p.num,p.price,p.yprice,p.img,p.id from lkt_group_product as g left join lkt_configure as p on g.attr_id=p.id where g.product_id = '$gid' and group_id='$group_id'";
             $r_size = $db->select($sql_size);
-            
+            // print_r($sql_size);die;
             $array_price = [];
             $array_yprice = [];
             $skuBeanList = [];
