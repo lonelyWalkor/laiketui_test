@@ -126,7 +126,7 @@ function change(){
         <div class="row cl" id="num" style="display:none;">
             <label class="form-label col-4">数量：</label>
             <div class="formControls col-2">
-                <input type="number" class="input-text" placeholder="" id="" value="0" name="num">
+                <input type="number" class="input-text" placeholder="" id="numId" value="0" name="num">
             </div>
             <text style="line-height:30px;">0表示没限制数量</text>
         </div>
@@ -247,6 +247,13 @@ $("#z_money1").blur(function(){
         $("#z_money1").val('');
         alert('输入的值要大于0');
         return false;
+    }
+});
+$("#numId").blur(function(){
+    var _num = $('#numId').val();
+    if(_num < 0){
+        alert('输入的值要大于0');
+        return false
     }
 });
 </script>
