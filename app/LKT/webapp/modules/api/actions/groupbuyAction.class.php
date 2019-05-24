@@ -621,9 +621,13 @@ class groupbuyAction extends Action {
 
         $time_over = date('Y-m-d H:i:s',$time_over[0]*3600 + $time_over[1]*60 + time());
 
-        $pro_size = $db -> select("select name,color,size from lkt_configure where id=$sizeid");
-
-        $pro_size = $pro_size[0] -> name.$pro_size[0] -> color.$pro_size[0] -> size;
+        $pro_size = $db -> select("select attribute from lkt_configure where id=$sizeid");
+       //写入配置
+                    $attribute = unserialize($pro_size[0]->attribute);
+                    $size = '';
+                    foreach ($attribute as $ka => $va) {
+                        $size .= $va.' ';
+                    }
 
         $istsql1 = "insert into lkt_group_open(uid,ptgoods_id,ptcode,ptnumber,addtime,endtime,ptstatus,group_id) values('$uid',$pro_id,'$group_num',1,'$creattime','$time_over',$status,'$groupid')";
         $res1 = $db -> insert($istsql1);
@@ -648,7 +652,7 @@ class groupbuyAction extends Action {
         }
         
 
-        $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";
+        $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$size',$sizeid)";
 
         $res3 = $db -> insert($istsql3);
         if($res3 < 1){

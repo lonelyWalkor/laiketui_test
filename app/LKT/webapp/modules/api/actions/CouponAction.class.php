@@ -63,7 +63,7 @@ class CouponAction extends Action {
 
      
         // 根据活动为开启状态,查询活动列表,根据开始时间降序排列
-        $sql = "select * from lkt_coupon_activity where status = 1 order by start_time desc";
+        $sql = "select * from lkt_coupon_activity where status = 1 and recycle = 0 order by start_time desc";
         $r_1 = $db->select($sql);
         $rew_1 = 0;
         $arr = [];
@@ -164,7 +164,7 @@ class CouponAction extends Action {
             }
         }
         // 根据活动为未开启状态,查询活动列表,根据开始时间升序排列
-        $sql = "select * from lkt_coupon_activity where status = 0 order by start_time";
+        $sql = "select * from lkt_coupon_activity where status = 0 and recycle = 0 order by start_time";
         $rr_1 = $db->select($sql);
         if($rr_1){
             foreach ($rr_1 as $k => $v) {
@@ -242,7 +242,7 @@ class CouponAction extends Action {
         }
 
         // 根据活动为结束状态,查询活动列表,根据结束时间降序排列
-        $sql = "select * from lkt_coupon_activity where status = 3 order by end_time desc";
+        $sql = "select * from lkt_coupon_activity where status = 3 and recycle = 0  order by end_time desc";
         $rr_2 = $db->select($sql);
         if($rr_2){
             foreach ($rr_2 as $k => $v) {
@@ -307,7 +307,7 @@ class CouponAction extends Action {
                 $arr[$rew_3] = $v;
             }
         }
-           
+
         echo json_encode(array('list'=>$arr));
         exit();
     }

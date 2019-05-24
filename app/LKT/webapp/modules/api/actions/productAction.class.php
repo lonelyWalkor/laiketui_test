@@ -732,53 +732,10 @@ class productAction extends Action {
                 $zong = 0;
             }
         }
-
-        // 查询自动满减设置
-        $sql = "select * from lkt_subtraction where id = 1";
-        $r_subtraction = $db->select($sql);
-        $subtraction = [];
-        if($r_subtraction){
-            $subtraction = unserialize($r_subtraction[0]->subtraction); // 自动满减
-
-            if($r_subtraction[0]->status == 1){
-                $man_money = $r_subtraction[0]->man_money; // 满多少包邮
-                $region = $r_subtraction[0]->region; // 不包邮地区
-                $region_list = explode(',',$region);
-                if($man_money <= $zong){ // 当商品总价满足 包邮限制
-                    $sql = "select G_CName from admin_cg_group where GroupID = ".$address['sheng'];
-                    $r_address = $db->select($sql);
-                    if($r_address){
-                        $G_CName = $r_address[0]->G_CName;
-                        if(in_array($G_CName, $region_list)){
-                            $arr['freight'] = $yunfei; // 运费
-                        }else{
-                            $arr['freight'] = 0; // 运费
-                        }
-                    }else{
-                        $arr['freight'] = 0; // 运费
-                    }
-                }else{ // 当订单总价不满足 包邮限制
-                    $arr['freight'] = $yunfei; // 运费
-                }
-            }else{
-                $arr['freight'] = $yunfei; // 运费
-            }
-        }
-
+        
         $order_zong = $zong + $yunfei; // 订单总价
         $reduce_name = '';
         $reduce = 0;
-        if($subtraction){
-            foreach ($subtraction as $kk => $vv){
-                foreach ($vv as $kk1 => $vv1){
-                    if($order_zong > $kk1){
-                        $reduce_name = '满'.$kk1.'减'.$vv1;
-                        $reduce = $vv1;
-                        break;
-                    }
-                }
-            }
-        }
         $arr['name'] = $reduce_name;
         $arr['reduce_money'] = $reduce;
 
