@@ -240,6 +240,36 @@
 			    background: rgba(0,0,0,0.6);
 			    display: block;
 			}
+			.paginationDiv {
+			    width: 100%;
+			    background-color: #fff;
+			    padding: 20px 0;
+			    height: 30px;
+			    line-height: 30px;
+			    box-sizing: content-box;
+			    border-top: none;
+			}
+			.changePaginationNum {
+			    float: left;
+			    margin-left: 20px;
+			}
+			.showDataNum {
+			    float: left;
+			    margin-left: 20px;
+			    color: #414658;
+			}
+			.pagination {
+			    display: -webkit-box;
+			    display: -webkit-flex;
+			    display: -ms-flexbox;
+			    display: flex;
+			    padding-left: 0;
+			    list-style: none;
+			    border-radius: .25rem;
+			    float: right;
+			    margin-right: 20px;
+			    height: 30px;
+			}
 		</style>
 
 	{/literal}

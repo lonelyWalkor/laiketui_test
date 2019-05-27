@@ -27,9 +27,6 @@ td a{
 #btn2:hover{
     background-color: #57a821!important;
 }
-#btn2{
-    background-color: #77c037!important;
-}
 #btn3:hover{
     background-color: #299998!important;
 }
@@ -69,6 +66,36 @@ form .select{
 }
 .tj{
     background-color: #feb04c;
+}
+.paginationDiv {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px 0;
+    height: 30px;
+    line-height: 30px;
+    box-sizing: content-box;
+    border-top: none;
+}
+.changePaginationNum {
+    float: left;
+    margin-left: 20px;
+}
+.showDataNum {
+    float: left;
+    margin-left: 20px;
+    color: #414658;
+}
+.pagination {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: .25rem;
+    float: right;
+    margin-right: 20px;
+    height: 30px;
 }
 </style>
 {/literal}
@@ -113,22 +140,22 @@ form .select{
         </a>
         <a class="btn radius" id="btn2" style="background-color:#77c037;color: #fff;" href="javascript:;" onclick="operation(1)">
             <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/sj.png"/>&nbsp;产品上架
+                <img src="images/icon1/sj.png"/>&nbsp;<span>产品上架</span>
             </div>
         </a>
         <a class="btn radius" id="btn3" style="background-color:#42b4b3;color: #fff;" href="javascript:;" onclick="operation(3)">
             <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/xp.png"/>&nbsp;设为新品
+                <img src="images/icon1/xp.png"/>&nbsp;<span>设为新品</span>
             </div>
         </a>
         <a class="btn radius" id="btn4" style="background-color:#ff453d;color: #fff;" href="javascript:;" onclick="operation(5)">
             <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/rx.png"/>&nbsp;设为热销
+                <img src="images/icon1/rx.png"/>&nbsp;<span>设为热销</span>
             </div>
         </a>
         <a class="btn radius" id="btn5" style="background-color:#fe9331;color: #fff;">
             <div style="height: 100%;display: flex;align-items: center;" href="javascript:;" onclick="operation(7)">
-                <img src="images/icon1/tj.png"/>&nbsp;设为推荐
+                <img src="images/icon1/tj.png"/>&nbsp;<span>设为推荐</span>
             </div>
         </a>
         <a href="javascript:;" id="btn6" onclick="datadel()" style="background: #fff;color: #6a7076;border: none;" class="btn btn-danger radius">
@@ -138,7 +165,7 @@ form .select{
         </a>
     </div>
     <div class="mt-20">
-        <table class="table table-border table-bordered table-bg table-hover">
+        <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
             <tr class="text-c">
                 <th width="40">
@@ -372,7 +399,6 @@ function confirm (content,id){
     `)
 }
 function confirm2 (content,id,type){
-    console.log(id);
     $("body").append(`
         <div class="maskNew">
             <div class="maskNewContent">
