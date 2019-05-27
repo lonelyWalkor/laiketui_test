@@ -644,7 +644,7 @@ class groupbuyAction extends Action {
 
         $ordernum = 'PT'.mt_rand(10000,99999).date('Ymd').substr(time(),5);
 
-        $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,status,otype,ptcode,pid,ptstatus,trade_no) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime',$ordstatus,'pt','$group_num','$groupid',$status,'$trade_no')";
+        $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,status,otype,ptcode,pid,ptstatus,trade_no,source) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime',$ordstatus,'pt','$group_num','$groupid',$status,'$trade_no','1')";
         $res2 = $db -> insert($istsql2);
         if($res2 < 1){
             $db->rollback();
@@ -861,8 +861,13 @@ class groupbuyAction extends Action {
         $ordstatus = $status == 1?9:0;
 
         $creattime = date('Y-m-d H:i:s');
-        $pro_size = $db -> select("select name,color,size from lkt_configure where id=$sizeid");
-        $pro_size = $pro_size[0] -> name.$pro_size[0] -> color.$pro_size[0] -> size;
+              $pro_size = $db -> select("select attribute from lkt_configure where id=$sizeid");
+       //写入配置
+                    $attribute = unserialize($pro_size[0]->attribute);
+                    $pro_size = '';
+                    foreach ($attribute as $ka => $va) {
+                        $pro_size .= $va.' ';
+                    }
         $selsql = "select ptnumber,ptstatus,endtime from lkt_group_open where group_id='$groupid' and ptcode='$oid'";
         $selres = $db -> select($selsql);
         if(!empty($selres)){
@@ -877,7 +882,7 @@ class groupbuyAction extends Action {
        if($endtime >= time()){
         if(($ptnumber+1) < $man_num){
             
-            $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no')";
+            $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no,source) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no','1')";
             $res2 = $db -> insert($istsql2);   
             if($res2 < 1){
                 $db->rollback();
@@ -905,7 +910,7 @@ class groupbuyAction extends Action {
 
 
         }else if(($ptnumber+1) === $man_num){
-            $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no) values('$uid','$name','$tel',$buy_num,'$price','$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no')";
+            $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no,source) values('$uid','$name','$tel',$buy_num,'$price','$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no','1')";
             $res2 = $db -> insert($istsql2);   
 
             if($res2 < 1){
