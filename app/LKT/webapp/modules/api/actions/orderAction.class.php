@@ -329,7 +329,7 @@ class orderAction extends Action {
         }else{
             $order = '';
         }
-         
+         // print_r($order);
         echo json_encode(array('status'=>1,'order'=>$order));
         exit();
         return;
@@ -599,21 +599,12 @@ class orderAction extends Action {
             $num = $r[0]->mobile;//联系手机号
             $mobile = substr_replace($num,'****',3,4);//隐藏操作
             $address = $r[0]->address;//联系地址
-            $role = $r[0]->drawid;//抽奖id
             $user_id = $r[0]->user_id;//成员id
             $status = $r[0]->status;//订单状态
             $gstatus = $r[0]->status;//订单状态
             $otype = $r[0]->otype;//订单状态
             $ptcode = $r[0]->ptcode;//订单状态
             $pid = $r[0]->pid;//拼团ID
-            $red_packet = $r[0]->red_packet;//红包
-
-            // 判断红包使用
-            if ($red_packet >0 && $red_packet != 'unll') {
-                $red_packet = $red_packet;
-            }else{
-                $red_packet = 0;
-            }
 
             if($status){
                 $user_money = false;
@@ -630,8 +621,6 @@ class orderAction extends Action {
 
             $coupon_id = $r[0]->coupon_id;//优惠券id
             $consumer_money = $r[0]->consumer_money;//积分
-            $coupon_activity_name ='';
-            $coupon_activity_name = $r[0]->coupon_activity_name; // 满减活动名称
             if($coupon_id){
                 $sql = "select money from lkt_coupon where id = '$coupon_id'";
                 $r_coupon = $db->select($sql);
@@ -639,45 +628,7 @@ class orderAction extends Action {
             }else{
                 $coupon_money = 0;
             }
-            if(!empty($role)){//存在抽奖订单
-                $sql001 = "select * from lkt_draw_user where id ='$role'  " ;
-                $dd = $db->select($sql001); 
-                 if(!empty($dd)){
-                    $lottery_status = $dd[0]->lottery_status;
-                    $drawid = $dd[0]->draw_id;
-                }
-                if($status==0){
-                            $rew['lottery_status1'] ='待付款';
-                }elseif($status==1){
-                    if($lottery_status ==0){
-                        $lottery_status ='查看团详情';
-                    }elseif ($lottery_status ==1) {
-                        $lottery_status ='待抽奖';
-                    }elseif ($lottery_status ==2) {
-                        $lottery_status ='参团失败';
-                    }
-                    elseif ($lottery_status ==4) {
-                        $lottery_status ='待发货';
-                    }else{
-                        $lottery_status ='抽奖失败';
-                    }
-                }elseif($status==2){
-                    $lottery_status ='待收货';
-                }elseif($status==6){
-                    if ($lottery_status ==2) {
-                        $lottery_status ='订单关闭';
-                    }else{
-                        $lottery_status ='订单关闭';
-                    }
-                }
-                $type1 = 11;
-               
-            }else{
-                $wx_id ='';
-                $lottery_status ='';
-                $type1 = 22;
-                $drawid ='';
-            }
+            
             $freight = 0;
             // 根据订单号,查询订单详情
             $sql = "select * from lkt_order_details where r_sNo = '$sNo'" ;
@@ -685,7 +636,6 @@ class orderAction extends Action {
             if($list){
                 foreach ($list as $key => $values) {
                     $freight += $values->freight;
-                    // print_r($values->freight);
                     $p_id = $values->p_id; // 产品id
                     $sid = $values->sid;//属性id
                     $arrive_time = $values->arrive_time;
@@ -747,7 +697,7 @@ class orderAction extends Action {
                 }        
             }
 
-            echo json_encode(array('status'=>1,'id'=>$id,'freight'=>$freight,'sNo'=>$sNo,'z_price'=>$z_price,'name'=>$name,'mobile'=>$mobile,'address'=>$address,'add_time'=>$add_time,'rstatus'=>$status,'list'=>$list,'lottery_status'=>$lottery_status,'type1'=>$type1,'otype'=>$otype,'man_num'=>$man_num,'ptcode' => $ptcode,'dr'=>$dr,'role'=>$role,'title'=>$title,'drawid'=>$drawid,'p_id'=>$p_id,'coupon_id'=>$coupon_id,'coupon_money'=>$coupon_money,'consumer_money'=>$consumer_money,'user_money' =>$user_money,'coupon_activity_name'=>$coupon_activity_name,'pid' =>$pid,'red_packet' =>$red_packet));
+            echo json_encode(array('status'=>1,'id'=>$id,'freight'=>$freight,'sNo'=>$sNo,'z_price'=>$z_price,'name'=>$name,'mobile'=>$mobile,'address'=>$address,'add_time'=>$add_time,'rstatus'=>$status,'list'=>$list,'man_num'=>$man_num,'ptcode' => $ptcode,'dr'=>$dr,'title'=>$title,'p_id'=>$p_id,'coupon_id'=>$coupon_id,'coupon_money'=>$coupon_money,'consumer_money'=>$consumer_money,'user_money' =>$user_money,'pid' =>$pid));
             exit();
         }else{
             echo json_encode(array('status'=>0,'err'=>'系统繁忙！'));

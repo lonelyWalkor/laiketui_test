@@ -238,9 +238,6 @@ class groupbuyAction extends Action {
         }
         $guigeres -> content = preg_replace('/(<img.+?src=")(.*?)/',"$1$newa$2", $content);
 
-        // $guigeres -> content = preg_replace('/(<img.+?src=")(.*?)/','$1//xiaochengxu.laiketui.com$2', $guigeres -> content);
-
-
         $imgsql = 'select product_url from lkt_product_img where product_id='.$gid;
         $imgres = $db -> select($imgsql);
         
@@ -620,7 +617,8 @@ class groupbuyAction extends Action {
         $time_over = explode(':', $time_over);
 
         $time_over = date('Y-m-d H:i:s',$time_over[0]*3600 + $time_over[1]*60 + time());
-
+        //运费
+        $freight = $this ->friends($pro_id);
         $pro_size = $db -> select("select attribute from lkt_configure where id=$sizeid");
        //写入配置
                     $attribute = unserialize($pro_size[0]->attribute);
@@ -652,7 +650,7 @@ class groupbuyAction extends Action {
         }
         
 
-        $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$size',$sizeid)";
+        $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid,freight) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$size',$sizeid,'$freight')";
 
         $res3 = $db -> insert($istsql3);
         if($res3 < 1){
@@ -878,7 +876,9 @@ class groupbuyAction extends Action {
         $ordernum = 'PT'.mt_rand(10000,99999).date('Ymd').substr(time(),5);
         $user_id = $db -> select("select user_id from lkt_user where wx_id='$uid'");
         $uid = $user_id[0] -> user_id;
-         
+
+        //运费
+        $freight = $this ->friends($pro_id);
        if($endtime >= time()){
         if(($ptnumber+1) < $man_num){
             
@@ -889,7 +889,7 @@ class groupbuyAction extends Action {
                 echo json_encode(array('code' => 3,'sql'=>$istsql2));exit;
             }
 
-            $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";   
+            $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid,freight) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid,'$freight')";   
             $res3 = $db -> insert($istsql3);
             if($res3 < 1){
                 $db->rollback();
@@ -918,7 +918,7 @@ class groupbuyAction extends Action {
                 echo json_encode(array('code' => 3,'sql'=>$istsql2));exit;
             }
 
-            $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";
+            $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid,freight) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid,'$freight')";
             $res3 = $db -> insert($istsql3);
             if($res3 < 1){
                 $db->rollback();
@@ -1705,6 +1705,71 @@ class groupbuyAction extends Action {
             echo json_encode(array('status'=>0));
             exit();
         }
+    }
+
+    public function friends($id){//查运费
+        $db = DBAction::getInstance();
+        $request = $this -> getContext() -> getRequest();
+        $z_freight = 0;
+        // $trade_no = addslashes(trim($request->getParameter('trade_no')));
+                $sql_c = "select freight from  lkt_product_list  where id = '$id' ";
+                $r_c = $db->select($sql_c);
+                if(!empty($r_c)){
+                    $freight_id = $r_c[0]->freight; // 运费id
+                    if(empty($freight_id) || $freight_id == 0){ // 当运费id不存在 或者 为0 时
+                        $freight = 0; // 运费为0
+                    }else{
+                        // 根据运费id,查询运费信息
+                        $sql = "select type,freight from lkt_freight where id = '$freight_id'";
+                        $r2 = $db->select($sql);
+                        if($r2){
+                            $freight_type = $r2[0]->type;
+                            $freight_1 = unserialize($r2[0]->freight);
+                            $freight_status = 0; // 表示收货地址不存在运费规则里
+                            $weight = 1;
+                            foreach ($freight_1 as $k2 => $v2){
+                                $province_arr = explode(',',$v2['name']); // 省份数组
+                                if(in_array($G_CName,$province_arr)){
+                                    $one = $v2['one']; // 首件/重
+                                    $two = $v2['two']; // 运费
+                                    $three = $v2['three']; // 续件/重
+                                    $four = $v2['four']; // 续费
+                                    $province_name = $G_CName; // 省
+                                    $freight_status = 1; // 表示收货地址存在运费规则里
+                                    continue;
+                                }
+                            }
+                            if($freight_status == 1){
+                                if($freight_type == 0){ // 运费为计件时
+                                    if($num > $one){ // 当购买数量大于首件数量时
+                                        $Goods_num_1 = $num - $one;
+                                        $freight = $two;
+                                        $frequency = ceil($Goods_num_1/$three);
+                                        $freight = $four * $frequency + $freight; // 运费
+                                    }else{ // 当购买数量低于或等于首件数量时
+                                        $freight = $two; // 运费
+                                    }
+                                }else{ // 运费为计重时
+                                    $z_weight = $num * $weight;
+                                    if($z_weight > $one){ // 当购买数量大于首件数量时
+                                        $z_weight_1 = $z_weight - $one;
+                                        $freight = $two;
+                                        $frequency = ceil($z_weight_1/$three);
+                                        $freight = $four * $frequency + $freight; // 运费
+                                    }else{ // 当购买数量低于或等于首件数量时
+                                        $freight = $two; // 运费
+                                    }
+                                }
+                            }else{
+                                $freight = 0; // 运费
+                            }
+                        }
+                    }
+
+                    $z_freight += $freight;
+                }
+                return  $z_freight;
+
     }
 
 
