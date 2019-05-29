@@ -72,54 +72,6 @@ class CouponAction extends Action {
                 $v = $this ->index_coupon($v);
                  $v->point = '领取';
 
-                //  // 根据用户id,活动id ,查询优惠券表,该用户是否领取过优惠券
-                // $sql = "select * from lkt_coupon where user_id = '$user_id' and hid = '$v->id' ";
-                // $r_2 = $db->select($sql);
-                // if($r_2){//领取过
-                //     $expiry_time  = $r_2[0]->expiry_time;
-                //     $add_time = $r_2[0]->add_time;
-                //     $v->point = '已经领取';
-                //     $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($expiry_time)));// 活动结束时间
-                //     $v->start_time = date('Y-m-d',strtotime($add_time)); // 活动开始时间
-                // }else{//未领取
-                //     $sql = "select * from lkt_coupon where user_id = '$user_id' and hid = '$v->id' ";
-                //     $r_2 = $db->select($sql);
-
-
-                //     // $Register_data   //注册时间
-                //     if($v->activity_type == 1){           // 活动为(注册)类型
-                //         if($Register_data > $v->start_time){//注册时间大于活动时间
-                //              $v->point = '您来晚了';
-                //              $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->start_time)));// 活动结束时间
-                //              $v->start_time = date('Y-m-d',strtotime($Register_data)); // 活动开始时间
-
-                //         }else{//注册时间小于活动时间
-                //              $v->point = '领取';
-                //              // $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->start_time)));// 活动结束时间
-                //              $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
-                //         }
-
-
-                //     }else{//节假日的
-                //         if($time> $v->end_time ){//活动已结束
-                //              $v->point = '已经结束';
-                //              $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->end_time)));// 活动结束时间
-                //              $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
-                //         }else{
-                //              if($v->num >0 ){
-                //                  $v->point = '领取';
-                //                  $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->end_time)));// 活动结束时间
-                //                  $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
-                //             }else{
-                //                  $v->point = '您来晚了';
-                //                  $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->end_time)));// 活动结束时间
-                //                  $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
-                //             }
-                //         }
-                //     }
-
-                // }
-
             }
            
         }

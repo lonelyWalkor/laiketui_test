@@ -116,7 +116,7 @@ class IndexAction extends Action {
 
         $twoList = [];
         foreach ($r_c as $key => $value) {
-            $sql_e = 'select cid,pname,img from lkt_product_class where sid=\''.$value->cid.'\' order by sort desc LIMIT 0,10';
+            $sql_e = 'select cid,pname,img from lkt_product_class where sid=\''.$value->cid.'\' and recycle!=1 order by sort desc LIMIT 0,10';
             $r_e = $db->select($sql_e);
             $icons=[];
             if($r_e){

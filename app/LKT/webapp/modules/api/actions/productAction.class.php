@@ -630,11 +630,11 @@ class productAction extends Action {
         if($r_user){
             $userid = $r_user['0']->user_id; // 用户id
             $user_money = $r_user['0']->money; // 用户余额
-            $user_consumer_money = $r_user['0']->consumer_money; // 用户消费金
+            // $user_consumer_money = $r_user['0']->consumer_money; // 用户消费金
         }else{
             $userid = ''; // 用户id
             $user_money = ''; // 用户余额
-            $user_consumer_money = ''; // 用户消费金
+            // $user_consumer_money = ''; // 用户消费金
         }
 
         // 根据用户id,查询收货地址
@@ -719,13 +719,14 @@ class productAction extends Action {
                 }
                 //计算运费
                 $yunfei = $yunfei + $this->freight($product['freight'],$product['Goods_num'],$address,$db);
-
+                $product['yunfei'] = $yunfei;//运费
                 $product['photo_x'] = $img.$product['img'];/* 拼接图片链接*/
                 $num = $product['Goods_num']; // 产品数量
                 $price = $product['price']; // 产品价格
                 $product['size'] = $size; // 产品价格
                 $zong += $num*$price; // 产品总价
                 $res[$key] = $product;
+
             }else{
                 $res[$key] = '';
                 $yunfei = 0;
@@ -738,6 +739,7 @@ class productAction extends Action {
         $reduce = 0;
         $arr['name'] = $reduce_name;
         $arr['reduce_money'] = $reduce;
+        $arr['yunfei'] = $yunfei;
 
         $order_zong = $order_zong - $reduce;
         if($pstuat){
@@ -769,6 +771,7 @@ class productAction extends Action {
             }else{
                 $r = '';
             }
+
             if($r){
                 foreach ($r as $k => $v) {
                     $id = $v->id; // 优惠券id
@@ -795,7 +798,6 @@ class productAction extends Action {
                                 $arr['coupon_money'] = $order_zong; // 付款金额
                                 $arr['user_money'] = $user_money; // 用户余额
                                 $arr['discount'] = $discount; // 优惠控制
-                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                 echo json_encode(array('status'=>1,'arr'=>$arr));
                                 exit;
                             }else{
@@ -804,7 +806,6 @@ class productAction extends Action {
                                 $arr['coupon_money'] = $order_zong - $money; // 付款金额
                                 $arr['user_money'] = $user_money; // 用户余额
                                 $arr['discount'] = $discount; // 优惠控制
-                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                 echo json_encode(array('status'=>1,'arr'=>$arr));
                                 exit;
                             }
@@ -818,7 +819,6 @@ class productAction extends Action {
                                 $arr['coupon_money'] = $order_zong; // 付款金额
                                 $arr['user_money'] = $user_money; // 用户余额
                                 $arr['discount'] = $discount; // 优惠控制
-                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                 echo json_encode(array('status' => 1, 'arr' => $arr));
                             }else{
                                 $arr['coupon_id'] = $id; // 付款金额
@@ -826,7 +826,6 @@ class productAction extends Action {
                                 $arr['coupon_money'] = $order_zong - $money; // 付款金额
                                 $arr['user_money'] = $user_money; // 用户余额
                                 $arr['discount'] = $discount; // 优惠控制
-                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                 echo json_encode(array('status'=>1,'arr'=>$arr));
                                 exit;
                             }
@@ -841,7 +840,6 @@ class productAction extends Action {
                                     $arr['coupon_money'] = $order_zong; // 付款金额
                                     $arr['user_money'] = $user_money; // 用户余额
                                     $arr['discount'] = $discount; // 优惠控制
-                                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                     echo json_encode(array('status'=>1,'arr'=>$arr));
                                     exit;
                                 }else{
@@ -850,7 +848,6 @@ class productAction extends Action {
                                     $arr['coupon_money'] = $order_zong - $money; // 付款金额
                                     $arr['user_money'] = $user_money; // 用户余额
                                     $arr['discount'] = $discount; // 优惠控制
-                                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                     echo json_encode(array('status'=>1,'arr'=>$arr));
                                     exit;
                                 }
@@ -878,7 +875,6 @@ class productAction extends Action {
                                         $arr['coupon_money'] = $order_zong; // 付款金额
                                         $arr['user_money'] = $user_money; // 用户余额
                                         $arr['discount'] = $discount; // 优惠控制
-                                        $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                     }else{
                                         $product_status = 1; // 商品属于优惠券指定商品
                                         if ($product_id1 != 0) { // 当优惠券指定了商品
@@ -897,7 +893,6 @@ class productAction extends Action {
                                                 $arr['coupon_money'] = $order_zong; // 付款金额
                                                 $arr['user_money'] = $user_money; // 用户余额
                                                 $arr['discount'] = $discount; // 优惠控制
-                                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                             }else{
                                                 if ($money >= $order_zong) {
                                                     // 当优惠券金额比总价格高时,修改优惠券状态为(未使用)
@@ -908,14 +903,12 @@ class productAction extends Action {
                                                     $arr['coupon_money'] = $order_zong; // 付款金额
                                                     $arr['user_money'] = $user_money; // 用户余额
                                                     $arr['discount'] = $discount; // 优惠控制
-                                                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                                 } else {
                                                     $arr['coupon_id'] = $id; // 付款金额
                                                     $arr['money'] = $v->money; // 优惠券金额
                                                     $arr['coupon_money'] = $order_zong - $money; // 付款金额
                                                     $arr['user_money'] = $user_money; // 用户余额
                                                     $arr['discount'] = $discount; // 优惠控制
-                                                    $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                                 }
                                             }
                                         }else { // 当优惠券没有指定商品
@@ -928,14 +921,12 @@ class productAction extends Action {
                                                 $arr['coupon_money'] = $order_zong; // 付款金额
                                                 $arr['user_money'] = $user_money; // 用户余额
                                                 $arr['discount'] = $discount; // 优惠控制
-                                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                             } else {
                                                 $arr['coupon_id'] = $id; // 付款金额
                                                 $arr['money'] = $v->money; // 优惠券金额
                                                 $arr['coupon_money'] = $order_zong - $money; // 付款金额
                                                 $arr['user_money'] = $user_money; // 用户余额
                                                 $arr['discount'] = $discount; // 优惠控制
-                                                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                                             }
                                         }
                                     }
@@ -948,7 +939,6 @@ class productAction extends Action {
                         $arr['coupon_money'] = $order_zong; // 付款金额
                         $arr['user_money'] = $user_money; // 用户余额
                         $arr['discount'] = $discount; // 优惠控制
-                        $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                     }
                 }
                 echo json_encode(array('status' => 1, 'arr' => $arr));
@@ -959,7 +949,6 @@ class productAction extends Action {
                 $arr['coupon_money'] = $order_zong; // 付款金额
                 $arr['user_money'] = $user_money; // 用户余额
                 $arr['discount'] = $discount; // 优惠控制
-                $arr['user_consumer_money'] = $user_consumer_money; // 用户消费金
                 echo json_encode(array('status'=>1,'arr'=>$arr));
                 exit;
             }

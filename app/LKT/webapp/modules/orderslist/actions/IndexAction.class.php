@@ -65,12 +65,12 @@ class IndexAction extends Action {
         $source_str = '';
         if($source == 1){
             $condition .= " and o.source = '1' ";
-            $source_str .= "<option selected='selected' value='1'>小程序</option><option value='2'>APP</option>";
+            $source_str .= "<option selected='selected' value='1'>小程序</option>";
         }else if($source == 2){
             $condition .= " and o.source = '2' ";
-            $source_str .= "<option value='1'>小程序</option><option selected='selected' value='2'>APP</option>";
+            $source_str .= "<option value='1'>小程序</option>";
         }else{
-            $source_str .= "<option value='1'>小程序</option><option value='2'>APP</option>";
+            $source_str .= "<option value='1'>小程序</option>";
         }
 
         $startdate = $request -> getParameter("startdate");
