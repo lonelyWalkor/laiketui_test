@@ -61,7 +61,6 @@ class CouponAction extends Action {
         $end_time_1 = date("Y-m-d H:i:s",mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1); // 今天结束时间
         $time = date('Y-m-d H:i:s');  // 当前时间
 
-     
         // 根据活动为开启状态,查询活动列表,根据开始时间降序排列
         $sql = "select * from lkt_coupon_activity where status = 1 and recycle = 0 order by start_time desc";
         $r_1 = $db->select($sql);
@@ -70,6 +69,74 @@ class CouponAction extends Action {
         if($r_1){
             foreach ($r_1 as $k => $v) {
                 $rew_1 = $k;
+                $v = $this ->index_coupon($v);
+                 $v->point = '领取';
+
+                //  // 根据用户id,活动id ,查询优惠券表,该用户是否领取过优惠券
+                // $sql = "select * from lkt_coupon where user_id = '$user_id' and hid = '$v->id' ";
+                // $r_2 = $db->select($sql);
+                // if($r_2){//领取过
+                //     $expiry_time  = $r_2[0]->expiry_time;
+                //     $add_time = $r_2[0]->add_time;
+                //     $v->point = '已经领取';
+                //     $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($expiry_time)));// 活动结束时间
+                //     $v->start_time = date('Y-m-d',strtotime($add_time)); // 活动开始时间
+                // }else{//未领取
+                //     $sql = "select * from lkt_coupon where user_id = '$user_id' and hid = '$v->id' ";
+                //     $r_2 = $db->select($sql);
+
+
+                //     // $Register_data   //注册时间
+                //     if($v->activity_type == 1){           // 活动为(注册)类型
+                //         if($Register_data > $v->start_time){//注册时间大于活动时间
+                //              $v->point = '您来晚了';
+                //              $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->start_time)));// 活动结束时间
+                //              $v->start_time = date('Y-m-d',strtotime($Register_data)); // 活动开始时间
+
+                //         }else{//注册时间小于活动时间
+                //              $v->point = '领取';
+                //              // $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->start_time)));// 活动结束时间
+                //              $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
+                //         }
+
+
+                //     }else{//节假日的
+                //         if($time> $v->end_time ){//活动已结束
+                //              $v->point = '已经结束';
+                //              $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->end_time)));// 活动结束时间
+                //              $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
+                //         }else{
+                //              if($v->num >0 ){
+                //                  $v->point = '领取';
+                //                  $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->end_time)));// 活动结束时间
+                //                  $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
+                //             }else{
+                //                  $v->point = '您来晚了';
+                //                  $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($v->end_time)));// 活动结束时间
+                //                  $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
+                //             }
+                //         }
+                //     }
+
+                // }
+
+            }
+           
+        }
+
+
+  echo json_encode(array('list'=>$r_1));
+        exit();
+
+    }
+
+    //首页优惠券分离部分
+    public function index_coupon($v){
+
+    $db = DBAction::getInstance();
+    $request = $this->getContext()->getRequest();
+
+                
                 $activity_id = $v->id; // 活动id
                 $activity_type = $v->activity_type; // 活动类型
                 $product_class_id = $v->product_class_id; // 商品类型
@@ -82,9 +149,9 @@ class CouponAction extends Action {
                 $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 活动开始时间
                 $v->end_time = date('Y-m-d',strtotime($v->end_time)); // 活动结束时间
 
-                if($activity_type == 1){
+                 if($activity_type == 1){//注册
                     $v->limit = '无门槛使用'; // 限制
-                }else if($activity_type == 2){
+                }else if($activity_type == 2){//节假日活动
                     if($product_class_id == 0){
                         $v->limit = '无门槛使用'; // 限制
                     }else{
@@ -116,200 +183,8 @@ class CouponAction extends Action {
                             $v->limit = '无门槛使用'; // 限制
                         }
                     }
-                }else{
-                    $v->limit = '满'.$z_money; // 限制
                 }
-
-                // 根据用户id,活动id ,查询优惠券表
-                $sql = "select * from lkt_coupon where user_id = '$user_id' and hid = '$activity_id' ";
-                $r_2 = $db->select($sql);
-                if($r_2){
-                    $v->point = '已经领取';
-                    $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($Register_data)));
-                }else{
-                    // var_dump($activity_type);
-                    if($activity_type == 1){ // 活动为(注册)类型
-                        if($Register_data > $start_time_2){
-                            $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($Register_data)));
-                            if($time > $v->end_time){
-                                $v->point = '您来晚了';
-                            }else{
-                                $v->point = '领取';
-                            }
-
-                        }else{
-                            $v->point = '您来晚了';
-                            $v->end_time = date('Y-m-d',strtotime('+1 week',strtotime($start_time_2)));
-                        }
-                    }else{
-                        if($num > 0){
-                            $v->point = '领取';
-                        }else{
-                            $v->point = '您来晚了';
-                        }
-                    }
-
-                    
-                }
-
-
-                // 判断活动是否过期
-                if($end_time_2 <= $time && $activity_type != 1){
-                    // 过期,根据活动id修改活动状态
-                    $sql = "update lkt_coupon_activity set status = 3 where id = '$activity_id'";
-                    $db->update($sql);
-                    $v->point = '已经结束';
-                }
-                $arr[$k] = $v;
-            }
-        }
-        // 根据活动为未开启状态,查询活动列表,根据开始时间升序排列
-        $sql = "select * from lkt_coupon_activity where status = 0 and recycle = 0 order by start_time";
-        $rr_1 = $db->select($sql);
-        if($rr_1){
-            foreach ($rr_1 as $k => $v) {
-                $id_2 = $v->id; // 活动id
-                $activity_type = $v->activity_type; // 活动类型
-                $start_time_3 = $v->start_time; // 活动开始时间
-                $end_time_3 = $v->end_time; // 活动结束时间
-                $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 开始时间
-                $v->end_time = date('Y-m-d',strtotime($v->end_time)); // 结束时间
-                $product_class_id = $v->product_class_id; // 活动指定商品类型id
-                $product_id = $v->product_id; // 活动指定商品id
-
-                if($activity_type == 1){
-                    $v->limit = '无门槛使用'; // 限制
-                }else if($activity_type == 2){
-                    if($product_class_id == 0){
-                        $v->limit = '无门槛使用'; // 限制
-                    }else{
-                        if($product_class_id != 0){
-                            $arr_1 = explode('-', $product_class_id);
-                            $arr_1 = array_filter($arr_1);
-                            $arr_1 = array_values($arr_1);
-                            $count = count($arr_1) - 1;
-                            $product_class_id = $arr_1[$count];
-                            // 根据商品分类id,查询分类id、分类名称
-                            $sql = "select cid,pname from lkt_product_class where cid = '$product_class_id' ";
-                            $rr = $db->select($sql);
-                            if($rr){
-                                $v->cid = $rr[0]->cid; // 商品分类id
-                                $v->pname = $rr[0]->pname; // 商品分类名称
-                                if($product_id != 0){
-                                    $sql = "select id,product_title from lkt_product_list where id = '$product_id'";
-                                    $rrr = $db->select($sql);
-                                    $v->p_id = $rrr[0]->id;
-                                    $v->product_title = $rrr[0]->product_title;
-                                    $v->limit = '只能在' . $rrr[0]->product_title . '商品中使用'; // 限制
-                                }else{
-                                    $v->p_id = 0;
-                                    $v->product_title = '';
-                                    $v->limit = '只能在' . $v->pname . '类使用'; // 限制
-                                }
-                            }
-
-                        }else{
-                            $v->cid = 0; // 商品分类id
-                            $v->pname = ''; // 商品分类名称
-                            $v->limit = '无门槛使用'; // 限制
-                        }
-                    }
-                }else{
-                    $v->limit = '满'.$z_money; // 限制
-                }
-
-                // 判断活动是否开启
-                if($start_time_3 <= $time && $activity_type != 1){
-                    // 开启,根据活动id,修改活动状态
-                    $sql = "update lkt_coupon_activity set status = 1 where id = '$id_2'";
-                    $db->update($sql);
-                    $v->point = '领取';
-                }else{
-                    $v->point = '敬请期待';
-                }
-                $rew_2 = ++$rew_1;
-                $arr[$rew_2] = $v;
-            }
-        }else{
-            $rew_2 = $rew_1;
-        }
-
-        // 查询优惠券插件配置
-        $sql = "select * from lkt_coupon_config where id = 1";
-        $r = $db->select($sql);
-        if($r){
-            $activity_overdue = $r[0]->activity_overdue; // 活动过期删除时间
-        }
-
-        // 根据活动为结束状态,查询活动列表,根据结束时间降序排列
-        $sql = "select * from lkt_coupon_activity where status = 3 and recycle = 0  order by end_time desc";
-        $rr_2 = $db->select($sql);
-        if($rr_2){
-            foreach ($rr_2 as $k => $v) {
-                $id = $v->id; // 活动id
-                $activity_type = $v->activity_type; // 活动类型
-
-                $v->start_time = date('Y-m-d',strtotime($v->start_time)); // 开始时间
-                $v->end_time = date('Y-m-d',strtotime($v->end_time)); // 结束时间
-                $product_class_id = $v->product_class_id; // 活动指定商品类型id
-                $product_id = $v->product_id; // 活动指定商品id
-                if($activity_overdue != 0){
-                    $time = date('Y-m-d H:i:s');
-                    $end_time = date('Y-m-d',strtotime(" +$activity_overdue day",strtotime($v->end_time))); // 活动过期删除时间
-                    // 当 当前时间大于活动过期保留时间,删除活动
-                    if($time > $end_time && $activity_type != 1){
-                        $sql = "delete from lkt_coupon_activity where id = '$id'";
-                        $db->delete($sql);
-                    }
-                }
-                if($activity_type == 1){
-                    $v->limit = '无门槛使用'; // 限制
-                }else if($activity_type == 2){
-                    if($product_class_id == 0){
-                        $v->limit = '无门槛使用'; // 限制
-                    }else{
-                        if($product_class_id != 0){
-                            $arr_1 = explode('-', $product_class_id);
-                            $arr_1 = array_filter($arr_1);
-                            $arr_1 = array_values($arr_1);
-                            $count = count($arr_1) - 1;
-                            $product_class_id = $arr_1[$count];
-                            // 根据商品分类id,查询分类id、分类名称
-                            $sql = "select cid,pname from lkt_product_class where cid = '$product_class_id' ";
-                            $rr = $db->select($sql);
-                            if($rr){
-                                $v->cid = $rr[0]->cid; // 商品分类id
-                                $v->pname = $rr[0]->pname; // 商品分类名称
-                                if($product_id != 0){
-                                    $sql = "select id,product_title from lkt_product_list where id = '$product_id'";
-                                    $rrr = $db->select($sql);
-                                    $v->p_id = $rrr[0]->id;
-                                    $v->product_title = $rrr[0]->product_title;
-                                    $v->limit = '只能在' . $rrr[0]->product_title . '商品中使用'; // 限制
-                                }else{
-                                    $v->p_id = 0;
-                                    $v->product_title = '';
-                                    $v->limit = '只能在' . $v->pname . '类使用'; // 限制
-                                }
-                            }
-
-                        }else{
-                            $v->cid = 0; // 商品分类id
-                            $v->pname = ''; // 商品分类名称
-                            $v->limit = '无门槛使用'; // 限制
-                        }
-                    }
-                }else{
-                    $v->limit = '满'.$z_money; // 限制
-                }
-                $v->point = '已经结束';
-                $rew_3 = ++$rew_2;
-                $arr[$rew_3] = $v;
-            }
-        }
-
-        echo json_encode(array('list'=>$arr));
-        exit();
+                return $v ;
     }
     // 点击领取
     public function receive(){
@@ -323,6 +198,7 @@ class CouponAction extends Action {
         $user = $db->select($sql);
         $user_id = $user[0]->user_id; // 用户id
         $Register_data = $user[0]->Register_data; // 注册时间
+        $time = date('Y-m-d H:i:s');  // 当前时间
 
         // 根据活动id,查询活动
         $sql = "select * from lkt_coupon_activity where id = '$id'";
@@ -333,32 +209,56 @@ class CouponAction extends Action {
             $z_money = $r_1[0]->z_money; // 满减金额
             $num = $r_1[0]->num; // 数量
             $end_time = $r_1[0]-> end_time; // 活动结束时间
-            if($activity_type != 1){
-                if($num != ''){
-                    if($num != 0 ){
-                        // 根据活动id,修改活动信息
-                        $sql = "update lkt_coupon_activity set num='$num'-1 where id = '$id'";
-                        $db->update($sql);
+            $start_time = $r_1[0]-> start_time; // 活动开始时间
 
-                        // 在优惠券表里添加一条数据
-                        $sql = "insert into lkt_coupon(user_id,money,add_time,expiry_time,hid) values('$user_id','$money',CURRENT_TIMESTAMP,'$end_time','$id')";
-                        $db->insert($sql);
-                    }else{
-                        echo json_encode(array('status'=>0,'info'=>'您来晚了！'));
+            // 根据用户id,活动id ,查询优惠券表,该用户是否领取过优惠券
+                $sql = "select * from lkt_coupon where user_id = '$user_id' and hid = '$id' ";
+                $r_2 = $db->select($sql);
+                if($r_2){//已经领取了
+
+                    echo json_encode(array('status'=>0,'info'=>'不能重复领取'));
                         exit();
+                }else{//未领取
+                    if($activity_type == 1){//注册
+                        if($Register_data > $start_time){//注册时间大于活动时间
+                            $sql = "select * from lkt_coupon_config where id = 1 ";
+                            $r = $db->select($sql);
+                            $coupon_validity = $r[0]->coupon_validity;
+                            $time = date('Y-m-d',strtotime('+'.$coupon_validity.' day'));
+                            // 在优惠券表里添加一条数据
+                            $sql = "insert into lkt_coupon(user_id,money,add_time,expiry_time,hid) values('$user_id','$money',CURRENT_TIMESTAMP,'$time','$id')";
+                            $db->insert($sql);
+                            echo json_encode(array('status'=>1,'info'=>'您领取了' . $money  .'！'));
+                            exit();
+                        }else{
+                             echo json_encode(array('status'=>0,'info'=>'活动已结束'));
+                             exit();
+                        }
+                    }else{//节假日
+                        if($num >0){//有库存
+                            if($time>$end_time){
+                                echo json_encode(array('status'=>0,'info'=>'您来晚了'));
+                                exit();
+                            }else{
+                                // 根据活动id,修改活动信息
+                                $sql = "update lkt_coupon_activity set num='$num'-1 where id = '$id'";
+                                $db->update($sql);
+
+                                // 在优惠券表里添加一条数据
+                                $sql = "insert into lkt_coupon(user_id,money,add_time,expiry_time,hid) values('$user_id','$money',CURRENT_TIMESTAMP,'$end_time','$id')";
+                                $db->insert($sql);
+                                echo json_encode(array('status'=>1,'info'=>'您领取了' . $money  .'！'));
+                            exit();
+                            }
+
+                        }else{
+                            echo json_encode(array('status'=>0,'info'=>'领完了'));
+                             exit();
+                        }
                     }
                 }
-            }else{
-                $sql = "select * from lkt_coupon_config where id = 1 ";
-                $r = $db->select($sql);
-                $coupon_validity = $r[0]->coupon_validity;
-                $time = date('Y-m-d',strtotime('+7 day'));
-                // 在优惠券表里添加一条数据
-                $sql = "insert into lkt_coupon(user_id,money,add_time,expiry_time,hid) values('$user_id','$money',CURRENT_TIMESTAMP,'$time','$id')";
-                $db->insert($sql);
-            }
-            echo json_encode(array('status'=>1,'info'=>'您领取了' . $money  .'！'));
-            exit();
+
+            
         }else{
             echo json_encode(array('status'=>0,'info'=>'参数错误！'));
             exit();
@@ -894,6 +794,8 @@ class CouponAction extends Action {
             return 0;
         }
     }
+
+
 }
 
 ?>
