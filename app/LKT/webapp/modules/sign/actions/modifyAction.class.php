@@ -75,7 +75,7 @@ class modifyAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
-        $endtime = date('Y-m-d 23:59:59',strtotime($endtime));
+        // $endtime = date('Y-m-d 23:59:59',strtotime($endtime));
         if($starttime >= $endtime){
             header('Content-Type: text/html;charset=utf-8');
             echo "<script type='text/javascript'>" .

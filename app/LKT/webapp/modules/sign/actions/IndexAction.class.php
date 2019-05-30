@@ -52,6 +52,7 @@ class IndexAction extends Action {
             foreach ($r as $k => $v) {
                 $dtime = date("Y-m-d H:i:s");
                 $dtime1 = date('Y-m-d H:i:s',strtotime('-2 day'));//判断过期后多久活动删除
+ 
                 if($dtime>$v->endtime){//判断该活动是否过期
                     $v->status = '2';
                     if($activity_overdue > 0 && $dtime1>$v->endtime){//过期活动删除
@@ -62,6 +63,12 @@ class IndexAction extends Action {
                         $sql02 = "update lkt_sign_activity set status = 2 where id = ".$v->id;
                         $r02 = $db->update($sql02);
 
+                    }
+                }else{
+                    if ($v->starttime < $dtime ) {
+                       //更新数据表
+                        $sql02 = "update lkt_sign_activity set status = 1 where id = ".$v->id;
+                        $r02 = $db->update($sql02);
                     }
                 }
                 // print_r($dtime);die;
