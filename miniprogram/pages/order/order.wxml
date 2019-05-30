@@ -206,8 +206,6 @@
 
 					</view>
 					<view class="bottom" wx:if="{{item.drawid == 0}}">
-						<!-- <navigator wx:if="{{item.status != 1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator> -->
-						<!-- <navigator wx:if="{{item.status == 1 && item.drawid == 0}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator> -->
 						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
 						<view class="font_12 red fl_r mr_5" bindtap="removeOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 0}}" data-order-id="{{item.id}}">取消订单</view>
 						<view class="font_12 red fl_r mr_5" wx:if="{{item.status == 5 && item.pid < 0}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' data-order-id="{{item.id}}">订单完成</view>
