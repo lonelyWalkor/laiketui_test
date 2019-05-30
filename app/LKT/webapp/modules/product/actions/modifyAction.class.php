@@ -49,24 +49,24 @@ class modifyAction extends Action {
             $brand_name = $r01[0]->brand_name ; // 产品品牌
         }
 
-        if($freight_id != 0){
-            $sql = "select id,name from lkt_freight where id = $freight_id";
+        //运费
+
+        $sql = "select id,name from lkt_freight order by id ";
             $r_freight = $db->select($sql);
-            $freight_name = $r_freight[0]->name ; // 运费规则
-            $freight_list = "<option selected='selected' value='{$freight_id}'>{$freight_name}</option>";
-            $freight_list .= "<option value='0'>默认模板</option>";
-        }else{
-            $freight_list = "<option selected='selected' value='0'>默认模板</option>";
-            $sql = "select id,name from lkt_freight order by id ";
-            $r_freight = $db->select($sql);
-            if($r_freight){
-                foreach ($r_freight as $k => $v){
-                    $freight_id = $v->id ; // 运费规则id
-                    $freight_name = $v->name ; // 运费规则
-                    $freight_list .= "<option value='{$freight_id}'>{$freight_name}</option>";
-                }
+            $freight_list = '';
+        if($r_freight){
+            foreach ($r_freight as $key => $value) {
+                $freight_id1 = $value->id ; // 运费规则id
+                $freight_name = $value->name ; // 运费规则
+               if($freight_id1 ==$freight_id){
+                $freight_list .= "<option selected='selected' value='{$freight_id1}'>{$freight_name}</option>";
+               }else{
+                 $freight_list .= "<option value='{$freight_id1}'>{$freight_name}</option>";
+               }
             }
         }
+
+
 
         //绑定产品分类
         $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle = 0";
