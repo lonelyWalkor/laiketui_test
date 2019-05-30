@@ -346,6 +346,15 @@
                     <input type="hidden" name="couhuiyuan06" value="{$couhuiyuan06}">
                     <input type="hidden" name="couhuiyuan07" value="{$couhuiyuan07}">
                     <input type="hidden" name="couhuiyuan" value="{$couhuiyuan}">
+
+                    <input type="hidden" name="order01" value="{$order01}">
+                    <input type="hidden" name="order02" value="{$order02}">
+                    <input type="hidden" name="order03" value="{$order03}">
+                    <input type="hidden" name="order04" value="{$order04}">
+                    <input type="hidden" name="order05" value="{$order05}">
+                    <input type="hidden" name="order06" value="{$order06}">
+                    <input type="hidden" name="order07" value="{$order07}">
+
                     <div class="row">
                         <a class="row_a" href="index.php?module=orderslist&status=0&sNo=">
                             <div class="col-md-2" >
@@ -604,52 +613,18 @@
             var couhuiyuan07 = $('input[name=couhuiyuan07]').val(); // 7天前注册人数
             var couhuiyuan = $('input[name=couhuiyuan]').val(); // 会员总数
 
-            // visits trend charts(访问趋势图)
-//          data = {
-//              labels: [day7, day6, day5, day4, day3, day2, day1],
-//              series: [{
-//                  name: 'series-real',
-//                  data: [couhuiyuan07, couhuiyuan06, couhuiyuan05, couhuiyuan04, couhuiyuan03, couhuiyuan02, couhuiyuan01,/*couhuiyuan*/],
-//              }]
-//          };
-//
-//          options = {
-//              showGridBackground: true,
-//              fullWidth: true,
-//              lineSmooth: false,
-//              height: "220px",
-//              width:"100%",
-//              low: 0,
-//              high: 'auto',
-//              series: {
-//                  'series-projection': {
-//                      showArea: true,
-//                      showPoint: false,
-//                      showLine: false
-//                  },
-//              },
-//              axisX: {
-//                  showGrid: true,
-//
-//              },
-//              axisY: {
-//                  showGrid: true,
-//                  onlyInteger: true,
-//                  offset: 0,
-//              },
-//              chartPadding: {
-//                  left: 20,
-//                  right: 40
-//              }
-//
-//          };
-//			
+            var order01 = $('input[name=order01]').val(); // 今天订单数
+            var order02 = $('input[name=order02]').val(); // 昨天订单数
+            var order03 = $('input[name=order03]').val(); // 前天订单数
+            var order04 = $('input[name=order04]').val(); // 4天前订单数
+            var order05 = $('input[name=order05]').val(); // 5天前订单数
+            var order06 = $('input[name=order06]').val(); // 6天前订单数
+            var order07 = $('input[name=order07]').val(); // 7天前订单数
 			var myChart = echarts.init(document.getElementById('memberTJT'),null,{renderer: 'svg'});
 			myChart.setOption({
 				xAxis:{data:[day7, day6, day5, day4, day3, day2, day1]},
 				yAxis:{
 					splitLine: {show:false},
-//				 	data:[couhuiyuan07, couhuiyuan06, couhuiyuan05, couhuiyuan04, couhuiyuan03, couhuiyuan02, couhuiyuan01,/*couhuiyuan*/]
 						min:0,
 				 },
 				grid: {
@@ -678,13 +653,11 @@
 				color:"#0880ff",
 				
 			});
-//          new Chartist.Line('#memberTJT', data, options);
 			var myChart1 = echarts.init(document.getElementById('ddTJT'),null,{renderer: 'svg'});
 			myChart1.setOption({
 				xAxis:{data:[day7, day6, day5, day4, day3, day2, day1]},
 				yAxis:{
 					splitLine: {show:false},
-//				 	data:[couhuiyuan07, couhuiyuan06, couhuiyuan05, couhuiyuan04, couhuiyuan03, couhuiyuan02, couhuiyuan01,/*couhuiyuan*/]
 						min:0,
 				 },
 				grid: {
@@ -700,33 +673,18 @@
 				series:{
 					name:"会员人数",
 				 	data:[
-					 		[day7,couhuiyuan07],
-					 		[day6,couhuiyuan06],
-					 		[day5,couhuiyuan05],
-					 		[day4,couhuiyuan04],
-					 		[day3,couhuiyuan03],
-					 		[day2,couhuiyuan02],
-					 		[day1,couhuiyuan01],
+					 		[day7,order07],
+					 		[day6,order06],
+					 		[day5,order05],
+					 		[day4,order04],
+					 		[day3,order03],
+					 		[day2,order02],
+					 		[day1,order01],
 					 	],
 				 	type:"line",
 				 }
 			});
-//          new Chartist.Bar('#ddTJT', data,{
-//              axisX: {
-//                  showGrid: false,
-//
-//              },
-//              axisY: {
-//                  showGrid: false,
-//                  onlyInteger: true,
-//                  offset: 0,
-//              },
-//              chartPadding: {
-//                  left: 20,
-//                  right: 20
-//              },
-//          });
-//          chack_update();
+
         });
 
         //关闭更新
