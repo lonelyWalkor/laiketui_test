@@ -26,7 +26,7 @@ Page({
     images:{},
     zjList: {},
     zjList_box:false,
-    mainHeight: 0,
+   // mainHeight: 0,
   },
   //下拉事件
   onPullDownRefresh: function () {
@@ -63,6 +63,9 @@ Page({
     var page = that.data.page;
     var index = that.data.tabid;
     var current = that.data.current;
+    //console.log(e)
+  //  console.log(page)
+  //  console.log(index)
     wx.request({
       url: app.d.ceshiUrl + '&action=Index&m=get_more',
       method: 'post',
@@ -190,14 +193,21 @@ Page({
           app.d.bgcolor = bgcolor;
           var arr = Object.keys(twoList[0].distributor);
           var banner_num = Object.keys(banner); // 轮播图
-        
           var notice = res.data.notice;
+          var indexTwoDataObj = twoList[0].twodata// 获取首页的数据对象
+          // 将首页的数据对象合为一个数组
+          if (twoList && twoList[0] && indexTwoDataObj) {
+            var indexTwoData = Object.values(indexTwoDataObj).reduce((a, b) => [...a, ...b], []);
+          }
+          // console.log(twoList);
+          // console.log(indexTwoData);
           that.setData({
             distributor: arr,
             inforList: notice,
             banner: banner,
             banner_num: banner_num,
             twoList: twoList,
+            indexTwoData: indexTwoData,
             bgcolor: bgcolor,
             plug: plug,
             mch_name: title,
@@ -414,7 +424,7 @@ Page({
         })
       }},5000);
     that.loadProductDetail();
-    that.getContHeight();  
+    //that.getContHeight();  
   },
 
   preventTouchMove: function () {
@@ -604,18 +614,20 @@ Page({
       }
     }
   },
-  getContHeight: function(){
-    var that = this;
-    //动态设置高度
-    setTimeout(function () {
-      var query = wx.createSelectorQuery();
-      query.select('.cont').boundingClientRect();
-      query.exec(function (res) {
-        if (res[0] === null) return;
-        that.setData({
-          mainHeight: res[0].height + 330
-        })
-      });
-    }, 5000);
-  }
+ // getContHeight: function(){
+   // var that = this;
+   // //动态设置高度
+   // setTimeout(function () {
+   //   var query = wx.createSelectorQuery();
+   //   query.select('.cont').boundingClientRect();
+   //   query.exec(function (res) {
+   //     if (res[0] === null) return;
+   //     console.log('打印demo的元素的信息', res);
+   //     console.log('打印高度', res[0].height);
+      //  that.setData({
+      //    mainHeight: res[0].height + 330
+      //  })
+     // });
+  //  };, 5000);
+//  }
 });
