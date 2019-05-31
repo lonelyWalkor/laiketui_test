@@ -151,7 +151,7 @@ function check(f){
 <script type="text/javascript" src="style/js/jquery.js"></script>
 <!-- 新增编辑器引入文件 -->
 <link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-min.js"></script>
+<script src="style/kindeditor/kindeditor-all.js"></script>
 <script src="style/kindeditor/lang/zh_CN.js"></script>
 
 <script>
@@ -211,13 +211,15 @@ KindEditor.ready(function(K) {
   var editor = K.editor({
       allowFileManager : true,       
       uploadJson : "index.php?module=system&action=uploadImg", //上传功能
-      fileManagerJson : 'kindeditor/php/file_manager_json.php', //网络空间
+    fileManagerJson : 'style/kindeditor/php/file_manager_json.php?dirpath=/LKT/images', //网络空间
+
+
     });
   //上传背景图片
   K('.cinage').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        // showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurl').val(),
           clickFn : function(url, title, width, height, border, align) {
@@ -232,7 +234,7 @@ KindEditor.ready(function(K) {
   K('.bg').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        // showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurlbg').val(),
           clickFn : function(url, title, width, height, border, align) {
