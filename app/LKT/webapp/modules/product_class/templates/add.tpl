@@ -147,6 +147,7 @@ function check(f){
             </div>
         </div>
     </form>
+    <input type="hidden" id="pic" value="{$pic}" >
 </div>
 <script type="text/javascript" src="style/js/jquery.js"></script>
 <!-- 新增编辑器引入文件 -->
@@ -157,6 +158,7 @@ function check(f){
 <script>
 
 var str_option = {$str_option};
+ var pic = $("#pic").val();
 
 {literal}
 
@@ -211,7 +213,7 @@ KindEditor.ready(function(K) {
   var editor = K.editor({
       allowFileManager : true,       
       uploadJson : "index.php?module=system&action=uploadImg", //上传功能
-    fileManagerJson : 'style/kindeditor/php/file_manager_json.php?dirpath=/LKT/images', //网络空间
+    fileManagerJson : 'style/kindeditor/php/file_manager_json.php?dirpath='+pic, //网络空间
 
 
     });

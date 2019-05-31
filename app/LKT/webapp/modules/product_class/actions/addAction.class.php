@@ -65,7 +65,16 @@ class addAction extends Action {
             $str_option[$cid] = $resc;
         }
 
-
+         $sql = "select * from lkt_config where 1=1 ";
+        $r = $db->select($sql);
+        $pic = $r[0]->uploadImg;  // 图片上传位置
+        
+        if(empty($pic)){
+            $pic = "../LKT/images";
+        }
+        $pic =str_replace('..', '', $pic);
+// print_r($pic);die;
+        $request->setAttribute('pic', $pic);
         $request->setAttribute('cid', $cid);
         $json = json_encode($str_option);
         $request->setAttribute("str_option",$json);

@@ -210,6 +210,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         </div>
     </form>
 </div>
+    <input type="hidden" id="pic" value="{$pic}" >
 
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:999;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div>
 
@@ -222,6 +223,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
 
 var str_option = {$str_option};
 var level = {$level};
+ var pic = $("#pic").val();
 {literal}
 
 $(function(){  
@@ -282,7 +284,7 @@ KindEditor.ready(function(K) {
   var editor = K.editor({
       allowFileManager : true,       
       uploadJson : "index.php?module=system&action=uploadImg", //上传功能
-      fileManagerJson : 'style/kindeditor/php/file_manager_json.php?dirpath=/LKT/images', //网络空间
+          fileManagerJson : 'style/kindeditor/php/file_manager_json.php?dirpath='+pic, //网络空间
     });
   //上传背景图片
   K('.cimage').click(function() {
