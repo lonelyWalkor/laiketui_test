@@ -13,10 +13,11 @@ $php_path = dirname(__FILE__) . '/';
 $php_url = dirname($_SERVER['PHP_SELF']) . '/';
 //根目录路径，可以指定绝对路径，比如 /var/www/attached/
 //$root_path = $php_path . '../attached/';
-$root_path=$_SERVER['DOCUMENT_ROOT'].'/Uploads/'.$dirpath;
+$root_path=$_SERVER['DOCUMENT_ROOT'].$dirpath;
+
 //根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
 //$root_url = $php_url . '../attached/';
-$root_url='/Uploads/'.$dirpath;
+$root_url=$dirpath;
 //图片扩展名
 $ext_arr = array('gif', 'jpg', 'jpeg', 'png', 'bmp');
 
