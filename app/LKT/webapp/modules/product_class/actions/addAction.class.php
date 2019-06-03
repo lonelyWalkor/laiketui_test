@@ -41,9 +41,11 @@ class addAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
+
         // 接收分类id
         $cid = intval($request->getParameter("cid")); // 分类id
         $uploadImg = $this->getContext()->getStorage()->read('uploadImg'); // 图片上传位置
+
         $level = 0;
 
         // 根据分类id,查询产品分类表
@@ -64,17 +66,18 @@ class addAction extends Action {
             $resc = $db->select($sqlcd);
             $str_option[$cid] = $resc;
         }
+        //获取网页地址   xiaochengxu.laiketui.com/open/LKT/index.php
+        $dd = $_SERVER['PHP_SELF'];
+        $ddd =explode('/', $dd);//打散成数组
+        $dddd =array_pop($ddd);//去除数组最后一个元素
+        if($ddd){
+            $pic = implode('/', $ddd);
 
-         $sql = "select * from lkt_config where 1=1 ";
-        $r = $db->select($sql);
-        $pic = $r[0]->uploadImg;  // 图片上传位置
-        
-        if(empty($pic)){
-            $pic = "../LKT/images";
+        }else{
+             $pic = "/LKT";
         }
         $pic =str_replace('..', '', $pic);
-// print_r($pic);die;
-        $request->setAttribute('pic', $pic);
+        $request->setAttribute('pic', $pic.'/images');
         $request->setAttribute('cid', $cid);
         $json = json_encode($str_option);
         $request->setAttribute("str_option",$json);

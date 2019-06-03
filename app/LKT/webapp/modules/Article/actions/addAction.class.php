@@ -19,7 +19,18 @@ class addAction extends Action {
 	public function getDefaultView() {
 
         $db = DBAction::getInstance();
+              //获取网页地址   xiaochengxu.laiketui.com/open/LKT/index.php
+        $dd = $_SERVER['PHP_SELF'];
+        $ddd =explode('/', $dd);//打散成数组
+        $dddd =array_pop($ddd);//去除数组最后一个元素
+        if($ddd){
+            $pic = implode('/', $ddd);
 
+        }else{
+             $pic = "/LKT";
+        }
+        $pic =str_replace('..', '', $pic);
+    
         $request = $this->getContext()->getRequest();
 
 
@@ -33,7 +44,7 @@ class addAction extends Action {
 
 
         $request->setAttribute("ctype",$r);
-
+            $request->setAttribute('pic', $pic.'/images');
 
 
 		return View :: INPUT;

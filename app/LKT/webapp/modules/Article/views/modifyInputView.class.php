@@ -13,6 +13,7 @@ class modifyInputView extends SmartyView {
     public function execute() {
 
 		$request = $this->getContext()->getRequest();
+        $this->setAttribute('pic', $request->getAttribute('pic'));
 
         $this->setAttribute('id',$request->getAttribute('id'));
 

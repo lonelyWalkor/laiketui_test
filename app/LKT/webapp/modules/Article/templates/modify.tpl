@@ -78,6 +78,7 @@ function check(f){
             </div>
         </div>
     </form>
+     <input type="hidden" id="pic" value="{$pic}" >
 </div>
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:999;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div>
 <script type="text/javascript" src="modpub/js/check.js" > </script>
@@ -95,7 +96,7 @@ function check(f){
 <script type="text/javascript" src="style/js/H-ui.admin.js"></script> 
 <!-- 新增编辑器引入文件 -->
 <link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-min.js"></script>
+<script src="style/kindeditor/kindeditor-all.js"></script>
 <script src="style/kindeditor/lang/zh_CN.js"></script>
 {literal}
 <script type="text/javascript">
@@ -260,10 +261,11 @@ function mobanxuanze(){
 </script>
 <script>
 KindEditor.ready(function(K) {
+     var pic = $("#pic").val();
   var editor = K.editor({
       allowFileManager : true,       
       uploadJson : "index.php?module=system&action=uploadImg", //上传功能
-      fileManagerJson : 'kindeditor/php/file_manager_json.php', //网络空间
+          fileManagerJson : 'style/kindeditor/php/file_manager_json.php?dirpath='+pic, //网络空间
     });
   //上传背景图片
   K('#image').click(function() {

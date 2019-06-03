@@ -103,6 +103,8 @@ class CouponAction extends Action {
 
                  if($activity_type == 1){//注册
                     $v->limit = '无门槛使用'; // 限制
+                    $v->end_time ='永久有效';// 活动结束时间
+                    
                 }else if($activity_type == 2){//节假日活动
                     if($product_class_id == 0){
                         $v->limit = '无门槛使用'; // 限制

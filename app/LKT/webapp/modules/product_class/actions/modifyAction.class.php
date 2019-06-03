@@ -69,14 +69,18 @@ class modifyAction extends Action {
 
         $array = ['顶级','一级','二级','三级','四级','五级'];
 
-         $sql = "select * from lkt_config where 1=1 ";
-        $r = $db->select($sql);
-        $pic = $r[0]->uploadImg;  // 图片上传位置
-        
-        if(empty($pic)){
-            $pic = "../LKT/images";
+      //获取网页地址   xiaochengxu.laiketui.com/open/LKT/index.php
+        $dd = $_SERVER['PHP_SELF'];
+        $ddd =explode('/', $dd);//打散成数组
+        $dddd =array_pop($ddd);//去除数组最后一个元素
+        if($ddd){
+            $pic = implode('/', $ddd);
+
+        }else{
+             $pic = "/LKT";
         }
         $pic =str_replace('..', '', $pic);
+        $request->setAttribute('pic', $pic.'/images');
 
         $request->setAttribute('cid', $sid ? $sid:0);
         $request->setAttribute("level",$level);
@@ -86,7 +90,7 @@ class modifyAction extends Action {
         $request->setAttribute('cid_r', $cid);
         $request->setAttribute('uploadImg', $uploadImg);
         $request->setAttribute('pname', isset($pname) ? $pname : '');
-        $request->setAttribute('pic', $pic);
+
         // $request->setAttribute('rname', isset($rname) ? $rname : '');
         $request->setAttribute('img', isset($img) ? $img : '');
         $request->setAttribute('sort', isset($sort) ? $sort : '');

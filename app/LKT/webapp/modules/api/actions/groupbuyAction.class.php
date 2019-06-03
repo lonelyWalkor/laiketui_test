@@ -610,7 +610,17 @@ class groupbuyAction extends Action {
         $ordstatus = $status == 1?9:0;
 
         $db->begin();
-        $group_num = 'KT'.substr(time(),5).mt_rand(10000,99999);
+        $num = substr(time(),5).mt_rand(10000,99999);
+        $sql_user = "select count(id) as a from lkt_order where sNo like '%$num '";
+        $n = $db->select($sql_user);
+        $aa = $n[0]->a ;
+        do {
+          $group_num = 'KT'.$num;
+        } while ($aa > 0);
+
+
+
+
 
         $creattime = date('Y-m-d H:i:s');
 

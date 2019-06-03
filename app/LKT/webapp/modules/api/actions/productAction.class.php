@@ -1421,7 +1421,15 @@ class productAction extends Action {
 
     // 生成订单号
     private function order_number(){
-        return date('Ymd',time()).time().rand(10,99);//18位
+       $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        $num = date('Ymd',time()).time().rand(10,99);//18位
+        $sql_user = "select count(id) as a from lkt_order where sNo like '%$num '";
+        $n = $db->select($sql_user);
+        $aa = $n[0]->a ;
+        do {
+          return $num;
+        } while ($aa > 0);
     }
 
     // 付款后修改订单状态,并修改商品库存-
