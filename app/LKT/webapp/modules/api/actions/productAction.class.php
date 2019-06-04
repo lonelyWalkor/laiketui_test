@@ -1424,12 +1424,17 @@ class productAction extends Action {
        $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $num = date('Ymd',time()).time().rand(10,99);//18位
-        $sql_user = "select count(id) as a from lkt_order where sNo like '%$num '";
+        $sql_user = "select count(id) as a from lkt_order where sNo ='$num '";
         $n = $db->select($sql_user);
-        $aa = $n[0]->a ;
+        // if($n){
+        //     $this->order_number();
+        // }else{
+        //     return $num;
+        // }
+        // $aa = $n[0]->a ;
         do {
           return $num;
-        } while ($aa > 0);
+        } while ($n);
     }
 
     // 付款后修改订单状态,并修改商品库存-

@@ -611,7 +611,9 @@ class groupbuyAction extends Action {
 
         $db->begin();
         $num = substr(time(),5).mt_rand(10000,99999);
-        $sql_user = "select count(id) as a from lkt_order where sNo like '%$num '";
+        $num1 = 'KT'.$num;
+        $sql_user = "select count(id) as a from lkt_order where sNo = '$num1'";
+        // print_r($sql_user);die;
         $n = $db->select($sql_user);
         $aa = $n[0]->a ;
         do {
