@@ -19,7 +19,18 @@ class addAction extends Action {
     $sql = "select * from lkt_config where id = '1'";
     $r = $db->select($sql);
     $uploadImg = $r[0]->uploadImg; // 图片上传位置
+        //获取网页地址   xiaochengxu.laiketui.com/open/LKT/index.php
+        $dd = $_SERVER['PHP_SELF'];
+        $ddd =explode('/', $dd);//打散成数组
+        $dddd =array_pop($ddd);//去除数组最后一个元素
+        if($ddd){
+            $pic = implode('/', $ddd);
 
+        }else{
+             $pic = "/LKT";
+        }
+        $pic =str_replace('..', '', $pic);
+        $request->setAttribute('pic', $pic.'/images');
     $request->setAttribute("uploadImg",$uploadImg);
     return View :: INPUT;
   }
