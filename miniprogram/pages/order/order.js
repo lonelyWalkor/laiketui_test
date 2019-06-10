@@ -81,13 +81,13 @@ Page({
 		}
 
 	},
-  openshare: function (e) {
-    var order_id = e.currentTarget.dataset.orderId; //订单ID
-    console.log(e)
-    wx.navigateTo({
-      url: '../draw/cantuan?orderId=' + order_id + '&&type1=11'
-    })
-  },
+  // openshare: function (e) {
+  //   var order_id = e.currentTarget.dataset.orderId; //订单ID
+  //   console.log(e)
+  //   wx.navigateTo({
+  //     url: '../draw/cantuan?orderId=' + order_id + '&&type1=11'
+  //   })
+  // },
 	//下拉刷新
 	onPullDownRefresh: function() {
 		wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -107,8 +107,8 @@ Page({
 		}, 1000);
 	},
 	onLoad: function(options) {
-		console.log(options);
-		console.log('options');
+		// console.log(options);
+		// console.log('options');
 		if(options.otype) {
 			var otype = options.otype;
 			this.setData({
@@ -514,38 +514,7 @@ Page({
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
-        // res.confirm && wx.request({
-        //   url: app.d.ceshiUrl + '&action=order&m=removeOrder',
-        //   method: 'post',
-        //   data: {
-        //     openid: app.globalData.userInfo.openid,
-        //     id: id,
-        //   },
-        //   header: {
-        //     'Content-Type': 'application/x-www-form-urlencoded'
-        //   },
-        //   success: function (res) {
-        //     var status = res.data.status;
-        //     if (status == 1) {
-        //       wx.showToast({
-        //         title: res.data.err,
-        //         success: 2000
-        //       });
-        //       that.loadOrderList();
-        //     } else {
-        //       wx.showToast({
-        //         title: res.data.err,
-        //         duration: 2000
-        //       });
-        //     }
-        //   },
-        //   fail: function () {
-        //     wx.showToast({
-        //       title: '网络异常！',
-        //       duration: 2000
-        //     });
-        //   }
-        // });
+
       }
     });
   }
