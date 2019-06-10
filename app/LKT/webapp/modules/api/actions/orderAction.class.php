@@ -113,18 +113,11 @@ class orderAction extends Action {
             $img = '';
         }
 
-        //查询当前正在执行的团信息
-        // $group = $db -> select("select * from lkt_group_buy where is_show=1");
-        // if(!empty($group)) list($groupmsg) = $group;
-
         // 获取信息
         $openid = $_POST['openid']; // 微信id
-        $order_type = $_POST['order_type']; // 类型
-        $otype = $_POST['otype']; // 类型
-        if($otype == 'pay5'){
-            $res = "and a.drawid > 0 "; // 一分钱抽奖
-        }else if($otype == 'pay6'){
-            // if(!empty($groupmsg)) $res = "and a.otype='pt' and a.pid='$groupmsg->status'"; // 我的拼团
+        $order_type = $_POST['order_type']; // 订单状态(代付款：payment  代发货：send 待收货：receipt 待评价：evaluate)
+        $otype = $_POST['otype']; // 订单类型(全部订单：pay   拼团订单：pay6)
+         if($otype == 'pay6'){
             $res = "and a.otype='pt'"; // 我的拼团
         }else{
             $res = "";
@@ -192,9 +185,9 @@ class orderAction extends Action {
                 }
             }
         }
-        $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
+        $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";//查询拼团插件的状态（0：未启用 1：启用）
         $plugopen = $db -> select($plugsql);
-        $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
+        $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;//不存在默认为为未启用
 
         if($r){
             foreach ($r as $k => $v) {
@@ -207,52 +200,9 @@ class orderAction extends Action {
                 $rew['status'] = $v->status; // 订单状态
                 $rew['coupon_id'] = $v->coupon_id; // 优惠券id
                 $rew['pid'] = $v->pid; // 拼团ID
-                $rew['role'] = $v->drawid; // 抽奖
                 $rew['ptcode'] = $v->ptcode; // 拼团号
                 $rew['plugopen'] = $plugopen; // 拼团是否开启（0 未启用 1.启用）
                 $coupon_id = $v->coupon_id; // 优惠券id
-                if(!empty($rew['role'])){
-                    $role=$rew['role'];
-
-                    $add_time=$rew['add_time'];
-                    $sql0001 = "select lottery_status,draw_id from lkt_draw_user where id= '$role'";
-                    $ddd= $db->select($sql0001);
-                    if(!empty($ddd)){
-                        $lottery_status = $ddd[0]->lottery_status;
-                        $rew['lottery_status'] =$lottery_status;
-                        $draw_id = $ddd[0]->draw_id;
-                        $rew['drawid'] =$draw_id;
-                    }
-                    if($rew['status']==0){
-                        $rew['lottery_status1'] ='等待买家付款';
-                    }elseif($rew['status']==1){
-                        if($lottery_status ==0){
-                            $rew['lottery_status1'] ='抽奖中-已参团';
-                        }elseif ($lottery_status ==1) {
-                            $rew['lottery_status1'] ='抽奖中';
-                        }elseif ($lottery_status ==2) {
-                            $rew['lottery_status1'] ='抽奖失败';
-                        }
-                        elseif ($lottery_status ==4) {
-                            $rew['lottery_status1'] ='抽奖成功-待发货';
-                        }else{
-                            $rew['lottery_status1'] ='抽奖失败';
-                        }
-                    }elseif($rew['status']==2){
-                        $rew['lottery_status1'] ='抽奖成功-待发货';
-                    }elseif($rew['status']==6){
-                        if ($lottery_status ==2) {
-                            $rew['lottery_status1'] ='参团失败订单关闭';
-                        }else{
-                            $rew['lottery_status1'] ='抽奖失败订单关闭';
-                        }
-                    }
-                }else{
-                    $rew['lottery_status1'] ='';
-                    $rew['lottery_status'] ='';
-                    $rew['drawid'] =0;
-                }
-
                 if($coupon_id == 0){ // 优惠券id为0
                     $rew['total'] = $rew['z_price']; // 总价为订单价格
                 }else{
@@ -284,14 +234,17 @@ class orderAction extends Action {
                 // 根据订单号,查询订单详情
                 $sql = "select * from lkt_order_details where r_sNo = '$sNo' ";
                 $rew['list'] = $db->select($sql);
+
                 $product = [];
                 if($rew['list']){
                     foreach ($rew['list'] as $key => $values) {
-                        if(strpos($values -> r_sNo, 'PT') !== false){
+                        // print_r($values);die;
+                        if(strpos($values -> r_sNo, 'PT') !== false){//通过订单号查询拼团订单
                         	$man_num = $db -> select("select man_num from lkt_group_buy where status='$v->pid'");
-                            $rew['man_num'] = !empty($man_num)?$man_num[0] -> man_num:0;
+                            $rew['man_num'] = !empty($man_num)?$man_num[0] -> man_num:0;//通过活动编号查询拼团活动的人数，不存在就默认为0
                             $rew['pro_id'] = $values->p_id;
                         }
+                        // $rew[$key]->details_id = $values->id;
                         $rew['pname'] .= $values->p_name; // 订单内商品
                         $p_id = $values->p_id; // 产品id
                         $arr = (array)$values;
@@ -307,7 +260,7 @@ class orderAction extends Action {
                         $r_status = $values->r_status; // 订单详情状态
 
                         $sql_o = "select id from lkt_order_details where r_sNo = '$sNo' AND r_type = 0 AND r_status = '$r_status' and r_status != -1 ";
-                        $res_o = $db->selectrow($sql_o);
+                        $res_o = $db->selectrow($sql_o);//查询订单号和状态为审核中且状态为该状态的行数
 
                         $sql_d = "select id from lkt_order_details where r_sNo = '$sNo'";
                         $res_d = $db->selectrow($sql_d);
@@ -718,7 +671,7 @@ class orderAction extends Action {
         $re_type = trim($request->getParameter('re_type'));
         $back_remark = htmlentities($_POST['back_remark']); // 退货原因
 
-        $sql = "update lkt_order_details set r_status = 4,content = '$back_remark',r_type = 0,re_type = '$re_type' where id = $id";
+        $sql = "update lkt_order_details set r_status = 4,content = '$back_remark',r_type = 0,re_type = '$re_type' where r_sNo = '$oid' ";
         $r = $db->update($sql);
 
         $sql_o = "select id from lkt_order_details where r_sNo = '$oid' AND r_type = 0 AND r_status = 4 ";
