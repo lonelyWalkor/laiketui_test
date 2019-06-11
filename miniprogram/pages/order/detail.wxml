@@ -52,7 +52,7 @@
         <view class="sp_jg">
           <view class='guige'>¥ {{item.p_price}} </view> 
           <view class='guige'>x{{item.num}}</view>
-          <view wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype == ''}}" class='guige sqsh' bindtap='return_goods' data-order-id="{{item.id}}">申请售后</view>
+          <navigator wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype =='' }}" bindtap='return_goods' data-order-id="{{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;margin-top:4px;' class="font_12 red fl_r mr_5">申请售后</navigator>
         </view>
       </view>
       <view style='clear:both;'></view>
@@ -70,9 +70,6 @@
       <view class='ddlb_v'>时间：<text class='fright'>{{add_time}}</text></view>
       <view class='ddlb_v'>商品总价：<text class='fright'>￥{{pro_price}}</text></view>
       <view class='ddlb_v' wx:if="{{coupon_money != 0}}">优惠券：<text class='fright'>-￥{{coupon_money}}</text></view>
-     
-
-      
       <view class='ddlb_v'>运费：<text class='fright'>￥{{freight}}</text></view>
       <view class='ddlb_v'>订单总价：<text class='fright'>￥{{z_price}}</text></view>
     </view>
