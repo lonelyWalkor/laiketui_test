@@ -123,7 +123,6 @@ class orderAction extends Action {
             $res = "";
         }
         if(!empty($order_type) && $order_type != $otype){
-            if($otype =='pay6'){
                 //拼团的状态没和其他订单状态共用字段，分开判断
                 if($order_type == 'payment'){
                     $res .= "and a.status = 0 "; // 未付款
@@ -136,26 +135,8 @@ class orderAction extends Action {
                 }else{
                     $res = "";
                 }
-            }else{
-                if($order_type == 'payment'){
-                    $status = 0;
-                    $res .= "and a.status = '$status'"; // 未付款
-                }else if($order_type == 'send'){
-                    $status = 1;
-                    $res .= "and a.status = '$status' "; // 未发货
-                }else if($order_type == 'receipt'){
-                    $status = 2;
-                    $res .= "and a.status = '$status'"; // 待收货
-                }else if($order_type == 'evaluate'){
-                     $status = 3;
-                    $res .= "and a.status = '$status'"; // 待评论
-                }else{
-                    $res = "";
-                }
-            }
         }
 
-        
         // 根据微信id,查询用户id
         $sql = "select * from lkt_user where wx_id = '$openid'";
         $r = $db -> select($sql);
@@ -169,22 +150,6 @@ class orderAction extends Action {
         // 根据用户id和前台参数,查询订单表 (id、订单号、订单价格、添加时间、订单状态、优惠券id)
         $sql = "select id,z_price,sNo,add_time,status,coupon_id,pid,drawid,ptcode from lkt_order as a where user_id = '$user_id' " . $res ." order by add_time desc";
         $r = $db->select($sql);
-
-        if($order_type == 'send'){//未发货
-            if(!empty($r)){
-                foreach ($r as $key001 => $value001) {
-                $drawid = $value001->drawid ;
-                    if($drawid > 0){
-                       $sql0001 = "select lottery_status,draw_id from lkt_draw_user where id= '$drawid'";
-                        $ddd= $db->select($sql0001);
-                        $lottery_status = $ddd[0]->lottery_status;
-                        if($lottery_status !=4){//抽奖成功
-                            unset($r[$key001]);
-                        }
-                    }
-                }
-            }
-        }
         $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";//查询拼团插件的状态（0：未启用 1：启用）
         $plugopen = $db -> select($plugsql);
         $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;//不存在默认为为未启用
@@ -593,6 +558,7 @@ class orderAction extends Action {
                     $sid = $values->sid;//属性id
                     $arrive_time = $values->arrive_time;
                     $date = date('Y-m-d 00:00:00', strtotime('-7 days'));
+
                     if($arrive_time != ''){
                         if($arrive_time < $date){
                             $values->info = 1;
@@ -611,7 +577,7 @@ class orderAction extends Action {
                     $arr['imgurl'] = $url;
                     $arr['sid'] = $sid;
                     $product[$key]=(object)$arr;
-
+                    $product[$key]->otype = $otype ;
                     $r_status = $values->r_status; // 订单详情状态
                     if($r_status){
                         $sql_o = "select id from lkt_order_details where r_sNo = '$sNo' AND r_type = 0 AND r_status = 4 ";
@@ -671,7 +637,7 @@ class orderAction extends Action {
         $re_type = trim($request->getParameter('re_type'));
         $back_remark = htmlentities($_POST['back_remark']); // 退货原因
 
-        $sql = "update lkt_order_details set r_status = 4,content = '$back_remark',r_type = 0,re_type = '$re_type' where r_sNo = '$oid' ";
+        $sql = "update lkt_order_details set r_status = 4,content = '$back_remark',r_type = 0,re_type = '$re_type' where id = '$id' ";
         $r = $db->update($sql);
 
         $sql_o = "select id from lkt_order_details where r_sNo = '$oid' AND r_type = 0 AND r_status = 4 ";
