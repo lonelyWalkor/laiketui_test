@@ -68,6 +68,7 @@ function _each(obj, fn) {
 		}
 	}
 }
+
 function _trim(str) {
 	return str.replace(/(?:^[ \t\n\r]+)|(?:[ \t\n\r]+$)/g, '');
 }
