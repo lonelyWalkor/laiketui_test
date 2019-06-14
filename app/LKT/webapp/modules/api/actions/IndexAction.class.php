@@ -67,53 +67,48 @@ class IndexAction extends Action {
             unset($result); // 销毁指定变量
         }
 
+        // if($r){
+        //      $sort= $r[0]->sort;
+        // }else{
+        //     $sort=0;
+        // }
+
         $shou = [];
         $sql = "select * from lkt_index_page order by sort desc";
         $r_t = $db->select($sql);
+        if($r_t){
+            foreach ($r_t as $k => $v) {
+                if($v->type == 'img'){
+                    $imgurl = $img . $v->image;
+                    $shou[$k] = array('id' => $v->id,'url' => $v->url,'imgurl' => $imgurl);
+                }else{
+                    $product_class = $v->url;
+                    $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$product_class-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
+                    // print_r($sql_cs);die;
+                    $r_cs = $db->select($sql_cs);
 
-        foreach ($r_t as $k => $v) {
-            if($v->type == 'img'){
-                $imgurl = $img . $v->image;
-                $shou[$k] = array('id' => $v->id,'url' => $v->url,'imgurl' => $imgurl);
-            }else{
-                $product_class = $v->url;
-               
-                $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$product_class-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
-                // print_r($sql_cs);die;
-                $r_cs = $db->select($sql_cs);
-
-                $cproduct = [];
-                if($r_cs){
-                    foreach ($r_cs as $keyc => $valuec) {
-                        $valuec->imgurl = $img . $valuec->imgurl;
-                        $cproduct[$keyc] = $valuec;
+                    $cproduct = [];
+                    if($r_cs){
+                        foreach ($r_cs as $keyc => $valuec) {
+                            $valuec->imgurl = $img . $valuec->imgurl;
+                            $cproduct[$keyc] = $valuec;
+                        }
+                        $shou[$k] = $cproduct;
                     }
-                    $shou[$k] = $cproduct;
                 }
             }
         }
+        
+        // $sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name,a.distributor_id from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.distributor_id > '0' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,20";
+        // $r_t = $db->select($sql_t);
 
-
-        $sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name,a.distributor_id from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.distributor_id > '0' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,20";
-        $r_t = $db->select($sql_t);
-
-
-        if($r){
-             $sort= $r[0]->sort;
-        }else{
-            $sort=0;
-        }
         //查询用户等级判断是否升级
         $distribus = [];
         //列出等级关系
         $distributor = [];
-
-
         //查询商品并分类显示返回JSON至小程序
         $sql_c = 'select cid,pname from lkt_product_class where sid=0 and recycle!=1 order by sort desc';
         $r_c = $db->select($sql_c);
-        
-
         $twoList = [];
         foreach ($r_c as $key => $value) {
             $sql_e = 'select cid,pname,img from lkt_product_class where sid=\''.$value->cid.'\' and recycle!=1 order by sort desc LIMIT 0,10';
