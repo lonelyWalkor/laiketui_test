@@ -414,7 +414,8 @@ function check(f) {
             <label class="form-label col-2"><span class="c-red"></span>运费设置：</label>
             <div class="formControls col-2"> <span class="select-box">
                 <select name="freight" id="freightId" class="select">
-                    <option selected="selected" value="0">默认模板</option>
+                    <!-- <option selected="selected" value="0">默认模板</option> -->
+                    
                     {foreach from=$freight item=item1 name=f2}
                         <option value="{$item1->id}">{$item1->name}</option>
                     {/foreach}

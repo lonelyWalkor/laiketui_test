@@ -48,22 +48,91 @@ class addAction extends Action {
         }
 
         if($attribute ){
+            $data = $this->attribute($attribute);
+            $attribute3 = $data['attribute3'];
+            $attribute_num = $data['attribute_num'];
+            $attribute_key = $data['attribute_key'];
+            $attribute_val = $data['attribute_val'];
+            $rew = $data['rew'];
+        }
+
+        // $distributors1 = '';
+
+        /*** 报错不清除输入内容 结束 ***/
+
+        $sql = "select * from lkt_config where id = '1'";
+        $r = $db->select($sql);
+        $uploadImg = $r[0]->uploadImg; // 图片上传位置
+        $res = $this->product_class($product_class);//产品类别
+        $brand = $this->brand($brand_id1);//品牌
+        $distributors = [];
+        $distributors_num = 0;
+
+        // 运费
+        $sql = "select id,name from lkt_freight order by add_time desc";
+        $rr = $db->select($sql);
+        $freight = [];
+        $freight_num = 0;
+        if($rr){
+            if($freight1){
+                $sql = "select id,name from lkt_freight where id = '$freight1'";
+                $rr1= $db->select($sql);
+                $freight[$freight_num] = (object)array('id'=> $rr1[0]->id,'name'=> $rr1[0]->name);
+                $freight_num++;
+                $freight[$freight_num] = (object)array('id'=>0,'name'=>'默认模板');
+            }else{
+                $freight[$freight_num] = (object)array('id'=>0,'name'=>'默认模板');
+            }
+            foreach ($rr as $k1 => $v1){
+                $freight_num++;
+                $freight[$freight_num] = (object)array('id'=> $v1->id,'name'=> $v1->name);
+            }
+        }
+        $request->setAttribute("distributors",$distributors);
+        $request->setAttribute("uploadImg",$uploadImg);//图片上传地址
+        $request->setAttribute("ctype",$res);//产品类别
+        $request->setAttribute("brand",$brand);//品牌
+        $request->setAttribute("freight",$rr);//运费
+        // $request->setAttribute('attribute', isset($attribute3) ? $attribute3 : '');//
+        $request->setAttribute('attribute_num', isset($attribute_num) ? $attribute_num : '');//对应的属性数量
+        $request->setAttribute('attribute_key', isset($attribute_key) ? $attribute_key : '');//所有的属性名称
+        $request->setAttribute('attribute_val', isset($attribute_val) ? $attribute_val : '');//所有属性名称对应的值
+        $request->setAttribute('rew', isset($rew) ? $rew : '');//未填写的产品规格名称
+
+        $request->setAttribute('product_number', isset($product_number) ? $product_number : '');//产品编号
+        $request->setAttribute('product_title', isset($product_title) ? $product_title : '');//商品名称
+        $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');//副标题
+        $request->setAttribute('scan', isset($scan) ? $scan : '');//条形码
+        $request->setAttribute('s_type', isset($s_type) ? $s_type : '');//显示类型（1：新品,2：热销，3：推荐）
+        $request->setAttribute('keyword', isset($keyword) ? $keyword : '');//关键字
+        $request->setAttribute('weight', isset($weight) ? $weight : '');//重量
+        $request->setAttribute('sort', $sort ? $sort : '100');//排序
+        $request->setAttribute('image', isset($image) ? $image : '');//产品主图片
+        $request->setAttribute('content', isset($content) ? $content : '');//内容
+        $request->setAttribute('volume', $volume ? $volume : '0');//销量
+      
+        
+        return View :: INPUT;
+    }
+    public function attribute($attribute){//属性相关
+
             $attribute1 = json_decode($attribute);
+
             $attribute2 = [];
             $attribute_val = [];
             foreach ($attribute1 as $k => $v){
                 $attribute_key = array_keys((array)$v); // 属性表格第一栏
                 $attribute_key1 = array_keys((array)$v); // 属性表格第一栏
                 $attribute_val[] = array_values((array)$v); // 属性表格
-                $attribute_num = $k + 1;
+                $attribute_num = $k + 1;//属性数量
                 $attribute2[] = (array)$v;
             }
             $attribute3 = json_encode($attribute2);
 
-
             for ($i=0;$i<6;$i++){
                 array_pop($attribute_key1); // 循环去掉数组后面6个元素
             }
+            // print_r($attribute_key1);die;
             $rew = '';
             foreach ($attribute_key1 as $key1 => $val1){
                 $key_num = $key1;
@@ -79,19 +148,20 @@ class addAction extends Action {
                 " - " .
                 "<input type='text' name='attribute_value' id='attribute_value_".$num_k."' placeholder='值' value='' class='input-text' style='width:45%' onblur='leave();'/>" .
                 "</div>";
-        }
 
-        $distributors1 = '';
 
-        /*** 报错不清除输入内容 结束 ***/
+            $data['attribute3']=$attribute3;
+            $data['attribute_num']=$attribute_num;
+            $data['attribute_key']=$attribute_key;
+            $data['attribute_val']=$attribute_val;
+            $data['rew']=$rew;
+            return $data;
 
-        $sql = "select * from lkt_config where id = '1'";
-        $r = $db->select($sql);
-        $uploadImg = $r[0]->uploadImg; // 图片上传位置
-        $res='';
-      
+    }
+    public function product_class($product_class){//产品类别
+        $db = DBAction::getInstance();
+        $res = '';
         if(!empty($product_class)){     
-            // print_r(111);
                     //获取产品类别
             $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle =0";
             $r = $db->select($sql);
@@ -167,10 +237,11 @@ class addAction extends Action {
                     }
                 }
             }
-        }    
-
-
-        // 品牌
+        }
+        return $res;
+    }
+    public function brand($brand_id1){//品牌
+        $db = DBAction::getInstance();
         $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0 and recycle = 0 ";
         $r01 = $db->select($sql01);
         $brand = '';
@@ -191,71 +262,12 @@ class addAction extends Action {
                 }
             }
         }
-
-        $distributors = [];
-        $distributors_num = 0;
-
-        // 运费
-        $sql = "select id,name from lkt_freight order by add_time desc";
-        $rr = $db->select($sql);
-        $freight = [];
-        $freight_num = 0;
-        if($rr){
-            if($freight1){
-                $sql = "select id,name from lkt_freight where id = '$freight1'";
-                $rr1= $db->select($sql);
-                $freight[$freight_num] = (object)array('id'=> $rr1[0]->id,'name'=> $rr1[0]->name);
-                $freight_num++;
-                $freight[$freight_num] = (object)array('id'=>0,'name'=>'默认模板');
-            }else{
-                $freight[$freight_num] = (object)array('id'=>0,'name'=>'默认模板');
-            }
-            foreach ($rr as $k1 => $v1){
-                $freight_num++;
-                $freight[$freight_num] = (object)array('id'=> $v1->id,'name'=> $v1->name);
-            }
-        }
-        $request->setAttribute("
-            ",$distributors);
-
-        $request->setAttribute("uploadImg",$uploadImg);
-        $request->setAttribute("ctype",$res);
-        $request->setAttribute("brand",$brand);
-        $request->setAttribute("freight",$rr);
-        $request->setAttribute("brand_id1",isset($brand_id1) ? $brand_id1 : '');
-
-        $request->setAttribute('attribute', isset($attribute3) ? $attribute3 : '');
-        $request->setAttribute('attribute_num', isset($attribute_num) ? $attribute_num : '');
-        $request->setAttribute('attribute_key', isset($attribute_key) ? $attribute_key : '');
-        $request->setAttribute('attribute_val', isset($attribute_val) ? $attribute_val : '');
-        $request->setAttribute('rew', isset($rew) ? $rew : '');
-
-        $request->setAttribute('product_number', isset($product_number) ? $product_number : '');
-        $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
-        $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');
-        $request->setAttribute('scan', isset($scan) ? $scan : '');
-        $request->setAttribute('s_type', isset($s_type) ? $s_type : '');
-        $request->setAttribute('keyword', isset($keyword) ? $keyword : '');
-        $request->setAttribute('weight', isset($weight) ? $weight : '');
-        $request->setAttribute('is_distribution', isset($is_distribution) ? $is_distribution : '0');
-        $request->setAttribute('is_zhekou', isset($is_zhekou) ? $is_zhekou : '0');
-
-        $request->setAttribute('sort', $sort ? $sort : '100');
-        $request->setAttribute('image', isset($image) ? $image : '');
-        $request->setAttribute('freight', isset($freight) ? $freight : '');
-
-        $request->setAttribute('content', isset($content) ? $content : '');
-        $request->setAttribute('volume', $volume ? $volume : '0');
-      
-        
-        return View :: INPUT;
+        return $brand;
     }
-
-
-
     public function execute(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+     
         // 接收数据
         $attribute = $request->getParameter('attribute'); // 属性
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片路径
@@ -279,7 +291,10 @@ class addAction extends Action {
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
 
-        $arr = json_decode($attribute,true);
+        $arr = json_decode($attribute,true);//转数组
+        // return $this->getDefaultView();
+           //开启事务
+        // $db->begin();
         if($product_title == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -373,7 +388,7 @@ class addAction extends Action {
             return $this->getDefaultView();
         }else{
             foreach ($arr as $ke => $va){
-                $z_num = $z_num+$va['数量'];
+                $z_num = $z_num+$va['数量'];//商品总数量
             }
         }
 
@@ -421,18 +436,19 @@ class addAction extends Action {
                     }
                     $imgURL_name = time().mt_rand(1,100).$img_type;
                     //重命名结束
-                    $info = move_uploaded_file($file,$uploadImg.$imgURL_name);
+                    $info = move_uploaded_file($file,$uploadImg.$imgURL_name);//把图片移动到指定文件夹
                     if($info){
-                        //循环遍历插入
+                        //循环遍历插入商品图片表
                         $sql_img = "insert into lkt_product_img(product_url,product_id,add_date) " . "values('$imgURL_name','$id1',CURRENT_TIMESTAMP)";
                         $id2 = $db->insert($sql_img,'last_insert_id');
+                        
                     }
                 }
             }
 
             $r_num = 0;
             $c_num = 0;
-            foreach ($arr as $ke => $va){
+            foreach ($arr as $ke => $va){//循环遍历插入商品规格表
                 $costprice = $va['成本价'];
                 $yprice = $va['原价'];
                 $price = $va['现价'];
@@ -443,22 +459,22 @@ class addAction extends Action {
                     array_pop($va);
                 }
                 $attribute_1 = $va;
-                $attribute = serialize($attribute_1);
+                $attribute = serialize($attribute_1);//属性，数组转字符串
 
-                $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute) values('$costprice','$yprice','$price','$img','$id1','$num','$unit','$attribute')";
+                $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute) values('$costprice','$yprice','$price','$img','$id1','$num','$unit','$attribute')";//成本价 ，原价，现价，商品图片，ID ，数量，单位，属性 
 
 
                 $r_attribute = $db->insert($sql);
 
-                $c_num += $num;
+                $c_num += $num;//所有商品数量
                 if($r_attribute > 0){
                     $r_num = $r_num + 1;
                 }else{
                     $r_num = $r_num;
                 }
             }
-            if($r_num == count($arr)){
-                if($c_num < 1){
+            if($r_num == count($arr)){//判断属性是否添加完全
+                if($c_num < 1){//库存不足，下架（0::上架 1:下架）
                     $sql_1 = "update lkt_product_list set status='1' where id = '$id1'";
                     $r_update = $db->update($sql_1);
                 }
@@ -477,18 +493,18 @@ class addAction extends Action {
                 $sql = "delete from lkt_product_attribute where pid = '$id1'";
                 $db->delete($sql);
 
-
+                // $db->rollback();
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
-                    "alert('未知原因，产品发布失败1！');" .
+                    "alert('未知原因，产品发布失败！');" .
                     "location.href='index.php?module=product';</script>";
                 return $this->getDefaultView();
             }
         }else{
-
+            // $db->rollback();
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
-                "alert('未知原因，产品发布失败2！');" .
+                "alert('未知原因，产品发布失败！');" .
                 "location.href='index.php?module=product';</script>";
             return $this->getDefaultView();
         }
