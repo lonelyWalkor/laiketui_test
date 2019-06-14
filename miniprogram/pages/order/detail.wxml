@@ -52,7 +52,7 @@
         <view class="sp_jg">
           <view class='guige'>¥ {{item.p_price}} </view> 
           <view class='guige'>x{{item.num}}</view>
-          <navigator wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype =='' }}" bindtap='return_goods' data-order-id="{{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;margin-top:4px;' class="font_12 red fl_r mr_5">申请售后</navigator>
+          <navigator wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype =='' }}" bindtap='return_goods' data-order-id="{{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;margin-top:10px;' class="font_12 red fl_r mr_5">申请售后</navigator>
         </view>
       </view>
       <view style='clear:both;'></view>

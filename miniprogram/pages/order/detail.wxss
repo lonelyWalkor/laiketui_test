@@ -97,7 +97,6 @@ page{
 }
 .sp_jg{
     width: 30%;
-    overflow: hidden;
     font-size: 13px;
     color: #fc0628;
     height:120rpx;
