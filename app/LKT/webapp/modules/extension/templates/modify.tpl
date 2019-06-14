@@ -690,7 +690,7 @@
 
                                                 var val = ipt.val();
 
-                                                var img = ipt.parent().next().children();
+                                                
 
                                                 options = {
 
@@ -705,22 +705,31 @@
                                                 };
 
                                                 util.image(val, function(url) {
+                                                  // debugger
 
-                                                  if(url.url) {
+                                                   var imgInfo = JSON.parse(url._raw);
 
-                                                    if(img.length > 0) {
+                                                    // console.log(imgInfo.height)
+                                                    // console.log(imgInfo.width)                          
+                                                    if(imgInfo.height != 1008 || imgInfo.width != 640){
+                                                          alert('背景图片尺寸不符！')
+                                                                  return;
+                                                    }else{
+                                                      if(url.url) {
+                                                    // console.log('xx2')
 
-                                                      img.get(0).src = url.url;
+                                                          ipt.val(url.attachment);
 
+                                                          ipt.attr("filename", url.filename);
+
+                                                          ipt.attr("url", url.url);
+
+                                                   
+                                                      }
                                                     }
 
-                                                    ipt.val(url.attachment);
 
-                                                    ipt.attr("filename", url.filename);
-
-                                                    ipt.attr("url", url.url);
-
-                                                  }
+                                                
 
                                                   if(url.media_id) {
 
@@ -790,9 +799,9 @@
 
                                         <div class="col-sm-9 col-xs-12">
 
-                                          <button class='btn btn-default btn-com' type='button' data-type='head' style="margin-bottom: 4px">头像</button>
+                                         <!--  <button class='btn btn-default btn-com' type='button' data-type='head' style="margin-bottom: 4px">头像</button>
 
-                                          <button class='btn btn-default btn-com' type='button' data-type='nickname' style="margin-bottom: 4px">昵称</button>
+                                          <button class='btn btn-default btn-com' type='button' data-type='nickname' style="margin-bottom: 4px">昵称</button> -->
 
                                           <button class='btn btn-default btn-com' type='button' data-type='qr' style="margin-bottom: 4px">二维码</button>
 
