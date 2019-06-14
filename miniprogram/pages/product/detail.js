@@ -40,6 +40,7 @@ Page({
       icon: 'loading',
       duration: 1500,
     });
+
     app.request.wxRequest({
       url: '&action=getcode&m=product_share',
       data: { 
@@ -52,6 +53,7 @@ Page({
         id: app.globalData.userInfo.user_id,
         pid: that.data.productId,
         head: app.globalData.userInfo.avatarUrl,
+        name: app.globalData.userInfo.nickName,
         type:3
        },
       method: 'post',
@@ -657,42 +659,6 @@ Page({
     var uname = app.globalData.userInfo.nickName ? app.globalData.userInfo.nickName + '超值推荐 ' :'我发现一个好的东西 推荐给你们 ';
     var title = uname+that.data.title;
     var referee_openid = app.globalData.userInfo.user_id;
-    
-    if (type1 == 1) {
-      var drawid = that.data.choujiangid;
-      if (res.from === 'button') {
-        // 来自页面内转发按 
-      }
-      return {
-        title: title,
-        imageUrl: that.data.itemData.photo_x,
-        path: 'pages/product/detail?productId=' + id + '&type1=1&choujiangid=' + drawid,
-        success: function (res) {
-          console.log('转发成功');
-          var animation = wx.createAnimation({
-            duration: 200,
-            timingFunction: "linear",
-            delay: 0
-          });
-          that.animation = animation;
-          animation.translateY(300).step();
-          that.setData({
-            animationData: animation.export()
-          })
-          setTimeout(function () {
-            animation.translateY(0).step()
-            that.setData({
-              animationData: animation,
-              show_share: false
-            })
-          }.bind(that), 200)
-        },
-        fail: function (res) {
-          console.log('转发失败')
-        }
-      }
-    } else {
-      if (res.from === 'button') {
         // 来自页面内转发按钮
       }
       return {
@@ -723,7 +689,7 @@ Page({
           console.log('转发失败')
         }
       }
-    }
+
   },
   // 添加到收藏
   addFavorites: function (e) {
