@@ -1,4 +1,4 @@
-//获取应用实例  
+﻿//获取应用实例  
 var app = getApp();
 //引入这个插件，使html内容自动转换成wxml内容
 var WxParse = require('../../wxParse/wxParse.js');
@@ -660,6 +660,7 @@ Page({
     var title = uname+that.data.title;
     var referee_openid = app.globalData.userInfo.user_id;
         // 来自页面内转发按钮
+      if (res.from === 'button') {
       }
       return {
         title: title,
@@ -689,7 +690,7 @@ Page({
           console.log('转发失败')
         }
       }
-
+  
   },
   // 添加到收藏
   addFavorites: function (e) {
