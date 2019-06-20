@@ -779,10 +779,11 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息 
-        $sql = "select address_xq,name,tel from lkt_user_address where uid = 'admin'";
+        $sql = "select address,name,tel from lkt_user_address where uid = 'admin'";
         $r_1 = $db->select($sql);
+        
         if($r_1){
-            $address = $r_1[0]->address_xq;
+            $address = $r_1[0]->address;
             $name = $r_1[0]->name;
             $phone = $r_1[0]->tel;
         }else{
