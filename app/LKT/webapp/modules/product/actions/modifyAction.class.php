@@ -20,9 +20,9 @@ class modifyAction extends Action {
         // 根据产品id，查询产品产品信息
         $sql = "select * from lkt_product_list where id = '$id'";
         $r = $db->select($sql);
-
+// print_r($r);die;
         if($r){
-            $product_number = $r[0]->product_number; // 产品编号
+            // $product_number = $r[0]->product_number; // 产品编号
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
             $scan = $r[0]->scan; // 条形码
@@ -35,8 +35,8 @@ class modifyAction extends Action {
             $num = $r[0]->num; //数量
             $imgurl = $r[0]->imgurl; //图片
             $s_type = $r[0]->s_type;
-            $distributor_id = $r[0]->distributor_id;//分销层级id
-            $is_distribution = $r[0]->is_distribution;//是否开启分销
+            // $distributor_id = $r[0]->distributor_id;//分销层级id
+            // $is_distribution = $r[0]->is_distribution;//是否开启分销
             $volume = $r[0]->volume;//volume拟定销量
             $freight_id = $r[0]->freight;
             $is_zhekou = $r[0]->is_zhekou;
@@ -202,12 +202,12 @@ class modifyAction extends Action {
         }
         $sql02 = "select id,sets from lkt_distribution_grade where is_ordinary = 0";
         $r022222 = $db->select($sql02);
-
+// print_r($weight);die;
         $distributors = [];
         $distributors_opt = '';
 
-        $request->setAttribute("is_distribution",$is_distribution);
-        $request->setAttribute("distributors_opt",$distributors_opt);
+        // $request->setAttribute("is_distribution",$is_distribution);
+        // $request->setAttribute("distributors_opt",$distributors_opt);
         $request->setAttribute("volume",$volume);
         $request->setAttribute("uploadImg",$uploadImg);
         $request->setAttribute("attribute",$attribute);
@@ -222,12 +222,12 @@ class modifyAction extends Action {
         $request->setAttribute('id', $id);
         $request->setAttribute('r02', $brand);//所有品牌
         $request->setAttribute("product_class",$product_class);
-        $request->setAttribute('product_number', isset($product_number) ? $product_number : '');
+        // $request->setAttribute('product_number', isset($product_number) ? $product_number : '');
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');
         $request->setAttribute('scan', isset($scan) ? $scan : '');
         // $request->setAttribute('brand_name', isset($brand_name) ? $brand_name : '');//品牌名称
-        $request->setAttribute('sort', isset($sort) ? $sort : '');
+        // $request->setAttribute('sort', isset($sort) ? $sort : '');
         $request->setAttribute('keyword', isset($keyword) ? $keyword : '');
         $request->setAttribute('weight', isset($weight) ? $weight : '');
         $request->setAttribute('content', isset($content) ? $content : '');
@@ -235,7 +235,7 @@ class modifyAction extends Action {
         $request->setAttribute('imgurl', isset($imgurl) ? $imgurl : '');
         $request->setAttribute('imgurls', isset($imgurls) ? $imgurls : '');
         $request->setAttribute('freight_list', $freight_list);// 运费
-        $request->setAttribute("is_zhekou",$is_zhekou);
+        // $request->setAttribute("is_zhekou",$is_zhekou);
         return View :: INPUT;
     }
 
@@ -246,7 +246,7 @@ class modifyAction extends Action {
         $id = intval($request->getParameter("id")); // 产品id
         $uploadImg = $request->getParameter('uploadImg'); // 图片上传位置
         $attribute = $request->getParameter('attribute'); // 属性
-        $product_number = addslashes(trim($request->getParameter('product_number'))); // 产品编号
+        // $product_number = addslashes(trim($request->getParameter('product_number'))); // 产品编号
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 产品副标题
@@ -256,7 +256,7 @@ class modifyAction extends Action {
         $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 关键词
         $s_type = $request->getParameter('s_type'); // 显示类型
-        $sort = floatval(trim($request->getParameter('sort'))); // 排序
+        // $sort = floatval(trim($request->getParameter('sort'))); // 排序
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
         $image = addslashes(trim($request->getParameter('image'))); // 产品图片
         $img_oldpic = addslashes(trim($request->getParameter('img_oldpic'))); // 产品图片
@@ -331,8 +331,6 @@ class modifyAction extends Action {
                         "alert('重量不能为负数！');" .
                         "</script>";
                     return $this->getDefaultView();
-                }else{
-                    $weight = number_format($weight,2);
                 }
             }else{
                 header("Content-type:text/html;charset=utf-8");
@@ -359,12 +357,12 @@ class modifyAction extends Action {
         }else{
             $type = implode(",", $s_type);
         }
-        if($sort == ''){
-            echo "<script type='text/javascript'>" .
-                "alert('排序不能没空！');" .
-                "location.href='index.php?module=product&action=modify';</script>";
-            return $this->getDefaultView();
-        }
+        // if($sort == ''){
+        //     echo "<script type='text/javascript'>" .
+        //         "alert('排序不能没空！');" .
+        //         "location.href='index.php?module=product&action=modify';</script>";
+        //     return $this->getDefaultView();
+        // }
         if($image){
             $image = preg_replace('/.*\//','',$image);
             if($image != $img_oldpic){
@@ -405,8 +403,7 @@ class modifyAction extends Action {
         $sql = "select * from lkt_product_list where id = '$id'";
         $r_arr = $db->select($sql);
         // 根据产品id,修改产品信息
-        $sql_1 = "update lkt_product_list set product_number='$product_number',product_title='$product_title',scan='$scan',product_class='$product_class',brand_id ='$brand_id',keyword='$keyword',weight='$weight',s_type='$type',num='$z_num',sort='$sort',content='$content',imgurl='$image',subtitle='$subtitle',volume='$volume',freight='$freight' where id = '$id'";
-
+        $sql_1 = "update lkt_product_list set product_title='$product_title',scan='$scan',product_class='$product_class',brand_id ='$brand_id',keyword='$keyword',weight='$weight',s_type='$type',num='$z_num',content='$content',imgurl='$image',subtitle='$subtitle',volume='$volume',freight='$freight' where id = '$id'";
         $r_update = $db->update($sql_1);
 
         if($r_update == -1 ){

@@ -20,17 +20,17 @@
                     f.pname.value = '';
                     return false;
                 }
-                if(Trim(f.sort.value)==""){
-                    alert("排序不能为空！");
-                    f.sort.value = '';
-                    return false;
-                }
-                f.sort.value = Trim(f.sort.value);
-                if(!/^(([1-9][0-9]*)|0)(\.[0-9]{1,2})?$/.test(f.sort.value)){
-                    alert("排序号必须为数字，且格式为 ####.## ！");
-                    f.sort.value = '';
-                    return false;
-                }
+                // if(Trim(f.sort.value)==""){
+                //     alert("排序不能为空！");
+                //     f.sort.value = '';
+                //     return false;
+                // }
+                // f.sort.value = Trim(f.sort.value);
+                // if(!/^(([1-9][0-9]*)|0)(\.[0-9]{1,2})?$/.test(f.sort.value)){
+                //     alert("排序号必须为数字，且格式为 ####.## ！");
+                //     f.sort.value = '';
+                //     return false;
+                // }
                 return true;
             }
         </script>
@@ -135,12 +135,12 @@ form[name=form1] input{
         <input type="hidden" name="uploadImg" value='{$uploadImg}'/>
         <input type="hidden" name="attribute" class="attribute" id="attribute" value='{$attribute1}'/>
         <input type="hidden" name="attribute_key" class="attribute_key" id="attribute_key" value='{$attribute_key2}'/>
-        <div class="row cl">
+<!--         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>产品编号：</label>
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$product_number}" placeholder="" id="product_numberId" name="product_number">
             </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-4" style="width: 16.8%;">
@@ -363,13 +363,13 @@ form[name=form1] input{
                 <input type="number" class="input-text" value="{$volume}" name="volume" id="volumeId">
             </div>
         </div>
-
+<!-- 
         <div class="row cl">
             <label class="form-label col-2">排序号：</label>
             <div class="formControls col-2">
                 <input type="number" class="input-text" value="{$sort}" placeholder="" id="" name="sort">
             </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品主图：</label>
             <div class="formControls col-xs-8 col-sm-10" style="width: 20%;">

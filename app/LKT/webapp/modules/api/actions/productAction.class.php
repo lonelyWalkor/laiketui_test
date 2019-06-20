@@ -556,6 +556,7 @@ class productAction extends Action {
 
     public function freight($freight,$num,$address,$db)
     {
+
         $sql = "select * from lkt_freight where id = '$freight'";
         $r_1 = $db->select($sql);
         if($r_1){
@@ -567,6 +568,7 @@ class productAction extends Action {
                 $sheng = $address['sheng'];
                 $sql2 = "select G_CName from admin_cg_group where GroupID = '$sheng'";
                 $r_2 = $db->select($sql2);
+
                 if($r_2){
                     $city = $r_2[0]->G_CName;
                     $rule_1 = $r_1[0]->freight;
@@ -588,6 +590,7 @@ class productAction extends Action {
                             }
                         }
                     }
+
                     return $yunfei;
                 }else{
                    return 0;

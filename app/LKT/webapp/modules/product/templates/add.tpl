@@ -36,23 +36,23 @@ function check(f) {
         f.product_title.value = '';
         return false;
     }
-    if (Trim(f.keyword.value) == "") {
-        alert("关键词不能为空！");
-        f.keyword.value = '';
-        return false;
-    }
-    if (Trim(f.sort.value) == "") {
-        alert("排序不能为空！");
-        f.sort.value = '';
-        return false;
-    }
-    f.sort.value = Trim(f.sort.value);
-    console.log(f.sort.value)
-    if (!/^(([1-9][0-9]*)|0)(\.[0-9]{1,2})?$/.test(f.sort.value)) {
-        alert("排序号必须为数字，且格式为 ####.## ！");
-        f.sort.value = '';
-        return false;
-    }
+    // if (Trim(f.keyword.value) == "") {
+    //     alert("关键词不能为空！");
+    //     f.keyword.value = '';
+    //     return false;
+    // }
+    // if (Trim(f.sort.value) == "") {
+    //     alert("排序不能为空！");
+    //     f.sort.value = '';
+    //     return false;
+    // }
+    // f.sort.value = Trim(f.sort.value);
+    // console.log(f.sort.value)
+    // if (!/^(([1-9][0-9]*)|0)(\.[0-9]{1,2})?$/.test(f.sort.value)) {
+    //     alert("排序号必须为数字，且格式为 ####.## ！");
+    //     f.sort.value = '';
+    //     return false;
+    // }
     return true;
 }
 </script>
@@ -143,13 +143,13 @@ function check(f) {
         <input type="hidden" name="uploadImg" value="{$uploadImg}"/>
         <input type="hidden" name="attribute_num" class="attribute_num" id="attribute_num" value='{$attribute_num}'/>
 
-        <div class="row cl">
+       <!--  <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>产品编号：</label>
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$product_number}" placeholder="" id="product_numberId" name="product_number">
             </div>
             <div class="col-4"> </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-4" style="width: 16.8%;">
@@ -382,12 +382,12 @@ function check(f) {
                 <input type="number" class="input-text" value="{$volume}" id="volumeId" name="volume">
             </div>
         </div>
-        <div class="row cl">
+        <!-- <div class="row cl">
             <label class="form-label col-2">排序号：</label>
             <div class="formControls col-2">
                 <input type="number" class="input-text" value="{$sort}" placeholder="" id="" name="sort">
             </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品主图：</label>
             <div class="formControls col-xs-8 col-sm-10">

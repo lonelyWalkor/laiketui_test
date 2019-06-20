@@ -368,8 +368,6 @@ class addAction extends Action {
                         "alert('重量不能为负数！');" .
                         "</script>";
                     return $this->getDefaultView();
-                }else{
-                    $weight = number_format($weight,2);
                 }
             }else{
                 header("Content-type:text/html;charset=utf-8");
@@ -397,12 +395,12 @@ class addAction extends Action {
         }else{
             $type = implode(",", $s_type);
         }
-        if($sort == ''){
-            echo "<script type='text/javascript'>" .
-                "alert('排序不能没空！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }
+        // if($sort == ''){
+        //     echo "<script type='text/javascript'>" .
+        //         "alert('排序不能没空！');" .
+        //         "</script>";
+        //     return $this->getDefaultView();
+        // }
 
         if($image){
             $image = preg_replace('/.*\//','',$image); // 产品主图
@@ -412,7 +410,7 @@ class addAction extends Action {
             }else{
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
-                    "alert('产品主图不能没空！');" .
+                    "alert('产品主图不能为空！');" .
                     "</script>";
                 return $this->getDefaultView();
             }
