@@ -28,8 +28,8 @@ class addAction extends Action {
         $admin_id = $this->getContext()->getStorage()->read('admin_id');
 
         $name = addslashes(trim($request->getParameter('name'))); // 管理员账号
-        $password = MD5(addslashes(trim($request->getParameter('password')))); // 密码
-        $password1 = MD5(addslashes(trim($request->getParameter('password1')))); // 确认密码
+        $password = md5(addslashes(trim($request->getParameter('password')))); // 密码
+        $password1 = md5(addslashes(trim($request->getParameter('password1')))); // 确认密码
         $role = addslashes(trim($request->getParameter('role'))); // 角色
 
         $sql = "select id from lkt_admin where name = '$admin_id'";
@@ -53,10 +53,7 @@ class addAction extends Action {
                         "</script>";
                     return $this->getDefaultView();
                 }else{
-//                    $sql = "select permission from lkt_role where id = '$role'";
-//                    $r_role = $db->select($sql);
-//                    $permission = $r_role[0]->permission;
-//                    $sql = "insert into lkt_admin(sid,name,password,permission,role,status,add_date,recycle) values('$sid','$name','$password','$permission','$role',2,CURRENT_TIMESTAMP,0)";
+//                    
                     $sql = "insert into lkt_admin(sid,name,password,role,status,add_date,recycle) values('$sid','$name','$password','$role',2,CURRENT_TIMESTAMP,0)";
                     $r = $db->insert($sql);
                     if($r == -1){

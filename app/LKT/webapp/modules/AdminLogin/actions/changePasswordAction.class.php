@@ -9,7 +9,7 @@ class changePasswordAction extends Action {
         // 接收信息
         $admin_name = $this->getContext()->getStorage()->read('admin_id'); // 管理员账号
         $y_password = md5(addslashes(trim($request->getParameter('oldPW'))));//原密码
-        $password = md5(addslashes(trim($request->getParameter('NewPW'))));//新密码
+        $password = md5(addslashes(trim($request->getParameter('newPW'))));//新密码
 
         // 根据id查询管理员信息
         $sql = "select * from lkt_admin where name = '$admin_name'and password = '$y_password'";

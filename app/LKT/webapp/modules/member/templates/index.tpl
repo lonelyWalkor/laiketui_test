@@ -125,11 +125,12 @@
 function del(obj,id){
     confirm('确认要删除吗？',"ts")
     $.get("index.php?module=member&action=del",{'id':id},function(res){
+        console.log(res)
             if(res.status=="1"){
-                appendMask('删除成功','cg');
+                appendMask('删除成功1','cg');
                 location.replace(location.href)
             }else{
-                appendMask('删除失败','ts');
+                appendMask('删除失败2','ts');
                  location.replace(location.href)
             }
         },"json");
@@ -218,33 +219,33 @@ function confirm (content,id){
 			</div>	
 		`)
 }
-function closeMask2(id,content){
-	$(".maskNew").remove();
-    $.ajax({
-    	type:"post",
-    	url:"index.php?module=member&action=status&id="+id,
-    	async:true,
-    	success:function(res){
-    		console.log(res);
-    		if(content=="启用"){
-    			if(res==1){
-    			appendMask("启用成功","cg");
-	    		}
-	    		else{
-	    			appendMask("启用失败","ts");
-	    		}
-    		}
-    		else{
-    			if(res==1){
-    			appendMask("禁用成功","cg");
-	    		}
-	    		else{
-	    			appendMask("禁用失败","ts");
-	    		}
-    		}
-    	}
-    });
-}
+// function closeMask2(id,content){
+// 	$(".maskNew").remove();
+//     $.ajax({
+//     	type:"post",
+//     	url:"index.php?module=member&action=status&id="+id,
+//     	async:true,
+//     	success:function(res){
+//     		console.log(res.status);
+//     		if(content=="启用"){
+//     			if(res.status==1){
+//     			appendMask("启用成功","cg");
+// 	    		}
+// 	    		else{
+// 	    			appendMask("启用失败","ts");
+// 	    		}
+//     		}
+//     		else{
+//     			if(res.status==1){
+//     			appendMask("禁用成功","cg");
+// 	    		}
+// 	    		else{
+// 	    			appendMask("禁用失败","ts");
+// 	    		}
+//     		}
+//     	}
+//     });
+// }
 function confirm1 (content,id,content1){
 	$("body").append(`
 			<div class="maskNew">
@@ -270,9 +271,9 @@ function closeMask2(id,content){
     	url:"index.php?module=member&action=status&id="+id,
     	async:true,
     	success:function(res){
-    		console.log(res);
+            var res1 = JSON.parse(res)
     		if(content=="启用"){
-    			if(res==1){
+    			if(res1.status==1){
     			appendMask("启用成功","cg");
 	    		}
 	    		else{
@@ -280,7 +281,7 @@ function closeMask2(id,content){
 	    		}
     		}
     		else{
-    			if(res==1){
+    			if(res1.status==1){
     			appendMask("禁用成功","cg");
 	    		}
 	    		else{

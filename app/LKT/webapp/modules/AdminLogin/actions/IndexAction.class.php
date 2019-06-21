@@ -41,6 +41,7 @@ class IndexAction extends Action {
                 }
                 $list = $r_1;
             }
+            $typee = 1;
         }else{
             $role = $r[0]->role;
             $sql = "select * from lkt_role where id = '$role'";
@@ -92,11 +93,13 @@ class IndexAction extends Action {
                     }
                 }
             }
+            $typee = 2;
         }
         $sql = "select domain from lkt_config where id = 1";
         $rr = $db->select($sql);
         $domain = $rr[0]->domain;
         $version = LKT_VERSION;
+        $request->setAttribute('typee',$typee);
         $request->setAttribute('version',$version);
         $request->setAttribute('list',$list);
         $request->setAttribute('admin_id',$admin_name);
