@@ -1,4 +1,4 @@
-﻿//获取应用实例  
+//获取应用实例  
 var app = getApp();
 //引入这个插件，使html内容自动转换成wxml内容
 var WxParse = require('../../wxParse/wxParse.js');
@@ -577,8 +577,11 @@ Page({
           if (data.status == 1) {
             var ptype = e.currentTarget.dataset.type;
             if (ptype == 'buynow') {
-              wx.redirectTo({
+              wx.navigateTo({
                 url: '../order/pay?cartId=' + data.cart_id + '&pid=' + that.data.productId,
+              });
+              that.setData({
+                showModalStatus: false
               });
               return;
             } else {
