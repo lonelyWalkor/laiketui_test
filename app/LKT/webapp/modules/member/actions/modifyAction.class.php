@@ -53,10 +53,10 @@ class modifyAction extends Action {
         $password = md5(addslashes(trim($request->getParameter('password'))));
         $role = addslashes(trim($request->getParameter('role'))); // 角色
 
-//        $sql = "select permission from lkt_role where id = '$role'";
-//        $r_role = $db->select($sql);
-//        $permission = $r_role[0]->permission;
-
+       $sql = "select sid from lkt_admin where id = '$id'";
+            // print_r($sql);die;
+       $r_role = $db->select($sql);
+       $sid = $r_role[0]->sid;
         if(addslashes(trim($request->getParameter('y_password'))) != ''){
             $sql = "select id from lkt_admin where name='$name' and password = '$y_password'";
             $rr = $db->select($sql);
@@ -67,14 +67,21 @@ class modifyAction extends Action {
                     "</script>";
                 return $this->getDefaultView();
             }
-            if($password != ''){
-//                $sql = "update lkt_admin set name='$name',password = '$password',permission = '$permission',role = '$role' where id ='$id'";
-                $sql = "update lkt_admin set name='$name',password = '$password',role = '$role' where id ='$id'";
+            if($password != '' && $sid == 0){
+//               
+                $sql = "update lkt_admin set name='$name',password = '$password' where id ='$id'";
+            }else{
+                 $sql = "update lkt_admin set name='$name',password = '$password',role = '$role' where id ='$id'";
             }
         }else{
-            //更新数据表
-//            $sql = "update lkt_admin set name='$name',permission = '$permission',role = '$role' where id ='$id'";
-            $sql = "update lkt_admin set name='$name',role = '$role' where id ='$id'";
+            if($sid == 0 ){
+                 //更新数据表
+                $sql = "update lkt_admin set name='$name' where id ='$id'";
+            }else{
+                 //更新数据表
+                $sql = "update lkt_admin set name='$name',role = '$role' where id ='$id'";
+            }
+           
         }
         $r = $db->update($sql);
         if($r == -1) {
