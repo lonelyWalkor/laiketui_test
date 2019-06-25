@@ -387,7 +387,7 @@
 					</td>
 					<td>
 						<div>
-							<span >{if $item->otype == 'pt'}拼团订单{else}{if $item->drawid>0}抽奖订单{else}普通订单{/if}{/if}</span>
+							<span >{if $item->otype == 'pt'}拼团订单{else}普通订单{/if}</span>
 						</div>
 					</td>
 					<td>
@@ -409,7 +409,7 @@
 						{if $item->statu == 1}
 							<a class="btn send-btn" href="javascript:void(0);" onclick=send_btn(this,'{$item->otype}','{$item->sNo}',{$item->statu},{$item->drawid})> 发货</a>
 						{/if}
-						{if $item->statu >= 2}
+						{if $item->statu >= 2 && $item->status_a ==1}
 							<a class="btn send-btn1" href="javascript:void(0);" onclick="send_btn1(this,'{$item->sNo}','{$item->products[0]->courier_num}')" >查看物流</a>
 						{/if}
 						<a class="btn" style="margin-top: 5px;" href="index.php?module=orderslist&action=Detail&id={$item->id}">查看详情</a>
