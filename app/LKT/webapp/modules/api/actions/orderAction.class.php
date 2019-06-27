@@ -753,10 +753,11 @@ class orderAction extends Action {
         $kdname = trim($request->getParameter('kdname'));
         $lxdh = trim($request->getParameter('lxdh'));
         $lxr = trim($request->getParameter('lxr'));
+        $address = trim($request->getParameter('address'));
         $uid = trim($request->getParameter('uid'));
         $oid = trim($request->getParameter('oid'));
 
-        $sql = "insert into lkt_return_goods(name,tel,express,express_num,uid,oid,add_data) values('$lxr','$lxdh','$kdname','$kdcode','$uid','$oid',CURRENT_TIMESTAMP)";
+        $sql = "insert into lkt_return_goods(name,tel,express,express_num,uid,oid,add_data,address) values('$lxr','$lxdh','$kdname','$kdcode','$uid','$oid',CURRENT_TIMESTAMP,'$address')";
         $rid = $db->insert($sql,'last_insert_id');
 
         $sql = "update lkt_order_details set r_type = 3 where id = '$oid'";
@@ -779,6 +780,8 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息 
+        $order_id = trim($request->getParameter('order_id')); // 订单详情id
+
         $sql = "select address,name,tel from lkt_user_address where uid = 'admin'";
         $r_1 = $db->select($sql);
         
@@ -791,12 +794,24 @@ class orderAction extends Action {
             $name = '';
             $phone = '';
         }
+        $sql01 = "select name,mobile,address from lkt_order where id = '$order_id'";
+        $r01 = $db->select($sql01);
+
+        if($r01){
+            $data['address'] = $r01[0]->address;
+            $data['name'] = $r01[0]->name;
+            $data['phone'] = $r01[0]->mobile;
+        }else{
+            $data['address'] = '';
+            $data['name'] = '';
+            $data['phone'] = '';
+        }
 
         $sql_1 = "select * from lkt_express ";
         $r_2 = $db->select($sql_1);
 
         if($r_2){
-            echo json_encode(array('status'=>1,'address'=>$address,'name'=>$name,'phone'=>$phone,'express'=>$r_2));
+            echo json_encode(array('status'=>1,'address'=>$address,'name'=>$name,'phone'=>$phone,'express'=>$r_2,'data'=>$data));
             exit();
         }else{
             echo json_encode(array('status'=>0,'err'=>'操作失败!'));
