@@ -1633,6 +1633,7 @@ CREATE TABLE `lkt_return_goods` (
   `oid` varchar(32) NOT NULL DEFAULT '0' COMMENT '订单id',
   `add_data` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '填写时间',
   `user_id` char(20) NOT NULL DEFAULT '' COMMENT '用户id',
+  `address` varchar(255) DEFAULT '' COMMENT '买家地址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户退货表';
 /*!40101 SET character_set_client = @saved_cs_client */;
