@@ -44,8 +44,10 @@ class LoginFilter extends Filter {
                 $rr = $db->select($sql);
                 if($rr[0]->permission != ''){
                     $permission_1 = unserialize($rr[0]->permission);
+                  
                     foreach ($permission_1 as $ke => $va){
                         $rew = explode('/',$va);
+
                         if($rew[0] != 1){
                             $permission[] = $rew[2] . '&action=' . $rew[3];
                         }else{
@@ -55,10 +57,14 @@ class LoginFilter extends Filter {
                 }else{
                     $permission = unserialize($rr[0]->permission);
                 }
+                // print_r($permission);die;
                 $permission[]="AdminLogin&action=index";
                 $permission[]="index&action=index";
                 $permission[]="end&action=index";
                 $permission[]="permission&action=index";
+                $permission[]="AdminLogin&action=changePassword";//修改自身密码
+                $permission[]="AdminLogin&action=maskContent";//修改自身信息
+                
                 $rew = $this->getContext()->getModuleName();
 
                 $res =$request ->parameters; // 获取参数
