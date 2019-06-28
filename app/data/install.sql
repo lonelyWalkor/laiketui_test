@@ -1548,6 +1548,7 @@ CREATE TABLE `lkt_product_list` (
   `is_zhekou` int(2) DEFAULT '0' COMMENT '是否开启会员',
   `separate_distribution` varchar(50) DEFAULT '0' COMMENT '单独分销',
   `recycle` tinyint(4) NOT NULL DEFAULT '0' COMMENT '回收站 0.显示 1.回收',
+  `initial` varchar(255) DEFAULT NULL COMMENT '初始值',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='产品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
