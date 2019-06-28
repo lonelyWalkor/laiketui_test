@@ -532,13 +532,24 @@ i{
                         </a>
                         {if $item->r_type == 0}
                             {if $item->re_type == 1}
-                                <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核通过" onclick="is_ok(this,{$item->id},1,'确定要通过该用户的申请,并让用户寄回?')">
+                                {if $status == 1}  <!-- 有地址 -->
+                                    <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核通过" onclick="is_ok(this,{$item->id},1,'确定要通过该用户的申请,并让用户寄回?')">
+                                        <div style="align-items: center;font-size: 12px;display: flex;">
+                                            <div style="margin: 0 auto;display: flex;align-items: center;">
+                                            <img src="images/icon1/qy.png"/>&nbsp;通过
+                                            </div>
+                                        </div>
+                                    </a>
+                                {else}
+                                    <a style="text-decoration:none" class="ml-5" href="javascript:;" title="通过" onclick="is_add(this,{$item->id},1,'请添加售后地址')">
                                     <div style="align-items: center;font-size: 12px;display: flex;">
-	                                    <div style="margin: 0 auto;display: flex;align-items: center;">
-	                                    <img src="images/icon1/qy.png"/>&nbsp;通过
-	                                    </div>
+                                        <div style="margin: 0 auto;display: flex;align-items: center;">
+                                        <img src="images/icon1/qy.png"/>&nbsp;通过
+                                        </div>
                                     </div>
-                                </a>
+                                    </a>
+                                {/if}
+                                
                                 <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核拒绝" onclick="refuse(this,{$item->id},2)">
                                     <div style="align-items: center;font-size: 12px;display: flex;">
 	                                    <div style="margin: 0 auto;display: flex;align-items: center;">
@@ -562,12 +573,23 @@ i{
                                     </div>
                                 </a>
                             {else}
-                                <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核通过" onclick="is_ok(this,{$item->id},6,'确定要通过该用户的申请,并让用户寄回?')"><div style="align-items: center;font-size: 12px;display: flex;">
-                                    <div style="margin: 0 auto;display: flex;align-items: center;">
-                                    <img src="images/icon1/qy.png"/>&nbsp;通过
-                                    </div>
-                                    </div>
-                                </a>
+
+                                {if $status == 1}  <!-- 有地址 -->
+                                    <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核通过" onclick="is_ok(this,{$item->id},6,'确定要通过该用户的申请,并让用户寄回?')"><div style="align-items: center;font-size: 12px;display: flex;">
+                                        <div style="margin: 0 auto;display: flex;align-items: center;">
+                                        <img src="images/icon1/qy.png"/>&nbsp;通过
+                                        </div>
+                                        </div>
+                                    </a>
+                                {else}
+
+                                    <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核通过" onclick="is_add(this,{$item->id},6,',请添加售后地址')"><div style="align-items: center;font-size: 12px;display: flex;">
+                                        <div style="margin: 0 auto;display: flex;align-items: center;">
+                                        <img src="images/icon1/qy.png"/>&nbsp;通过
+                                        </div>
+                                        </div>
+                                    </a>
+                                {/if}
                                 <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核拒绝" onclick="refuse(this,{$item->id},2)"><div style="align-items: center;font-size: 12px;display: flex;">
                                     <div style="margin: 0 auto;display: flex;align-items: center;">
                                     <img src="images/icon1/jy.png"/>&nbsp;拒绝
@@ -702,6 +724,35 @@ function is_ok(obj,id,type,content) {
             type:type,
         })
     }
+
+};
+
+function is_add(obj,id,type,content) {  
+        $.ajax({
+            type: "GET",
+            url: "index.php?module=return&action=examine",
+            // data: "id="+id+'&f=check'+'&m='+type,、
+            success: function(res){
+                if(res){
+                    $(".price").val(res);
+                    jqalert({
+                        title:'提示',
+                        content:content,
+                        yestext:'去添加',
+                        // url:"index.php?module=return&action=set",
+                        id:id,
+                        notext:'取消',
+                        obj:obj,
+                        type:type,
+                        price:res
+                    })
+                    window.location.href="index.php?module=return&action=set"
+                }else{
+                    jqtoast('操作失败!');
+                }
+            }
+        });
+    
 
 };
         function appendMask(content,src){

@@ -187,7 +187,16 @@ class IndexAction extends Action {
                     $freight += $vd->freight;
                 }
                 $res1[$k] -> products = $products;
-
+				$res1[$k] -> status_a = '0';//没有订单发货
+				  $sqldt01 = "select courier_num from lkt_order_details where r_sNo='$v->sNo'";
+            				$courier_num = $db -> select($sqldt01);
+            				if($courier_num){
+            				 	foreach ($courier_num as $kdd => $vdd) {
+					                if($vdd->courier_num){
+					                	$res1[$k] -> status_a = '1';
+					                }   
+					            }
+            				}
                 if ($v -> otype == 'pt') {
                     switch ($v->status) {
                         case 0 :
@@ -236,6 +245,7 @@ class IndexAction extends Action {
                         case 2 :
                             $res1[$k] -> status = '已发货';
                             $res1[$k] -> bgcolor = '#f19072';
+                          
                             break;
                         case 3 :
                             $res1[$k] -> status = '待评论';
@@ -244,6 +254,13 @@ class IndexAction extends Action {
                         case 4 :
                             $res1[$k] -> status = '退货';
                             $res1[$k] -> bgcolor = '#e198b4';
+                            
+                              
+//                          print_r($courier_num);die;
+                            
+                            
+                            
+                            
                             break;
                         case 6 :
                             $res1[$k] -> status = '订单关闭';
@@ -274,6 +291,8 @@ class IndexAction extends Action {
             $res1[$k] -> freight = $freight;
 
         }
+ 
+//print_r($res1);die;
         $sql02 = "select * from lkt_express ";
         $r02 = $db -> select($sql02);
         $request -> setAttribute("express", $r02);
