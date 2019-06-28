@@ -19,7 +19,9 @@ class IndexAction extends Action {
         $sql = "select * from lkt_admin where name = '$admin_name'";
         $r = $db->select($sql);
         $nickname = $r[0]->nickname;
+        $role = $r[0]->role;
         if($r[0]->sid == 0){
+            $r[0]->role1 = '超级管理员';
             $sql = "select * from lkt_core_menu where type = '$type' and recycle = 0 and s_id = 0 order by sort,id";
             $r_1 = $db->select($sql);
             if($r_1){
@@ -43,10 +45,11 @@ class IndexAction extends Action {
             }
             $typee = 1;
         }else{
-            $role = $r[0]->role;
+            
             $sql = "select * from lkt_role where id = '$role'";
             $rr = $db->select($sql);
             if($rr){
+                $r[0]->role1 = $rr[0]->name;
                 if($rr[0]->permission != ''){
                     $permission = unserialize($rr[0]->permission);
                     $arr_1 = [];
@@ -100,6 +103,7 @@ class IndexAction extends Action {
         $domain = $rr[0]->domain;
         $version = LKT_VERSION;
         $request->setAttribute('typee',$typee);
+        $request->setAttribute('r',$r);
         $request->setAttribute('version',$version);
         $request->setAttribute('list',$list);
         $request->setAttribute('admin_id',$admin_name);

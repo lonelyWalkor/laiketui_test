@@ -37,18 +37,18 @@ function check(f){
       }
   }
 }
-$(document).ready(function(){
-    $("input").blur(function(){
-        var mobi = $('input[name="y_password"]').val();
-        if(mobi.length != 0){
-            document.getElementById('password').style.display = ""; // 显示
-            document.getElementById('password1').style.display = ""; // 显示
-        }else{
-            document.getElementById('password').style.display = "none"; // 不显示
-            document.getElementById('password1').style.display = "none"; // 不显示
-        }
-    });
-});
+// $(document).ready(function(){
+//     $("input").blur(function(){
+//         var mobi = $('input[name="y_password"]').val();
+//         if(mobi.length != 0){
+//             document.getElementById('password').style.display = ""; // 显示
+//             document.getElementById('password1').style.display = ""; // 显示
+//         }else{
+//             document.getElementById('password').style.display = "none"; // 不显示
+//             document.getElementById('password1').style.display = "none"; // 不显示
+//         }
+//     });
+// });
 
 </script>
 {/literal}
@@ -68,18 +68,18 @@ $(document).ready(function(){
     <div class="row cl">
       <label class="form-label col-2"><span class="c-red"></span>密码：</label>
       <div class="formControls col-10">
-        <input type="password" class="input-text" value="" name="y_password" >
+        <input type="password" class="input-text" value="{$y_password}" name="y_password" >
       </div>
     </div>
-    <div class="row cl" style="display:none;" id="password">
+    <div class="row cl" id="password">
       <label class="form-label col-2"><span class="c-red">*</span>新密码：</label>
-      <div class="formControls col-8">
+      <div class="formControls col-10">
         <input type="password" class="input-text" value="" placeholder="" name="password" >
       </div>
     </div>
-    <div class="row cl" style="display:none;" id="password1">
+    <div class="row cl" id="password1">
       <label class="form-label col-2"><span class="c-red">*</span>确认密码：</label>
-      <div class="formControls col-8">
+      <div class="formControls col-10">
         <input type="password" class="input-text" value="" placeholder="" name="password1" >
       </div>
     </div>

@@ -14,6 +14,7 @@ class modifyAction extends Action {
         $sql = "select * from lkt_admin where id = '$id'";
         $r = $db->select($sql);
         $name = $r[0]->name; // 管理员名称
+        $y_password =$r[0]->password;
         $admin_type = $r[0]->admin_type;
         $role = $r[0]->role; // 角色id
 
@@ -35,6 +36,7 @@ class modifyAction extends Action {
 
         $request->setAttribute('id', $id);
         $request->setAttribute('name', $name );
+        $request->setAttribute('y_password', $y_password );
         $request->setAttribute('admin_type', $admin_type );
         $request->setAttribute('list', $rew);
 
@@ -49,40 +51,26 @@ class modifyAction extends Action {
         // 接收数据 
         $id = $request->getParameter("id");
         $name = addslashes(trim($request->getParameter('name')));
-        $y_password = md5(addslashes(trim($request->getParameter('y_password'))));
+        $y_password =addslashes(trim($request->getParameter('y_password')));
         $password = md5(addslashes(trim($request->getParameter('password'))));
         $role = addslashes(trim($request->getParameter('role'))); // 角色
 
        $sql = "select sid from lkt_admin where id = '$id'";
             // print_r($sql);die;
        $r_role = $db->select($sql);
-       $sid = $r_role[0]->sid;
-        if(addslashes(trim($request->getParameter('y_password'))) != ''){
-            $sql = "select id from lkt_admin where name='$name' and password = '$y_password'";
-            $rr = $db->select($sql);
-            if(empty($rr)){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('密码不正确！');" .
-                    "</script>";
+       $sid = $r_role[0]->sid;      
+            if($password != '' ){  
+                if( $sid == 0){       
+                    $sql = "update lkt_admin set name='$name',password = '$password' where id ='$id'";
+                }else{
+                     $sql = "update lkt_admin set name='$name',password = '$password',role = '$role' where id ='$id'";
+                 }
+            }else{
+                 echo "<script type='text/javascript'>" .
+                "alert('请输入新密码');" .
+                "location.href='index.php?module=member';</script>";
                 return $this->getDefaultView();
             }
-            if($password != '' && $sid == 0){
-//               
-                $sql = "update lkt_admin set name='$name',password = '$password' where id ='$id'";
-            }else{
-                 $sql = "update lkt_admin set name='$name',password = '$password',role = '$role' where id ='$id'";
-            }
-        }else{
-            if($sid == 0 ){
-                 //更新数据表
-                $sql = "update lkt_admin set name='$name' where id ='$id'";
-            }else{
-                 //更新数据表
-                $sql = "update lkt_admin set name='$name',role = '$role' where id ='$id'";
-            }
-           
-        }
         $r = $db->update($sql);
         if($r == -1) {
             $db->admin_record($admin,'修改管理员id为 '.$id.' 失败',2);

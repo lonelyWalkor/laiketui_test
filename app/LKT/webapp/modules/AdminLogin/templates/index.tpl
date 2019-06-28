@@ -425,7 +425,7 @@
 			</a>
 			<ul class=" sp1 dropDown-menu radius box-shadow sysBtn">
 				<li>
-					<a _href="index.php?module=product_class" href="javascript:void(0)" title="修改密码">
+					<a  href="javascript:void(0)" title="修改密码">
 						<i><img src="images/iIcon/xg.png"/>
 							<img src="images/iIcon/xgmm_h.png" style="display: none;"/>
 						</i>
@@ -434,7 +434,7 @@
 				</li>
 
 				<li>
-					<a _href="index.php?module=product_class" title="基本信息">
+					<a title="基本信息">
 						<i><img src="images/iIcon/xinxi.png"/>
 							<img src="images/iIcon/jbxx_h.png" style="display: none;"/>
 						</i>
@@ -609,8 +609,8 @@
 				<div class="mezl_div">
 					<div class="mezl_img">
 						<img style="border-radius: 50%;" src="images/iIcon/tx.png" alt="" />
-						<div class="mezl_name">Admin</div>
-						<div class="mezl_zhz">平台管理员</div>
+						<div class="mezl_name">{$r[0]->name}</div>
+						<div class="mezl_zhz">{$r[0]->role1}</div>
 					</div>
 				</div>
 				
@@ -620,7 +620,7 @@
 						昵称：
 					</div>
 					<div class="iptRight">
-						<input type="text" placeholder="请填写您的昵称" name="name" id="nameId" value="" />
+						<input type="text" placeholder="请填写您的昵称" name="name" id="nameId" value="{$r[0]->nickname}" />
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -642,10 +642,19 @@
 						性别：
 					</div>
 					<div class="iptRight mezl_radio ">
+						{if $r[0]->sex == 1}
 						<input class="magic-radio" type="radio" name="sex" id="r1" value="1" checked>  
-                		<label for="r1" class="radio1">男</label>  
-		                <input class="magic-radio" type="radio" name="sex" id="r2" value="2" >  
+                		<label for="r1" class="radio1">男</label> 
+                		 <input class="magic-radio" type="radio" name="sex" id="r2" value="2" >  
 		                <label for="r2" class="radio2">女</label>  
+                		{else}
+                		<input class="magic-radio" type="radio" name="sex" id="r1" value="1" >  
+                		<label for="r1" class="radio1">男</label> 
+                		 <input class="magic-radio" type="radio" name="sex" id="r2" value="2" checked>  
+		                <label for="r2" class="radio2">女</label>  
+                		{/if}
+						 
+		               
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -654,7 +663,7 @@
 						手机号码：
 					</div>
 					<div class="iptRight">
-						<input type="number" placeholder="请填写您的手机号" name="tel" id="telId" value="" />
+						<input type="number" placeholder="请填写您的手机号" name="tel" id="telId" value="{$r[0]->tel}" />
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -722,6 +731,7 @@
 						curPW,
 					},
 					success:function(res){
+						console.log(res)
 						if(res.status==3){
 							appendMask(res.info,"cg");
 							$("#changePassword").hide();
@@ -732,6 +742,10 @@
 						}
 					}
 				});
+			}else if(oldPW&&newPW&&curPW&&newPW!=curPW){
+				appendMask("密码输入不一致！","ts");
+			}else{
+				appendMask("请输入完整信息！","ts");
 			}	
 		})
 		$("#changeInf").click(function(){

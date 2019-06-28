@@ -11,6 +11,7 @@ class IndexInputView extends SmartyView {
         $this->setAttribute('login_time',$request->getAttribute('login_time'));
         $this->setAttribute('domain',$request->getAttribute('domain'));
         $this->setAttribute('nickname',$request->getAttribute('nickname'));
+        $this->setAttribute('r',$request->getAttribute('r'));
         $this->setTemplate("index.tpl");
     }
 }
