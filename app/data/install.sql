@@ -438,7 +438,7 @@ CREATE TABLE `lkt_configure` (
 
 LOCK TABLES `lkt_configure` WRITE;
 /*!40000 ALTER TABLE `lkt_configure` DISABLE KEYS */;
-INSERT INTO `lkt_configure` VALUES (1,'默认','默认','默认',0.00,60.00,100.00,'1541597053657.jpeg',1,64,'',0.00,2,'a:3:{s:6:\"类型\";s:6:\"默认\";s:6:\"颜色\";s:6:\"默认\";s:6:\"规格\";s:6:\"默认\";}',0);
+INSERT INTO `lkt_configure` VALUES (1,'默认','默认','默认',20.00,60.00,100.00,'1541597053657.jpeg',1,64,'',0.00,2,'a:3:{s:6:\"类型\";s:6:\"默认\";s:6:\"颜色\";s:6:\"默认\";s:6:\"规格\";s:6:\"默认\";}',0);
 /*!40000 ALTER TABLE `lkt_configure` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1559,7 +1559,7 @@ CREATE TABLE `lkt_product_list` (
 
 LOCK TABLES `lkt_product_list` WRITE;
 /*!40000 ALTER TABLE `lkt_product_list` DISABLE KEYS */;
-INSERT INTO `lkt_product_list` VALUES (1,'','LEGO 乐高积木 创意百变系列 玩具和百货商店 31036','','610610','-1-','1541597062168.jpeg','<p style=\"text-align: center;\"><img src=\"/ueditor/php/upload/image/20181107/1541597101.jpg\" title=\"1541597101.jpg\" alt=\"59bb872eNf44497eb.jpg\"/></p>',100,'2018-06-21 15:50:03',49,'1,2,3',64,0,'',9,0,0,'乐高积木','12.00',0,'0',0,'0',0);
+INSERT INTO `lkt_product_list` VALUES ('1', '', 'LEGO 乐高积木 创意百变系列 玩具和百货商店 31036', '', '610610', '-1-', '1541597062168.jpeg', '<p style=\"text-align: center;\"><img src=\"/ueditor/php/upload/image/20181107/1541597101.jpg\" title=\"1541597101.jpg\" alt=\"59bb872eNf44497eb.jpg\"/></p>', '100', '2018-06-21 15:50:03', '49', '1,2,3', '64', '0', '', '9', '0', '0', '乐高积木', '12.00', '0', '1', '0', '0', '0', 'a:5:{s:3:\"cbj\";s:2:\"20\";s:2:\"yj\";s:3:\"100\";s:2:\"sj\";s:2:\"60\";s:4:\"unit\";s:3:\"盒\";s:5:\"kucun\";s:2:\"64\";}');
 /*!40000 ALTER TABLE `lkt_product_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
