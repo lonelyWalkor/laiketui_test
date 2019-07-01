@@ -31,6 +31,21 @@ i{
     function setSize() {
         document.documentElement.style.fontSize = document.documentElement.clientWidth/750*100+'px';
     }   
+    function ShowElement(element)
+        {
+        var oldhtml = element.innerHTML;
+        var newobj = document.createElement('input');
+        //创建新的input元素
+        newobj.type = 'text';
+        //为新增元素添加类型
+        newobj.onblur = function(){
+        element.innerHTML = this.value ? this.value : oldhtml;
+        //当触发时判断新增元素值是否为空，为空则不修改，并返回原有值 
+        }
+        element.innerHTML = '';
+        element.appendChild(newobj);
+        newobj.focus();
+        }
     /*alert弹出层*/
     function jqalert(param) {
         var title = param.title,
@@ -88,8 +103,9 @@ i{
                         	<div class="prompt">
                        	 		<p class="prompt-content" style="text-align:center;font-size:22px;margin:30px auto;">${content}</p>
                        	 		<div style="text-align:center;margin-bottom:20px;">
-                       	 			<span class="pd20" >应退：${price} <input type="hidden" value="${price}" class="ytje"> &nbsp; 实退:</span>
-                        			<input type="text" style="width:100px" value="${price}" class="prompt-text inp_maie textIpt" readonly="readonly">
+                       	 			<span class="pd20" >应退：${price} <input type="hidden" value="${price}" class="ytje"> &nbsp; 实退2:</span>
+                                    <input type="text" oninput="ShowElement(this)" style="width:100px" value="${price}" class="prompt-text inp_maie textIpt">
+                        	
                         		</div>
                        	 	</div>
                         	
@@ -124,6 +140,10 @@ i{
             event.stopPropagation();
         });
         $("#yes_btn").click( function () {
+            if(status != 1){
+                 window.location.href="index.php?module=return&action=set";
+            }
+
             if(type == 2 || type == 5 || type == 8){
                     var text = $(".prompt-text").val();
                     if(text.length >1){
@@ -177,10 +197,10 @@ i{
                             }
                            }
                         });
-                    }
-                    else{
-                    	console.log(url)
-                         if(Number(text) > 0 && Number(text) <= Number(price)){
+                    }else{
+                    	console.log(Number(text))
+
+                         if(Number(text) > 0 ){
                             $.ajax({
                                type: "POST",
                                url: url,
@@ -746,7 +766,7 @@ function is_add(obj,id,type,content) {
                         type:type,
                         price:res
                     })
-                    window.location.href="index.php?module=return&action=set"
+                   
                 }else{
                     jqtoast('操作失败!');
                 }
@@ -812,7 +832,7 @@ function is_add(obj,id,type,content) {
 							<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
 								${content}
 							</div>
-							<div><span class="pd20">应退：'+price+' <input type="hidden" value="'+price+'" class="ytje">   &nbsp; 实退:</span>
+							<div><span class="pd20">应退：'+price+' <input type="hidden" value="'+price+'" class="ytje">   &nbsp; 实退1:</span>
 							<input type="text" value="'+price+'" class="prompt-text inp_maie"></div>
 							<div style="text-align:center;margin-top:30px">
 								<button class="closeMask" style="margin-right:20px" onclick=closeMask("${id}"}) >确认</button>
