@@ -11,7 +11,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
 <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css"/>
 <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css"/>
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css"/>
-
+<link href="style/css/style3.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="modpub/js/check.js"></script>
 {literal}
 <style type="text/css">
@@ -36,23 +36,6 @@ function check(f) {
         f.product_title.value = '';
         return false;
     }
-    // if (Trim(f.keyword.value) == "") {
-    //     alert("关键词不能为空！");
-    //     f.keyword.value = '';
-    //     return false;
-    // }
-    // if (Trim(f.sort.value) == "") {
-    //     alert("排序不能为空！");
-    //     f.sort.value = '';
-    //     return false;
-    // }
-    // f.sort.value = Trim(f.sort.value);
-    // console.log(f.sort.value)
-    // if (!/^(([1-9][0-9]*)|0)(\.[0-9]{1,2})?$/.test(f.sort.value)) {
-    //     alert("排序号必须为数字，且格式为 ####.## ！");
-    //     f.sort.value = '';
-    //     return false;
-    // }
     return true;
 }
 </script>
@@ -72,34 +55,7 @@ function check(f) {
     transition:0.3s;
     margin-left: 10px;
 }
-.circle {
-    width:29px;
-    height:29px;
-    background-color:#fff;
-    border-radius:50%;
-    position:absolute;
-    left:0px;
-    transition:0.3s;
-    box-shadow:0px 1px 5px rgba(0,0,0,.5);
-}
-.circle:hover {
-    transform:scale(1.2);
-    box-shadow:0px 1px 8px rgba(0,0,0,.5);
-}
-.circle1 {
-    width:29px;
-    height:29px;
-    background-color:#fff;
-    border-radius:50%;
-    position:absolute;
-    left:0px;
-    transition:0.3s;
-    box-shadow:0px 1px 5px rgba(0,0,0,.5);
-}
-.circle1:hover {
-    transform:scale(1.2);
-    box-shadow:0px 1px 8px rgba(0,0,0,.5);
-}
+
 .wrap_box{
     display: none;
 }
@@ -119,6 +75,8 @@ function check(f) {
 	line-height: 30px;
 	margin: 0 auto;
 	width: 90%;
+    left: 6px;
+    background: none;
 }
 .ra1 input{
 	float: left;
@@ -129,6 +87,40 @@ function check(f) {
 .inputC:checked +label::before{
 	top: 8px;
 }
+.formListSD {
+    color: #414658;
+}
+
+.formContentSD {
+    padding: 0;
+    padding-top: 10px;
+    position: relative;
+}
+
+.formTextSD {
+    margin-right: 8px;
+    width: 11%!important;
+}
+
+.formInputSD input,
+.formInputSD select {
+    width: 287px;
+}
+
+.formInputSD input[type='number'] {
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+.formInputSD select,
+.formInputSD select {
+    padding-left: 8px;
+    margin-bottom: 10px;
+}
+
+.inputC:checked+label::before {
+    top: 8px;
+}
 </style>
 {/literal}
 
@@ -137,19 +129,11 @@ function check(f) {
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> <a href="index.php?module=product" style="text-decoration:none;" onmouseover="this.style.color='#333'">产品列表管理</a> <span class="c-gray en">&gt;</span> 发布产品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 
-<div class="pd-20">
-    <form name="form1" action="index.php?module=product&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return check(this);">
+<div class="pd-20" id="page">
+    <form name="form1" action="" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return check(this);">
         <input type="hidden" name="attribute" class="attribute" id="attribute" value='{$attribute}'/>
         <input type="hidden" name="uploadImg" value="{$uploadImg}"/>
         <input type="hidden" name="attribute_num" class="attribute_num" id="attribute_num" value='{$attribute_num}'/>
-
-       <!--  <div class="row cl">
-            <label class="form-label col-2"><span class="c-red"></span>产品编号：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$product_number}" placeholder="" id="product_numberId" name="product_number">
-            </div>
-            <div class="col-4"> </div>
-        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-4" style="width: 16.8%;">
@@ -173,23 +157,23 @@ function check(f) {
         </div>
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
-            <div class="formControls col-2"> <span class="select-box">
+            <div class="formControls col-2"><!--  <span class="select-box"> -->
                 <select name="product_class" id="product_classId" class="select">
                     <option selected="selected" value="0">请选择类别</option>
                     {$ctype}
                 </select>
-                </span>
+                <!-- </span> -->
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>产品品牌：</label>
             <div class="formControls col-2">
-                <span class="select-box">
+                <!-- <span class="select-box"> -->
                     <select name="brand_class" id="brand_classId" class="select">
                         <option selected="selected" value="0">请选择品牌</option>
                         {$brand}
                     </select>
-                </span>
+               <!--  </span> -->
             </div>
         </div>
         <div class="row cl">
@@ -205,158 +189,153 @@ function check(f) {
             </div>
             <text style="line-height:30px;">克</text>
         </div>
-        <div class="row cl" id="attribute_add">
-            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品规格：</label>
-            <div class="formControls col-xs-8 col-sm-10" style="border: solid 1px #eee;" id="add-tr">
-                <div style="width:30%;float:left;padding-left: 5px;margin-right:10px;" id="attribute_attribute">
-                    {if $rew != ''}
-                        {$rew}
-                    {else}
-                        <div style="margin: 5px auto;" class="attribute_1 option" id="cattribute_1">
-                            <input type="text" name="attribute_name" id="attribute_name_1" placeholder="属性名称" value=""
-                                   class="input-text attribute_name" style=" width:50%" onblur="leave();"/>
-                            -
-                            <input type="text" name="attribute_value" id="attribute_value_1" placeholder="值" value=""
-                                   class="input-text" style=" width:45%" onblur="leave();"/>
-                        </div>
-                    {/if}
+        <div class="formDivSD">
+            <div class="formContentSD">
+                <div class="formListSD">
+                    <div class="formTextSD"><span class="must">*</span><span>成本价：</span></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
                 </div>
-                <die style=" width:45%;float:left;" id="parameter">
-                    <div style="margin: 5px auto;">
-                        <input type="text" name="cost_price" id="" placeholder="成本价" value="" class="input-text"
-                               style=" width:18%">
-                        元
-                        <input type="text" name="original_price" id="" placeholder="原价" value="" class="input-text"
-                               style=" width:18%">
-                        元
-                        <input type="text" name="present_price" id="" placeholder="现价" value="" class="input-text"
-                               style=" width:18%">
-                        元
-                        <input type="number" name="num" id="" placeholder="数量" value="" class="input-text"
-                               style=" width:18%">
-                        <select name="unit" id="unit" class="input-text" style="width:48px;vertical-align: middle;">
-                            <option value="盒">
-                                盒
-                            </option>
-                            <option value="篓">
-                                篓
-                            </option>
-                            <option value="箱">
-                                箱
-                            </option>
-                            <option value="盒">
-                                盒
-                            </option>
-                            <option value="个">
-                                个
-                            </option>
-                            <option value="套">
-                                套
-                            </option>
-                            <option value="包">
-                                包
-                            </option>
-                            <option value="支">
-                                支
-                            </option>
-                            <option value="条">
-                                条
-                            </option>
-                            <option value="根">
-                                根
-                            </option>
-                            <option value="本">
-                                本
-                            </option>
-                            <option value="瓶">
-                                瓶
-                            </option>
-                            <option value="块">
-                                块
-                            </option>
-                            <option value="片">
-                                片
-                            </option>
-                            <option value="把">
-                                把
-                            </option>
-                            <option value="组">
-                                组
-                            </option>
-                            <option value="双">
-                                双
-                            </option>
-                            <option value="台">
-                                台
-                            </option>
-                            <option value="件">
-                                件
-                            </option>
+                <div class="formListSD">
+                    <div class="formTextSD"><span class="must">*</span><span>原价：</span></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
+                </div>
+                <div class="formListSD">
+                    <div class="formTextSD"><span class="must">*</span><span>售价：</span></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
+                </div>
+                <div class="formListSD">
+                    <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
+                    <div class="formInputSD">
+                        <select name="initial[unit]" class="select " style="width: 300px;" id="unit">
+                           
+                          {if $initial->unit != ''}
+                                    <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
+                         {else}
+                                    <option value="盒">盒</option>
+                                    <option value="篓">篓</option>
+                                    <option value="箱">箱</option>
+                                    <option value="盒">盒</option>
+                                    <option value="个">个</option>
+                                    <option value="套">套</option>
+                                    <option value="包">包</option>
+                                    <option value="支">支</option>
+                                    <option value="条">条</option>
+                                    <option value="根">根</option>
+                                    <option value="本">本</option>
+                                    <option value="瓶">瓶</option>
+                                    <option value="块">块</option>
+                                    <option value="片">片</option>
+                                    <option value="把">把</option>
+                                    <option value="组">组</option>
+                                    <option value="双">双</option>
+                                    <option value="台">台</option>
+                                    <option value="件">件</option>
+                          {/if}
+             
+                                   
                         </select>
                     </div>
-                </die>
-                <die style="float:left;margin-top: 5px;margin-left: -1px;">
-                    <input type="hidden" id="picurl1" class="td-input" name="img[]" datatype="*" nullmsg="请选择图片"/>
-                    <img id="thumb_url1" src='' >
-                    <span class="btn btn-success" id="image1" type="button">选择图片</span>
-                </die>
-                <die style="float:right;margin-top: 5px;">
-                    <span class="btn btn-primary radius" id="save" onclick="Preservation();">保存</span>
-                    <span class="btn btn-secondary radius" id="empt" onclick="empty();">清空</span>
-                </die>
-            </div>
-        </div>
-        <div class='row cl' id='table' {if $attribute_key != '' && $attribute_val != ''}style='padding-left: 104px;'{else} style='padding-left: 104px;display:none;'{/if}>
-            <table class='table table-border table-bordered table-bg'>
-                <thead id="thead">
-                {if $attribute_key != ''}
-                    <tr id='attribute_1' >
-                        {foreach from=$attribute_key item=item name=f1}
-                            <th style='text-align: center;'>{$item}</th>
-                        {/foreach}
-                        <th style='text-align: center;'>操作</th>
-                    </tr>
-                {/if}
-                </thead>
-                <tbody id="tbody">
-                {if $attribute_val != ''}
-                    {foreach from=$attribute_val item=item1 key=k name=f2}
-                        <tr class='num' id='tr_{$k+1}'>
-                            {foreach from=$item1 item=item2 key=k1 name=f3}
-                                {if $smarty.foreach.f3.last}
-                                    <td style='width: 138px;'>
-                                        <die style='margin-top: 5px;'>
-                                            <input type='hidden' id='picurl_{$k+1}' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>
-                                            <img id='thumb_url_{$k+1}' src='{$item2}' width=27 >
-                                            <span class='btn btn-success' id='image_{$k+1}' type='button' onclick='image_click({$k+1})'>选择图片</span>
-                                        </die>
-                                    </td>
-                                {else}
-                                    {if $smarty.foreach.f3.index == ($smarty.foreach.f3.total-2)}
-                                        <td style='width: 50px;text-align: center;'>
-                                            <input type='text' class='input-text' value='{$item2}' id='num_{$k+1}_{$k1+1}' readOnly='readOnly' style='background-color: #eeeeee;width: 50px;' ondblclick='double({$k+1},{$k1+1})' onblur="leave1({$k+1},{$k1+1},'{$attribute_key[$k1]}')">
-                                        </td>
-                                    {else}
-                                        {if $attribute_key[$k1] == '成本价' || $attribute_key[$k1] == '原价' || $attribute_key[$k1] == '现价' || $attribute_key[$k1] == '数量'}
-                                            <td style="text-align: center;width: 80px;">
-                                                <input type='number' class='input-text' value='{$item2}' id='num_{$k+1}_{$k1+1}' readOnly='readOnly' style='background-color: #eeeeee;' ondblclick='double({$k+1},{$k1+1})' onblur="leave1({$k+1},{$k1+1},'{$attribute_key[$k1]}')">
-                                            </td>
-                                        {else}
-                                            <td style="text-align: center;">
-                                                <input type='text' class='input-text' value='{$item2}' id='num_{$k+1}_{$k1+1}' readOnly='readOnly' style='width: 100px;background-color: #eeeeee;' ondblclick='double({$k+1},{$k1+1})' onblur="leave1({$k+1},{$k1+1},'{$attribute_key[$k1]}')">
-                                            </td>
-                                        {/if}
+                </div>
+                <div class="formListSD">
+                    <div class="formTextSD"><span class="must">*</span><span>库存：</span></div>
+                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" required="required" min="0" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
+                </div>
+                        {literal}
+                        <!-- 有规格 -->
+                        <div>
+                            <div class="arrt_block">
+                                <div class="formTextSD"><span class="must">*</span>属性名称：</div>
+                                <div class="formInputSD">
+                                    <div class="arrt_flex">
+                                        <div class="arrt_froup">
+                                            <input type="text" class="add-attr-group-input" placeholder="请输入属性名称">
+                                            <a class="add-attr-group-btn arrt_add" href="javascript:" style="display: none;"><span>添加属性</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="arrt_block arrt_two">
+                                <div class="arrt_width">
+                                    <div v-for="(attr_group,i) in attr_group_list" class="attr-group">
+                                        <div class="attr-list">
+                                            <div class="attr-input-group">
+                                                <div class="attr_input_group">
+                                                    <span class="arrt_span">{{attr_group.attr_group_name}}：</span>
+                                                    <input type="text" class="add-attr-input add_input" ref="input_value" placeholder="请输入属性值" style="padding-left: 10px;">
+                                                    <a v-bind:index="i" class="add-attr-btn adds_ntn" href="javascript:"><span>添加属性值</span></a>
+                                                    <a v-bind:index="i" href="javascript:" class="attr-group-delete dels_btn"  v-if="attr_group.status"><span>删除属性</span></a>
+                                                </div>
+                                                <div class="arrt_bgcolor">
+                                                    <div v-for="(attr,j) in attr_group.attr_list" class="attr_input_group arrt_clear arrt_zi">
+                                                        <span>属性值：</span>
+                                                        <input class="add-attr-input" :value="attr.attr_name" readonly="readonly" style="padding-left: 10px;background-color: #F8F8F8 !important;">
+                                                        <a v-bind:group-index="i" v-bind:index="j" class="attr-delete" href="javascript:">
+                                                            <img src="images/iIcon/jh.png" class="form_plus_u" />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="arrt_bgcolor arrt_fiv">
+                                <div v-if="attr_group_list && attr_group_list.length>0">
+                                    <table class="attr-table attr_table">
+                                        <thead>
+                                            <tr>
+                                                <th v-for="(attr_group,i) in attr_group_list" v-if="attr_group.attr_list && attr_group.attr_list.length>0">
+                                                    {{attr_group.attr_group_name}}
+                                                </th>
+                                                <th>成本价</th>
+                                                <th>原价</th>
+                                                <th>售价</th>
+                                                <th>库存</th>
+                                                <th>单位</th>
+                                                <th>上传图片</th>
+                                            </tr>
+                                        </thead>
+                                        <tr v-for="(item,index) in checked_attr_list" class="arrt_tr">
+                                            <td v-for="(attr,attr_index) in item.attr_list">
+                                                <input type="hidden" v-bind:name="'attr['+index+'][attr_list]['+attr_index+'][attr_id]'" v-bind:value="attr.attr_id">
 
-                                    {/if}
-                                {/if}
-                            {/foreach}
-                            <td style='width: 30px;'><span class='btn btn-secondary radius' id='empt' onclick='tr_del("{$k+1}")' >删除</span></td>
-                        </tr>
-                    {/foreach}
-                {/if}
-                </tbody>
-            </table>
-        </div>
+                                                <input type="hidden" v-bind:name="'attr['+index+'][attr_list]['+attr_index+'][attr_name]'" v-bind:value="attr.attr_name">
+
+                                                <input type="hidden" v-bind:name="'attr['+index+'][attr_list]['+attr_index+'][attr_group_name]'" v-bind:value="attr.attr_group_name">
+                                                <span>{{attr.attr_name}}</span>
+                                            </td>
+                                            <td>
+                                                <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="1" v-bind:name="'attr['+index+'][costprice]'" :value="cbj">
+                                            </td>
+                                            <td>
+                                                <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="1" v-bind:name="'attr['+index+'][yprice]'" :value="yj">
+                                            </td>
+                                            <td>
+                                                <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][price]'" :value="sj">
+                                            </td>
+                                            <td>
+                                                <input class="form-control form-control-sm" oninput="value=value.replace(/[^\d]/g,'')" v-bind:name="'attr['+index+'][num]'" :value="kucun" onkeypress="return noNumbers(event)" min="0" step="1">
+                                            </td>
+                                            <td>
+                                                <input class="unit" v-bind:name="'attr['+index+'][unit]'" :value="unit" style="border: 0px;background-color: transparent;" readOnly="readOnly">
+                
+                                            </td>
+                                            <td>
+                                                <div class="upload-group form_group form_flex">
+                                                    <div class="form_attr_img ">
+                                                        <input type="hidden" :id="'picurl2'+index"  v-bind:name="'attr['+index+'][img]'" datatype="*" nullmsg="请选择图片11"/>
+                                                        <img src="images/icon1/add_g_t.png" :id="'pic2'+index" class="upload-preview-img form_att select-file" @click="handleImageClick(item,index)" onclick="setTimeoutClick() ">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {/literal}
+                    </div>
+                </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>显示类型：</label>
             <div class="formControls col-xs-8 col-sm-8 skin-minimal">
@@ -382,12 +361,6 @@ function check(f) {
                 <input type="number" class="input-text" value="{$volume}" id="volumeId" name="volume">
             </div>
         </div>
-        <!-- <div class="row cl">
-            <label class="form-label col-2">排序号：</label>
-            <div class="formControls col-2">
-                <input type="number" class="input-text" value="{$sort}" placeholder="" id="" name="sort">
-            </div>
-        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品主图：</label>
             <div class="formControls col-xs-8 col-sm-10">
@@ -412,15 +385,13 @@ function check(f) {
         </div>
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>运费设置：</label>
-            <div class="formControls col-2"> <span class="select-box">
+            <div class="formControls col-2"> <!-- <span class="select-box"> -->
                 <select name="freight" id="freightId" class="select">
-                    <!-- <option selected="selected" value="0">默认模板</option> -->
-                    
                     {foreach from=$freight item=item1 name=f2}
                         <option value="{$item1->id}">{$item1->name}</option>
                     {/foreach}
                 </select>
-                </span>
+                <!-- </span> -->
             </div>
         </div>
         <div class="row cl">
@@ -431,8 +402,8 @@ function check(f) {
         </div>
         <div class="row cl">
             <div class="col-8 col-offset-4">
-                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius" onclick="submitButton()">
-                <input type="button" name="reset" value="重 写" onclick="resetButton()" class="btn btn-primary radius">
+                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius" onclick="check()">
+                <input type="button" name="reset" value="重 写" onclick="check1()" class="btn btn-primary radius">
             </div>
         </div>
     </form>
@@ -445,6 +416,7 @@ function check(f) {
 <link rel="stylesheet" href="style/kindeditor/themes/default/default.css"/>
 <script src="style/kindeditor/kindeditor-min.js"></script>
 <script src="style/kindeditor/lang/zh_CN.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 {literal}
 <script>
 $(function() {
@@ -481,547 +453,332 @@ KindEditor.ready(function (K) {
             });
         });
     });
-    //上传背景图片
-    K('#image1').click(function () {
-        editor.loadPlugin('image', function () {
-            editor.plugin.imageDialog({
-                showRemote: false, //网络图片不开启
-                //showLocal : false, //不开启本地图片上传
-                imageUrl: K('#picurl1').val(),
-                clickFn: function (url, title, width, height, border, align) {
-                    K('#picurl1').val(url);
-                    $('#thumb_url1').attr("src", url);
-                    document.getElementById("thumb_url1").width=27;
-                    // document.getElementById("thumb_url1").style.marginRight=0;
-                    var _addTr = document.getElementById("add-tr");
-                    _addTr.style.width = 978 + "px";
-                    var addTrWidth = _addTr.offsetWidth;
-                    _addTr.style.width = addTrWidth + 37 + "px";
-                    //                    document.getElementById("thumb_url1").style.display='block';
-                    editor.hideDialog();
+
+  
+});
+
+//控制价格显示小数点2位
+            function noNumbers(e) {
+                var keynum
+                var keychar
+                var numcheck
+                if(window.event) // IE  
+                {
+                    keynum = e.keyCode
+                } else if(e.which) // Netscape/Firefox/Opera  
+                {
+                    keynum = e.which
+                }
+                keychar = String.fromCharCode(keynum);
+                //判断是数字,且小数点后面只保留两位小数
+                if(!isNaN(keychar)) {
+                    var index = e.currentTarget.value.indexOf(".");
+                    if(index >= 0 && e.currentTarget.value.length - index > 2) {
+                        return false;
+                    }
+                    return true;
+                }
+                //如果是小数点 但不能出现多个 且第一位不能是小数点
+                if("." == keychar) {
+                    if(e.currentTarget.value == "") {
+                        return false;
+                    }
+                    if(e.currentTarget.value.indexOf(".") >= 0) {
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
+            }
+            //设置成本价等
+            function set_cbj(obj) {
+                page.cbj = $(obj).val();
+            }
+            // 设置原价
+            function set_yj(obj) {
+                page.yj = $(obj).val();
+            }
+            // 设置现价
+            function set_sj(obj) {
+                page.sj = $(obj).val();
+            }
+            // 设置总库存
+            function set_kucun(obj) {
+                page.kucun = $(obj).val();
+            }
+            $('#unit').live('click', function() {
+                var unit = $("#unit").val();
+                console.log(unit)
+                page.unit = $("#unit").val();
+                $(".unit").val(unit);
+                // $("#unit1").prepend(unit);
+            });
+            var map = new Map();
+            var page = new Vue({
+                el: "#page",
+                data: {
+                    sub_cat_list: [],
+                    attr_group_list: JSON.parse('[]', true), //可选规格数据
+                    attr_group_count: JSON.parse('[]', true).length,
+                    checked_attr_list: JSON.parse('[]', true), //已选规格数据
+                    old_checked_attr_list: [],
+                    goods_card_list: [],
+                    card_list: [],
+                    goods_cat_list: [{
+                        "cat_id": null,
+                        "cat_name": null
+                    }],
+                    select_i: '',
+                    cbj: '',
+                    yj: '',
+                    sj: '',
+                    kucun: '',
+                    unit: '',
+                    imageClickInfo:'',
+                    imageClickInfoIndex:0
+                },
+                methods: {
+                    change: function(item, index) {
+                        this.checked_attr_list[index] = item;
+                    },
+                    handleImageClick(data,index){
+                        this.imageClickInfo = data;
+                        this.imageClickInfoIndex = index
+                    }
                 }
             });
-        });
-    });
-});
-var num = 1;
-var attribute = [];
-var rnum = 0;
-if(document.getElementById('attribute_num').value != ''){
-    num_num = $("#add-tr #attribute_attribute").find(".input-text");
-    num = num_num.length/2;
-}
 
-if(document.getElementById('attribute').value != ''){
-    attribute1 = JSON.parse(document.getElementById('attribute').value);
-    for (var h in attribute1) {
-        attribute[h] = JSON.stringify(attribute1[h])
-    }
-    rnum=attribute.length;
-}
-// 离开事件
-function leave() {
-    var m = $("#add-tr #attribute_attribute").find(".input-text");
-    var min = m.length - 2;
-    var max = m.length - 1;
-    var m_min = m.length - 4;
-    var m_max = m.length - 3;
-
-    if(m_min >= 0 && m[m_min].value == '' && m[m_max].value == ''){
-        var parent=document.getElementById("attribute_attribute");
-        var child=document.getElementById("cattribute_" + num);
-        num--;
-        parent.removeChild(child);
-    }else{
-        for (var i = 0; i < m.length; i++) {
-            if (i % 2 == 0) {   //奇数
-                if (m[i].value == m[min].value && i != min) {
-                    $('#attribute_name_' + num).val("");
-                    alert("属性名称重复");
-                    break;
+            // 点击属性框，显示添加属性按钮
+            $(".add-attr-group-input").click(function() {
+                $(".add-attr-group-btn").css("display", "");
+            });
+            // 属性框离开事件，延迟500毫秒隐藏隐藏添加属性按钮
+            $(".add-attr-group-input").blur(function() {
+                setTimeout('$(".add-attr-group-btn").css("display", "none")', 500);
+            });
+            // 添加属性
+            $(".add-attr-group-btn").click(function() {
+                // console.log(2)
+                // console.log($(this))
+                var name = $(".add-attr-group-input").val();
+                name = $.trim(name);
+                if(name == "") {
+                    alert("属性名不能为空！");
+                    return;
                 }
-            }
-        }
-        if (m[min].value != '' && m[max].value != '') {
-            num++;
-            var rew = "<div style='margin: 5px auto;' class='attribute_" + num + " option' id='cattribute_" + num + "'>" +
-                "<input type='text' name='attribute_name' id='attribute_name_" + num + "' placeholder='属性名称' value='' class='input-text attribute_name' style=' width:50%' onblur='leave();' />" +
-                " - " +
-                "<input type='text' name='attribute_value' id='attribute_value_" + num + "' placeholder='值' value='' class='input-text' style=' width:45%' onblur='leave();' />" +
-                "</div>";
-            $("#add-tr #attribute_attribute").append(rew);
-        }
-    }
-}
-
-// 清除
-function empty() {
-    var num_1 = $('.num').length;
-
-    var m = $("#add-tr #attribute_attribute").find(".input-text");
-    var n = $("#add-tr #parameter").find(".input-text");
-
-    $(".attribute_1:gt(0)").remove();
-
-    if (num_1 == 0) {
-        m.each(function () {
-            $(this).val("");
-        })
-        n.each(function () {
-            $(this).val("");
-        })
-    } else {
-        for (var i = 0; i < num; i++) {
-            m.each(function () {
-                $("#attribute_value_" + i).val("");
-            })
-        }
-        n.each(function () {
-            $(this).val("");
-        })
-    }
-}
-
-// 保存
-function Preservation() {
-    var m = $("#add-tr #attribute_attribute").find(".input-text");
-    var n = $("#add-tr #parameter").find(".input-text");
-    var image = $("#add-tr #thumb_url1").attr("src");
-    var min = m.length - 2;
-    var max = m.length - 1;
-    var res = [];
-    var list = [];
-
-    for (var h in attribute) { // 属性对象
-        list1 = JSON.parse(attribute[h]); // 字符串转化为 对象
-        var list2 = [];
-        for (var h1 in list1) {
-            var list3 = {};
-            list3[h1] = list1[h1];
-            list2.push(list3); //属性
-        }
-        for (var h_1 = 0;h_1 < 6;h_1++) { // 删除数组后6个元素
-            list2.pop()
-        }
-        var srtj = '{';
-        for (var i = 0; i < list2.length; i++) {
-            for (var h2 in list2[i]) {
-                srtj += '"' + h2 + '":"' + list2[i][h2] + '",';
-            }
-        }
-        srtj = srtj.substring(0, srtj.length - 1);
-        srtj += '}';
-
-        list[h] = srtj;
-    }
-
-    // 最后2个input框，一个为空，一个不为空
-    if (m[min].value == '' && m[max].value != '' || m[max].value == '' && m[min].value != '') {
-        alert("您有未填属性");
-        return false;
-    }
-    for (var i = 0; i < m.length; i++) { // 循环判断是否有未填写
-        if (m[i].value == '' && i != min && i != max) {
-            alert("您有未填属性");
-            return false;
-        } else {
-            if (m[i].value != '') {
-                res[i] = m[i].value;
-            }
-        }
-    }
-    var All = {};
-    var All1 = {};
-    var number = $('.option').length; // 获取属性个数
-
-    for (var i = 0; i < number - 1; i++) {
-        var key = $('.option').eq(i).find('input[name="attribute_name"]').val(); // 属性名称
-        var value = $('.option').eq(i).find('input[name="attribute_value"]').val(); // 属性值
-        All[key] = value;
-        All1[key] = value;
-    }
-    for (var j = 0; j < n.length; j++) {
-        if (n[j].value == '') {
-            alert("您有未填参数");
-            return false;
-        } else {
-            if (j == 0) {
-                if(isNaN(n[j].value)){
-                    alert("成本价请填写数字");
-                    return false;
-                }else{
-                    if (Number(n[j].value) > 0) {
-                        All['成本价'] = n[j].value;
-                    } else {
-                        alert("成本价不能低于0");
-                        return false;
+                for(var i in page.attr_group_list) {
+                    if(page.attr_group_list[i].attr_group_name == name) {
+                        alert("属性名称重复！");
+                        return;
                     }
                 }
-            } else if (j == 1) {
-                if(isNaN(n[j].value)){
-                    alert("原价请填写数字");
-                    return false;
-                }else{
-                    if (Number(n[j].value) >= Number(n[0].value)) {
-                        All['原价'] = n[j].value;
-                    } else {
-                        alert("原价不能低于成本价");
-                        return false;
-                    }
+                page.attr_group_list.push({
+                    attr_group_name: name,
+                    attr_list: [],
+                });
+                $(".add-attr-group-input").val("");
+                page.checked_attr_list = getAttrList();
+            });
+            // 添加属性值
+
+            $(".add-attr-btn").live("click", function() {
+
+                var name = $(this).parents(".attr-input-group").find(".add-attr-input").val();
+                var index = $(this).attr("index");
+                name = $.trim(name);
+                if(name == "") {
+                    alert("属性值不能为空！");
+                    return;
                 }
-            } else if (j == 2) {
-                if(isNaN(n[j].value)){
-                    alert("原价请填写数字");
-                    return false;
-                }else{
-                    if (Number(n[j].value) > 0) {
-                        if (Number(n[j].value) < Number(n[0].value)) {
-                            alert("现价低于成本价");
+
+
+
+                /**筛选重复*/
+                var ck_list = page.checked_attr_list;
+                if(ck_list.length > 0) {
+                    for(var pi in ck_list) {
+                        if(ck_list[pi].attr_list[index]) {
+                            if(name == ck_list[pi].attr_list[index].attr_name) {
+                                alert("属性值重复！");
+                                return;
+                            }
                         }
-                        All['现价'] = n[j].value;
-                    } else {
-                        alert("现价不能低于0");
-                        return false;
                     }
                 }
-            } else if (j == 3) {
-                if (Number(n[j].value) > 0) {
-                    All['数量'] = n[j].value;
+                /**筛选重复*/
+                // 数组中添加新元素：
+                page.attr_group_list[index].attr_list.push({
+                    attr_name: name,
+                });
+
+                // 如果是单规格的，添加新规格时不清空原先的数据
+                page.old_checked_attr_list = page.checked_attr_list;
+                var attrList = getAttrList();
+
+                if(page.attr_group_list.length === 1) { // 一个属性
+                    for(var i in attrList) {
+                        if(i > page.old_checked_attr_list.length - 1) {
+                            page.old_checked_attr_list.push(attrList[i])
+                        }
+                    }
+                    var newCheckedAttrList = page.old_checked_attr_list;
+                } else if(page.attr_group_list.length === page.attr_group_count) {
+                    for(var pi in attrList) {
+                        var pAttrName = '';
+                        for(var pj in attrList[pi].attr_list) {
+                            pAttrName += attrList[pi].attr_list[pj].attr_name
+                        }
+                        for(var ci in page.old_checked_attr_list) {
+                            var cAttrName = '';
+                            for(var cj in page.old_checked_attr_list[ci].attr_list) {
+                                cAttrName += page.old_checked_attr_list[ci].attr_list[cj].attr_name;
+                            }
+                            if(pAttrName === cAttrName) {
+                                attrList[pi] = page.old_checked_attr_list[ci];
+                            }
+                        }
+                    }
+                    var newCheckedAttrList = attrList;
                 } else {
-                    alert("数量不能低于0");
-                    return false;
+                    var newCheckedAttrList = attrList;
                 }
-            } else {
-                All['单位'] = n[j].value;
-            }
-        }
-    }
-    if (image == '') {
-        alert("请上传图片");
-        return false;
-    } else {
-        All['图片'] = image;
-    }
-    var All2 = JSON.stringify(All1); // 从一个对象中解析出字符串
-    if (in_array(All2, list)) {
-        alert("属性重复，请核对属性");
-        return false;
-    }
-    var attribute_1 = JSON.stringify(All); // 从一个对象中解析出字符串
-    rnum++;
-    var num_1 = $('.num').length + 1;
 
-    attribute[attribute.length] = attribute_1; // 吧当前数组添加到全局数据里
-
-    var attribute_value = '{';
-    for (var i = 0; i < attribute.length; i++) {
-        attribute_value += '"' + i + '":' + attribute[i] + ',';
-    }
-
-    attribute_value = attribute_value.substring(0, attribute_value.length - 1);
-    attribute_value += '}';
-
-    $(".attribute").val(attribute_value);
-    var for_num = 0;
-    if (num_1 == 1) {
-        var rew = "<tr id='attribute_" + rnum + "'>";
-        for (var k in All) {
-            rew += "<th style='text-align: center;'>" + k + "</th>";
-        }
-        rew += "<th style='text-align: center;'>操作</th>" +
-            "</tr>";
-        rew1 = "<tr class='num' id='tr_" + rnum + "'>";
-        for (var k in All) {
-            for_num++;
-            if (k == '图片') {
-                rew1 += "<td style='width: 138px;'>" +
-                    "<die style='margin-top: 5px;'>" +
-                    "<input type='hidden' id='picurl_" + rnum + "' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>\n" +
-                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' width=27 '>" +
-                    "<span class='btn btn-success' id='image_" + rnum + "' type='button' style='margin-left: 5px;' onclick='image_click(" + rnum + ")'>选择图片</span>" +
-                    "</die>"+
-                    "</td>";
-            } else if(k == '单位'){
-                rew1 += "<td style='width: 50px;text-align: center;'>" +
-                    "<input type='text' class='input-text' value='"+All[k]+"' id='num_"+rnum+"_"+for_num+"' readOnly='readOnly' style='width: 50px;background-color: #eeeeee;' ondblclick='double("+rnum+","+for_num+")' onblur='leave1("+rnum+","+for_num+",\""+k+"\");'>" +
-                    "</td>";
-            }else if(k == '成本价' || k == '原价' || k == '现价' || k == '数量'){
-                rew1 += "<td style='text-align: center;width: 80px;'>" +
-                    "<input type='number' class='input-text' value='"+All[k]+"' id='num_"+rnum+"_"+for_num+"' readOnly='readOnly' style='background-color: #eeeeee;' ondblclick='double("+rnum+","+for_num+")' onblur='leave1("+rnum+","+for_num+",\""+k+"\");'>" +
-                    "</td>";
-            }else{
-                rew1 += "<td style='text-align: center;'>" +
-                    "<input type='text' class='input-text' value='"+All[k]+"' id='num_"+rnum+"_"+for_num+"' readOnly='readOnly' style='width: 100px;background-color: #eeeeee;' ondblclick='double("+rnum+","+for_num+")' onblur='leave1("+rnum+","+for_num+",\""+k+"\");'>" +
-                    "</td>";
-            }
-        }
-        rew1 += "<td style='width: 30px;'><span class='btn btn-secondary radius' id='empt' onclick='tr_del(" + rnum + ")' >删除</span></td>" +
-            "</tr>";
-
-        $("#thead").prepend(rew);
-        $("#tbody").prepend(rew1);
-        for (var num1 = 1; num1 <= num; num1++) {
-            document.getElementById('attribute_name_' + num1).style.backgroundColor = "#eeeeee"; // 修改属性名称样式
-        }
-        document.getElementById('unit').style.backgroundColor = "#eeeeee"; // 修改下拉框样式
-        $("#unit").attr("disabled", "disabled"); // 修改下拉框不能选择
-        $('.option').find('input[name="attribute_name"]').attr('readOnly', true); // 修改下拉框属性名称不能选择
-        document.getElementById("cattribute_" + num).style.display = 'none'; // 显示表格
-        document.getElementById("table").style.display = ''; // 显示表格
-    } else {
-        rew2 = "<tr class='num' id='tr_" + rnum + "'>";
-        for (var k in All) {
-            for_num++;
-            if (k == '图片') {
-                rew2 += "<td style='width: 138px;'>" +
-                    "<die style='margin-top: 5px;'>" +
-                    "<input type='hidden' id='picurl_" + rnum + "' class='td-input' name='img[]' datatype='*' nullmsg='请选择图片'/>" +
-                    "<img id='thumb_url_" + rnum + "' src='" + All[k] + "' width=27'>" +
-                    "<span class='btn btn-success' id='image_" + rnum + "' type='button' style='margin-left: 5px;' onclick='image_click(" + rnum + ")'>选择图片</span>" +
-                    "</die>"+
-                    "</td>";
-            } else if(k == '单位'){
-                rew2 += "<td style='width: 50px;'>" +
-                    "<input type='text' class='input-text' value='"+All[k]+"' id='num_"+rnum+"_"+for_num+"' readOnly='readOnly' style='width: 50px;background-color: #eeeeee;' ondblclick='double("+rnum+","+for_num+")' onblur='leave1("+rnum+","+for_num+",\""+k+"\");'>" +
-                    "</td>";
-            }else if(k == '成本价' || k == '原价' || k == '现价' || k == '数量'){
-                rew2 += "<td style='text-align: center;width: 80px;'>" +
-                    "<input type='number' class='input-text' value='"+All[k]+"' id='num_"+rnum+"_"+for_num+"' readOnly='readOnly' style='background-color: #eeeeee;' ondblclick='double("+rnum+","+for_num+")' onblur='leave1("+rnum+","+for_num+",\""+k+"\");'>" +
-                    "</td>";
-            }else{
-                rew2 += "<td style='text-align: center;'>" +
-                    "<input type='text' class='input-text' value='"+All[k]+"' id='num_"+rnum+"_"+for_num+"' readOnly='readOnly' style='width: 100px;background-color: #eeeeee;' ondblclick='double("+rnum+","+for_num+")' onblur='leave1("+rnum+","+for_num+",\""+k+"\");'>" +
-                    "</td>";
-            }
-        }
-        rew2 += "<td style='width: 30px;text-align: center;'><span class='btn btn-secondary radius' id='empt' onclick='tr_del(" + rnum + ")'>删除</span></td>" +
-            "</tr>";
-        $("#tbody").append(rew2);
-    }
-}
-
-// 删除
-function tr_del(obj) {
-    var obj1 = obj - 1;
-    $("#tr_" + obj).remove();
-
-    delete attribute[obj1];
-
-    var attribute_value = '{';
-    for (var i = 0; i < attribute.length; i++) {
-        if(attribute[i] == 'undefined' || attribute[i] == '' || !attribute[i]){
-            attribute_value += '';
-        }else{
-            attribute_value += '"' + i + '":' + attribute[i] + ',';
-        }
-    }
-
-    attribute_value = attribute_value.substring(0, attribute_value.length - 1);
-    attribute_value += '}';
-
-    $(".attribute").val(attribute_value);
-
-    var num_1 = $('.num').length;
-    if (num_1 == 0) {
-        rnum = 0;
-        attribute = [];
-        $(".attribute").val('');
-        $('.option').find('input[name="attribute_name"]').attr('readOnly', false);
-        for (var num1 = 1; num1 <= num; num1++) {
-            document.getElementById('attribute_name_' + num1).style.backgroundColor = "#ffffff"; // 修改属性名称样式
-        }
-        document.getElementById('unit').style.backgroundColor = "#ffffff"; // 修改下拉框样式
-        $("#unit").attr("disabled", ""); // 修改下拉框不能选择
-        document.getElementById("cattribute_" + num).style.display = '';
-        document.getElementById("table").style.display = 'none';
-        var o = document.getElementById("thead");
-        var a = document.getElementById("attribute_1");
-        o.removeChild(a);
-    }
-}
-
-function in_array(search, array) {
-    for (var i in array) {
-        if (array[i] == search) {
-            return true;
-        }
-    }
-    return false;
-}
-
-$(function () {
-    var ue = UE.getEditor('editor');
-});
-if(document.getElementById('is_distribution').value == 0){
-    $('.circle').css('left', '0px'),
-        $('.circle').css('background-color', '#fff'),
-        $('.circle').parent(".wrap").css('background-color', '#ccc');
-    $(".wrap_box").hide();
-}else{
-    $('.circle').css('left', '30px'),
-        $('.circle').css('background-color', '#fff'),
-        $('.circle').parent(".wrap").css('background-color', '#5eb95e');
-    $(".wrap_box").show();
-}
-if(document.getElementById('is_zhekou').value == 0){
-    $('.circle1').css('left', '0px'),
-        $('.circle1').css('background-color', '#fff'),
-        $('.circle1').parent(".wrap").css('background-color', '#ccc');
-}else{
-    $('.circle1').css('left', '30px'),
-        $('.circle1').css('background-color', '#fff'),
-        $('.circle1').parent(".wrap").css('background-color', '#5eb95e');
-}
-$('.circle').click(function() {
-    var left = $(this).css('left');
-    // var status = $(".status");
-    left = parseInt(left);
-    var status = $(this).parents(".status_box").children(".status");
-    if (left == 0) {
-        $(this).css('left', '30px'),
-            $(this).css('background-color', '#fff'),
-            $(this).parent(".wrap").css('background-color', '#5eb95e');
-        $(".wrap_box").show();
-        status.val(1);
-    } else {
-        $(this).css('left', '0px'),
-            $(this).css('background-color', '#fff'),
-            $(this).parent(".wrap").css('background-color', '#ccc');
-        $(".wrap_box").hide();
-        status.val(0);
-    }
-})
-
-$('.circle1').click(function() {
-    var left = $(this).css('left');
-    // var status = $(".status");
-    left = parseInt(left);
-
-    var status = $(this).parents(".status_box").children(".status");
-    if (left == 0) {
-        $(this).css('left', '30px'),
-            $(this).css('background-color', '#fff'),
-            $(this).parent(".wrap").css('background-color', '#5eb95e');
-        // $(".wrap_box").show();
-        status.val(1);
-    } else {
-        $(this).css('left', '0px'),
-            $(this).css('background-color', '#fff'),
-            $(this).parent(".wrap").css('background-color', '#ccc');
-        // $(".wrap_box").hide();
-        status.val(0);
-    }
-})
-
-var ynum = '';
-// 双击修改
-function double(rr_num,for_num) {
-    ynum = $('#num_'+rr_num+'_'+for_num).val();
-    $('#num_'+rr_num+'_'+for_num).attr('readOnly',false);
-    document.getElementById('num_'+rr_num+'_'+for_num).style.backgroundColor="#ffffff";
-}
-// 修改离开事件
-function leave1(rr_num,for_num,name) {
-    var r_num1 = rr_num - 1;
-    var xnum = $('#num_'+rr_num+'_'+for_num).val();
-
-    if(xnum == ynum){
-        $('#num_'+rr_num+'_'+for_num).val(ynum);
-    }else{
-        if(name == '单位'){
-            var attribute3 = [];
-            for (var k1 in attribute) {
-                attribute3[k1] = JSON.parse(attribute[k1]);
-                for (var k2 in attribute3[k1]) {
-                    if(k2 == '单位'){
-                        attribute3[k1][k2] = xnum;
-                    }
-                }
-                attribute[k1] =  JSON.stringify(attribute3[k1]);
-                k2 = ++k1;
-
-                $('#num_'+k2+'_'+for_num).val(xnum);
-            }
-        }else{
-            if(name == '成本价' || name == '原价' || name == '现价' || name == '数量'){
-                var attribute1 = JSON.parse(attribute[r_num1]);
-                attribute1[name] = xnum;
-                var attribute2 = JSON.stringify(attribute1);
-                attribute[r_num1] = attribute2;
-            }else{
-                // 已有属性数组
-                var list = [];
-                for (var h in attribute) {
-                    list1 = JSON.parse(attribute[h]);
-                    var list2 = [];
-                    for (var h1 in list1) {
-                        var list3 = {};
-                        list3[h1] = list1[h1];
-                        list2.push(list3); //属性
-                    }
-                    for (var h_1 = 0;h_1 < 6;h_1++) {
-                        list2.pop()
-                    }
-                    var srtj = '{';
-                    for (var i = 0; i < list2.length; i++) {
-                        for (var h2 in list2[i]) {
-                            srtj += '"' + h2 + '":"' + list2[i][h2] + '",';
+                $(this).parents(".attr-input-group").find(".add-attr-input").val("");
+                page.checked_attr_list = newCheckedAttrList;
+            });
+            // 删除属性
+            $(".attr-group-delete").live("click", function() {
+                var index = $(this).attr("index");
+                page.attr_group_list.splice(index, 1);
+                page.checked_attr_list = getAttrList();
+            });
+            // 删除属性值
+            $(".attr-delete").live("click", function() {
+                var index = $(this).attr("index");
+                var group_index = $(this).attr("group-index");
+                page.attr_group_list[group_index].attr_list.splice(index, 1);
+                // 如果是单规格的，删除规格时不清空原先的数据
+                page.old_checked_attr_list = page.checked_attr_list;
+                var attrList = getAttrList();
+                if(page.attr_group_list.length === 1) {
+                    var newCheckedAttrList = [];
+                    for(var i in page.attr_group_list[0].attr_list) {
+                        var attrName = page.attr_group_list[0].attr_list[i].attr_name;
+                        for(j in page.old_checked_attr_list) {
+                            var oldAttrName = page.old_checked_attr_list[j].attr_list[0].attr_name;
+                            if(attrName === oldAttrName) {
+                                newCheckedAttrList.push(page.old_checked_attr_list[j]);
+                                break;
+                            }
                         }
                     }
-                    srtj = srtj.substring(0, srtj.length - 1);
-                    srtj += '}';
-
-                    list[h] = srtj;
-                }
-
-                var attribute1 = JSON.parse(attribute[r_num1]);
-                // 修改后的属性数组
-                var list_1 = [];
-                for (var k in attribute1) {
-                    if(k == name){
-                        attribute1[k] = xnum;
+                } else if(page.attr_group_list.length === page.attr_group_count) {
+                    for(var pi in attrList) {
+                        var pAttrName = '';
+                        for(var pj in attrList[pi].attr_list) {
+                            pAttrName += attrList[pi].attr_list[pj].attr_name
+                        }
+                        for(var ci in page.old_checked_attr_list) {
+                            var cAttrName = '';
+                            for(var cj in page.old_checked_attr_list[ci].attr_list) {
+                                cAttrName += page.old_checked_attr_list[ci].attr_list[cj].attr_name;
+                            }
+                            if(pAttrName === cAttrName) {
+                                attrList[pi] = page.old_checked_attr_list[ci];
+                            }
+                        }
                     }
-                    var o = {};
-                    o[k] = attribute1[k];
-                    list_1.push(o); //属性
+                    var newCheckedAttrList = attrList;
+                } else {
+                    var newCheckedAttrList = attrList;
                 }
-                for (var h_1 = 0;h_1 < 6;h_1++) {
-                    list_1.pop()
-                }
-                var srtj_1 = '{';
-                for (var i = 0; i < list_1.length; i++) {
-                    for (var h2 in list_1[i]) {
-                        srtj_1 += '"' + h2 + '":"' + list_1[i][h2] + '",';
+
+                page.checked_attr_list = newCheckedAttrList;
+            });
+
+            function getAttrList() {
+                var array = [];
+                for(var i in page.attr_group_list) {
+                    for(var j in page.attr_group_list[i].attr_list) {
+                        var object = {
+                            attr_group_name: page.attr_group_list[i].attr_group_name,
+                            attr_id: null,
+                            attr_name: page.attr_group_list[i].attr_list[j].attr_name,
+                        };
+                        if(!array[i])
+                            array[i] = [];
+                        array[i].push(object);
                     }
                 }
-                srtj_1 = srtj_1.substring(0, srtj_1.length - 1);
-                srtj_1 += '}';
-                if (in_array(srtj_1, list)) {
-                    alert("属性重复，请核对属性");
-                    $('#num_'+rr_num+'_'+for_num).val(ynum);
-                }else{
-                    var attribute2 = JSON.stringify(attribute1);
-                    attribute[r_num1] = attribute2;
+                var len = array.length;
+                var results = [];
+                var indexs = {};
+
+                function specialSort(start) {
+                    start++;
+                    if(start > len - 1) {
+                        return;
+                    }
+                    if(!indexs[start]) {
+                        indexs[start] = 0;
+                    }
+                    if(!(array[start] instanceof Array)) {
+                        array[start] = [array[start]];
+                    }
+                    for(indexs[start] = 0; indexs[start] < array[start].length; indexs[start]++) {
+                        specialSort(start);
+                        if(start == len - 1) {
+                            var temp = [];
+                            for(var i = len - 1; i >= 0; i--) {
+                                if(!(array[start - i] instanceof Array)) {
+                                    array[start - i] = [array[start - i]];
+                                }
+                                if(array[start - i][indexs[start - i]]) {
+                                    temp.push(array[start - i][indexs[start - i]]);
+                                }
+                            }
+                            var key = [];
+                            for(var i in temp) {
+                                key.push(temp[i].attr_id);
+                            }
+                            var oldVal = map.get(key.sort().toString());
+                            console.log(oldVal);
+                            if(oldVal) {
+                                results.push({
+                                    num: oldVal.num,
+                                    price: oldVal.price,
+                                    no: oldVal.no,
+                                    pic: oldVal.pic,
+                                    attr_list: temp
+                                });
+                            } else {
+                                var img = $(".upload-preview-list").children(":first").children('.upload-preview-img').attr('src');
+                                console.log(img);
+                                results.push({
+                                    num: 0,
+                                    price: 0,
+                                    no: '',
+                                    pic: '',
+                                    attr_list: temp,
+                                    img: img
+                                });
+                            }
+                        }
+                    }
                 }
+                specialSort(-1);
+                return results;
             }
-        }
-        var attribute_value = '{';
-        for (var i = 0; i < attribute.length; i++) {
-            attribute_value += '"' + i + '":' + attribute[i] + ',';
-        }
-
-        attribute_value = attribute_value.substring(0, attribute_value.length - 1);
-        attribute_value += '}';
-
-        $(".attribute").val(attribute_value);
-    }
-    $('#num_'+rr_num+'_'+for_num).attr('readOnly',true);
-    document.getElementById('num_'+rr_num+'_'+for_num).style.backgroundColor="#eeeeee";
+            
+function setTimeoutClick(){
+    console.log('timeout')
+    setTimeout(image_click, 100);
 }
-
-function image_click(rr_num) {
-    var rr_num1 = rr_num - 1;
-    var attribute1 = JSON.parse(attribute[rr_num1]);
+// 属性值上传商品图片
+function image_click() {
+    console.log('image click')
+    var id = page.imageClickInfoIndex
+    console.log(page.imageClickInfoIndex)
 
     KindEditor.ready(function (K) {
         var editor = K.editor({
@@ -1033,28 +790,18 @@ function image_click(rr_num) {
             editor.plugin.imageDialog({
                 showRemote: false, //网络图片不开启
                 //showLocal : false, //不开启本地图片上传
-                imageUrl: K('#picurl_"+rr_num+"').val(),
+                imageUrl: K("#picurl2"+id).val(),
                 clickFn: function (url, title, width, height, border, align) {
-                    attribute1['图片'] = url;
-                    var attribute2 = JSON.stringify(attribute1);
-                    attribute[rr_num1] = attribute2;
-                    var attribute_value = '{';
-                    for (var i = 0; i < attribute.length; i++) {
-                        attribute_value += '"' + i + '":' + attribute[i] + ',';
-                    }
-
-                    attribute_value = attribute_value.substring(0, attribute_value.length - 1);
-                    attribute_value += '}';
-
-                    $(".attribute").val(attribute_value);
-                    K('#picurl_'+rr_num).val(url);
-                    $('#thumb_url_'+rr_num).attr("src", url);
+                    K('#picurl2'+id).val(url);
+                    $('#pic2'+id).attr("src", url);
                     editor.hideDialog();
                 }
             });
         });
     });
+
 }
+
 function resetButton(){
     $('#product_numberId').val("");
     $('#product_titleId').val("");
@@ -1071,6 +818,53 @@ function resetButton(){
     $("#freightId option[value='0']").attr("selected", "selected");
     $('#ueditor_0').contents().find('p').html(""); 
 }
+
+var t_check = true;
+            function check() {
+                // console.log(t_check);
+                //   console.log(66666);
+                // if(!t_check && t_check ==false){
+                //     alert('请勿重复提交！', {
+                //         time: 2000
+                //     });
+                //     return false;
+                // }
+
+                // t_check = false;
+
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: 'index.php?module=product&action=add',
+                    data: $('#form1').serialize(), // 你的formid
+                    async: true,
+                    success: function(data) {
+                        t_check = true;
+                        alert(data.status, {
+                            time: 2000
+                        });
+                        if(data.suc) {
+                            location.href = "index.php?module=product";
+                        }
+                    }
+                });
+            }
+            function check1() {
+                $.ajax({
+                    cache: true,
+                    type: "GET",
+                    dataType: "json",
+                    url: 'index.php?module=product&action=add&m=del',
+                    data: $('#form1').serialize(), // 你的formid
+                    async: true,
+                    success: function(data) {
+                        if(data.suc) {
+                            location.href = "index.php?module=product";
+                        }
+                    }
+                });
+            }
 </script>
 {/literal}
 </body>

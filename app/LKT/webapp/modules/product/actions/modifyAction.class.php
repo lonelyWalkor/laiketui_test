@@ -20,14 +20,11 @@ class modifyAction extends Action {
         // 根据产品id，查询产品产品信息
         $sql = "select * from lkt_product_list where id = '$id'";
         $r = $db->select($sql);
-// print_r($r);die;
         if($r){
-            // $product_number = $r[0]->product_number; // 产品编号
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
             $scan = $r[0]->scan; // 条形码
             $product_class = $r[0]->product_class ; // 产品类别
-            $sort = $r[0]->sort; // 排序
             $brand_class = $r[0]->brand_id ; // 产品品牌
             $keyword = $r[0]->keyword ; // 关键词
             $weight = $r[0]->weight ; // 重量
@@ -35,12 +32,12 @@ class modifyAction extends Action {
             $num = $r[0]->num; //数量
             $imgurl = $r[0]->imgurl; //图片
             $s_type = $r[0]->s_type;
-            // $distributor_id = $r[0]->distributor_id;//分销层级id
-            // $is_distribution = $r[0]->is_distribution;//是否开启分销
             $volume = $r[0]->volume;//volume拟定销量
             $freight_id = $r[0]->freight;
-            $is_zhekou = $r[0]->is_zhekou;
+            $status = $r[0]->status; // 上下架状态
+             $initial = $r[0]->initial;//初始值
         }
+
         $arr = explode(',',$s_type);
 
         if (!empty($brand_class)) {
@@ -65,8 +62,6 @@ class modifyAction extends Action {
                }
             }
         }
-
-
 
         //绑定产品分类
         $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle = 0";
@@ -142,92 +137,62 @@ class modifyAction extends Action {
         //查询规格数据
         $size = "select * from lkt_configure where pid = '$id'";
         $res_size = $db->select($size);
-        if($res_size){
-            $attribute = [];
-            $attribute_1 = [];
-            $attribute_2 = '';
-            $attribute_3 = [];
-            foreach ($res_size as $k => $v){
-                $attribute_3['rid'] = $v->id;
-                $attribute_2 = unserialize($v->attribute); // 属性
-                $attribute_1 = array_merge ($attribute_3,$attribute_2);
-                $attribute_1['成本价'] = $v->costprice;
-                $attribute_1['原价'] = $v->yprice;
-                $attribute_1['现价'] = $v->price;
-                $attribute_1['数量'] = $v->num;
-                $attribute_1['单位'] = $v->unit;
-                $attribute_1['图片'] = $uploadImg . $v->img;
-                $attribute[] = $attribute_1;
+  		if ($res_size) {
+            $attr_group_list = [];
+            $checked_attr_list = [];
+            $arrar_t = unserialize($res_size[0]->attribute);
+            foreach ($arrar_t as $key => $value) {
+                $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => [], 'attr_all' => []);
+            }
+            foreach ($res_size as $k => $v) {
+                $attribute = unserialize($v->attribute); // 属性
+                $attr_lists = [];
+                //列出属性名 
+                foreach ($attribute as $key => $value) {
+                    foreach ($attr_group_list as $keya => $valuea) {
+                        if ($key == $valuea['attr_group_name']) {
+                            ;
+                            if (!in_array($value, $attr_group_list[$keya]['attr_all'])) {
+                                
+                                    $attr_list = array('attr_name' => $value,'status' => true);
+                                
+                                array_push($attr_group_list[$keya]['attr_list'], $attr_list);
+                                array_push($attr_group_list[$keya]['attr_all'], $value);
+                            }
+                        }
+                    }
+                    $attr_lists[] = array('attr_id' => '', 'attr_group_name' => $key, 'attr_name' => $value);
+                }
+                $checked_attr_list[] = array('attr_list' => $attr_lists, 'costprice' => $v->costprice, 'yprice' => $v->yprice, 'price' => $v->price, 'num' => $v->num, 'unit' => $v->unit, 'img' => $uploadImg.'/'.$v->img, 'cid' => $v->id);
+            }
+            foreach ($attr_group_list as $key => $value) {
+                $attr_group_list[$key] = $this->array_key_remove($attr_group_list[$key], 'attr_all');
             }
         }
-
-        $attribute1 = json_encode($attribute);
-        $unit_arr = $attribute[0];
-        array_pop($unit_arr); // 删除数组最后一个元素
-        $unit = end($unit_arr); // 取数组最后一个元素
-        $attribute_key = array_keys($attribute[0]); // 属性表格第一栏
-        $attribute_key1 = array_keys($attribute[0]); // 填写属性
-        for ($i=0;$i<6;$i++){
-            array_pop($attribute_key1); // 循环去掉数组后面6个元素
-        }
-        if($unit == ''){
-            $rer = "<option value='个'>" .
-                '个'.
-                "</option>";
+        if($initial != ''){
+            $initial = unserialize($initial);
         }else{
-            $rer = "<option value='$unit'>" .
-                $unit.
-                "</option>";
+            $initial = array();
         }
-        $rew = '';
-        foreach ($attribute_key1 as $key1 => $val1){
-            if($key1 != 0){
-                $rew .= "<div style='margin: 5px auto;' class='attribute_".($key1)." option' id='cattribute_".($key1)."' >";
-                $rew .= "<input type='text' name='attribute_name' id='attribute_name_".($key1)."' placeholder='属性名称' value='".$val1."' class='input-text' readonly='readonly' style=' width:50%;background-color: #EEEEEE;' />" .
-                    " - " .
-                    "<input type='text' name='attribute_value' id='attribute_value_".($key1)."' placeholder='值' value='' class='input-text' style='width:45%' />";
-                $rew .= "</div>";
-            }
-        }
-        $num_k = count($attribute_key1);
-        $rew .= "<div style='margin: 5px auto;display:none;' class='attribute_".$num_k." option' id='cattribute_".$num_k."' >" .
-            "<input type='text' name='attribute_name' id='attribute_name_".$num_k."' placeholder='属性名称' value='' class='input-text' readonly='readonly' style=' width:50%;background-color: #EEEEEE;'  onblur='leave();'/>" .
-            " - " .
-            "<input type='text' name='attribute_value' id='attribute_value_".$num_k."' placeholder='值' value='' class='input-text' style='width:45%' onblur='leave();'/>" .
-            "</div>";
-        $attribute_key2 = json_encode($attribute_key1,JSON_UNESCAPED_UNICODE);
-        $attribute_val = [];
-        foreach ($attribute as $k1 => $v1){
-            $attribute_val[] = array_values($v1); // 属性表格
-        }
-        $sql02 = "select id,sets from lkt_distribution_grade where is_ordinary = 0";
-        $r022222 = $db->select($sql02);
-// print_r($weight);die;
-        $distributors = [];
-        $distributors_opt = '';
-
-        // $request->setAttribute("is_distribution",$is_distribution);
-        // $request->setAttribute("distributors_opt",$distributors_opt);
+        $initial = (object)$initial;
+        
+//print_r($checked_attr_list);
+//echo('------------------------------');
+//print_r($attr_group_list);die;
+        $attr_group_list = json_encode($attr_group_list);
+        $checked_attr_list = json_encode($checked_attr_list);
         $request->setAttribute("volume",$volume);
         $request->setAttribute("uploadImg",$uploadImg);
-        $request->setAttribute("attribute",$attribute);
-        $request->setAttribute("attribute1",$attribute1);
-        $request->setAttribute("rer",$rer);
-        $request->setAttribute("rew",$rew);
-        $request->setAttribute("attribute_key",$attribute_key);
-        $request->setAttribute("attribute_key2",$attribute_key2);
-        $request->setAttribute("attribute_val",$attribute_val);
-        $request->setAttribute('s_type', $arr);  //s_type
+        $request->setAttribute("checked_attr_list",$checked_attr_list);
+        $request->setAttribute("attr_group_list",$attr_group_list);
+         $request->setAttribute('initial', isset($initial) ? $initial : '');
+        $request->setAttribute('s_type', $arr);  
         $request->setAttribute("ctypes",$res);
         $request->setAttribute('id', $id);
         $request->setAttribute('r02', $brand);//所有品牌
-        $request->setAttribute("product_class",$product_class);
-        // $request->setAttribute('product_number', isset($product_number) ? $product_number : '');
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');
         $request->setAttribute('scan', isset($scan) ? $scan : '');
-        // $request->setAttribute('brand_name', isset($brand_name) ? $brand_name : '');//品牌名称
-        // $request->setAttribute('sort', isset($sort) ? $sort : '');
         $request->setAttribute('keyword', isset($keyword) ? $keyword : '');
         $request->setAttribute('weight', isset($weight) ? $weight : '');
         $request->setAttribute('content', isset($content) ? $content : '');
@@ -235,35 +200,28 @@ class modifyAction extends Action {
         $request->setAttribute('imgurl', isset($imgurl) ? $imgurl : '');
         $request->setAttribute('imgurls', isset($imgurls) ? $imgurls : '');
         $request->setAttribute('freight_list', $freight_list);// 运费
-        // $request->setAttribute("is_zhekou",$is_zhekou);
         return View :: INPUT;
     }
 
     public function execute(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-
+// print_r($request);die;
         $id = intval($request->getParameter("id")); // 产品id
         $uploadImg = $request->getParameter('uploadImg'); // 图片上传位置
-        $attribute = $request->getParameter('attribute'); // 属性
-        // $product_number = addslashes(trim($request->getParameter('product_number'))); // 产品编号
+        $attr = $request->getParameter('attr'); // 属性
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 产品副标题
         $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
-
         $brand_id = addslashes(trim($request->getParameter('brand_class'))); // 品牌
         $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 关键词
         $s_type = $request->getParameter('s_type'); // 显示类型
-        // $sort = floatval(trim($request->getParameter('sort'))); // 排序
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
         $image = addslashes(trim($request->getParameter('image'))); // 产品图片
         $img_oldpic = addslashes(trim($request->getParameter('img_oldpic'))); // 产品图片
-        $arr = json_decode($attribute,true);
-
-
-
+        $initial = $request->getParameter('initial'); // 初始值
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
 
@@ -340,29 +298,114 @@ class modifyAction extends Action {
                 return $this->getDefaultView();
             }
         }
-        $z_num = 0;
-        if(count($arr) == 0){
-            echo "<script type='text/javascript'>" .
-                "alert('请填写属性！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }else{
-            foreach ($arr as $ke => $va){
-                $z_num = $z_num+$va['数量'];
-            }
-        }
 
+            if($initial){
+            foreach ($initial as $k => $v){
+                if($k == 'cbj' && $v == ''){
+                     header("Content-type:text/html;charset=utf-8");
+                     echo "<script type='text/javascript'>" .
+                    "alert('成本价初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                }else if($k == 'yj' && $v == ''){
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('原价初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                }else if($k == 'sj' && $v == ''){
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('售价初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                 
+                }else if($k == 'unit' && $v == '0'){
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('单位初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                  
+                }else if($k == 'kucun' && $v == ''){
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('库存初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+               
+                }
+            }
+            $initial = serialize($initial);
+        }else{
+             header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+        }
+        $z_num = 0;
+        $attributes = [];
+        //处理属性
+        if (count($attr ? $attr : []) == 0 || empty($attr)) {
+             header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('请填写属性！');" . 
+                    "</script>";
+                return $this->getDefaultView();
+        } else {
+            foreach ($attr as $key => $value) {
+                $attr_list = $value['attr_list'];
+                $attr_list_arr = [];
+                $attr_list_srt = '';
+                foreach ($attr_list as $k => $v) {
+                    $attr_list_arr[$v['attr_group_name']] = $v['attr_name'];
+                    $attr_list_srt .= $v['attr_group_name'] . '-' . $v['attr_name'];
+                }
+                $cid = $value['cid'];
+                $z_num += $value['num'];
+                if ($value['img'] == '') {
+                header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('$attr_list_srt 的属性图片未上传！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                 }
+                //价格判断
+                foreach ($value as $cvkey => $cvvalue) {
+                    if (!is_array($cvvalue)) {
+                        if (empty($cvvalue) &&  $cvvalue != 0 && $cvkey != 'cid' && $cvkey != 'num') {
+                             header("Content-type:text/html;charset=utf-8");
+                            echo "<script type='text/javascript'>" .
+                                "alert('请完善属性！');" .
+                                "</script>";
+                            return $this->getDefaultView();
+                    
+                        }
+                    }
+                }
+
+                $costprice = $value['costprice'];
+                $price = $value['price'];
+                if ($costprice > $price) {
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('成本价不能大于售价！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                }
+
+                $value['img'] = preg_replace('/.*\//', '', $value['img']);
+                $value['attribute'] = serialize($attr_list_arr);
+                $value = $this->array_key_remove($value, 'attr_list');
+                $attributes[] = $value;
+           }
+        }
         if(count($s_type) == 0){
             $type = 0;
         }else{
             $type = implode(",", $s_type);
         }
-        // if($sort == ''){
-        //     echo "<script type='text/javascript'>" .
-        //         "alert('排序不能没空！');" .
-        //         "location.href='index.php?module=product&action=modify';</script>";
-        //     return $this->getDefaultView();
-        // }
         if($image){
             $image = preg_replace('/.*\//','',$image);
             if($image != $img_oldpic){
@@ -403,7 +446,7 @@ class modifyAction extends Action {
         $sql = "select * from lkt_product_list where id = '$id'";
         $r_arr = $db->select($sql);
         // 根据产品id,修改产品信息
-        $sql_1 = "update lkt_product_list set product_title='$product_title',scan='$scan',product_class='$product_class',brand_id ='$brand_id',keyword='$keyword',weight='$weight',s_type='$type',num='$z_num',content='$content',imgurl='$image',subtitle='$subtitle',volume='$volume',freight='$freight' where id = '$id'";
+        $sql_1 = "update lkt_product_list set product_title='$product_title',scan='$scan',product_class='$product_class',brand_id ='$brand_id',keyword='$keyword',weight='$weight',s_type='$type',num='$z_num',content='$content',imgurl='$image',subtitle='$subtitle',volume='$volume',freight='$freight',initial='$initial' where id = '$id'";
         $r_update = $db->update($sql_1);
 
         if($r_update == -1 ){
@@ -411,74 +454,73 @@ class modifyAction extends Action {
         }else{
             $rew1 = 1; // 修改成功
         }
-        // 根据产品id,查询属性列表
-        $sql = "select id from lkt_configure where pid = '$id'";
-        $r_zarr = $db->select($sql);
-        $rid = [];
-        foreach ($r_zarr as $ke1 =>$v1){
-            $rid[$v1->id] = $v1->id;
-        }
-        $r_count = count($r_zarr) - count($arr); // 原来的属性个数 - 现在的属性个数
 
-        $r_num = 0;
-        $c_num = 0;
-
-        foreach ($arr as $ke => $va){
-            if(!empty($va['rid'])){
-                $r_id = $va['rid'];
-                $r_id1 = $va['rid'];
-            }else{
-                $r_id = '';
-                $r_id1 = '';
-            }
-            $costprice = $va['成本价'];
-            $yprice = $va['原价'];
-            $price = $va['现价'];
-            $num = $va['数量'];
-            $c_num += $num;
-            $unit = $va['单位'];
-            $img = trim(strrchr($va['图片'], '/'),'/');
-            for ( $i = 0;$i < 6;$i++){
-                array_pop($va); // 删除数组最后一个元素
-            }
-            if($r_id1 != ''){
-                array_shift($va); // 删除数组第一个元素
-            }
-
-            $attribute_1 = $va;
-            $attribute = serialize($attribute_1);
-
-
-            if(in_array($r_id,$rid)){
-                $sql = "update lkt_configure set costprice='$costprice',yprice='$yprice',price='$price',img='$img',num='$num',unit='$unit',attribute='$attribute' where id = '$r_id'";
-                $r_attribute = $db->update($sql);
-                unset($rid[$r_id]);
-            }else{
-                $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute) values('$costprice','$yprice','$price','$img','$id','$num','$unit','$attribute')";
-                $r_attribute = $db->insert($sql);
-            }
-
-            if($r_attribute > 0){
-                $r_num = $r_num + 1;
-            }else{
-                $r_num = $r_num;
-            }
-        }
-        if($rid){
-            foreach ($rid as $ke2 => $va2){
-                $sql = "delete from lkt_configure where id = '$va2'";
-                $r_del = $db->delete($sql);
+        $cids = [];
+        if ($attributes) {
+            $sql = "select id from lkt_configure where pid = '$id'";
+            $rcs = $db->select($sql);
+            if ($rcs) {
+                foreach ($rcs as $keyc => $valuec) {
+                    $cids[$valuec->id] = $valuec->id;
+                }
             }
         }
 
-        if($r_num != count($arr)){
-            $rew2 = 0;
-        }else{
-            $rew2 = 1;
+        foreach ($attributes as $ke => $va) {
+            $num = $va['num'];
+            $cid = $va['cid'];
+            // $total_num = $va['num'];
+
+            // $va['ctime'] = date('Y-m-d H:m:s',time());
+            $va = $this->array_key_remove($va, 'cid');
+
+            if ($cid) {
+                if (array_key_exists($cid, $cids)) {
+                    unset($cids[$cid]);
+                }
+                // 查询剩余数量
+                $ccc = $db->select("select num from lkt_configure where id = '$cid' ");
+                $cnums = $ccc ? $ccc[0]->num : 0;
+                // $z_num1 = $num - $cnums; // 传过来的剩余数量 - 数据库里的剩余数量
+
+                $r_attribute = $db->modify($va, 'lkt_configure', " `id` = '$cid'");
+                $attribute_id = $cid;
+                if ($r_attribute < 0) {
+                    $r_attribute = $db->modify($va, 'lkt_configure', " `id` = '$cid'", 1);
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('属性数据修改失败，请稍后再试！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                }
+            } else {
+                $va['pid'] = $id;
+                $r_attribute = $db->insert_array($va, 'lkt_configure', '', 1);
+                // $z_num1 = $num;
+                $attribute_id = $r_attribute;
+                if ($r_attribute < 0) {
+                    // $db->rollback();
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('属性数据添加失败，请稍后再试！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                   
+                }
+            }
+            
+        }
+        //删除属性
+        if (!empty($cids)) {
+            foreach ($cids as $keyds => $valueds) {
+                $db->delete("DELETE FROM `lkt_configure` WHERE (`id`='$valueds')");
+            }
         }
 
-        if($rew1 == 1 || $rew2 == 1){
-            if($c_num < 1){
+       
+
+        if($rew1 == 1){
+            if($z_num < 1){
                 $sql_1 = "update lkt_product_list set status='1' where id = '$id'";
             }else{
                 $sql_1 = "update lkt_product_list set status='0' where id = '$id'";
@@ -490,7 +532,7 @@ class modifyAction extends Action {
                 "location.href='index.php?module=product';</script>";
         }else{
             foreach ($r_arr[0] as $k_arr => $v_arr){
-                $sql = "update lkt_product_list set product_title='$v_arr->product_title',product_class='$v_arr->product_class',brand_id ='$v_arr->brand_id',keyword='$v_arr->keyword',s_type='$v_arr->s_type',num='$v_arr->z_num',sort='$v_arr->sort',content='$v_arr->content',imgurl='$v_arr->image' where id = '$id'";
+                $sql = "update lkt_product_list set product_title='$v_arr->product_title',product_class='$v_arr->product_class',brand_id ='$v_arr->brand_id',keyword='$v_arr->keyword',s_type='$v_arr->s_type',num='$v_arr->z_num',sort='$v_arr->sort',content='$v_arr->content',imgurl='$v_arr->image',initial='$v_arr->initial' where id = '$id'";
             }
             $r_y = $db->update($sql);
             echo "<script type='text/javascript'>" .
@@ -500,7 +542,18 @@ class modifyAction extends Action {
         }
         return;
     }
-
+    public static function array_key_remove($arr, $key)
+    {
+        if (!array_key_exists($key, $arr)) {
+            return $arr;
+        }
+        $keys = array_keys($arr);
+        $index = array_search($key, $keys);
+        if ($index !== FALSE) {
+            array_splice($arr, $index, 1);
+        }
+        return $arr;
+    }
     public function getRequestMethods(){
         return Request :: POST;
     }

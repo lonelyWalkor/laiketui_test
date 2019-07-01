@@ -17,7 +17,8 @@ class addInputView extends SmartyView {
         $this->setAttribute("brand",$request->getAttribute("brand"));
         
         $this->setAttribute("freight",$request->getAttribute("freight"));
-
+        $this->setAttribute('checked_attr_list',$request->getAttribute('checked_attr_list'));
+        $this->setAttribute('attr_group_list',$request->getAttribute('attr_group_list'));
         $this->setAttribute("attribute",$request->getAttribute("attribute"));
         $this->setAttribute("attribute_num",$request->getAttribute("attribute_num"));
         $this->setAttribute("attribute_key",$request->getAttribute("attribute_key"));
@@ -37,6 +38,7 @@ class addInputView extends SmartyView {
         $this->setAttribute("freight",$request->getAttribute("freight"));
         $this->setAttribute("content",$request->getAttribute("content"));
         $this->setAttribute("volume",$request->getAttribute("volume"));
+          $this->setAttribute('initial',$request->getAttribute('initial'));
         $this->setTemplate("add.tpl");
     }
 }

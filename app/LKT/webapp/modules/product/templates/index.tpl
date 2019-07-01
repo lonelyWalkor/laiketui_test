@@ -244,6 +244,13 @@ form .select{
                             	</div> 
                             </div>
                         </a>
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=copy&id={$item->id}&uploadImg={$uploadImg}" title="复制">
+                            <div style="align-items: center;font-size: 12px;display: flex;">
+                                <div style="margin: 0 auto;display: flex;align-items: center;">
+                                    <img src="images/icon1/xg.png"/>&nbsp;复制
+                                </div> 
+                            </div>
+                        </a>
                         <a style="text-decoration:none" class="ml-5" onclick="del(this,{$item->id})">
                             <div style="align-items: center;font-size: 12px;display: flex;">
                             	<div style="margin: 0 auto;display: flex;align-items: center;">

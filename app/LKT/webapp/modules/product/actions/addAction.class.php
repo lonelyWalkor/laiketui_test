@@ -18,46 +18,38 @@ class addAction extends Action {
 
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+//      print_r($request);die;
         /*** 报错不清除输入内容 ***/
-        $product_number = addslashes(trim($request->getParameter('product_number'))); // 产品编号
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $brand_id1 = addslashes(trim($request->getParameter('brand_class'))); // 品牌
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
-
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 小标题
         $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
-        $attribute = $request->getParameter('attribute'); // 属性
+        $attribute = $request->getParameter('attr'); // 属性
+        $initial = $request->getParameter('initial'); // 初始值
         $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 重量
         $s_type = $request->getParameter('s_type'); // 类型
-        $distributor_id = trim($request->getParameter('distributor_id')); //关联的分销层级id
-        $is_distribution = trim($request->getParameter('is_distribution')); //是否开启分销
-        $is_zhekou = trim($request->getParameter('is_zhekou')); //是否开启会员商品折扣
         $volume = trim($request->getParameter('volume')); //拟定销量
-        $sort = floatval(trim($request->getParameter('sort'))); // 排序
+   
         $image = addslashes(trim($request->getParameter('image'))); // 产品图片
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 产品图片
         $freight1 = $request->getParameter('freight'); // 运费
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
-
+		$checked_attr_list=$attribute?$attribute:'';
+        $attr_group_list='';
+		if($attribute){
+			$attr_group_list=$this->attr($attribute);
+		}
+//		print_r($checked_attr_list);
+//		echo('************************');
+//		print_r($attr_group_list);die;
         if(!$s_type){
             $s_type = [];
         }
         if($image == ''){
             $image = $oldpic;
         }
-
-        if($attribute ){
-            $data = $this->attribute($attribute);
-            $attribute3 = $data['attribute3'];
-            $attribute_num = $data['attribute_num'];
-            $attribute_key = $data['attribute_key'];
-            $attribute_val = $data['attribute_val'];
-            $rew = $data['rew'];
-        }
-
-        // $distributors1 = '';
-
         /*** 报错不清除输入内容 结束 ***/
 
         $sql = "select * from lkt_config where id = '1'";
@@ -88,76 +80,68 @@ class addAction extends Action {
                 $freight[$freight_num] = (object)array('id'=> $v1->id,'name'=> $v1->name);
             }
         }
+        if($initial != ''){
+            $initial = $initial;
+        }else{
+            $initial = array();
+        }
+//      print_r($res);die;
+
+        $attr_group_list = json_encode($attr_group_list);
+        $checked_attr_list = json_encode($checked_attr_list);
+        $initial = (object)$initial;
         $request->setAttribute("distributors",$distributors);
         $request->setAttribute("uploadImg",$uploadImg);//图片上传地址
         $request->setAttribute("ctype",$res);//产品类别
         $request->setAttribute("brand",$brand);//品牌
         $request->setAttribute("freight",$rr);//运费
-        // $request->setAttribute('attribute', isset($attribute3) ? $attribute3 : '');//
-        $request->setAttribute('attribute_num', isset($attribute_num) ? $attribute_num : '');//对应的属性数量
-        $request->setAttribute('attribute_key', isset($attribute_key) ? $attribute_key : '');//所有的属性名称
-        $request->setAttribute('attribute_val', isset($attribute_val) ? $attribute_val : '');//所有属性名称对应的值
         $request->setAttribute('rew', isset($rew) ? $rew : '');//未填写的产品规格名称
-
-        $request->setAttribute('product_number', isset($product_number) ? $product_number : '');//产品编号
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');//商品名称
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');//副标题
         $request->setAttribute('scan', isset($scan) ? $scan : '');//条形码
         $request->setAttribute('s_type', isset($s_type) ? $s_type : '');//显示类型（1：新品,2：热销，3：推荐）
         $request->setAttribute('keyword', isset($keyword) ? $keyword : '');//关键字
         $request->setAttribute('weight', isset($weight) ? $weight : '');//重量
-        $request->setAttribute('sort', $sort ? $sort : '100');//排序
         $request->setAttribute('image', isset($image) ? $image : '');//产品主图片
         $request->setAttribute('content', isset($content) ? $content : '');//内容
         $request->setAttribute('volume', $volume ? $volume : '0');//销量
-      
-        
+        $request->setAttribute('initial', isset($initial) ? $initial : '');
+        $request->setAttribute("checked_attr_list",$checked_attr_list?$checked_attr_list:'');
+        $request->setAttribute("attr_group_list",$attr_group_list?$attr_group_list:'');
         return View :: INPUT;
     }
-    public function attribute($attribute){//属性相关
+  public function attr($attribute){//属性
+  		$checked_attr_list=$attribute?$attribute:'';
+        $attr_group_list='';
+		$attr_group_list1 =[];
+        foreach ($attribute as $key => $value) {
+        	$aa = $value['attr_list'];
+        	 foreach ($aa as $key01 => $value01) {
+                $attr_group_list[] = array('attr_group_name' => $value01['attr_group_name'], 'attr_list' => $value01['attr_name'], 'attr_all' => []);
+           }
+        }
+        if($attr_group_list){
+        	 foreach ($attr_group_list as $key02 => $value02) {
+        	 	$attr_group_name[]=$value02['attr_group_name'];
+        	 }
+        	 $attr_group_name =array_unique($attr_group_name) ;	
+        	 
+        	 if($attr_group_name){
+        	 	foreach ($attr_group_name as $keya => $valuea) {
+        	 	  	foreach ($attr_group_list as $key03 => $value03) {
+        	 	  		if($valuea == $value03['attr_group_name']){
+        	 	  			$attr_list1 = array('attr_name' => $value03['attr_list'],'status' => true);
+        	 	  		
+        	 	  			$attr_group_list1[$keya]['attr_group_name'] = $valuea;
+        	 	  				$attr_group_list1[$keya]['attr_list'][] = $attr_list1;
+        	 	  		}
 
-            $attribute1 = json_decode($attribute);
-
-            $attribute2 = [];
-            $attribute_val = [];
-            foreach ($attribute1 as $k => $v){
-                $attribute_key = array_keys((array)$v); // 属性表格第一栏
-                $attribute_key1 = array_keys((array)$v); // 属性表格第一栏
-                $attribute_val[] = array_values((array)$v); // 属性表格
-                $attribute_num = $k + 1;//属性数量
-                $attribute2[] = (array)$v;
-            }
-            $attribute3 = json_encode($attribute2);
-
-            for ($i=0;$i<6;$i++){
-                array_pop($attribute_key1); // 循环去掉数组后面6个元素
-            }
-            // print_r($attribute_key1);die;
-            $rew = '';
-            foreach ($attribute_key1 as $key1 => $val1){
-                $key_num = $key1;
-                $rew .= "<div style='margin: 5px auto;' class='attribute_".($key1+1)." option' id='cattribute_".($key1+1)."' >";
-                $rew .= "<input type='text' name='attribute_name' id='attribute_name_".($key1+1)."' placeholder='属性名称' value='".$val1."' class='input-text' readonly='readonly' style=' width:50%;background-color: #EEEEEE;' />" .
-                    " - " .
-                    "<input type='text' name='attribute_value' id='attribute_value_".($key1+1)."' placeholder='值' value='' class='input-text' style='width:45%' />";
-                $rew .= "</div>";
-            }
-            $num_k = count($attribute_key1) + 1;
-            $rew .= "<div style='margin: 5px auto;display:none;' class='attribute_".$num_k." option' id='cattribute_".$num_k."' >" .
-                "<input type='text' name='attribute_name' id='attribute_name_".$num_k."' placeholder='属性名称' value='' class='input-text' readonly='readonly' style=' width:50%;background-color: #EEEEEE;'  onblur='leave();'/>" .
-                " - " .
-                "<input type='text' name='attribute_value' id='attribute_value_".$num_k."' placeholder='值' value='' class='input-text' style='width:45%' onblur='leave();'/>" .
-                "</div>";
-
-
-            $data['attribute3']=$attribute3;
-            $data['attribute_num']=$attribute_num;
-            $data['attribute_key']=$attribute_key;
-            $data['attribute_val']=$attribute_val;
-            $data['rew']=$rew;
-            return $data;
-
-    }
+        	 	  	}
+                }
+        	}
+        }
+	 return $attr_group_list1;
+  }
     public function product_class($product_class){//产品类别
         $db = DBAction::getInstance();
         $res = '';
@@ -267,32 +251,25 @@ class addAction extends Action {
     public function execute(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-     
+//      print_r($request);die;
         // 接收数据
-        $attribute = $request->getParameter('attribute'); // 属性
+        $attr = $request->getParameter('attr'); // 属性
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片路径
-        $product_number = addslashes(trim($request->getParameter('product_number'))); // 产品编号
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 小标题
         $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
-
+        $initial =$request->getParameter('initial'); // 初始值
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
         $brand_id = addslashes(trim($request->getParameter('brand_class'))); // 品牌
         $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 重量
         $s_type = $request->getParameter('s_type'); // 显示类型
-        $sort = floatval(trim($request->getParameter('sort'))); // 排序
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
         $image = addslashes(trim($request->getParameter('image'))); // 产品图片
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 产品图片
-        $distributor_id = trim($request->getParameter('distributor_id')); //关联的分销层级id
-        $is_distribution = trim($request->getParameter('is_distribution')); //是否开启分销
-        $is_zhekou = trim($request->getParameter('is_zhekou')); //是否开启会员商品折扣
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
-
-        $arr = json_decode($attribute,true);//转数组
-        // return $this->getDefaultView();
+//      return $this->getDefaultView();
            //开启事务
         // $db->begin();
         if($product_title == ''){
@@ -377,31 +354,111 @@ class addAction extends Action {
                 return $this->getDefaultView();
             }
         }
-        $z_num = 0;
-        if(count($arr) == 0){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('请填写属性！');" .
-                "</script>";
-            return $this->getDefaultView();
+       if($initial){
+            foreach ($initial as $k => $v){
+                if($k == 'cbj' && $v == ''){
+                     header("Content-type:text/html;charset=utf-8");
+                     echo "<script type='text/javascript'>" .
+                    "alert('成本价初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                }else if($k == 'yj' && $v == ''){
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('原价初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                }else if($k == 'sj' && $v == ''){
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('售价初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                 
+                }else if($k == 'unit' && $v == '0'){
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('单位初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                  
+                }else if($k == 'kucun' && $v == ''){
+                     header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('库存初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+               
+                }
+            }
+            $initial = serialize($initial);
         }else{
-            foreach ($arr as $ke => $va){
-                $z_num = $z_num+$va['数量'];//商品总数量
+             header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('初始值不能为空！');" .
+                    "</script>";
+                return $this->getDefaultView();
+        }
+        $z_num = 0;
+        $attributes = [];
+        if (count($attr) == 0) {
+            echo json_encode(array('status' => '请填写属性！'));
+            exit;
+        } else {
+            foreach ($attr as $key => $value) {
+                $attr_list = $value['attr_list'];
+                $attr_list_arr = [];
+                $attr_list_srt = '';
+                foreach ($attr_list as $k => $v) {
+                    $attr_list_arr[$v['attr_group_name']] = $v['attr_name'];
+                    $attr_list_srt .= $v['attr_group_name'] . '-' . $v['attr_name'];
+                }
+                $z_num += $value['num'];
+//              $value['total_num'] = $value['num'];
+                if ($value['img'] == '') {
+                    header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('$attr_list_srt 的属性图片未上传！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                }
+                //价格判断
+                foreach ($value as $cvkey => $cvvalue) {
+                    if (!is_array($cvvalue)) {
+                        if(empty($cvvalue) &&  $cvvalue != 0){
+                            header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('请完善属性');" .
+                    "</script>";
+                return $this->getDefaultView();
+                        }
+                    }
+                }
+                $costprice = $value['costprice'];
+                $yprice = $value['yprice'];
+                $price = $value['price'];
+                if ($costprice > $price) {
+       
+                    header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('成本价不能大于售价！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                }
+
+                $value['img'] = preg_replace('/.*\//', '', $value['img']);
+                $value['attribute'] = serialize($attr_list_arr);
+                $value = $this->array_key_remove($value, 'attr_list');
+                $attributes[] = $value;
             }
         }
 
+// print_r( count($attributes));die;
         if(count($s_type) == 0){
             $type = 0;
         }else{
             $type = implode(",", $s_type);
         }
-        // if($sort == ''){
-        //     echo "<script type='text/javascript'>" .
-        //         "alert('排序不能没空！');" .
-        //         "</script>";
-        //     return $this->getDefaultView();
-        // }
-
         if($image){
             $image = preg_replace('/.*\//','',$image); // 产品主图
         }else{
@@ -416,9 +473,8 @@ class addAction extends Action {
             }
         }
         // 发布产品
-        $sql = "insert into lkt_product_list(product_number,product_title,subtitle,scan,product_class,brand_id,keyword,weight,imgurl,sort,content,num,s_type,add_date,volume,freight) " .
-            "values('$product_number','$product_title','$subtitle','$scan','$product_class','$brand_id','$keyword','$weight','$image','$sort','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight')";
-
+        $sql = "insert into lkt_product_list(product_title,subtitle,scan,product_class,brand_id,keyword,weight,imgurl,content,num,s_type,add_date,volume,freight,initial) " .
+            "values('$product_title','$subtitle','$scan','$product_class','$brand_id','$keyword','$weight','$image','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight','$initial')";
         $id1 = $db->insert($sql,'last_insert_id'); // 得到添加数据的id
         if($id1){
             $files=($_FILES['imgurls']['tmp_name']);
@@ -446,18 +502,14 @@ class addAction extends Action {
 
             $r_num = 0;
             $c_num = 0;
-            foreach ($arr as $ke => $va){//循环遍历插入商品规格表
-                $costprice = $va['成本价'];
-                $yprice = $va['原价'];
-                $price = $va['现价'];
-                $num = $va['数量'];
-                $unit = $va['单位'];
-                $img = trim(strrchr($va['图片'], '/'),'/');
-                for ( $i = 0;$i < 6;$i++){
-                    array_pop($va);
-                }
-                $attribute_1 = $va;
-                $attribute = serialize($attribute_1);//属性，数组转字符串
+            foreach ($attributes as $ke => $va){//循环遍历插入商品规格表
+                $costprice = $va['costprice'];
+                $yprice = $va['yprice'];
+                $price = $va['price'];
+                $num = $va['num'];
+                $unit = $va['unit'];
+                $img =$va['img'];
+                $attribute = $va['attribute'];//属性，数组转字符串
 
                 $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute) values('$costprice','$yprice','$price','$img','$id1','$num','$unit','$attribute')";//成本价 ，原价，现价，商品图片，ID ，数量，单位，属性 
 
@@ -471,7 +523,7 @@ class addAction extends Action {
                     $r_num = $r_num;
                 }
             }
-            if($r_num == count($arr)){//判断属性是否添加完全
+            if($r_num == count($attributes)){//判断属性是否添加完全
                 if($c_num < 1){//库存不足，下架（0::上架 1:下架）
                     $sql_1 = "update lkt_product_list set status='1' where id = '$id1'";
                     $r_update = $db->update($sql_1);
@@ -494,7 +546,7 @@ class addAction extends Action {
                 // $db->rollback();
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
-                    "alert('未知原因，产品发布失败！');" .
+                    "alert('未知原因，产品发布失败2！');" .
                     "location.href='index.php?module=product';</script>";
                 return $this->getDefaultView();
             }
@@ -502,13 +554,35 @@ class addAction extends Action {
             // $db->rollback();
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
-                "alert('未知原因，产品发布失败！');" .
+                "alert('未知原因，产品发布失败1！');" .
                 "location.href='index.php?module=product';</script>";
             return $this->getDefaultView();
         }
         return;
     }
-
+ /**
+     * [array_key_remove description]
+     * <p>Copyright (c) 2018-2019</p>
+     * <p>Company: www.laiketui.com</p>
+     * @Author  苏涛
+     * @version 2.0
+     * @date    2019-01-08T17:44:00+0800
+     * @param   [type]                   $arr [description]
+     * @param   [type]                   $key [description]
+     * @return  [type]          删除指定数组元素[description]
+     */
+    public static function array_key_remove($arr, $key)
+    {
+        if (!array_key_exists($key, $arr)) {
+            return $arr;
+        }
+        $keys = array_keys($arr);
+        $index = array_search($key, $keys);
+        if ($index !== FALSE) {
+            array_splice($arr, $index, 1);
+        }
+        return $arr;
+    }
     public function getRequestMethods(){
         return Request :: POST;
     }
