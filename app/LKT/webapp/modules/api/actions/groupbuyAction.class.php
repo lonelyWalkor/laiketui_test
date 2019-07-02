@@ -380,16 +380,26 @@ class groupbuyAction extends Action {
         	}else{
         		$com_num = array('bad'=>0,'good'=>0,'notbad'=>0);
         	}
-        
-        $sql_kt = "select g.ptcode,g.ptnumber,g.endtime,u.user_name,u.headimgurl from lkt_group_open as g left join lkt_user as u on g.uid=u.wx_id where g.group_id='$group_id' and g.ptgoods_id=$gid and g.ptstatus=1 ";
+
+        $sql_kt = "select g.id, g.ptcode,g.ptnumber,g.endtime,u.user_name,u.headimgurl from lkt_group_open as g left join lkt_user as u on g.uid=u.wx_id where g.group_id='$group_id' and g.ptgoods_id=$gid and g.ptstatus=1 ";
+        // print_r($sql_kt);die;
         $res_kt = $db -> select($sql_kt);
         $groupList = [];
         if(!empty($res_kt)){
             foreach ($res_kt as $key => $value) {
-                $res_kt[$key] -> leftTime = strtotime($value -> endtime) - time();
-                if(strtotime($value -> endtime) - time() > 0){
-                    array_push($groupList, $res_kt[$key]);
+                $idddd = $value->id;
+                if( $guigeres -> man_num - $value->ptnumber <1){
+                       $updsql = "update lkt_group_open set ptstatus=2 where id='$idddd'";
+                        $updres = $db -> update($updsql);
+                    unset($value);
+                }else{
+                    $res_kt[$key] -> leftTime = strtotime($value -> endtime) - time();
+                    if(strtotime($value -> endtime) - time() > 0){
+                        array_push($groupList, $res_kt[$key]);
+                    }
                 }
+
+                
             }
         }
         $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
@@ -620,17 +630,17 @@ class groupbuyAction extends Action {
           $group_num = 'KT'.$num;
         } while ($aa > 0);
 
-
-
-
-
         $creattime = date('Y-m-d H:i:s');
 
         $time_over = explode(':', $time_over);
 
         $time_over = date('Y-m-d H:i:s',$time_over[0]*3600 + $time_over[1]*60 + time());
         //运费
-        $freight = $this ->friends($pro_id);
+        $freight = $this ->friends($pro_id,$sheng,$buy_num);
+        // print_r($freight);die;
+        if($freight == -1){
+            $freight  = 0;
+        }
         $pro_size = $db -> select("select attribute from lkt_configure where id=$sizeid");
        //写入配置
                     $attribute = unserialize($pro_size[0]->attribute);
@@ -888,9 +898,9 @@ class groupbuyAction extends Action {
         $ordernum = 'PT'.mt_rand(10000,99999).date('Ymd').substr(time(),5);
         $user_id = $db -> select("select user_id from lkt_user where wx_id='$uid'");
         $uid = $user_id[0] -> user_id;
-
+// $freight  =0;
         //运费
-        $freight = $this ->friends($pro_id);
+        $freight = $this ->friends($pro_id,$sheng,$buy_num);
        if($endtime >= time()){
         if(($ptnumber+1) < $man_num){
             
@@ -1494,7 +1504,7 @@ class groupbuyAction extends Action {
 
    */
 
-  protected function formatBizQueryParaMap($paraMap, $urlencode){
+    protected function formatBizQueryParaMap($paraMap, $urlencode){
 
     $buff = "";
 
@@ -1719,10 +1729,24 @@ class groupbuyAction extends Action {
         }
     }
 
-    public function friends($id){//查运费
+    public function friends($id,$sheng,$buy_num ){//查运费
+
         $db = DBAction::getInstance();
         $request = $this -> getContext() -> getRequest();
         $z_freight = 0;
+        $num = $buy_num;
+        $sqll = "select  G_CName  from admin_cg_group a  where a.GroupID=".$sheng;
+        $rrl = $db->select($sqll);
+        if($rrl){
+            // print_r($rr)
+            $G_CName = $rrl[0]->G_CName;
+        }else{
+            $z_freight = '-1';
+             return  $z_freight;
+        }
+
+
+
         // $trade_no = addslashes(trim($request->getParameter('trade_no')));
                 $sql_c = "select freight from  lkt_product_list  where id = '$id' ";
                 $r_c = $db->select($sql_c);
@@ -1733,6 +1757,7 @@ class groupbuyAction extends Action {
                     }else{
                         // 根据运费id,查询运费信息
                         $sql = "select type,freight from lkt_freight where id = '$freight_id'";
+
                         $r2 = $db->select($sql);
                         if($r2){
                             $freight_type = $r2[0]->type;
@@ -1740,6 +1765,7 @@ class groupbuyAction extends Action {
                             $freight_status = 0; // 表示收货地址不存在运费规则里
                             $weight = 1;
                             foreach ($freight_1 as $k2 => $v2){
+                    
                                 $province_arr = explode(',',$v2['name']); // 省份数组
                                 if(in_array($G_CName,$province_arr)){
                                     $one = $v2['one']; // 首件/重
