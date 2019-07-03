@@ -250,6 +250,7 @@ function getFormatDate(){
     var hour = nowDate.getHours()< 10 ? "0" + nowDate.getHours() : nowDate.getHours();
     var minute = nowDate.getMinutes()< 10 ? "0" + nowDate.getMinutes() : nowDate.getMinutes();
     var second = nowDate.getSeconds()< 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds();
+    hour = Number(hour)
 
     return year + "-" + month + "-" +date+" "+(hour+1)+":"+minute+":"+second;
 }
