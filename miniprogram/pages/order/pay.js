@@ -795,23 +795,18 @@ Page({
 						signType: 'MD5',
 						paySign: res.data.paySign,
 						success: function(res) {
+              //支付成功  修改订单
+              that.up_order(order);
+              if (that.data.type1 == 11) {
+                wx.redirectTo({
+                  url: '../draw/cantuan?orderId=' + oid + '&&type1=11'
+                })
+              } else {
+                wx.redirectTo({
+                  url: '../order/detail?orderId=' + oid + '&&type1=22'
+                })
+              }
 
-              wx.showModal({
-                content: "支付成功！",
-                showCancel: false,
-                confirmText: "确定",
-                success: function (res) {
-                  if (that.data.type1 == 11) {
-                    wx.redirectTo({
-                      url: '../draw/cantuan?orderId=' + oid + '&&type1=11'
-                    })
-                  } else {
-                    wx.redirectTo({
-                      url: '../order/detail?orderId=' + oid + '&&type1=22'
-                    })
-                  }
-                }
-              });
 						},
 						fail: function(res) {
 							wx.showModal({

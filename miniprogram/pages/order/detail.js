@@ -578,18 +578,13 @@ Page({
 						signType: 'MD5',
 						paySign: res.data.paySign,
 						success: function(res) {
-              wx.showModal({
-                content: "支付成功！",
-                showCancel: false,
-                confirmText: "确定",
-                success: function (res) {
-                  setTimeout(function () {
-                    wx.redirectTo({
-                      url: '../order/detail?orderId=' + that.data.orderId
-                    })
-                  }, 1000);
-                }
-              })
+              //支付成功  修改订单
+              that.up_order(that.data.order_sn);
+              setTimeout(function () {
+                wx.redirectTo({
+                  url: '../order/detail?orderId=' + that.data.orderId
+                })
+              }, 1000);
 						},
 						fail: function(res) {
 							wx.showModal({
