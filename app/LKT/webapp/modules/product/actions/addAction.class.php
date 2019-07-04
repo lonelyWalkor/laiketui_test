@@ -402,8 +402,14 @@ class addAction extends Action {
         $z_num = 0;
         $attributes = [];
         if (count($attr) == 0) {
-            echo json_encode(array('status' => '请填写属性！'));
-            exit;
+        	  header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('请填写属性！');" .
+                    "</script>";
+                return $this->getDefaultView();
+                
+//          echo json_encode(array('status' => '请填写属性！'));
+//          exit;
         } else {
             foreach ($attr as $key => $value) {
                 $attr_list = $value['attr_list'];

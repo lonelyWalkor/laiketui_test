@@ -187,9 +187,9 @@ form[name=form1] input{
                     <div class="formInputSD">
                         <select name="initial[unit]" class="select " style="width: 300px;" id="unit">
                            
-                          {if $initial->unit != ''}
+                    
                                     <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
-                         {else}
+                       
                                     <option value="盒">盒</option>
                                     <option value="篓">篓</option>
                                     <option value="箱">箱</option>
@@ -209,7 +209,7 @@ form[name=form1] input{
                                     <option value="双">双</option>
                                     <option value="台">台</option>
                                     <option value="件">件</option>
-                          {/if}
+                        
              
                                    
                         </select>
