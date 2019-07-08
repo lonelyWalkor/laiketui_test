@@ -193,24 +193,24 @@ function check(f) {
             <div class="formContentSD">
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>成本价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>原价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>售价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
                     <div class="formInputSD">
                         <select name="initial[unit]" class="select " style="width: 300px;" id="unit">
                            
-                          <!--{if $initial->unit != ''}-->
+                          {if $initial->unit != ''}
                                     <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
-                         <!--{else}-->
+                         {else}
                                     <option value="盒">盒</option>
                                     <option value="篓">篓</option>
                                     <option value="箱">箱</option>
@@ -230,7 +230,7 @@ function check(f) {
                                     <option value="双">双</option>
                                     <option value="台">台</option>
                                     <option value="件">件</option>
-                          <!--{/if}-->
+                          {/if}
              
                                    
                         </select>
@@ -238,7 +238,7 @@ function check(f) {
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>库存：</span></div>
-                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" required="required" min="0" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" required="required" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
                 </div>
                         {literal}
                         <!-- 有规格 -->
@@ -305,10 +305,10 @@ function check(f) {
                                                 <span>{{attr.attr_name}}</span>
                                             </td>
                                             <td>
-                                                <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="1" v-bind:name="'attr['+index+'][costprice]'" :value="cbj">
+                                                <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][costprice]'" :value="cbj">
                                             </td>
                                             <td>
-                                                <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="1" v-bind:name="'attr['+index+'][yprice]'" :value="yj">
+                                                <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][yprice]'" :value="yj">
                                             </td>
                                             <td>
                                                 <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][price]'" :value="sj">

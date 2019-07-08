@@ -172,23 +172,24 @@ form[name=form1] input{
             <div class="formContentSD">
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>成本价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>原价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01"  onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>售价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01"  onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
                     <div class="formInputSD">
                         <select name="initial[unit]" class="select " style="width: 300px;" id="unit">
-                      
+                           
+                          {if $initial->unit != ''}
                                     <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
-                         
+                         {else}
                                     <option value="盒">盒</option>
                                     <option value="篓">篓</option>
                                     <option value="箱">箱</option>
@@ -208,7 +209,7 @@ form[name=form1] input{
                                     <option value="双">双</option>
                                     <option value="台">台</option>
                                     <option value="件">件</option>
-           
+                          {/if}
              
                                    
                         </select>
@@ -216,7 +217,7 @@ form[name=form1] input{
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>库存：</span></div>
-                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" required="required" min="0" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" required="required" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
                 </div>
                 {literal}
                     <!-- 有规格 -->
@@ -287,16 +288,16 @@ form[name=form1] input{
                                             <span>{{attr.attr_name}}</span>
                                         </td>
                                         <td>
-                                            <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0"   v-bind:name="'attr['+index+'][costprice]'" :value="item.costprice">
+                                            <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01"  v-bind:name="'attr['+index+'][costprice]'" :value="item.costprice">
                                         </td>
                                         <td>
-                                            <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0"   v-bind:name="'attr['+index+'][yprice]'" :value="item.yprice" >
+                                            <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01"  v-bind:name="'attr['+index+'][yprice]'" :value="item.yprice" >
                                         </td>
                                         <td>
-                                            <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0"   v-bind:name="'attr['+index+'][price]'" :value="item.price">
+                                            <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01"  v-bind:name="'attr['+index+'][price]'" :value="item.price">
                                         </td>
                                         <td>
-                                            <input class="form-control form-control-sm" oninput="value=value.replace(/[^\d]/g,'')" v-bind:name="'attr['+index+'][num]'" :value="item.num" >
+                                            <input class="form-control form-control-sm" oninput="value=value.replace(/[^\d]/g,'')" v-bind:name="'attr['+index+'][num]'" min="0" step="1" :value="item.num" >
                                         </td>
                                         <td>
                                             <input class="unit" v-bind:name="'attr['+index+'][unit]'" :value="item.unit" style="border: 0px;background-color: transparent;" readOnly="readOnly">
@@ -304,20 +305,8 @@ form[name=form1] input{
 
                                         <td>
                                             <div  class="upload-group form_group form_flex">
-                                                <!-- 存在 -->
-                                                <!-- <div class="form_attr_img " v-if="item.img">
-                                                    <img src="images/iIcon/sha.png" class="form_new_sha file-item-delete-c"/> -->
-                                                    <!-- <img :src="item.img" class="upload-preview-img form_att select-file">
-                                                    <input type="hidden" :id="'picurl2'+index"  name="image" datatype="*" nullmsg="请选择图片"/> -->
-                                                        <!-- <img src="images/iIcon/sha.png" class="form_new_sha file-item-delete-c" /> -->
-                                                        <!-- <img src="images/icon1/add_g_t.png" :id="'pic2'+index" class="upload-preview-img form_att select-file" @click="handleImageClick(item,index)" onclick="setTimeoutClick() ">
-                                                </div>  -->
-                                                <!-- 不存在 -->
                                                 <div class="form_attr_img ">
-                                                    <!-- <img src="images/iIcon/sha.png" class="form_new_sha file-item-delete-c"/>
-                                                    <img src="images/icon1/add_g_t.png" class="upload-preview-img form_att select-file"> -->
                                                     <input type="hidden" :id="'picurl2'+index" v-bind:name="'attr['+index+'][img]'" datatype="*" nullmsg="请选择图片"/>
-                                                        <!-- <img src="images/iIcon/sha.png" class="form_new_sha file-item-delete-c" /> -->
                                                         <img src="images/icon1/add_g_t.png" :id="'pic2'+index" class="upload-preview-img form_att select-file" @click="handleImageClick(item,index)" onclick="setTimeoutClick() ">
                                                 </div>
                                             </div>
