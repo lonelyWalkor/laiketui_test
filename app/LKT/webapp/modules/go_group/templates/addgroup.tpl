@@ -255,7 +255,8 @@ function getFormatDate(){
     return year + "-" + month + "-" +date+" "+(hour+1)+":"+minute+":"+second;
 }
 var _nowDate = getFormatDate();
-
+console.log('nowDate')
+console.log(_nowDate)
  laydate.render({
   elem: '#group_start_time', //指定元素
   type: 'datetime',

@@ -89,7 +89,7 @@
                         </td>
 	                       <td><div id="prod_class_{$item->id}">{$item->pname}</div></td>
 	                       <td>{$item->product_title}</td>
-	                       <td>{$item->product_title}</td> <!--此处换数据-->
+	                       <td>{$item->num}</td> <!--此处换数据-->
 	                       <td><image src="{$item->image}" style="width: 80%;height:60px;"/></td>
 	                       <td>{$item->id}</td>
 	                     </tr>
@@ -171,28 +171,30 @@
 // document.cookie= name + "="+cval+";expires="+exp.toGMTString();
 // }
 //  delCookie("proids");
-
-
     
-    var data = getCookie("proids");
+var data = getCookie("proids");
      
 function product_tijiao(i){
   // var classname = $('#prod_class_'+i).text();
-  var id = ',' + i + ',';
-  var idindex = data.indexOf(id);
-  if($('input[name=checkid'+i+']').prop('checked') == true){
-     if(data.length == 0){                          //没有存      
-        data = ',' + i + ',';
-     }else{
-         if(idindex < 0){    //没有此id
-             data += i + ',';
-         }
-     }
-   }else{                                              
-         if(idindex >= 0){
-            data = data.replace(id,',');  
-      }
-   }
+  if($("input[id=checkid"+i+"]").prop("checked")==true){
+      $("input[id!=checkid"+i+"]").removeAttr("checked");
+      data = ',' + i + ',';
+  }
+  // var id = ',' + i + ',';
+  // var idindex = data.indexOf(id);
+  // if($('input[name=checkid'+i+']').prop('checked') == true){
+  //    if(data.length == 0){                          //没有存      
+  //       data = ',' + i + ',';
+  //    }else{
+  //        if(idindex < 0){    //没有此id
+  //            data += i + ',';
+  //        }
+  //    }
+  //  }else{                                              
+  //        if(idindex >= 0){
+  //           data = data.replace(id,',');  
+  //     }
+  //  }
    console.log(data);
      setCookie("proids",data,1);
 }    
@@ -221,6 +223,9 @@ function product_tijiao(i){
     }
   return ""
   }
+
+
+    
 
     function group_tijiao() {
 

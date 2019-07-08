@@ -7,14 +7,11 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-class modifyInputView extends SmartyView {
+class canrecordInputView extends SmartyView {
     public function execute() {
 		$request = $this->getContext()->getRequest();
 		$this->setAttribute("list",$request->getAttribute("list"));
-		$this->setAttribute("status",$request->getAttribute("status"));
-		$this->setAttribute("list1",$request->getAttribute("list1"));
-		$this->setAttribute("len",$request->getAttribute("len"));
-		$this->setTemplate("modify.tpl");
+        $this->setTemplate("canrecord.tpl");
     }
 }
 ?>

@@ -64,7 +64,7 @@ class indexAction extends Action {
         list($showres) = $showres[0];
 
       // $this -> arraySort($res,'code','SORT_DESC');  //排序
-
+// print_r($res);die;
         $request->setAttribute("is_show",$showres);
         $request->setAttribute("list",$res);
 

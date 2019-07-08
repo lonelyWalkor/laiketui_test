@@ -13,14 +13,28 @@ class groupproAction extends Action {
 
 
     public function getDefaultView() {
-        $db = DBAction::getInstance();
+
+         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
+        $id = addslashes(trim($request->getParameter('id')));
+        
+        $sql = "select * from lkt_group_buy where status='$id'";
+        $res = $db -> select($sql);
+        
+        $res = $res[0];
+        list($hour,$minute) = explode(':', $res -> time_over);
+        $res -> hour = $hour;
+        $res -> minute = $minute;
+        $res -> starttime = date('Y-m-d H:i:s',$res -> starttime);
+        $res -> endtime = date('Y-m-d H:i:s',$res -> endtime);
+
         // 接收信息
-        $id = addslashes(trim($request->getParameter('id'))); // 插件id
+ 
         $sql = "select m.*,l.product_title as pro_name from (select p.id,p.product_id,p.group_id,c.img as image,p.group_price,p.member_price,c.price as market_price,c.name as attr_name,c.color,c.size as guige,p.classname ,c.attribute from lkt_group_product as p left join lkt_configure as c on p.attr_id=c.id where p.group_id='$id' order by p.classname) as m left join lkt_product_list as l on m.product_id=l.id";
 
-        $res = $db -> select($sql);
-        $len = count($res);
+        $res1 = $db -> select($sql);
+
+        $len = count($res1);
                 // 查询系统参数
         $sql1 = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql1);
@@ -31,8 +45,8 @@ class groupproAction extends Action {
         }else{ // 不存在
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
-        foreach ($res as $k => $v) {
-            $res[$k] -> image = $img.$v -> image;
+        foreach ($res1 as $k => $v) {
+            $res1[$k] -> image = $img.$v -> image;
             $attribute_2 = unserialize($v->attribute); // 属性
             if(!empty($attribute_2)){
                 foreach ($attribute_2 as $key => $value) {
@@ -43,15 +57,19 @@ class groupproAction extends Action {
                 }else{
                     $dd = '';
                 }
-                $res[$k]->attribute =  $dd;
+                $res1[$k]->attribute =  $dd;
                  unset($dd);
                  unset($d);
             } 
         } 
+           // print_r($res1);die;
         $status = trim($request->getParameter('status')) ? 1:0;
         $request->setAttribute("status",$status);
-        $request->setAttribute("list",$res);
+        $request->setAttribute("list1",$res1);
         $request->setAttribute("len",$len);
+        $request->setAttribute("list",$res);
+
+       
         return View :: INPUT;
     }
 

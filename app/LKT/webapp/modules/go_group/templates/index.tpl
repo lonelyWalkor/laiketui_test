@@ -74,6 +74,8 @@
 		<div class="status qh {if $status == 1}isclick{/if}"><a href="index.php?module=go_group&action=index&status=1" onclick="statusclick(1)">未开始</a></div>
 		<div class="status qh {if $status == 2}isclick{/if}"><a href="index.php?module=go_group&action=index&status=2" onclick="statusclick(2)">进行中</a></div>
 		<div class="status qh {if $status == 3}isclick{/if}"><a href="index.php?module=go_group&action=index&status=3" onclick="statusclick(3)">已结束</a></div>
+		<div class="status qh {if $status == 4}isclick{/if}"><a href="index.php?module=go_group&action=kaituan&status=4" onclick="statusclick(4)">开团记录</a></div>
+		<div class="status qh {if $status == 5}isclick{/if}"><a href="index.php?module=go_group&action=cantuan&status=5" onclick="statusclick(5)">参团记录</a></div>
 	</div>
 	<div style="margin-top: 20px;">
 			<a class="btn newBtn radius" href="index.php?module=go_group&action=addgroup'">
@@ -143,7 +145,10 @@
 						{elseif $item->code==2}
 									  {if $item->is_show==1}
 										
-										<a title="编辑活动" href="index.php?module=go_group&action=modify&set=msg&id={$item->status}&status=1" style="text-decoration:none;">
+										<!-- <a title="编辑活动" href="index.php?module=go_group&action=modify&set=msg&id={$item->status}&status=1" style="text-decoration:none;">
+										编辑活动
+										</a> -->
+										<a title="编辑活动" href="javascript:;" onclick="system_category_del(this,{$item->status},4)"style="text-decoration:none;">
 										编辑活动
 										</a>
 										<a title="查看商品" href="index.php?module=go_group&action=grouppro&id={$item->status}&status=1" style="text-decoration:none;">
@@ -157,8 +162,11 @@
 									  <a title="编辑活动" href="index.php?module=go_group&action=modify&set=msg&id={$item->status}&status=1" style="text-decoration:none;">
 										编辑活动
 										</a>
-										<a title="编辑商品" href="index.php?module=go_group&action=grouppro&id={$item->status}" style="text-decoration:none;">
+										<!-- <a title="编辑商品" href="index.php?module=go_group&action=grouppro&id={$item->status}" style="text-decoration:none;">
 											编辑商品
+										</a> -->
+										<a title="查看商品" href="index.php?module=go_group&action=grouppro&id={$item->status}&status=1" style="text-decoration:none;">
+											查看商品
 										</a>
 										  <a title="执行" href="javascript:;" onclick="system_category_del(this,{$item->status},2)" class="ml-5" >执行</a>
 										  <a title="删除" href="javascript:;" onclick="system_category_del(this,{$item->status},1)" class="ml-5" >删除</a>
@@ -248,11 +256,10 @@ function system_category_del(obj,id,control){
 		// 		},
 		// 	});
 		// }
-  }
-	else if(control == 2){
-  	if(parseInt($('#is_have_show').val()) > 0){
-  		appendMask('已有活动正在执行，如必须要执行此活动，请先结束正在执行的活动 !',"ts");
-  	}else{
+  }else if(control == 2){
+  	// if(parseInt($('#is_have_show').val()) > 0){
+  	// 	appendMask('已有活动正在执行，如必须要执行此活动，请先结束正在执行的活动 !',"ts");
+  	// }else{
   	 layer.confirm('确认要执行吗？',function(index){
         
 		$.ajax({
@@ -271,7 +278,7 @@ function system_category_del(obj,id,control){
 			},
 		});
 	  });
-  	}
+  	// }
   }else if(control == 3){
 	  layer.confirm('确认要结束吗？(请谨慎操作 !)',function(index){
         //alert(id);
@@ -291,6 +298,13 @@ function system_category_del(obj,id,control){
 			},
 		});
 	});
+  }else if(control == 4){
+	  layer.confirm('活动进行中，确认要编辑吗？(请谨慎操作 !)',function(index){
+	  	   url = 'index.php?module=go_group&action=modify&set=msg&status=1&id='+id;
+	  	   window.location.href=url;
+   
+	});
+
   }
 }
 function closeMask(id){
@@ -333,6 +347,8 @@ function closeMask1(){
 	location.replace(location.href);
 }
 function confirm (content,id){
+	console.log(content)
+		console.log('content')
 	$("body").append(`
 			<div class="maskNew">
 				<div class="maskNewContent">

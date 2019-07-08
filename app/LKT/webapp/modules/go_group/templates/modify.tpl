@@ -23,14 +23,23 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
+
 {literal}
 <style type="text/css">
    .content{
       border:2px red solid;
    }
-   .kznone{
+/*   .kznone{
     display: none !important;
-   }
+   }*/
+     .product_title{
+      width:98px;
+      overflow:hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
+      -webkit-text-overflow:ellipsis;
+
+  }
 </style>
 {/literal}
 <title>编辑活动</title>
@@ -124,12 +133,66 @@
                     <div class="col-3">
                     </div>
                 </div>
+
+                   <div class="mt-20">
+                  <table class="table table-border table-bordered table-bg table-hover table-sort" style="width:95%;margin:0 auto;">
+                     <thead>
+                   <tr class="text-c">
+                      <th width="50">团号</th>
+                      <th width="100">商品名称</th>
+                      <th width="80">商品图片</th>
+                      <th width="100">属性</th>
+                      <th>商品价格</th>
+                      <th width="110" style="padding:0px;">拼团价格</th>
+                      <th width="110" style="padding:0px;">团长价格</th>
+                    {if $status == 1}<th width="50">操作</th>{/if}
+                    
+                   </tr>
+                     </thead>
+                     <tbody>
+                     {foreach from=$list1 item=item name=f1}
+                       <tr class="text-c" style="height:20px;">
+                         <td>{$item->group_id}</td>
+                         <td>
+                          <div class="product_title">{$item->pro_name}</div></td>
+                         <td><image src="{$item->image}" style="width: 90%;height:60px;"/></td>
+
+                         <td width="100" style="text-align: center;">
+                          {$item->attribute}
+                         </td>
+                         
+
+                         <td>{$item->market_price}</td>
+                         {if $status == 1}
+                         <td id="{$item->id}">
+                            <input type="number" name="modify_group_{$item->id}" class="pt_price" data-id = "{$item->id}" id="set_group_{$item->id}" value="{$item->group_price}" style="text-align: center; ">  
+                         </td>
+                         <td id="m{$item->id}">
+                            <input type="number" name="modify_member_{$item->id}" class="tz_price" data-id = "{$item->id}" id="set_member_{$item->id}" value="{$item->member_price}" style="text-align: center;"> 
+                         </td>
+                         {else}
+                         <td id="{$item->id}">
+                            <div name="modify_group_{$item->id}" >{$item->group_price}</div>
+                         </td>
+                         <td id="m{$item->id}">
+                            <div name="modify_member_{$item->id}" >{$item->member_price}</div>
+                         </td>
+                         {/if}   
+                         {if $status == 1}
+                         <td><a title="删除产品" href="javascript:;" onclick="system_category_del(this,{$item->id},1)" class="ml-5" style="color:blue;">删除</a></td>
+                         {/if}
+                       </tr>
+                     {/foreach}
+                    </tbody>
+                 </table>
+              </div>
+
+
             </div>
-            
         <div class="row cl">
             <div class="col-9 col-offset-3">
                 <input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" onclick="baocungroup()">
-                <!-- <input class="btn btn-primary radius" type="reset" value="&nbsp;&nbsp;取消&nbsp;&nbsp;" style="background: #EDEDED;border:0px;color:#000000;"> -->
+                <input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;返回&nbsp;&nbsp;" onclick="javascript:history.back(-1);" style="background: #EDEDED;border:0px;color:#fff;">
             </div>
         </div>
     </form>
@@ -151,6 +214,74 @@
 <script type="text/javascript" src="style/laydate/laydate.js"></script>
 {literal}
 <script type="text/javascript">
+//双击修改
+var setgp = new Object;
+  var tuanZ = new Object;
+  function set_group_price(i){
+    var pid = i;
+    
+    $('div[name=modify_group_'+i+']').hide();
+    var set_price = $('#set_group_'+i).val();
+    $('.text-c td[id='+i+']').append('<input type="text" name="modify'+i+'" style="width:80px;" onkeyup="gDecimal(this,'+pid+')">');
+    $('.text-c input[name=modify'+i+']').attr("value",set_price);
+    $('.text-c input[name=modify'+i+']').blur(function(){
+      var price = $('.text-c input[name=modify'+i+']').val();
+      var abc = price.indexOf('.');
+      var efg = price.indexOf('0');
+      if(efg == 0 && abc < 0){
+        price = price.substring(1);
+      }
+      if(abc == 0 && price != ''){
+        price = '0' + price;
+      }
+      if(abc < 0 && price != ''){
+        price = price + '.00';
+      }else if(abc == (price.length-1)){
+        price = price + '00';
+      }
+       price = parseFloat(price).toFixed(2);
+       setgp[i] = price;
+       
+       $('.text-c input[name=modify'+i+']').remove();
+       $('.text-c div[name=modify_group_'+i+']').text(price);
+       $('#set_group_'+i).val(price);
+       $('.text-c div[name=modify_group_'+i+']').show(); 
+    });
+    
+ }
+
+  function set_member_price(i){
+    var pid = i;
+    
+    $('div[name=modify_member_'+i+']').hide();
+    var set_price = $('#set_member_'+i).val();
+    $('.text-c td[id=m'+i+']').append('<input type="text" name="modifytoo'+i+'" style="width:80px;" onkeyup="checkDecimal(this,'+pid+')">');
+    $('.text-c input[name=modifytoo'+i+']').attr("value",set_price);
+    $('.text-c input[name=modifytoo'+i+']').blur(function(){
+      var price = $('.text-c input[name=modifytoo'+i+']').val();
+      var abc = price.indexOf('.');
+      var efg = price.indexOf('0');
+      if(efg == 0 && abc < 0){
+        price = price.substring(1);
+      }
+      if(abc == 0 && price != ''){
+        price = '0' + price;
+      }
+      if(abc < 0 && price != ''){
+        price = price + '.00';
+      }else if(abc == (price.length-1)){
+        price = price + '00';
+      }
+       price = parseFloat(price).toFixed(2);
+       tuanZ[i] = price;
+       
+       $('.text-c input[name=modifytoo'+i+']').remove();
+       $('.text-c div[name=modify_member_'+i+']').text(price);
+       $('#set_member_'+i).val(price);
+       $('.text-c div[name=modify_member_'+i+']').show(); 
+    });
+    
+ }
   var radio = 1;
   var otype = $("input[name='endtime']:checked").val();
   
@@ -190,7 +321,24 @@
     var overtime = otype=='2'?endtime:$('input[name=ischang]').attr('data-time');
     var groupnum = $("input[name=groupnum]").val();
     var productnum = $("input[name=productnum]").val();
-    
+    var tz_price_str = "";
+      $(".tz_price").each(function(){
+          let id = $(this).attr("data-id");
+          let val = $(this).val();
+          tz_price_str +=  id+":"+val+",";
+      })
+       // tz_price_str += "}";
+
+      var pt_price_str = "";
+      $(".pt_price").each(function(){
+          let id = $(this).attr("data-id");
+          let val = $(this).val();
+          pt_price_str += id+":"+val+",";
+      })
+       // pt_price_str += "}";
+
+      console.log(tz_price_str);
+      console.log(pt_price_str);
     if(groupname == ''){
         $("input[name=groupname]").addClass('content');
         $("input[name=groupname]").change(function(){
@@ -235,29 +383,28 @@
     }else{
         content = 2;
     }
-
-    // console.log(otype);
-    // console.log(groupname);
-    // console.log(peoplenum);
-    // console.log(timehour);
-    // console.log(timeminite);
-    // console.log(starttime);
-    // console.log(endtime);
-    // console.log(groupnum);
-    // console.log(productnum);
    if(content == 2){
+
       $.ajax({
                url:"index.php?module=go_group&action=modify&set=msgsubmit",
                type:"post",
-               data:{id:id,groupname:groupname,peoplenum:peoplenum,timehour:timehour,timeminite:timeminite,starttime:starttime,overtime:overtime,groupnum:groupnum,productnum:productnum,otype:otype},
+               data:{
+                      id:id,
+                      groupname:groupname,
+                      peoplenum:peoplenum,
+                      timehour:timehour,
+                      timeminite:timeminite,
+                      starttime:starttime,
+                      overtime:overtime,
+                      groupnum:groupnum,
+                      productnum:productnum,
+                      otype:otype,
+                      gprice:tz_price_str,
+                      mprice:pt_price_str
+                    },
                dataType:"json",
                success:function(data) {
                    if(data.code == 1){
-                       // layer.msg('修改成功!');
-                       // window.parent.location.reload();
-                       // var index = parent.layer.getFrameIndex(window.name);
-                       // parent.layer.close(index);
-                       
                        location.href = 'index.php?module=go_group&action=index';
                    }
                },
@@ -265,6 +412,35 @@
         
    }
  }
+
+ //删除属性
+     var prolen = '{/literal}{$len}{literal}';
+        prolen = parseInt(prolen);
+function system_category_del(obj,id,control){
+        if(prolen <= 1){
+           layer.msg('删除失败,至少得保留一款产品!');
+           return false;
+        }
+  layer.confirm('确认要删除吗？',function(index){        
+    $.ajax({
+      type: "post",
+      url: "index.php?module=go_group&action=modify&set=delpro",
+      dataType: "json",
+      data:{id:id},
+      success: function(data){
+        if(data.code == 1){
+              layer.msg('已删除!',{icon:1,time:800});
+              location.reload();
+          }
+      },
+      error:function() {
+          layer.msg('网络出错!',{icon:1,time:800});
+      }
+    });
+  });
+
+  }
+
  
  // 得到当前日期
 function getFormatDate(){
@@ -296,7 +472,6 @@ var _nowDate = getFormatDate();
     "aaSorting": [[ 1, "desc" ]],//默认第几个排序
     "bStateSave": true,//状态保存
     "aoColumnDefs": [
-      //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
       {"orderable":false,"aTargets":[0,4]}// 制定列不参与排序
     ]
 });
@@ -311,20 +486,6 @@ $(function(){
     $("#tab-category").Huitab({
         index:0
     });
-    /*$("#form-category-add").validate({
-        rules:{
-            
-        },
-        onkeyup:false,
-        focusCleanup:true,
-        success:"valid",
-        submitHandler:function(form){
-            //$(form).ajaxSubmit();
-            var index = parent.layer.getFrameIndex(window.name);
-            //parent.$('.btn-refresh').click();
-            parent.layer.close(index);
-        }
-    });*/
     
 });
 

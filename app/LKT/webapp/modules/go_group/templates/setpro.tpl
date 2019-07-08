@@ -198,7 +198,7 @@
         } 
        } 
      } 
-   } 
+  } 
 
 
   function memberPrice(i) {

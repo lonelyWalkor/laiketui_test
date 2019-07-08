@@ -16,6 +16,7 @@ class addgroupAction extends Action {
     public function getDefaultView() {
       $db = DBAction::getInstance();
       $request = $this->getContext()->getRequest();
+      setcookie("proids");
         return View :: INPUT;
     }
 
