@@ -47,8 +47,9 @@
             <input type="hidden" name="ok" value="1" />
             <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
-            <input type="text" name="name" size='8' value="{$name}" id="" placeholder="用户id" style="width:200px" class="input-text">
+            <input type="text" name="name" size='8' value="{$name}" id="name" placeholder="用户id" style="width:200px" class="input-text">
             <input name="" id="" class="btn btn-success" type="submit" value="查询">
+            <input type="button" value="重 置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="resetButton()"  />
         </form>
         <div class="swivch">
         	<a href="index.php?module=coupon" class="btn1" style="color: #6a7076;" >活动</a>
@@ -105,6 +106,12 @@
 <script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="style/js/H-ui.js"></script> 
 <script type="text/javascript" src="style/js/H-ui.admin.js"></script>
-
+{literal}
+<script type="text/javascript">
+function resetButton(){
+    $("#name").val("");
+}
+</script>
+{/literal}
 </body>
 </html>

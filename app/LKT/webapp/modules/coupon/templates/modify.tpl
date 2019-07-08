@@ -34,15 +34,6 @@ function show(obj){
         document.getElementById('num').style.display = "none"; // 数量
         document.getElementById('z_money').style.display = "none"; // 满金额不显示
         document.getElementById('time').style.display = "none"; // 时间不显示
-    }else if(obj.value=='3'){ // 满减
-        document.getElementById("name").readOnly = true; // 活动名称
-        document.getElementById('txt').style.display = ""; // 显示
-        document.getElementById('txt_1').style.display = "none"; // 金额不显示
-        document.getElementById('txt_2').style.display = ""; // 减显示
-        document.getElementById('product_class_id').style.display = "none"; // 优惠劵类型id
-        document.getElementById('num').style.display = ""; // 数量
-        document.getElementById('z_money').style.display = ""; // 满金额显示
-        document.getElementById('time').style.display = ""; // 时间显示
     }
 }
 function change(){
@@ -88,10 +79,7 @@ function change(){
                     <input name="activity_type" type="radio" value="2" class="activity_type" onClick="show(this)" {if $activity_type==2}checked="checked"{/if}/>
                     <label for="sex-2">节日/活动</label>
                 </div>
-                {*<div class="radio-box">*}
-                    {*<input name="activity_type" type="radio" value="3" class="activity_type" onClick="show(this)" {if $activity_type==3}checked="checked"{/if}/>*}
-                    {*<label for="sex-3">满减</label>*}
-                {*</div>*}
+                
             </div>
             <div class="col-4"> </div>
         </div>
@@ -196,63 +184,6 @@ KindEditor.ready(function(K) {
     });
   });
 });
-$("#money").blur(function(){
-    var money = document.getElementById('money').value; // 减
-    var z_money = document.getElementById('z_money1').value; // 满
-    var activity_type = document.getElementsByName("activity_type");
-    var selectvalue=null;   //  selectvalue为radio中选中的值
-    for(var i=0;i<activity_type.length;i++){
-        if(activity_type[i].checked==true) {
-            selectvalue=activity_type[i].value;
-            break;
-        }
-    }
-    if (money=='') {
-        alert('请输入');
-        return false;
-    }
-    if(money > 0){
-        money = parseInt(money);
-        $("#money").val(money);
-        if(selectvalue == 3){
-            if(z_money == ''){
-                $("#name").val('减'+money);
-            }else{
-                z_money = parseInt(z_money);
-                $("#name").val('满'+z_money+'减'+money);
-            }
-        }
-    }else{
-        $("#money").val('');
-        alert('输入的值要大于0');
-        return false;
-    }
-});
-$("#z_money1").blur(function(){
-    var money = document.getElementById('money').value; // 减
-    var z_money = document.getElementById('z_money1').value; // 满
-    if (z_money=='') {
-        alert('请输入');
-        return false;
-    }
-    if(z_money > 0){
-        z_money = parseInt(z_money);
-        $("#z_money1").val(z_money);
-
-        if(money == ''){
-            $("#name").val('满'+z_money);
-        }else{
-            money = parseInt(money);
-            $("#name").val('满'+z_money+'减'+money);
-        }
-    }else{
-        $("#z_money1").val('');
-        alert('输入的值要大于0');
-        return false;
-    }
-});
-
-
 if($(".status").val() == 1){
     document.getElementById('name').readOnly = true;
     document.getElementById('money').readOnly = true;

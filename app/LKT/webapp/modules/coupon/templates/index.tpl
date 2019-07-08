@@ -50,14 +50,14 @@ td a{
             <input type="hidden" name="module" value="coupon" />
             <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
-            <select name="activity_type" class="select" style="width: 150px;height: 31px;vertical-align: middle;">
+            <select name="activity_type" id="activity_type" class="select" style="width: 150px;height: 31px;vertical-align: middle;">
                 <option value="0" {if $activity_type == '0'}selected{/if}>请选择活动类型</option>
                 <option value="1" {if $activity_type == '1'}selected{/if}>注册</option>
                 <option value="2" {if $activity_type == '2'}selected{/if}>节日/活动</option>
-                <option value="3" {if $activity_type == '3'}selected{/if}>满减</option>
             </select>
-            <input type="text" name="name" size='8' value="{$name}" id="" placeholder="活动名称" autocomplete="off" style="width:200px" class="input-text">
+            <input type="text" name="name" size='8' value="{$name}" id="name" placeholder="活动名称" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="" class="btn btn-success" type="submit" value="查询" >
+            <input type="button" value="重 置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="resetButton()"  />
             <a class="btn newBtn radius" href="index.php?module=coupon&action=add" style="height: 31px!important;border: none;">
             	<div style="height: 100%;display: flex;align-items: center;font-size: 14px;">
                 	<img src="images/icon1/add.png" style="margin: 0px;"/>&nbsp;发布活动
@@ -260,6 +260,11 @@ function confirm (content,id){
 				</div>
 			</div>	
 		`)
+}
+
+function resetButton(){
+    $("#name").val("");
+    $("#activity_type").val("");
 }
 </script>
 {/literal}

@@ -87,10 +87,6 @@ function change(){
                     <input name="activity_type" type="radio" value="2" onClick="show(this)"/>
                     <label for="sex-2">节日/活动</label>
                 </div>
-                {*<div class="radio-box">*}
-                    {*<input name="activity_type" type="radio" value="3" onClick="show(this)"/>*}
-                    {*<label for="sex-3">满减</label>*}
-                {*</div>*}
             </div>
             <div class="col-4"> </div>
         </div>
@@ -151,7 +147,6 @@ function change(){
 </div>
 
 <script type="text/javascript" src="modpub/js/check.js" > </script>
-
 <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type='text/javascript' src='modpub/js/calendar.js'> </script>
 <script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
@@ -193,69 +188,7 @@ KindEditor.ready(function(K) {
     });
   });
 });
-$("#money").blur(function(){
-    var money = document.getElementById('money').value; // 减
-    var z_money = document.getElementById('z_money1').value; // 满
-    var activity_type = document.getElementsByName("activity_type");
-    var selectvalue=null;   //  selectvalue为radio中选中的值
 
-    for(var i=0;i<activity_type.length;i++){
-        if(activity_type[i].checked==true) {
-            selectvalue=activity_type[i].value;
-            break;
-        }
-    }
-    if (money=='') {
-        alert('请输入');
-        return false;
-    }
-    if(money > 0){
-        money = parseInt(money);
-        $("#money").val(money);
-        if(selectvalue == 3){
-            if(z_money == ''){
-                $("#name").val('减'+money);
-            }else{
-                z_money = parseInt(z_money);
-                $("#name").val('满'+z_money+'减'+money);
-            }
-        }
-    }else{
-        $("#money").val('');
-        alert('输入的值要大于0');
-        return false;
-    }
-});
-$("#z_money1").blur(function(){
-    var money = document.getElementById('money').value; // 减
-    var z_money = document.getElementById('z_money1').value; // 满
-    if (z_money=='') {
-        alert('请输入');
-        return false;
-    }
-    if(z_money > 0){
-        z_money = parseInt(z_money);
-        $("#z_money1").val(z_money);
-
-        if(money == ''){
-            $("#name").val('满'+z_money);
-        }else{
-            money = parseInt(money);
-            $("#name").val('满'+z_money+'减'+money);
-        }
-    }else{
-        $("#z_money1").val('');
-        alert('输入的值要大于0');
-        return false;
-    }
-});
-$("#numId").blur(function(){
-    var _num = $('#numId').val();
-    if(_num < 0){
-        alert('输入的值要大于0');
-        return false
-    }
-});
 </script>
 {/literal}
 </body>
