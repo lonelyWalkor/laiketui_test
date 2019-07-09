@@ -117,7 +117,7 @@ class addAction extends Action {
         foreach ($attribute as $key => $value) {
         	$aa = $value['attr_list'];
         	 foreach ($aa as $key01 => $value01) {
-                $attr_group_list[] = array('attr_group_name' => $value01['attr_group_name'], 'attr_list' => $value01['attr_name'], 'attr_all' => []);
+                $attr_group_list[] = array('attr_group_name' => $value01['attr_group_name'], 'attr_list' => $value01['attr_name'], 'attr_all' => '');
            }
         }
         if($attr_group_list){
@@ -407,9 +407,7 @@ class addAction extends Action {
                     "alert('请填写属性！');" .
                     "</script>";
                 return $this->getDefaultView();
-                
-//          echo json_encode(array('status' => '请填写属性！'));
-//          exit;
+
         } else {
             foreach ($attr as $key => $value) {
                 $attr_list = $value['attr_list'];

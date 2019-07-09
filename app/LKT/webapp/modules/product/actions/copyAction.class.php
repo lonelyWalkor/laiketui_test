@@ -143,7 +143,7 @@ class copyAction extends Action {
             $checked_attr_list = [];
             $arrar_t = unserialize($res_size[0]->attribute);
             foreach ($arrar_t as $key => $value) {
-                $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => [], 'attr_all' => []);
+                $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => [], 'attr_all' => '');
             }
             foreach ($res_size as $k => $v) {
                 $attribute = unserialize($v->attribute); // 属性
@@ -355,8 +355,12 @@ class copyAction extends Action {
         $z_num = 0;
         $attributes = [];
         if (count($attr) == 0) {
-            echo json_encode(array('status' => '请填写属性！'));
-            exit;
+			 header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('请填写属性！');" .
+                    "</script>";
+                return $this->getDefaultView();
+           
         } else {
             foreach ($attr as $key => $value) {
                 $attr_list = $value['attr_list'];

@@ -142,7 +142,7 @@ class modifyAction extends Action {
             $checked_attr_list = [];
             $arrar_t = unserialize($res_size[0]->attribute);
             foreach ($arrar_t as $key => $value) {
-                $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => [], 'attr_all' => []);
+                $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => '', 'attr_all' => '');
             }
             foreach ($res_size as $k => $v) {
                 $attribute = unserialize($v->attribute); // 属性
@@ -226,6 +226,7 @@ class modifyAction extends Action {
         $freight = $request->getParameter('freight'); // 运费
 
         if($product_title == ''){
+			header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('产品名称不能为空！');" .
                 "location.href='index.php?module=product&action=add';</script>";
@@ -234,6 +235,7 @@ class modifyAction extends Action {
             $sql = "select product_title from lkt_product_list where id != '$id' and product_title = '$product_title'";
             $r = $db->select($sql);
             if($r){
+				header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('{$product_title} 已经存在，请选用其他标题进行修改！');" .
                     "location.href='index.php?module=product&action=modify';</script>";
@@ -258,18 +260,21 @@ class modifyAction extends Action {
             }
         }
         if($product_class == ''){
+			header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('产品类别不能为空！');" .
                 "</script>";
             return $this->getDefaultView();
         }
         if($brand_id == ''){
+			header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('请选择品牌！');" .
                 "</script>";
             return $this->getDefaultView();
         }
         if($keyword == ''){
+			header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('请填写关键词！');" .
                 "</script>";
