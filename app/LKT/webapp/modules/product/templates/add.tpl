@@ -211,10 +211,10 @@ function check(f) {
                           {if $initial->unit != ''}
                                     <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
                          {else}
+                                    <option value="">请选择商品属性</option>
                                     <option value="盒">盒</option>
                                     <option value="篓">篓</option>
                                     <option value="箱">箱</option>
-                                    <option value="盒">盒</option>
                                     <option value="个">个</option>
                                     <option value="套">套</option>
                                     <option value="包">包</option>

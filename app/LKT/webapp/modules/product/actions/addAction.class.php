@@ -61,23 +61,17 @@ class addAction extends Action {
         $distributors_num = 0;
 
         // 运费
-        $sql = "select id,name from lkt_freight order by add_time desc";
+        $sql = "select id,name,is_default from lkt_freight order by is_default desc, add_time desc";
         $rr = $db->select($sql);
         $freight = [];
         $freight_num = 0;
         if($rr){
-            if($freight1){
-                $sql = "select id,name from lkt_freight where id = '$freight1'";
-                $rr1= $db->select($sql);
-                $freight[$freight_num] = (object)array('id'=> $rr1[0]->id,'name'=> $rr1[0]->name);
-                $freight_num++;
-                $freight[$freight_num] = (object)array('id'=>0,'name'=>'默认模板');
-            }else{
-                $freight[$freight_num] = (object)array('id'=>0,'name'=>'默认模板');
-            }
-            foreach ($rr as $k1 => $v1){
-                $freight_num++;
-                $freight[$freight_num] = (object)array('id'=> $v1->id,'name'=> $v1->name);
+            foreach ($rr as $key => $value) {
+              if($freight1 && $freight1 == $value->id){
+                $freight[$freight_num] = (object)array('id'=> $value->id,'name'=> $value->name);
+              }else{
+                 $freight[$freight_num] = (object)array('id'=> $value->id,'name'=> $value->name);
+              }
             }
         }
         if($initial != ''){
@@ -85,7 +79,7 @@ class addAction extends Action {
         }else{
             $initial = array();
         }
-//      print_r($res);die;
+
 
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);

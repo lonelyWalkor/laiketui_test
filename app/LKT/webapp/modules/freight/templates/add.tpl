@@ -309,6 +309,7 @@ function save_address(){
             }
             freight_list_value = freight_list_value.substring(0, freight_list_value.length - 1);
             freight_list_value += '}';
+            // console.log(freight_list_value);
             // 给隐藏域赋值
             $("#hidden_freight").val(freight_list_value);
 
@@ -347,8 +348,11 @@ function freight_del(obj){
     }
 
     freight_list_value = freight_list_value.substring(0, freight_list_value.length - 1);
-    freight_list_value += '}';
+    if( freight_list_value){
+          freight_list_value += '}';
 
+    }
+  
     $("#hidden_freight").val(freight_list_value);
     var num_1 = $('.tr_freight_num').length;
     if(num_1 == 0){

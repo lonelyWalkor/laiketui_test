@@ -64,6 +64,12 @@ class seeAction extends Action {
         $id = addslashes(trim($request->getParameter('id'))); // 产品id
         $attribute_id = addslashes(trim($request->getParameter('attribute_id'))); // 属性id
         $num = $request->getParameter('num'); // 数量
+            $nn = $db->select("select num from lkt_configure where pid = '$id' and id = '$attribute_id'");
+        $nn = $nn[0]->num;
+        if(floor($num)  ==$nn){
+             echo 2;
+                    exit;
+        }
         if(floor($num) == $num){
             if($num > 0){
                 $sql = "update lkt_configure set num = '$num' where pid = '$id' and id = '$attribute_id'";

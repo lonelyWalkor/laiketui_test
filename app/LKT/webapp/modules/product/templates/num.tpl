@@ -149,16 +149,23 @@ function double(attribute_id) {
 
 function leave(id,attribute_id) {
     var num = $('#num_'+attribute_id).val();
+
     $.ajax({
         type: 'POST',
         url: 'index.php?module=product&action=see',
         data: 'id='+id+'&attribute_id='+attribute_id+'&num='+num,
+
+
         success: function (res) {//此方法起到监视作用
+
             $('#num_'+attribute_id).attr('readOnly',true);
             document.getElementById('num_'+attribute_id).style.backgroundColor="#eeeeee";
+
             if(res == 1){
                 appendMask('修改产品数量成功',"cg");
                 // location.href="index.php?module=product&action=num";
+            }else if(res == 2){
+                location.href="index.php?module=product&action=num";
             }else{
                 $('#num_'+attribute_id).val(ynum);
                 appendMask('修改产品数量失败',"ts");

@@ -347,7 +347,12 @@ function freight_del(obj){
     }
 
     freight_list_value = freight_list_value.substring(0, freight_list_value.length - 1);
-    freight_list_value += '}';
+
+    if( freight_list_value){
+          freight_list_value += '}';
+
+    }
+  
 
     $("#hidden_freight").val(freight_list_value);
     var num_1 = $('.tr_freight_num').length;

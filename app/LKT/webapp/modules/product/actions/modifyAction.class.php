@@ -142,7 +142,7 @@ class modifyAction extends Action {
             $checked_attr_list = [];
             $arrar_t = unserialize($res_size[0]->attribute);
             foreach ($arrar_t as $key => $value) {
-                $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => '', 'attr_all' => '');
+                $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => [], 'attr_all' => []);
             }
             foreach ($res_size as $k => $v) {
                 $attribute = unserialize($v->attribute); // 属性
@@ -151,7 +151,7 @@ class modifyAction extends Action {
                 foreach ($attribute as $key => $value) {
                     foreach ($attr_group_list as $keya => $valuea) {
                         if ($key == $valuea['attr_group_name']) {
-                            ;
+                            
                             if (!in_array($value, $attr_group_list[$keya]['attr_all'])) {
                                 
                                     $attr_list = array('attr_name' => $value,'status' => true);
