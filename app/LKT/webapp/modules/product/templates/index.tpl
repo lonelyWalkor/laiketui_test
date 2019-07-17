@@ -435,10 +435,14 @@ function closeMask3(id,type){
 }
 function resetButton(){
         $("#product_title").val("");
-        $("#cid option[value='0']").attr("selected", "selected");
-        $("#brand_id option[value='0']").attr("selected", "selected");
-        $("#s_type option[value='0']").attr("selected", "selected");
-        $("#status option[value='0']").attr("selected", "selected");
+        $("#cid").val("");
+        $("#brand_id").val("");
+        $("#s_type").val("");
+        $("#status").val("");
+        // $("#cid option[value='0']").attr("selected", "selected");
+        // $("#brand_id option[value='0']").attr("selected", "selected");
+        // $("#s_type option[value='0']").attr("selected", "selected");
+        // $("#status option[value='0']").attr("selected", "selected");
 }
 </script>
 {/literal}

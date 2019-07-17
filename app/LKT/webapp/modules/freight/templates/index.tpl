@@ -229,6 +229,8 @@ function closeMask(id){
     $.get("index.php?module=freight&action=del",{'id':id},function(res){
         if(res.status=="1"){
             appendMask("删除成功","cg");
+        }else if(res.status=="2"){
+               appendMask("正在使用中，无法删除","cg");
         }else{
             appendMask("删除失败","ts");
         }

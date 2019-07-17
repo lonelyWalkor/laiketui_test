@@ -82,7 +82,11 @@ class IndexAction extends Action {
                     $imgurl = $img . $v->image;
                     $shou[$k] = array('id' => $v->id,'url' => $v->url,'imgurl' => $imgurl);
                 }else{
-                    $product_class = $v->url;
+                    $shou[$k] = array('id' => '','url' => '','imgurl' => '');
+                }
+            }
+        }
+        $product_class = $v->url;
                     $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$product_class-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
                     // print_r($sql_cs);die;
                     $r_cs = $db->select($sql_cs);
@@ -95,10 +99,7 @@ class IndexAction extends Action {
                         }
                         $shou[$k] = $cproduct;
                     }
-                }
-            }
-        }
-        
+        // print_r($shou);die;
         // $sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name,a.distributor_id from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.distributor_id > '0' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,20";
         // $r_t = $db->select($sql_t);
 

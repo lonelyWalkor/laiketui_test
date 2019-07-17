@@ -131,16 +131,17 @@ class configAction extends Action {
           "</script>";
       return $this->getDefaultView();
     }
-    if($unit == 0){
-      $unit = '天';
-    }else{
+    // if($unit == 0){
+    //   $unit = '天';
+    // }else{
       $unit = '小时';
-    }
+    // }
     $sql = "select * from lkt_order_config";
     $r = $db->select($sql);
     if($r){
       $days = $days ? $days:0;
       $sql = "update lkt_order_config set days = '$days',content = '$content',back = '$back',order_failure = '$order_overdue',unit = '$unit',modify_date = CURRENT_TIMESTAMP where id = 1";
+      // print_r($sql );die;
       $r_1 = $db->update($sql);
       // var_dump($sql,$r_1);exit;
       if($r_1 == -1) {

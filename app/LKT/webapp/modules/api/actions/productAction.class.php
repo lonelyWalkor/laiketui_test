@@ -608,6 +608,7 @@ class productAction extends Action {
         $request = $this->getContext()->getRequest();
         $cart_id = trim($request->getParameter('cart_id')); //  购物车id
         $uid = trim($request->getParameter('uid')); // 微信id
+        $num = trim($request->getParameter('num')); // 数量
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -720,6 +721,14 @@ class productAction extends Action {
                         }
                     }
                 }
+                if($product['Goods_num'] == $num){
+                    $product['Goods_num'] = $product['Goods_num'];
+                }else if($product['Goods_num'] > $num){//购物车数量大于购买数量
+                    $product['Goods_num'] = $num;
+                }else if($product['Goods_num'] < $num){//购物车数量小于购买数量
+                    $product['Goods_num'] = $num;
+                }
+
                 //计算运费
                 $yunfei = $yunfei + $this->freight($product['freight'],$product['Goods_num'],$address,$db);
                 $product['yunfei'] = $yunfei;//运费

@@ -45,9 +45,10 @@ class addsignAction extends Action {
 		$courier_num = $request -> getParameter('courier_num'); // 快递单号
 
 		$otype = addslashes(trim($request -> getParameter('otype'))); // 类型
-		$express_name = $request -> getParameter('express_name'); // 快递公司名称
+		 $express_name = $request -> getParameter('express_name'); // 快递公司名称
 
 		$time = date('Y-m-d H:i:s', time());
+
 		$con = " ";
 		if (!empty($express_id)) {
 			$con = ",express_id='$express_id'";

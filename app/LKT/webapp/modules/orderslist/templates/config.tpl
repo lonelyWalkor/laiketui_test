@@ -23,7 +23,7 @@
            <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4">退货时间：</label>
                 <div class="formControls col-xs-8 col-sm-4">
-                    <input type="text" name="back" value="{$back*24}" class="input-text">
+                    <input type="text" name="back" value="{$back}" class="input-text">
                     <!--<text style="color: red;">(如：买家签收后,2天之内允许退货)</text>-->
                 </div>
                 <label style="line-height: 30px;height: 30px;" class="col-xs-4 col-sm-0">小时</label>
