@@ -62,7 +62,8 @@
                 </view>
                 <view class="sp_jg">
                   <view class='guige'>¥ {{total}} </view> 
-                  <view class='guige'>x{{address.num}}</view>
+
+                  <view class='guige'>{{address.num}}</view>
                 </view>
               </view>
             </view>
@@ -164,20 +165,6 @@
         <text class="left">活动</text>
         <text class="right" style='color:{{bgcolor}};'>{{name}}</text>
       </view>
-      <!-- <view wx:if="{{plug_integral && discount}}" class="pay_zf pd" style='border-bottom:1px solid #eee;;'>
-        <text class="left">消费金</text>
-        <text class="right">{{user_consumer_money}}</text>
-      </view> -->
-      <!-- <view wx:if="{{plug_integral && discount}}" class="pay_zf pd">
-        <text class="left">抵用消费金 <text wx:if="{{checked}}" style="font-size:.30rpx;color:{{bgcolor}};"> {{allow}}</text></text>
-        <view class="right" >
-          <view>
-            <icon wx:if="{{checked}}" style='vertical-align:-4px;padding-left:7px;' type="success" size="20" bindtap='bindcheckbox'></icon>
-            <icon wx:else type="circle" size="20" style='vertical-align:-4px;padding-left:7px;'bindtap='bindcheckbox'></icon>
-          </view>
-        </view>
-      </view> -->
-
 <view wx:if="{{pay_xs}}">
       <view style='height:10px;widht:100%;background:#eee;'></view>
         <view class="pay_zf pd" >

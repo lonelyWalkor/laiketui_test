@@ -577,7 +577,7 @@ Page({
             var ptype = e.currentTarget.dataset.type;
             if (ptype == 'buynow') {
               wx.redirectTo({
-                url: '../order/pay?cartId=' + data.cart_id + '&pid=' + that.data.productId,
+                url: '../order/pay?cartId=' + data.cart_id + '&pid=' + that.data.productId + '&num=' + that.data.buynum,
               });
               return;
             } else {

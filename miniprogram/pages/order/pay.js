@@ -70,6 +70,8 @@ Page({
 		}
 	},
 	onLoad: function(options) {
+    console.log(options)
+    console.log('options')
 		var that = this;
     that.get_plug();
     wx.setNavigationBarColor({
@@ -78,6 +80,7 @@ Page({
     })
 		var size = options.sizeid;
 		var productId = options.productId;
+    var num = options.num;
 		var choujiangid = options.choujiangid;
 		var type1 = options.type1;
 		if(type1 == 11) {
@@ -88,6 +91,7 @@ Page({
 			this.setData({
 				size: size, // 购物车id
 				productId: productId,
+        num:num,
 				choujiangid: choujiangid,
         bgcolor: '#FF6347', // 背景颜色
 				userId: uid, // 微信id
@@ -105,6 +109,7 @@ Page({
 			var wallet = app.globalData.userInfo.wallet; // 钱包状态
 			this.setData({
 				cartId: options.cartId, // 购物车id
+        num : options.num,
         bgcolor: '#FF6347', // 背景颜色
 				userId: uid, // 微信id
 				plug_ins: plug_ins, // 插件
@@ -141,12 +146,15 @@ Page({
 	// 进入结算页面
 	Settlement: function() {
 		var that = this;
+    console.log(that)
+    console.log('99999')
 			wx.request({
         url: app.d.ceshiUrl + '&action=product&m=Settlement',
 				method: 'post',
 				data: {
 					cart_id: that.data.cartId, // 购物车id
 					uid: that.data.userId, // 微信id
+          num: that.data.num, // 微信id
 				},
 				header: {
 					'Content-Type': 'application/x-www-form-urlencoded'
