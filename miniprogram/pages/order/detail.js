@@ -259,7 +259,10 @@ Page({
       bgcolor: '#FF6347',
 		})
 		this.loadProductDetail();
-	},
+  },
+  onShow: function() {
+    this.loadProductDetail();
+  },
 	onReady: function() {
 		var that = this;
 		setTimeout(function() {
