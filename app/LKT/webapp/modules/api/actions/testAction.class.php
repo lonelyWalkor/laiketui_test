@@ -111,6 +111,29 @@ class testAction extends Action {
         
         $endsql = "update lkt_group_buy set is_show=0 where is_show=1 and endtime<='$now'";    //结束已经到期的拼团活动
         $db -> update($endsql);
+
+          $dd = date('Y-m-d H:i:s', strtotime("-15 day"));
+         // print_r($dd);die;
+        $ss = $db->select("select r_sNo,id from lkt_order_details where deliver_time<'".$dd."' and r_status = 2");//查询订单发货时间超过15天的待收货时间
+        if($ss){
+          foreach ($ss as $key => $value01) {
+            $sNo = $value01->r_sNo;
+            $db->update("UPDATE `lkt_order_details` SET`r_status`='5' WHERE id = ".$value01->id);
+
+            $sql_o = "select id from lkt_order_details where r_sNo = '$sNo' AND  r_status = '5' ";
+            $res_o = $db->selectrow($sql_o);//查询订单状态为待收货的行数
+
+            $sql_d = "select id from lkt_order_details where r_sNo = '$sNo'";
+            $res_d = $db->selectrow($sql_d);
+            // 如果订单下面的商品都处在同一状态,那就改订单状态为已完成
+            if($res_o == $res_d){
+                //如果订单数量相等 则修改父订单状态
+                $sql = "update lkt_order set status = '5' where sNo = '$sNo'";
+                $r = $db->update($sql);
+            }
+
+          }
+        }
         
         
     }
