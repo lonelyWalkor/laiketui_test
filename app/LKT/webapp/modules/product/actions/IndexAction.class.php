@@ -126,12 +126,12 @@ class IndexAction extends Action {
             }
             if($num == 0 && $value->status == 0){ // 当库存为0 并且商品还为上架状态
                 // 根据商品id，修改商品状态（下架）
-                $sql = "update lkt_product_list set status = 1 where id = '$pid'";
-                $db->update($sql);
+//              $sql = "update lkt_product_list set status = 1 where id = '$pid'";
+//              $db->update($sql);
                 $status_num += 1;
                 // 根据商品id，把商品下的属性全部下架
-                $sql = "update lkt_configure set status = 4 where pid = '$pid'";
-                $db->update($sql);
+//              $sql = "update lkt_configure set status = 4 where pid = '$pid'";
+//              $db->update($sql);
             }
             $sql = "select id,num,unit,price from lkt_configure where pid = '$pid'";//根据商品ID去查询商品对应的规格
             $r_s = $db->select($sql);
@@ -144,10 +144,11 @@ class IndexAction extends Action {
                     if($v1->num <= $min_inventory && $v1->num > 0){//还有商品，但是库存不足 修改状态  status( 0:未开启砍价 1:开启砍价 2 上架 3 缺货 4下架)
                         $sql = "update lkt_configure set status = 3 where id = '$configure_id'";
                         $db->update($sql);
-                    }else if($v1->num == 0){
-                        $sql = "update lkt_configure set status = 4 where id = '$configure_id'";
-                        $db->update($sql);
                     }
+//                  else if($v1->num == 0){
+//                      $sql = "update lkt_configure set status = 4 where id = '$configure_id'";
+//                      $db->update($sql);
+//                  }
                 }
                 $min = min($price);
                 $present_price = $min;//最低价格
