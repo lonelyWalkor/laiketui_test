@@ -18,8 +18,15 @@ class delAction extends Action {
         $num = 0;
         $id = rtrim($id, ','); // 去掉最后一个逗号
         $id = explode(',',$id); // 变成数组
-
+		   $db->begin();
         foreach ($id as $k => $v){
+        	 $sa= $db->select("select * from lkt_group_product as a,lkt_group_buy as b where a.group_id = b.status and  a.product_id = $v and is_show = 1");//查询该商品是否正在参加拼团活动
+            if($sa){
+                   $res = array('status' => '2','info'=>'该商品有参与插件活动，无法删除！');
+                    echo json_encode($res);
+            return;
+
+            }
             $sql = "delete from lkt_cart where Goods_id = '$v'";
             $db->delete($sql);
 
@@ -41,7 +48,7 @@ class delAction extends Action {
             $db->admin_record($admin_id,' 删除商品id为 '.$v.' 的信息',3);
 
         }
-
+ $db-> rollback();
         $res = array('status' => '1','info'=>'成功！');
         echo json_encode($res);
         return;

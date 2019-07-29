@@ -377,6 +377,8 @@ function closeMask(id){
     $.get("index.php?module=product&action=del",{'id':id},function(res){
         if(res.status=="1"){
             appendMask("删除成功","cg");
+        }else if(res.status=="2"){
+            appendMask("商品有参与插件活动，无法删除！","ts");
         }else{
             appendMask("删除失败","ts");
         }

@@ -19,6 +19,15 @@ class shelvesAction extends Action {
         $sql = "select status from lkt_product_list where id = '$id'";
         $r = $db->select($sql);
         if($r[0]->status == 0){
+        	$sa= $db->select("select * from lkt_group_product as a,lkt_group_buy as b where a.group_id = b.status and  a.product_id = $id and is_show = 1");//查询该商品是否正在参加拼团活动
+            if($sa){
+            	header("Content-type:text/html;charset=utf-8");
+                echo "<script type='text/javascript'>" .
+                    "alert('该商品有参与插件活动，无法下架！');" .
+                    "location.href='index.php?module=product&action=$url';</script>";
+                return;
+            }
+        	
             $sql = "update lkt_product_list set status = 1 where id = '$id'";
             $rr = $db->update($sql);
             if($rr > 0){
