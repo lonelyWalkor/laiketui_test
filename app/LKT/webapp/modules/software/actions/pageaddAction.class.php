@@ -66,12 +66,19 @@ class pageaddAction extends Action {
         // 查询分类表，根据sort顺序排列
         $sql = "select * from lkt_product_class where sid = 0 order by sort desc";
         $rr = $db->select($sql);
+
         $list = [];
         foreach ($rr as $key => $value) {
-           array_push($list, $value);
-           $list = $this->category($list,$value->cid,$key);
+               $dd = $this->sel($db,$value->cid);
+               if($dd){
+                unset($rr[$key]);
+               }else{
+                 array_push($list, $value);
+                $list = $this->category($list,$value->cid,$key);
+               }
+          
         }
-
+// print_r($list);die;
         // 获取文章信息
         $sql_2 = "select Article_id,Article_prompt,Article_title from lkt_article";
         $article = $db->select($sql_2);
@@ -86,7 +93,16 @@ class pageaddAction extends Action {
 	}
 
 
+    public function sel($db,$cid){
+        // print_r("select * from lkt_index_page where type ='category' and url =$cid");
+        $r = $db->select("select * from lkt_index_page where type ='category' and url =$cid");
+        if($r){
+            return 1;
+        }else{
+            return;
+        }
 
+    }
 
     public function category($list,$cid,$k,$num = 0)
     {
@@ -97,17 +113,23 @@ class pageaddAction extends Action {
         $sql = "select * from lkt_product_class where sid = '$cid' order by sort,cid";
         $rr = $db->select($sql);
         foreach ($rr as $key => $value) {
-           $str = '|——';
-           for ($i=0; $i < $num; $i++) { 
-              $str .= '——————';
-           }
-           $value->str = $str;
-           array_push($list, $value);
-           $sql = "select * from lkt_product_class where sid = '$value->cid' order by sort,cid";
-           $rs = $db->select($sql);
-           if($rs){
-               $list = $this->category($list,$value->cid,$k,$num+1);
-           }
+            $dd = $this->sel($db,$value->cid);
+               if($dd){
+                unset($rr[$key]);
+               }else{
+          
+               $str = '|—';
+               for ($i=0; $i < $num; $i++) { 
+                  $str .= '—';
+               }
+               $value->str = $str;
+               array_push($list, $value);
+               $sql = "select * from lkt_product_class where sid = '$value->cid' order by sort,cid";
+               $rs = $db->select($sql);
+               if($rs){
+                   $list = $this->category($list,$value->cid,$k,$num+1);
+               }
+            }
         }
 
         return $list;
