@@ -1,0 +1,25 @@
+<!--pages/notice/index.wxml-->
+<view class="function" style='background:#fff'>
+  <view>
+    <view style='font-size:27px;width:80%;height:90px;text-align:center;margin:20px auto;'>
+      {{notice[0].name}}
+    </view>
+    <view style='font-size:10px;height:10px;width:30%;float:right;margin:5px 10px 20px;'>{{notice[0].time}} </view>
+  </view>
+  <view>
+  </view>
+  <view style='height:800rpx;'>
+    <scroll-view scroll-y="true" style="height:750rpx;width:93%;margin:0 auto;">
+      <import src="../../wxParse/wxParse.wxml" />
+      <view class="wxParse">
+        <template is="wxParse" data="{{wxParseData:detail.nodes}}" />
+      </view>
+    </scroll-view>
+  </view>
+  <!-- <view>
+    {{notice[0].detail}}
+  </view> -->
+
+
+
+</view>
