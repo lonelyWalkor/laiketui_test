@@ -31,7 +31,7 @@
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-2">公告名称：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>公告名称：</label>
             <div class="formControls col-10"> 
                <input type="text" name="notice" required="required" id="noticeId">
                <input type="hidden" id="hiddenId" >
@@ -40,7 +40,7 @@
 
 
         <div class="row cl">
-            <label class="form-label col-2">活动介绍：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>活动介绍：</label>
             <div class="formControls col-10"> 
                 <script id="editor" type="text/plain" style="width:100%;height:400px;" name="detail"></script> 
             </div>

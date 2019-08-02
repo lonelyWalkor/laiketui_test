@@ -34,14 +34,14 @@
         </div>
 
         <div class="row cl">
-            <label class="form-label col-2">公告名称：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>公告名称：</label>
             <div class="formControls col-10"> 
                <input type="text" value="{$name}" name="notice">
             </div>
         </div>
 
         <div class="row cl">
-            <label class="form-label col-2">活动介绍：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>活动介绍：</label>
             <div class="formControls col-10"> 
                 <script id="editor" type="text/plain" style="width:100%;height:400px;" name="detail" >{$detail}</script> 
             </div>
