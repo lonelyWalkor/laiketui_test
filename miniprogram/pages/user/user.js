@@ -22,6 +22,11 @@ Page({
 				text: '地址管理',
 				url: 'address/index'
 			},
+      {
+        icon: 'gg.png',
+        text: '公告管理',
+        url: 'notice/notice'
+      },
 			{
 				icon: 'sz.png',
 				text: '设置',

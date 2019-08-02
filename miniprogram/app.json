@@ -44,9 +44,10 @@
     "pages/user/transfer",
     "pages/user/transfer1",
     "pages/login/login",
-    "pages/bangding/bangding"
+    "pages/bangding/bangding",
+    "pages/notice/notice",
+    "pages/notice/index"
   ],
-  
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ffffff",
@@ -91,5 +92,6 @@
         "text": "个人中心"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
