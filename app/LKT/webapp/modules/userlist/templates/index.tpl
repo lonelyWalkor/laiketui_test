@@ -675,7 +675,7 @@ function closeMask(id){
     	async:true,
     	success:function(res){
     		console.log(res)
-    		if(res==1){
+    		if(JSON.parse(res).status==1){
     			appendMask("删除成功","cg");
     		}
     		else{

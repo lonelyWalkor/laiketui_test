@@ -31,11 +31,19 @@ class delAction extends Action {
                     exit();
             }else{
                     $a=$db->admin_record($admin_id,' 删除用户 '.$id,24);
+
+                    $rr =$db -> select("select * from lkt_user where id = '$id'");
+                    if($rr){
+                        $data =$rr[0];
+                         $sql01 = "insert into lkt_user_del (user_id,user_name,headimgurl,wx_name,sex,wx_id,Referee,access_token,img_token,source) values('$data->user_id','$data->user_name','$data->headimgurl','$data->wx_name','$data->sex','$data->wx_id','$data->Referee','$data->access_token','$data->img_token',1)";
+                        $r = $db->insert($sql01);
+                    }
                     $sql = "delete from lkt_user where id = '$id'";
-                    // $db->delete($sql);
+                    $db->delete($sql);
                     $res = array('status' => '1','info'=>'删除成功！');
-                    // echo json_encode($res);
-                    echo $db->delete($sql);exit;
+                    echo json_encode($res);
+                    // echo $db->delete($sql);
+                    exit;
                     
             }
 
