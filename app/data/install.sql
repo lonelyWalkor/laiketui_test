@@ -2037,9 +2037,14 @@ LOCK TABLES `lkt_user_address` WRITE;
 /*!40000 ALTER TABLE `lkt_user_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+--
+-- Table structure for table `lkt_user_del`
 --
 
-
+DROP TABLE IF EXISTS `lkt_user_del`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lkt_user_del` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` char(15) DEFAULT NULL COMMENT '用户id',
