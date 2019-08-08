@@ -1456,11 +1456,9 @@ CREATE TABLE `lkt_product_list` (
   `product_number` varchar(100) NOT NULL COMMENT '商品编号',
   `product_title` varchar(100) NOT NULL DEFAULT '' COMMENT '产品名字',
   `subtitle` varchar(100) DEFAULT NULL COMMENT '副标题',
-  `scan` varchar(250) NOT NULL COMMENT '条形码',
   `product_class` varchar(32) NOT NULL COMMENT '产品类别',
   `imgurl` varchar(200) NOT NULL DEFAULT '' COMMENT '产品图片',
   `content` text NOT NULL COMMENT '产品内容',
-  `sort` int(11) DEFAULT NULL COMMENT '排序',
   `add_date` timestamp NULL DEFAULT NULL COMMENT '添加时间',
   `volume` int(12) NOT NULL DEFAULT '0' COMMENT '销量',
   `s_type` varchar(20) DEFAULT NULL COMMENT '产品值属性 1：新品,2：热销，3：推荐',
@@ -1488,7 +1486,7 @@ CREATE TABLE `lkt_product_list` (
 
 LOCK TABLES `lkt_product_list` WRITE;
 /*!40000 ALTER TABLE `lkt_product_list` DISABLE KEYS */;
-INSERT INTO `lkt_product_list` VALUES ('1', '', 'LEGO 乐高积木 创意百变系列 玩具和百货商店 31036', '', '610610', '-1-', '1541597062168.jpeg', '<p style=\"text-align: center;\"><img src=\"/ueditor/php/upload/image/20181107/1541597101.jpg\" title=\"1541597101.jpg\" alt=\"59bb872eNf44497eb.jpg\"/></p>', '100', '2018-06-21 15:50:03', '49', '1,2,3', '64', '0', '', '9', '0', '0', '乐高积木', '12.00', '0', '1', '0', '0', '0', 'a:5:{s:3:\"cbj\";s:2:\"20\";s:2:\"yj\";s:3:\"100\";s:2:\"sj\";s:2:\"60\";s:4:\"unit\";s:3:\"盒\";s:5:\"kucun\";s:2:\"64\";}');
+INSERT INTO `lkt_product_list` VALUES ('1', '', 'LEGO 乐高积木 创意百变系列 玩具和百货商店 31036', '', '-1-', '1541597062168.jpeg','<p style=\"text-align: center;\"><img src=\"/ueditor/php/upload/image/20181107/1541597101.jpg\" title=\"1541597101.jpg\" alt=\"59bb872eNf44497eb.jpg\"/></p>','100', '2018-06-21 15:50:03', '49', '1,2,3', '64', '0', '', '9', '0', '0', '12.00', '0', '1', '0', '0', '0', 'a:5:{s:3:\"cbj\";s:2:\"20\";s:2:\"yj\";s:3:\"100\";s:2:\"sj\";s:2:\"60\";s:4:\"unit\";s:3:\"盒\";s:5:\"kucun\";s:2:\"64\";}');
 /*!40000 ALTER TABLE `lkt_product_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
