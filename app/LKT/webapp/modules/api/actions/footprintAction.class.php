@@ -48,7 +48,7 @@ class footprintAction extends Action {
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
         // 根据微信id,查询用户id
-        $sql = "select user_id from lkt_user where wx_id = '$openid'";
+        $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
         $user_id = $r[0]->user_id;
 
@@ -168,7 +168,7 @@ class footprintAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $openid = trim($request->getParameter('openid')); // 微信id
-        $sql_user = 'select user_id from lkt_user where wx_id=\''.$openid.'\'';
+        $sql_user = 'select user_id from lkt_user where wx_id=\''.$openid.'\' ';
         $r_user = $db->select($sql_user);
         $userid = $r_user['0']->user_id;
         $sql = "delete from lkt_user_footprint where user_id = '$userid'";

@@ -52,7 +52,7 @@ class CouponAction extends Action {
         $request = $this->getContext()->getRequest();
         $openid = trim($request->getParameter('openid')); // 微信id
         // 查询用户id
-        $sql = "select user_id,Register_data from lkt_user where wx_id = '$openid'";
+        $sql = "select user_id,Register_data from lkt_user where wx_id = '$openid' ";
         $user = $db->select($sql);
         $user_id = $user[0]->user_id;
         $Register_data = $user[0]->Register_data; // 注册时间
@@ -148,7 +148,7 @@ class CouponAction extends Action {
         $id = trim($request->getParameter('id')); // 活动id
 
         // 查询用户id
-        $sql = "select user_id,Register_data from lkt_user where wx_id = '$openid'";
+        $sql = "select user_id,Register_data from lkt_user where wx_id = '$openid' ";
         $user = $db->select($sql);
         $user_id = $user[0]->user_id; // 用户id
         $Register_data = $user[0]->Register_data; // 注册时间
@@ -225,7 +225,7 @@ class CouponAction extends Action {
         $openid = trim($request->getParameter('openid')); // 微信id
         
         // 根据微信id,查询用户id
-        $sql = "select user_id from lkt_user where wx_id = '$openid'";
+        $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
         if(!$r){
             echo json_encode(array('status'=>0,'info'=>'暂无数据'));
@@ -353,7 +353,7 @@ class CouponAction extends Action {
         $id = trim($request->getParameter('id')); // 优惠券id
         $openid = trim($request->getParameter('openid')); // 微信id
         // 根据微信id,查询用户id
-        $sql = "select user_id from lkt_user where wx_id = '$openid'";
+        $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
         $user_id = $r[0]->user_id;
 
@@ -408,7 +408,7 @@ class CouponAction extends Action {
         $zong =0;
 
         // 根据微信id,查询用户id
-        $sql = "select user_id from lkt_user where wx_id = '$openid'";
+        $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
         $user_id = $r[0]->user_id; // 用户id
 
@@ -585,7 +585,7 @@ class CouponAction extends Action {
         $openid = trim($request->getParameter('openid')); // 微信id
         $coupon_id = trim($request->getParameter('coupon_id')); // 优惠券id
         // 根据活动id,查询活动信息
-        $sql = "select user_id from lkt_user where wx_id = '$openid'";
+        $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
         if(!$r){
             echo json_encode(array('status'=>0,'info'=>'暂无数据'));

@@ -126,6 +126,7 @@ form .select{
                 <option value="0" >请选择产品状态</option>
                 <option value="2" {if $status == 2}selected="selected"{/if}>上架</option>
                 <option value="1" {if $status == 1}selected="selected"{/if}>下架</option>
+                <option value="3" {if $status == 3}selected="selected"{/if}>待上架</option>
             </select>
             <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入产品名称" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="btn9" class="btn btn-success" type="submit" value="查询">
@@ -178,11 +179,12 @@ form .select{
                 <th>产品图片</th>
                 <th>产品标题</th>
                 <th>分类名称</th>
-                <th>库存</th>
-                <th>销量</th>
-                <th>发布时间</th>
+                <!-- <th>发布时间</th> -->
                 <th>产品品牌</th>
                 <th>价格</th>
+                <th>库存</th>
+                <th>销量</th>
+                <th>状态</th>
                 <th style="width: 250px;">操作</th>
             </tr>
             </thead>
@@ -205,15 +207,21 @@ form .select{
                         {/foreach}
                     </td>
                     <td style="min-width: 140px;">{$item->pname}</td>
-                    <td {if $item->num <= $min_inventory}style="color: red;" {/if}>{$item->num}{$item->unit}</td>
-                    <td style="min-width: 40px;">{$item->volume}</td>
-                    <td style="min-width: 70px;">{$item->add_date}</td>
+                    <!-- <td style="min-width: 70px;">{$item->add_date}</td> -->
                     <td style="min-width: 70px;">{if $item->brand_name != ''}{$item->brand_name}{else}无{/if}</td>
                     <td><span style="color:red;">{$item->price}</span></td>
+                    <td {if $item->num <= $min_inventory}style="color: red;" {/if}>{$item->num}{$item->unit}</td>
+                    <td style="min-width: 40px;">{$item->volume}</td>
+                    <td style="min-width: 70px;" >
+                        {if $item->status == 2}<span >待上架</span>
+                        {elseif $item->status == 0}<span >已上架</span>
+                        {else}<span >已下架</span>{/if}
+                        
+                    </td>
                     <td style="width: 250px;">
                         <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=see&id={$item->id}&product_title={$item->product_title}&url=Index&uploadImg={$uploadImg}" title="查看">
                             <div style="align-items: center;font-size: 12px;display: flex;">
-                            	<div style="margin: 0 auto;display: flex;align-items: center;">
+                                <div style="margin: 0 auto;display: flex;align-items: center;">
                                 <img src="images/icon1/ck.png"/>&nbsp;查看
                                 </div>
                             </div>
@@ -239,9 +247,9 @@ form .select{
                         {/if}
                         <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=modify&id={$item->id}&uploadImg={$uploadImg}" title="修改">
                             <div style="align-items: center;font-size: 12px;display: flex;">
-                            	<div style="margin: 0 auto;display: flex;align-items: center;">
-                            		<img src="images/icon1/xg.png"/>&nbsp;修改
-                            	</div> 
+                                <div style="margin: 0 auto;display: flex;align-items: center;">
+                                    <img src="images/icon1/xg.png"/>&nbsp;修改
+                                </div> 
                             </div>
                         </a>
                         <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=copy&id={$item->id}&uploadImg={$uploadImg}" title="复制">
@@ -253,7 +261,7 @@ form .select{
                         </a>
                         <a style="text-decoration:none" class="ml-5" onclick="del(this,{$item->id})">
                             <div style="align-items: center;font-size: 12px;display: flex;">
-                            	<div style="margin: 0 auto;display: flex;align-items: center;">
+                                <div style="margin: 0 auto;display: flex;align-items: center;">
                                 <img src="images/icon1/del.png"/>&nbsp;删除
                                 </div>
                             </div>
@@ -331,6 +339,42 @@ var Id = '';
 function del(obj,id){
     confirm("确认删除此商品吗？",id);
 }
+// function del(id) {
+//             $.ajax({
+//                 cache: true,
+//                 type: "POST",
+//                 dataType: "json",
+//                 url: 'index.php?module=product&action=del&id='+id,
+//                 data: {},
+//                 async: true,
+//                 success: function (res) {
+//                     if (res.status == "1") {
+//                         $.get("index.php?module=product&action=shelves", {'id': id}, function (res) {
+//                             $(".maskNew").remove();
+//                             if (res.status == 1) {
+//                                 layer.msg(res.info);
+//                                 intervalId = setInterval(function () {
+//                                     clearInterval(intervalId);
+//                                     location.replace(location.href);
+//                                 }, 2000);
+
+//                             }else {
+//                                 layer.msg(res.info);
+//                             }
+//                         }, "json");
+//                     }else if (res.status == 2) {
+//                         layer.msg('该商品有参与插件活动，无法下架！');
+//                     }else if (res.status == 3) {
+//                         layer.msg('该商品有未完成的订单，无法下架！');
+//                     }else if (res.status == 4) {
+//                         layer.msg('请先去完善商品信息！');
+//                     } else {
+//                         layer.msg("修改失败！");
+//                     }
+//                 }
+//             });
+//         }
+
 /*批量删除*/
 function datadel(){
     var checkbox=$("input[name='id[]']:checked");//被选中的复选框对象
@@ -378,7 +422,7 @@ function closeMask(id){
         if(res.status=="1"){
             appendMask("删除成功","cg");
         }else if(res.status=="2"){
-            appendMask("商品有参与插件活动，无法删除！","ts");
+            appendMask("该商品有参与插件活动，无法删除！","ts");
         }else{
             appendMask("删除失败","ts");
         }

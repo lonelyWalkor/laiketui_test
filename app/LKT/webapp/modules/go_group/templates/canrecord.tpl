@@ -70,8 +70,8 @@
         <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
             <tr class="text-c">
-        <!--         <th><input type="checkbox" class="inputC input_agreement_protocol" id="ipt1" name="ipt1" value="">
-                    <label for="ipt1"></label></th> -->
+                <th><input type="checkbox" class="inputC input_agreement_protocol" id="ipt1" name="ipt1" value="">
+                    <label for="ipt1"></label></th>
                 <th>商品名称</th>
                 <th>会员名称</th>
                 <th>零售价</th>
@@ -81,9 +81,9 @@
             </thead>
             <tbody>
             {foreach from=$list item=item name=f1}
-                <tr class="text-c"><!-- 
+                <tr class="text-c">
                     <td><input type="checkbox" class="inputC input_agreement_protocol" id="{$item->goods_id}"
-                               name="id[]" value="{$item->goods_id}"><label for="{$item->goods_id}"></label></td> -->
+                               name="id[]" value="{$item->goods_id}"><label for="{$item->goods_id}"></label></td>
                     <td>{$item->p_name}</td>
                     <td>{$item->user_name}</td>
                     <td>{$item->price} 元</td>
@@ -98,9 +98,9 @@
 <script type="text/javascript" src="style/js/jquery.js"></script>
 
 <script type="text/javascript" src="style/js/jquery.min.js"></script>
-<script type="text/javascript" src="style/js/layer/layer.js"></script>
+<!-- <script type="text/javascript" src="style/js/layer/layer.js"></script> -->
 <!--<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>-->
-<script type="text/javascript" src="style/js/jquery.dataTables.min.js"></script>
+<!-- <script type="text/javascript" src="style/js/jquery.dataTables.min.js"></script> -->
 <!--<script type="text/javascript" src="style/js/H-ui.js"></script>
 <script type="text/javascript" src="style/js/H-ui.admin.js"></script>-->
 

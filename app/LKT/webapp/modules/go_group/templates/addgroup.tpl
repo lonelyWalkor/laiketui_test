@@ -31,106 +31,128 @@
    .row .form-label{
    	width: 18%!important;
    }
+   .manlevel{
+   	 margin:10px 0;
+   }
+   .shengyuman{
+   	  width:207px;display: inline-block;
+   }
+   body{
+   	 font-size:14px;
+   }
 </style>
 {/literal}
 <title>活动设置</title>
 </head>
 <body>
-<nav class="breadcrumb">插件管理
+<nav class="breadcrumb">
+	<span class="c-gray en"></span>
+	插件管理
 	<span class="c-gray en">&gt;</span>
-	拼团活动
+	<a href="window.history.go(-1)">拼团活动</a>
 	<span class="c-gray en">&gt;</span>
 	添加拼团
 </nav>
-<div class="page-container" style="background-color: #fff;margin: 0px 10px;">
+<div class="page-container pd-20 page_absolute">
 	<form class="form form-horizontal" id="form-category-add" enctype="multipart/form-data">
 		<div id="tab-category" class="HuiTab">
 			<div class="tabCon">
-				
-				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-3">
-						<span class="c-red">*</span>
-						拼团名称：</label>
+			  <div style="height:490px;overflow-y: scroll;">
+				<!-- <div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>拼团人数：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						<input type="text" class="input-text" value="" placeholder="" id="" name="groupname" style="width:200px;">
-						<span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-						<span style="margin-left: 10px;font-size: 10px;color:#666666;">仅后台显示,方便管理</span>
-						
+						<input type="number" max="50" min="1" class="input-text" value="" placeholder="" id="" name="peoplenum" style="width:60px;">&nbsp;&nbsp;~&nbsp;
+						<input type="number" max="50" min="1" class="input-text" value="" placeholder="" id="" name="peoplemax" style="width:60px;">
+						<span style="margin-left: 10px;font-size: 10px;color:red;">（只能为大于0且小于等于50的整数）</span>
 					</div>
-					
-				</div>
+					<div class="col-3">
+					</div>
+				</div> -->
 				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-3">拼团人数：</label>
-					<div class="formControls col-xs-8 col-sm-9">
-						<input type="number" max="5" min="1" class="input-text" value="" placeholder="" id="" name="peoplenum" style="width:60px;">
-						<span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-						<span style="margin-left: 10px;font-size: 10px;color:#666666;">只能为大于0且小于等于50的数字</span>
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>拼团人数设置：</label>
+					<div class="formControls col-xs-8 col-sm-9" style="background-color: #F5F5F5;margin-bottom: 10px;border-radius: 5px;padding: 10px;">
+						<input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;添加人数&nbsp;&nbsp;" style="height: 36px!important;" onclick="addlever()">
+						<div style="margin:10px;" id="setlevel">
+						 <div class="manlevel">
+						    <input type="number" max="50" min="1" class="input-text" value="" name="min_man" style="width:60px;" onkeyup="onkeyup1(this)">&nbsp;&nbsp;人团&nbsp;&nbsp;		 	
+							<span style="margin-left:17px;">折扣价: 参团</span>
+							<input type="number" class="input-text" value=""  name="canprice" style="width:80px;" onkeyup="onkeyup1(this)">
+							%
+							<span style="margin-left: 5px;">开团</span>
+							<input type="number" class="input-text" value=""  name="memberprice" style="width:80px;" onkeyup="onkeyup1(this)">
+							%
+						 </div>
+						</div>
+						 <!-- <span style="font-size: 10px;color:red;margin: 20px 0 0 10px;">（请设置价格优惠,如果不添加人数等级,则该产品的团默认均为此价格）</span> -->
 					</div>
 					<div class="col-3">
 					</div>
 				</div>
 				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-3">拼团时限：</label>
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>拼团倒计时：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						<input type="number" min="1" class="input-text" value="" placeholder="" id="" name="timehour" style="width:60px;"><span> 小时 </span>
-						<input type="number" max="59" min="0" class="input-text" value="" placeholder="" id="" name="timeminite" style="width:60px;"><span> 分钟 </span>
-						<span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-						<span style="margin-left: 10px;font-size: 10px;color:#666666;">建议不要超过24小时,小时数不能小于1,分钟数为0~59之间</span>
+						<input type="number" min="1" class="input-text" value="" placeholder="" id="" name="timehour" style="width:60px;" onkeyup="onkeyup1(this)"><span> 小时 </span>
+						<span style="margin-left: 10px;font-size: 10px;color:red;">（建议不要超过24小时,小时数不能小于1）</span>
+					</div>
+					<div class="col-3">
+					</div>
+				</div>
+				<div class="row cl" >
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始时间：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" value="" autocomplete="off" placeholder="" id="group_start_time" name="starttime" style="width:150px;">
 					</div>
 					<div class="col-3">
 					</div>
 				</div>
 				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-3">活动时间：</label>
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>结束时间：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						
-						  <span>开始时间</span><input type="text" class="input-text" value="" placeholder="" id="group_start_time" name="starttime" style="width:150px;margin-left: 10px;">
-						  <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-
-						<div style="margin-top: 10px;">
-						  <span>结束时间</span>
-						    <input type="radio" value="1" placeholder="" id="endtime" name="endtime" onchange="radioChange(1)" style="width:50px;"><span style="margin-left: -10px;">长期</span>
-						    <span style="margin-left: 10px;font-size: 10px;color:#666666;">长期的默认期限是一年</span>
-						  <div style="margin-left: 60px;">
-						    <input type="radio" value="2" placeholder="" id="endtime" name="endtime" onchange="radioChange(2)" style="width:50px;" checked><span style="margin-left: -10px;">定期结束</span><input type="text" class="input-text" value="" placeholder="" id="group_end_time" name="group_end_time" style="width:150px;margin-left: 10px;">
-						    <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-						    <span style="margin-left: 10px;font-size: 10px;color:#666666;">结束日期至少选此时的一小时后</span>
-						  </div>
+						<div style="margin-top: 0px;">
+						    <input type="radio" value="2" placeholder="" id="endtime" name="endtime" onchange="radioChange(2)" checked ><span style="margin-left: 10px;">定期结束</span>
+						    <input type="text" class="input-text" autocomplete="off" value="" placeholder="" id="group_end_time" name="group_end_time" style="width:150px;margin-left: 10px;">
+					    </div>
+					    <div style="margin-top: 15px;">
+					    	<input type="radio" value="1" placeholder="" id="ctime" name="endtime" onchange="radioChange(1)" >
+					    	<span style="margin-left: 10px;">长期</span>
+					    	<input type="text" class="input-text" autocomplete="off" value="" placeholder="" id="end_year" name="end_year" style="width:150px;margin-left: 34px;" disabled>
+					    	<span style="margin-left: 10px;font-size: 10px;color:red;">（长期的默认期限是一年,开始时间和结束时间不能小于现在时间,且开始时间不能大于结束时间）</span>
 					    </div>
 					</div>
 					<div class="col-3">
 					</div>
 				</div>
 				<div class="row cl" >
-					<label class="form-label col-xs-4 col-sm-3">每位用户可同时进行的团数：</label>
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户可同时进行的团数：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						<input type="number" min="1" class="input-text" value="" placeholder="" id="" name="groupnum" style="width:60px;">
-						<span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-						<span style="margin-left: 10px;font-size: 10px;color:#666666;">数字不能小于1。(为保证商家利益,请对团数进行限制。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注: 已成功或已失败的团不计入团数。)</span>
+						<input type="number" min="1" class="input-text" value="" placeholder="" id="" name="groupnum" style="width:60px;" onkeyup="onkeyup1(this)">
+
+						<span style="margin-left: 10px;font-size: 10px;color:red;">（数字不能小于1，已成功或已失败的团不计入团数）</span>
 					</div>
 					<div class="col-3">
 					</div>
 				</div>
 				<div class="row cl">
-					<label class="form-label col-xs-4 col-sm-3">用户每次参团时可购买件数：</label>
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户参团可购买件数：</label>
 					<div class="formControls col-xs-8 col-sm-9">
-						<input type="number" min="1" class="input-text" value="" placeholder="" id="" name="productnum" style="width:60px;">
-						<span style="margin-left: 3px;font-size: 3px;color:red;">*必填项</span>
-						<span style="margin-left: 10px;font-size: 10px;color:#666666;">数字不能小于1。(为保证商家利益,请对用户参团时可购买件数进行限。)</span>
+						<input type="number" min="1" class="input-text" value="" placeholder="" id="" name="productnum" style="width:60px;" onkeyup="onkeyup1(this)">
+						<span style="margin-left: 10px;font-size: 10px;color:red;">（数字不能小于1）</span>
 					</div>
 					<div class="col-3">
+					</div>
+				</div>
+				</div>
+				<div class="row cl page_footer" >
+					<div >
+						<input class="btn btn-primary radius ta_btn4" onclick='javascript:history.back(-1)' type="reset" value="取消" style="background: #fff!important;">
+						<input class="btn btn-primary radius ta_btn3" type="button" value="保存" onclick="baocungroup()">
 					</div>
 				</div>
 			</div>
 	</form>
 </div>
 </div>
-<div class="row cl" style="margin-left: 10px;">
-	<div>
-		<input class="btn btn-primary radius" type="button" value="下一步" onclick="baocungroup()">
-		<input class="btn btn-primary radius" onclick='javascript:history.back(-1)' type="reset" value="取消" style="background: #EDEDED;border:0px;color:#fff;">
-	</div>
-</div>
+
 	
 
 <!--_footer 作为公共模版分离出去-->
@@ -144,7 +166,7 @@
 <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<!-- <script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> -->
 <script type="text/javascript" src="style/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript" src="style/laydate/laydate.js"></script>
 {literal}
@@ -152,149 +174,217 @@
   var radio = 1;
 
    function radioChange(i){
+   	  var group_end_time = $('#group_end_time');
       if(i == 1){
-      	  $('#group_end_time').attr('disabled','disabled');
+      	  group_end_time.attr('disabled','disabled');
+      	  group_end_time.val('');
       	  radio = 1;
+      	  var startdate = $("#group_start_time").val();
+      	  if(startdate != '' && startdate.length == 19){
+      	  	var day = startdate.split(' ');
+			var str = startdate.replace(/-/g,'/');
+	    	var d = new Date(str);
+	    	var oneYear = oneYearPast(d);
+	    	oneYear = oneYear + ' ' + day[1];
+	    	$("#end_year").val(oneYear)
+      	  }
       }else{
-      	  $('#group_end_time').removeAttr('disabled');
+      	  group_end_time.removeAttr('disabled');
+      	  $("#end_year").val('');
       	  radio = 2;
       }
    }
+
+   laydate.render({
+	  elem: '#group_start_time', //指定元素
+	   trigger: 'click',
+	  type: 'datetime',
+	  done: function(value, date){
+	  	var radio = $("input[name=endtime]:checked").val();
+
+	  	if(radio == 1){
+	        var day = value.split(' ');
+			var str = value.replace(/-/g,'/');
+	    	var d = new Date(str);
+	    	var oneYear = oneYearPast(d);
+	    	oneYear = oneYear + ' ' + day[1];
+	    	$("#end_year").val(oneYear)
+	    }	
+	    //alert('你选择的日期是：' + value + '\n获得的对象是' + JSON.stringify(date));
+	  }
+	});
+   
+ laydate.render({
+  elem: '#group_end_time',
+	 trigger: 'click',
+  type: 'datetime'
+});
+ 
+ 
+//一年后的今天的前一天
+function oneYearPast(time)
+{
+	//var time=new Date();
+	var year=time.getFullYear()+1;
+	var month=time.getMonth()+1;
+	var day=time.getDate();
+	
+	if(month<10){
+		month="0"+month;
+	}
+	
+	if(day>1){
+		day = day;
+	}else{
+		month = month-1;
+		if(month<10){
+			month="0"+month;
+		}
+		if(month==0){
+			month = 12;
+		}
+		day=new Date(year,month,0).getDate();
+	}
+	
+	var v2=year+'-'+month+'-'+day;
+	return v2;		
+}
 
  $("input[name=endtime]").change(function(){
     		if($("input[name=endtime]:checked").val() == 1){
     		  $('input[name=group_end_time]').removeClass('content');
     	  }
     });
+ 
+ 
+ function addlever() {
+ 
+    var node = '<div class="manlevel"><input type="number" max="50" min="1" class="input-text" value="" name="min_man" style="width:60px;" onkeyup="onkeyup1(this)">&nbsp;&nbsp;人团&nbsp;&nbsp;<span style="margin-left:20px;">折扣价: 参团</span><input type="number" class="input-text" value=""  name="canprice" style="width:80px;margin-left:5px;" onkeyup="onkeyup1(this)">&nbsp;%<span style="margin-left: 10px;">开团</span><input type="number" class="input-text" value=""  name="memberprice" style="width:80px;margin-left:5px;" onkeyup="onkeyup1(this)">&nbsp;%<input class="btn btn-primary radius" type="button" onclick="removepro(event)" value="删除" style="margin-left:10px;height: 36px!important;"></div>';
+
+    var setlevel = $('#setlevel');
+    setlevel.append(node);
+  }
+
+  function onkeyup1(ob){
+  	 if(ob.value.length==1){ob.value=ob.value.replace(/[^1-9]/g,'')}else{ob.value=ob.value.replace(/\D/g,'')}
+  }
+
+  function removepro(event){
+     var goods = event.srcElement.parentNode;
+     goods.parentNode.removeChild(goods);
+     
+  }
 
  function baocungroup(){
  	
- 	var content = 1;
- 	var groupname = $("input[name=groupname]").val();
- 	var peoplenum = $("input[name=peoplenum]").val();
- 	var timehour = $("input[name=timehour]").val();
- 	var timeminite = $("input[name=timeminite]").val();
- 	var starttime = $("input[name=starttime]").val();
- 	var endtime = $("input[name=group_end_time]").val();
- 	var groupnum = $("input[name=groupnum]").val();
- 	var productnum = $("input[name=productnum]").val();
-    var overtype = $("input[name=endtime]:checked").val();
-    if(groupname == ''){
-    	$("input[name=groupname]").addClass('content');
-    	$("input[name=groupname]").change(function(){
-    		$(this).removeClass('content');
-    	});
-    }else if(peoplenum == '' || parseInt(peoplenum)<1 || parseInt(peoplenum)>50){
-    	$("input[name=peoplenum]").addClass('content');
-    	$("input[name=peoplenum]").change(function(){
-    		$(this).removeClass('content');
-    	});
-    }else if(timehour == '' || parseInt(timehour)<1){
-    	$("input[name=timehour]").addClass('content');
-    	$("input[name=timehour]").change(function(){
-    		$(this).removeClass('content');
-    	});
-    }else if(timeminite == '' || parseInt(timeminite)<0 || parseInt(timeminite)>59){
-    	$("input[name=timeminite]").addClass('content');
-    	$("input[name=timeminite]").change(function(){
-    		$(this).removeClass('content');
-    	});
-    }else if(starttime == ''){
-    	$("input[name=starttime]").addClass('content');
-    	$("input[name=starttime]").change(function(){
-    		$(this).removeClass('content');
-    	});
-    }else if($("input[name=endtime]:checked").val() == 2 && endtime == ''){
-    	
-    	$("input[name=group_end_time]").addClass('content');
-    	$("input[name=group_end_time]").change(function(){
-    		$(this).removeClass('content');
-    	});
-    }else if(groupnum == '' || parseInt(groupnum)<1){
-    	$("input[name=groupnum]").addClass('content');
-    	$("input[name=groupnum]").change(function(){
-    		$(this).removeClass('content');
-    	});
-    }else if(productnum == '' || parseInt(productnum)<1){
-    	$("input[name=productnum]").addClass('content');
-    	$("input[name=productnum]").change(function(){
-    		$(this).removeClass('content');
-    	});
-    }else{
-    	content = 2;
-    }
-
-    /*console.log(radio);
-    console.log(groupname);
-    console.log(peoplenum);
-    console.log(timehour);
-    console.log(timeminite);
-    console.log(starttime);
-    console.log(endtime);
-    console.log(groupnum);
-    console.log(productnum);*/
-   if(content == 2){
-
- 	    window.location.href = 'index.php?module=go_group&action=addproduct&groupname='+groupname+'&peoplenum='+peoplenum+'&timehour='+timehour+'&timeminite='+timeminite+'&starttime='+starttime+'&radio='+overtype+'&endtime='+endtime+'&groupnum='+groupnum+'&productnum='+productnum;
-   }
- }
- 
- var date1 = '';
- var date2 = '';
-// 得到当前日期
-function getFormatDate(){
-    var nowDate = new Date();
-    var year = nowDate.getFullYear();
-    var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
-    var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
-    var hour = nowDate.getHours()< 10 ? "0" + nowDate.getHours() : nowDate.getHours();
-    var minute = nowDate.getMinutes()< 10 ? "0" + nowDate.getMinutes() : nowDate.getMinutes();
-    var second = nowDate.getSeconds()< 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds();
-    hour = Number(hour)
-
-    return year + "-" + month + "-" +date+" "+(hour+1)+":"+minute+":"+second;
-}
-var _nowDate = getFormatDate();
-console.log('nowDate')
-console.log(_nowDate)
- laydate.render({
-  elem: '#group_start_time', //指定元素
-  type: 'datetime',
-  done: function(value, date, endDate){
-    date1 = value;
-    dateCompare();
-    return date1;
-  }
-});
- laydate.render({
-  elem: '#group_end_time', 
-  type: 'datetime',
-  min: _nowDate,
-  btns: ['clear', 'confirm'],
-  done: function(value, date, endDate){
-    date2 = value;
-    dateCompare();
-    return date2;
-  }
-});
- 
-// 比较开始结束日期
-function dateCompare(){
-	var _date1 = new Date(date1).getTime();
-	var _date2 = new Date(date2).getTime();
-	if(_date1&&_date2){
-		if( _date1 >= _date2){
-			alert('开始时间不能大于结束时间！');
-			$('#group_end_time').val('');
-			$('#group_start_time').val('');
-			return false;
+ 	var checkdata = true;
+ 	var gdata = {};
+ 	
+ 	var timehour = gdata['timehour'] = $("input[name=timehour]").val();
+ 	var starttime = gdata['starttime'] = $("input[name=starttime]").val();	
+ 	var groupnum = gdata['groupnum'] = $("input[name=groupnum]").val();
+ 	var productnum = gdata['productnum'] = $("input[name=productnum]").val();
+    var overtype = gdata['overtype'] = $("input[name=endtime]:checked").val();
+    var endtime = $("input[name=group_end_time]").val();
+    
+    var manlevel = $('.manlevel');
+    var glevel = {};
+   
+    $.each(manlevel,function (index,element){
+    	var min_man = parseInt($(element).children('input[name=min_man]').val());  	
+    	var canprice = $(element).children('input[name=canprice]').val();
+    	var memberprice = $(element).children('input[name=memberprice]').val();
+    	if(glevel[min_man]){
+    		layer.msg('人数设置参数重复');
+            checkdata = false;
+            return;
+    	}
+    	if(min_man == ''){
+        	layer.msg('人数设置参数不能为空');
+            checkdata = false;
+            return;
+        }   	
+        if(canprice == '' || memberprice == ''){
+        	layer.msg('价格设置参数不能为空');
+            checkdata = false;
+            return;
+        }
+        if(parseInt(canprice) < parseInt(memberprice)){
+        	layer.msg('参团价格不能小于开团价格');
+            checkdata = false;
+            return;
+        }
+        glevel[min_man] = canprice+'~'+memberprice;
+    })
+   
+    
+   if(checkdata == true){
+		if(timehour == ''){
+			layer.msg('拼团倒计时设置不能为空');
+			checkdata = false;
+		    return;
+		}else if(starttime == ''){
+			
+			layer.msg('开始时间设置不能为空');
+			checkdata = false;
+		    return;
+		}else if($("input[name=endtime]:checked").val() == 2 && endtime == ''){    	
+			
+			layer.msg('结束时间设置不能为空');
+			checkdata = false;
+		    return;
+		}else if(groupnum == ''){
+			
+			layer.msg('团数限制不能为空');
+			checkdata = false;
+		    return;
+		}else if(productnum == ''){
+			
+			layer.msg('产品购买件数限制不能为空');
+			checkdata = false;
+		    return;
 		}
-	}else{
-		return
-	}
+   }
+
+   if(checkdata == true){
+   	var stime = new Date(starttime).getTime();
+    var now = new Date().getTime();
+    if(overtype == '2'){
+    	gdata['endtime'] = endtime;
+    	var etime = new Date(endtime).getTime();
+        if(stime < now || etime < now || stime >= etime){
+        	layer.msg('时间设置不合格!');
+        	return false;
+        }
+    }else{
+    	gdata['endtime'] = 'changqi';
+    	if(stime < now){
+        	layer.msg('时间设置不合格!');
+        	return false;
+        }
+    }
+    
+   	  gdata = JSON.stringify(gdata);
+ 	    $.ajax({
+               url:"index.php?module=go_group&action=addgroup",
+               type:"post",
+               data:{gdata:gdata,glevel:glevel},
+               dataType:"json",
+               success:function(data) {
+                   if(data.code == 1){
+                   	   layer.msg('添加成功!',{time:1000},function(){
+                           window.location.href = 'index.php?module=go_group';
+                       });             	        
+                   }else{
+                    layer.msg('发布失败!');  
+                   }
+               },
+             })
+ }
 }
 
-$('.table-sort').dataTable({
+
+	$('.table-sort').dataTable({
 	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
 	"bStateSave": true,//状态保存
 	"aoColumnDefs": [

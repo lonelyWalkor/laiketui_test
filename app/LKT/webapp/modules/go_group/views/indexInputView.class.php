@@ -12,8 +12,23 @@ class IndexInputView extends SmartyView {
 		$request = $this->getContext()->getRequest();
 		$this->setAttribute("list",$request->getAttribute("list"));
 		$this->setAttribute("status",$request->getAttribute("status"));
-		$this->setAttribute("is_show",$request->getAttribute("is_show"));
-		$this->setTemplate("index.tpl");
+		$this->setAttribute("proname",$request->getAttribute("proname"));
+		$this->setAttribute("pages_show",$request->getAttribute("pages_show"));
+		$this->setAttribute("proname",$request->getAttribute("proname"));
+		$this->setAttribute("username",$request->getAttribute("username"));
+		$this->setAttribute("group_status",$request->getAttribute("group_status"));
+		$this->setAttribute("group_num",$request->getAttribute("group_num"));
+		$this->setAttribute("now_data",date("Y/m/d h:i"));
+		$this->setAttribute("type",$request->getAttribute("type"));
+		$pageto = $request->getAttribute('pageto');
+		if($pageto == 'all'){
+			$r = time();
+			header("Content-type: application/msexcel;charset=utf-8");
+			header("Content-Disposition: attachment;filename=user-$r.xls");
+			$this->setTemplate("excel.tpl");
+		} else {
+			$this->setTemplate('index.tpl');
+		}
     }
 }
 ?>

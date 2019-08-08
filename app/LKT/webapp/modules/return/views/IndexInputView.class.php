@@ -10,7 +10,7 @@
 class IndexInputView extends SmartyView {
     public function execute() {
 		$request = $this->getContext()->getRequest();
-		$this->setAttribute("status",$request->getAttribute("status"));
+		$this->setAttribute("status1",$request->getAttribute("status"));
 		$this->setAttribute("p_name",$request->getAttribute("p_name"));
 		$this->setAttribute("startdate",$request->getAttribute("startdate"));
 		$this->setAttribute("enddate",$request->getAttribute("enddate"));

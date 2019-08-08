@@ -41,6 +41,7 @@ class IndexAction extends Action {
             if($rr){
                 // 有数据
                 $level = $rr[0]->level;
+                $level01 = $rr[0]->level-1;
                 // 循环查询该分类是否有商品
                 foreach ($rr as $k => $v){
                     $product_class = '-' . $v->cid . '-';
@@ -56,6 +57,7 @@ class IndexAction extends Action {
                 $sql = "select level from lkt_product_class where recycle = 0 and cid = '$cid' order by sort desc limit $start,$pagesize";
                 $rrr = $db->select($sql);
                 $level = $rrr[0]->level+1;
+                $level01 = $rrr[0]->level;
             }
             $sid_1 = $cid;
             $request->setAttribute("cid",$sid_1);
@@ -64,6 +66,7 @@ class IndexAction extends Action {
             $sql = "select * from lkt_product_class where recycle = 0 and sid = 0 order by sort desc limit $start,$pagesize";
             $rr = $db->select($sql);
             $level = 0;
+            $level01 = 0;
             foreach ($rr as $k => $v){
                 $product_class = '-' . $v->cid . '-';
                 $sql = "select id from lkt_product_list where recycle = 0 and product_class like '%$product_class%' order by sort desc";
@@ -85,11 +88,11 @@ class IndexAction extends Action {
 
         $level= $level ? $level:0;
         $newlerevl = $array[$level];
-
+// print_r($level01);die;
         $request->setAttribute("level_xs",$newlerevl);
         $request->setAttribute("level",$level);
         $request->setAttribute("list",$rr);
-
+        $request->setAttribute("level01",$level01);
         $request->setAttribute("pages_show",$pages_show);
         $request->setAttribute("uploadImg",$uploadImg);
         return View :: INPUT;

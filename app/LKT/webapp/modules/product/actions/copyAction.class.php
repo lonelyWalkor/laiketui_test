@@ -24,10 +24,8 @@ class copyAction extends Action {
         if($r){
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
-            $scan = $r[0]->scan; // 条形码
             $product_class = $r[0]->product_class ; // 产品类别
             $brand_class = $r[0]->brand_id ; // 产品品牌
-            $keyword = $r[0]->keyword ; // 关键词
             $weight = $r[0]->weight ; // 重量
             $content = $r[0]->content; // 产品内容
             $num = $r[0]->num; //数量
@@ -190,8 +188,6 @@ class copyAction extends Action {
         $request->setAttribute('r02', $brand);//所有品牌
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');
-        $request->setAttribute('scan', isset($scan) ? $scan : '');
-        $request->setAttribute('keyword', isset($keyword) ? $keyword : '');
         $request->setAttribute('weight', isset($weight) ? $weight : '');
         $request->setAttribute('content', isset($content) ? $content : '');
         $request->setAttribute('num', isset($num) ? $num : '');
@@ -210,11 +206,9 @@ class copyAction extends Action {
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片路径
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 小标题
-        $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
         $initial =$request->getParameter('initial'); // 初始值
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
         $brand_id = addslashes(trim($request->getParameter('brand_class'))); // 品牌
-        $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 重量
         $s_type = $request->getParameter('s_type'); // 显示类型
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
@@ -246,23 +240,7 @@ class copyAction extends Action {
                 }
             }
         }
-        if($scan == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('条形码不能为空！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }else{
-            $sql = "select id from lkt_product_list where scan = '$scan'";
-            $r = $db->select($sql);
-            if($r){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('条形码重复！');" .
-                    "</script>";
-                return $this->getDefaultView();
-            }
-        }
+
         if($product_class == '0'){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -277,13 +255,7 @@ class copyAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
-        if($keyword == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('请填写关键词！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }
+
         if($weight == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -430,8 +402,8 @@ class copyAction extends Action {
             }
         }
         // 发布产品
-        $sql = "insert into lkt_product_list(product_title,subtitle,scan,product_class,brand_id,keyword,weight,imgurl,content,num,s_type,add_date,volume,freight,initial) " .
-            "values('$product_title','$subtitle','$scan','$product_class','$brand_id','$keyword','$weight','$image','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight','$initial')";
+        $sql = "insert into lkt_product_list(product_title,subtitle,product_class,brand_id,weight,imgurl,content,num,s_type,add_date,volume,freight,initial,status) " .
+            "values('$product_title','$subtitle','$product_class','$brand_id','$weight','$image','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight','$initial','2')";
         $id1 = $db->insert($sql,'last_insert_id'); // 得到添加数据的id
         if($id1){
             $files=($_FILES['imgurls']['tmp_name']);

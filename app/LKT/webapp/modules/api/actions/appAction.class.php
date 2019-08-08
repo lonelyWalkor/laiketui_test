@@ -125,10 +125,10 @@ class appAction extends Action {
         }
         
         // 根据wxid,查询会员信息
-        $sql = "select * from lkt_user where wx_id = '$openid'";
+        $sql = "select * from lkt_user where wx_id = '$openid' ";
         $rr = $db->select($sql);
         if(!empty($rr)){
-            $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid'";
+            $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
             $db->update($sql);
             $user_id = $rr[0]->user_id;
 

@@ -2,495 +2,793 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="Bookmark" href="/favicon.ico" >
-<link rel="Shortcut Icon" href="/favicon.ico" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="lib/html5shiv.js"></script>
-<script type="text/javascript" src="lib/respond.min.js"></script>
-<![endif]-->
-<link rel="stylesheet" type="text/css" href="style/css/H-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="style/css/H-ui.admin.css" />
-<link rel="stylesheet" type="text/css" href="style/lib/Hui-iconfont/1.0.7/iconfont.css" />
-<link rel="stylesheet" type="text/css" href="style/skin/default/skin.css" id="skin" />
-<link rel="stylesheet" type="text/css" href="style/css/style.css" />
-<!--[if IE 6]>
-<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script>DD_belatedPNG.fix('*');</script>
-<![endif]-->
-<!--/meta 作为公共模版分离出去-->
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-{literal}
-<style type="text/css">
-   .content{
-      border:2px red solid;
-   }
-/*   .kznone{
-    display: none !important;
-   }*/
-     .product_title{
-      width:98px;
-      overflow:hidden;
-      white-space:nowrap;
-      text-overflow:ellipsis;
-      -webkit-text-overflow:ellipsis;
+    <link rel="Bookmark" href="/favicon.ico" >
+    <link rel="Shortcut Icon" href="/favicon.ico" />
 
-  }
-</style>
-{/literal}
-<title>编辑活动</title>
+    <link rel="stylesheet" type="text/css" href="style/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="style/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="style/css/bootstrap.min.css" />
+    <link href="style/css/style.css" rel="stylesheet" type="text/css"/>
+    <!-- <script type="text/javascript" src="style/js/jquery.dataTables.min.js"></script> -->
+    <script type="text/javascript" src="style/js/jquery.js"></script>
+<script type="text/javascript" src="style/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="style/js/laydate/laydate.js"></script> <!-- 时间插件-->
+    <title>添加活动</title>
+    {literal}
+        <style type="text/css">
+            body{background-color: #edf1f5;height: 100vh;}
+            　　　/*隐藏掉我们模型的checkbox*/
+            .my_protocol .input_agreement_protocol {
+                appearance: none;
+                -webkit-appearance: none;
+                outline: none;
+                display: none;
+            }
+            /*未选中时*/
+            .my_protocol .input_agreement_protocol+span {
+                width: 16px;
+                height: 16px;
+                background-color: red;
+                display: inline-block;
+                background: url(../../Images/TalentsRegister/icon_checkbox.png) no-repeat;
+                background-position-x: 0px;
+                background-position-y: -25px;
+                position: relative;
+                top: 3px;
+            }
+            /*选中checkbox时,修改背景图片的位置*/
+            .my_protocol .input_agreement_protocol:checked+span {
+                background-position: 0 0px
+            }
+            .inputC:checked +label::before{
+                top: -3px;
+                position: relative;
+            }
+
+            #addpro{
+                background: #ccc;
+                padding: 20px;
+                border-radius: 4px;
+            }
+            .protitle{
+                overflow: hidden;
+            }
+            .barginprice{
+                border-radius: 5px;
+                width: 120px;
+            }
+            .redport{
+                border:2px red solid;
+            }
+            .sysyattr{
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 9999;
+                background: rgba(0,0,0,0.5);
+
+            }
+            .sysyattr_div{
+                width: 100%;
+                height: 100%;
+                display:flex;
+            }
+            .sys_c{
+                width:70%;
+                height: 70%;
+                margin:auto;
+                background: white;
+                border-radius: 20px;
+            }
+            .modalshow{
+                display: none;
+            }
+            .modaltitle{
+                padding:10px;
+                width:100%;
+                height:7%;
+            }
+            .breadcrumb{padding: 0;margin: 0;margin-left: 10px;background-color: #edf1f5;}
+            #form-category-add{padding:0 14px;}
+            .text-c th{border: none;border-top: 1px solid #E9ECEF!important;vertical-align:middle!important;}
+            .text-c td{border: none;border-bottom: 1px solid #E9ECEF!important;vertical-align:middle;}
+            .text-c th:first-child{border-left: 1px solid #E9ECEF!important;}
+            .text-c th:last-child{border-right: 1px solid #E9ECEF!important;}
+            .text-c td:first-child{border-left: 1px solid #E9ECEF!important;}
+            .text-c td:last-child{border-right: 1px solid #E9ECEF!important;}
+            .text-c input{border: 1px solid #E9ECEF;margin: auto;padding: 2px 10px;}
+
+            .ra1{
+                /*width: 8%!important;*/
+                float: left;
+            }
+            .ra1 label{
+                width: 100px!important;
+                padding-left: 20px;
+                margin: auto;
+                height: 36px;
+                display: block;
+                line-height: 36px;
+            }
+            input[type=text],.select{
+                width: 190px;padding-left: 10px;
+            }
+            .fo_btn2{
+                margin-right: 10px!important;
+                color: #fff!important;
+                background-color: #2890FF!important;
+                border: 1px solid #fff;
+                float: right;
+                display: block;
+                margin: 16px 0;
+                width: 112px!important;
+            }
+            .inputC:checked + label::before {
+                display: -webkit-inline-box;
+            }
+            .tab_label{padding-left: 15px!important;border-left: 1px solid #E9ECEF!important;}
+            .scrolly{
+                height: 300px;
+                overflow-y: scroll;
+            }
+
+              .manlevel{
+                margin: 11px 0;
+            }
+            select{
+                background: #fff;
+            }
+            .cont{
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 250px;
+                text-align: left;
+            }
+        </style>
+    {/literal}
 </head>
 <body>
-<div class="page-container">
-    <form class="form form-horizontal" id="form-category-add" enctype="multipart/form-data">
-        <div id="tab-category" class="HuiTab">
-            <div class="tabBar cl" style="border-bottom: 2px #ff9900 solid;">       
-                <span style="background: #ff9900;">编辑活动</span>
-            </div>
-            
-            <div class="tabCon">
-                
-                <div class="row cl {if $status > 0}kznone{/if}">
-                    <label class="form-label col-xs-4 col-sm-3">
-                        <span class="c-red">*</span>
-                        拼团名称：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" class="input-text" value="{$list->groupname}" placeholder="" id="{$list->id}" name="groupname" style="width:200px;">
-                        <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">仅后台显示,方便管理</span>
-                        
-                    </div>
-                    
-                </div>
-                <div class="row cl {if $status > 0}kznone{/if}">
-                    <label class="form-label col-xs-4 col-sm-3">拼团人数：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="number" max="5" min="1" class="input-text" value="{$list->man_num}" placeholder="" id="" name="peoplenum" style="width:60px;">
-                        <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">只能为大于0且小于等于50的数字</span>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-                <div class="row cl {if $status > 0}kznone{/if}">
-                    <label class="form-label col-xs-4 col-sm-3">拼团时限：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="number" min="1" class="input-text" value="{$list->hour}" placeholder="" id="" name="timehour" style="width:60px;"><span> 小时 </span>
-                        <input type="number" max="59" min="0" class="input-text" value="{$list->minute}" placeholder="" id="" name="timeminite" style="width:60px;"><span> 分钟 </span>
-                        <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">建议不要超过24小时,小时数不能小于1,分钟数为0~59之间</span>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">活动时间：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <div class="{if $status > 0}kznone{/if}">
-                          <span>开始时间</span><input type="text" class="input-text" value="{$list->starttime}" placeholder="" id="group_start_time" name="starttime" style="width:150px;margin-left: 10px;">
-                          <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        </div>
-                        <div style="margin-top: 10px;">
-                          <span>结束时间</span>
-                          {if $list->overtype==1}
-                            <input type="hidden" data-time='{$list->endtime}' name='ischang'>
-                          {else}
-                            <input type="hidden" data-time='0' name='ischang'>
-                          {/if}
-                            <input type="radio" value="1" placeholder="" id="ctime" name="endtime" onchange="radioChange(1)" style="width:50px;" {if $list->overtype=='1'}checked{/if}><span style="margin-left: -10px;">长期</span>
-                            <span style="margin-left: 10px;font-size: 10px;color:#666666;">长期的默认期限是一年</span>
-                          <div style="margin-left: 60px;">
-                            <input type="radio" value="2" placeholder="" id="dtime" name="endtime" onchange="radioChange(2)" style="width:50px;" {if $list->overtype=='2'}checked{/if}><span style="margin-left: -10px;">定期结束</span><input type="text" class="input-text" {if $list->overtype=='2'}value="{$list->endtime}"{else}value=""{/if} placeholder="" id="group_end_time" name="group_end_time" style="width:150px;margin-left: 10px;">
-                            <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                            <span style="margin-left: 10px;font-size: 10px;color:#666666;">结束日期至少选此时的一小时后</span>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-                <div class="row cl {if $status > 0}kznone{/if}" style="margin-left: 110px;">
-                    <label class="form-label col-xs-4 col-sm-3">每位用户可同时进行的团数：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="number" min="1" class="input-text" value="{$list->groupnum}" placeholder="" id="" name="groupnum" style="width:60px;">
-                        <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">数字不能小于1。(为保证商家利益,请对团数进行限制。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注: 已成功或已失败的团不计入团数。)</span>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-                <div class="row cl {if $status > 0}kznone{/if}" style="margin-left: 110px;">
-                    <label class="form-label col-xs-4 col-sm-3">用户每次参团时可购买件数：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="number" min="1" class="input-text" value="{$list->productnum}" placeholder="" id="" name="productnum" style="width:60px;">
-                        <span style="margin-left: 3px;font-size: 3px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">数字不能小于1。(为保证商家利益,请对用户参团时可购买件数进行限。)</span>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
+<nav class="breadcrumb">
+    <i class="Hui-iconfont">&#xe6ca;</i>
+    插件管理
+    <span class="c-gray en">&gt;</span>
+    <a style="margin-top: 10px;" onclick="location.href='index.php?module=go_group&action=index';">拼团 </a>
+    <span class="c-gray en">&gt;</span>
+    编辑拼团商品
+</nav>
+<div id="addpro" class="pd-20" style="background-color: white;">
+    <p style="font-size: 15px;" class="page_title">编辑拼团商品</p>
 
-                   <div class="mt-20">
-                  <table class="table table-border table-bordered table-bg table-hover table-sort" style="width:95%;margin:0 auto;">
-                     <thead>
-                   <tr class="text-c">
-                      <th width="50">团号</th>
-                      <th width="100">商品名称</th>
-                      <th width="80">商品图片</th>
-                      <th width="100">属性</th>
-                      <th>商品价格</th>
-                      <th width="110" style="padding:0px;">拼团价格</th>
-                      <th width="110" style="padding:0px;">团长价格</th>
-                    {if $status == 1}<th width="50">操作</th>{/if}
-                    
-                   </tr>
-                     </thead>
-                     <tbody>
-                     {foreach from=$list1 item=item name=f1}
-                       <tr class="text-c" style="height:20px;">
-                         <td>{$item->group_id}</td>
-                         <td>
-                          <div class="product_title">{$item->pro_name}</div></td>
-                         <td><image src="{$item->image}" style="width: 90%;height:60px;"/></td>
-
-                         <td width="100" style="text-align: center;">
-                          {$item->attribute}
-                         </td>
-                         
-
-                         <td>{$item->market_price}</td>
-                         {if $status == 1}
-                         <td id="{$item->id}">
-                            <input type="number" name="modify_group_{$item->id}" class="pt_price" data-id = "{$item->id}" id="set_group_{$item->id}" value="{$item->group_price}" style="text-align: center; ">  
-                         </td>
-                         <td id="m{$item->id}">
-                            <input type="number" name="modify_member_{$item->id}" class="tz_price" data-id = "{$item->id}" id="set_member_{$item->id}" value="{$item->member_price}" style="text-align: center;"> 
-                         </td>
-                         {else}
-                         <td id="{$item->id}">
-                            <div name="modify_group_{$item->id}" >{$item->group_price}</div>
-                         </td>
-                         <td id="m{$item->id}">
-                            <div name="modify_member_{$item->id}" >{$item->member_price}</div>
-                         </td>
-                         {/if}   
-                         {if $status == 1}
-                         <td><a title="删除产品" href="javascript:;" onclick="system_category_del(this,{$item->id},1)" class="ml-5" style="color:blue;">删除</a></td>
-                         {/if}
-                       </tr>
-                     {/foreach}
-                    </tbody>
-                 </table>
-              </div>
-
-
-            </div>
+    <form name="form1" id="form1" class="form form-horizontal" style="padding: 10px 10px 0 10px" method="post" enctype="multipart/form-data" >
         <div class="row cl">
-            <div class="col-9 col-offset-3">
-                <input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" onclick="baocungroup()">
-                <input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;返回&nbsp;&nbsp;" onclick="javascript:history.back(-1);" style="background: #EDEDED;border:0px;color:#fff;">
+            <label class="form-label col-2" style="margin-top: 0px;padding-right: 0px!important;height: 36px;line-height: 36px;">拼团标题：</label>
+            <div class="formControls col-10">
+                <input type="text" name="title" value="{$list[0]->group_title}" {if $g_status == 2 && $is_show == 0}disabled{/if}>
+                <span style="margin-left: 10px;font-size: 14px;color:#A8B0CB;">（活动标题如果不填写，默认为商品名称）</span>
             </div>
         </div>
+<!--         <div class="row cl">
+            <label class="form-label col-2" style="margin-top: 0px;padding-right: 0px!important;height: 36px;line-height: 36px;">选择拼团商品：</label>
+            <div class="formControls col-10">
+                <input type="text" name="title" value="{$list[0]->group_title}" {if $g_status == 2 && $is_show == 1}disabled{/if}>
+                <span style="margin-left: 10px;font-size: 10px;color:#A8B0CB;">（未填写拼团标题则默认为商品标题）</span>
+            </div>
+        </div> -->
+        <div class="row cl">
+            <label class="form-label col-2" style="line-height: 25px;margin-top: 0px;padding-right: 0px;">选择拼团商品：</label>
+            <div class="formControls col-10">
+                <select name="class" class="select" {if $g_status == 2}disabled{/if}>
+                    <option value="0" selected="selected" >请选择商品分类</option>
+                    {$class}
+                </select>
+                <select name="brand" class="select" {if $g_status == 2 }disabled{/if}>
+
+                    <option value="0" selected="selected" >请选择品牌</option>
+                    {foreach from = $brandres item = item }
+                        <option value="{$item->brand_id}"  >{$item->brand_name}</option>
+                    {/foreach}
+                </select>
+                <input type="text" name="p_name" value="" placeholder="请输入商品名称" {if $g_status == 2}disabled{/if}>
+                <input  id="my_query" class="btn btn-success" type="button" style="margin-left: 5px;background-color: #2890ff!important;" value="查询" {if $g_status == 2 }disabled{/if}>
+                <input  id="huanyuan" class="btn btn-success" type="button" style="margin-left: 5px;background-color: #2890ff!important;" value="还原">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-2" style="line-height: 25px;margin-top: 0px;"></label>
+            <div class="formControls col-10">
+                <div class="tabCon1">
+                    <div class="mt-20" id="prolist">
+                        <table class="table table-border table-bordered table-bg table-hover" style="margin:0 auto;border: 0;">
+                            <thead>
+                            <tr class="text-c">
+                                <th></th>
+                                <th>序号</th>
+                                {if $g_status == 2 }
+                                <th>商品名称及规格</th>
+                                {else}
+                                <th>商品名称</th>
+                                {/if}
+                                
+                                <th>商品id</th>
+                                <!-- <th>商家名称</th> -->
+                                <th>库存</th>
+                                <!-- <th>库存预警值</th> -->
+                                <th>零售价</th>
+                            </tr>
+                            </thead>
+                            <tbody id="proattr">
+                            {foreach from=$proattr item=item1 key=key}
+                                <tr class="text-c add-tr" style="height:20px;">
+                                <tr class="text-c" style="height:60px!important;">
+                                    <input type="hidden" name="attr_id"  value="{$item1->attr_id}">
+                                    <td class="tab_label">
+                                        <input  type="checkbox" class="inputC input_agreement_protocol" {if $item1->select}checked{/if} attr-data="{$item1->attr_id}" id = "{$item1->id}{$key}" targ="{$item1->id + $key}" name="id[]"  value = "{$item1->id + $key}" style="position: absolute;">
+                                         <label for="{$item1->id}{$key}">
+                                            </label>
+                                        </td>
+                                    <td>{$key+1}</td>
+
+                               {if $g_status == 2}
+                                <td style="display: flex;align-items: center;">
+                                        <img src ="{$item1->imgurl}" style="width: 40px;height:40px;"> <span class="cont" title="'+element.product_title+'">{$item1->product_title}    【{ $item1->attrtype}】</span>
+                                    </td>
+                                {else}
+                                <td style="display: flex;align-items: center;">
+                                        <img src ="{$item1->imgurl}" style="width: 40px;height:40px;"> <span class="cont" title="'+element.product_title+'">{$item1->product_title}    </span>
+                                    </td>
+                                {/if}
+                                     <td>{$item1->id}</td>
+                                     <!-- <td>{$item1->name}</td> -->
+                                    <td>{$item1->num}</td>
+                                    <!-- <td>{$item1->min_inventory}</td> -->
+                                    <td>{$item1->price}</td>
+                                    </tr>
+                                </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+          <div class="row cl" >
+            <label class="form-label col-xs-4 col-sm-3"  style="margin-top: 9px;padding-right: 0px!important;height: 36px;line-height: 36px;"><span class="c-red">*</span>拼团人数设置：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-10 col-sm-10" >
+                <div id="setlevel">
+                    <div class="manlevel">
+                        <input type="number" max="50" min="1" class="input-text" value="{$lastset[2]}" name="min_man" style="width:60px;" onkeyup="onkeyup1(this)" {if $g_status == 2}disabled{/if}>&nbsp;&nbsp;人团&nbsp;&nbsp;
+                        <span style="margin-left:17px;">折扣价: 参团</span>
+                        <input type="number" class="input-text" value="{$lastset[0]}"  name="canprice" style="width:80px;" onkeyup="onkeyup1(this)" {if $g_status == 2}disabled{/if}>
+                        %
+                        <span style="margin-left: 5px;">开团</span>
+                        <input type="number" class="input-text" value="{$lastset[1]}"  name="memberprice" style="width:80px;" onkeyup="onkeyup1(this)" {if $g_status == 2 }disabled{/if}>
+                        %
+                        <span style="margin-left: 10px;font-size: 10px;color:#97A0B4;">（拼团人数要大于1，不能设置1人团）</span>
+                    </div>
+                    {$levelstr}
+                </div>
+            
+            </div>
+            </div>
+            <div class="col-3">
+            </div>
+        </div>
+
+        <div class="row cl" >
+            <label class="form-label col-xs-4 col-sm-3"style="margin-top: 0px;padding-right: 0px!important;height: 36px;line-height: 36px;"><span class="c-red">*</span>开始时间：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" {if $g_status == 2 && $is_show == 1}disabled{/if}{if $g_status == 2 && $is_show == 0}disabled{/if} value="{$group_data->starttime}" autocomplete="off" placeholder="" id="group_start_time" name="starttime" style="width:150px;">
+            </div>
+            <div class="col-3">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3" style="margin-top: 0px;padding-right: 0px!important;height: 36px;line-height: 36px;"><span class="c-red">*</span>结束时间：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                {if $g_status==2&&$is_show==1}
+                    <input type="text" {if $g_status == 2 && $is_show == 1}disabled{/if} class="input-text" style="width:150px;" value='{$group_data->endtime}' disabled>
+                {else}
+                    <div style="margin-top: 0px;">
+                        <input type="hidden" {if $group_data->overtype==1}value='{$group_data->endtime}'{else}value=""{/if} name='ischang'>
+
+                        <input type="radio" value="2" placeholder="" id="endtime" name="endtime" onchange="radioChange(2)" {if $group_data->overtype==2}checked{/if}><span style="margin-left: 10px;">定期结束</span><input type="text" class="input-text" {if $group_data->overtype==2}value="{$group_data->endtime}"{else}value=""{/if} placeholder="" id="group_end_time" name="group_end_time" style="width:150px;margin-left: 10px;">
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <input type="radio" value="1" placeholder="" id="ctime" {if $group_data->overtype==1}checked{/if} name="endtime" onchange="radioChange(1)" >
+                        <span style="margin-left: 10px;">长期</span>
+                        <input type="text" {if $g_status == 2 && $is_show == 1}disabled{/if} class="input-text" autocomplete="off" {if $group_data->overtype==1}value='{$group_data->endtime}'{else}value=""{/if} placeholder="" id="end_year" name="end_year" style="width:150px;margin-left: 30px;" disabled>
+                    </div>
+                {/if}
+            </div>
+            <div class="col-3">
+            </div>
+        </div>
+
+
+        <div class="page_h10" style="height: 68px!important;margin-top: 140px;border-top: 1px solid #E9ECEF;">
+            {if $g_status == 2 && $is_show == 1}
+            <input type="button" name="reset" value="返回" class="fo_btn1" onclick="javascript :history.back(-1);">
+            {/if}
+              {if $g_status != 2 || $is_show != 1}
+            <input class="fo_btn2" type="button" name="Submit" value="保存" onclick="baocungroup()">
+             <input type="button" name="reset" value="取消" class="fo_btn1" onclick="javascript :history.back(-1);">
+            {/if}
+           
+
+        </div>
     </form>
+
 </div>
-
-<!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script>
-<script type="text/javascript" src="style/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="style/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
-
-<!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
-<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
-<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="style/lib/laypage/1.2/laypage.js"></script>
-<script type="text/javascript" src="style/laydate/laydate.js"></script>
 {literal}
-<script type="text/javascript">
-//双击修改
-var setgp = new Object;
-  var tuanZ = new Object;
-  function set_group_price(i){
-    var pid = i;
-    
-    $('div[name=modify_group_'+i+']').hide();
-    var set_price = $('#set_group_'+i).val();
-    $('.text-c td[id='+i+']').append('<input type="text" name="modify'+i+'" style="width:80px;" onkeyup="gDecimal(this,'+pid+')">');
-    $('.text-c input[name=modify'+i+']').attr("value",set_price);
-    $('.text-c input[name=modify'+i+']').blur(function(){
-      var price = $('.text-c input[name=modify'+i+']').val();
-      var abc = price.indexOf('.');
-      var efg = price.indexOf('0');
-      if(efg == 0 && abc < 0){
-        price = price.substring(1);
-      }
-      if(abc == 0 && price != ''){
-        price = '0' + price;
-      }
-      if(abc < 0 && price != ''){
-        price = price + '.00';
-      }else if(abc == (price.length-1)){
-        price = price + '00';
-      }
-       price = parseFloat(price).toFixed(2);
-       setgp[i] = price;
-       
-       $('.text-c input[name=modify'+i+']').remove();
-       $('.text-c div[name=modify_group_'+i+']').text(price);
-       $('#set_group_'+i).val(price);
-       $('.text-c div[name=modify_group_'+i+']').show(); 
-    });
-    
- }
 
-  function set_member_price(i){
-    var pid = i;
-    
-    $('div[name=modify_member_'+i+']').hide();
-    var set_price = $('#set_member_'+i).val();
-    $('.text-c td[id=m'+i+']').append('<input type="text" name="modifytoo'+i+'" style="width:80px;" onkeyup="checkDecimal(this,'+pid+')">');
-    $('.text-c input[name=modifytoo'+i+']').attr("value",set_price);
-    $('.text-c input[name=modifytoo'+i+']').blur(function(){
-      var price = $('.text-c input[name=modifytoo'+i+']').val();
-      var abc = price.indexOf('.');
-      var efg = price.indexOf('0');
-      if(efg == 0 && abc < 0){
-        price = price.substring(1);
-      }
-      if(abc == 0 && price != ''){
-        price = '0' + price;
-      }
-      if(abc < 0 && price != ''){
-        price = price + '.00';
-      }else if(abc == (price.length-1)){
-        price = price + '00';
-      }
-       price = parseFloat(price).toFixed(2);
-       tuanZ[i] = price;
-       
-       $('.text-c input[name=modifytoo'+i+']').remove();
-       $('.text-c div[name=modify_member_'+i+']').text(price);
-       $('#set_member_'+i).val(price);
-       $('.text-c div[name=modify_member_'+i+']').show(); 
-    });
-    
- }
-  var radio = 1;
-  var otype = $("input[name='endtime']:checked").val();
-  
-  if(otype == '1'){
-    $('#group_end_time').attr('disabled','disabled');
-  }
-   function radioChange(i){
-    var asd = $("input[name='endtime']:checked").val();
-      if(i == 1){
-          $('#group_end_time').attr('disabled','disabled');
-          $('#group_end_time').val('');
-          radio = 1;
-      }else{
-          $('#group_end_time').removeAttr('disabled');
-          radio = 2;
-      }
-      otype = asd;
-   }
+    <script type="text/javascript">
 
- $("input[name=endtime]").change(function(){
-            if($("input[name=endtime]:checked").val() == 1){
-              $('input[name=group_end_time]').removeClass('content');
-          }
-    });
+        function radioChange(i){
+            var group_end_time = $('#group_end_time');
+            if(i == 1){
+                console.log(1);
+                group_end_time.attr('disabled','disabled');
+                group_end_time.val('');
+                radio = 1;
+                var startdate = $("#group_start_time").val();
+                // console.log(11);
 
- function baocungroup(){
-    
+                if(startdate != '' && startdate.length == 19){
+                    // console.log(111);
 
-    var content = 1;
-    var id = $("input[name=groupname]").attr('id');
-    var groupname = $("input[name=groupname]").val();
-    var peoplenum = $("input[name=peoplenum]").val();
-    var timehour = $("input[name=timehour]").val();
-    var timeminite = $("input[name=timeminite]").val();
-    var starttime = $("input[name=starttime]").val();
-    var endtime = $("input[name=group_end_time]").val();
-    var overtime = otype=='2'?endtime:$('input[name=ischang]').attr('data-time');
-    var groupnum = $("input[name=groupnum]").val();
-    var productnum = $("input[name=productnum]").val();
-    var tz_price_str = "";
-      $(".tz_price").each(function(){
-          let id = $(this).attr("data-id");
-          let val = $(this).val();
-          tz_price_str +=  id+":"+val+",";
-      })
-       // tz_price_str += "}";
+                    var day = startdate.split(' ');
+                    var str = startdate.replace(/-/g,'/');
+                    var d = new Date(str);
+                    var oneYear = oneYearPast(d);
+                    // console.log(1111);
 
-      var pt_price_str = "";
-      $(".pt_price").each(function(){
-          let id = $(this).attr("data-id");
-          let val = $(this).val();
-          pt_price_str += id+":"+val+",";
-      })
-       // pt_price_str += "}";
+                    oneYear = oneYear + ' ' + day[1];
+                    console.log(oneYear);
 
-      console.log(tz_price_str);
-      console.log(pt_price_str);
-    if(groupname == ''){
-        $("input[name=groupname]").addClass('content');
-        $("input[name=groupname]").change(function(){
-            $(this).removeClass('content');
-        });
-    }else if(peoplenum == '' || parseInt(peoplenum)<1 || parseInt(peoplenum)>50){
-        $("input[name=peoplenum]").addClass('content');
-        $("input[name=peoplenum]").change(function(){
-            $(this).removeClass('content');
-        });
-    }else if(timehour == '' || parseInt(timehour)<1){
-        $("input[name=timehour]").addClass('content');
-        $("input[name=timehour]").change(function(){
-            $(this).removeClass('content');
-        });
-    }else if(timeminite == '' || parseInt(timeminite)<0 || parseInt(timeminite)>59){
-        $("input[name=timeminite]").addClass('content');
-        $("input[name=timeminite]").change(function(){
-            $(this).removeClass('content');
-        });
-    }else if(starttime == ''){
-        $("input[name=starttime]").addClass('content');
-        $("input[name=starttime]").change(function(){
-            $(this).removeClass('content');
-        });
-    }else if($("input[name=endtime]:checked").val() == 2 && endtime == ''){
-        
-        $("input[name=group_end_time]").addClass('content');
-        $("input[name=group_end_time]").change(function(){
-            $(this).removeClass('content');
-        });
-    }else if(groupnum == '' || parseInt(groupnum)<1){
-        $("input[name=groupnum]").addClass('content');
-        $("input[name=groupnum]").change(function(){
-            $(this).removeClass('content');
-        });
-    }else if(productnum == '' || parseInt(productnum)<1){
-        $("input[name=productnum]").addClass('content');
-        $("input[name=productnum]").change(function(){
-            $(this).removeClass('content');
-        });
-    }else{
-        content = 2;
-    }
-   if(content == 2){
-
-      $.ajax({
-               url:"index.php?module=go_group&action=modify&set=msgsubmit",
-               type:"post",
-               data:{
-                      id:id,
-                      groupname:groupname,
-                      peoplenum:peoplenum,
-                      timehour:timehour,
-                      timeminite:timeminite,
-                      starttime:starttime,
-                      overtime:overtime,
-                      groupnum:groupnum,
-                      productnum:productnum,
-                      otype:otype,
-                      gprice:tz_price_str,
-                      mprice:pt_price_str
-                    },
-               dataType:"json",
-               success:function(data) {
-                   if(data.code == 1){
-                       location.href = 'index.php?module=go_group&action=index';
-                   }
-               },
-             })
-        
-   }
- }
-
- //删除属性
-     var prolen = '{/literal}{$len}{literal}';
-        prolen = parseInt(prolen);
-function system_category_del(obj,id,control){
-        if(prolen <= 1){
-           layer.msg('删除失败,至少得保留一款产品!');
-           return false;
+                    $("#end_year").val(oneYear)
+                }
+            }else{
+                // console.log(2);
+                group_end_time.removeAttr('disabled');
+                $("#end_year").val('');
+                radio = 2;
+            }
         }
-  layer.confirm('确认要删除吗？',function(index){        
-    $.ajax({
-      type: "post",
-      url: "index.php?module=go_group&action=modify&set=delpro",
-      dataType: "json",
-      data:{id:id},
-      success: function(data){
-        if(data.code == 1){
-              layer.msg('已删除!',{icon:1,time:800});
-              location.reload();
-          }
-      },
-      error:function() {
-          layer.msg('网络出错!',{icon:1,time:800});
-      }
-    });
-  });
 
-  }
+        //一年后的今天的前一天
+        function oneYearPast(time)
+        {
+            //var time=new Date();
+            var year=time.getFullYear()+1;
+            var month=time.getMonth()+1;
+            var day=time.getDate();
 
- 
- // 得到当前日期
-function getFormatDate(){
-    var nowDate = new Date();
-    var year = nowDate.getFullYear();
-    var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
-    var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
-    var hour = nowDate.getHours()< 10 ? "0" + nowDate.getHours() : nowDate.getHours();
-    var minute = nowDate.getMinutes()< 10 ? "0" + nowDate.getMinutes() : nowDate.getMinutes();
-    var second = nowDate.getSeconds()< 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds();
+            if(month<10){
+                month="0"+month;
+            }
 
-    return year + "-" + month + "-" +date+" "+(hour+1)+":"+minute+":"+second;
-}
-var _nowDate = getFormatDate();
+            if(day>1){
+                day = day;
+            }else{
+                month = month-1;
+                if(month<10){
+                    month="0"+month;
+                }
+                if(month==0){
+                    month = 12;
+                }
+                day=new Date(year,month,0).getDate();
+            }
 
- laydate.render({
-  elem: '#group_start_time', //指定元素
-  type: 'datetime'
-});
- laydate.render({
-  elem: '#group_end_time', 
-  type: 'datetime',
-  min: _nowDate,
-  btns: ['clear', 'confirm']
-});
+            var v2=year+'-'+month+'-'+day;
+            return v2;
+        }
+
+        function baocungroup(){
+            var pList = '{';
+            var goods_id = '';
+            var each_times = 0;
+
+            $("input[type='checkbox']").each(function () {
+                // console.log('each');
+                //如果选中状态
+                if ($(this).is(':checked')) {
+                    //判断每一次的id是否相等
+                    if(goods_id == ''){
+                        goods_id = $(this).val();
+                        // console.log(goods_id);
+                    }else if (goods_id != $(this).val()){
+                        alert('请选择同一个产品id号的商品');
+                        pList = [];
+                        goods_id = '';
+                        checkdata = false;
+                        return;
+                    }
+                    let attr = $(this).attr('attr-data');
+                    pList +='"'+attr+'":"~",';
+                    each_times++;
+                }
+            });
+            // console.log(each_times);
+            if(each_times == 0){
+                alert('请选择拼团商品');
+                checkdata = false;
+                return;
+            }
+            pList=pList.substring(0,pList.length-1);
+            pList +='}';
+            // console.log(goods_id);
+            var checkdata = true;
+            var gdata = {};
+            var timehour = gdata['timehour'] = $("input[name=timehour]").val();
+            var starttime = gdata['starttime'] = $("input[name=starttime]").val();
+            var groupnum = gdata['groupnum'] = $("input[name=groupnum]").val();
+            var productnum = gdata['productnum'] = $("input[name=productnum]").val();
+            var overtype = gdata['overtype'] = $("input[name=endtime]:checked").val();
+            var endtime = $("input[name=group_end_time]").val();
+
+            var manlevel = $('.manlevel');
+            var glevel = {};
+
+            $.each(manlevel,function (index,element){
+                var min_man = $(element).children('input[name=min_man]').val();
+                var canprice = $(element).children('input[name=canprice]').val();
+                var memberprice = $(element).children('input[name=memberprice]').val();
+                if(glevel[min_man]){
+                    alert('人数设置参数重复');
+                    checkdata = false;
+                    return;
+                }
+                  if(min_man == '' ||min_man == 'NaN'){
+                    alert('人数设置参数不能为空');
+                    checkdata = false;
+                    return;
+                }
+                if(min_man < 2 ){
+                    alert('拼团人数设置不合理');
+                    checkdata = false;
+                    return;
+                }
+                if(canprice == '' || memberprice == ''){
+                    alert('价格设置参数不能为空');
+                    checkdata = false;
+                    return;
+                }
+                if(parseInt(canprice) < parseInt(memberprice)){
+                    alert('参团价格不能小于开团价格');
+                    checkdata = false;
+                    return;
+                }
+                glevel[min_man] = canprice+'~'+memberprice;
+            })
+            // console.log('rule_end1');
+
+            if(checkdata == true){
+                if(timehour == ''){
+                    alert('拼团倒计时设置不能为空');
+                    checkdata = false;
+                    return;
+                }else if(starttime == ''){
+
+                    alert('开始时间设置不能为空');
+                    checkdata = false;
+                    return;
+                }else if($("input[name=endtime]:checked").val() == 2 && endtime == ''){
+
+                    alert('结束时间设置不能为空');
+                    checkdata = false;
+                    return;
+                }else if(groupnum == ''){
+
+                    alert('团数限制不能为空');
+                    checkdata = false;
+                    return;
+                }else if(productnum == ''){
+
+                    alert('产品购买件数限制不能为空');
+                    checkdata = false;
+                    return;
+                }
+            }
+            var g_status = "{/literal}{$list[0]->g_status}{literal}";
+            var is_show = "{/literal}{$list[0]->is_show}{literal}";
+            var old_goods_id = "{/literal}{$goods_id}{literal}";
+             // console.log(g_status);
+            // console.log(g_status);
+            // console.log(is_show);
+            // console.log('rule_end');
+            if(checkdata == true){
+                var stime = new Date(starttime).getTime();
+                var now = new Date().getTime();
+                if(overtype == '2'){
+                    gdata['endtime'] = endtime;
+                    var etime = new Date(endtime).getTime();
+                    if(is_show !=0 || g_status!=2){
+                        if(stime < now || etime < now || stime >= etime){
+                            alert('时间设置不合格!');
+                            return false;
+                        }
+                    }
+                    
+                }else{
+                    gdata['endtime'] = 'changqi';
+
+                    if(stime < now &&(is_show !=0 ||g_status!=2)){
+                        alert('时间设置不合格!');
+                        return false;
+                    }
+                }
+                var title = $("input[name='title']").val();
+
+                gdata = JSON.stringify(gdata);
+                $.ajax({
+                    url: "index.php?module=go_group&action=modify",
+                    type: "post",
+                    data: {glevel:glevel,gdata:gdata,tuanZ:pList,goods_id:goods_id,g_status:g_status,group_title:title,old_goods_id:old_goods_id},
+                    dataType: "json",
+                    success:function(data) {
+                        if(data.code == 1){
+                            alert('修改成功!');
+                                window.location.href = 'index.php?module=go_group&action=index';
+                           
+                        }else{
+                            alert('未知原因,修改失败!');
+                        }
+                    },
+                })
+                return  false;
+                $.ajax({
+                    url:"index.php?module=go_group&action=addgroup",
+                    type:"post",
+                    data:{gdata:gdata,glevel:glevel,tuanZ:pList,goods_id:goods_id},
+                    dataType:"json",
+                    success:function(data) {
+                        if(data.code == 1){
+                            alert('添加成功!');
+                                window.location.href = 'index.php?module=go_group&action=index';
+                            
+                        }else{
+                            alert('发布失败!');
+                        }
+                    },
+                })
+            }
+        }
+        
+
+        window.onload = function(){
+
+            var old_pro_html = '';
+
+            //ajax请求--获取拼团商品列表
+            $("#my_query").click(function(){
+
+                var my_brand = $('select[name=brand] option:selected').val();
+                var my_class = $('select[name=class] option:selected').val();
+                var pro_name =$('input[name=p_name]').val();
+                $("#prolist").removeClass('scrolly');
 
 
-    $('.table-sort').dataTable({
-    "aaSorting": [[ 1, "desc" ]],//默认第几个排序
-    "bStateSave": true,//状态保存
-    "aoColumnDefs": [
-      {"orderable":false,"aTargets":[0,4]}// 制定列不参与排序
-    ]
-});
+                $.ajax({
+                    type:"POST",
+                    dataType:"json",
+                    data:{my_brand:my_brand,my_class:my_class,pro_name:pro_name},
+                    url:"index.php?module=go_group&action=addproduct&m=pro_query",
+                    success:function(data){
 
-$(function(){
-    $('.skin-minimal input').iCheck({
-        checkboxClass: 'icheckbox-blue',
-        radioClass: 'iradio-blue',
-        increaseArea: '20%'
-    });
-    
-    $("#tab-category").Huitab({
-        index:0
-    });
-    
-});
+                        var res = data.res;
+                        var table = '';
+                        if(old_pro_html == ''){
+                            old_pro_html = $("#proattr").html();
+                            console.log('设置old_pro_html');
+                            console.log(old_pro_html);
+                        }
+                        if(res.length > 0){//有拼团商品数据
 
-</script>
+                            $.each(res,function(index,element){
+                                table += '<tr class="text-c" style="height:60px!important;">' +
+                                    '<input type="hidden" name="attr_id"  value="'+element.attr_id+'">' +
+                                    '<td class="tab_label">' +
+                                    '<input  type="checkbox" class="inputC input_agreement_protocol" attr-data="'+element.attr_id+'" id = "'+element.id+index+'" targ="'+element.id+index+'" name="id[]" onchange="check_one('+element.id+index+')" value = "'+element.id+'" style="position: absolute;">' +
+
+                                    ' <label for="'+element.id+index+'">' +
+                                    '</label>' +
+                                    '</td>' +
+                                    '<td>'+(index+1)+'</td>' +
+                                    '<td>' +
+                                    '<img src ="'+element.image+'" style="width: 40px;height:40px;">'+element.product_title+' </td>' +
+                                    ' <td>'+element.id+'</td> ' +
+                                    // ' <td>'+element.name+'</td> ' +
+                                    '<td>'+element.num+'</td> ' +
+                                    // '<td>'+element.min_inventory+'</td> ' +
+                                    '<td>'+element.price+'</td>' +
+                                    '</tr>';
+                                $("#proattr").html(table);
+                            })
+
+                        }else{//无拼团数据
+                            $("#proattr").empty();
+                            alert('没有拼团商品',{time:2000})
+                        }
+
+                        var table_height = $("#prolist").css('height');//单位为px
+                        table_height = table_height.slice(0,-2);
+                        if(table_height >= 200){
+                            $("#prolist").addClass('scrolly');
+                        }
+                    }
+
+                })
+
+
+
+            })
+
+            $("#huanyuan").click(function () {
+                if(old_pro_html != ''){
+                    $("#proattr").html(old_pro_html);
+                }
+                $("select[name='class']").val(0);
+                $("select[name='brand']").val(0);
+                $("input[name='p_name']").val('');
+            })
+
+        }
+
+        //复选框唯一限制函数
+        function check_one(i){
+
+            if($("input[id="+i+"]").prop("checked")==true){
+                $("input[id!="+i+"][name='id[]']").removeAttr("checked");
+            }
+        }
+
+        function addlever() {
+
+            var node = '<div class="manlevel">' +
+                '<input type="number"  max="50" min="1" class="input-text ct-rs" value="3" name="min_man" style="width:60px;" onkeyup="onkeyup1(this)" >&nbsp;&nbsp;人团&nbsp;&nbsp;' +
+                '<span style="margin-left:20px;">折扣价: 参团' +
+                '</span><input type="number" class="input-text" value=""  name="canprice" style="width:80px;margin-left:5px;" onkeyup="onkeyup1(this)">&nbsp;%' +
+                '<span style="margin-left: 10px;">开团</span>' +
+                '<input type="number" class="input-text" value=""  name="memberprice" style="width:80px;margin-left:5px;" onkeyup="onkeyup1(this)">&nbsp;%' +
+                '<input class="btn btn-primary radius" type="button" onclick="removepro(event)" value="删除" style="margin-left:10px;height: 36px!important;">' +
+                '</div>';
+
+            var setlevel = $('#setlevel');
+            setlevel.append(node);
+        }
+
+        function onkeyup1(ob){
+            if(ob.value.length==1){ob.value=ob.value.replace(/[^1-9]/g,'')}else{ob.value=ob.value.replace(/\D/g,'')}
+        }
+
+        function removepro(event){
+            var goods = event.srcElement.parentNode;
+            goods.parentNode.removeChild(goods);
+
+        }
+
+        //ajax请求--添加拼团商品
+        function check() {
+
+            //时间合理判断
+            var starttime = $('input[name=starttime]').val();
+            var endtime = $('input[name=endtime]').val();
+            if(starttime == ''|| endtime == ''){
+
+                alert('时间不能为空！',{time:2000});
+                return false;
+            }
+
+            var start = new Date(starttime).getTime();
+            var end = new Date(endtime).getTime();
+            var now = new Date().getTime();
+
+            if(start < now ){
+
+                alert('开始时间不能小于当前时间！');
+                return false;
+            }
+            if(end < now ){
+                alert('结束时间不能小于当前时间！');
+                return false;
+            }
+            if(start > end){
+                alert('开始时间不能大于结束时间！');
+                return false;
+            }
+
+            //商品唯一性判断
+            var product_id = $("input[name='id[]']:checked");
+            if(product_id.length < 1){
+                alert('请选择商品',{time:2000});
+            }
+            if(product_id.length > 1){
+                alert('只能选择一个商品',{time:2000});
+            }
+
+            //获取选中的规格id
+            var attr_id_check = $("input[name='id[]']:checked").parent().prev().val();
+            //如果拼团标题为空，则取商品标题
+            var title = $("input[name='title']").val();
+            var product_title = '';
+            if(title == 0){
+                product_title = $("input[name='id[]']:checked").parent().next().next().text();
+            }
+
+
+            console.log(attr_id_check);
+            console.log(product_title)
+            var rr = $('#form1').serialize();
+            $.ajax({
+                cache: true,
+                type: "POST",
+                dataType:"json",
+                url:'index.php?module=auction&action=addauc&m=pro_add',
+                data:'attr_id_check='+attr_id_check+'&product_title='+product_title+'&'+$('#form1').serialize(),// 你的formid
+                async: true,
+                success: function(data) {
+
+                    alert(data.status);
+                    if(data.suc){
+                        location.href="index.php?module=auction";
+                    }
+                }
+            });
+        }
+
+
+        document.onkeydown = function (e) {
+            if (!e) e = window.event;
+            if ((e.keyCode || e.which) == 13) {
+                $("[name=Submit]").click();
+            }
+        }
+
+        laydate.render({
+            elem: '#group_start_time', //指定元素
+            trigger: 'click',
+            type: 'datetime',
+            done: function(value, date){
+                var radio = $("input[name=endtime]:checked").val();
+
+                if(radio == 1){
+                    var day = value.split(' ');
+                    var str = value.replace(/-/g,'/');
+                    var d = new Date(str);
+                    var oneYear = oneYearPast(d);
+                    oneYear = oneYear + ' ' + day[1];
+                    $("#end_year").val(oneYear)
+                }
+                //alert('你选择的日期是：' + value + '\n获得的对象是' + JSON.stringify(date));
+            }
+        });
+
+        laydate.render({
+            elem: '#group_end_time',
+            trigger: 'click',
+            type: 'datetime'
+        });
+
+
+
+
+
+    </script>
+
 {/literal}
-<!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>

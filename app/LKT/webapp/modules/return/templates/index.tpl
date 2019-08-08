@@ -63,6 +63,7 @@ i{
             obj = param.obj,
             type = param.type,
             price = param.price,
+            status = param.status,
             str = `<a style="text-decoration:none" class="ml-5" href="index.php?module=return&action=view&id=${id}" title="查看">
             		<div style="align-items: center;font-size: 12px;display: flex;">
                     	<div style="margin: 0 auto;display: flex;align-items: center;">
@@ -200,7 +201,7 @@ i{
                     }else{
                     	console.log(Number(text))
 
-                         if(Number(text) > 0 ){
+                         if(Number(text) > 0 || Number(text) == 0 ){
                             $.ajax({
                                type: "POST",
                                url: url,
@@ -552,7 +553,7 @@ i{
                         </a>
                         {if $item->r_type == 0}
                             {if $item->re_type == 1}
-                                {if $status == 1}  <!-- 有地址 -->
+                                {if $status1 == 1}  <!-- 有地址 -->
                                     <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核通过" onclick="is_ok(this,{$item->id},1,'确定要通过该用户的申请,并让用户寄回?')">
                                         <div style="align-items: center;font-size: 12px;display: flex;">
                                             <div style="margin: 0 auto;display: flex;align-items: center;">
@@ -594,7 +595,7 @@ i{
                                 </a>
                             {else}
 
-                                {if $status == 1}  <!-- 有地址 -->
+                                {if $status1 == 1}  <!-- 有地址 -->
                                     <a style="text-decoration:none" class="ml-5" href="javascript:;" title="审核通过" onclick="is_ok(this,{$item->id},6,'确定要通过该用户的申请,并让用户寄回?')"><div style="align-items: center;font-size: 12px;display: flex;">
                                         <div style="margin: 0 auto;display: flex;align-items: center;">
                                         <img src="images/icon1/qy.png"/>&nbsp;通过
@@ -697,6 +698,7 @@ function refuse(obj,id,type) {
         url:"index.php?module=return&action=examine",
         obj:obj,
         type:type,
+        status:1
     })
 };
 
@@ -723,7 +725,8 @@ function is_ok(obj,id,type,content) {
                         notext:'取消',
                         obj:obj,
                         type:type,
-                        price:res
+                        price:res,
+                        status: 1
                     })
                 }else{
                     jqtoast('操作失败!');
@@ -742,6 +745,7 @@ function is_ok(obj,id,type,content) {
             notext:'取消',
             obj:obj,
             type:type,
+            status: 1
         })
     }
 
@@ -832,7 +836,7 @@ function is_add(obj,id,type,content) {
 							<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
 								${content}
 							</div>
-							<div><span class="pd20">应退：'+price+' <input type="hidden" value="'+price+'" class="ytje">   &nbsp; 实退1:</span>
+							<div><span class="pd20">应退：'+price+' <input type="hidden" value="'+price+'" class="ytje">   &nbsp; 实退:</span>
 							<input type="text" value="'+price+'" class="prompt-text inp_maie"></div>
 							<div style="text-align:center;margin-top:30px">
 								<button class="closeMask" style="margin-right:20px" onclick=closeMask("${id}"}) >确认</button>

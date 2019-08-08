@@ -49,10 +49,10 @@ td a{
 <div class="pd-20">
     <div style="clear:both;">
         <input type="hidden" name="cid" id="cid" value="{$cid}">
-        <input type="button" class="btn btn-primary radius" id="syj" value="返回上一级" onclick="javascript :history.back(-1);" {if !$level} style="display: none;"{/if} />
-        <button type="button" class="btn newBtn radius"  onclick="location.href='index.php?module=product_class&action=add';" >
-        	<img src="images/icon1/add.png" alt="" />新增分类
+          <button type="button" class="btn newBtn radius"  onclick="location.href='index.php?module=product_class&action=add';" >
+            <img src="images/icon1/add.png" alt="" />新增分类
         </button>
+        <input type="button" class="btn btn-primary radius" id="syj" value="返回上一级" onclick="location.href='index.php?module=product_class&action=Index&cid={$level01}';" {if !$level} style="display: none;"{/if} />
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort">

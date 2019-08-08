@@ -38,7 +38,7 @@ class yueAction extends Action {
             $start = 0;
         }
 
-        $condition = 'a.type !=0 and a.type !=6 and a.type !=7 and a.type !=8 and a.type !=9 and a.type !=10 and a.type !=15 and a.type !=16 and a.type !=17 and a.type !=18 ';
+        $condition = 'a.type !=0 and a.type !=6 and a.type !=7 and a.type !=8 and a.type !=9 and a.type !=10 and a.type !=15 and a.type !=16 and a.type !=17 and a.type !=18 and a.type !=24';
         if($name){
             $condition .= " and a.user_id = '$name' ";
         }

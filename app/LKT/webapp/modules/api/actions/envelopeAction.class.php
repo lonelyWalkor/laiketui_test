@@ -83,7 +83,7 @@ class envelopeAction extends Action {
         $sql = "update lkt_user set share_num = share_num+1 where wx_id = '$openid'";
         $r = $db->update($sql);
         // 根据wx_id查询会员id
-        $sql = "select * from lkt_user where wx_id = '$openid'";
+        $sql = "select * from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
         $user_id = $r[0]->user_id;
         $event = $user_id . '分享了文章' . $id ;

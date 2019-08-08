@@ -24,10 +24,8 @@ class addAction extends Action {
         $brand_id1 = addslashes(trim($request->getParameter('brand_class'))); // 品牌
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 小标题
-        $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
         $attribute = $request->getParameter('attr'); // 属性
         $initial = $request->getParameter('initial'); // 初始值
-        $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 重量
         $s_type = $request->getParameter('s_type'); // 类型
         $volume = trim($request->getParameter('volume')); //拟定销量
@@ -92,9 +90,7 @@ class addAction extends Action {
         $request->setAttribute('rew', isset($rew) ? $rew : '');//未填写的产品规格名称
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');//商品名称
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');//副标题
-        $request->setAttribute('scan', isset($scan) ? $scan : '');//条形码
         $request->setAttribute('s_type', isset($s_type) ? $s_type : '');//显示类型（1：新品,2：热销，3：推荐）
-        $request->setAttribute('keyword', isset($keyword) ? $keyword : '');//关键字
         $request->setAttribute('weight', isset($weight) ? $weight : '');//重量
         $request->setAttribute('image', isset($image) ? $image : '');//产品主图片
         $request->setAttribute('content', isset($content) ? $content : '');//内容
@@ -251,11 +247,11 @@ class addAction extends Action {
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片路径
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 小标题
-        $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
+        // $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
         $initial =$request->getParameter('initial'); // 初始值
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
         $brand_id = addslashes(trim($request->getParameter('brand_class'))); // 品牌
-        $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
+        // $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 重量
         $s_type = $request->getParameter('s_type'); // 显示类型
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
@@ -273,7 +269,7 @@ class addAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }else{
-            $sql = "select id,product_title from lkt_product_list";
+            $sql = "select id,product_title from lkt_product_list where recycle = 0";
             $r = $db->select($sql);
             if($r){
                 foreach ($r as $k => $v){
@@ -287,23 +283,6 @@ class addAction extends Action {
                 }
             }
         }
-        if($scan == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('条形码不能为空！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }else{
-            $sql = "select id from lkt_product_list where scan = '$scan'";
-            $r = $db->select($sql);
-            if($r){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('条形码重复！');" .
-                    "</script>";
-                return $this->getDefaultView();
-            }
-        }
         if($product_class == '0'){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -315,13 +294,6 @@ class addAction extends Action {
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('请选择品牌！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }
-        if($keyword == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('请填写关键词！');" .
                 "</script>";
             return $this->getDefaultView();
         }
@@ -471,8 +443,9 @@ class addAction extends Action {
             }
         }
         // 发布产品
-        $sql = "insert into lkt_product_list(product_title,subtitle,scan,product_class,brand_id,keyword,weight,imgurl,content,num,s_type,add_date,volume,freight,initial) " .
-            "values('$product_title','$subtitle','$scan','$product_class','$brand_id','$keyword','$weight','$image','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight','$initial')";
+        $sql = "insert into lkt_product_list(product_title,subtitle,product_class,brand_id,weight,imgurl,content,num,s_type,add_date,volume,freight,initial,status) " .
+            "values('$product_title','$subtitle','$product_class','$brand_id','$weight','$image','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight','$initial','2')";
+            // print_r($sql);die;
         $id1 = $db->insert($sql,'last_insert_id'); // 得到添加数据的id
         if($id1){
             $files=($_FILES['imgurls']['tmp_name']);
@@ -544,7 +517,7 @@ class addAction extends Action {
                 // $db->rollback();
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
-                    "alert('未知原因，产品发布失败2！');" .
+                    "alert('未知原因，产品发布失败！');" .
                     "location.href='index.php?module=product';</script>";
                 return $this->getDefaultView();
             }
@@ -552,7 +525,7 @@ class addAction extends Action {
             // $db->rollback();
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
-                "alert('未知原因，产品发布失败1！');" .
+                "alert('未知原因，产品发布失败！');" .
                 "location.href='index.php?module=product';</script>";
             return $this->getDefaultView();
         }

@@ -37,10 +37,10 @@ function check(f){
 }
 </script>
 {/literal}
-<title>添加产品分类</title>
+<title>添加商品分类</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> <a href="index.php?module=product_class" style="text-decoration: none;" onmouseover="this.style.color='#333'">产品分类管理</a> <span class="c-gray en">&gt;</span> 添加产品分类 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> <a href="index.php?module=product_class" style="text-decoration: none;" onmouseover="this.style.color='#333'">商品分类管理</a> <span class="c-gray en">&gt;</span> 添加商品子类 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <form name="form1" action="index.php?module=product_class&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <input type="hidden" name="val" class="val" value="{$cid}" >
@@ -49,13 +49,26 @@ function check(f){
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>分类级别：</label>
             <div class="formControls col-1"> <span class="select-box">
-                <select name="select_c" class="select" onchange="slevel()" id="select_c">
+                <select name="select_c" class="select" onchange="slevel()" id="select_c"  disabled>
+                    {if $level01 >= 0}
                     <option {if $level == 0}selected="true"{/if} value="0">顶级</option>
+                    {/if}
+                    {if $level01 >= 1}
                     <option {if $level == 1}selected="true"{/if} value="1">一级</option>
+                    {/if}
+                    {if $level01 >= 2}
                     <option {if $level == 2}selected="true"{/if} value="2">二级</option>
+                    {/if}
+                    {if $level01 >= 3}
                     <option {if $level == 3}selected="true"{/if} value="3">三级</option>
+                    {/if}
+                    {if $level01 >= 4}
                     <option {if $level == 4}selected="true"{/if} value="4">四级</option>
+                    {/if}
+                    {if $level01 >= 5}
                     <option {if $level == 5}selected="true"{/if} value="5">五级</option>
+                    {/if}
+
                 </select>
                 </span>
             </div>
@@ -64,38 +77,38 @@ function check(f){
         <div class="row cl slevel_box" style="display: none;">
             <label class="form-label col-4"><span class="c-red"></span>上级分类：</label>
             <div class="formControls col-1 slevel_1"> <span class="select-box">
-                <select name="select_1" class="select" onchange="one()" id="select_1">
-                    <option selected="true" value="0">请选择</option>
+                <select name="select_1" class="select" onchange="one()" id="select_1"  disabled>
+                    <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype}
                 </select>
                 </span>
             </div>
             <div class="formControls col-1 slevel_2"> <span class="select-box">
-                <select name="select_2" class="select" onchange="two()" id="select_2">
-                    <option selected="true" value="0">请选择</option>
+                <select name="select_2" class="select" onchange="two()" id="select_2"  disabled>
+                    <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype1}
                 </select>
                 </span>
             </div>
             <div class="formControls col-1 slevel_3"> <span class="select-box" >
-                <select name="select_3" class="select" onchange="three()" id="select_3">
-                    <option selected="true" value="0">请选择</option>
+                <select name="select_3" class="select" onchange="three()" id="select_3"  disabled>
+                    <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
                 </span>
             </div>
 
             <div class="formControls col-1 slevel_4"> <span class="select-box" >
-                <select name="select_4" class="select" onchange="four()" id="select_4">
-                    <option selected="true" value="0">请选择</option>
+                <select name="select_4" class="select" onchange="four()" id="select_4"  disabled>
+                    <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
                 </span>
             </div>
 
             <div class="formControls col-1 slevel_5"> <span class="select-box" >
-                <select name="select_5" class="select" onchange="five()" id="select_5">
-                    <option selected="true" value="0">请选择</option>
+                <select name="select_5" class="select" onchange="five()" id="select_5"  disabled>
+                    <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
                 </span>
@@ -106,7 +119,8 @@ function check(f){
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red">*</span>分类名称：</label>
             <div class="formControls col-6">
-                <input type="text" class="input-text" autocomplete="off" name="pname" datatype="*6-18" style="width: 260px;">
+                <input type="text" class="input-text" autocomplete="off" name="pname" datatype="*6-18" style="width: 260px; " placeholder="
+请输入分类名称">
             </div>
             <div class="col-4"> </div>
         </div>
@@ -143,7 +157,8 @@ function check(f){
         <div class="row cl">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="reset" name="reset" value="清 空"  class="btn btn-primary radius">
+                <input type="button" name="reset" value="返回"  class="btn btn-primary radius" id="resetId" onclick="javascript :history.back(-1);">
+                <!-- <input type="reset" name="reset" value="清 空"  class="btn btn-primary radius"> -->
             </div>
         </div>
     </form>

@@ -129,12 +129,12 @@ form[name=form1] input{
             </div>
             <text style="line-height:30px;">*简洁表达产品，用来显示在首页产品，避免截取时不能表达是什么产品。</text>
         </div>
-        <div class="row cl">
+<!--         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>商品条形码：</label>
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$scan}" placeholder="" id="scanId" name="scan">
             </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
             <div class="formControls col-2"> <!-- <span class="select-box"> -->
@@ -155,12 +155,12 @@ form[name=form1] input{
                 <!-- </span> -->
             </div>
         </div>
-        <div class="row cl">
+<!--         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>关键词：</label>
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$keyword}" placeholder="" id="keywordId" name="keyword">
             </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
             <div class="formControls col-4" style="width: 26.8%;">
@@ -940,10 +940,8 @@ function resetButton(){
     $('#product_numberId').val("");
     $('#product_titleId').val("");
     $('#subtitleId').val("");
-    $('#scanId').val("");
     $("#product_classId option[value='0']").attr("selected", "selected");
     $("#brand_classId option[value='0']").attr("selected", "selected");
-    $('#keywordId').val("");
     $('#weightId').val("");
     $('#sex-1').attr("checked","");
     $('#sex-2').attr("checked","");

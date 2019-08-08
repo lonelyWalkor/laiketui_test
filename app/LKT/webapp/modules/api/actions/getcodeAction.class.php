@@ -44,7 +44,7 @@ class getcodeAction extends Action {
                         $id = $value02->id;//ID
                         $user_id = $value02->user_id;//用户ID
 
-                        $sql04 = "select wx_id from lkt_user where user_id='$user_id'";//查询活动人员wx_id
+                        $sql04 = "select wx_id from lkt_user where user_id='$user_id' ";//查询活动人员wx_id
                         $re04 = $db -> select($sql04);
                         $openid =$re04[0]->wx_id;
                         $sql05 = "select fromid from lkt_draw_user_fromid where open_id='$openid' order by lifetime asc ";//查询活动人员wx_id
@@ -214,7 +214,7 @@ class getcodeAction extends Action {
             $utoken .= $str[rand(0,61)];
         }
 
-        $usql = "select img_token from lkt_user where user_id = '$id'";
+        $usql = "select img_token from lkt_user where user_id = '$id' ";
         $uur = $db->select($usql);
         $lu_token = isset($uur[0]) ? md5($uur[0]->img_token):md5($id);
         $img_token = isset($uur[0]) ? $uur[0]->img_token:false;
@@ -247,7 +247,7 @@ class getcodeAction extends Action {
              //通过控制access_token 来校验不同二维码
              @unlink ($uploadImg.$imgDir.$pic);
              $lu_token = md5($utoken);
-             $sql = "update lkt_user set img_token = '$utoken' where user_id = '$id'";
+             $sql = "update lkt_user set img_token = '$utoken' where user_id = '$id' ";
              $db->update($sql);
              $pic = $lu_token.'-'.$type.'-ewm.jpg';
         }
@@ -718,7 +718,7 @@ class getcodeAction extends Action {
      //生成推广图片
 	function getPromotion($name,$ditu,$x,$y,$wx_id,$kuan = 300){
 		$db = DBAction::getInstance();
-		$sql_w = "select user_id from lkt_user where wx_id='".$wx_id.'\'';
+		$sql_w = "select user_id from lkt_user where wx_id='".$wx_id.'\' ';
         $r_w = $db->select($sql_w);
 		//信息准备
 		$userid = $r_w[0]->user_id;

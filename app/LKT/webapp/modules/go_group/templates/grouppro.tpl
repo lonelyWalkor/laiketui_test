@@ -1,4 +1,4 @@
-
+<!--_meta 作为公共模版分离出去-->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -25,9 +25,6 @@
 <!--/meta 作为公共模版分离出去-->
 {literal}
 <style type="text/css">
-  /*   .kznone{
-    display: none !important;
-   }*/
   .product_title{
       width:98px;
       overflow:hidden;
@@ -36,164 +33,96 @@
       -webkit-text-overflow:ellipsis;
 
   }
-
+  #DataTables_Table_0_wrapper{
+  	padding-bottom: 100px;
+  }
+  #DataTables_Table_0_length{
+  	bottom: 63px;
+  }
+  
 </style>
 {/literal}
 <title>活动设置</title>
 </head>
 <body>
-<div class="page-container">
+<nav class="breadcrumb">
+	<i class="Hui-iconfont">&#xe616;</i>
+	 插件管理 <span class="c-gray en">&gt;</span> 
+	 拼团<span class="c-gray en">&gt;</span>
+	商品
+</nav>
+<div class="page-container" style="padding-top: 0px;">
 	<form method="post" class="form form-horizontal" id="form-category-add" enctype="multipart/form-data">
 		<div id="tab-category" class="HuiTab">
-			<div class="tabBar cl" style="border-bottom: 2px #ff9900 solid;">	
-				<span style="background: #ff9900;">查看活动商品</span>
-			</div>
-	       <input type="hidden" name="status" value="{$status}" />
-	        <div class="tabCon">
-             <div class="row cl {if $status > 0}kznone{/if}">
-                    <label class="form-label col-xs-4 col-sm-3">
-                        <span class="c-red">*</span>
-                        拼团名称：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" class="input-text" value="{$list->groupname}" placeholder="" id="{$list->id}" name="groupname" style="width:200px;"disabled="disabled" >
-                        <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">仅后台显示,方便管理</span>
-                        
-                    </div>
-                    
-                </div>
-                <div class="row cl {if $status > 0}kznone{/if}">
-                    <label class="form-label col-xs-4 col-sm-3">拼团人数：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="number" max="5" min="1" class="input-text" value="{$list->man_num}" placeholder="" id="" name="peoplenum" style="width:60px;" disabled="disabled">
-                        <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">只能为大于0且小于等于50的数字</span>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-                <div class="row cl {if $status > 0}kznone{/if}">
-                    <label class="form-label col-xs-4 col-sm-3">拼团时限：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="number" min="1" class="input-text" value="{$list->hour}" placeholder="" id="" name="timehour" style="width:60px;" disabled="disabled"><span> 小时 </span>
-                        <input type="number" max="59" min="0" class="input-text" value="{$list->minute}" placeholder="" id="" name="timeminite" style="width:60px;" disabled="disabled"><span> 分钟 </span>
-                        <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">建议不要超过24小时,小时数不能小于1,分钟数为0~59之间</span>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-3">活动时间：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <div class="{if $status > 0}kznone{/if}">
-                          <span>开始时间</span><input type="text" class="input-text" value="{$list->starttime}" placeholder="" id="group_start_time" name="starttime" style="width:150px;margin-left: 10px;" disabled="disabled">
-                          <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        </div>
-                        <div style="margin-top: 10px;">
-                          <span>结束时间</span>
-                          {if $list->overtype==1}
-                            <input type="hidden" data-time='{$list->endtime}' name='ischang' disabled="disabled">
-                          {else}
-                            <input type="hidden" data-time='0' name='ischang' disabled="disabled">
-                          {/if}
-                            <input type="radio" value="1" placeholder="" id="ctime" name="endtime" onchange="radioChange(1)" style="width:50px;" disabled="disabled" {if $list->overtype=='1'}checked{/if}><span style="margin-left: -10px;">长期</span>
-                            <span style="margin-left: 10px;font-size: 10px;color:#666666;">长期的默认期限是一年</span>
-                          <div style="margin-left: 60px;">
-                            <input type="radio" value="2" placeholder="" id="dtime" name="endtime" onchange="radioChange(2)" style="width:50px;" disabled="disabled" {if $list->overtype=='2'}checked{/if}><span style="margin-left: -10px;">定期结束</span><input type="text" class="input-text" disabled="disabled" {if $list->overtype=='2'}value="{$list->endtime}"{else}value=""{/if} placeholder="" id="group_end_time" name="group_end_time" style="width:150px;margin-left: 10px;">
-                            <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                            <span style="margin-left: 10px;font-size: 10px;color:#666666;">结束日期至少选此时的一小时后</span>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-                <div class="row cl {if $status > 0}kznone{/if}" style="margin-left: 110px;">
-                    <label class="form-label col-xs-4 col-sm-3">每位用户可同时进行的团数：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="number" min="1" class="input-text" value="{$list->groupnum}" placeholder="" id="" name="groupnum" style="width:60px;" disabled="disabled">
-                        <span style="margin-left: 3px;font-size: 10px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">数字不能小于1。(为保证商家利益,请对团数进行限制。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注: 已成功或已失败的团不计入团数。)</span>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-                <div class="row cl {if $status > 0}kznone{/if}" style="margin-left: 110px;">
-                    <label class="form-label col-xs-4 col-sm-3">用户每次参团时可购买件数：</label>
-                    <div class="formControls col-xs-8 col-sm-9">
-                        <input type="number" min="1" class="input-text" value="{$list->productnum}" placeholder="" id="" name="productnum" style="width:60px;" disabled="disabled">
-                        <span style="margin-left: 3px;font-size: 3px;color:red;">*必填项</span>
-                        <span style="margin-left: 10px;font-size: 10px;color:#666666;">数字不能小于1。(为保证商家利益,请对用户参团时可购买件数进行限。)</span>
-                    </div>
-                    <div class="col-3">
-                    </div>
-                </div>
-
-	           <div class="mt-20">
-                  <table class="table table-border table-bordered table-bg table-hover table-sort" style="width:95%;margin:0 auto;">
-                     <thead>
+			<input type="hidden" name="status" value="{$status}" />
+        <div class="tabCon">
+           <div class="">
+              <table class="table table-border table-bordered table-bg table-hover table-sort">
+                 <thead>
                    <tr class="text-c">
                       <th width="50">团号</th>
-		                  <th width="100">商品名称</th>
-		                  <th width="80">商品图片</th>
-                      <th width="100">属性</th>
+                      <th width="80">商品图片</th>
+		                  <th style="width: 300px;">商品名称</th>
+		                
+                      <th width="50">配置名</th>
+                      <th width="50">颜色</th>
+                      <th width="50">规格</th>
 		                  <th>商品价格</th>
 		                  <th width="110" style="padding:0px;">拼团价格</th>
 		                  <th width="110" style="padding:0px;">团长价格</th>
-		                <!-- {if $status < 1}<th width="50">操作</th>{/if} -->
-                    
+		                {if $status < 1}<th width="50">操作</th>{/if}
 		               </tr>
                      </thead>
                      <tbody>
-	                   {foreach from=$list1 item=item name=f1}
+	                   {foreach from=$list item=item name=f1}
 	                     <tr class="text-c" style="height:20px;">
                          <td>{$item->group_id}</td>
-	                       <td>
-                          <div class="product_title">{$item->pro_name}</div></td>
-	                       <td><image src="{$item->image}" style="width: 90%;height:60px;"/></td>
-
-	                       <td width="100" style="text-align: center;">
-                          {$item->attribute}
-                         </td>
-                         
-
+                         <td><img src="{$item->image}" style="width: 90%;height:60px;"/></td>
+	                       <td style="text-align: left;">{$item->pro_name}</td>
+	                       <td>{$item->attr_name}</td>
+                         <td>{$item->color}</td>
+                         <td>{$item->guige}</td>
                          <td>{$item->market_price}</td>
-                      
+                         {if $status < 1}
 	                       <td id="{$item->id}">
-	                    	  
-	                    	    <input type="number" name="modify_group_{$item->id}" id="set_group_{$item->id}" value="{$item->group_price}" disabled="disabled">  
+	                    	    <!-- <div name="modify_group_{$item->id}" ondblclick="set_group_price({$item->id})">{$item->group_price}</div> -->
+	                    	    <input type="number" style="height: 36px;line-height: 36px;border: 1px solid #eee;padding-left: 20px;" name="modify_group_{$item->id}" id="set_group_{$item->id}" value="{$item->group_price}">  
 	                       </td>
 	                       <td id="m{$item->id}">
                             <!-- <div name="modify_member_{$item->id}" ondblclick="set_member_price({$item->id})">{$item->member_price}</div> -->
-	                    	    <input type="number" name="modify_member_{$item->id}" id="set_member_{$item->id}" value="{$item->member_price}" disabled="disabled"> 
+	                    	    <input type="number"  style="height: 36px;line-height: 36px;border: 1px solid #eee;padding-left: 20px;" name="modify_member_{$item->id}" id="set_member_{$item->id}" value="{$item->member_price}"> 
                          </td>
-                        
-                        <!--  <td id="{$item->id}">
+                         {else}
+                         <td id="{$item->id}">
                             <div name="modify_group_{$item->id}" >{$item->group_price}</div>
                          </td>
                          <td id="m{$item->id}">
                             <div name="modify_member_{$item->id}" >{$item->member_price}</div>
-                         </td> -->
-                        
+                         </td>
+                         {/if}   
+                         {if $status < 1}
+                         <td><a style="width: 60px;display: block;" title="删除产品" href="javascript:;" onclick="system_category_del(this,{$item->id},1)" class="ml-5">
+                     					<div style="align-items: center;font-size: 12px;display: flex;">
+									            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+									                <img src="images/icon1/del.png"/>&nbsp;删除
+									            	</div>
+															</div>
+                         		</a>
+                         </td>
+                         {/if}
 	                     </tr>
 	                   {/foreach}
                     </tbody>
                  </table>
               </div>
-              <div class="row cl">
-                <div class="col-9 col-offset-3">
-                    <input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;返回&nbsp;&nbsp;" onclick="javascript:history.back(-1);" style="background: #EDEDED;border:0px;color:#fff;margin-left: 25%;">
-                </div>
-            </div>
 	        </div>	
         </div> 
             
         </div>
     {if $status < 1}    
-		<div class="row cl" style="margin: 0 auto;">
-			<div class="col-9 col-offset-3">
-				<input class="btn btn-primary radius" type="button" onclick="modify_pro()" value="&nbsp;&nbsp;返回&nbsp;&nbsp;">			
+		<div class="row cl" style="margin: 0 auto;text-align: center;position: relative;top: -55px;">
+			<div class="" style="margin-right: 40px;">
+				<input class="btn btn-primary radius" type="button" onclick="modify_pro()" value="保  存">			
 			</div>
 		</div>
     {/if}
@@ -218,7 +147,7 @@
 {literal}
 <script type="text/javascript">
  
- /*var setgp = new Object;
+ var setgp = new Object;
   var tuanZ = new Object;
   function set_group_price(i){
   	var pid = i;
@@ -251,8 +180,8 @@
     	 $('.text-c div[name=modify_group_'+i+']').show(); 
     });
     
- }*/
-/*
+ }
+
   function set_member_price(i){
   	var pid = i;
     
@@ -284,9 +213,9 @@
     	 $('.text-c div[name=modify_member_'+i+']').show(); 
     });
     
- }*/
+ }
   
-  /*var canp={ 
+  var canp={ 
       num:"",
       id:'' 
       } 
@@ -326,43 +255,43 @@
        } 
      } 
    }
-   */
+   
    function modify_pro() {
-    location.href = 'index.php?module=go_group&action=index';
-        // var str = '{';
-        // $.each(setgp,function(index,element){
-        //       str+= '"'+index+'":"'+element+'",';
-        //     });
 
-        //     str = str.substring(0,(str.length-1));
-        //     str += '}';
+        var str = '{';
+        $.each(setgp,function(index,element){
+              str+= '"'+index+'":"'+element+'",';
+            });
+
+            str = str.substring(0,(str.length-1));
+            str += '}';
         
-        // var tuan = '{';
-        // $.each(tuanZ,function(index,element){
-        //       tuan+= '"'+index+'":"'+element+'",';
-        //     });
+        var tuan = '{';
+        $.each(tuanZ,function(index,element){
+              tuan+= '"'+index+'":"'+element+'",';
+            });
 
-        //     tuan = tuan.substring(0,(tuan.length-1));
-        //     tuan += '}';
+            tuan = tuan.substring(0,(tuan.length-1));
+            tuan += '}';
 
-        //     $.ajax({
-        //        url:"index.php?module=go_group&action=modify&set=gpro",
-        //        type:"post",
-        //        data:{gprice:str,mprice:tuan},
-        //        dataType:"json",
-        //        success:function(data) {
-        //            if(data.gcode == 1 && data.mcode == 1){
-        //                // layer.msg('修改成功!');
-        //                // window.parent.location.reload();
-        //                // var index = parent.layer.getFrameIndex(window.name);
-        //                // parent.layer.close(index);
-        //                location.href = 'index.php?module=go_group&action=index';
-        //            }
-        //        },
-        //      })
+            $.ajax({
+               url:"index.php?module=go_group&action=modify&set=gpro",
+               type:"post",
+               data:{gprice:str,mprice:tuan},
+               dataType:"json",
+               success:function(data) {
+                   if(data.gcode == 1 && data.mcode == 1){
+                       // layer.msg('修改成功!');
+                       // window.parent.location.reload();
+                       // var index = parent.layer.getFrameIndex(window.name);
+                       // parent.layer.close(index);
+                       location.href = 'index.php?module=go_group&action=Index';
+                   }
+               },
+             })
          
       }
-  /*  var prolen = '{/literal}{$len}{literal}';
+    var prolen = '{/literal}{$len}{literal}';
         prolen = parseInt(prolen);
 function system_category_del(obj,id,control){
         if(prolen <= 1){
@@ -387,16 +316,16 @@ function system_category_del(obj,id,control){
     });
   });
 
-  }*/
+  }
 
-// $('.table-sort').dataTable({
-// 	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
-// 	"bStateSave": true,//状态保存
-// 	"aoColumnDefs": [
-// 	  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-// 	  {"orderable":false,"aTargets":[0,4]}// 制定列不参与排序
-// 	]
-// });
+$('.table-sort').dataTable({
+	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+	"bStateSave": true,//状态保存
+	"aoColumnDefs": [
+	  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+	  {"orderable":false,"aTargets":[0,4]}// 制定列不参与排序
+	]
+});
 
 $(function(){
 	$('.skin-minimal input').iCheck({

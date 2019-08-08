@@ -178,7 +178,7 @@ class modifyAction extends Action {
 			header("Content-type:text/html;charset=utf-8");
 			echo "<script type='text/javascript'>" .
 				"alert('修改产品分类成功！');" .
-				"location.href='index.php?module=product_class';</script>";
+				"location.href='index.php?module=product_class&action=Index&cid=$sid';</script>";
 		}
 		return;
 	}

@@ -21,6 +21,7 @@ class addInputView extends SmartyView {
         $this->setAttribute("ctype2",$request->getAttribute("ctype2"));
         $this->setAttribute("cid",$request->getAttribute("cid"));
         $this->setAttribute("level",$request->getAttribute("level"));
+        $this->setAttribute("level01",$request->getAttribute("level01"));
         $this->setTemplate("add.tpl");
     }
 }

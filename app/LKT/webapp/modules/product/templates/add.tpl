@@ -148,13 +148,13 @@ function check(f) {
             </div>
             <text style="line-height:30px;position: relative;">*简洁表达产品，用来显示在首页产品，避免截取时不能表达是什么产品。</text>
         </div>
-        <div class="row cl">
+<!--         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>商品条形码：</label>
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$scan}" placeholder="" id="scanId" name="scan">
                 
             </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
             <div class="formControls col-2"><!--  <span class="select-box"> -->
@@ -176,12 +176,12 @@ function check(f) {
                <!--  </span> -->
             </div>
         </div>
-        <div class="row cl">
+<!--         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>关键词：</label>
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$keyword}" placeholder="" id="keywordId" name="keyword">
             </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
             <div class="formControls col-4" style="width: 26.8%;">
@@ -263,7 +263,7 @@ function check(f) {
                                                     <span class="arrt_span">{{attr_group.attr_group_name}}：</span>
                                                     <input type="text" class="add-attr-input add_input" ref="input_value" placeholder="请输入属性值" style="padding-left: 10px;">
                                                     <a v-bind:index="i" class="add-attr-btn adds_ntn" href="javascript:"><span>添加属性值</span></a>
-                                                    <a v-bind:index="i" href="javascript:" class="attr-group-delete dels_btn"  v-if="attr_group.status"><span>删除属性</span></a>
+                                                    <a v-bind:index="i" href="javascript:" class="attr-group-delete dels_btn"><span>删除属性</span></a>
                                                 </div>
                                                 <div class="arrt_bgcolor">
                                                     <div v-for="(attr,j) in attr_group.attr_list" class="attr_input_group arrt_clear arrt_zi">
@@ -806,10 +806,8 @@ function resetButton(){
     $('#product_numberId').val("");
     $('#product_titleId').val("");
     $('#subtitleId').val("");
-    $('#scanId').val("");
     $("#product_classId option[value='0']").attr("selected", "selected");
     $("#brand_classId option[value='0']").attr("selected", "selected");
-    $('#keywordId').val("");
     $('#weightId').val("");
     $('#sex-1').attr("checked","");
     $('#sex-2').attr("checked","");

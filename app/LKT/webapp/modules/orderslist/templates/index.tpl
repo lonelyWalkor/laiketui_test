@@ -428,7 +428,7 @@
 		<div class="maskTitle ">
 			添加快递信息
 		</div>
-		<a href="javascript:void(0);" class="closeA qx"><img src="images/icon1/gb.png"/></a>
+		<a href="javascript:void(0);" class="closeA qx" style="display: block;"><img src="images/icon1/gb.png"/></a>
 		<form action="" method="post" class="form form-horizontal" id="form-category-add" enctype="multipart/form-data">
 			<div id="tab-category" class="HuiTab">
 				<div class="" style="margin-top: 35px;">

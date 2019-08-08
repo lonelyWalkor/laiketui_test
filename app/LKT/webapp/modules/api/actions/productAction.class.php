@@ -10,6 +10,7 @@
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 require_once(MO_LIB_DIR . '/ShowPager.class.php');
 require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once(MO_LIB_DIR . '/Timer.class.php');
 
 class productAction extends Action {
     /*
@@ -161,9 +162,13 @@ class productAction extends Action {
         }
 
         // 根据产品id,查询产品数据
-        $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 ";
+        $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 and  a.num > 0";
+        // print_r($sql);die;
         $res = $db -> select($sql);
         if(!$res){
+            if( $collection_id){    
+                $res = $db -> delete('delete from lkt_user_collection where id="'.$collection_id.'"');
+            }
             echo json_encode(array('status'=>0,'err'=>'该商品已下架！'));
             exit();
         }else{
@@ -608,6 +613,8 @@ class productAction extends Action {
         $request = $this->getContext()->getRequest();
         $cart_id = trim($request->getParameter('cart_id')); //  购物车id
         $uid = trim($request->getParameter('uid')); // 微信id
+        $type = trim($request->getParameter('type')); //  类型，1直接购买，0购物车购买
+        $num1 = trim($request->getParameter('num1')); // 直接购买数量
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -628,7 +635,7 @@ class productAction extends Action {
         //计算运费
         $yunfei = 0;
         // 根据微信id,查询用户id
-        $sql_user = 'select user_id,money,consumer_money from lkt_user where wx_id=\''.$uid.'\'';
+        $sql_user = 'select user_id,money,consumer_money from lkt_user where wx_id=\''.$uid.'\' ';
         $r_user = $db->select($sql_user);
         if($r_user){
             $userid = $r_user['0']->user_id; // 用户id
@@ -683,6 +690,19 @@ class productAction extends Action {
         $usort = 0;
 
         foreach ($typeArr as $key => $value) {
+            $r_c01 = $db->select("select m.status,c.num  from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where  a.id = '$value'");
+            if($r_c01[0]->status != 0){
+                  
+                $res = $db -> delete('delete from lkt_cart where id="'.$value.'"');
+            
+                echo json_encode(array('status'=>0,'err'=>'存在下架商品！'));
+                                exit;
+            }
+            if($r_c01[0]->num ==0){
+                $res = $db -> delete('delete from lkt_cart where id="'.$value.'"');
+                echo json_encode(array('status'=>0,'err'=>'存在库存不足商品！'));
+                                exit;
+            }
             // 联合查询返回购物信息
             $sql_c = "select a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,c.price,c.attribute,c.img,c.yprice,m.freight,m.product_class from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where c.num >0 and m.status ='0' and a.id = '$value'";
             $r_c = $db->select($sql_c);
@@ -720,6 +740,11 @@ class productAction extends Action {
                         }
                     }
                 }
+
+                if($type==1){
+                     $product['Goods_num']=$num1;
+                }
+                // print_r($product['Goods_num']);die;
                 //计算运费
                 $yunfei = $yunfei + $this->freight($product['freight'],$product['Goods_num'],$address,$db);
                 $product['yunfei'] = $yunfei;//运费
@@ -1184,6 +1209,8 @@ class productAction extends Action {
         $reduce_money =  trim($request->getParameter('reduce_money')); // 自动满减金额
         $allow = trim($request->getParameter('allow')); // 用户使用积分
         $red_packet = trim($request->getParameter('red_packet')); // 用户使用红包
+        $typee = trim($request->getParameter('typee')); // 1直接购买类型0购物车购买
+        $num = trim($request->getParameter('num')); // 直接购买数量
         $total = $_POST['total']; // 付款金额
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
@@ -1259,10 +1286,22 @@ class productAction extends Action {
             $typeArr=explode(',',$typestr);
             foreach ($typeArr as $key => $value) {
                 // 联合查询返回购物信息
-                $sql_c = "select a.Size_id,a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,m.freight,c.price,c.attribute,c.img,c.yprice,c.unit from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$value' and c.num >= a.Goods_num ";
+
+                if($typee ==1){//直接购买
+                    $sql_c = "select a.Size_id,a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,m.freight,c.price,c.attribute,c.img,c.yprice,c.unit from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$value' and c.num >= $num ";
+                }else{
+                    $sql_c = "select a.Size_id,a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,m.freight,c.price,c.attribute,c.img,c.yprice,c.unit from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$value' and c.num >= a.Goods_num ";
+                }
+                
                 $r_c = $db->select($sql_c);
                 if(!empty($r_c)){
-                    $product = (array)$r_c['0']; // 转数组
+                      $product = (array)$r_c['0']; // 转数组
+                     if($typee == 1){//直接购买
+                        // echo "121212";
+                        $product['Goods_num'] = $num; // 商品价格
+                     }
+                     // print_r($num);die;
+                  
                     $product['photo_x'] = $img.$product['img'];/* 拼接图片链接*/
                     $num = $product['Goods_num']; // 商品数量
                     $z_num += $num; // 商品数量
@@ -1273,6 +1312,7 @@ class productAction extends Action {
                     $size_id = $product['Size_id']; // 商品Size_id  
                     $unit = $product['unit'];
                     $freight_id = $r_c[0]->freight; // 运费id
+
                     if(empty($freight_id) || $freight_id == 0){ // 当运费id不存在 或者 为0 时
                         $freight = 0; // 运费为0
                     }else{
@@ -1331,23 +1371,30 @@ class productAction extends Action {
                     foreach ($attribute as $ka => $va) {
                         $size .= $va.' ';
                     }
+                    // print_r($num);die;
                     // 循环插入订单附表
                    $sql_d = 'insert into lkt_order_details(user_id,p_id,p_name,p_price,num,unit,r_sNo,add_time,r_status,size,sid,freight) VALUES '."('$userid','$pid','$product_title','$price','$num','$unit','$sNo',CURRENT_TIMESTAMP,0,'$size','$size_id','$freight')";
 
                     $beres = $db->insert($sql_d);
+
+                     delkuncun($db,$size_id,$pid,$num);//创建订单修改库存
+
                     if($beres < 1){
                         $db->rollback();
                         echo json_encode(array('status' => 0, 'err' => '下单失败,请稍后再试!'));
                         exit;
                     }
-                    // 删除对应购物车内容
-                    $sql_del = 'delete from lkt_cart where id="'.$value.'"';
-                    $res_del = $db -> delete($sql_del);
-                    if($res_del < 1){
-                        $db->rollback();
-                        echo json_encode(array('status' => 0, 'err' => '下单失败,请稍后再试!'));
-                        exit;
+                    if($typee == 0){
+                        // 删除对应购物车内容
+                        $sql_del = 'delete from lkt_cart where id="'.$value.'"';
+                        $res_del = $db -> delete($sql_del);
+                        if($res_del < 1){
+                            $db->rollback();
+                            echo json_encode(array('status' => 0, 'err' => '下单失败,请稍后再试!'));
+                            exit;
+                        }
                     }
+                    
                 }else{
                     //回滚删除已经创建的订单
                     $db->rollback();
@@ -1429,12 +1476,7 @@ class productAction extends Action {
         $num = date('Ymd',time()).time().rand(10,99);//18位
         $sql_user = "select count(id) as a from lkt_order where sNo ='$num '";
         $n = $db->select($sql_user);
-        // if($n){
-        //     $this->order_number();
-        // }else{
-        //     return $num;
-        // }
-        // $aa = $n[0]->a ;
+
         do {
           return $num;
         } while ($n);
@@ -1537,12 +1579,12 @@ class productAction extends Action {
                 $p_name = $value->p_name; // 商品名称
                 $sid = $value->sid; // 商品属性id
                 $pname .= $p_name;
-                // 根据商品id,修改商品数量
-                $sql_p = "update lkt_configure set  num = num - $num where id = $sid";
-                $r_p = $db->update($sql_p); 
-                // 根据商品id,修改卖出去的销量
-                $sql_x = "update lkt_product_list set volume = volume + $num,num = num-$num where id = $pid";
-                $r_x = $db->update($sql_x); 
+                // // 根据商品id,修改商品数量
+                // $sql_p = "update lkt_configure set  num = num - $num where id = $sid";
+                // $r_p = $db->update($sql_p); 
+                // // 根据商品id,修改卖出去的销量
+                // $sql_x = "update lkt_product_list set volume = volume + $num,num = num-$num where id = $pid";
+                // $r_x = $db->update($sql_x); 
             }
 
             if($r_u){

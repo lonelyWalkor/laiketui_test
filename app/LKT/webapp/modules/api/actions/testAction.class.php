@@ -18,7 +18,7 @@ class testAction extends Action {
         $now = time();
         $ktsql = "select ptcode,uid from lkt_group_open where UNIX_TIMESTAMP(endtime) < $now and ptstatus=1";
         $ktres = $db -> select($ktsql);
-        
+        // print_r(121212);die;
         $config = $db -> select('select * from lkt_group_config');
         if(!empty($config)) $config = $config[0] -> refunmoney;
 
@@ -109,10 +109,54 @@ class testAction extends Action {
         
         
         
-        $endsql = "update lkt_group_buy set is_show=0 where is_show=1 and endtime<='$now'";    //结束已经到期的拼团活动
-        $db -> update($endsql);
+        // $endsql = "update lkt_group_buy set is_show=0 where is_show=1 and endtime<='$now'";    //结束已经到期的拼团活动
+        //   $db -> update($endsql);
+          $rrr=$db -> select("select * from lkt_group_product order by group_id desc");
+          // print_r($rrr);die;
+          if($rrr){
+            foreach ($rrr as $key => $value) {
+              $cfg = unserialize($value->group_data);
+         // print_r($cfg);
+             $starttime = $cfg->starttime;
+            $end_time = $cfg->endtime;
+            $g_status = $value->g_status;
+            $data = date('Y-m-d H:i:s', time());
+            if($starttime<$data && $data < $end_time && $g_status == 1){//处理正在进行中的
+               $res = $db->update("UPDATE `lkt_group_product` SET `g_status`='2' WHERE id = ".$value->id);
+            }
 
-          $dd = date('Y-m-d H:i:s', strtotime("-15 day"));
+            if($end_time <$data || $g_status == 3){//处理过期的
+              // print_r($value->id);
+              // print_r($end_time);
+              // print_r($data);die;
+          $res = $db->update("UPDATE `lkt_group_product` SET `g_status`='3' WHERE id = ".$value->id);
+
+          $r = $db -> select("select * from lkt_group_open where group_id=$value->group_id and ptstatus =1 ");
+
+          if($r){
+
+            foreach ($r as $key01 => $value01) {
+              // print_r(111);
+               $db->update("UPDATE `lkt_group_open` SET `ptstatus`='3' WHERE id = ".$value01->id);
+               $ee = $db->select("select user_id,z_price,sNo,pay from lkt_order where ptcode = '".$value01->ptcode."'");
+               // print_r($ee);die;
+               if($ee){
+                foreach ($ee as $key02=> $value02) {
+                  $db->update("UPDATE `lkt_order_details` SET `r_status`='11' WHERE r_sNo = '".$value02->sNo."'");
+                  $db->update("UPDATE lkt_user SET money =money+$value02->z_price WHERE user_id = '".$value02->user_id."'");
+                  $event = $value02->user_id.'退回拼团金额'.$value02->z_price.'';
+                         $sqlldr = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$value02->user_id','$value02->z_price','','$event',5)";
+                        $beres1 = $db->insert($sqlldr);
+                }
+               }
+               $db->update("UPDATE `lkt_order` SET `ptstatus`='3', `status`='11' WHERE ptcode = ".$value01->ptcode);
+            }
+          }
+
+            }
+    }
+  }
+         $dd = date('Y-m-d H:i:s', strtotime("-15 day"));
          // print_r($dd);die;
         $ss = $db->select("select r_sNo,id from lkt_order_details where deliver_time<'".$dd."' and r_status = 2");//查询订单发货时间超过15天的待收货时间
         if($ss){
@@ -134,7 +178,13 @@ class testAction extends Action {
 
           }
         }
-        
+    
+
+
+
+
+
+
         
     }
 

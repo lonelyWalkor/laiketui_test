@@ -9,6 +9,7 @@
  */
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 
+require_once(MO_LIB_DIR . '/Timer.class.php');
 
 class orderAction extends Action {
 
@@ -148,7 +149,7 @@ class orderAction extends Action {
 
         $order = array();
         // 根据用户id和前台参数,查询订单表 (id、订单号、订单价格、添加时间、订单状态、优惠券id)
-        $sql = "select id,z_price,sNo,add_time,status,coupon_id,pid,drawid,ptcode from lkt_order as a where user_id = '$user_id' " . $res ." order by add_time desc";
+        $sql = "select id,z_price,sNo,add_time,status,coupon_id,pid,drawid,ptcode,ptstatus from lkt_order as a where user_id = '$user_id' " . $res ." order by add_time desc";
         $r = $db->select($sql);
         $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";//查询拼团插件的状态（0：未启用 1：启用）
         $plugopen = $db -> select($plugsql);
@@ -193,6 +194,31 @@ class orderAction extends Action {
                         $rew['total'] = $rew['z_price']; // 总价为订单价格
                     }
                 }
+
+                if($rew['ptcode'] && $v->ptstatus == 1){//存在拼团订单且状态还在拼团中的
+                    $ptt =$rew['ptcode'];
+                    $rre = $db->select("select * from lkt_group_open where ptcode = '$ptt' ");
+                    if($rre){
+                        foreach ($rre as $key => $value) {
+                            // print_r($value);die;
+                            $endtime = $value->endtime;//过期时间
+                            $new1 = date("Y-m-d H:i:s");//当前时间
+                            $ptstatus = $value->ptstatus;//状态 1.拼团中，2 拼团成功
+                            $iddd = $value->id;
+                            $ptcode = $value->ptcode;
+                            if($ptstatus == 2 &&  $rew['status'] ==9){
+                                up_su_status($db,$iddd,$ptcode);//过期修改拼团成功订单
+                            }else{
+                                if($new1 > $endtime){
+                                    up_status($db,$iddd,$ptcode);//过期修改拼团未成功订单
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+
                 
                 $rew['pname'] = '';
                 
@@ -205,8 +231,8 @@ class orderAction extends Action {
                     foreach ($rew['list'] as $key => $values) {
                         // print_r($values);die;
                         if(strpos($values -> r_sNo, 'PT') !== false){//通过订单号查询拼团订单
-                        	$man_num = $db -> select("select man_num from lkt_group_buy where status='$v->pid'");
-                            $rew['man_num'] = !empty($man_num)?$man_num[0] -> man_num:0;//通过活动编号查询拼团活动的人数，不存在就默认为0
+
+                        	$rew['man_num'] =select_num($db,$v->pid);//查询该拼团活动拼团人数 
                             $rew['pro_id'] = $values->p_id;
                         }
                         // $rew[$key]->details_id = $values->id;
@@ -464,6 +490,19 @@ class orderAction extends Action {
                 $sqlldr = "insert into lkt_distribution_record (user_id,from_id,money,sNo,level,event,type,add_date) values ('$user_id','$user_id','$consumer_money',$sNo,'0','$event','5',CURRENT_TIMESTAMP)";
                 $beres1 = $db->insert($sqlldr);
             }
+            //修改库存
+
+            $ss = $db->select("select sid,num,p_id from lkt_order_details where r_sNo = $sNo");
+            if($ss){
+                foreach ($ss as $key => $value) {
+                  $size_id=$value->sid;
+                  $num=$value->num;
+                  $pid=$value->p_id;
+                   addkuncun($db,$size_id,$pid,$num);//取消订单或者取消支付或者过期未付款修改库存
+
+                }
+            }
+
 
             // 根据订单号,删除订单表信息
             $sql = "delete from lkt_order where sNo = '$sNo'";
@@ -482,6 +521,10 @@ class orderAction extends Action {
                 echo json_encode(array('status'=>0,'err'=>'操作失败!'));
                 exit();
             }
+
+
+
+
         }else{
             echo json_encode(array('status'=>0,'err'=>'操作失败!'));
             exit();
@@ -502,11 +545,19 @@ class orderAction extends Action {
         }else{ // 不存在
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
+         $sql = "select * from lkt_order_config where id = 1";
+            $rr = $db->select($sql);
+            if($rr){
+                $order_failure =$rr[0]->order_failure;
+            }else{
+                $order_failure = '24';
+            }
         // 获取信息
         $id = $_POST['order_id']; // 订单id
         $type1 = $_POST['type1']; // 
 
         $sql = "select sNo,z_price,add_time,name,mobile,address,drawid,user_id,status,coupon_id,consumer_money,coupon_activity_name,pid,otype,ptcode,red_packet from lkt_order where id = '$id'";
+
         $r = $db->select($sql);
 
         if($r){
@@ -611,12 +662,17 @@ class orderAction extends Action {
             $man_num = '';
             if($r){
                 if($r[0]->otype == 'pt') {
-                    $man_num = $db -> select("select man_num from lkt_group_buy where status='$pid'");
-                    $man_num = $man_num[0] -> man_num;
+                    $man_num = $db -> select("select group_level from lkt_group_product where group_id='$pid' and attr_id=$sid");
+                    // print_r("select group_level from lkt_group_product where group_id='$pid' and attr_id=$sid");die;
+                    $group_level = unserialize($man_num[0] -> group_level);
+                    foreach ($group_level as $k_ => $v_){
+                        $man_num = $k_;   //几人团 
+                    }
+
                 }        
             }
 
-            echo json_encode(array('status'=>1,'id'=>$id,'freight'=>$freight,'sNo'=>$sNo,'z_price'=>$z_price,'name'=>$name,'mobile'=>$mobile,'address'=>$address,'add_time'=>$add_time,'rstatus'=>$status,'list'=>$list,'man_num'=>$man_num,'ptcode' => $ptcode,'dr'=>$dr,'title'=>$title,'p_id'=>$p_id,'coupon_id'=>$coupon_id,'coupon_money'=>$coupon_money,'consumer_money'=>$consumer_money,'user_money' =>$user_money,'pid' =>$pid));
+            echo json_encode(array('status'=>1,'id'=>$id,'freight'=>$freight,'sNo'=>$sNo,'z_price'=>$z_price,'name'=>$name,'mobile'=>$mobile,'address'=>$address,'add_time'=>$add_time,'rstatus'=>$status,'list'=>$list,'man_num'=>$man_num,'ptcode' => $ptcode,'dr'=>$dr,'title'=>$title,'p_id'=>$p_id,'coupon_id'=>$coupon_id,'coupon_money'=>$coupon_money,'consumer_money'=>$consumer_money,'user_money' =>$user_money,'pid' =>$pid,'order_failure'=> $order_failure));
             exit();
         }else{
             echo json_encode(array('status'=>0,'err'=>'系统繁忙！'));
@@ -636,6 +692,17 @@ class orderAction extends Action {
         // $re_type = $_POST['re_type']; // 退货类型
         $re_type = trim($request->getParameter('re_type'));
         $back_remark = htmlentities($_POST['back_remark']); // 退货原因
+        $res = $db->select("select * from lkt_order_details where id = '$id'");//查询售后之前的状态
+        if($res){
+            foreach ($res as $key => $value) {
+                $data = serialize($value);
+                $r_status= $value->r_status;
+                $id= $value->id;
+                $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$id','0','$r_status','$data',24)";//type 24 表示售后储存修改前的订单信息 
+                $rr = $db->insert($sqll);
+            }
+        }
+
 
         $sql = "update lkt_order_details set r_status = 4,content = '$back_remark',r_type = 0,re_type = '$re_type' where id = '$id' ";
         $r = $db->update($sql);
@@ -647,8 +714,10 @@ class orderAction extends Action {
         $res_d = $db->selectrow($sql_d);
 
         if($res_o == $res_d){
+
             //如果订单数量相等 则修改父订单状态 
             $sql = "update lkt_order set status = 4 where sNo = '$oid'";
+            // print_r($sql);die;
             $r = $db->update($sql);
         }
         if($r>0){

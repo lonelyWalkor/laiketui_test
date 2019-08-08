@@ -10,10 +10,17 @@
 class modifyInputView extends SmartyView {
     public function execute() {
 		$request = $this->getContext()->getRequest();
+		$this->setAttribute("group_data",$request->getAttribute("group_data"));
+		$this->setAttribute("class",$request->getAttribute("class"));
+		$this->setAttribute("g_status",$request->getAttribute("g_status"));
+		$this->setAttribute("is_show",$request->getAttribute("is_show"));
+		$this->setAttribute("proattr",$request->getAttribute("proattr"));
 		$this->setAttribute("list",$request->getAttribute("list"));
-		$this->setAttribute("status",$request->getAttribute("status"));
-		$this->setAttribute("list1",$request->getAttribute("list1"));
-		$this->setAttribute("len",$request->getAttribute("len"));
+		$this->setAttribute("lastset",$request->getAttribute("lastset"));
+		$this->setAttribute("levelstr",$request->getAttribute("levelstr"));
+		$this->setAttribute("goods_id",$request->getAttribute("goods_id"));
+		$this->setAttribute("brandres",$request->getAttribute("brandres"));
+
 		$this->setTemplate("modify.tpl");
     }
 }

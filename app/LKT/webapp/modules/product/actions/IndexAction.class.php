@@ -57,7 +57,6 @@ class IndexAction extends Action {
         //查询设置的最低库存值，低于该库存值的商品不显示在该页面
         $sql = "select config from lkt_product_config where id =1";
         $rr = $db->select($sql);
-// print_r($rr);die;
         if($rr){
             $config = unserialize($rr[0]->config);
             $min_inventory = $config['min_inventory'];
@@ -65,8 +64,8 @@ class IndexAction extends Action {
             $min_inventory = 0;
         }
         $k = '';
-        $con ='';
-        $condition = ' recycle = 0 ';//0.不回收 1.回收
+        $con =[];
+        $condition = ' recycle = 0 and num > 0 ';//0.不回收 1.回收
         if($product_class != 0){//存在产品类别
             $k = $this-> class_sort($product_class);
                 if($k){
@@ -81,11 +80,13 @@ class IndexAction extends Action {
         if ($brand_id != 0) {//品牌
             $condition .= " and brand_id = '$brand_id' ";
         }
-        if ($status != 0) {//状态 0:上架 1:下架
+        if ($status != 0) {//状态 0:上架 1:下架2:待上架
             if($status == 1){
                 $condition .= " and status = 1 ";
             }else if($status == 2){
                 $condition .= " and status = 0 ";
+            }else if($status == 3){
+                $condition .= " and status = 2 ";
             }
         }
         if ($s_type != 0) {//产品值属性 1：新品,2：热销，3：推荐
@@ -109,10 +110,17 @@ class IndexAction extends Action {
         $list = [];
         $status_num = 0;
         foreach ($r as $key => $value) {
-            $pid =  $value -> id;//id
-            $class =  $value -> product_class;//产品类别
-            $num =  $value -> num;//数量
-            $value -> s_type = explode(',',$value -> s_type);//产品值属性 1：新品,2：热销，3：推荐 (1,2,3)
+            $pid =  $value ->id;//id
+
+            $sa= $db->select("select id from lkt_group_product where product_id = $pid and g_status = 2");//查询该商品是否正在参加拼团活动
+            if($sa){
+                $value ->g_status = 1;//正在参加拼团活动
+            }else{
+                 $value ->g_status = 0;//未参加拼团活动
+            }
+            $class =  $value ->product_class;//产品类别
+            $num =  $value ->num;//数量
+            $value ->s_type = explode(',',$value ->s_type);//产品值属性 1：新品,2：热销，3：推荐 (1,2,3)
             $typestr=trim($class,'-');//移除左右 -
             $typeArr=explode('-',$typestr);
             //  取数组最后一个元素 并查询分类名称
@@ -126,12 +134,12 @@ class IndexAction extends Action {
             }
             if($num == 0 && $value->status == 0){ // 当库存为0 并且商品还为上架状态
                 // 根据商品id，修改商品状态（下架）
-//              $sql = "update lkt_product_list set status = 1 where id = '$pid'";
-//              $db->update($sql);
+                // $sql = "update lkt_product_list set status = 1 where id = '$pid'";
+                // $db->update($sql);
                 $status_num += 1;
                 // 根据商品id，把商品下的属性全部下架
-//              $sql = "update lkt_configure set status = 4 where pid = '$pid'";
-//              $db->update($sql);
+                // $sql = "update lkt_configure set status = 4 where pid = '$pid'";
+                // $db->update($sql);
             }
             $sql = "select id,num,unit,price from lkt_configure where pid = '$pid'";//根据商品ID去查询商品对应的规格
             $r_s = $db->select($sql);
@@ -144,11 +152,10 @@ class IndexAction extends Action {
                     if($v1->num <= $min_inventory && $v1->num > 0){//还有商品，但是库存不足 修改状态  status( 0:未开启砍价 1:开启砍价 2 上架 3 缺货 4下架)
                         $sql = "update lkt_configure set status = 3 where id = '$configure_id'";
                         $db->update($sql);
+                    }else if($v1->num == 0){
+                        // $sql = "update lkt_configure set status = 4 where id = '$configure_id'";
+                        // $db->update($sql);
                     }
-//                  else if($v1->num == 0){
-//                      $sql = "update lkt_configure set status = 4 where id = '$configure_id'";
-//                      $db->update($sql);
-//                  }
                 }
                 $min = min($price);
                 $present_price = $min;//最低价格
@@ -159,7 +166,7 @@ class IndexAction extends Action {
 
              $sql01 = "select brand_name from lkt_brand_class where brand_id ='".$value->brand_id."'";//根据品牌ID查询对应名称
                 $r01 = $db->select($sql01);
-                if($r01){
+                if($r01[0]->brand_name){
                     $brand_name = $r01[0]->brand_name;
                 }
             $value->brand_name = $brand_name ?$brand_name:'';  
@@ -174,7 +181,7 @@ class IndexAction extends Action {
 
         $url = "index.php?module=product&action=Index&cid=".urlencode($product_class)."&brand_id=".urlencode($brand_id)."&status=".urlencode($status)."&s_type=".urlencode($s_type)."&product_title=".urlencode($product_title)."&pagesize=".urlencode($pagesize);
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');// url 总条数 当前页码  每页显示条数 
-// print_r($pages_show);die;
+// print_r($list);die;
         $sql = "select * from lkt_config where id = '1'";
         $r = $db->select($sql);
         $uploadImg = $r[0]->uploadImg; // 图片上传位置

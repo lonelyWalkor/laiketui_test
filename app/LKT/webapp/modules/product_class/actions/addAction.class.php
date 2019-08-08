@@ -51,7 +51,16 @@ class addAction extends Action {
         // 根据分类id,查询产品分类表
         $sql = "select * from lkt_product_class where recycle = 0 and cid = '$cid'";
         $r = $db->select($sql);
-
+        $co ='';
+        if($cid){
+            $co =" and cid = '$cid'" ;
+        }
+        $level01 = $db->select("select max(level) as level  from lkt_product_class where recycle = 0 ".$co);
+        if($cid){
+           $level01 = $level01[0]->level +1;
+        }else{
+            $level01 = $level01[0]->level;
+        }
         if($r){
             $sid = $r[0]->sid; // 上级id
             $level = $r[0]->level+1;
@@ -83,6 +92,7 @@ class addAction extends Action {
         $request->setAttribute("str_option",$json);
         $request->setAttribute('cid_r', $cid);
         $request->setAttribute('level', $level);
+        $request->setAttribute('level01', $level01);
         $request->setAttribute('uploadImg', $uploadImg);
         return View :: INPUT;
 	}
@@ -174,7 +184,6 @@ class addAction extends Action {
 
 		//添加分类
 		$sql = "insert into lkt_product_class(pname,sid,img,bg,level,sort,add_date) "
-
             ."values('$pname','$sid','$image','$bg','$level','$sort',CURRENT_TIMESTAMP)";
 		$r = $db->insert($sql);
 
@@ -188,7 +197,7 @@ class addAction extends Action {
 			header("Content-type:text/html;charset=utf-8");
 			echo "<script type='text/javascript'>" .
 				"alert('添加产品分类成功！');" .
-				"location.href='index.php?module=product_class';</script>";
+				"location.href='index.php?module=product_class&action=Index&cid=$sid';</script>";
 			return $this->getDefaultView();
 		}
 		return;

@@ -50,7 +50,7 @@ class addFavoritesAction extends Action {
         $openid = $_POST['openid']; // 微信id
         $pid = $_POST['pid']; // 产品id
         // 根据微信id,查询用户id
-        $sql = "select user_id from lkt_user where wx_id = '$openid'";
+        $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
         $user_id = $r[0]->user_id;
         // 根据用户id,产品id,查询收藏表

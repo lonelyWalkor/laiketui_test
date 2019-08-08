@@ -867,67 +867,23 @@ INSERT INTO `lkt_freight` VALUES (1,'偏远地区20元',0,'a:5:{i:0;a:5:{s:3:\"o
 /*!40000 ALTER TABLE `lkt_freight` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `lkt_group_buy`
---
 
-DROP TABLE IF EXISTS `lkt_group_buy`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `lkt_group_buy` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `groupname` varchar(100) NOT NULL DEFAULT '' COMMENT '拼团活动名称',
-  `man_num` int(2) unsigned DEFAULT NULL COMMENT '拼团人数',
-  `time_over` char(10) NOT NULL DEFAULT '' COMMENT '活动时限',
-  `starttime` char(15) NOT NULL DEFAULT '' COMMENT '活动开始时间',
-  `endtime` char(15) NOT NULL DEFAULT '' COMMENT '活动结束时间',
-  `groupnum` int(2) unsigned DEFAULT NULL COMMENT '可同时进行的参团数',
-  `productnum` int(2) unsigned DEFAULT NULL COMMENT '用户参团可购买产品数',
-  `status` char(6) NOT NULL DEFAULT '' COMMENT '活动编号',
-  `is_show` smallint(6) DEFAULT '0' COMMENT '是否正在执行? 0:未执行,1:执行',
-  `overtype` char(2) DEFAULT NULL COMMENT '结束时间radio:1,长期 2,定期',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='关于拼团活动设置';
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- DROP TABLE `lkt_group_buy`, `lkt_group_config`, `lkt_group_open`, `lkt_group_product`;
+-- 
+-- 
 
---
--- Dumping data for table `lkt_group_buy`
---
-
-LOCK TABLES `lkt_group_buy` WRITE;
-/*!40000 ALTER TABLE `lkt_group_buy` DISABLE KEYS */;
-/*!40000 ALTER TABLE `lkt_group_buy` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `lkt_group_config`
---
-
-DROP TABLE IF EXISTS `lkt_group_config`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lkt_group_config` (
-  `refunmoney` smallint(6) NOT NULL COMMENT '退款方式: 1,自动 2,手动'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='拼团参数配置表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `id` int(11) unsigned NOT NULL COMMENT 'id',
+  `refunmoney` smallint(6) NOT NULL COMMENT '退款方式: 1,自动 2,手动',
+  `group_time` int(11) NOT NULL COMMENT '拼团时限',
+  `open_num` int(11) NOT NULL COMMENT '开团数量',
+  `can_num` int(11) NOT NULL COMMENT '参团数量',
+  `can_again` tinyint(1) NOT NULL COMMENT '是否可重复参团1 是 0 否',
+  `open_discount` tinyint(1) NOT NULL COMMENT '是否开启团长优惠 1 是 0 否',
+  `rule` text NOT NULL COMMENT '规则',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='拼团参数配置表';
 
---
--- Dumping data for table `lkt_group_config`
---
-
-LOCK TABLES `lkt_group_config` WRITE;
-/*!40000 ALTER TABLE `lkt_group_config` DISABLE KEYS */;
-INSERT INTO `lkt_group_config` VALUES (1);
-/*!40000 ALTER TABLE `lkt_group_config` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `lkt_group_open`
---
-
-DROP TABLE IF EXISTS `lkt_group_open`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lkt_group_open` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` char(40) NOT NULL DEFAULT '' COMMENT '用户id',
@@ -938,47 +894,23 @@ CREATE TABLE `lkt_group_open` (
   `endtime` datetime DEFAULT NULL COMMENT '结束时间',
   `ptstatus` tinyint(1) DEFAULT '0' COMMENT '0:未付款 1:拼团中，2:拼团成功, 3：拼团失败, ',
   `group_id` char(10) NOT NULL COMMENT '所属拼团',
+  `sNo` varchar(255) DEFAULT NULL COMMENT '订单号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户拼团表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `lkt_group_open`
---
-
-LOCK TABLES `lkt_group_open` WRITE;
-/*!40000 ALTER TABLE `lkt_group_open` DISABLE KEYS */;
-/*!40000 ALTER TABLE `lkt_group_open` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `lkt_group_product`
---
-
-DROP TABLE IF EXISTS `lkt_group_product`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lkt_group_product` (
+  `group_id` int(11) NOT NULL COMMENT '活动ID',
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `group_title` varchar(255) NOT NULL DEFAULT '' COMMENT '拼团活动标题',
   `attr_id` int(11) NOT NULL COMMENT '规格id',
-  `group_id` int(11) DEFAULT NULL COMMENT '所属拼团',
   `product_id` int(11) unsigned DEFAULT NULL COMMENT '产品id',
-  `group_price` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
-  `member_price` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '团长价',
-  `classname` char(30) NOT NULL DEFAULT '' COMMENT '产品类名',
+  `group_level` varchar(200) NOT NULL DEFAULT '' COMMENT '拼团等级价格参数',
+  `group_data` varchar(300) NOT NULL DEFAULT '' COMMENT '拼团参数数据',
+  `g_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '活动状态: 1--未开始 2--活动中 3--已结束',
+  `is_show` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否显示',
+  `recycle` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0不回收，1.回收',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='拼团产品';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `lkt_group_product`
---
-
-LOCK TABLES `lkt_group_product` WRITE;
-/*!40000 ALTER TABLE `lkt_group_product` DISABLE KEYS */;
-/*!40000 ALTER TABLE `lkt_group_product` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `lkt_guide`
 --

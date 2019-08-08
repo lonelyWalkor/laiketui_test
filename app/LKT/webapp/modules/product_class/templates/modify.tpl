@@ -95,7 +95,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
 <title>修改分类</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品分类管理 <span class="c-gray en">&gt;</span> 修改产品分类 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品商品管理 <span class="c-gray en">&gt;</span> 修改商品分类 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <form name="form1" action="index.php?module=product_class&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return removeDisable()">
         <input type="hidden" name="cid" value="{$cid_r}" />
@@ -205,7 +205,9 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         <div class="row cl">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius">
+                
+                <input type="button" name="reset" value="返回"  class="btn btn-primary radius" id="resetId" onclick="javascript :history.back(-1);">
+               <!--  <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius"> -->
             </div>
         </div>
     </form>

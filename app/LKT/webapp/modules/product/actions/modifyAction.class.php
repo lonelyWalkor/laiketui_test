@@ -23,10 +23,8 @@ class modifyAction extends Action {
         if($r){
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
-            $scan = $r[0]->scan; // 条形码
             $product_class = $r[0]->product_class ; // 产品类别
             $brand_class = $r[0]->brand_id ; // 产品品牌
-            $keyword = $r[0]->keyword ; // 关键词
             $weight = $r[0]->weight ; // 重量
             $content = $r[0]->content; // 产品内容
             $num = $r[0]->num; //数量
@@ -175,10 +173,7 @@ class modifyAction extends Action {
             $initial = array();
         }
         $initial = (object)$initial;
-        
-//print_r($checked_attr_list);
-//echo('------------------------------');
-//print_r($attr_group_list);die;
+
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);
         $request->setAttribute("volume",$volume);
@@ -192,8 +187,6 @@ class modifyAction extends Action {
         $request->setAttribute('r02', $brand);//所有品牌
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');
-        $request->setAttribute('scan', isset($scan) ? $scan : '');
-        $request->setAttribute('keyword', isset($keyword) ? $keyword : '');
         $request->setAttribute('weight', isset($weight) ? $weight : '');
         $request->setAttribute('content', isset($content) ? $content : '');
         $request->setAttribute('num', isset($num) ? $num : '');
@@ -213,9 +206,7 @@ class modifyAction extends Action {
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 产品副标题
-        $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
         $brand_id = addslashes(trim($request->getParameter('brand_class'))); // 品牌
-        $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 关键词
         $s_type = $request->getParameter('s_type'); // 显示类型
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
@@ -242,23 +233,7 @@ class modifyAction extends Action {
                 return $this->getDefaultView();
             }
         }
-        if($scan == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('条形码不能为空！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }else{
-            $sql = "select id from lkt_product_list where scan = '$scan' and id != '$id'";
-            $r = $db->select($sql);
-            if($r){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('条形码重复！');" .
-                    "</script>";
-                return $this->getDefaultView();
-            }
-        }
+
         if($product_class == ''){
 			header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -273,13 +248,7 @@ class modifyAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
-        if($keyword == ''){
-			header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('请填写关键词！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }
+
         if($weight == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -451,7 +420,7 @@ class modifyAction extends Action {
         $sql = "select * from lkt_product_list where id = '$id'";
         $r_arr = $db->select($sql);
         // 根据产品id,修改产品信息
-        $sql_1 = "update lkt_product_list set product_title='$product_title',scan='$scan',product_class='$product_class',brand_id ='$brand_id',keyword='$keyword',weight='$weight',s_type='$type',num='$z_num',content='$content',imgurl='$image',subtitle='$subtitle',volume='$volume',freight='$freight',initial='$initial' where id = '$id'";
+        $sql_1 = "update lkt_product_list set product_title='$product_title',product_class='$product_class',brand_id ='$brand_id',weight='$weight',s_type='$type',num='$z_num',content='$content',imgurl='$image',subtitle='$subtitle',volume='$volume',freight='$freight',initial='$initial' where id = '$id'";
         $r_update = $db->update($sql_1);
 
         if($r_update == -1 ){
@@ -537,7 +506,7 @@ class modifyAction extends Action {
                 "location.href='index.php?module=product';</script>";
         }else{
             foreach ($r_arr[0] as $k_arr => $v_arr){
-                $sql = "update lkt_product_list set product_title='$v_arr->product_title',product_class='$v_arr->product_class',brand_id ='$v_arr->brand_id',keyword='$v_arr->keyword',s_type='$v_arr->s_type',num='$v_arr->z_num',sort='$v_arr->sort',content='$v_arr->content',imgurl='$v_arr->image',initial='$v_arr->initial' where id = '$id'";
+                $sql = "update lkt_product_list set product_title='$v_arr->product_title',product_class='$v_arr->product_class',brand_id ='$v_arr->brand_id',s_type='$v_arr->s_type',num='$v_arr->z_num',sort='$v_arr->sort',content='$v_arr->content',imgurl='$v_arr->image',initial='$v_arr->initial' where id = '$id'";
             }
             $r_y = $db->update($sql);
             echo "<script type='text/javascript'>" .

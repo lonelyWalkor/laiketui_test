@@ -15,9 +15,9 @@ class canrecordAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // $store_id = $this->getContext()->getStorage()->read('store_id'); // 商城id
+        $store_id = $this->getContext()->getStorage()->read('store_id'); // 商城id
         $ptcode = $request->getParameter('ptcode');
-        // $bstatus = $request->getParameter('bstatus');
+        $bstatus = $request->getParameter('bstatus');
 
         // 导出
         $pagesize = $request->getParameter('pagesize');
@@ -35,7 +35,7 @@ class canrecordAction extends Action {
         //查询是参团下的该用户下的拼团信息
 //        left join lkt_group_open as g on g.pcode = o.ptcode
 //        left join lkt_product_list as l on l.id = g.ptgoods_id
-        $sql = "SELECT u.user_name,d.p_name,d.p_id as goods_id,d.sid as attr_id,o.* 
+       $sql = "SELECT u.user_name,d.p_name,d.p_id as goods_id,d.sid as attr_id,o.* 
                     from lkt_order as o
                     LEFT JOIN lkt_user as u on o.user_id = u.user_id
                     LEFT JOIN lkt_order_details as d on o.sNo = d.r_sNo
@@ -57,12 +57,10 @@ class canrecordAction extends Action {
                 }
             }
         }
-
-        
-       // var_dump($can_res);
-       // exit;
+//        var_dump($can_res);
+//        exit;
         $request->setAttribute("list", $can_res);
-        // $request->setAttribute("bstatus", $bstatus);
+        $request->setAttribute("bstatus", $bstatus);
         return View :: INPUT;
     }
 
