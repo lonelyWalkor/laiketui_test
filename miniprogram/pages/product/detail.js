@@ -311,7 +311,11 @@ Page({
     var num = that.data.itemData.num;
     if (e.target.dataset.alphaBeta == 0) {
       if (this.data.buynum <= 1) {
-        buynum: 1
+        wx.showToast({
+          title: '不能再少了',
+          icon: 'none',
+          duration: 1000
+        })
       } else {
         this.setData({
           buynum: this.data.buynum - 1
@@ -322,8 +326,13 @@ Page({
         this.setData({
           buynum: this.data.buynum + 1
         })
+      } else {
+        wx.showToast({
+          title: '不能再多了',
+          icon: 'none',
+          duration: 1000
+        })
       }
-
     };
   },
   //首次进去选中
@@ -577,7 +586,7 @@ Page({
             var ptype = e.currentTarget.dataset.type;
             if (ptype == 'buynow') {
               wx.redirectTo({
-                url: '../order/pay?cartId=' + data.cart_id + '&pid=' + that.data.productId + '&num=' + that.data.buynum,
+                url: '../order/pay?cartId=' + data.cart_id + '&pid=' + that.data.productId + '&num=' + that.data.buynum + '&type=1',
               });
               return;
             } else {

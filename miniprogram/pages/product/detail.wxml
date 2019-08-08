@@ -189,7 +189,7 @@
 
     <!-- 图文详情 -->
 
-    <view wx:if="{{currentTab==0}}" style="height:100%;margin-bottom:100rpx;min-height:1000rpx;">
+    <view wx:if="{{currentTab==0}}" style="height:100%;margin-bottom:100rpx;min-height:500rpx;">
       <import src="../../wxParse/wxParse.wxml" />
       <view class="wxParse" style='padding:1% 5% 3% 5%;'>
         <template is="wxParse" data="{{wxParseData:content.nodes}}" />
@@ -198,7 +198,7 @@
 
     <!-- 产品参数 -->
 
-    <view wx:if="{{currentTab==1}}" style="height:100%;margin-bottom:100rpx;min-height:1000rpx;">
+    <view wx:if="{{currentTab==1}}" style="height:100%;margin-bottom:100rpx;min-height:500rpx;">
       <view class="p_all" style='padding:1% 5% 3% 5%;'>
         <view class="canshu df">
           <view class="name">商品名称：</view>
@@ -225,7 +225,7 @@
 
     <!-- 商品评价 -->
 
-    <view wx:if="{{currentTab==2}}" style="height:100%;margin-bottom:100rpx;min-height:1000rpx;">
+    <view wx:if="{{currentTab==2}}" style="height:100%;margin-bottom:100rpx;min-height:500rpx;">
       <view wx:if="{{type1 != 1 && !comments.length}}">
         <view class="search_no" style='padding:10px;'>
           <view class="font_14">

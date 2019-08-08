@@ -56,8 +56,8 @@ Page({
       method:'post',
       success:function(res){
         console.log(res);
-        WxParse.wxParse('content', 'html', res.detail.content, self, 5);
-        
+        WxParse.wxParse('content', 'html', res.detail.content, self, 5);//处理商品规则的富文本框
+        WxParse.wxParse('rule', 'html', res.detail.rule, self, 5);//处理规则的富文本框
         if (res.isplug === '0'){
           wx.showModal({
             title: '温馨提示!',
@@ -108,6 +108,8 @@ Page({
         })
         
         var timestamp = Date.parse(new Date())/1000;
+        // console.log(timestamp);
+        // console.log('1111111111111111111111111111111111111111');
         if (timestamp > parseInt(res.control.endtime)) {
            self.setData({
              is_over: true
@@ -451,7 +453,7 @@ Page({
           
           if (data.status == 1) {      
               wx.redirectTo({
-                url: '../order/pay?cartId=' + data.cart_id + '&pid=' + that.data.productId,
+                url: '../order/pay?cartId=' + data.cart_id + '&pid=' + that.data.productId + '&num=' + that.data.num + '&type=1',
               });  
               that.setData({
                 showModalStatus: false

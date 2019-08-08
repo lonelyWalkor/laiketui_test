@@ -63,7 +63,7 @@
                 <view class="sp_jg">
                   <view class='guige'>¥ {{total}} </view> 
 
-                  <view class='guige'>{{address.num}}</view>
+                  <view class='guige'>12={{address.num}}</view>
                 </view>
               </view>
             </view>

@@ -21,8 +21,8 @@ Page({
     period: false,//显示无数据
     select:0,//选中
     sort: 0,// 1 asc 升序   0 desc 降序
-    groupman: '',
-    groupid: '',
+    // groupman: '',
+    // groupid: '',
      titlee: '',
   },
   onPullDownRefresh: function () {
@@ -31,6 +31,9 @@ Page({
       wx.hideNavigationBarLoading() //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
     }, 1000);
+    wx.setNavigationBarTitle({
+      title: '拼团', //修改页面标题
+    });
     var that = this;
     var select = that.data.select;
     var sort = that.data.sort;
@@ -47,15 +50,15 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        var titlee = res.data.groupname;
+        // var titlee = res.data.groupname;
         wx.setNavigationBarTitle({
-          title: titlee, //修改页面标题
+          title: '拼团', //修改页面标题
         });
         if (res.data.code == 1){
         that.setData({
           list: res.data.list,
-          groupman: res.data.groupman,
-          groupid: res.data.groupid,
+          // groupman: res.data.groupman,
+          // groupid: res.data.groupid,
           
         })
           
@@ -224,12 +227,12 @@ Page({
         if (res.data.code == 1){
         that.setData({
           list: res.data.list,
-          groupman: res.data.groupman,
-          groupid: res.data.groupid
+          // groupman: res.data.groupman,
+          // groupid: res.data.groupid
         })
           var titlee = res.data.groupname;
           wx.setNavigationBarTitle({
-            title: titlee, //修改页面标题
+            title:'拼团', //修改页面标题
 
           });
         }
@@ -283,19 +286,19 @@ Page({
           });
           return false;
         }
+        if (res.data.code == 1) {
         //成功返回设置数据
         that.setData({
           page: page,
           list: that.data.list.concat(prolist),
-          groupman: res.data.groupman,
-          groupid: res.data.groupid
+          // groupman: res.data.groupman,
+          // groupid: res.data.groupid
         });
-        var titlee = res.data.groupname;
-        // wx.setNavigationBarTitle({
-        //   title: titlee, //修改页面标题
-
-        // });
-
+        }else{
+          that.setData({
+            period: true
+          });
+        }
       },
       fail: function (e) {
         wx.showToast({
@@ -344,9 +347,9 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        var titlee = res.data.groupname;
+        // var titlee = res.data.groupname;
         wx.setNavigationBarTitle({
-          title: titlee, //修改页面标题
+          title: '拼团', //修改页面标题
 
         });
       if(res.data.code == 1){
@@ -358,15 +361,15 @@ Page({
           that.setData({
             page: page,
             list: list,
-            groupman: res.data.groupman,
-            groupid: res.data.groupid
+            // groupman: res.data.groupman,
+            // groupid: res.data.groupid
           });
           
         }else{
           that.setData({
             list: list,
-            groupman: res.data.groupman,
-            groupid: res.data.groupid,
+            // groupman: res.data.groupman,
+            // groupid: res.data.groupid,
           })
          
         }

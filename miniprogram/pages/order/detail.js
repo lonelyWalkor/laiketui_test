@@ -2,25 +2,70 @@ var app = getApp();
 //获取应用实例  
 var common = require("../../utils/common.js");
 // 定义一个总毫秒数，以一天为例  
-var total_micro_second = 7200 * 1000 * 24; //这是两天倒计时  
+// var total_micro_second = 7200 * 1000 * 24; //这是两天倒计时  
 function countdown(that) {
-	// 渲染倒计时时钟  
-	that.setData({
-		clock: dateformat(total_micro_second) //格式化时间  
-	});
-	if(total_micro_second <= 0) {
-		that.setData({
-			clock: "已取消"
-		});
-		// timeout则跳出递归  
-		return;
-	}
+  // 渲染倒计时时钟
+  var _this = that;
+  // console.log(that.data.rstatus+'-----')
+  // if(that.data.rstatus!=0) return;
+  let total_micro_second = that.data.total_micro_second;
+  if(that.data.rstatus!=0) return;
+  that.setData({
+    clock: dateformat(total_micro_second) //格式化时间  
+  });
+  // console.log(that.data.rstatus + '-----')
+  if (total_micro_second <= 0) {
+    that.setData({
+      clock: "已取消"
+    });
+    wx.showLoading({
+      title: '请稍等',
+    }),
+      wx.request({
+        url: app.d.ceshiUrl + '&action=order&m=removeOrder',
+        method: 'post',
+        data: {
+          openid: app.globalData.userInfo.openid,
+          id: _this.data.orderId,
+        },
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+          var status = res.data.status;
+          if (status == 1) {
+            wx.showToast({
+              title: "订单自动取消！",
+              success: 2000
+            });
+            setTimeout(function(){
+              wx.navigateBack({
+                delta: 2
+              })
+            },2000)
+          }
+        },
+        fail: function () {
+          wx.showToast({
+            title: '网络异常！',
+            duration: 2000
+          });
+        }
+      });
+      wx.hideLoading();
+    // timeout则跳出递归  
+    return;
+  }
 	//settimeout实现倒计时效果  
-	setTimeout(function() {
+	var i = setTimeout(function() {
 		// 放在最后--  
-		total_micro_second -= 10;
+		_this.data.total_micro_second -= 1000;
 		countdown(that);
-	}, 10) //注意毫秒的步长受限于系统的时间频率，于是我们精确到0.01s即10ms  
+	}, 1000)
+  //记录定时器id
+  _this.setData({
+    timeout: i
+  })
 }
 // 时间格式化输出，如1天天23时时12分分12秒秒12 。每10ms都会调用一次  
 function dateformat(micro_second) {
@@ -60,6 +105,12 @@ Page({
     wx.redirectTo({
       url: "../return_goods/return_goods?id=" + id + "&type=1&oid=" + sNo
     })
+  },
+
+  onUnload: function () {
+    // 生命周期函数--监听页面卸载
+    //离开界面时清除定时器
+    clearInterval(this.data.timeout);
   },
   // 选择支付方式
   switchChange: function (e) {
@@ -259,10 +310,7 @@ Page({
       bgcolor: '#FF6347',
 		})
 		this.loadProductDetail();
-  },
-  onShow: function() {
-    this.loadProductDetail();
-  },
+	},
 	onReady: function() {
 		var that = this;
 		setTimeout(function() {
@@ -270,7 +318,7 @@ Page({
 				remind: ''
 			});
 		}, 1000);
-		countdown(that);
+		// countdown(that);
 	},
   //获取插件
   get_plug: function (e) {
@@ -322,84 +370,92 @@ Page({
 	loadProductDetail: function() {
 		var that = this;
 		var type1 = that.data.type1;
-		wx.request({
-			url: app.d.ceshiUrl + '&action=order&m=order_details',
-			method: 'post',
-			data: {
-				order_id: that.data.orderId,
-				type1: that.data.type1,
-			},
-			header: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			success: function(res) {
-				var status = res.data.status;
-        
-				var type1 = res.data.type1;
-				var dr = res.data.dr;
-				var wx_id = res.data.wx_id;
-				var title = res.data.title;
-				var drawid = res.data.drawid;
-				var p_id = res.data.p_id;
-				var status_pid = res.data.pid;
-        var list= res.data.list;
-        var z_price = Number(res.data.z_price);
-        var pro_price = 0;
-        var freight = res.data.freight ? res.data.freight : 0;
-        var red_packet = res.data.red_packet;
-        for (var i = 0; i < list.length; i++) {
-          pro_price = Number(pro_price) + Number(list[i].p_price) * Number(list[i].num); 
-        }
-				if(status == 1) {
-					that.setData({
-            pro_price: pro_price,
-            freight: freight,
-						id: res.data.id,
-						sNo: res.data.sNo,
-						z_price: z_price,
-						add_time: res.data.add_time,
-						rstatus: res.data.rstatus,
-						list: res.data.list,
-						address: res.data.address,
-						mobile: res.data.mobile,
-						name: res.data.name,
-						dr: res.data.dr,
-						title: res.data.title,
-						p_id: res.data.p_id,
-						coupon_money: res.data.coupon_money,
-            consumer_money: res.data.consumer_money,
-						user_money: res.data.user_money,
-						status_pid: res.data.pid,
-            ptcode: res.data.ptcode,
-            man_num: res.data.man_num,
-            groupid: res.data.pid,
-            payment: z_price,
-					});
+    const promise = new Promise((resolve) => {
+      wx.request({
+        url: app.d.ceshiUrl + '&action=order&m=order_details',
+        method: 'post',
+        data: {
+          order_id: that.data.orderId,
+          type1: that.data.type1,
+        },
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+          var status = res.data.status;
 
-					//支付倒计时
-					var str = res.data.add_time; // 日期字符串
-					str = str.replace(/-/g, '/'); // 将-替换成/，因为下面这个构造函数只支持/分隔的日期字符串
-					var d_date = Date.parse(new Date(str)); // 构造一个日期型数据，值为传入的字符串
-					var t_time = Date.parse(new Date());
-					var t_res = t_time - d_date;
-					var two_day = 7200 * 1000 * 24;
-					var djs = two_day - t_res;
-					total_micro_second = djs;
-					//倒计时结束
-				} else {
-					wx.showToast({
-						title: res.data.err,
-						duration: 2000
-					});
-				}
-			},
-			fail: function() {
-				wx.showToast({
-					title: '网络异常！',
-					duration: 2000
-				});
-			}
-		});
+          var type1 = res.data.type1;
+          var dr = res.data.dr;
+          var wx_id = res.data.wx_id;
+          var title = res.data.title;
+          var drawid = res.data.drawid;
+          var p_id = res.data.p_id;
+          var status_pid = res.data.pid;
+          var list = res.data.list;
+          var z_price = Number(res.data.z_price);
+          var pro_price = 0;
+          var freight = res.data.freight ? res.data.freight : 0;
+          var red_packet = res.data.red_packet;
+          for (var i = 0; i < list.length; i++) {
+            pro_price = Number(pro_price) + Number(list[i].p_price) * Number(list[i].num);
+          }
+          if (status == 1) {
+            //支付倒计时
+            var str = res.data.add_time; // 日期字符串
+            var failure = Number(res.data.order_failure); // 后台传的时间值
+            str = str.replace(/-/g, '/'); // 将-替换成/，因为下面这个构造函数只支持/分隔的日期字符串
+            var d_date = Date.parse(new Date(str)); // 构造一个日期型数据，值为传入的字符串
+            let t_time = Date.parse(new Date());
+            var t_res = t_time - d_date + 9000;
+            var two_day = failure * 60 * 60 * 1000;
+            var djs = two_day - t_res;
+            // total_micro_second = djs;
+            //倒计时结束
+            // console.log("--add-time--"+str+'--failure--'+failure+'--1--'+d_date+'--2--'+t_time+'--3--'+t_res+'--4--'+two_day+'--5--'+djs)
+
+            that.setData({
+              pro_price: pro_price,
+              freight: freight,
+              id: res.data.id,
+              sNo: res.data.sNo,
+              z_price: z_price,
+              add_time: res.data.add_time,
+              rstatus: res.data.rstatus,
+              list: res.data.list,
+              address: res.data.address,
+              mobile: res.data.mobile,
+              name: res.data.name,
+              dr: res.data.dr,
+              title: res.data.title,
+              p_id: res.data.p_id,
+              coupon_money: res.data.coupon_money,
+              consumer_money: res.data.consumer_money,
+              user_money: res.data.user_money,
+              status_pid: res.data.pid,
+              ptcode: res.data.ptcode,
+              man_num: res.data.man_num,
+              groupid: res.data.pid,
+              payment: z_price,
+              order_failure: res.data.order_failure,
+              total_micro_second: djs
+            });
+            resolve();
+          } else {
+            wx.showToast({
+              title: res.data.err,
+              duration: 2000
+            });
+          }
+        },
+        fail: function () {
+          wx.showToast({
+            title: '网络异常！',
+            duration: 2000
+          });
+        }
+      });
+    });
+    promise.then(() => countdown(this));
 	},
 	// 取消订单
 	removeOrder: function(e) {

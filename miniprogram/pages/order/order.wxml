@@ -27,7 +27,7 @@
   <view class="swiper-tab">
     <view class="sorting-list{{!chioceSorting?' chioce-list-hide':' chioce-list-show'}}" style='border:1px solid {{bgcolor}};'>
       <view class='noe' style='border-color:transparent transparent {{bgcolor}} transparent;'></view>
-      <view wx:for="{{sortingList}}" catchtap="selectSorting" data-index="{{index}}" data-me="{{item.value}}" data-otype="{{item.otype}}" class="sorting-item {{item.value == activeSortingName ? 'xzbg':''}}" style="background:{{item.value == activeSortingName ? bgcolor:''}};{{index == sortingList.length-1 ? 'border-bottom:0;':''}}"
+      <view wx:for="{{sortingList}}" wx:key="key" catchtap="selectSorting" data-index="{{index}}" data-me="{{item.value}}" data-otype="{{item.otype}}" class="sorting-item {{item.value == activeSortingName ? 'xzbg':''}}" style="background:{{item.value == activeSortingName ? bgcolor:''}};{{index == sortingList.length-1 ? 'border-bottom:0;':''}}"
         hover-class="click-once">{{item.value}}</view>
     </view>
     <!-- 下拉菜单 -->
@@ -52,7 +52,7 @@
           </view>
           <text>没有可用订单/(ㄒoㄒ)/~~</text>
         </view>
-        <view class='tab_tab' wx:for="{{ordert0}}">
+        <view class='tab_tab' wx:for="{{ordert0}}" wx:key="key">
           <navigator url="../order/detail?orderId={{item.id}}">
             <view class="top">
               <view>
@@ -132,7 +132,7 @@
           </view>
           <text>没有可用订单/(ㄒoㄒ)/~~</text>
         </view>
-        <view class='tab_tab' wx:for="{{ordert1}}">
+        <view class='tab_tab' wx:for="{{ordert1}}"wx:key="key">
           <navigator url="../order/detail?orderId={{item.id}}">
             <view class="top">
               <view>
@@ -186,7 +186,7 @@
           </view>
           <text>没有可用订单/(ㄒoㄒ)/~~</text>
         </view>
-        <view class='tab_tab' wx:for="{{ordert2}}">
+        <view class='tab_tab' wx:for="{{ordert2}}"wx:key="key">
           <navigator url="../order/detail?orderId={{item.id}}">
             <view class="top">
               <view>
@@ -242,7 +242,7 @@
           </view>
           <text>没有可用订单/(ㄒoㄒ)/~~</text>
         </view>
-        <view class='tab_tab' wx:for="{{ordert3}}">
+        <view class='tab_tab' wx:for="{{ordert3}}"wx:key="key">
           <navigator url="../order/detail?orderId={{item.id}}">
             <view class="top">
               <view>
@@ -301,7 +301,7 @@
 					</view>
 					<text>没有可用订单/(ㄒoㄒ)/~~</text>
 				</view>
-				<view class='tab_tab' wx:for="{{ordert4}}">
+				<view class='tab_tab' wx:for="{{ordert4}}" wx:key="key">
 					<navigator url="../order/detail?orderId={{item.id}}">
 						<view class="top">
 							<view>

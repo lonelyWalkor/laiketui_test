@@ -63,9 +63,10 @@ Page({
     var page = that.data.page;
     var index = that.data.tabid;
     var current = that.data.current;
-    //console.log(e)
+  //   console.log(that)
   //  console.log(page)
   //  console.log(index)
+  //   console.log(66666)
     wx.request({
       url: app.d.ceshiUrl + '&action=Index&m=get_more',
       method: 'post',
@@ -93,13 +94,22 @@ Page({
           });
           return false;
         }else{
+          
           var twoList = that.data.twoList;
-          for (var i = 0; i < prolist.length; i++) {
-            twoList[current].twodata.push(prolist[i])
-          }
+          // var indexTwoData = twoList[0].twodata// 获取首页的数据对象
+          // twoList[current].twodata.push(prolist)
+          // for (var i = 0; i < prolist.length; i++) {
+          //   twoList[current].twodata.push(prolist[i])
+          // }
+          
+          twoList[current].twodata.push(...prolist)
+          var indexTwoData = twoList[0].twodata
+          console.log(twoList)
+          console.log('6666')
           that.setData({
             page: page + 1,
-            twoList: twoList
+            twoList: twoList,
+            indexTwoData: indexTwoData
           });
         }
       },
@@ -194,11 +204,12 @@ Page({
           var arr = Object.keys(twoList[0].distributor);
           var banner_num = Object.keys(banner); // 轮播图
           var notice = res.data.notice;
-          var indexTwoDataObj = twoList[0].twodata// 获取首页的数据对象
-          // 将首页的数据对象合为一个数组
-          if (twoList && twoList[0] && indexTwoDataObj) {
-            var indexTwoData = Object.values(indexTwoDataObj).reduce((a, b) => [...a, ...b], []);
-          }
+          var indexTwoData = twoList[0].twodata// 获取首页的数据对象
+          // var indexTwoDataObj = twoList[0].twodata// 获取首页的数据对象
+          // // 将首页的数据对象合为一个数组
+          // if (twoList && twoList[0] && indexTwoDataObj) {
+          //   var indexTwoData = Object.values(indexTwoDataObj).reduce((a, b) => [...a, ...b], []);
+          // }
           // console.log(twoList);
           // console.log(indexTwoData);
           that.setData({
@@ -508,9 +519,12 @@ Page({
     }
   },
   login: function () {
+    
     var that = this;
     //取出本地存储用户信息，解决需要每次进入小程序弹框获取用户信息
     var userInfo = wx.getStorageSync('userInfo');
+    console.log(userInfo)
+    console.log(5555555555555)
     wx.login({
       success: res => {
         app.globalData.code = res.code

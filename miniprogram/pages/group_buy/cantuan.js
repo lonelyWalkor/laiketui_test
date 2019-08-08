@@ -18,6 +18,8 @@ Page({
     man_num:null //团满人数
   },
   onLoad:function(options){
+    console.log(options)
+    console.log('options')
     var self = this
     self.id = options.id;
     self.groupid = options.groupid;
@@ -77,6 +79,8 @@ Page({
               groupMember[i] = {}
             }
           }
+          console.log(self.goodsInfo)
+          console.log('self.goodsInfo')
           self.setData({
             groupMember, groupMember,
             groupInfo: self.goodsInfo,
