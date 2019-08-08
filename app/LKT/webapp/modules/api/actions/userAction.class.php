@@ -95,7 +95,7 @@ class userAction extends Action {
         $r_2 = $db->select($sql_2);
    
         // 查询会员信息
-        $sql = "select * from lkt_user where wx_id = '$openid' and recycle = 0";
+        $sql = "select * from lkt_user where wx_id = '$openid' ";
         $r = $db -> select($sql);
         if($r){
             $user['headimgurl'] = $r[0]->headimgurl;
