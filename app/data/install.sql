@@ -868,22 +868,6 @@ INSERT INTO `lkt_freight` VALUES (1,'偏远地区20元',0,'a:5:{i:0;a:5:{s:3:\"o
 UNLOCK TABLES;
 
 
--- DROP TABLE `lkt_group_buy`, `lkt_group_config`, `lkt_group_open`, `lkt_group_product`;
--- 
--- 
-
-CREATE TABLE `lkt_group_config` (
-  `id` int(11) unsigned NOT NULL COMMENT 'id',
-  `refunmoney` smallint(6) NOT NULL COMMENT '退款方式: 1,自动 2,手动',
-  `group_time` int(11) NOT NULL COMMENT '拼团时限',
-  `open_num` int(11) NOT NULL COMMENT '开团数量',
-  `can_num` int(11) NOT NULL COMMENT '参团数量',
-  `can_again` tinyint(1) NOT NULL COMMENT '是否可重复参团1 是 0 否',
-  `open_discount` tinyint(1) NOT NULL COMMENT '是否开启团长优惠 1 是 0 否',
-  `rule` text NOT NULL COMMENT '规则',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='拼团参数配置表';
-
 CREATE TABLE `lkt_group_open` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` char(40) NOT NULL DEFAULT '' COMMENT '用户id',
@@ -897,6 +881,19 @@ CREATE TABLE `lkt_group_open` (
   `sNo` varchar(255) DEFAULT NULL COMMENT '订单号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户拼团表';
+
+
+CREATE TABLE `lkt_group_config33` (
+  `id` int(11) unsigned NOT NULL COMMENT 'id',
+  `refunmoney` smallint(6) NOT NULL COMMENT '退款方式: 1,自动 2,手动',
+  `group_time` int(11) NOT NULL COMMENT '拼团时限',
+  `open_num` int(11) NOT NULL COMMENT '开团数量',
+  `can_num` int(11) NOT NULL COMMENT '参团数量',
+  `can_again` tinyint(1) NOT NULL COMMENT '是否可重复参团1 是 0 否',
+  `open_discount` tinyint(1) NOT NULL COMMENT '是否开启团长优惠 1 是 0 否',
+  `rule` text NOT NULL COMMENT '规则',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='拼团参数配置表';
 
 CREATE TABLE `lkt_group_product` (
   `group_id` int(11) NOT NULL COMMENT '活动ID',
