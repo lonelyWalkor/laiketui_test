@@ -691,16 +691,16 @@ class productAction extends Action {
 
         foreach ($typeArr as $key => $value) {
             $r_c01 = $db->select("select m.status,c.num  from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where  a.id = '$value'");
-            if($r_c01[0]->status != 0){
+            if($r_c01[0]->status&&$r_c01[0]->status != 0){
                   
                 $res = $db -> delete('delete from lkt_cart where id="'.$value.'"');
             
-                echo json_encode(array('status'=>0,'err'=>'存在下架商品！'));
+                echo json_encode(array('status'=>3,'err'=>'存在下架商品！'));
                                 exit;
             }
-            if($r_c01[0]->num ==0){
+            if($r_c01[0]->num&&$r_c01[0]->num ==0){
                 $res = $db -> delete('delete from lkt_cart where id="'.$value.'"');
-                echo json_encode(array('status'=>0,'err'=>'存在库存不足商品！'));
+                echo json_encode(array('status'=>3,'err'=>'存在库存不足商品！'));
                                 exit;
             }
             // 联合查询返回购物信息
