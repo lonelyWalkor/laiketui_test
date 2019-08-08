@@ -883,7 +883,7 @@ CREATE TABLE `lkt_group_open` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户拼团表';
 
 
-CREATE TABLE `lkt_group_config33` (
+CREATE TABLE `lkt_group_config` (
   `id` int(11) unsigned NOT NULL COMMENT 'id',
   `refunmoney` smallint(6) NOT NULL COMMENT '退款方式: 1,自动 2,手动',
   `group_time` int(11) NOT NULL COMMENT '拼团时限',
