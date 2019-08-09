@@ -223,7 +223,7 @@ class modifyAction extends Action {
                 "location.href='index.php?module=product&action=add';</script>";
             return $this->getDefaultView();
         }else{
-            $sql = "select product_title from lkt_product_list where id != '$id' and product_title = '$product_title'";
+            $sql = "select product_title from lkt_product_list where id != '$id' and product_title = '$product_title' and recycle =0";
             $r = $db->select($sql);
             if($r){
 				header("Content-type:text/html;charset=utf-8");

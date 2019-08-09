@@ -63,7 +63,7 @@ class DetailAction extends Action {
 
         $data['add_time'] = $v -> add_time; // 添加时间
 
-        $data['z_price'] = $v -> z_price; // 添加时间
+        $data['z_price'] = $v -> z_price; // 
 
         $data['user_id'] = $v -> user_id; // 用户id
 
@@ -94,7 +94,6 @@ class DetailAction extends Action {
 
           $data['trade_no'] = $v -> trade_no; // 微信支付交易号
           $data['freight'] = $v -> freight; // 运费
-
         $data['id'] = $id;
 
         // 根据产品id,查询产品主图

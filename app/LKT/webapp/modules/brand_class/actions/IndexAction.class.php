@@ -36,7 +36,7 @@ class IndexAction extends Action {
         $sql = "select * from lkt_brand_class where recycle = 0 order by sort asc, brand_time desc limit $start,$pagesize ";
         $r = $db->select($sql);
 
-        $url = "index.php?module=product&action=Index&pagesize=".urlencode($pagesize);
+        $url = "index.php?module=brand_class&action=Index&pagesize=".urlencode($pagesize);
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
 
         $request->setAttribute("uploadImg",$uploadImg);

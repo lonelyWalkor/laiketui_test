@@ -26,11 +26,11 @@
 
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 商品品牌 </nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 品牌管理 </nav>
 <div class="pd-20">
     <div style="clear:both;">
         <button  class="btn newBtn radius" onclick="location.href='index.php?module=brand_class&action=add';">
-        	<img src="images/icon1/add.png" alt="" />新增分类
+        	<img src="images/icon1/add.png" alt="" />新增品牌
         </button>
     </div>
     <div class="mt-20">
@@ -40,8 +40,8 @@
                     <th>ID</th>
                     <th>品牌图片</th>
                     <th>品牌名称</th>
+                    <!-- <th>状态</th> -->
                     <th>添加时间</th>
-                    <th>状态</th>
                     <th style="width: 180px;">操作</th>
                 </tr>
             </thead>
@@ -51,10 +51,10 @@
                     <td>{$smarty.foreach.f1.iteration}</td>
                     <td>{if $item->brand_pic != ''}<image class='pimg' src="{$uploadImg}{$item->brand_pic}" style="width: 50px;height:50px;"/>{else}<span>暂无图片</span>{/if}</td>
                     <td>{$item->brand_name}</td>
+                    <!-- <td>{if $item->status == 0}启用{else}禁用{/if}</td> -->
                     <td>{$item->brand_time}</td>
-                    <td>{if $item->status == 0}启用{else}禁用{/if}</td>
                     <td>
-                        {if $item->status == 1}
+<!--                         {if $item->status == 1}
                             <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="confirm1('确定要启用此商品品牌吗?',{$item->brand_id},'启用')" title="启用" >
                             	<div style="align-items: center;font-size: 12px;display: flex;">
 	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
@@ -70,7 +70,7 @@
 	                            	</div>
 	                            </div>
                             </a>
-                        {/if}
+                        {/if} -->
                         <a style="text-decoration:none" class="ml-5" href="index.php?module=brand_class&action=modify&cid={$item->brand_id}" title="修改" >
                         	<div style="align-items: center;font-size: 12px;display: flex;">
                             	<div style="margin:0 auto;;display: flex;align-items: center;"> 

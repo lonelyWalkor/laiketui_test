@@ -32,19 +32,19 @@ function check(f){
 <div class="pd-20">
     <form name="form1" action="index.php?module=brand_class&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <div class="row cl">
-            <label class="form-label col-4"><span class="c-red">*</span>中文名称：</label>
+            <label class="form-label col-4"><span class="c-red">*</span>品牌名称:</label>
             <div class="formControls col-6">
                 <input type="text" class="input-text" name="pname" datatype="*6-18" style="width: 260px;">
             </div>
             <div class="col-4"> </div>
         </div>
-        <div class="row cl">
+<!--         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>英文名称：</label>
             <div class="formControls col-6">
                 <input type="text" class="input-text" name="y_pname" datatype="*6-18" style="width: 260px;">
             </div>
             <div class="col-4"> </div>
-        </div>
+        </div> -->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>品牌logo：</label>
             <div class="formControls col-xs-8 col-sm-6"> 
@@ -56,7 +56,7 @@ function check(f){
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-4"><span class="c-red"></span>产地：</label>
+            <label class="form-label col-4"><span class="c-red"></span>所属国家/市</label>
             <div class="formControls col-6">
                 <input type="text" class="input-text" name="producer" datatype="*6-18" style="width: 260px;">
             </div>
@@ -79,7 +79,7 @@ function check(f){
         <div class="row cl">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="reset" name="reset" value="重 写"  class="btn btn-primary radius">
+                <input type="reset" name="reset" value="取消"  class="btn btn-primary radius" onclick="javascript :history.back(-1);">
             </div>
         </div>
     </form>
