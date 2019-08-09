@@ -1741,3 +1741,23 @@ p {
 .icon-meh:before { content: "\e780"; }
 
 .icon-smile:before { content: "\e783"; }
+
+/* 公共样式 底部保存按钮固定定位 */
+.page_bort_bottom{border-top: 1px solid #ddd!important;position: fixed;bottom: 0!important;left: 10px!important;right: 10px!important;background: #fff!important;z-index: 9999;display: block!important;margin: 0!important;width:auto!important;height: auto!important;}
+
+.page_bort_bottom .btn-left,.page_bort_bottom .btn-right{
+	width: 112px!important;
+	height: 36px!important;
+}
+
+.page_bort_bottom .btn-left{
+	float:right;
+	margin: 16px 10px!important;
+}
+.page_bort_bottom .btn-right{
+	float:right;
+	margin: 16px 60px 16px 0!important;
+}
+.page_bort_bottom input[value="返回"],.page_bort_bottom input[value="取 消"],.page_bort_bottom input[value="重 写"]{
+	color: #2481e5;
+}

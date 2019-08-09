@@ -404,7 +404,7 @@ function check(f) {
         <div class="row cl page_bort_bottom">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius btn-right" onclick="check()">
-                <input type="button" name="reset" value="重 写" onclick="check1()" class="btn btn-primary radius btn-left" >
+                <input type="button" name="reset" value="重 写" onclick="check1()" class="btn btn-primary radius btn-left" style='background: transparent!important;'>
             </div>
         </div>
     </form>
