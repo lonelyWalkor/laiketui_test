@@ -986,7 +986,8 @@ class groupbuyAction extends Action {
         $res -> gprice = sprintf("%.2f", $min_price);
      }
      // print_r($biliArr[1]);die;
-       $memsql = "select i.user_id,u.headimgurl from lkt_order as i left join lkt_user as u on i.user_id=u.user_id where i.ptcode='$oid' and i.pid='$groupid' and u.recycle =0 order by i.id asc";
+       $memsql = "select i.user_id,u.headimgurl from lkt_order as i left join lkt_user as u on i.user_id=u.user_id where i.ptcode='$oid' and i.pid='$groupid'  order by i.id asc";
+       // print_r($memsql);die;
        $groupmember = $db -> select($memsql);
  
         $man_num = $db -> select("select * from lkt_group_config where id='1'");//用户参团可购买产品数
@@ -1220,7 +1221,7 @@ class groupbuyAction extends Action {
                 $db->rollback();
                 echo json_encode(array('code' => 3,'sql'=>"update lkt_order set ptstatus=2,status=1 where pid='$groupid' and ptcode='$oid'"));exit;
             }
-            $selmsg = "select m.*,d.p_name,d.p_price,d.num,d.sid from (select o.id,o.user_id,o.ptcode,o.sNo,o.z_price,u.wx_id as uid from lkt_order as o left join lkt_user as u on o.user_id=u.user_id where o.pid='$groupid' and o.ptcode='$oid' and u.recycle =0) as m left join lkt_order_details as d on m.sNo=d.r_sNo";
+            $selmsg = "select m.*,d.p_name,d.p_price,d.num,d.sid from (select o.id,o.user_id,o.ptcode,o.sNo,o.z_price,u.wx_id as uid from lkt_order as o left join lkt_user as u on o.user_id=u.user_id where o.pid='$groupid' and o.ptcode='$oid' ) as m left join lkt_order_details as d on m.sNo=d.r_sNo";
             $msgres = $db -> select($selmsg);
             
             foreach ($msgres as $k => $v) {
