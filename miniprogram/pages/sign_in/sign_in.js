@@ -30,6 +30,8 @@ Page({
         timingFunc: 'easeIn'
       }
     });
+    console.log(app)
+    console.log('app')
     let now = new Date();
     let year = now.getFullYear(); // 获得年
     let month = now.getMonth() + 1; // 获得月份
@@ -171,6 +173,7 @@ Page({
           WxParse.wxParse('content', 'html', res.data.details, that, 5);
           that.setData({
             num: res.data.num, // 连续签到天数
+            status: res.data.status, // 连续签到天数
           });
           wx.showToast({
             title: res.data.err,
