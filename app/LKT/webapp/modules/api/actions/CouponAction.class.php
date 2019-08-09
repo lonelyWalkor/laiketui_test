@@ -237,7 +237,7 @@ class CouponAction extends Action {
         $r_c = $db->select($sql);
         $company = $r_c[0]->company; // 公司名称
 
-        $list = '';
+        $list =array();
 
         // 查询优惠券插件配置
         $sql = "select * from lkt_coupon_config where id = 1";
@@ -251,6 +251,7 @@ class CouponAction extends Action {
         $rr = $db->select($sql);
         if($rr){
             foreach ($rr as $k => $v) {
+
                 $id = $v->id; // 优惠券id
                 $hid = $v->hid; // 活动id
 
@@ -334,7 +335,10 @@ class CouponAction extends Action {
                         $db->delete($sql);
                     }
                 }
+
                 $list[] = $v;
+                unset($v);
+                // print_r($v);die;
             }
         }
 
