@@ -22,7 +22,7 @@ class delAction extends Action {
 		$r0=0;
 		$k0=0;
         foreach ($id as $k => $v){
-            $sa= $db->select("select id from lkt_group_product where product_id = $v and g_status = 2 and recycle = 0");//查询该商品是否正在参加拼团活动
+            $sa= $db->select("select id from lkt_group_product where product_id = $v and recycle = 0");//查询该商品是否正在参加拼团活动
             if($sa){
                    $res = array('status' => '2','info'=>'该商品有参与插件活动，无法删除！');
                    $db-> rollback();

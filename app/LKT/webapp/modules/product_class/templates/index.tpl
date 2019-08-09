@@ -48,9 +48,9 @@ td a{
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 商品分类 </nav>
 <div class="pd-20">
     <div style="clear:both;">
-        <input type="hidden" name="cid" id="cid" value="{$cid}">
-          <button type="button" class="btn newBtn radius"  onclick="location.href='index.php?module=product_class&action=add';" >
-            <img src="images/icon1/add.png" alt="" />新增分类
+        <input type="hidden" name="cid" id="cid" value="{$cid}" >
+          <button type="button" class="btn newBtn radius"  onclick="location.href='index.php?module=product_class&action=add';" {if $level} style="display: none;"{/if}>
+            <img src="images/icon1/add.png" alt=""  />新增分类
         </button>
         <input type="button" class="btn btn-primary radius" id="syj" value="返回上一级" onclick="location.href='index.php?module=product_class&action=Index&cid={$level01}';" {if !$level} style="display: none;"{/if} />
     </div>

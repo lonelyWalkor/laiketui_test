@@ -226,7 +226,7 @@ class copyAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }else{
-            $sql = "select id,product_title from lkt_product_list";
+            $sql = "select id,product_title from lkt_product_list where recycle = 0";
             $r = $db->select($sql);
             if($r){
                 foreach ($r as $k => $v){
