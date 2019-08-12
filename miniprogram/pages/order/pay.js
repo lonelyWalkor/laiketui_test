@@ -70,6 +70,8 @@ Page({
     }
   },
   onLoad: function (options) {
+    console.log(options)
+    console.log('options')
     var that = this;
     that.get_plug();
     wx.setNavigationBarColor({
@@ -79,7 +81,28 @@ Page({
     var size = options.sizeid;
     var productId = options.productId;
     var num1 = options.num;
-   
+    var choujiangid = options.choujiangid;
+    var type1 = options.type1;
+    if (type1 == 11) {
+      var uid = app.globalData.userInfo.openid; // 微信id
+      var plug_ins = app.globalData.userInfo.plug_ins; // 插件
+      var coupon = app.globalData.userInfo.coupon; // 优惠券状态
+      var wallet = app.globalData.userInfo.wallet; // 钱包状态
+      this.setData({
+        size: size, // 购物车id
+        productId: productId,
+        num1: num1,
+        choujiangid: choujiangid,
+        bgcolor: '#FF6347', // 背景颜色
+        userId: uid, // 微信id
+        plug_ins: plug_ins, // 插件
+        coupon: coupon, // 优惠券状态
+        wallet: wallet, // 钱包状态
+        type1: type1,
+      });
+
+      this.Settlement();
+    } else {
       var uid = app.globalData.userInfo.openid; // 微信id
       var plug_ins = app.globalData.userInfo.plug_ins; // 插件
       var coupon = app.globalData.userInfo.coupon; // 优惠券状态
@@ -95,7 +118,7 @@ Page({
         wallet: wallet, // 钱包状态
       });
       this.Settlement();
-
+    }
 
   },
   //页面加载完成函数
@@ -185,10 +208,11 @@ Page({
                 delta: 1
               })
             }, 2000);
+
           } else {
             setTimeout(function () {
-              wx.redirectTo({
-                url: '../order/order?currentTab=1&order_type1=payment&otype=pay'
+              wx.navigateBack({
+                delta: 1
               })
             }, 2000);
           }
@@ -414,11 +438,13 @@ Page({
     console.log(that)
     console.log('*******fdgdfgdf********')
     var paytype = that.data.paytype;
+
     if (paytype) {
       that.setData({
         paytype: paytype,
       });
     } else {
+
       wx.showToast({
         title: '已为您选择默认支付方式',
         icon: 'none',
@@ -434,17 +460,21 @@ Page({
           pays[j].checked = false;
         }
       }
+
       that.setData({
         pays: pays,
         paytype: 'wxPay',
       });
+
       paytype = 'wxPay';
-      return ;
+      return;
     }
+
     that.setData({
       form_id: e.detail.formId,
     });
     var address = e.detail.value.address;
+
     if (address) {
       // 收货地址存在
       if (paytype == 'wallet_Pay') {
@@ -537,11 +567,13 @@ Page({
             that.wxpay(data.arr);
           }
         } else {
+
           wx.showToast({
             title: res.data.err,
             icon: 'none',
             duration: 2500
           });
+
         }
       },
       fail: function (e) {

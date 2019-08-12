@@ -160,16 +160,16 @@
         </scroll-view>
       </view>
       <view wx:if="{{!xefl}}" class="footc" data-type="{{paytype}}" id="{{paytype}}" type="primary" bindtap="submit" style='background:#FF6347'> 确定 </view>
-      <block wx:else>
+      <!-- <block wx:else>
         <view wx:if="{{type1 == 1}}">
           <view class="xgfootc1" data-type="buynow" id="buynow" type="primary" bindtap="submit" style='background:#f7c747;'> 单独购买 </view>
           <view class="xgfootc2" data-type="canjiapintuan" id="canjiapintuan" type="primary" bindtap="submit" style='background:#ec612a;'> 参加拼团¥{{itemData.price11}} </view>
-        </view>
+        </view> -->
         <block wx:else>
           <view class="xgfootc1" data-type="addcart" id="addcart" type="primary" bindtap="submit" style='background:#f7c747;'> 加入购物车 </view>
           <view class="xgfootc2" data-type="buynow" id="buynow" type="primary" bindtap="submit" style='background:#ec612a;'> 立即购买 </view>
         </block>
-      </block>
+      <!-- </block> -->
     </view>
   </view>
   <!--弹框结尾  -->
