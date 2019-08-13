@@ -1,4 +1,5 @@
 var request = require('request.js');
+var util = require('./utils/util.js')
 App({
   d: {
     appId:"", // 小程序appid
@@ -47,6 +48,7 @@ App({
       var referee_openid = options.query.userid ? options.query.userid:'';
       this.globalData.referee_openid = referee_openid;
       this.getUserInfo();
+      
   },
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -69,6 +71,7 @@ App({
       //调用登录接口  已更新登入接口  
       wx.login({
         success: function (res) {
+         
           var code = res.code;
           that.globalData.code = res.code;
           //取出本地存储用户信息，解决需要每次进入小程序弹框获取用户信息
@@ -101,6 +104,7 @@ App({
         that.d.bgcolor = bgcolor;
 
         that.d.titlee = titlee;
+      
         wx.setNavigationBarTitle({
           title: titlee, //修改页面标题
            
@@ -133,6 +137,7 @@ App({
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           success: function (res) {
+            that.cart();
             that.d.ceshiUrl = that.d.ceshiUrl + '&token=' + res.data.access_token; // 线上密钥
             that.d.localhost = that.d.localhost + '&token=' + res.data.access_token; // 本地密钥 
             that.globalData.userInfo['plug_ins'] = res.data.plug_ins; // 插件状态
@@ -167,7 +172,9 @@ App({
       },
     });
   },
-  
+   cart:function(){//查询购物车数量
+     util.getUesrBg(this)
+   },
   getOrBindTelPhone:function(returnUrl){
     var user = this.globalData.userInfo;
     if(!user.tel){

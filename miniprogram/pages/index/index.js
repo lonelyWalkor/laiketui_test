@@ -1,6 +1,7 @@
 var app = getApp();
 var zi = 0;
 var cont_time=0;//首页tab点击
+var util = require('../../utils/util.js')
 Page({
   data: {
     inforList: [],//公告
@@ -26,6 +27,7 @@ Page({
     images:{},
     zjList: {},
     zjList_box:false,
+    cart:0,//购物车数量
    // mainHeight: 0,
   },
   //下拉事件
@@ -59,6 +61,7 @@ Page({
     })
   },
   getMore: function (e) {
+    
     var that = this;
     var page = that.data.page;
     var index = that.data.tabid;
@@ -180,6 +183,7 @@ Page({
       })
     }
   },
+
   loadProductDetail: function () {
     var that = this;
     var openid = app.globalData.userInfo.openid ? app.globalData.userInfo.openid:false;
@@ -231,7 +235,6 @@ Page({
             frontColor: app.d.frontColor,
             backgroundColor: app.d.bgcolor //页面标题为路由参数
           });
-          
           wx.setNavigationBarTitle({
             title: title,
             success: function () {
@@ -269,10 +272,7 @@ Page({
   listnsg:function(){
     var zjList = this.data.zjList;
     var that = this;
-    //随机
-    // var max = 10000, min = 1000;
-    // parseInt(Math.random() * (max - min + 1) + min, 10);
-    // var time = Math.floor(Math.random() * (max - min + 1) + min);
+    
     var time = 1500;
     if (zjList[zi].type == 2){
       time = 6000;
@@ -305,19 +305,7 @@ Page({
       loading: true,
     });
     that.getMore();
-    /*
-    setTimeout(function () {
-      that.getMore();
-      wx.hideNavigationBarLoading() //完成停止加载
-      wx.stopPullDownRefresh() //停止下拉刷新
-      that.setData({
-        loading: false,
-      });
-    }, 1800);
-    that.setData({
-      loading: true,
-    });
-    */
+   
   },
   obm: function () {
     var that = this;
@@ -327,19 +315,7 @@ Page({
       that.setData({
         timestamp: timestamp,
       });
-      /*
-      setTimeout(function () {
-        that.getMore();
-        wx.hideNavigationBarLoading() //完成停止加载
-        wx.stopPullDownRefresh() //停止下拉刷新
-        that.setData({
-          loading: false,
-        });
-      }, 1800);
-      that.setData({
-        loading: true,
-      });
-      */
+     
     }
 
   },
@@ -398,13 +374,17 @@ Page({
     this.checkCor();
   },
   onShow: function () {
+    console.log(app)
+    // app.getUserSessionKey()
     this.login();
+
     var indexchase = app.d.indexchase;
     var that = this;
     if (indexchase){
       that.onLoad();
       app.d.indexchase = false;
-    } 
+    }
+    util.getUesrBgplus(that, app,false)
   },
   onReady: function () {
   },

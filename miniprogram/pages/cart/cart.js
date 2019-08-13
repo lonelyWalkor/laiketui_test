@@ -1,4 +1,5 @@
 var app = getApp();
+var util = require('../../utils/util.js')
 // pages/cart/cart.js
 Page({
   data: {
@@ -61,6 +62,7 @@ Page({
         success: function (res) {
           var status = res.data.status;
           if (status == 1) {
+            util.getUesrBgplus(that, app, false)
             // 只有大于一件的时候，才能normal状态，否则disable状态
             var minusStatus = num <= 1 ? 'disabled' : 'normal';
             // 购物车数据
@@ -117,6 +119,7 @@ Page({
                   duration: 2500
                 });
                 that.loadProductData();
+                util.getUesrBgplus(that, app, false)
               } else {
                 wx.showToast({
                   title: '操作失败！',
@@ -143,9 +146,10 @@ Page({
       upstatus: false
     });
   },
-  //清空购物车
+  //编辑购物车
   updata: function () {
     var that = this;
+    
     that.setData({
       upstatus: true
     });
@@ -154,6 +158,7 @@ Page({
   //删除
   delarr: function () {
     var that = this;
+    
     // 初始化toastStr字符串
     var toastStr = '';
     // 遍历取出已勾选的cid
@@ -245,6 +250,7 @@ Page({
         success: function (res) {
           var status = res.data.status;
           if (status == 1) {
+            util.getUesrBgplus(that, app, false)
             // 只有大于一件的时候，才能normal状态，否则disable状态
             var minusStatus = num <= 1 ? 'disabled' : 'normal';
             // 购物车数据

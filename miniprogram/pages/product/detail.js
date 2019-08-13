@@ -1,5 +1,7 @@
 //获取应用实例  
 var app = getApp();
+var util = require('../../utils/util.js')
+
 //引入这个插件，使html内容自动转换成wxml内容
 var WxParse = require('../../wxParse/wxParse.js');
 Page({
@@ -119,6 +121,7 @@ Page({
       role: option.role ? option.role : '',
       size: option.size ? option.size : '',
       earn: option.earn ? option.earn : false,
+      // cart: app.globalData.userInfo.cart ? app.globalData.userInfo.cart:0//购物车数量
     });
     //显示数据
     that.loadProductDetail();
@@ -205,7 +208,7 @@ Page({
               skuBeanList: res.data.skuBeanList,
               zhekou: res.data.zhekou != '' ? res.data.zhekou : false,
             });
-
+            util.getUesrBgplus(that,app,true)
             setTimeout(function () {
               that.setData({
                 remind: false
@@ -595,6 +598,7 @@ Page({
                 icon: 'success',
                 duration: 2000
               });
+              util.getUesrBgplus(that, app,true)
               that.setData({
                 showModalStatus: false
               });

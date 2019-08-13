@@ -8,6 +8,21 @@ page{
   color: #d9002f;
   font-size: 32rpx
 }
+.go_cart {
+  position: relative;
+}
+.bg {
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
 .df_1 {
 -webkit-box-flex:1;
