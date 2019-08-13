@@ -217,8 +217,7 @@ class copyAction extends Action {
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
 //      return $this->getDefaultView();
-           //开启事务
-        // $db->begin();
+
         if($product_title == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -401,6 +400,8 @@ class copyAction extends Action {
                 return $this->getDefaultView();
             }
         }
+        //开启事务
+        $db->begin();
         // 发布产品
         $sql = "insert into lkt_product_list(product_title,subtitle,product_class,brand_id,weight,imgurl,content,num,s_type,add_date,volume,freight,initial,status) " .
             "values('$product_title','$subtitle','$product_class','$brand_id','$weight','$image','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight','$initial','2')";
@@ -440,10 +441,11 @@ class copyAction extends Action {
                 $img =$va['img'];
                 $attribute = $va['attribute'];//属性，数组转字符串
 
-                $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute) values('$costprice','$yprice','$price','$img','$id1','$num','$unit','$attribute')";//成本价 ，原价，现价，商品图片，ID ，数量，单位，属性 
-
-
-                $r_attribute = $db->insert($sql);
+                 $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute,total_num) values('$costprice','$yprice','$price','$img','$id1','$num','$unit','$attribute','$num')";//成本价 ，原价，现价，商品图片，ID ，数量，单位，属性 
+                 $r_attribute = $db->insert($sql,'last_insert_id'); 
+                  // 在库存记录表里，添加一条入库信息
+                $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id1','$r_attribute','$num',0,CURRENT_TIMESTAMP)";
+                $db->insert($sql);
 
                 $c_num += $num;//所有商品数量
                 if($r_attribute > 0){
@@ -457,6 +459,7 @@ class copyAction extends Action {
                     $sql_1 = "update lkt_product_list set status='1' where id = '$id1'";
                     $r_update = $db->update($sql_1);
                 }
+                $db->commit();
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('产品发布成功！');" .
@@ -472,18 +475,18 @@ class copyAction extends Action {
                 $sql = "delete from lkt_product_attribute where pid = '$id1'";
                 $db->delete($sql);
 
-                // $db->rollback();
+                $db->rollback();
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
-                    "alert('未知原因，产品发布失败2！');" .
+                    "alert('未知原因，产品发布失败！');" .
                     "location.href='index.php?module=product';</script>";
                 return $this->getDefaultView();
             }
         }else{
-            // $db->rollback();
+            $db->rollback();
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
-                "alert('未知原因，产品发布失败1！');" .
+                "alert('未知原因，产品发布失败！');" .
                 "location.href='index.php?module=product';</script>";
             return $this->getDefaultView();
         }

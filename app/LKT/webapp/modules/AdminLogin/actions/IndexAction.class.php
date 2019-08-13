@@ -98,6 +98,7 @@ class IndexAction extends Action {
             }
             $typee = 2;
         }
+        // print_r($list);die;
         $sql = "select domain from lkt_config where id = 1";
         $rr = $db->select($sql);
         $domain = $rr[0]->domain;

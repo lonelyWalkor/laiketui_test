@@ -199,7 +199,7 @@ class modifyAction extends Action {
     public function execute(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-// print_r($request);die;
+        // print_r($request);die;
         $id = intval($request->getParameter("id")); // 产品id
         $uploadImg = $request->getParameter('uploadImg'); // 图片上传位置
         $attr = $request->getParameter('attr'); // 属性
@@ -375,6 +375,7 @@ class modifyAction extends Action {
                 $attributes[] = $value;
            }
         }
+        $db->begin();
         if(count($s_type) == 0){
             $type = 0;
         }else{
@@ -443,8 +444,8 @@ class modifyAction extends Action {
         foreach ($attributes as $ke => $va) {
             $num = $va['num'];
             $cid = $va['cid'];
-            // $total_num = $va['num'];
-
+           
+            // $va['total_num'] =0;
             // $va['ctime'] = date('Y-m-d H:m:s',time());
             $va = $this->array_key_remove($va, 'cid');
 
@@ -453,33 +454,54 @@ class modifyAction extends Action {
                     unset($cids[$cid]);
                 }
                 // 查询剩余数量
-                $ccc = $db->select("select num from lkt_configure where id = '$cid' ");
+                $ccc = $db->select("select num,total_num from lkt_configure where id = '$cid' ");
                 $cnums = $ccc ? $ccc[0]->num : 0;
-                // $z_num1 = $num - $cnums; // 传过来的剩余数量 - 数据库里的剩余数量
-
-                $r_attribute = $db->modify($va, 'lkt_configure', " `id` = '$cid'");
+                $va['total_num'] = $ccc ? $ccc[0]->total_num : 0;
+                $z_num1 =0;
+                if($num > $cnums){
+                        $z_num1 = $num - $cnums; // 传过来的剩余数量 - 数据库里的剩余数量
+                        // 在库存记录表里，添加一条入库信息
+                    $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id','$cid','$z_num1',0,CURRENT_TIMESTAMP)";
+                    $db->insert($sql);
+                }else if($num < $cnums){
+                    $z_num1 =$cnums- $num ;
+                      // 在库存记录表里，添加一条入库信息
+                    $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id','$cid','$z_num1',1,CURRENT_TIMESTAMP)";
+                    $db->insert($sql);
+                }
+// print_r($va);
+                $va['total_num'] = $va['total_num']+$z_num1;
+                $r_attribute = $db->modify($va, 'lkt_configure', " `id` = '$cid' and recycle = 0 ");
                 $attribute_id = $cid;
+
+
                 if ($r_attribute < 0) {
                     $r_attribute = $db->modify($va, 'lkt_configure', " `id` = '$cid'", 1);
-                     header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
+                    $db->rollback();
+                    header("Content-type:text/html;charset=utf-8");
+                    echo "<script type='text/javascript'>" .
                     "alert('属性数据修改失败，请稍后再试！');" .
                     "</script>";
                 return $this->getDefaultView();
                 }
             } else {
                 $va['pid'] = $id;
+                $va['total_num'] = $num;
                 $r_attribute = $db->insert_array($va, 'lkt_configure', '', 1);
-                // $z_num1 = $num;
+
                 $attribute_id = $r_attribute;
                 if ($r_attribute < 0) {
-                    // $db->rollback();
+                    $db->rollback();
                      header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('属性数据添加失败，请稍后再试！');" .
                     "</script>";
                 return $this->getDefaultView();
                    
+                }else{
+                    $db->commit();
+                    $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id','$r_attribute','$num',0,CURRENT_TIMESTAMP)";
+                    $db->insert($sql);
                 }
             }
             
@@ -494,6 +516,7 @@ class modifyAction extends Action {
        
 
         if($rew1 == 1){
+            $db->commit();
             if($z_num < 1){
                 $sql_1 = "update lkt_product_list set status='1' where id = '$id'";
             }else{
@@ -505,6 +528,7 @@ class modifyAction extends Action {
                 "alert('产品修改成功！');" .
                 "location.href='index.php?module=product';</script>";
         }else{
+            $db->rollback();
             foreach ($r_arr[0] as $k_arr => $v_arr){
                 $sql = "update lkt_product_list set product_title='$v_arr->product_title',product_class='$v_arr->product_class',brand_id ='$v_arr->brand_id',s_type='$v_arr->s_type',num='$v_arr->z_num',sort='$v_arr->sort',content='$v_arr->content',imgurl='$v_arr->image',initial='$v_arr->initial' where id = '$id'";
             }

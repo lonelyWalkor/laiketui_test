@@ -18,7 +18,7 @@ class addAction extends Action {
 
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-//      print_r($request);die;
+        //      print_r($request);die;
         /*** 报错不清除输入内容 ***/
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $brand_id1 = addslashes(trim($request->getParameter('brand_class'))); // 品牌
@@ -39,9 +39,9 @@ class addAction extends Action {
 		if($attribute){
 			$attr_group_list=$this->attr($attribute);
 		}
-//		print_r($checked_attr_list);
-//		echo('************************');
-//		print_r($attr_group_list);die;
+        //		print_r($checked_attr_list);
+        //		echo('************************');
+        //		print_r($attr_group_list);die;
         if(!$s_type){
             $s_type = [];
         }
@@ -100,38 +100,38 @@ class addAction extends Action {
         $request->setAttribute("attr_group_list",$attr_group_list?$attr_group_list:'');
         return View :: INPUT;
     }
-  public function attr($attribute){//属性
-  		$checked_attr_list=$attribute?$attribute:'';
-        $attr_group_list='';
-		$attr_group_list1 =[];
-        foreach ($attribute as $key => $value) {
-        	$aa = $value['attr_list'];
-        	 foreach ($aa as $key01 => $value01) {
-                $attr_group_list[] = array('attr_group_name' => $value01['attr_group_name'], 'attr_list' => $value01['attr_name'], 'attr_all' => '');
-           }
-        }
-        if($attr_group_list){
-        	 foreach ($attr_group_list as $key02 => $value02) {
-        	 	$attr_group_name[]=$value02['attr_group_name'];
-        	 }
-        	 $attr_group_name =array_unique($attr_group_name) ;	
-        	 
-        	 if($attr_group_name){
-        	 	foreach ($attr_group_name as $keya => $valuea) {
-        	 	  	foreach ($attr_group_list as $key03 => $value03) {
-        	 	  		if($valuea == $value03['attr_group_name']){
-        	 	  			$attr_list1 = array('attr_name' => $value03['attr_list'],'status' => true);
-        	 	  		
-        	 	  			$attr_group_list1[$keya]['attr_group_name'] = $valuea;
-        	 	  				$attr_group_list1[$keya]['attr_list'][] = $attr_list1;
-        	 	  		}
+    public function attr($attribute){//属性
+      		$checked_attr_list=$attribute?$attribute:'';
+            $attr_group_list='';
+    		$attr_group_list1 =[];
+            foreach ($attribute as $key => $value) {
+            	$aa = $value['attr_list'];
+            	 foreach ($aa as $key01 => $value01) {
+                    $attr_group_list[] = array('attr_group_name' => $value01['attr_group_name'], 'attr_list' => $value01['attr_name'], 'attr_all' => '');
+               }
+            }
+            if($attr_group_list){
+            	 foreach ($attr_group_list as $key02 => $value02) {
+            	 	$attr_group_name[]=$value02['attr_group_name'];
+            	 }
+            	 $attr_group_name =array_unique($attr_group_name) ;	
+            	 
+            	 if($attr_group_name){
+            	 	foreach ($attr_group_name as $keya => $valuea) {
+            	 	  	foreach ($attr_group_list as $key03 => $value03) {
+            	 	  		if($valuea == $value03['attr_group_name']){
+            	 	  			$attr_list1 = array('attr_name' => $value03['attr_list'],'status' => true);
+            	 	  		
+            	 	  			$attr_group_list1[$keya]['attr_group_name'] = $valuea;
+            	 	  				$attr_group_list1[$keya]['attr_list'][] = $attr_list1;
+            	 	  		}
 
-        	 	  	}
-                }
-        	}
-        }
-	 return $attr_group_list1;
-  }
+            	 	  	}
+                    }
+            	}
+            }
+    	 return $attr_group_list1;
+    }
     public function product_class($product_class){//产品类别
         $db = DBAction::getInstance();
         $res = '';
@@ -241,7 +241,6 @@ class addAction extends Action {
     public function execute(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-//      print_r($request);die;
         // 接收数据
         $attr = $request->getParameter('attr'); // 属性
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片路径
@@ -259,9 +258,9 @@ class addAction extends Action {
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 产品图片
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
-//      return $this->getDefaultView();
-           //开启事务
-        // $db->begin();
+        //      return $this->getDefaultView();
+       
+        
         if($product_title == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -441,7 +440,9 @@ class addAction extends Action {
                     "</script>";
                 return $this->getDefaultView();
             }
-        }
+        } 
+        //    开启事务
+        $db->begin();
         // 发布产品
         $sql = "insert into lkt_product_list(product_title,subtitle,product_class,brand_id,weight,imgurl,content,num,s_type,add_date,volume,freight,initial,status) " .
             "values('$product_title','$subtitle','$product_class','$brand_id','$weight','$image','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight','$initial','2')";
@@ -482,10 +483,11 @@ class addAction extends Action {
                 $img =$va['img'];
                 $attribute = $va['attribute'];//属性，数组转字符串
 
-                $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute) values('$costprice','$yprice','$price','$img','$id1','$num','$unit','$attribute')";//成本价 ，原价，现价，商品图片，ID ，数量，单位，属性 
-
-
-                $r_attribute = $db->insert($sql);
+                $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute,total_num) values('$costprice','$yprice','$price','$img','$id1','$num','$unit','$attribute','$num')";//成本价 ，原价，现价，商品图片，ID ，数量，单位，属性 
+                 $r_attribute = $db->insert($sql,'last_insert_id'); 
+                  // 在库存记录表里，添加一条入库信息
+                $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id1','$r_attribute','$num',0,CURRENT_TIMESTAMP)";
+                $db->insert($sql);
 
                 $c_num += $num;//所有商品数量
                 if($r_attribute > 0){
@@ -503,6 +505,7 @@ class addAction extends Action {
                 echo "<script type='text/javascript'>" .
                     "alert('产品发布成功！');" .
                     "location.href='index.php?module=product';</script>";
+                    $db->commit();
                 return $this->getDefaultView();
             }else{
                 $sql = "delete from lkt_product_list where id = '$id1'";
@@ -514,7 +517,7 @@ class addAction extends Action {
                 $sql = "delete from lkt_product_attribute where pid = '$id1'";
                 $db->delete($sql);
 
-                // $db->rollback();
+                $db->rollback();
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('未知原因，产品发布失败！');" .
@@ -522,7 +525,7 @@ class addAction extends Action {
                 return $this->getDefaultView();
             }
         }else{
-            // $db->rollback();
+            $db->rollback();
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('未知原因，产品发布失败！');" .

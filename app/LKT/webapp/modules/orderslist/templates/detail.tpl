@@ -447,8 +447,8 @@ end function
                     <td class="center" rowspan="{$item->index}"><span class="grText">￥{$item->p_price}</span></td>
                     <td class="center" rowspan="{$item->index}"><span class="grText">{$item->num}</span></td>
                     <td class="center" rowspan="{$item->index}"><span  class="grText"style="font-weight: bold;">￥{$item->p_price*$item->num}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span  class="grText" style="">￥{$item->z_price}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span class="grText" style="font-weight: bold;">￥{$item->z_price + $item->freight}</span></td>
+                    <td class="center" rowspan="{$item->index}"><span  class="grText" style="">￥{$item->z_price+$item->freight}</span></td>
+                    <td class="center" rowspan="{$item->index}"><span class="grText" style="font-weight: bold;">￥{$item->z_price+$item->freight}</span></td>
                     <td class="center">{$item->unit}</td>
                     <td class="center">{$item->freight}</td>
                     {if $smarty.foreach.f1.first}

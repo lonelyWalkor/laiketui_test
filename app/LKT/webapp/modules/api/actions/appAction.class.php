@@ -22,12 +22,8 @@ class appAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }else if ($m == 'user') {
-            $this->user();
-        }else if ($m == 'get_plug') {
-            $this->get_plug();
+        if($m){
+            $this->$m();
         }
         return;
     }
@@ -373,6 +369,18 @@ class appAction extends Action {
                 $result = $hour.':'.$minute.':'.$second;  
         }  
         return $result;  
+    }
+
+    public function cart(){
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        // 获取信息
+        $openid = $_POST['openid']; // 微信id
+           $sql_c = 'select sum(a.Goods_num) as Goods_num from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$openid.'\' order by Create_time desc';
+        $r_c = $db->select($sql_c);
+        $cart =$r_c?$r_c[0]->Goods_num:0;
+        echo json_encode(array('cart'=>$cart));
+            exit();
     } 
 }
 
