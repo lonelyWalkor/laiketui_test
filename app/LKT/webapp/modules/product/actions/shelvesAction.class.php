@@ -19,7 +19,7 @@ class shelvesAction extends Action {
         $sql = "select status from lkt_product_list where id = '$id'";
         $r = $db->select($sql);
         if($r[0]->status == 0){
-              $sa= $db->select("select id from lkt_group_product where product_id = $id and recycle = 0");//查询该商品是否正在参加拼团活动
+              $sa= $db->select("select id from lkt_group_product where product_id = $id and recycle = 0 and g_status < 3");//查询该商品是否正在参加拼团活动
                 if($sa){
                     header("Content-type:text/html;charset=utf-8");
                     echo "<script type='text/javascript'>" .
