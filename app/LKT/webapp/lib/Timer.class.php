@@ -13,7 +13,15 @@ function huodongzhuangtai($db){//监测拼团活动有没有过期的，改变�
             $g_status = $value->g_status;
             $data = date('Y-m-d H:i:s', time());
             if($starttime<$data && $data < $end_time && $g_status == 1){//处理正在进行中的
-  				$res = $db->update("UPDATE `lkt_group_product` SET `g_status`='2' WHERE id = ".$value->id);
+
+               $re= $db->select("select lkt_product_list.recycle ,lkt_product_list.status from lkt_group_product,lkt_product_list where group_id = $value->id and lkt_group_product.product_id = lkt_product_list.id");
+              if($re){
+                  if($re[0]->recycle !=1 && $re[0]->status !=1){
+                      $res = $db->update("UPDATE `lkt_group_product` SET `g_status`='2' WHERE id = ".$value->id);
+                     
+                  }
+              }
+
             }
 
             if($end_time <$data || $g_status == 3){//处理过期的
