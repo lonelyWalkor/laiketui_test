@@ -703,7 +703,7 @@
 			}
 			getDays(selects[1].value,selects[0].value,selects);
 		}
-		let data1;
+		var data1;
 		$.ajax({
 			type:"post",
 			url:"index.php?module=AdminLogin&action=maskContent",
@@ -716,9 +716,9 @@
 			}
 		});
 		$("#changePsw").click(function(){
-			let oldPW=$("[name=oldPW]").val();
-			let newPW=$("[name=newPW]").val();
-			let curPW=$("[name=curNewPW]").val();
+			var oldPW=$("[name=oldPW]").val();
+			var newPW=$("[name=newPW]").val();
+			var curPW=$("[name=curNewPW]").val();
 			console.log(newPW.length,curPW);
 			if(newPW==curPW && newPW.length>5){
 				$.ajax({
@@ -727,9 +727,9 @@
 					async:true,
 					dataType:"json",
 					data:{
-						oldPW,
-						newPW,
-						curPW,
+						oldPW:oldPW,
+						newPW:newPW,
+						curPW:curPW,
 					},
 					success:function(res){
 						console.log(res)
@@ -750,10 +750,10 @@
 			}	
 		})
 		$("#changeInf").click(function(){
-			let sex=$("[name=sex]:checked").val();
-			let birthday=$("#select1").val()+"-"+$("#select2").val()+"-"+$("#select3").val()
-			let nickname=$("[name=name]").val();
-			let tel=$("[name=tel]").val();
+			var sex=$("[name=sex]:checked").val();
+			var birthday=$("#select1").val()+"-"+$("#select2").val()+"-"+$("#select3").val()
+			var nickname=$("[name=name]").val();
+			var tel=$("[name=tel]").val();
 			if(sex.length>0 && birthday.length>0 && tel.length>0 && nickname.length>0){
 				$.ajax({
 					type:"post",
@@ -761,10 +761,10 @@
 					async:true,
 					dataType:"json",
 					data:{
-						nickname,
-						tel,
-						birthday,
-						sex,
+						nickname:nickname,
+						tel:tel,
+						birthday:birthday,
+						sex:sex,
 					},
 					success:function(res){
 						if(res.status==3){
@@ -1119,7 +1119,7 @@
 						$("[name=tel]").val(data1.tel)
 					}
 					$("[name=sex]").eq(data1.sex).attr("selected");
-					let birthday1=data1.birthday.split("-");
+					var birthday1=data1.birthday.split("-");
 					console.log(birthday1)
                 }
 				$.ajax({

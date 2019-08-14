@@ -78,11 +78,24 @@ class enterAction extends Action {
             $excel_sql = "where $excel_condition order by a.add_date desc";
         }
         if($excel_sql != ''){
-            $sql2 = "select a.product_title,a.status,a.mch_id,c.id,c.pid,c.price,c.attribute,c.total_num,b.flowing_num,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id $excel_sql";
+            $sql2 = "select a.product_title,a.status,c.id,c.pid,c.price,c.attribute,c.total_num,b.flowing_num,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id $excel_sql";
         }else{
-            $sql2 = "select a.product_number,a.product_title,a.status,a.mch_id,c.id,c.pid,c.price,c.attribute,c.total_num,b.flowing_num,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id $condition";
+            $sql2 = "select a.product_number,a.product_title,a.status,c.id,c.pid,c.price,c.attribute,c.total_num,b.flowing_num,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id $condition";
         }
         $r2 = $db->select($sql2);
+        if($r2){
+            foreach ($r2 as $k => $v){
+             
+                $attribute = unserialize($v->attribute);
+                $specifications1 = '';
+                if($attribute){
+                    foreach ($attribute as $ke => $va){
+                        $specifications1 .= $ke .':'.$va.',';
+                    }
+                }
+                $v->specifications = rtrim($specifications1, ",");
+            }
+        }
         $request->setAttribute("list",$r1);
         $request -> setAttribute('pages_show', $pages_show);
         $request -> setAttribute('product_title', $product_title);

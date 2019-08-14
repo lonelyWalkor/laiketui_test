@@ -86,6 +86,24 @@ class shipmentAction extends Action {
             $sql2 = "select a.product_title,a.status,c.id,c.pid,c.price,c.attribute,c.total_num,b.flowing_num,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id $condition";
         }
         $r2 = $db->select($sql2);
+        if($r2){
+            foreach ($r2 as $k => $v){
+                $attribute = unserialize($v->attribute);
+                $specifications1 = '';
+                if($attribute){
+                    foreach ($attribute as $ke => $va){
+                        $specifications1 .= $ke .':'.$va.',';
+                    }
+                }
+                $v->specifications = rtrim($specifications1, ",");
+
+                $sql2 = "select add_date from lkt_stock where product_id = '$v->pid' and attribute_id = '$v->id' order by add_date desc limit 1";
+                $r21 = $db->select($sql2);
+                if($r21){
+                    $v->add_date = $r21[0]->add_date;
+                }
+            }
+        }
 
         // $request->setAttribute('button', $button);
         $request->setAttribute("list",$r1);

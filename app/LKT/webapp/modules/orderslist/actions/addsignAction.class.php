@@ -100,7 +100,7 @@ class addsignAction extends Action {
 				exit();
 			}
 			//查询订单信息
-			$sql_p = "select o.id,o.user_id,o.sNo,d.p_name,o.name,o.address from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.sNo='$sNo'";
+			$sql_p = "select o.id,o.user_id,o.sNo,d.p_name,o.name,o.address,d.p_id,d.sid,d.num from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.sNo='$sNo'";
 			$res_p = $db -> select($sql_p);
 			foreach ($res_p as $key => $value) {
 				$p_name = $value -> p_name;
@@ -108,6 +108,13 @@ class addsignAction extends Action {
 				$address = $value -> address;
 				$name = $value -> name;
 				$order_id = $value -> id;
+				$p_id = $value -> p_id;
+				$sid = $value -> sid;
+				$num = $value -> num;
+
+                $db->insert("insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$p_id','$sid','$num',1,CURRENT_TIMESTAMP)");//增加一条出库记录
+
+
 				//查询openid
 				$sql_openid = "select wx_id from lkt_user where user_id = '$user_id'";
 				$res_openid = $db -> select($sql_openid);
@@ -145,10 +152,17 @@ class addsignAction extends Action {
 			$rl = $db -> update($sqll);
 			$sqld = 'update lkt_order_details set ' . substr($con, 1) . ' where r_sNo="' . $sNo . '"';
 			$rd = $db -> update($sqld);
-			$msgsql = "select o.id,o.user_id,o.sNo,d.p_name,o.name,o.address from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.sNo='$sNo'";
+			$msgsql = "select o.id,o.user_id,o.sNo,d.p_name,o.name,o.address,d.p_id,d.sid,d.num from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.sNo='$sNo'";
 			$msgres = $db -> select($msgsql);
+			
+
 			if (!empty($msgres))
 				$msgres = $msgres[0];
+			$p_id = $msgres -> p_id;
+			$sid = $msgres -> sid;
+			$num = $msgres -> num;
+            $db->insert("insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$p_id','$sid','$num',1,CURRENT_TIMESTAMP)");//增加一条出库记录
+
 			$uid = $msgres -> user_id;
 			$openid = $db -> select("select wx_id from lkt_user where user_id='$uid'");
 			$msgres -> uid = $openid[0] -> wx_id;

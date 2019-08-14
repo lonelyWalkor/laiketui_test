@@ -39,9 +39,7 @@ class addAction extends Action {
 		if($attribute){
 			$attr_group_list=$this->attr($attribute);
 		}
-        //		print_r($checked_attr_list);
-        //		echo('************************');
-        //		print_r($attr_group_list);die;
+
         if(!$s_type){
             $s_type = [];
         }

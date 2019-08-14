@@ -148,13 +148,7 @@ function check(f) {
             </div>
             <text style="line-height:30px;position: relative;">*简洁表达产品，用来显示在首页产品，避免截取时不能表达是什么产品。</text>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>商品条形码：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$scan}" placeholder="" id="scanId" name="scan">
-                
-            </div>
-        </div> -->
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
             <div class="formControls col-2"><!--  <span class="select-box"> -->

@@ -93,7 +93,16 @@ class warningAction extends Action {
             $sql2 = "select a.product_title,a.status,c.id,c.pid,c.price,c.attribute,c.total_num,c.num,b.add_date from lkt_configure as c left join lkt_product_list as a on c.pid = a.id left join (select max(add_date) as add_date,type,attribute_id from lkt_stock where type = 2 group by attribute_id) as b on c.id = b.attribute_id $condition";
         }
         $r2 = $db->select($sql2);
-
+        if($r2){
+            foreach ($r2 as $k => $v){
+                $attribute = unserialize($v->attribute);
+                $specifications1 = '';
+                foreach ($attribute as $ke => $va){
+                    $specifications1 .= $ke .':'.$va.',';
+                }
+                $v->specifications = rtrim($specifications1, ",");
+            }
+        }
 
         $request->setAttribute("list",$r1);
         $request -> setAttribute('pages_show', $pages_show);

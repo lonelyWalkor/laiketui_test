@@ -112,6 +112,45 @@ function empty() {
 function excel(url) {
     export_popup(url);
 }
+function export_popup(url) {
+        var res = `<div class="pup_div" id="pup_div">
+                        <div class="pup_flex">
+                            <div class="pup_auto">
+                                <div class="pup_head"><span>导出数据</span>
+                                    <img src="images/icon/cha.png" onclick="export_close('${url}','')">
+                                </div>
+                                
+                                <div class="pup_dc">
+                                    <div class="pup_dcv" onclick="export_close('${url}','This_page')">
+                                        <div>
+                                            <img src="images/iIcon/scby.png" />
+                                            <p>导出本页</p>
+                                        </div>
+                                    </div>
+                                    <div class="pup_dcv" onclick="export_close('${url}','whole')">
+                                        <div>
+                                            <img src="images/iIcon/dcqb.png" />
+                                            <p>导出全部</p>
+                                        </div>
+                                    </div>
+                                    <div class="pup_dcv" onclick="export_close('${url}','inquiry')"> 
+                                        <div>
+                                            <img src="images/iIcon/dcss.png" />
+                                            <p>导出查询</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>`;
+        $("body").append(res);
+}
+    
+function export_close(url,type) {
+        $("#pup_div").remove();
+        location.href=location.href+'&pageto='+type;
+}
 </script>
 {/literal}
 </body>
