@@ -209,6 +209,7 @@ Page({
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
+        util.getUesrBgplus(that, app, false)
         var data = res.data;
         if (data.status == 1) {
           wx.showToast({
@@ -409,6 +410,7 @@ Page({
       title: '提示',
       content: '你确认移除吗',
       success: function (res) {
+        
         res.confirm && wx.request({
           url: app.d.ceshiUrl + '&action=product&m=delcart',
           method: 'post',
@@ -419,13 +421,12 @@ Page({
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           success: function (res) {
+            util.getUesrBgplus(that, app, false)
             //--init data
             var data = res.data;
             if (data.status == 1) {
               that.loadProductData();
-              // that.setData({
-              //   upstatus: false
-              // });
+            
             } else {
               wx.showToast({
                 title: '操作失败！',
