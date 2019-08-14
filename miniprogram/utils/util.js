@@ -28,11 +28,14 @@ function getUesrBg(that){
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: function (res) {
-
-      wx.setTabBarBadge({
-        index: 3,
-        text: res.data.cart,
-      })
+      var num = res.data.cart.toString()
+      if(num >0){
+        wx.setTabBarBadge({
+          index: 3,
+          text: num,
+        })
+      }
+      
 
 
     },
