@@ -376,9 +376,12 @@ Page({
   },
   //跳转cart
   go_cart: function () {
+    util.getUesrBgplus(this, app, false)
     wx.switchTab({
       url: '../cart/cart'
     })
+
+
   },
 
   /**

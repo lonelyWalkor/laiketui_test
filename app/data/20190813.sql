@@ -11,6 +11,8 @@ CREATE TABLE `lkt_stock` (
   `add_date` timestamp NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2979 DEFAULT CHARSET=utf8 COMMENT='库存记录表';
+
+INSERT INTO `lkt_stock` (`id`, `product_id`, `attribute_id`, `flowing_num`, `type`, `add_date`) VALUES ('1', '1', '1', '64', '0', '2018-06-21 23:50:03');
 -- 修改菜单列表，增加库存管理路径
 
 UPDATE `lkt_core_menu` SET `title` = '库存管理', `module` = 'stock', `action` = 'index', `url` = 'index.php?module=stock&action=Index' WHERE `lkt_core_menu`.`id` = 28;

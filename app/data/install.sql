@@ -439,7 +439,7 @@ CREATE TABLE `lkt_configure` (
 
 LOCK TABLES `lkt_configure` WRITE;
 /*!40000 ALTER TABLE `lkt_configure` DISABLE KEYS */;
-INSERT INTO `lkt_configure` VALUES (1,'默认','默认','默认',20.00,60.00,100.00,'1541597053657.jpeg',1,64,'',0.00,2,'a:3:{s:6:\"类型\";s:6:\"默认\";s:6:\"颜色\";s:6:\"默认\";s:6:\"规格\";s:6:\"默认\";}',0);
+INSERT INTO `lkt_configure` VALUES (1,'默认','默认','默认',20.00,60.00,100.00,'1541597053657.jpeg',1,64,'',0.00,2,'a:3:{s:6:\"类型\";s:6:\"默认\";s:6:\"颜色\";s:6:\"默认\";s:6:\"规格\";s:6:\"默认\";}',0,0);
 /*!40000 ALTER TABLE `lkt_configure` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1844,6 +1844,8 @@ CREATE TABLE `lkt_stock` (
   `add_date` timestamp NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='库存记录表';
+
+INSERT INTO `lkt_stock` (`id`, `product_id`, `attribute_id`, `flowing_num`, `type`, `add_date`) VALUES ('1', '1', '1', '64', '0', '2018-06-21 23:50:03');
 
 --
 -- Table structure for table `lkt_subtraction`

@@ -316,7 +316,6 @@
           <view class="go_cart" bindtap="go_cart">
             <image class="icon_kf" style='width:25px;height:25px;' src="/images/icons/cart.png"></image>
             <view class="dbtext">购物车</view>
-            
             <view class="bg" wx:if="{{cart> 0}}">{{cart}}</view>
 
           </view>
