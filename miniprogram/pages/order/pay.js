@@ -1,4 +1,5 @@
 var app = getApp();
+var util = require('../../utils/util.js')
 Page({
   data: {
     pays: [],
@@ -132,7 +133,9 @@ Page({
       that.setData({
         dz_stu: false,
       });
+      util.getUesrBgplus(that, app, false)
       wx.redirectTo({
+        
         url: '../order/pay?cartId=' + that.data.cartId,
       });
     }
@@ -204,6 +207,7 @@ Page({
           });
           if (status == 0) {
             setTimeout(function () {
+              util.getUesrBgplus(that, app, false)
               wx.navigateBack({
                 delta: 1
               })
@@ -211,6 +215,7 @@ Page({
 
           } else {
             setTimeout(function () {
+              util.getUesrBgplus(that, app, false)
               wx.navigateBack({
                 delta: 1
               })

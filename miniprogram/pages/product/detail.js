@@ -227,6 +227,8 @@ Page({
             });
           } else {
             setTimeout(function () {
+              util.getUesrBgplus(that, app, true)
+              util.getUesrBgplus(that, app, false)
               wx.switchTab({
                 url: '../index/index'
               })
