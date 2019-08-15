@@ -34,7 +34,7 @@ Page({
     pages_sx: true,
     dz_stu: false,
   },
-  go: function (e) {
+  go: function(e) {
     console.log(e);
     this.setData({
       dz_stu: true,
@@ -45,16 +45,16 @@ Page({
     })
   },
   //下拉刷新
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     wx.showNavigationBarLoading() //在标题栏中显示加载
-    setTimeout(function () {
+    setTimeout(function() {
       wx.hideNavigationBarLoading() //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
     }, 1500);
     this.Settlement();
   },
   //调取分享
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     var that = this;
     var id = that.data.productId;
     var title = that.data.title;
@@ -62,15 +62,16 @@ Page({
     return {
       title: title,
       path: '/product/detail?productId=' + id,
-      success: function (res) {
+      success: function(res) {
         console.log('转发成功')
       },
-      fail: function (res) {
+      fail: function(res) {
         console.log('转发失败')
       }
     }
   },
-  onLoad: function (options) {
+
+  onLoad: function(options) {
     console.log(options)
     console.log('options')
     var that = this;
@@ -79,54 +80,79 @@ Page({
       frontColor: app.d.frontColor, //
       backgroundColor: app.d.bgcolor //设置页面参数
     })
-    var size = options.sizeid;
-    var productId = options.productId;
-    var num1 = options.num;
-    var choujiangid = options.choujiangid;
-    var type1 = options.type1;
-    if (type1 == 11) {
-      var uid = app.globalData.userInfo.openid; // 微信id
-      var plug_ins = app.globalData.userInfo.plug_ins; // 插件
-      var coupon = app.globalData.userInfo.coupon; // 优惠券状态
-      var wallet = app.globalData.userInfo.wallet; // 钱包状态
-      this.setData({
-        size: size, // 购物车id
-        productId: productId,
-        num1: num1,
-        choujiangid: choujiangid,
-        bgcolor: '#FF6347', // 背景颜色
-        userId: uid, // 微信id
-        plug_ins: plug_ins, // 插件
-        coupon: coupon, // 优惠券状态
-        wallet: wallet, // 钱包状态
-        type1: type1,
-      });
 
-      this.Settlement();
-    } else {
-      var uid = app.globalData.userInfo.openid; // 微信id
-      var plug_ins = app.globalData.userInfo.plug_ins; // 插件
-      var coupon = app.globalData.userInfo.coupon; // 优惠券状态
-      var wallet = app.globalData.userInfo.wallet; // 钱包状态
-      this.setData({
-        cartId: options.cartId, // 购物车id
-        num1: options.num,
-        type: options.type ? options.type : 0,//(1.直接结算 0购物车结算)
-        bgcolor: '#FF6347', // 背景颜色
-        userId: uid, // 微信id
-        plug_ins: plug_ins, // 插件
-        coupon: coupon, // 优惠券状态
-        wallet: wallet, // 钱包状态
-      });
-      this.Settlement();
-    }
+    var uid = app.globalData.userInfo.openid; // 微信id
+    var plug_ins = app.globalData.userInfo.plug_ins; // 插件
+    var coupon = app.globalData.userInfo.coupon; // 优惠券状态
+    var wallet = app.globalData.userInfo.wallet; // 钱包状态
+    this.setData({
+      cartId: options.cartId, // 购物车id
+      num1: options.num,
+      type: options.type ? options.type : 0, //(1.直接结算 0购物车结算)
+      bgcolor: '#FF6347', // 背景颜色
+      userId: uid, // 微信id
+      plug_ins: plug_ins, // 插件
+      coupon: coupon, // 优惠券状态
+      wallet: wallet, // 钱包状态
+    });
+    this.Settlement();
+
 
   },
   //页面加载完成函数
-  onReady: function () {
+  onReady: function() {
 
   },
-  onShow: function () {
+   onUnload() {//onUnload监听页面卸载
+    var that = this;
+    // console.log(that)
+    util.getUesrBgplus(that, app, true)//刷新显示购物车数量
+    util.getUesrBgplus(that, app, false)//刷新显示购物车数量
+    var cartid = that.data.cartId
+    var type = that.data.type
+    if (type == 1) { //直接结算离开页面清除购物车数量
+      wx.request({
+        url: app.d.ceshiUrl + '&action=product&m=delcart',
+        method: 'post',
+        data: {
+          carts: that.data.cartId, // 购物车id
+        },
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        success: function(res) {
+          var status = res.data.status;
+          if (status == 1) {
+            that.setData({});
+            setTimeout(function() {
+              that.setData({
+                remind: false
+              });
+            }, 1000);
+          } else {
+            that.setData({
+              remind: true
+            });
+            wx.showToast({
+              title: res.data.err,
+              icon: 'none',
+              duration: 2000,
+            });
+
+          }
+        },
+        error: function(e) {
+          wx.showToast({
+            title: '网络异常！',
+            duration: 2000
+          });
+        }
+      });
+    }
+    // console.log('onUnload监听页面卸载');
+  },
+
+  onShow: function() {
     var that = this;
     console.log(that.data.dz_stu)
     if (that.data.dz_stu) {
@@ -135,20 +161,20 @@ Page({
       });
       util.getUesrBgplus(that, app, false)
       wx.redirectTo({
-        
+
         url: '../order/pay?cartId=' + that.data.cartId,
       });
     }
 
     if (that.data.pages_sx) {
-      setTimeout(function () {
+      setTimeout(function() {
         that.Settlement();
       }, 500);
     }
 
   },
   // 进入结算页面
-  Settlement: function () {
+  Settlement: function() {
     var that = this;
     console.log(that)
     console.log('99999')
@@ -164,7 +190,7 @@ Page({
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      success: function (res) {
+      success: function(res) {
         var status = res.data.status;
         if (status == 1) {
           if (that.data.allow) {
@@ -185,13 +211,13 @@ Page({
             coupon_money: Number(parseFloat(res.data.arr.coupon_money).toFixed(3).slice(0, -1)), // 优惠后金额
             user_money: res.data.arr.user_money, // 用户余额
             coupon_id: res.data.arr.coupon_id, // 优惠券id
-            discount: res.data.arr.discount,//控制优惠方式
-            scorebuy: res.data.arr.scorebuy,   //积分消费规则
-            zhekou: res.data.arr.zhekou ? res.data.arr.zhekou : '',   //会员折扣
-            freight: res.data.arr.yunfei ? res.data.arr.yunfei : 0,//运费
+            discount: res.data.arr.discount, //控制优惠方式
+            scorebuy: res.data.arr.scorebuy, //积分消费规则
+            zhekou: res.data.arr.zhekou ? res.data.arr.zhekou : '', //会员折扣
+            freight: res.data.arr.yunfei ? res.data.arr.yunfei : 0, //运费
           });
 
-          setTimeout(function () {
+          setTimeout(function() {
             that.setData({
               remind: false
             });
@@ -206,7 +232,7 @@ Page({
             duration: 2000,
           });
           if (status == 0) {
-            setTimeout(function () {
+            setTimeout(function() {
               util.getUesrBgplus(that, app, false)
               wx.navigateBack({
                 delta: 1
@@ -214,7 +240,7 @@ Page({
             }, 2000);
 
           } else {
-            setTimeout(function () {
+            setTimeout(function() {
               util.getUesrBgplus(that, app, false)
               wx.navigateBack({
                 delta: 1
@@ -223,7 +249,7 @@ Page({
           }
         }
       },
-      error: function (e) {
+      error: function(e) {
         wx.showToast({
           title: '网络异常！',
           duration: 2000
@@ -233,7 +259,7 @@ Page({
 
   },
   // 点击优惠券
-  tapMainMenu: function (e) { // 获取当前显示的一级菜单标识
+  tapMainMenu: function(e) { // 获取当前显示的一级菜单标识
     var coupon_id = e.target.id;
     var taht = this;
     var showModalStatus = taht.data.showModalStatus;
@@ -244,7 +270,7 @@ Page({
     });
   },
   // 我的优惠券(可以使用的优惠券)
-  my_coupon: function () {
+  my_coupon: function() {
     var that = this;
     wx.request({
       url: app.d.ceshiUrl + '&action=Coupon&m=my_coupon',
@@ -256,13 +282,13 @@ Page({
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      success: function (res) {
+      success: function(res) {
         var list = res.data.list;
         that.setData({
           list: list,
         });
       },
-      error: function (e) {
+      error: function(e) {
         wx.showToast({
           title: '网络异常！',
           duration: 2000
@@ -271,7 +297,7 @@ Page({
     });
   },
   // 得到优惠券
-  getvou: function (id) {
+  getvou: function(id) {
     var that = this;
     wx.request({
       url: app.d.ceshiUrl + '&action=Coupon&m=getvou',
@@ -285,7 +311,7 @@ Page({
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      success: function (res) {
+      success: function(res) {
 
         if (res.data.status == 0) {
           wx.showToast({
@@ -302,7 +328,7 @@ Page({
           });
         }
       },
-      error: function (e) {
+      error: function(e) {
         wx.showToast({
           title: '网络异常！',
           duration: 2000
@@ -313,7 +339,7 @@ Page({
 
 
   // 选择支付方式
-  switchChange: function (e) {
+  switchChange: function(e) {
     console.log(e)
     var that = this;
     var check = e.currentTarget.dataset.check;
@@ -401,7 +427,7 @@ Page({
         wx.showModal({
           title: '组合支付',
           content: '是否使用余额抵用？',
-          success: function (res) {
+          success: function(res) {
             if (res.confirm) {
               //组合支付 替换数据
               var price = Number(coupon_money) - Number(user_money); //防止出现小数点后多余2位以上  .toFixed(2)
@@ -438,7 +464,7 @@ Page({
     }
   },
   // 提交订单支付
-  createProductOrderByWX: function (e) {
+  createProductOrderByWX: function(e) {
     var that = this;
     console.log(that)
     console.log('*******fdgdfgdf********')
@@ -487,7 +513,7 @@ Page({
           wx.showModal({
             title: '余额支付',
             content: '是否使用余额支付？',
-            success: function (res) {
+            success: function(res) {
               if (res.confirm) {
                 //组合支付 替换数据
                 that.createProductOrder();
@@ -501,7 +527,7 @@ Page({
           wx.showModal({
             title: '订单提交',
             content: '是否使用消费金支付？',
-            success: function (res) {
+            success: function(res) {
               if (res.confirm) {
                 //组合支付 替换数据
                 that.createProductOrder();
@@ -527,7 +553,7 @@ Page({
     }
   },
   // 确认订单
-  createProductOrder: function () {
+  createProductOrder: function() {
     var that = this;
     console.log(that)
     console.log('***************')
@@ -553,13 +579,13 @@ Page({
         reduce_money: that.data.reduce_money, // 满减金额
         dkyuan: that.data.d_yuan,
         freight: that.data.freight,
-        num: that.data.num1 ? that.data.num1 : 0,//直接购买数量
-        typee: that.data.type ? that.data.type : 0,//购买类型1直接购买，0从购物车买
+        num: that.data.num1 ? that.data.num1 : 0, //直接购买数量
+        typee: that.data.type ? that.data.type : 0, //购买类型1直接购买，0从购物车买
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      success: function (res) {
+      success: function(res) {
         var data = res.data;
         console.log(res)
         if (data.status == 1) {
@@ -581,7 +607,7 @@ Page({
 
         }
       },
-      fail: function (e) {
+      fail: function(e) {
         wx.showToast({
           title: '网络异常！err:createProductOrder',
           duration: 2000
@@ -592,7 +618,7 @@ Page({
   },
 
   // 发起钱包支付
-  wallet_pay: function (order) {
+  wallet_pay: function(order) {
     var that = this;
     var type1 = that.data.type1; // 决定是抽奖还是普通支付
     if (type1 == 11) {
@@ -605,18 +631,13 @@ Page({
     } else {
       var coupon_id = '';
     }
-		/*
-		1.支付成功
-		2.支付失败：提示；清空密码；自动聚焦isFocus:true，拉起键盘再次输入
-		*/
-    if (type1 == 11) {
-      var coupon_money = that.data.total;
-      var user_money = that.data.address.user_money;
-    } else {
+    /*
+    1.支付成功
+    2.支付失败：提示；清空密码；自动聚焦isFocus:true，拉起键盘再次输入
+    */
+
       var coupon_money = that.data.coupon_money;
       var user_money = that.data.user_money;
-    }
-
     if (Number(user_money) >= Number(coupon_money)) {
       wx.request({
         url: app.d.ceshiUrl + '&action=product&m=wallet_pay',
@@ -628,7 +649,7 @@ Page({
         header: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        success: function (res) {
+        success: function(res) {
           var status = res.data.status;
           if (status) {
             //支付成功  修改订单
@@ -642,7 +663,7 @@ Page({
             });
           }
         },
-        fail: function () {
+        fail: function() {
           wx.showToast({
             title: '网络异常！',
             duration: 2000
@@ -659,14 +680,16 @@ Page({
 
   },
   // 调起微信支付
-  wxpay: function (order) {
+  wxpay: function(order) {
     console.log(order)
     var that = this;
     app.d.order = order;
     this.setData({
       order: order
     })
-    var d_yuan = Number(that.data.d_yuan), cmoney = Number(order.coupon_money), oid = order.order_id
+    var d_yuan = Number(that.data.d_yuan),
+      cmoney = Number(order.coupon_money),
+      oid = order.order_id
     if (d_yuan) {
       cmoney = Number(cmoney) - Number(d_yuan); //防止出现小数点后多余2位以上  .toFixed(2)
     }
@@ -682,7 +705,7 @@ Page({
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }, // 设置请求的 header
-      success: function (res) {
+      success: function(res) {
         if (res.data) {
           var dingdanhao = res.data.out_trade_no;
           console.log(order.sNo)
@@ -690,33 +713,25 @@ Page({
           that.setData({
             trade_no: dingdanhao
           })
-
           wx.requestPayment({
             timeStamp: res.data.timeStamp,
             nonceStr: res.data.nonceStr,
             package: res.data.package,
             signType: 'MD5',
             paySign: res.data.paySign,
-            success: function (res) {
+            success: function(res) {
               //支付成功  修改订单
               that.up_order(order);
-              if (that.data.type1 == 11) {
-                wx.redirectTo({
-                  url: '../draw/cantuan?orderId=' + oid + '&&type1=11'
-                })
-              } else {
                 wx.redirectTo({
                   url: '../order/detail?orderId=' + oid + '&&type1=22'
                 })
-              }
-
             },
-            fail: function (res) {
+            fail: function(res) {
               wx.showModal({
                 content: "取消支付！",
                 showCancel: false,
                 confirmText: "确定",
-                success: function (res) {
+                success: function(res) {
                   wx.redirectTo({
                     url: '../order/detail?orderId=' + oid + '&&type1=22'
                   })
@@ -726,7 +741,7 @@ Page({
           })
         }
       },
-      fail: function () {
+      fail: function() {
         // 失败后
         wx.showToast({
           title: '网络异常！err:wxpay',
@@ -736,7 +751,7 @@ Page({
     })
   },
   //修改订单
-  up_order: function (order) {
+  up_order: function(order) {
     var that = this;
     var type1 = that.data.type1;
     var d_yuan = that.data.d_yuan;
@@ -765,7 +780,7 @@ Page({
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      success: function (res) {
+      success: function(res) {
         if (!res.data.status) {
           wx.showToast({
             title: res.data.err,
@@ -784,20 +799,18 @@ Page({
         app.d.indexchase = true;
         // 调用信息发送
         that.notice(orderId, oid, f_coupon_money, user_id, form_id, f_pname);
+        
         wx.showModal({
+          
           content: "支付成功！",
           showCancel: false,
           confirmText: "确定",
-          success: function (res) {
-            if (type1 == 11) {
-              wx.redirectTo({
-                url: '../draw/cantuan?orderId=' + oid + '&&type1=11'
-              })
-            } else {
-              wx.redirectTo({
-                url: '../order/detail?orderId=' + oid + '&&type1=22'
-              })
-            }
+          success: function(res) {
+            
+            wx.redirectTo({
+              url: '../order/detail?orderId=' + oid + '&&type1=22'
+            })
+
           }
         });
       }
@@ -805,7 +818,7 @@ Page({
 
   },
   //获取插件
-  get_plug: function (e) {
+  get_plug: function(e) {
     var that = this;
     wx.request({
       url: app.d.ceshiUrl + '&action=app&m=get_plug',
@@ -816,7 +829,7 @@ Page({
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      success: function (res) {
+      success: function(res) {
         var plug_ins = res.data;
         that.setData({
           plug_coupon: plug_ins.coupon,
@@ -829,7 +842,7 @@ Page({
     })
   },
   //发送数据到客户微信上
-  notice: function (order_id, order_sn, price, user_id, form_id, f_pname) {
+  notice: function(order_id, order_sn, price, user_id, form_id, f_pname) {
     wx.request({
       url: app.d.ceshiUrl + '&action=getcode&m=Send_Prompt',
       method: 'post',
@@ -844,13 +857,18 @@ Page({
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      success: function (res) {
+      success: function(res) {
         console.log(form_id)
       }
     })
   },
+
+
+
+
+
   // 弹窗
-  setModalStatus: function (e) {
+  setModalStatus: function(e) {
     var taht = this;
     var showModalStatus = taht.data.showModalStatus;
     if (showModalStatus) {
@@ -874,7 +892,7 @@ Page({
         showModalStatus: true
       });
     }
-    setTimeout(function () {
+    setTimeout(function() {
       animation.translateY(0).step()
       taht.setData({
         animationData: animation
@@ -887,7 +905,7 @@ Page({
     }.bind(this), 200);
 
   },
-  up_out_trade_no: function (order, out_trade_no) {
+  up_out_trade_no: function(order, out_trade_no) {
     var that = this;
     var sNo = order.sNo;
     var d_yuan = that.data.d_yuan;
@@ -911,7 +929,7 @@ Page({
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
       }
     })

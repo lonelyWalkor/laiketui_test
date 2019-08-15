@@ -572,7 +572,8 @@ Page({
     //添加到购物车
     var that = this;
     var pro_type = e.target.dataset.type;
-    if (pro_type != 'canjiapintuan') {
+    var ptype = e.currentTarget.dataset.type;
+    // console.log(ptype, '--jnkmjkl')
       wx.request({
         url: app.d.ceshiUrl + '&action=product&m=add_cart',
         method: 'post',
@@ -623,20 +624,6 @@ Page({
           });
         }
       });
-    } else {
-      //抽奖弹框
-      var productId = that.data.productId;
-      var sizeid = that.data.sizeid;
-      var choujiangid = that.data.choujiangid;
-      var role = that.options.role;
-      if (role == '' || role == 'undefined') {
-        role = '';
-      }
-      wx.redirectTo({
-        url: '../order/pay?productId=' + productId + '&sizeid=' + sizeid + '&choujiangid=' + choujiangid + '&type1=' + 11 + '&role=' + role,
-      });
-      return;
-    }
   },
   bindChange: function (e) {//滑动切换tab 
     var that = this;

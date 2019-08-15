@@ -1,4 +1,5 @@
 var app = getApp();
+var util = require('../../utils/util.js')
 //获取应用实例  
 var common = require("../../utils/common.js");
 // 定义一个总毫秒数，以一天为例  
@@ -67,6 +68,7 @@ function countdown(that) {
     timeout: i
   })
 }
+
 // 时间格式化输出，如1天天23时时12分分12秒秒12 。每10ms都会调用一次  
 function dateformat(micro_second) {
 	// 总秒数  
@@ -111,6 +113,9 @@ Page({
     // 生命周期函数--监听页面卸载
     //离开界面时清除定时器
     clearInterval(this.data.timeout);
+    
+    util.getUesrBgplus(that, app, false)
+    util.getUesrBgplus(that, app, true)
   },
   // 选择支付方式
   switchChange: function (e) {
