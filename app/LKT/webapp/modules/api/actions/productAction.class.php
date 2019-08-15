@@ -436,28 +436,13 @@ class productAction extends Action {
                 $num = 0;
             }
             if($num >= $Goods_num){
-                //查询购物车是否有过改商品，有则修改 无则新增
-                $sql_c = "select Goods_num,id from lkt_cart where Uid = '$Uid' and Goods_id = '$Goods_id' and Size_id = '$size_id'";
-                $res = $db->select($sql_c);
-                if ($res) {
-                    //根据点击的类型进行修改
-                    if($pro_type == 'buynow'){
-                        $sql_u = "update lkt_cart set Goods_num = '$Goods_num',Create_time = CURRENT_TIMESTAM where Uid = '$Uid' and Goods_id = '$Goods_id' and Size_id = '$size_id'";
-                        $r_u = $db->update($sql_u);
-                    }else{
-                        $sql_u = "update lkt_cart set Goods_num = Goods_num+'$Goods_num',Create_time = CURRENT_TIMESTAMP where Uid = '$Uid' and Goods_id = '$Goods_id' and Size_id = '$size_id'";
-                        $r_u = $db->update($sql_u);
-                    }
-                    echo json_encode(array('status'=>1,'cart_id'=>$res['0']->id));
-                }else{
                     $sql = "insert into lkt_cart (user_id,Uid,Goods_id,Goods_num,Create_time,Size_id) values('$user_id','$Uid','$Goods_id','$Goods_num',CURRENT_TIMESTAMP,$size_id) ";
                     $r = $db -> insert($sql,'last_insert_id');
                     if($r){
                         echo json_encode(array('status'=>1,'cart_id'=>$r));
                     }else{
                         echo json_encode(array('status'=>0,'err'=>'添加失败请重新提交!'));
-                    }
-                }                  
+                    }        
             }else{
                 echo json_encode(array('status'=>0,'err'=>'库存不足！'));
             }

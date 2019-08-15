@@ -12,8 +12,9 @@
                     <th>商品规格</th>
                     <th>商品状态</th>
                     <th >商品总库存</th>
-                    <th >入库/出库</th>
-                    <th class="tab_time">入库/出库</th>
+                    <th >入库/出库状态</th>
+                    <th >入库/出库数量</th>
+                    <th class="tab_time">入库/出库时间</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +36,13 @@
                         </div>
                     </td>
                     <td>{$item->total_num}</td>
+                     {if $item->type == 0}
+                        <td>入库</td>
+                        
+                    {else}
+                        <td>出库</td>
+              
+                    {/if}
                     {if $item->type != 2}
                         <td {if $item->flowing_num >= 0}style="color: #0abf0a;"{else}style="color:red;"{/if}>{$item->flowing_num}</td>
                         

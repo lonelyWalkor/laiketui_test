@@ -143,14 +143,9 @@ class pageaddAction extends Action {
 		$db = DBAction::getInstance();
 		$request = $this->getContext()->getRequest();
         // 接收数据 
-        $image= addslashes($request->getParameter('image')); // 图
-        $url = addslashes(trim($request->getParameter('url'))); // 链接
         $sort = floatval(trim($request->getParameter('sort'))); // 排序
-        $type = trim($request->getParameter('type')); // 类型
         $product_class = trim($request->getParameter('product_class')); // 分类
-        if($image){
-            $image = preg_replace('/.*\//','',$image);
-        }
+
         if(!$sort){
                 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
@@ -158,19 +153,8 @@ class pageaddAction extends Action {
                 "location.href='index.php?module=software&action=pageadd';</script>";
                 return $this->getDefaultView();
         }
+            $sql = "insert into lkt_index_page(type,url,sort,add_date) values('category','$product_class','$sort',CURRENT_TIMESTAMP)";
 
-        if($type == 'img'){
-            if(!$image){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                "alert('图片不能为空！');" .
-                "location.href='index.php?module=software&action=pageadd';</script>";
-                return $this->getDefaultView();
-            }
-            $sql = "insert into lkt_index_page(type,image,url,sort,add_date) values('$type','$image','$url','$sort',CURRENT_TIMESTAMP)";
-        }else{
-            $sql = "insert into lkt_index_page(type,url,sort,add_date) values('$type','$product_class','$sort',CURRENT_TIMESTAMP)";
-        }
         $r = $db->insert($sql);
         if($r == -1){
             header("Content-type:text/html;charset=utf-8");
@@ -185,21 +169,9 @@ class pageaddAction extends Action {
                 "location.href='index.php?module=software&action=pageindex';</script>";
             return $this->getDefaultView();
         }
-
-
-
 	    return;
 
-
-
 	}
-
-
-
-
-
-
-
 	public function getRequestMethods(){
 
 

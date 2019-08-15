@@ -463,14 +463,18 @@ class modifyAction extends Action {
                         // 在库存记录表里，添加一条入库信息
                     $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id','$cid','$z_num1',0,CURRENT_TIMESTAMP)";
                     $db->insert($sql);
+                    $va['total_num'] = $va['total_num']+$z_num1;
                 }else if($num < $cnums){
                     $z_num1 =$cnums- $num ;
                       // 在库存记录表里，添加一条入库信息
                     $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id','$cid','$z_num1',1,CURRENT_TIMESTAMP)";
                     $db->insert($sql);
+                    $va['total_num'] = $va['total_num'];
+                }else{
+                    $va['total_num'] = $va['total_num'];
                 }
 // print_r($va);
-                $va['total_num'] = $va['total_num']+$z_num1;
+                
                 $r_attribute = $db->modify($va, 'lkt_configure', " `id` = '$cid' and recycle = 0 ");
                 $attribute_id = $cid;
 

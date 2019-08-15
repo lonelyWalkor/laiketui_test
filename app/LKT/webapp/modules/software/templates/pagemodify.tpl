@@ -164,9 +164,8 @@
 
     display: table;
 
-    width: 22%;
 
-    margin-left: 40%;
+    margin-left: 10%;
 
 }
 
@@ -188,24 +187,22 @@
 
 <nav class="breadcrumb" style="    line-height: 3;"><i class="Hui-iconfont">&#xe646;</i> 小程序首页管理 <span class="c-gray en">&gt;</span> 模块 <span class="c-gray en">&gt;</span> 修改模块 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px;float: right;" href="#" onclick="location.href='index.php?module=software&action=pageindex';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 
-<div class="pd-20">
+<div class="pd-20" style=" margin-top: 100px;">
 
     <form name="form1" action="index.php?module=software&action=pagemodify&id={$id}" class="form form-horizontal" method="post" enctype="multipart/form-data" >
 
       <input type="hidden" name="uploadImg" value="{$uploadImg}" >
 
-<div class="row cl">
-    <label class="form-label col-2">类型：</label>
-    <div class="formControls col-10 ">
-      <input type="radio" name="type"  {if $type=='category'}checked="checked"{/if} value="category">分类 &nbsp;&nbsp; 
-    </div>
-</div>
 
-
-<div class="row cl " >
-            <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
-            <div class="formControls col-2"> <span class="select-box">
-                <select name="product_class" class="select">
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>类型：</label>
+        <div class="formControls col-xs-8 col-sm-6">
+          <input  name="type"  value="分类" disabled>
+        </div>
+      </div>
+      <div class="row cl">
+          <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>产品类别：</label>
+                <select name="product_class" class="select" style="margin-left: 14px;width: 158px;">
                   {foreach from=$list item=item name=f1}
                     {if $url == $item->cid}
                     <option selected="selected" value="{$item->cid}">{$item->str}{$item->pname}</option>
@@ -214,58 +211,37 @@
                     {/if}
                    {/foreach}
                 </select>
-                </span>
-            </div>
- </div>
-
-
-
-      <div class="row cl">
-
-        <label class="">排序号：</label>
-
-        <div class="">
-
-          <input type="text" class="input-text" value="{$sort}" placeholder="" id="" name="sort">
-
-        </div>
-
       </div>
-
-        <div class="row cl">
-
-          <div class="">
-
-            <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-
-            <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
-
-          </div>
-
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-4">排序号：</label>
+        <div class="formControls col-xs-8 col-sm-6">
+             <input type="text" class="input-text" value="{$sort}" placeholder="" id="" name="sort">
         </div>
-
+      </div>
+        <div class="row cl">
+          <label class="form-label col-xs-4 col-sm-4"></label>
+          <div class="formControls col-xs-8 col-sm-6">
+            <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
+            <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+          </div>
+        </div>
     </form>
-
 </div>
 
 
 
-<div class="row">
-
-<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin: 100px auto;">
-
-<div class="ibox float-e-margins">
-
-
-
+<div class="row cl">
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin: 100px auto; width: 1000px;">
+<div class="ibox float-e-margins" style="width: 500px;height:100px; margin:0 auto;">
+  <h5>使用规则</h5>
+ 1. 未添加产品类型首页默认显示全部商品</br>
+ 2. 添加一产品类别默认显示该类别及该类别所有下级类别</br>
+ 3. 若先添加一下类别再添加该下级的上级类别，上级类别包含下级类别</br>
+ 4. 再次添加时，已添加的类别及该类别的所有下级类别均不在产品类别中显示</br>
+ 5. 所有显示商品均为上架且未被回收商品
 </div>
-
 </div>
-
 </div>
-
-
-
 
 <script type="text/javascript" src="modpub/js/check.js" > </script>
 
