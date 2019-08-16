@@ -20,37 +20,33 @@ function show(obj){
         document.getElementById("name").readOnly = false; // 活动名称
         document.getElementById('txt').style.display = ""; // 不显示
         document.getElementById('txt_1').style.display = ""; // 金额不显示
-        document.getElementById('txt_2').style.display = "none"; // 减不显示
         document.getElementById('product_class_id').style.display = ""; // 优惠劵类型id
         document.getElementById('num').style.display = ""; // 数量不显示
         document.getElementById('z_money').style.display = "none"; // 满金额不显示
-        document.getElementById('time').style.display = ""; // 时间显示
+        // document.getElementById('time').style.display = ""; // 时间显示
+        document.getElementById('time1').style.display = ""; // 时间显示
+        // document.getElementById('time2').style.display = ""; // 时间显示
     }else if(obj.value=='1'){ // 注册
         document.getElementById("name").readOnly = false; // 活动名称
         document.getElementById('txt').style.display = ""; // 显示
         document.getElementById('txt_1').style.display = ""; // 金额显示
-        document.getElementById('txt_2').style.display = "none"; // 减不显示
         document.getElementById('product_class_id').style.display = "none"; // 优惠劵类型id
         document.getElementById('num').style.display = "none"; // 数量
         document.getElementById('z_money').style.display = "none"; // 满金额不显示
-        document.getElementById('time').style.display = "none"; // 时间不显示
-    }else if(obj.value=='3'){ // 满减
-        document.getElementById("name").readOnly = true; // 活动名称
-        document.getElementById('txt').style.display = ""; // 显示
-        document.getElementById('txt_1').style.display = "none"; // 金额不显示
-        document.getElementById('txt_2').style.display = ""; // 减显示
-        document.getElementById('product_class_id').style.display = "none"; // 优惠劵类型id
-        document.getElementById('num').style.display = ""; // 数量
-        document.getElementById('z_money').style.display = ""; // 满金额显示
-        document.getElementById('time').style.display = ""; // 时间显示
+        // document.getElementById('time').style.display = "none"; // 时间不显示
+        document.getElementById('time1').style.display = "none"; // 时间不显示
+        // document.getElementById('time2').style.display = "none"; // 时间不显示
     }
 }
+
 function change(){
     var product_class_id = $('select[name="product_class_id"]').children('option:selected').val();
+    var product_id = $("#product_id1").val();
+
     $.ajax({
         type: "GET",
         url: location.href+'&action=ajax&product_class_id='+product_class_id,
-        data: "",
+         data: {product_id :product_id },
         success: function(msg){
             if(msg == 0){
                 document.getElementById('product_id').style.display = 'none';
@@ -61,6 +57,9 @@ function change(){
         }
     });
 }
+
+
+
 </script>
 {/literal}
 <title>添加活动</title>
@@ -69,10 +68,13 @@ function change(){
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe6ca;</i> 优惠券管理 <span class="c-gray en">&gt;</span> 活动列表 <span class="c-gray en">&gt;</span> 添加活动 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=coupon';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <form name="form1" action="index.php?module=coupon&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data">
+         <input type="hidden" id="activity_type" value="{$activity_type}" >
+         <input type="hidden" id="product_class_id1" value="{$product_class_id}" >
+         <input type="hidden" id="product_id1" value="{$product_id}" >
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red">*</span>活动名称：</label>
             <div class="formControls col-4">
-                <input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+                <input type="text" class="input-text" value="{$name}" placeholder="" id="name" name="name">
             </div>
         </div>
         
@@ -80,11 +82,13 @@ function change(){
             <label class="form-label col-4"><span class="c-red">*</span>活动类型：</label>
             <div class="formControls col-4 skin-minimal" >
                 <div class="radio-box">
-                    <input name="activity_type" type="radio" value="1" checked="checked" onClick="show(this)"/>
+   
+                     <input name="activity_type" type="radio" value="1" {if $activity_type == 1}checked="checked" {/if} onClick="show(this)"/>
+
                     <label for="sex-1">注册</label>
                 </div>
                 <div class="radio-box">
-                    <input name="activity_type" type="radio" value="2" onClick="show(this)"/>
+                    <input name="activity_type" type="radio" value="2" {if $activity_type == 2}checked="checked" {/if} onClick="show(this)"/>
                     <label for="sex-2">节日/活动</label>
                 </div>
             </div>
@@ -106,9 +110,8 @@ function change(){
         </div>
         <div class="row cl" id="txt">
             <label class="form-label col-4" id="txt_1"><span class="c-red">*</span>金额：</label>
-            <label class="form-label col-4" id="txt_2" style="display:none;"><span class="c-red">*</span>减：</label>
             <div class="formControls col-4">
-                <input type="number" class="input-text" placeholder="" id="money" name="money" >
+                <input type="number" class="input-text" placeholder="{$money}" id="money" name="money" >
             </div>
         </div>
 
@@ -122,30 +125,29 @@ function change(){
         <div class="row cl" id="num" style="display:none;">
             <label class="form-label col-4">数量：</label>
             <div class="formControls col-2">
-                <input type="number" class="input-text" placeholder="" id="numId" value="0" name="num">
+                <input type="number" class="input-text" placeholder="" id="numId" value="{$num}" name="num">
             </div>
             <text style="line-height:30px;">0表示没限制数量</text>
         </div>
-
-        <div class="row cl" style="display:none;" id="time">
-            <label class="form-label col-4"><span class="c-red">*</span>活动时间：</label>
-            <div class="formControls col-6">
-                <input name="start_time" size="8" readonly class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;" />
-                <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.start_time);" />
-                -
-                <input name="end_time" size="8" readonly  class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;"/>
-                <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.end_time);" />
+        <div class="row cl"  style="display:none;" id="time1">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>活动时间：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$start_time}" autocomplete="off" placeholder="" id="group_start_time" name="starttime" style="width:150px;">
+                 -
+                 <input type="text" class="input-text" value="{$end_time}" autocomplete="off" placeholder="" id="group_end_time" name="group_end_time" style="width:150px;">
+            </div>
+            <div class="col-3">
             </div>
         </div>
-
         <div class="row cl">
             <div class="col-10 col-offset-4">
                 <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
+                <input type="button" name="reset" value="返回"  class="btn btn-primary radius" id="resetId" onclick="javascript :history.back(-1);">
             </div>
         </div>
     </form>
 </div>
-
+<script type="text/javascript" src="style/laydate/laydate.js"></script>
 <script type="text/javascript" src="modpub/js/check.js" > </script>
 <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type='text/javascript' src='modpub/js/calendar.js'> </script>
@@ -166,29 +168,63 @@ function change(){
 <script src="style/kindeditor/lang/zh_CN.js"></script>
 {literal}
 <script>
-KindEditor.ready(function(K) {
-  var editor = K.editor({
-      allowFileManager : true,       
-      uploadJson : "index.php?module=system&action=uploadImg", //上传功能
-      fileManagerJson : 'kindeditor/php/file_manager_json.php', //网络空间
-    });
-  //上传背景图片
-  K('#image').click(function() {
-    editor.loadPlugin('image', function() {
-      editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
-        //showLocal : false, //不开启本地图片上传
-        imageUrl : K('#picurl').val(),
-          clickFn : function(url, title, width, height, border, align) {
-          K('#picurl').val(url);
-          $('#thumb_url').attr("src",url);
-          editor.hideDialog();
-        }
-      });
-    });
-  });
-});
 
+      var group_end_time = $('#group_end_time');
+          group_end_time.val('');
+          var startdate = $("#group_start_time").val();
+          if(startdate != '' && startdate.length == 19){
+            var day = startdate.split(' ');
+            var str = startdate.replace(/-/g,'/');
+            var d = new Date(str);
+            var oneYear = oneYearPast(d);
+            oneYear = oneYear + ' ' + day[1];
+            $("#end_year").val(oneYear)
+          }
+       laydate.render({
+          elem: '#group_start_time', //指定元素
+           trigger: 'click',
+          type: 'datetime',
+
+        });
+       
+        laydate.render({
+          elem: '#group_end_time',
+          trigger: 'click',
+          type: 'datetime'
+        });
+
+
+var activity_type = $("#activity_type").val()
+if(activity_type == 2){
+    document.getElementById("name").readOnly = false; // 活动名称
+    document.getElementById('txt').style.display = ""; // 不显示
+    document.getElementById('txt_1').style.display = ""; // 金额不显示
+    document.getElementById('product_class_id').style.display = ""; // 优惠劵类型id
+    document.getElementById('num').style.display = ""; // 数量不显示
+    document.getElementById('z_money').style.display = "none"; // 满金额不显示
+    document.getElementById('time1').style.display = ""; // 时间显示
+}
+
+var product_class_id = $("#product_class_id1").val();
+var product_id = $("#product_id1").val();
+
+if(product_class_id){
+        $.ajax({
+        type: "GET",
+        url: location.href+'&action=ajax&product_class_id='+product_class_id,
+        data: {product_id :product_id },
+        success: function(msg){
+            if(msg == 0){
+                document.getElementById('product_id').style.display = 'none';
+            }else{
+                document.getElementById('product_id').style.display = '';
+                $(".select2").html(msg);
+            }
+        }
+    });
+}
+
+ 
 </script>
 {/literal}
 </body>

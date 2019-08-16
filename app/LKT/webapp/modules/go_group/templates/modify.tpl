@@ -513,11 +513,12 @@
             if(checkdata == true){
                 var stime = new Date(starttime).getTime();
                 var now = new Date().getTime();
+                  now1 = now-(3600 * 1000);
                 if(overtype == '2'){
                     gdata['endtime'] = endtime;
                     var etime = new Date(endtime).getTime();
                     if(is_show !=0 || g_status!=2){
-                        if(stime < now || etime < now || stime >= etime){
+                        if(stime < now1 || etime < now || stime >= etime){
                             alert('时间设置不合格!');
                             return false;
                         }
@@ -526,7 +527,7 @@
                 }else{
                     gdata['endtime'] = 'changqi';
 
-                    if(stime < now &&(is_show !=0 ||g_status!=2)){
+                    if(stime < now1 &&(is_show !=0 ||g_status!=2)){
                         alert('时间设置不合格!');
                         return false;
                     }
@@ -696,10 +697,10 @@
             var start = new Date(starttime).getTime();
             var end = new Date(endtime).getTime();
             var now = new Date().getTime();
+              now1 = now-(3600 * 1000);
+            if(start < now1 ){
 
-            if(start < now ){
-
-                alert('开始时间不能小于当前时间！');
+                alert('开始时间不能小于当前时间前1小时！');
                 return false;
             }
             if(end < now ){

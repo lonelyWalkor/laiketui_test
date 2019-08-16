@@ -349,16 +349,17 @@ function oneYearPast(time)
    if(checkdata == true){
    	var stime = new Date(starttime).getTime();
     var now = new Date().getTime();
+     now1 = now-(3600 * 1000);
     if(overtype == '2'){
     	gdata['endtime'] = endtime;
     	var etime = new Date(endtime).getTime();
-        if(stime < now || etime < now || stime >= etime){
+        if(stime < now1 || etime < now || stime >= etime){
         	layer.msg('时间设置不合格!');
         	return false;
         }
     }else{
     	gdata['endtime'] = 'changqi';
-    	if(stime < now){
+    	if(stime < now1){
         	layer.msg('时间设置不合格!');
         	return false;
         }

@@ -379,7 +379,7 @@
 					each_times++;
 				}
 			});
-			console.log(each_times);
+			// console.log(each_times);
             if(each_times == 0){
                 alert('请选择拼团商品');
                 checkdata = false;
@@ -433,7 +433,7 @@
                 }
                 glevel[min_man] = canprice+'~'+memberprice;
             })
-			console.log('rule_end1');
+			// console.log('rule_end1');
 
             if(checkdata == true){
                 if(timehour == ''){
@@ -462,20 +462,21 @@
                     return;
                 }
             }
-			console.log('rule_end');
+			// console.log('rule_end');
             if(checkdata == true){
                 var stime = new Date(starttime).getTime();
                 var now = new Date().getTime();
+                now1 = now-(3600 * 1000);
                 if(overtype == '2'){
                     gdata['endtime'] = endtime;
                     var etime = new Date(endtime).getTime();
-                    if(stime < now || etime < now || stime >= etime){
+                    if(stime < now1 || etime < now || stime >= etime){
                         alert('时间设置不合格!');
                         return false;
                     }
                 }else{
                     gdata['endtime'] = 'changqi';
-                    if(stime < now){
+                    if(stime < now1){
                         alert('时间设置不合格!');
                         return false;
                     }

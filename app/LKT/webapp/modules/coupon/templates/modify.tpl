@@ -124,12 +124,19 @@ function change(){
         
         <div class="row cl" id="time" style="display:{if $activity_type == 1}none{/if};">
             <label class="form-label col-4"><span class="c-red">*</span>活动时间：</label>
-            <div class="formControls col-6">
+            <!-- <div class="formControls col-6">
                 <input name="start_time" value="{$start_time}" size="8" readonly class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;" />
                 <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.start_time);" />
                 -
                 <input name="end_time" value="{$end_time}" size="8" readonly  class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;"/>
                 <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.end_time);" />
+            </div> -->
+             <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$start_time}" autocomplete="off" placeholder="" id="group_start_time" name="starttime" style="width:150px;">
+                 -
+                 <input type="text" class="input-text" value="{$end_time}" autocomplete="off" placeholder="" id="group_end_time" name="group_end_time" style="width:150px;">
+            </div>
+            <div class="col-3">
             </div>
         </div>
         
@@ -144,6 +151,7 @@ function change(){
 
 <script type="text/javascript" src="modpub/js/check.js" > </script>
 
+<script type="text/javascript" src="style/laydate/laydate.js"></script>
 <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type='text/javascript' src='modpub/js/calendar.js'> </script>
 <script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
@@ -162,28 +170,28 @@ function change(){
 <script src="style/kindeditor/lang/zh_CN.js"></script>
 {literal}
 <script>
-KindEditor.ready(function(K) {
-  var editor = K.editor({
-      allowFileManager : true,       
-      uploadJson : "index.php?module=system&action=uploadImg", //上传功能
-      fileManagerJson : 'kindeditor/php/file_manager_json.php', //网络空间
-    });
-  //上传背景图片
-  K('#image').click(function() {
-    editor.loadPlugin('image', function() {
-      editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
-        //showLocal : false, //不开启本地图片上传
-        imageUrl : K('#picurl').val(),
-          clickFn : function(url, title, width, height, border, align) {
-          K('#picurl').val(url);
-          $('#thumb_url').attr("src",url);
-          editor.hideDialog();
-        }
-      });
-    });
-  });
-});
+// KindEditor.ready(function(K) {
+//   var editor = K.editor({
+//       allowFileManager : true,       
+//       uploadJson : "index.php?module=system&action=uploadImg", //上传功能
+//       fileManagerJson : 'kindeditor/php/file_manager_json.php', //网络空间
+//     });
+//   //上传背景图片
+//   K('#image').click(function() {
+//     editor.loadPlugin('image', function() {
+//       editor.plugin.imageDialog({
+//         //showRemote : false, //网络图片不开启
+//         //showLocal : false, //不开启本地图片上传
+//         imageUrl : K('#picurl').val(),
+//           clickFn : function(url, title, width, height, border, align) {
+//           K('#picurl').val(url);
+//           $('#thumb_url').attr("src",url);
+//           editor.hideDialog();
+//         }
+//       });
+//     });
+//   });
+// });
 if($(".status").val() == 1){
     document.getElementById('name').readOnly = true;
     document.getElementById('money').readOnly = true;
@@ -195,6 +203,42 @@ if($(".status").val() == 1){
     $('.select2').attr('disabled','disabled');
 
 }
+
+      var group_end_time = $('#group_end_time').val();
+          // group_end_time.val('');
+          var startdate = $("#group_start_time").val();
+          // if(startdate != '' && startdate.length == 19){
+          //   var day = startdate.split(' ');
+          //   var str = startdate.replace(/-/g,'/');
+            // var d = new Date(str);
+            // var oneYear = oneYearPast(d);
+            // oneYear = oneYear + ' ' + day[1];
+            // $("#end_year").val(oneYear)
+          // }
+       laydate.render({
+          elem: '#group_start_time', //指定元素
+           trigger: 'click',
+          type: 'datetime',
+
+        });
+       
+        laydate.render({
+          elem: '#group_end_time',
+          trigger: 'click',
+          type: 'datetime'
+        });
+
+
+// var activity_type = $("#activity_type").val()
+// if(activity_type == 2){
+//     document.getElementById("name").readOnly = false; // 活动名称
+//     document.getElementById('txt').style.display = ""; // 不显示
+//     document.getElementById('txt_1').style.display = ""; // 金额不显示
+//     document.getElementById('product_class_id').style.display = ""; // 优惠劵类型id
+//     document.getElementById('num').style.display = ""; // 数量不显示
+//     document.getElementById('z_money').style.display = "none"; // 满金额不显示
+//     document.getElementById('time1').style.display = ""; // 时间显示
+// }
 </script>
 
 {/literal}
