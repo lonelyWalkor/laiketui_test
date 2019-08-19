@@ -129,15 +129,10 @@ form[name=form1] input{
             </div>
             <text style="line-height:30px;">*简洁表达产品，用来显示在首页产品，避免截取时不能表达是什么产品。</text>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>商品条形码：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$scan}" placeholder="" id="scanId" name="scan">
-            </div>
-        </div> -->
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
-            <div class="formControls col-2"> <!-- <span class="select-box"> -->
+            <div class="formControls col-2"> 
                 <select name="product_class" class="select" id="product_classId">
                     <option selected="selected" value="0">请选择类别</option>
                     {$ctypes}
@@ -152,15 +147,10 @@ form[name=form1] input{
                     <option selected="selected" value="0">请选择品牌</option>
                         {$r02}
                 </select>
-                <!-- </span> -->
+              
             </div>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>关键词：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$keyword}" placeholder="" id="keywordId" name="keyword">
-            </div>
-        </div> -->
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
             <div class="formControls col-4" style="width: 26.8%;">
@@ -183,7 +173,7 @@ form[name=form1] input{
                     <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0"  step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
                 </div>
                 <div class="formListSD">
-                    <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
+                    <div class="formTextSD"><span class="must">*</span><span>单位：{$status}</span></div>
                     <div class="formInputSD">
                         <select name="initial[unit]" class="select " style="width: 300px;" id="unit">
                            
@@ -249,9 +239,13 @@ form[name=form1] input{
                                                 <div v-for="(attr,j) in attr_group.attr_list" class="attr_input_group arrt_clear arrt_zi">
                                                     <span>属性值：</span>
                                                     <input class="add-attr-input" :value="attr.attr_name" readonly="readonly" style="padding-left: 10px;background-color: #F8F8F8 !important;">
+
+
+                                                    {/literal}{if $status ==2 }{literal}
                                                     <a v-bind:group-index="i" v-bind:index="j" class="attr-delete" href="javascript:" v-if="attr.status">
                                                         <img src="images/iIcon/jh.png" class="form_plus_u" />
                                                     </a>
+                                                     {/literal}{/if}{literal}
                                                 </div>
                                             </div>
                                         </div>

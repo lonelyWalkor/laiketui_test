@@ -20,6 +20,7 @@ class modifyAction extends Action {
         // 根据产品id，查询产品产品信息
         $sql = "select * from lkt_product_list where id = '$id'";
         $r = $db->select($sql);
+         $status=0;
         if($r){
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
@@ -177,6 +178,7 @@ class modifyAction extends Action {
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);
         $request->setAttribute("volume",$volume);
+        $request->setAttribute("status", $status);
         $request->setAttribute("uploadImg",$uploadImg);
         $request->setAttribute("checked_attr_list",$checked_attr_list);
         $request->setAttribute("attr_group_list",$attr_group_list);
@@ -524,7 +526,14 @@ class modifyAction extends Action {
             if($z_num < 1){
                 $sql_1 = "update lkt_product_list set status='1' where id = '$id'";
             }else{
-                $sql_1 = "update lkt_product_list set status='0' where id = '$id'";
+                $rr=$db->select("select status where id = '$id'");
+                $status =$rr[0]->status?$rr[0]->status:0;
+                if($status == 2){
+                     $sql_1 = "update lkt_product_list set status='2' where id = '$id'";
+                }else{
+                     $sql_1 = "update lkt_product_list set status='0' where id = '$id'";
+                }
+               
             }
             $r_update = $db->update($sql_1);
             header("Content-type:text/html;charset=utf-8");

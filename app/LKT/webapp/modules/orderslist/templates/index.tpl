@@ -39,8 +39,6 @@
 				height: 36px;
 				line-height: 36px;
 			}
-		</style>
-		<style>
 			.order-item {
 				border: 1px solid transparent;
 				margin-bottom: 1rem;
@@ -286,28 +284,28 @@
 			<input type="hidden" name="ordtype" value="{$otype}" />
 			<input type="hidden" name="gcode" value="{$status}" />
 			<input type="hidden" name="ocode" value="{$ostatus}" />
-			<select name="otype" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
+			<select name="otype" id="otype" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
 				{foreach from=$ordtype item="item" key="key"}
 					<option value="{$key}" {if $otype==$key}selected{/if}>{$item}</option>
 				{/foreach}
 			</select>
 
-			<select name="status" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
+			<select name="status" id="status" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
 				<option value="">订单状态</option>
 				{$class}
 			</select>
 
-			<select name="source" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
+			<select name="source" id="source" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
 				<option value="">平台类型</option>
 				{$source}
 			</select>
 
-			<select name="brand" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
+			<select name="brand" id="brand" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
 				<option value="">请选择品牌</option>
 				{$brand_str}
 			</select>
 
-			<input type="text" name="sNo" size='8' value="{$sNo}" id="" placeholder=" 订单编号或收件人姓名/电话..." autocomplete="off" style="width:200px" class="input-text">
+			<input type="text" name="sNo" size='8' value="{$sNo}" id="" placeholder=" 订单编号或会员名称/电话..." autocomplete="off" style="width:200px" class="input-text">
 			<div style="position: relative;display: inline-block;">
 				<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />
 				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 10px;top: 7px;" onclick="new Calendar().show(document.form1.startdate);" />
@@ -317,18 +315,21 @@
 				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 10px;top: 7px;" onclick="new Calendar().show(document.form1.enddate);" />
 			</div>
 			<input class="btn btn-success" id="btn1" type="submit" value="查询">
-			<input type="button" value="导出" id="btn2" style="margin-right: 0px;" class="btn btn-success" onclick="excel('all')">
+			<input type="button" value="重置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076; height: 31px;" class="reset" onclick="empty()" />
+			<input type="button" value="导出" id="btn2" style="margin-right: 0px;float: right;" class="btn btn-success" onclick="excel(location.href)">
+
 
 		</form>
+
+
+
 	</div>
 	<div class="mt-20">
 		<table class="table table-bordered bg-white">
 			<thead>
 			<tr class="txc">
 
-				<th style="width: 170px;">订单号
-					<!--<span style="font-size: 12px;">订单数: {$data1.num} 订单金额: {$data1.numprice}元 </span>-->
-				</th>
+				<th style="width: 170px;">订单号</th>
 				<th style="width: 70px;">商品图片</th>
 				<th style="width:250px!important;" width="250px">商品信息</th>
 				<th style="width: 75px;">实际付款</th>
@@ -630,14 +631,48 @@
     };
 
 
+function excel(url) {
+    export_popup(url);
+}
 
-
-
-    function excel(pageto) {
-        var pagesize = $("[name='DataTables_Table_0_length'] option:selected").val();
-        location.href = location.href + '&pageto=' + pageto + '&pagesize=' + 10;
-    }
-
+function export_popup(url) {
+        var res = `<div class="pup_div" id="pup_div">
+                        <div class="pup_flex">
+                            <div class="pup_auto">
+                                <div class="pup_head"><span>导出数据</span>
+                                    <img src="images/icon/cha.png" onclick="export_close('${url}','')">
+                                </div>
+                                
+                                <div class="pup_dc">
+                                    <div class="pup_dcv" onclick="export_close('${url}','This_page')">
+                                        <div>
+                                            <img src="images/iIcon/scby.png" />
+                                            <p>导出本页</p>
+                                        </div>
+                                    </div>
+                                    <div class="pup_dcv" onclick="export_close('${url}','whole')">
+                                        <div>
+                                            <img src="images/iIcon/dcqb.png" />
+                                            <p>导出全部</p>
+                                        </div>
+                                    </div>
+                                    <div class="pup_dcv" onclick="export_close('${url}','inquiry')"> 
+                                        <div>
+                                            <img src="images/iIcon/dcss.png" />
+                                            <p>导出查询</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>`;
+        $("body").append(res);
+}
+function export_close(url,type) {
+        $("#pup_div").remove();
+        location.href=location.href+'&pageto='+type;
+}
     var i = 0;
     $('select[name=otype]').change(function() {
         let ss = $(this).children('option:selected').val();
@@ -1007,8 +1042,7 @@
     function hm(){
         $(".dd").hide();
     }
-</script>
-<script type="text/javascript">
+
 	window.onload=function(){
 		$(".imgTd").each(function(){
 			$(this).find("div").each(function(){
@@ -1023,6 +1057,16 @@
 			$(this).find("span").eq(0).show()
 		})
 	}
+	function empty() {
+    $("input[name='sNo']").val('');
+    $("input[name='startdate']").val('');
+    $("input[name='enddate']").val('');
+    $("#otype").val('');
+    $("#status").val('');
+    $("#source").val('');
+    $("#brand").val('');
+}
+
 </script>
 {/literal}
 </body>

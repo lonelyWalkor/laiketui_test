@@ -19,7 +19,7 @@ class modifyInputView extends SmartyView {
         $this->setAttribute('checked_attr_list',$request->getAttribute('checked_attr_list'));
         $this->setAttribute('attr_group_list',$request->getAttribute('attr_group_list'));
         $this->setAttribute('initial',$request->getAttribute('initial'));
-        // $this->setAttribute('rew',$request->getAttribute('rew'));
+        $this->setAttribute('status',$request->getAttribute('status'));
         // $this->setAttribute('attribute_key',$request->getAttribute('attribute_key'));
         // $this->setAttribute('attribute_key2',$request->getAttribute('attribute_key2'));
         // $this->setAttribute('attribute_val',$request->getAttribute('attribute_val'));

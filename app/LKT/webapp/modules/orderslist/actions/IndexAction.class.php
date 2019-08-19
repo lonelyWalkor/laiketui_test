@@ -18,7 +18,7 @@ class IndexAction extends Action {
         $request = $this -> getContext() -> getRequest();
         $admin_id = $this->getContext()->getStorage()->read('admin_id');
 
-        $ordtype = array('t0' => '全部订单', 't1' => '普通订单', 't2' => '拼团订单', 't3' => '抽奖订单');
+        $ordtype = array('t0' => '全部订单', 't1' => '普通订单', 't2' => '拼团订单');
         $data = array('未付款', '未发货', '已发货', '待评论', '退货', '已签收');
         $otype = isset($_GET['otype']) && $_GET['otype'] !== '' ? $_GET['otype'] : false;
         $status = isset($_GET['status']) && $_GET['status'] !== '' ? $_GET['status'] : false;
@@ -46,6 +46,7 @@ class IndexAction extends Action {
         }
 
         $condition = ' where 1=1';
+        $ex =$condition;
 
         $pageto = $request -> getParameter('pageto');
         // 导出
@@ -132,33 +133,28 @@ class IndexAction extends Action {
         $data1['num'] = $total;
         $data1['numprice'] = $resd_total[0]->z_price;
 
-        if ($pageto == 'all') {
-            $sql1 = 'select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id ' . $condition . ' order by add_time desc ';
-            $res1 = $db -> select($sql1);
+            if($pageto == 'This_page'){ // 导出本页
+                $sql1 = "select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id $condition order by add_time desc limit $start,$pagesize";
+                $res1 = $db -> select($sql1); 
 
-            $db->admin_record($admin_id,' 导出订单全部信息 ',4);
-
-        }else{
-            $sql1 = "select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id $condition order by add_time desc limit $start,$pagesize";
-            $res1 = $db -> select($sql1);
-
-            if($pageto == 'ne'){
                 $db->admin_record($admin_id,' 导出订单第 '.$page.' 的信息 ',4);
+            }elseif ($pageto == 'whole'){ // 导出全部
+                $sql1 = "select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id $ex order by add_time desc ";
+                $res1 = $db -> select($sql1); 
+                $db->admin_record($admin_id,' 导出全部订单的信息 ',4);
+            }elseif ($pageto == 'inquiry'){ // 导出查询
+                $sql1 = "select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id $condition order by add_time desc limit $start,$pagesize";
+                $res1 = $db -> select($sql1); 
+                $db->admin_record($admin_id,' 导出查询的订单的信息 ',4);
+            }else{
+               $sql1 = "select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id $condition order by add_time desc limit $start,$pagesize";
+                $res1 = $db -> select($sql1); 
             }
-        }
+        
         
         $pager = new ShowPager($total,$pagesize,$page);
         $url = 'index.php?module=orderslist'.$con;
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
-        // $pages_show = $db->multipage('index.php?module=orderslist'.$con,ceil($total/$pagesize),$page, $para = '');
-
-        //获取目前设置的分销商品
-        $sql ="select a.id from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.is_distribution = 1 and a.num >0 group by c.pid ";
-        $distribution_products = $db->select($sql);
-        foreach ($distribution_products as $key => $value) {
-            $distribution_products[$key] = $value->id;
-        }
-        $distribution_products = (array)$distribution_products;
         foreach ($res1 as $k => $v) {
             $freight = 0;
 
@@ -253,14 +249,7 @@ class IndexAction extends Action {
                             break;
                         case 4 :
                             $res1[$k] -> status = '退货';
-                            $res1[$k] -> bgcolor = '#e198b4';
-                            
-                              
-//                          print_r($courier_num);die;
-                            
-                            
-                            
-                            
+                            $res1[$k] -> bgcolor = '#e198b4';        
                             break;
                         case 6 :
                             $res1[$k] -> status = '订单关闭';
@@ -292,7 +281,7 @@ class IndexAction extends Action {
 
         }
  
-//print_r($res1);die;
+// print_r($res1);die;
         $sql02 = "select * from lkt_express ";
         $r02 = $db -> select($sql02);
         $request -> setAttribute("express", $r02);
