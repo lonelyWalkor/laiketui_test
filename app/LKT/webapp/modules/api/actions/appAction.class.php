@@ -107,6 +107,7 @@ class appAction extends Action {
         for ($i=0;$i<32;$i++){
             $access_token .= $str[rand(0,61)];
         }
+
         // 判断是否存在推荐人微信id
         if($pid == '' || $pid == 'undefined'){
             $Referee = false;
@@ -119,132 +120,150 @@ class appAction extends Action {
                 $Referee = $pid;
             }
         }
-        
-        // 根据wxid,查询会员信息
-        $sql = "select * from lkt_user where wx_id = '$openid' ";
-        $rr = $db->select($sql);
-        if(!empty($rr)){
-            $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
-            $db->update($sql);
-            $user_id = $rr[0]->user_id;
 
-
-            $event = '会员' . $user_id . '登录';
-            // 在操作列表里添加一条会员登录信息
-            $sql = "insert into lkt_record (user_id,event,type) values ('$user_id','$event',0)";
-            $r = $db->insert($sql);
-
-            // 查询订单设置表
-            $sql = "select * from lkt_order_config where id = 1";
-            $r = $db->select($sql);
-            $order_overdue = $r[0]->order_overdue; // 未付款订单保留时间
-            $unit = $r[0]->unit; // 未付款订单保留时间单位
-            if($order_overdue != 0){
-                if($unit == '天'){
-                    $time01 = date("Y-m-d H:i:s",strtotime("-$order_overdue day")); // 订单过期删除时间
+        if($openid){
+          // 根据wxid,查询会员信息
+            $sql = "select * from lkt_user where wx_id = '$openid' ";
+            $rr = $db->select($sql);
+            if(!empty($rr)){
+                if(!$rr[0]->Referee){
+                    $rr01 = $db->select("select id from lkt_user where Referee ='$openid' ");
+                    if(!$rr01){
+                        $sql = "update lkt_user set access_token = '$access_token',Referee = '$Referee' where wx_id = '$openid' ";
+                    }else{
+                        $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
+                    }
                 }else{
-                    $time01 = date("Y-m-d H:i:s",strtotime("-$order_overdue hour")); // 订单过期删除时间
-                }  
-                // 根据用户id，订单为未付款，订单添加时间 小于 未付款订单保留时间,查询订单表
-                $sql = "select * from lkt_order where user_id = '$user_id' and status = 0 and add_time < '$time01' ";
-                $r_c = $db->select($sql);
-                // 有数据，循环查询优惠券id,修改优惠券状态
-                if($r_c){
-                    foreach ($r_c as $key => $value) {
-                        $coupon_id = $value->coupon_id;  // 优惠券id
-                        if($coupon_id != 0){
-                            // 根据优惠券id,查询优惠券信息
-                            $sql = "select * from lkt_coupon where id = '$coupon_id' ";
-                            $r_c = $db->select($sql);
-                            $expiry_time = $r_c[0]->expiry_time; // 优惠券到期时间
-                            $time = date('Y-m-d H:i:s'); // 当前时间
-                            if($expiry_time <= $time){
-                                // 根据优惠券id,修改优惠券状态(已过期)
-                                $sql = "update lkt_coupon set type = 3 where id = '$coupon_id'";
-                                $db->update($sql);
-                            }else{
-                                // 根据优惠券id,修改优惠券状态(未使用)
-                                $sql = "update lkt_coupon set type = 0 where id = '$coupon_id'";
-                                $db->update($sql);
+                    $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
+                }
+                $db->update($sql);
+                $user_id = $rr[0]->user_id;
+              
+                $event = '会员' . $user_id . '登录';
+                // 在操作列表里添加一条会员登录信息
+                $sql = "insert into lkt_record (user_id,event,type) values ('$user_id','$event',0)";
+                $r = $db->insert($sql);
+
+                // 查询订单设置表
+                $sql = "select * from lkt_order_config where id = 1";
+                $r = $db->select($sql);
+                $order_overdue = $r[0]->order_overdue; // 未付款订单保留时间
+                $unit = $r[0]->unit; // 未付款订单保留时间单位
+                if($order_overdue != 0){
+                    if($unit == '天'){
+                        $time01 = date("Y-m-d H:i:s",strtotime("-$order_overdue day")); // 订单过期删除时间
+                    }else{
+                        $time01 = date("Y-m-d H:i:s",strtotime("-$order_overdue hour")); // 订单过期删除时间
+                    }  
+                    // 根据用户id，订单为未付款，订单添加时间 小于 未付款订单保留时间,查询订单表
+                    $sql = "select * from lkt_order where user_id = '$user_id' and status = 0 and add_time < '$time01' ";
+                    $r_c = $db->select($sql);
+                    // 有数据，循环查询优惠券id,修改优惠券状态
+                    if($r_c){
+                        foreach ($r_c as $key => $value) {
+                            $coupon_id = $value->coupon_id;  // 优惠券id
+                            if($coupon_id != 0){
+                                // 根据优惠券id,查询优惠券信息
+                                $sql = "select * from lkt_coupon where id = '$coupon_id' ";
+                                $r_c = $db->select($sql);
+                                $expiry_time = $r_c[0]->expiry_time; // 优惠券到期时间
+                                $time = date('Y-m-d H:i:s'); // 当前时间
+                                if($expiry_time <= $time){
+                                    // 根据优惠券id,修改优惠券状态(已过期)
+                                    $sql = "update lkt_coupon set type = 3 where id = '$coupon_id'";
+                                    $db->update($sql);
+                                }else{
+                                    // 根据优惠券id,修改优惠券状态(未使用)
+                                    $sql = "update lkt_coupon set type = 0 where id = '$coupon_id'";
+                                    $db->update($sql);
+                                }
                             }
                         }
                     }
+                    // 根据用户id、订单未付款、添加时间小于前天时间,就删除订单信息
+                    $sql01 ="delete from lkt_order where user_id = '$user_id' and status = 0 and add_time < '$time01' ";
+                    $re01 = $db->delete($sql01);
+                    // 根据用户id、订单未付款、添加时间小于前天时间,就删除订单详情信息
+                    $sql02 ="delete from lkt_order_details where user_id = '$user_id' and r_status = 0 and add_time < '$time01' ";
+                    $re02 = $db->delete($sql02);
                 }
-                // 根据用户id、订单未付款、添加时间小于前天时间,就删除订单信息
-                $sql01 ="delete from lkt_order where user_id = '$user_id' and status = 0 and add_time < '$time01' ";
-                $re01 = $db->delete($sql01);
-                // 根据用户id、订单未付款、添加时间小于前天时间,就删除订单详情信息
-                $sql02 ="delete from lkt_order_details where user_id = '$user_id' and r_status = 0 and add_time < '$time01' ";
-                $re02 = $db->delete($sql02);
-            }
-            //设置抽奖订单的时间超过抽奖时间的订单状态改成相对应的发货中或者交易结束
-            $sql0012 = "select id,drawid,sNo from lkt_order where user_id = '$user_id' and drawid > 0";
-            $re0012 = $db->select($sql0012);
-            $time02 = date("Y-m-d H:i:s", strtotime('+1 day'));
-            if(!empty($re0012)){
-                foreach ($re0012 as $key0012 => $value0012) {
-                    $draw_id = $value0012 ->drawid;
-                    $id  = $value0012 ->id;
-                    $sNo =$value0012 ->sNo;
-                    $sql001201 = "select * from lkt_draw as a,lkt_draw_user as b where a.id = '$draw_id' and a.id = b.draw_id and end_time < $time02 and b.user_id = '$user_id' and lottery_status != 4 ";
-                    $re001201 = $db->select($sql001201);
-                    if(!empty($re001201)){
-                      foreach ($re001201 as $key001201 => $value001201) {
-                          $time03 = $value001201->time;
-                          $sql001202 ="update lkt_order set status = 4 where sNo = '$sNo'";
-                          $re001202 = $db->update($sql001202);
+                //设置抽奖订单的时间超过抽奖时间的订单状态改成相对应的发货中或者交易结束
+                $sql0012 = "select id,drawid,sNo from lkt_order where user_id = '$user_id' and drawid > 0";
+                $re0012 = $db->select($sql0012);
+                $time02 = date("Y-m-d H:i:s", strtotime('+1 day'));
+                if(!empty($re0012)){
+                    foreach ($re0012 as $key0012 => $value0012) {
+                        $draw_id = $value0012 ->drawid;
+                        $id  = $value0012 ->id;
+                        $sNo =$value0012 ->sNo;
+                        $sql001201 = "select * from lkt_draw as a,lkt_draw_user as b where a.id = '$draw_id' and a.id = b.draw_id and end_time < $time02 and b.user_id = '$user_id' and lottery_status != 4 ";
+                        $re001201 = $db->select($sql001201);
+                        if(!empty($re001201)){
+                          foreach ($re001201 as $key001201 => $value001201) {
+                              $time03 = $value001201->time;
+                              $sql001202 ="update lkt_order set status = 4 where sNo = '$sNo'";
+                              $re001202 = $db->update($sql001202);
 
-                          $sql001203 ="update lkt_order_details set r_status = 6 where r_sNo = '$sNo'";
-                          $re001203 = $db->update($sql001203);
+                              $sql001203 ="update lkt_order_details set r_status = 6 where r_sNo = '$sNo'";
+                              $re001203 = $db->update($sql001203);
 
-                      }
+                          }
+                        }
                     }
                 }
-            }
+            }else{
+                // 查询会员列表的最大id
+                $sql = "select max(id) as userid from lkt_user";
+                $r = $db->select($sql);
+                $rr = $r[0]->userid;
+                //            $user_id = $rr+1;
+                $user_id = 'user'.($rr+1);
+                // 在会员列表添加一条数据
+
+                // 默认头像和名称
+                if(empty($wxname) || $wxname == 'undefined'){
+                    $wxname = '简单的奇迹';
+                }
+                if(empty($headimgurl) || $headimgurl == 'undefined'){
+                    $headimgurl = 'https://lg-8tgp2f4w-1252524862.cos.ap-shanghai.myqcloud.com/moren.png';
+                }
+
+                if(empty($sex) || $sex == 'undefined'){
+                    $sex = '0';
+                }
+                $sql = "insert into lkt_user (user_id,user_name,headimgurl,wx_name,sex,wx_id,Referee,access_token,img_token,source) values('$user_id','$wxname','$headimgurl','$wxname','$sex','$openid','$Referee','$access_token','$access_token',1)";
+
+                $r = $db->insert($sql);
+                //查询首次注册所获积分
+                $sql001 = "select jifennum from lkt_software_jifen where  id = '1' ";
+                $r_1001 = $db->select($sql001);
+                $jifennum = $r_1001[0]->jifennum;
+                //添加积分到用户表
+                $sql002 = "update lkt_user set score = score + '$jifennum' where user_id = '$user_id'";
+                $db->update($sql002);
+
+                // 在积分操作列表里添加一条会员首次登录信息获取积分的信息
+                $record = '会员'.$user_id.'首次关注获得积分'.$jifennum;
+                $sql = "insert into lkt_sign_record (user_id,sign_score,record,sign_time,type) values ('$user_id','$jifennum','$record',CURRENT_TIMESTAMP,2)";
+                $r = $db->insert($sql);
+
+
+                $event = '会员' . $user_id . '登录';
+                // 在操作列表里添加一条会员登录信息
+                $sql = "insert into lkt_record (user_id,event,type) values ('$user_id','$event',0)";
+                $r = $db->insert($sql);
+            }  
+            $sql = "select * from lkt_user where wx_id = '$openid'";
+            $rr = $db->select($sql);
+            $nickName = $rr[0]->wx_name;
+            $avatarUrl = $rr[0]->headimgurl;
         }else{
-            // 查询会员列表的最大id
-            $sql = "select max(id) as userid from lkt_user";
-            $r = $db->select($sql);
-            $rr = $r[0]->userid;
-//            $user_id = $rr+1;
-            $user_id = 'user'.($rr+1);
-            // 在会员列表添加一条数据
-
-            // 默认头像和名称
-            if(empty($wxname) || $wxname == 'undefined'){
-                $wxname = '简单的奇迹';
-            }
-            if(empty($headimgurl) || $headimgurl == 'undefined'){
-                $headimgurl = 'https://lg-8tgp2f4w-1252524862.cos.ap-shanghai.myqcloud.com/moren.png';
-            }
-
-            if(empty($sex) || $sex == 'undefined'){
-                $sex = '0';
-            }
-            $sql = "insert into lkt_user (user_id,user_name,headimgurl,wx_name,sex,wx_id,Referee,access_token,img_token,source) values('$user_id','$wxname','$headimgurl','$wxname','$sex','$openid','$Referee','$access_token','$access_token',1)";
-
-            $r = $db->insert($sql);
-
-            //查询首次注册所获积分
-            $sql001 = "select jifennum from lkt_software_jifen where  id = '1' ";
-            $r_1001 = $db->select($sql001);
-            $jifennum = $r_1001[0]->jifennum;
-            //添加积分到用户表
-            $sql002 = "update lkt_user set score = score + '$jifennum' where user_id = '$user_id'";
-            $db->update($sql002);
-
-            // 在积分操作列表里添加一条会员首次登录信息获取积分的信息
-            $record = '会员'.$user_id.'首次关注获得积分'.$jifennum;
-            $sql = "insert into lkt_sign_record (user_id,sign_score,record,sign_time,type) values ('$user_id','$jifennum','$record',CURRENT_TIMESTAMP,2)";
-            $r = $db->insert($sql);
-
-
-            $event = '会员' . $user_id . '登录';
-            // 在操作列表里添加一条会员登录信息
-            $sql = "insert into lkt_record (user_id,event,type) values ('$user_id','$event',0)";
-            $r = $db->insert($sql);
+            $nickName = '';
+            $avatarUrl = '';
+             $user_id ='';
         }
-
+        
+/////////////////-------------------------
         $sql = "select name from lkt_software where type = 0 and id = '$software_name' order by id desc";
         $rrrr_1 = $db->select($sql);
         $name1 = $rrrr_1[0]->name;
@@ -288,24 +307,26 @@ class appAction extends Action {
                 if($endtime <= $time_start){ // 当前时间大于签到结束时间
                     $sign_status = 0; // 不用弹出签名框
                 }else{
-                    // 根据用户id、签到时间大于当天开始时间,查询签到记录
-                    $sql = "select * from lkt_sign_record where user_id = '$user_id' and sign_time >= '$time_start' and type = 0";
-                    $r_sign = $db->select($sql);
-                    if($r_sign){
-                        $sign_status = 0; // 有数据,代表当天签名了,不用弹出签名框
+                    if ($user_id) {
+                       // 根据用户id、签到时间大于当天开始时间,查询签到记录
+                        $sql = "select * from lkt_sign_record where user_id = '$user_id' and sign_time >= '$time_start' and type = 0";
+                        $r_sign = $db->select($sql);
+                        if($r_sign){
+                            $sign_status = 0; // 有数据,代表当天签名了,不用弹出签名框
+                        }else{
+                            $sign_status = 1; // 没数据,代表当天还没签名,弹出签名框
+                        }
                     }else{
-                        $sign_status = 1; // 没数据,代表当天还没签名,弹出签名框
+                         $sign_status = 0;
                     }
+                    
                 }
             }else{
                 $sign_image = '';
                 $sign_status = 0;
             }
             
-            $sql = "select * from lkt_user where wx_id = '$openid'";
-            $rr = $db->select($sql);
-            $nickName = $rr[0]->wx_name;
-            $avatarUrl = $rr[0]->headimgurl;
+            
             echo json_encode(array('access_token'=>$access_token,'user_id'=>$user_id,'plug_ins'=>$r_c,'coupon'=>in_array(1,$coupon),'wallet'=>in_array(1,$wallet),'sign'=>in_array(1,$sign),'sign_status'=>$sign_status,'sign_image'=>$sign_image,'nickName'=>$nickName,'avatarUrl'=>$avatarUrl ) );
             exit();
             
