@@ -1931,7 +1931,7 @@ CREATE TABLE `lkt_user` (
   `Cardholder` varchar(30) DEFAULT NULL COMMENT '持卡人',
   `Bank_card_number` varchar(30) DEFAULT NULL COMMENT '银行卡号',
   `share_num` int(11) DEFAULT '0' COMMENT '分享次数',
-  `Referee` char(15) DEFAULT NULL COMMENT '推荐人',
+  `Referee` varchar(50) DEFAULT NULL COMMENT '推荐人',
   `access_token` varchar(32) DEFAULT '' COMMENT '访问令牌',
   `consumer_money` decimal(12,2) DEFAULT '0.00' COMMENT '消费金',
   `img_token` varchar(32) DEFAULT NULL COMMENT '分享图片id',
