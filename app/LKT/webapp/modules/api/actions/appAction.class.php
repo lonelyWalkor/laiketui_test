@@ -37,8 +37,16 @@ class appAction extends Action {
         $request = $this->getContext()->getRequest();
         // 获取临时凭证
         $code = $_POST['code'];
+        $software_name = trim($request->getParameter('software_name')); // 软件名
+        $edition = trim($request->getParameter('edition')); // 版本号
 
-        // 查询小程序配置
+        $wxname = $_POST['nickName']; // 微信昵称
+        $headimgurl = $_POST['avatarUrl']; // 微信头像
+        $sex = $_POST['gender']; // 性别
+        // $pid = $_POST['p_openid']; // 推荐人微信id
+        $pid =$request->getParameter('p_openid');
+// print_r($wxname);die;
+//         // 查询小程序配置
         $sql = "select * from lkt_config where id=1";
         $r = $db->select($sql);
 
@@ -46,62 +54,44 @@ class appAction extends Action {
             $appid = $r[0]->appid; // 小程序唯一标识
             $appsecret = $r[0]->appsecret; // 小程序的 app secret
             $company = $r[0]->company; // 小程序的 标题
+            // 查询系统参数
+            $uploadImg_domain = $r[0]->uploadImg_domain; // 图片上传域名
+            $uploadImg = $r[0]->uploadImg; // 图片上传位置
+
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ // 不存在
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
         }
-        if (!$code) {
-            echo json_encode(array('status'=>0,'err'=>'非法操作！'));
-            exit();
-        }
+
         if (!$appid || !$appsecret) {
             echo json_encode(array('status'=>0,'err'=>'非法操作！'));
             exit();
         }
-        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid.'&secret='.$appsecret.'&js_code='.$code.'&grant_type=authorization_code';
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL,$url);
-        curl_setopt($ch,CURLOPT_HEADER,0);
-        // 保证返回成功的结果是服务器的结果
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        $res = curl_exec($ch);  
-        curl_close($ch);
-        $user = (array)json_decode($res);
-
+        if($code){
+            $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid.'&secret='.$appsecret.'&js_code='.$code.'&grant_type=authorization_code';
+            $ch = curl_init();
+            curl_setopt($ch,CURLOPT_URL,$url);
+            curl_setopt($ch,CURLOPT_HEADER,0);
+            // 保证返回成功的结果是服务器的结果
+            curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+            curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            $res = curl_exec($ch);  
+            curl_close($ch);
+            $user = (array)json_decode($res);
+        }else{
+             $user['openid'] ='';
+             $user['session_key'] ='';
+        }
         $sql = "select * from lkt_background_color where status = 1";
         $r = $db -> select($sql);
         $user['bgcolor'] = $r[0]->color;
         $user['company'] = $company;
-        echo json_encode($user);
-        exit();
-        return;
-    }
 
-    //用户信息存储
-    public function user(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $software_name = trim($request->getParameter('software_name')); // 软件名
-        $edition = trim($request->getParameter('edition')); // 版本号
-
-        $wxname = $_POST['nickName']; // 微信昵称
-        $headimgurl = $_POST['headimgurl']; // 微信头像
-        $sex = $_POST['sex']; // 性别
-        $openid = $_POST['openid']; // 微信id
-        $pid = $_POST['p_openid']; // 推荐人微信id
-
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
-        // 生成密钥
+               // 生成密钥
         $access_token = '';
         $str = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890';
         for ($i=0;$i<32;$i++){
@@ -109,6 +99,7 @@ class appAction extends Action {
         }
 
         // 判断是否存在推荐人微信id
+        $pid='';
         if($pid == '' || $pid == 'undefined'){
             $Referee = false;
         }else{
@@ -120,9 +111,87 @@ class appAction extends Action {
                 $Referee = $pid;
             }
         }
+        if($user['openid']){
+            $data=$this->login($wxname,$headimgurl,$sex,$user['openid'],$Referee,$db,$access_token);
+            $nickName = $data['nickName'];
+            $avatarUrl = $data['avatarUrl'];
+             $user_id =$data['user_id'];
+        }else{
+            $nickName = '';
+            $avatarUrl = '';
+             $user_id ='';
+        }
 
-        if($openid){
-          // 根据wxid,查询会员信息
+    $sql = "select name from lkt_software where type = 0 and id = '$software_name' order by id desc";
+        $rrrr_1 = $db->select($sql);
+        $name1 = $rrrr_1[0]->name;
+        // 根据软件名称，查询软件id和名称
+         $sql = "select id from lkt_software where name = '$name1' and edition = '$edition' and type = 0";
+         $r_software = $db->select($sql);
+         if($r_software){
+             $software_id = $r_software[0]->id;
+         }
+
+        // 查询插件表里,状态为启用的插件
+        $sql = "select * from lkt_plug_ins where status = 1 and type = 0 and software_id like '%$software_id%'";
+        $r_c = $db->select($sql);
+        if($r_c){
+            foreach ($r_c as $k => $v) {
+                $v->image = $img . $v->image;
+                if(strpos($v->name,'优惠券') !== false){ // 判断字符串里是否有 优惠券 
+                    $v->name = '优惠券'; 
+                    $coupon[$k] = 1;
+                }else{
+                    $coupon[$k] = 0;
+                }
+                if($v->name == '钱包'){
+                    $wallet[$k] = 1;
+                }else{
+                    $wallet[$k] = 0;
+                }
+                if($v->name == '签到'){
+                    $sign[$k] = 1;
+                }else{
+                    $sign[$k] = 0;
+                }
+            }
+            $time_start = date("Y-m-d H:i:s",mktime(0,0,0,date('m'),date('d'),date('Y'))); // 当前时间
+            // 查询签到活动
+            $sql = "select * from lkt_sign_activity where status = 1";
+            $r_activity = $db->select($sql);
+            if($r_activity){
+                $sign_image = $img . $r_activity[0]->image; // 签到弹窗图
+                $endtime = $r_activity[0]->endtime; // 签到结束时间
+                if($endtime <= $time_start){ // 当前时间大于签到结束时间
+                    $sign_status = 0; // 不用弹出签名框
+                }else{
+                    if ($user_id) {
+                       // 根据用户id、签到时间大于当天开始时间,查询签到记录
+                        $sql = "select * from lkt_sign_record where user_id = '$user_id' and sign_time >= '$time_start' and type = 0";
+                        $r_sign = $db->select($sql);
+                        if($r_sign){
+                            $sign_status = 0; // 有数据,代表当天签名了,不用弹出签名框
+                        }else{
+                            $sign_status = 1; // 没数据,代表当天还没签名,弹出签名框
+                        }
+                    }else{
+                         $sign_status = 0;
+                    }
+                    
+                }
+            }else{
+                $sign_image = '';
+                $sign_status = 0;
+            }
+
+        echo json_encode(array('user'=>$user,'access_token'=>$access_token,'user_id'=>$user_id,'plug_ins'=>$r_c,'coupon'=>in_array(1,$coupon),'wallet'=>in_array(1,$wallet),'sign'=>in_array(1,$sign),'sign_status'=>$sign_status,'sign_image'=>$sign_image,'nickName'=>$nickName,'avatarUrl'=>$avatarUrl ) );
+            
+        exit();
+        return;
+    }
+}
+    public function login($wxname,$headimgurl,$sex,$openid,$Referee,$db,$access_token){//添加会员
+         // 根据wxid,查询会员信息
             $sql = "select * from lkt_user where wx_id = '$openid' ";
             $rr = $db->select($sql);
             if(!empty($rr)){
@@ -255,89 +324,13 @@ class appAction extends Action {
             }  
             $sql = "select * from lkt_user where wx_id = '$openid'";
             $rr = $db->select($sql);
-            $nickName = $rr[0]->wx_name;
-            $avatarUrl = $rr[0]->headimgurl;
-        }else{
-            $nickName = '';
-            $avatarUrl = '';
-             $user_id ='';
-        }
-        
-/////////////////-------------------------
-        $sql = "select name from lkt_software where type = 0 and id = '$software_name' order by id desc";
-        $rrrr_1 = $db->select($sql);
-        $name1 = $rrrr_1[0]->name;
-        // 根据软件名称，查询软件id和名称
-         $sql = "select id from lkt_software where name = '$name1' and edition = '$edition' and type = 0";
-         $r_software = $db->select($sql);
-         if($r_software){
-             $software_id = $r_software[0]->id;
-         }
-
-        // 查询插件表里,状态为启用的插件
-        $sql = "select * from lkt_plug_ins where status = 1 and type = 0 and software_id like '%$software_id%'";
-        $r_c = $db->select($sql);
-        if($r_c){
-            foreach ($r_c as $k => $v) {
-                $v->image = $img . $v->image;
-                if(strpos($v->name,'优惠券') !== false){ // 判断字符串里是否有 优惠券 
-                    $v->name = '优惠券'; 
-                    $coupon[$k] = 1;
-                }else{
-                    $coupon[$k] = 0;
-                }
-                if($v->name == '钱包'){
-                    $wallet[$k] = 1;
-                }else{
-                    $wallet[$k] = 0;
-                }
-                if($v->name == '签到'){
-                    $sign[$k] = 1;
-                }else{
-                    $sign[$k] = 0;
-                }
-            }
-            $time_start = date("Y-m-d H:i:s",mktime(0,0,0,date('m'),date('d'),date('Y'))); // 当前时间
-            // 查询签到活动
-            $sql = "select * from lkt_sign_activity where status = 1";
-            $r_activity = $db->select($sql);
-            if($r_activity){
-                $sign_image = $img . $r_activity[0]->image; // 签到弹窗图
-                $endtime = $r_activity[0]->endtime; // 签到结束时间
-                if($endtime <= $time_start){ // 当前时间大于签到结束时间
-                    $sign_status = 0; // 不用弹出签名框
-                }else{
-                    if ($user_id) {
-                       // 根据用户id、签到时间大于当天开始时间,查询签到记录
-                        $sql = "select * from lkt_sign_record where user_id = '$user_id' and sign_time >= '$time_start' and type = 0";
-                        $r_sign = $db->select($sql);
-                        if($r_sign){
-                            $sign_status = 0; // 有数据,代表当天签名了,不用弹出签名框
-                        }else{
-                            $sign_status = 1; // 没数据,代表当天还没签名,弹出签名框
-                        }
-                    }else{
-                         $sign_status = 0;
-                    }
-                    
-                }
-            }else{
-                $sign_image = '';
-                $sign_status = 0;
-            }
-            
-            
-            echo json_encode(array('access_token'=>$access_token,'user_id'=>$user_id,'plug_ins'=>$r_c,'coupon'=>in_array(1,$coupon),'wallet'=>in_array(1,$wallet),'sign'=>in_array(1,$sign),'sign_status'=>$sign_status,'sign_image'=>$sign_image,'nickName'=>$nickName,'avatarUrl'=>$avatarUrl ) );
-            exit();
-            
-        }else{
-            echo json_encode(array('plug_ins'=>''));
-            exit();
-        }
-        return;
+            $data['user_id']=$user_id;
+            $data['nickName'] = $rr[0]->wx_name;
+            $data['avatarUrl'] = $rr[0]->headimgurl;
+            return $data;
     }
 
-    public function get_plug()
+      public function get_plug()
     {
         header("Content-type: text/html; charset=utf-8");
         $db = DBAction::getInstance();
@@ -380,7 +373,6 @@ class appAction extends Action {
             exit();
         }
     }
-    
     public function secToTime($times){  
         $result = '00:00:00';  
         if ($times>0) {  
