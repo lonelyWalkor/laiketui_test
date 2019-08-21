@@ -186,6 +186,12 @@ Page({
 
   loadProductDetail: function () {
     var that = this;
+
+    var userinfo = wx.getStorageSync('userInfo');
+    if (userinfo.nickName) {
+      app.globalData.userInfo = userinfo;
+    }
+
     var openid = app.globalData.userInfo.openid ? app.globalData.userInfo.openid:false;
     if (openid) {
       wx.request({
@@ -198,7 +204,6 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function (res) {
-          app.userlogin(1);
           var banner = res.data.banner; // 轮播图
           var twoList = res.data.twoList;     //产品显示
           var bgcolor = res.data.bgcolor;     //产品显示
@@ -216,6 +221,8 @@ Page({
           // }
           // console.log(twoList);
           // console.log(indexTwoData);
+          app.globalData.logoimg = res.data.logo
+          app.globalData.title = res.data.title
           that.setData({
             distributor: arr,
             inforList: notice,
@@ -261,9 +268,77 @@ Page({
         },
       })
     }else{
-      setTimeout(function () {
-        that.loadProductDetail();
-      }, 1000);
+      wx.request({
+        url: app.d.ceshiUrl + '&action=Index&m=index',
+        method: 'post',
+        data: {},
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+          var banner = res.data.banner; // 轮播图
+          var twoList = res.data.twoList;     //产品显示
+          var bgcolor = res.data.bgcolor;     //产品显示
+          var plug = res.data.plug;     //抽奖产品
+          var title = res.data.title;
+          app.d.bgcolor = bgcolor;
+          var arr = Object.keys(twoList[0].distributor);
+          var banner_num = Object.keys(banner); // 轮播图
+          var notice = res.data.notice;
+          var indexTwoData = twoList[0].twodata// 获取首页的数据对象
+          // var indexTwoDataObj = twoList[0].twodata// 获取首页的数据对象
+          // // 将首页的数据对象合为一个数组
+          // if (twoList && twoList[0] && indexTwoDataObj) {
+          //   var indexTwoData = Object.values(indexTwoDataObj).reduce((a, b) => [...a, ...b], []);
+          // }
+          // console.log(twoList);
+          // console.log(indexTwoData);
+          app.globalData.logoimg = res.data.logo
+          app.globalData.title = res.data.title
+          that.setData({
+            distributor: arr,
+            inforList: notice,
+            banner: banner,
+            banner_num: banner_num,
+            twoList: twoList,
+            indexTwoData: indexTwoData,
+            bgcolor: bgcolor,
+            plug: plug,
+            mch_name: title,
+            logo: res.data.logo,
+            djname: res.data.djname,
+            zjList: res.data.list
+          });
+
+          wx.setNavigationBarColor({
+            frontColor: app.d.frontColor,
+            backgroundColor: app.d.bgcolor //页面标题为路由参数
+          });
+          wx.setNavigationBarTitle({
+            title: title,
+            success: function () {
+            },
+          });
+
+          that.setData({
+            remind: ''
+          });
+
+          console.log(res.data.list.length)
+          if (res.data.list.length) {
+            setTimeout(function () {
+              that.listnsg();
+            }, 2000);
+          }
+
+        },
+        fail: function (e) {
+          wx.showToast({
+            title: '网络异常！',
+            duration: 2000
+          });
+        },
+      })
     } 
   },
   onHide: function () {
@@ -376,7 +451,6 @@ Page({
   onShow: function () {
     console.log(app)
     // app.getUserSessionKey()
-    this.login();
 
     var indexchase = app.d.indexchase;
     var that = this;
@@ -487,15 +561,15 @@ Page({
       })
       that.getOP(e.detail.userInfo)
     } else {
-      wx.showToast({
-        title: '没有授权，不能进入小程序个人中心！',
-        icon: 'none',
-        duration: 2000
-      })
+      // wx.showToast({
+      //   title: '没有授权，不能进入小程序个人中心！',
+      //   icon: 'none',
+      //   duration: 2000
+      // })
       //没有授权需要弹框 
-      that.setData({
-        userlogin: true
-      });
+      // that.setData({
+      //   userlogin: true
+      // });
     }
   },
   login: function () {
@@ -521,7 +595,7 @@ Page({
 
     wx.getSetting({
       success: (res) => {
-        //没有授权需要弹框 
+        // 没有授权需要弹框 
         if (!res.authSetting['scope.userInfo']) {
           that.setData({
             userlogin: true

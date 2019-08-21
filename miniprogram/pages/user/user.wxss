@@ -340,4 +340,12 @@ border-radius:5px;
   line-height:40px;
   padding:9px;
 }
-
+.logins {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 40rpx;
+  font-size:30rpx;
+  font-weight:bold;
+  color:rgba(255,255,255,1);
+}

@@ -1,6 +1,7 @@
 var app = getApp();
 Page({
   data: {
+    pop: null,
     current: 0,
     list: [],
     ptype: '',
@@ -247,6 +248,7 @@ Page({
   },
   //页面加载完成函数
   onReady: function () {
+    this.pop = this.selectComponent("#pop")
     var that = this;
     setTimeout(function () {
       that.setData({
@@ -321,6 +323,9 @@ Page({
     
   },
   onLoad: function (options) {
+    // if (app.userlogin(1)) {
+    //   return
+    // }
     this.setData({
       bgcolor: app.d.bgcolor,
     });
@@ -387,6 +392,7 @@ Page({
   },
   //详情页跳转
   lookdetail: function (e) {
+    debugger
     var lookid = e.currentTarget.dataset;
     wx.navigateTo({
       url: "../group_buy/detail?gid=" + lookid.id
@@ -434,4 +440,14 @@ Page({
       })
     }
   },
+  jumpgo: function (event) {
+    if (app.userlogin(1)) {
+      this.pop.clickPup()
+      return
+    }
+    let url = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: url
+    })
+  }
 })

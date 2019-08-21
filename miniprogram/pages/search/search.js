@@ -60,6 +60,7 @@ Page({
     // }
   },
   onLoad: function (options) {
+
     var that = this;
     that.setData({
       color:app.d.bgcolor,

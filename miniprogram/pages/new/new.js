@@ -227,7 +227,7 @@ Page({
   //页面加载完成函数
   onReady: function () {
     var that = this;
-    app.userlogin(1);
+    // app.userlogin(1);
   },
   // 点击加载更多
   getMore: function (e) {

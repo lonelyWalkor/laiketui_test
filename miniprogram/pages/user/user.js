@@ -2,6 +2,7 @@
 var app = getApp()
 Page({
 	data: {
+    pop: null,
 		list: [
       {
         icon: 'icon-user-bangding.png',
@@ -79,6 +80,7 @@ Page({
 	//页面加载完成函数
 	onReady: function() {
 		var that = this;
+    this.pop = this.selectComponent("#pop")
 		setTimeout(function() {
 			that.setData({
 				remind: ''
@@ -103,12 +105,14 @@ Page({
 			url: app.d.ceshiUrl + '&action=user&m=index',
 			method: 'post',
 			data: {
-				openid: app.globalData.userInfo.openid
+				openid: app.globalData.userInfo.openid || ''
+        // openid:''
 			},
 			header: {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			success: function(res) {
+        console.log(res,1111)
 				var status = res.data.status;
 				if(status == 1) {
 					var user = res.data.user;
@@ -139,7 +143,9 @@ Page({
 						duration: 2000
 					});
 				}
-        app.userlogin(1);
+
+        // app.userlogin(1);
+
 			},
 			error: function(e) {
 				wx.showToast({
@@ -156,4 +162,20 @@ Page({
       url: url
     })
   },
+  logins:function(){
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
+  },
+  jumpgo:function(event){
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
+    let url = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: url
+    })
+  }
 })

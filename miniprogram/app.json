@@ -46,7 +46,9 @@
     "pages/login/login",
     "pages/bangding/bangding",
     "pages/notice/notice",
-    "pages/notice/index"
+    "pages/notice/index",
+    "pages/logins/logins.wx",
+    "pages/logins/logins"
   ],
   "window": {
     "backgroundTextStyle": "light",

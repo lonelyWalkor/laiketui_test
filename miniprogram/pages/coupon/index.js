@@ -6,6 +6,7 @@ Page({
     currentTab: 0,
     remind: '加载中',
     rtype: true,
+    pop:null
   },
   //下拉刷新
   onPullDownRefresh: function () {
@@ -17,6 +18,7 @@ Page({
   },
   //页面加载完成函数
   onReady: function () {
+    this.pop = this.selectComponent("#pop")
     var that = this;
     // setTimeout(function () {
     //   that.setData({
@@ -25,6 +27,9 @@ Page({
     // }, 1000);
   },
   onLoad: function (options) {
+    // if (app.userlogin(1)) {
+    //   return
+    // }
     wx.setNavigationBarColor({
       frontColor: app.d.frontColor,
       backgroundColor: app.d.bgcolor, //页面标题为路由参数
@@ -131,6 +136,11 @@ Page({
   },
   // 点击领取
   receive: function (e) {
+    if(app.userlogin(1)){
+      this.pop.clickPup()
+      return
+    }
+    
     if (e.currentTarget.dataset.point == '领取'){
       var that = this;
       wx.request({

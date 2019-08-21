@@ -378,6 +378,9 @@ Page({
   },
 
   onLoad: function (options) {
+    // if (app.userlogin(1)) {
+    //   return
+    // }
     this.setData({
       bgcolor: app.d.bgcolor,
       user_id: app.globalData.userInfo.openid

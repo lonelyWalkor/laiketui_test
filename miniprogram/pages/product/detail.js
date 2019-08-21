@@ -6,6 +6,7 @@ var util = require('../../utils/util.js')
 var WxParse = require('../../wxParse/wxParse.js');
 Page({
   data: {
+    pop: null,
     bannerApp: true,
     maskHidden: false,
     winWidth: 0,
@@ -87,7 +88,7 @@ Page({
   },
   //页面加载完成函数
   onReady: function () {
-
+    this.pop = this.selectComponent("#pop")
   },
   // 下拉刷新
   onPullDownRefresh: function () {
@@ -155,7 +156,7 @@ Page({
     var choujiangid = that.data.choujiangid;
     var openid = app.globalData.userInfo.openid;
     console.log(app.globalData.userInfo, 'openid')
-    if (openid) {
+    // if (openid) {
       var bgcolor = app.d.bgcolor;
       wx.setNavigationBarColor({
         frontColor: app.d.frontColor,
@@ -171,7 +172,7 @@ Page({
         method: 'post',
         data: {
           pro_id: that.data.productId,
-          openid: openid,
+          // openid: openid,
           type1: that.data.type1,//判断是抽奖还是其他活动
           choujiangid: that.data.choujiangid,
           role: that.options.role ? that.options.role : '',
@@ -182,7 +183,6 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function (res) {
-          app.userlogin(1);
           var status = res.data.status;
           var is_shou = res.data.type;
           if (status == 1) {
@@ -258,12 +258,12 @@ Page({
           });
         },
       });
-    } else {
-      //不存在openid  先获取 在回调  传递that
-      setTimeout(function () {
-        that.loadProductDetail();
-      }, 1000);
-    }
+    // } else {
+    //   //不存在openid  先获取 在回调  传递that
+    //   setTimeout(function () {
+    //     that.loadProductDetail();
+    //   }, 1000);
+    // }
 
   },
   // 弹窗
@@ -378,12 +378,14 @@ Page({
   },
   //跳转cart
   go_cart: function () {
+    if (app.userlogin(1)) {
+      this.pop.clickPup()
+      return
+    }
     util.getUesrBgplus(this, app, false)
     wx.switchTab({
       url: '../cart/cart'
     })
-
-
   },
 
   /**
@@ -698,6 +700,10 @@ Page({
   },
   // 添加到收藏
   addFavorites: function (e) {
+    if (app.userlogin(1)) {
+      this.pop.clickPup()
+      return
+    }
     var that = this;
     wx.request({
       url: app.d.ceshiUrl + '&action=addFavorites&m=index',
@@ -803,6 +809,11 @@ Page({
 
   },
   add_fromid: function (e) {
+    if (app.userlogin(1)){
+      this.pop.clickPup()
+      return 
+    }
+
     var that = this;
     var formId = e.detail.formId;
     var animation = wx.createAnimation({
@@ -860,6 +871,10 @@ Page({
   },
   // 弹窗
   set_share: function (e) {
+    if (app.userlogin(1)){
+      this.pop.clickPup()
+      return
+    }
     var taht = this;
     var show_share = taht.data.show_share;
     var animation = wx.createAnimation({

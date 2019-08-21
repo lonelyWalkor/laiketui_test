@@ -1,0 +1,160 @@
+.pupContentBG {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+}
+
+.pupContent {
+  width: 100%;
+  background: #FFFFFF;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  border-radius: 16rpx 16rpx 0rpx 0rpx;
+}
+
+.pupContent >image {
+  width: 28rpx;
+  height: 28rpx;
+  float: right;
+  margin-right: 30rpx;
+  margin-top: 30rpx;
+}
+
+.pupContent-body {
+  margin: 60rpx 40rpx;
+}
+
+/* 设置显示的背景 */
+.pupContent-head {
+  display: flex;
+  align-items: center;
+  color: #020202;
+  font-weight:bold;
+  font-size:34rpx;
+  padding-bottom: 60rpx;
+}
+.pupContent-head view{
+  padding-left: 20rpx;
+}
+.pupContent-head  image{
+  width: 80rpx;
+  height: 80rpx;
+}
+.showBG {
+  display: block;
+}
+
+.pupContent-title {
+  color: #020202;
+  font-size: 30rpx;
+  font-weight:500;
+  padding-bottom: 40rpx;
+}
+
+.pupContent-title {
+  color: #020202;
+  font-size:30rpx;
+}
+
+.pupContent-btn {
+  height: 90rpx;
+  background-color: #1AAD19;
+  color: #FFFFFF;
+  font-size:30rpx;
+  font-weight:500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius:10rpx;
+}
+
+.pupContent-con {
+  color: #666666;
+  font-size:26rpx;
+  padding-bottom: 68rpx;
+}
+
+.hideBG {
+  display: none;
+}
+
+/* 弹出或关闭动画来动态设置内容高度 */
+
+@keyframes slideBGtUp {
+  from {
+    background: transparent;
+  }
+
+  to {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes slideBGDown {
+  from {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  to {
+    background: transparent;
+  }
+}
+
+/* 显示或关闭内容时动画 */
+
+.openBG {
+  animation: slideBGtUp 0.5s ease-in both;
+  /* animation-fill-mode: both 动画将会执行 forwards 和 backwards 执行的动作。 */
+}
+
+.closeBG {
+  animation: slideBGDown 0.5s ease-in both;
+  /* animation-fill-mode: both 动画将会执行 forwards 和 backwards 执行的动作。 */
+}
+
+/* 设置显示内容 */
+
+.showContent {
+  display: block;
+}
+
+.hideContent {
+  display: none;
+}
+
+/* 弹出或关闭动画来动态设置内容高度 */
+
+@keyframes slideContentUp {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: 520rpx;
+  }
+}
+
+@keyframes slideContentDown {
+  from {
+    height: 520rpx;
+  }
+
+  to {
+    height: 0;
+  }
+}
+
+/* 显示或关闭内容时动画 */
+
+.open {
+  animation: slideContentUp 0.5s ease-in both;
+  /* animation-fill-mode: both 动画将会执行 forwards 和 backwards 执行的动作。 */
+}
+
+.close {
+  animation: slideContentDown 0.5s ease-in both;
+  /* animation-fill-mode: both 动画将会执行 forwards 和 backwards 执行的动作。 */
+}
+

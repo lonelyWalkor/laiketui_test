@@ -28,6 +28,7 @@ function getUesrBg(that){
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: function (res) {
+      console.log(that.globalData.userInfo,22222222222222)
       var num = res.data.cart.toString()
       if(num >0){
         wx.setTabBarBadge({
@@ -82,16 +83,22 @@ function getUesrBgplus(that,app,is) {
       },
     });
 }
-
-module.exports = {
-  formatTime: formatTime,
-  getUesrBg: getUesrBg,
-  getUesrBgplus: getUesrBgplus
-}
-
 function checkStringEmpty(data){
   if(null == data || "" == data){
     return false;
   }
   return true;
 }
+
+function getUri(){
+  return 'http://127.0.0.1/LKT/index.php?module=api&software_name=3&edition=1.0'
+}
+
+module.exports = {
+  formatTime: formatTime,
+  getUesrBg: getUesrBg,
+  getUesrBgplus: getUesrBgplus,
+  getUri:getUri
+}
+
+

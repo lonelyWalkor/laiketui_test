@@ -1,23 +1,52 @@
 var app = getApp();
+// pages/logins/logins.js
 Page({
-	data: {},
-	onLoad: function(e) {
-	
-	},
-	onReady: function() {
-	
-	},
-	onShow: function() {
-		
-	},
-	onHide: function() {
-	
-	},
-	onUnload: function() {
-    // wx.navigateBack({
-    //   delta: 1
-    // })
-	},
+
+  data: {
+    click: false, //是否显示弹窗内容
+    option: false, //显示弹窗或关闭弹窗的操作动画
+    logoimg: '',
+    loadtitle:'',
+    thvm:{}
+  },
+  myCatchTouch: function () {
+    return;
+  },
+  // 用户点击显示弹窗
+  clickPup: function (vm) {
+
+    this.setData({
+      logoimg: app.globalData.logoimg,
+      loadtitle: app.globalData.title,
+      thvm: vm
+    })
+    let _that = this;
+    if (!_that.data.click) {
+      _that.setData({
+        click: true,
+      })
+    }
+
+    if (_that.data.option) {
+      _that.setData({
+        option: false,
+      })
+
+      // 关闭显示弹窗动画的内容，不设置的话会出现：点击任何地方都会出现弹窗，就不是指定位置点击出现弹窗了
+      setTimeout(() => {
+        _that.setData({
+          click: false,
+        })
+      }, 500)
+
+
+    } else {
+      _that.setData({
+        option: true
+      })
+    }
+  },
+
   getUserInfo: function (t) {
     wx.showLoading({
       title: "正在登录",
@@ -60,6 +89,15 @@ Page({
       title: '正在登入',
       success: 2000
     });
+
+
+
+
+
+
+
+
+
     console.log(e.detail.userInfo)
     if (e.detail.errMsg == 'getUserInfo:ok') {
       //获取成功设置状态
@@ -79,6 +117,7 @@ Page({
       that.setData({
         userlogin: false
       })
+
       that.getOP(e.detail.userInfo)
     } else {
       wx.showToast({
@@ -144,42 +183,54 @@ Page({
   getOP: function (res) {
     //提交用户信息 获取用户id
     let that = this
-    let userInfo = res;
-    var user = app.globalData.userInfo;
-    app.globalData.userInfo['avatarUrl'] = userInfo.avatarUrl; // 头像
-    app.globalData.userInfo['nickName'] = userInfo.nickName; // 昵称
-    app.globalData.userInfo['gender'] = userInfo.gender; //  性别
-    wx.setStorageSync('userInfo', app.globalData.userInfo);
-    //写入缓存
-    var nickName = userInfo.nickName;
-    var avatarUrl = userInfo.avatarUrl;
-    var gender = userInfo.gender; //性别 0：未知、1：男、2：女
-    wx.request({
-      url: app.d.ceshiUrl + '&action=user&m=material',
-      method: 'post',
-      data: {
-        openid: app.globalData.userInfo.openid,
-        nickName: nickName,
-        avatarUrl: avatarUrl,
-        gender: gender
-      },
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        wx.showToast({
-          title: '授权成功!',
-          success: 2000
-        });
-        setTimeout(function () {
-          wx.navigateBack({
-            delta: 1
-          })
-        }, 1800);
+    app.getUserInfo('','',res,function(){
 
-      }
+      let userInfo = res;
+      var user = app.globalData.userInfo;
+
+      app.globalData.userInfo['avatarUrl'] = userInfo.avatarUrl; // 头像
+      app.globalData.userInfo['nickName'] = userInfo.nickName; // 昵称
+      app.globalData.userInfo['gender'] = userInfo.gender; //  性别
+      wx.setStorageSync('userInfo', app.globalData.userInfo);
+
+      //写入缓存
+      var nickName = userInfo.nickName;
+      var avatarUrl = userInfo.avatarUrl;
+      var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+
+      wx.request({
+        url: app.d.ceshiUrl + '&action=user&m=material',
+        method: 'post',
+        data: {
+          openid: app.globalData.userInfo.openid,
+          nickName: nickName,
+          avatarUrl: avatarUrl,
+          gender: gender
+        },
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+
+          wx.showToast({
+            title: '授权成功!',
+            success: 2000
+          });
+
+          setTimeout(function () {
+            that.clickPup()
+
+            wx.switchTab({
+              url: '../index/index',
+            })
+          }, 1800);
+
+        }
+      })
+
     })
+
+    
+
   }
-
-
-});
+})
