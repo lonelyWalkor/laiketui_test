@@ -162,11 +162,16 @@ App({
         that.globalData.userInfo['sign_image'] = res.data.sign_image; // 签到图片
         that.globalData.userInfo['user_id'] = res.data.user_id; // user_id
         that.globalData.userInfo['nickName'] = res.data.nickName;
-        that.globalData.userInfo['avatarUrl'] = res.data.avatarUrl;
+        that.globalData.userInfo['avatarUrl'] = res.data.user.avatarUrl;
+        that.globalData.userInfo['session_key'] = res.data.user.session_key;
+        that.globalData.userInfo['openid'] = res.data.user.openid;
+        that.globalData.userInfo['nickName'] = res.data.user.nickName;
+        that.globalData.userInfo['gender'] = res.data.user.gender;
+        that.globalData.userInfo['company'] = res.data.user.company;
+        that.globalData.userInfo['bgcolor'] = res.data.user.bgcolor;
+
         //修改缓存写入
         wx.setStorageSync('userInfo', that.globalData.userInfo);
-        //设置openid 和 session_key
-        that.globalData.userInfo = data.user;
         callback()
       },
       fail: function(e) {
