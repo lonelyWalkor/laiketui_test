@@ -243,7 +243,7 @@ class modifyAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
-        if($brand_id == ''){
+        if($brand_id == ''||$brand_id == 0){
 			header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('请选择品牌！');" .
@@ -526,7 +526,7 @@ class modifyAction extends Action {
             if($z_num < 1){
                 $sql_1 = "update lkt_product_list set status='1' where id = '$id'";
             }else{
-                $rr=$db->select("select status where id = '$id'");
+                $rr=$db->select("select status  from lkt_product_list where id = '$id'");
                 $status =$rr[0]->status?$rr[0]->status:0;
                 if($status == 2){
                      $sql_1 = "update lkt_product_list set status='2' where id = '$id'";

@@ -287,7 +287,7 @@ class addAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
-        if($brand_id == '0'){
+        if($brand_id == '0'||$brand_id == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('请选择品牌！');" .
