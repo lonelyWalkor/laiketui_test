@@ -173,7 +173,7 @@ form[name=form1] input{
                     <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0"  step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
                 </div>
                 <div class="formListSD">
-                    <div class="formTextSD"><span class="must">*</span><span>单位：{$status}</span></div>
+                    <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
                     <div class="formInputSD">
                         <select name="initial[unit]" class="select " style="width: 300px;" id="unit">
                            
