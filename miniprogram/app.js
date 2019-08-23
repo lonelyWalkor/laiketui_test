@@ -174,7 +174,7 @@ App({
         wx.setStorageSync('userInfo', that.globalData.userInfo);
         callback()
       },
-      fail: function(e) {
+      fail: function (e) {
         wx.showToast({
           title: '网络异常！err:getsessionkeys',
           duration: 2000

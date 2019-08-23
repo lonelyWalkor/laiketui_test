@@ -83,12 +83,6 @@ function getUesrBgplus(that,app,is) {
       },
     });
 }
-function checkStringEmpty(data){
-  if(null == data || "" == data){
-    return false;
-  }
-  return true;
-}
 
 function getUri(){
   return 'http://127.0.0.1/LKT/index.php?module=api&software_name=3&edition=1.0'
@@ -101,4 +95,9 @@ module.exports = {
   getUri:getUri
 }
 
-
+function checkStringEmpty(data){
+  if(null == data || "" == data){
+    return false;
+  }
+  return true;
+}
