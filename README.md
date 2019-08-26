@@ -13,9 +13,7 @@
 
 ### QQ交流群
 
-- 631252151  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=e608e87cf657e7f0d0a6fe85b127784efd373f6e1e18d21b590af85f2612df55)
-
-- 340645969  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=427109459854834986069455266c718998467b63c78f455940d6291de01a7d0b) （群满）
+- 群一：631252151  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=e608e87cf657e7f0d0a6fe85b127784efd373f6e1e18d21b590af85f2612df55) ，群二：340645969  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=427109459854834986069455266c718998467b63c78f455940d6291de01a7d0b)
 
 
 ### 小程序端截图
