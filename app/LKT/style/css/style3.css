@@ -524,7 +524,7 @@ margin: 0 10px;font-size: 14px;cursor: pointer;}
 /*表单左侧描述文字的必填*号*/
 .formTextSD .must,.formTextBigSD .must{color: red;margin-right: 5px;}
 /*表单左侧的文字*/
-.formTextSD span{display: flex;align-items: center;height: 100%;}
+.formTextSD span{display: flex;align-items: center;}
 /*表单的右侧交互框*/
 .formInputSD{display: flex;align-items: center;}
 /*表单右侧交互框补充说明*/
