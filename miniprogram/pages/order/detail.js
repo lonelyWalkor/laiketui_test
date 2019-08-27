@@ -760,6 +760,13 @@ Page({
 	//修改订单
 	up_order: function(coupon_money) {
 		var that = this;
+    that.detailed(order.sNo);//分销
+    if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+      // console.log(66411)
+      var referee_openid = app.globalData.userInfo.referee_openid;
+      var openid = app.globalData.userInfo.openid
+      that.refereeopenid(referee_openid, openid);//储存推荐人
+    }
 		wx.request({
 			url: app.d.ceshiUrl + '&action=product&m=up_order',
 			method: 'post',
@@ -866,5 +873,40 @@ Page({
         console.log(res)
       }
     })
+  },
+  detailed: function (sNo) {//分销
+    wx.request({
+      url: app.d.ceshiUrl + '&action=distribution&m=detailed_commission',
+      method: 'post',
+      data: {
+        userid: app.globalData.userInfo.openid,
+        order_id: sNo,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+    })
+  },
+  //储存推荐人
+  refereeopenid: function (referee_openid, openid) {
+    wx.request({
+      url: app.d.ceshiUrl + '&action=app&m=referee_openid',
+      method: 'post',
+      data: {
+        openid: openid,
+        referee_openid: referee_openid,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+      },
+      error: function (e) {
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000,
+        });
+      },
+    });
   },
 })

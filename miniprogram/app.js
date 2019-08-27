@@ -18,7 +18,6 @@ App({
 
   },
   onLaunch: function(options) {
-    console.log(1)
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -28,20 +27,11 @@ App({
   },
   //控制授权登入
   userlogin: function(page) {
-    console.log(page,'111')
-    console.log(this.globalData.userInfo.openid)
     if (this.globalData.userInfo.openid == '' || !this.globalData.userInfo.openid) {
       
       if (page) {
-
-        // wx.navigateTo({
-        //   url: '../login/login'
-        // })
-
-
         return true
       } else {
-        console.log(11112222);
         wx.navigateTo({
           url: 'pages/login/login'
         })
@@ -52,13 +42,10 @@ App({
   },
 
   onShow: function(options) {
-    // console.log(this, '3')
     var referee_openid = options.query.userid ? options.query.userid : '';
     this.globalData.referee_openid = referee_openid;
-    // this.getUserInfo();
   },
   onPullDownRefresh: function() {
-    console.log(4)
     wx.showNavigationBarLoading() //在标题栏中显示加载
     //模拟加载
     setTimeout(function() {
@@ -76,22 +63,13 @@ App({
         that.getUserInfo(cb, stype);
       }, 1500);
     } else {
-      console.log(777777)
       this.d.one = true;
       //调用登录接口  已更新登入接口  
-      // that.getUserSessionKey(cb);
-      console.log(cb)
-
       wx.login({
         success: function(res) {
-          console.log(res,'res')
           var code = res.code;
           that.globalData.code = res.code;
-          //取出本地存储用户信息，解决需要每次进入小程序弹框获取用户信息
-          var userinfo = wx.getStorageSync('userInfo');
-          if (userinfo.length > 1) {
-            that.globalData.userInfo = userinfo;
-          }
+
           that.getUserSessionKey(code, cb, uesr, callback);
         }
       });
@@ -107,7 +85,6 @@ App({
         var userinfo = wx.getStorageSync('userInfo');
         if (userinfo.nickName) {
           that.globalData.userInfo = userinfo;
-          console.log(that.globalData.userInfo,1111)
         }
 
       }
@@ -123,27 +100,14 @@ App({
         code: code,
         nickName: stype.nickName,
         avatarUrl: stype.avatarUrl,
-        gender: stype.gender
+        gender: stype.gender,
+        referee_openid: this.globalData.userInfo.referee_openid || ''
       },
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function(res) {
         var data = res.data;
-        // var bgcolor = res.data.user;
-        // var user = res.data.user;
-        // that.d.bgcolor = bgcolor.bgcolor;
-
-        // that.d.titlee = user.titlee;
-        // wx.setNavigationBarTitle({
-        //   title: user.titlee, //修改页面标题
-
-        // });
-        // wx.setNavigationBarColor({ //修改页面标题背景颜色
-        //   frontColor: '#ffffff',
-        //   backgroundColor: bgcolor.bgcolor
-        // });
-
         if (data.status == 0) {
           wx.showToast({
             title: data.err,
@@ -184,7 +148,6 @@ App({
   },
 
   getOrBindTelPhone: function(returnUrl) {
-    console.log(7)
     var user = this.globalData.userInfo;
     if (!user.tel) {
       wx.navigateTo({
@@ -203,7 +166,6 @@ App({
     })
   },
   showModal: function(that) {
-    console.log(8)
     var animation = wx.createAnimation({
       duration: 200
     })
@@ -219,7 +181,6 @@ App({
     }.bind(that), 200)
   },
   showToast: function(that, title) {
-    console.log(9)
     var toast = {};
     toast.toastTitle = title;
     that.setData({

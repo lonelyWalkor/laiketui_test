@@ -82,7 +82,7 @@ Page({
       that.getOP(e.detail.userInfo)
     } else {
       wx.showToast({
-        title: '没有授权，不能进入小程序个人中心！',
+        title: '没有授权，不能执行该操作！',
         icon: 'none',
         duration: 2000
       })

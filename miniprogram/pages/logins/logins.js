@@ -13,6 +13,14 @@ Page({
     return;
   },
   // 用户点击显示弹窗
+  setCloses:function(){
+    wx.showToast({
+      title: '没有授权，不能进入小程序个人中心！',
+      icon: 'none',
+      duration: 2000
+    })
+    this.clickPup()
+  },
   clickPup: function (vm) {
 
     this.setData({
@@ -121,7 +129,7 @@ Page({
       that.getOP(e.detail.userInfo)
     } else {
       wx.showToast({
-        title: '没有授权，不能进入小程序个人中心！',
+        title: '没有授权，不能执行该操作！',
         icon: 'none',
         duration: 2000
       })

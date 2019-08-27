@@ -94,11 +94,18 @@ Page({
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        var list = res.data.list;
-        that.setData({
-          list: list,
-          remind: ''
-        });
+        if (res.data.status == 2) {
+          wx.navigateBack({
+            delta: 1
+          });
+        }else{
+          var list = res.data.list;
+          that.setData({
+            list: list,
+            remind: ''
+          });
+        }
+        
       },
       error: function (e) {
         wx.showToast({

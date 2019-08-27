@@ -24,9 +24,19 @@ Page({
     gprice: '',
     control: {},
     show_share: false,
+    pop:null
   },
-
+  onReady:function(){
+    this.pop = this.selectComponent("#pop")
+  },
   onLoad: function (options) {
+
+    if (options.referee_openid != '') {
+      app.globalData.userInfo['referee_openid'] = options.referee_openid;
+    } else {
+      app.globalData.userInfo['referee_openid'] = '';
+    }
+
     var scene = decodeURIComponent(options.scene);
 
     if (scene != 'undefined' && scene.length > 1 && scene != '') {
@@ -162,6 +172,10 @@ Page({
   },
   //分享朋友圈 查看保存图片
   user_share: function () {
+    if (app.userlogin(1)) {
+      this.pop.clickPup()
+      return
+    }
     var that = this;
     wx.showToast({
       title: '图片生成中',
@@ -175,7 +189,7 @@ Page({
         product_title: that.data.itemData.pro_name,
         price: that.data.itemData.member_price,
         yprice: that.data.itemData.market_price,
-        scene: that.data.fdata + '&userid=' + app.globalData.userInfo.user_id,
+        scene: that.data.fdata + '&referee_openid=' + app.globalData.userInfo.user_id,
         path: 'pages/group_buy/detail',
         id: app.globalData.userInfo.user_id,
         pid: that.data.itemData.product_id,
@@ -292,7 +306,7 @@ Page({
     });
     return {
       title: this.data.itemData.pro_name,
-      path: "/pages/group_buy/detail?gid=" + this.gid + '&sum=' + this.data.sum + '&group_id=' + this.data.groupid + '&pagefrom=share&userid=' + app.globalData.userInfo.user_id,
+      path: "/pages/group_buy/detail?gid=" + this.gid + '&sum=' + this.data.sum + '&group_id=' + this.data.groupid + '&pagefrom=share&referee_openid=' + app.globalData.userInfo.user_id,
       imageUrl: this.data.itemData.images[0],
       success:function(res){
         console.log(res)
@@ -324,6 +338,10 @@ Page({
     }, 1000)
   },
   joinGroup:function(e){
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
     var id = e.currentTarget.dataset.id;
     app.redirect('group_buy/cantuan', 'id=' + id + '&groupid=' + this.data.groupid + '&man_num=' + this.data.itemData.man_num + '&pro_id=' + this.gid + '&sum=' + this.data.sum);
   },
@@ -334,6 +352,10 @@ Page({
   },
   
   goToBuy:function(){
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
     var that = this;
     var obj = '';
     var value = [];
@@ -390,7 +412,12 @@ Page({
       num : num
     })
   },
-  getUserformid: function(e){  
+  getUserformid: function(e){
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
+
     var formid = e.detail.formId;
     this.sendFormid(formid,'kt1')
     this.setModalStatus(e);
@@ -423,6 +450,10 @@ Page({
   },
 
   addShopCart: function () {
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
     //添加到购物车
     var that = this;
     if (that.data.pro_status == 1) {
@@ -471,6 +502,11 @@ Page({
     
   // 弹窗
   setModalStatus: function (e) {
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
+
     var animation = wx.createAnimation({
       duration: 200,
       timingFunction: "linear",
@@ -698,6 +734,11 @@ Page({
 
   // 弹窗
   set_share: function (e) {
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
+
     var taht = this;
     var show_share = taht.data.show_share;
     var animation = wx.createAnimation({
@@ -781,8 +822,9 @@ Page({
     })
 
   },
-
+  // 分享到朋友圈
   close_share: function (e) {
+
     var that = this;
     that.setData({
       maskHidden: false

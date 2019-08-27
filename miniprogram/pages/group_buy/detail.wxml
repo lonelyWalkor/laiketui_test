@@ -190,12 +190,13 @@
     </view>
     <view style='width: 60%;float: left;margin-top: 2px;'>
       <view style='margin-left:10px;'>
+
         <view class='pt_btn gm' bindtap="setModalStatus" data-status="1" data-type="only" style='display:flex;flex-direction:column;justify-content:center;'>
           <view style='font-size:30rpx;height: 39rpx;text-align: center;display: flex;align-items: center;text-align: center;justify-content: center;'>￥{{itemData.market_price}}</view>
           <view style='font-size:24rpx;height: 39rpx;text-align: center;display: flex;align-items: center;text-align: center;justify-content: center;'>单独购买</view>
         </view>
         <block wx:if="{{is_over==false}}">
-          <form bindsubmit="getUserformid" report-submit="true" data-type="group" bindtap="setModalStatus" data-status="1" style='width:40%;'>
+          <form report-submit="true" data-type="group" bindtap="setModalStatus" data-status="1" style='width:40%;'>
             <button class="pt_btn kt" type="primary" formType="submit" style='background:#ff6347;display:flex;flex-direction:column;justify-content:center;'>
               <view style='font-size: 30rpx;height: 39rpx;text-align: center;display: flex;align-items: center;text-align: center;justify-content: center;'>￥{{gprice}}</view>
               <view style='font-size: 24rpx;height: 39rpx;text-align: center;display: flex;align-items: center;text-align: center;justify-content: center;'>立即开团</view>
@@ -328,3 +329,4 @@
   </view>
   <view hidden="{{maskHidden == false}}" class="mask"></view>
 </block>
+<pop id="pop"></pop>
