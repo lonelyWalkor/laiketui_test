@@ -73,14 +73,16 @@
           <!-- /首页轮播图结束/ -->
 
           <view class="section units" wx:if="{{item.id == 0}}">
-            <navigator url="{{list.url}}" hover-class="changestyle" class="unit" wx:for="{{plug}}" wx:for-item="list" wx:key="id">
+
+            <view bindtap="getqx"  hover-class="changestyle" class="unit" wx:for="{{plug}}" wx:for-item="list" wx:key="id" data-name="{{list.name}}" data-path="{{list.url}}">
               <view>
                 <image class='img' src="{{list.image}}"></image>
               </view>
               <view style='width:100%;'>
                 <text style='color:#666;font-size:14px;'>{{list.name}}</text>
               </view>
-            </navigator>
+            </view>
+
           </view>
 
 
@@ -212,3 +214,4 @@
   <image src="{{sign_image}}" bindtap="navigate_sign" mode="aspectFit" style="width:700rpx;" />
   <icon type="cancel" size="35" color="orange" catchtap="go" class="close" />
 </view>
+<pop id="pop"></pop>

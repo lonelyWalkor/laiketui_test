@@ -4,6 +4,7 @@ var cont_time=0;//首页tab点击
 var util = require('../../utils/util.js')
 Page({
   data: {
+    pop: null,
     inforList: [],//公告
     banner: [],
     indicatorDots: true, // 是否显示面板指示点
@@ -461,6 +462,7 @@ Page({
     util.getUesrBgplus(that, app,false)
   },
   onReady: function () {
+    this.pop = this.selectComponent("#pop")
   },
   onLoad: function (e) {
     var that = this;
@@ -659,7 +661,20 @@ Page({
       }
     })
   },
+  getqx(event){
+    let name = event.currentTarget.dataset.name
 
+    if (name === "签到"){
+      if (app.userlogin(1)) {
+        this.pop.clickPup(this)
+        return
+      }
+    }
+
+    wx.navigateTo({
+      url: event.currentTarget.dataset.path,
+    })
+  },
   onShareAppMessage: function (res) {
     var that = this;
     var id = that.data.productId;

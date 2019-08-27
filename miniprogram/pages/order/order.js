@@ -240,10 +240,12 @@ Page({
 						//--init data
 						var status = res.data.status;
 						if(status == 1) {
+              that.commission(sNo);//分销返佣
 							wx.showToast({
 								title: '操作成功！',
 								duration: 2000
 							});
+
 							that.loadOrderList();
 						} else {
 							wx.showToast({
@@ -421,6 +423,13 @@ Page({
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			success: function(res) {
+        that.detailed(order.order_sn);//分销
+        if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+          // console.log(66411)
+          var referee_openid = app.globalData.userInfo.referee_openid;
+          var openid = app.globalData.userInfo.openid
+          that.refereeopenid(referee_openid, openid);//储存推荐人
+        }
 				if(res.data) {
 					var dingdanhao = res.data.out_trade_no;
 					wx.requestPayment({
@@ -520,5 +529,52 @@ Page({
 
       }
     });
-  }
+  },
+    detailed: function (sNo, openid) {//分销
+    wx.request({
+      url: app.d.ceshiUrl + '&action=distribution&m=detailed_commission',
+      method: 'post',
+      data: {
+        userid: app.globalData.userInfo.openid,
+        order_id: sNo,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+    })
+  },
+  commission: function (sNo) {//分销返佣
+    wx.request({
+      url: app.d.ceshiUrl + '&action=distribution&m=commission',
+      method: 'post',
+      data: {
+        order_id: sNo,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+    })
+  },
+  //储存推荐人
+  refereeopenid: function (referee_openid, openid) {
+    wx.request({
+      url: app.d.ceshiUrl + '&action=app&m=referee_openid',
+      method: 'post',
+      data: {
+        openid: openid,
+        referee_openid: referee_openid,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+      },
+      error: function (e) {
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000,
+        });
+      },
+    });
+  },
 })

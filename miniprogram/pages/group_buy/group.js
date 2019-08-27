@@ -441,10 +441,6 @@ Page({
     }
   },
   jumpgo: function (event) {
-    if (app.userlogin(1)) {
-      this.pop.clickPup()
-      return
-    }
     let url = event.currentTarget.dataset.id
     wx.navigateTo({
       url: url
