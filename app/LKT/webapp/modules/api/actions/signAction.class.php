@@ -83,6 +83,11 @@ class signAction extends Action {
         }
         $num = 0;
 
+        if(!$openid || $openid=='undefined'){
+             echo json_encode(array('status'=>2,'err'=>'请登录'));
+            exit;
+        }
+
         // 根据微信id,查询用户id,用户积分
         $sql = "select user_id from lkt_user where wx_id = '$openid'";
         $rr = $db->select($sql);
@@ -196,6 +201,10 @@ class signAction extends Action {
             $imgurl = $img . $r[0]->imgurl; // 签到图片
         }else{
             $imgurl = $img; // 签到图片
+        }
+        if(!$openid || $openid=='undefined'){
+            echo json_encode(array('status'=>2,'err'=>'请登录！'));
+            exit;
         }
 
         // 根据微信id,查询用户id,用户积分

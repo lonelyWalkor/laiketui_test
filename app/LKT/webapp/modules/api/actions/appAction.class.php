@@ -43,10 +43,8 @@ class appAction extends Action {
         $wxname = $_POST['nickName']; // 微信昵称
         $headimgurl = $_POST['avatarUrl']; // 微信头像
         $sex = $_POST['gender']; // 性别
-        // $pid = $_POST['p_openid']; // 推荐人微信id
-        $pid =$request->getParameter('p_openid');
-// print_r($wxname);die;
-//         // 查询小程序配置
+        $pid =$request->getParameter('referee_openid');
+       // 查询小程序配置
         $sql = "select * from lkt_config where id=1";
         $r = $db->select($sql);
 
@@ -122,7 +120,7 @@ class appAction extends Action {
              $user_id ='';
         }
 
-    $sql = "select name from lkt_software where type = 0 and id = '$software_name' order by id desc";
+        $sql = "select name from lkt_software where type = 0 and id = '$software_name' order by id desc";
         $rrrr_1 = $db->select($sql);
         $name1 = $rrrr_1[0]->name;
         // 根据软件名称，查询软件id和名称
@@ -188,23 +186,24 @@ class appAction extends Action {
             
         exit();
         return;
+        }
     }
-}
     public function login($wxname,$headimgurl,$sex,$openid,$Referee,$db,$access_token){//添加会员
          // 根据wxid,查询会员信息
             $sql = "select * from lkt_user where wx_id = '$openid' ";
             $rr = $db->select($sql);
+            $Refere='';
             if(!empty($rr)){
-                if(!$rr[0]->Referee){
-                    $rr01 = $db->select("select id from lkt_user where Referee ='$openid' ");
-                    if(!$rr01){
-                        $sql = "update lkt_user set access_token = '$access_token',Referee = '$Referee' where wx_id = '$openid' ";
-                    }else{
-                        $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
-                    }
-                }else{
+                // if(!$rr[0]->Referee){
+                //     $rr01 = $db->select("select id from lkt_user where Referee ='$openid' ");
+                //     if(!$rr01){
+                //         $sql = "update lkt_user set access_token = '$access_token',Referee = '$Referee' where wx_id = '$openid' ";
+                //     }else{
+                //         $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
+                //     }
+                // }else{
                     $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
-                }
+                // }
                 $db->update($sql);
                 $user_id = $rr[0]->user_id;
               
@@ -372,6 +371,18 @@ class appAction extends Action {
             echo json_encode(array('status'=>0,'pays'=>$pays,'coupon'=>$coupon,'wallet'=>$wallet,'integral'=>$integral,'red_packet'=>$red_packet));
             exit();
         }
+    }
+    public function referee_openid(){//推荐人储存
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        $openid =$request->getParameter('openid');
+        $referee_openid =$request->getParameter('referee_openid');
+        $sql = "select Referee from lkt_user where wx_id = '$openid'";
+            $rr = $db->select($sql);
+            if(!$rr[0]->Referee){
+                  $sql01 = "update lkt_user set Referee = '$referee_openid' where wx_id = '$openid' ";
+                    $db->update($sql01);
+            }
     }
     public function secToTime($times){  
         $result = '00:00:00';  
