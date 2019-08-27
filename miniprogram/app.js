@@ -126,7 +126,7 @@ App({
         that.globalData.userInfo['sign_image'] = res.data.sign_image; // 签到图片
         that.globalData.userInfo['user_id'] = res.data.user_id; // user_id
         that.globalData.userInfo['nickName'] = res.data.nickName;
-        that.globalData.userInfo['avatarUrl'] = res.data.user.avatarUrl;
+        that.globalData.userInfo['avatarUrl'] = res.data.avatarUrl;//头像
         that.globalData.userInfo['session_key'] = res.data.user.session_key;
         that.globalData.userInfo['openid'] = res.data.user.openid;
         that.globalData.userInfo['nickName'] = res.data.user.nickName;
