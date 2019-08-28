@@ -72,6 +72,7 @@ Page({
     vm.onLoad(vm.data.options);
   },
   onLoad: function(options) {
+    console.log(options,'24444----------------------')
     if (options.referee_openid != '') {
       app.globalData.userInfo['referee_openid'] = options.referee_openid;
     } else {

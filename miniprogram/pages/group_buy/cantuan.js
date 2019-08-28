@@ -19,6 +19,7 @@ Page({
     man_num:null //团满人数
   },
   onLoad:function(options){
+    console.log(options,'opppppppppppppppppp')
     var self = this
     self.id = options.id;
     self.groupid = options.groupid;
@@ -36,7 +37,8 @@ Page({
     self.onLoad(self.data.options);
   },
   loadProductDetail: function () {
-    var self = this, options = this.data.options;
+    var self = this, 
+    options = this.data.options;
     var openid = app.globalData.userInfo.openid;
       app.request.wxRequest({
         url: '&action=groupbuy&m=cangroup',

@@ -226,10 +226,10 @@ Page({
 
           setTimeout(function () {
             that.clickPup()
-
-            // wx.switchTab({
-            //   url: '../index/index',
-            // })
+            // getCurrentPages()[getCurrentPages().length - 1].onLoad()
+            wx.switchTab({
+              url: '../index/index',
+            })
 
           }, 1800);
 

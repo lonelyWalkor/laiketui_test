@@ -100,6 +100,7 @@ Page({
 	},
 
 	requestMyData: function() {
+    // console.log("==============requestMyData================")
 		var that = this;
 		wx.request({
 			url: app.d.ceshiUrl + '&action=user&m=index',
@@ -165,6 +166,7 @@ Page({
   logins:function(){
     if (app.userlogin(1)) {
       this.pop.clickPup(this)
+      this.requestMyData();
       return
     }
   },
