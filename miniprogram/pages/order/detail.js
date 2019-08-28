@@ -760,7 +760,7 @@ Page({
 	//修改订单
 	up_order: function(coupon_money) {
 		var that = this;
-    that.detailed(order.sNo);//分销
+    that.detailed(that.data.sNo);//分销
     if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
       // console.log(66411)
       var referee_openid = app.globalData.userInfo.referee_openid;

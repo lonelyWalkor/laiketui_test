@@ -3,6 +3,7 @@
 var app = getApp();
 Page({
   data:{
+    pop: null,
     num:1,
     commodityAttr: [],
     attrValueList: [],
@@ -18,8 +19,6 @@ Page({
     man_num:null //团满人数
   },
   onLoad:function(options){
-    console.log(options)
-    console.log('options')
     var self = this
     self.id = options.id;
     self.groupid = options.groupid;
@@ -39,8 +38,6 @@ Page({
   loadProductDetail: function () {
     var self = this, options = this.data.options;
     var openid = app.globalData.userInfo.openid;
-    console.log(app.globalData.userInfo,'openid')
-    if (openid) {
       app.request.wxRequest({
         url: '&action=groupbuy&m=cangroup',
         data: { oid: options.id, groupid: options.groupid, gid: options.pro_id, userid: app.globalData.userInfo.openid },
@@ -102,12 +99,6 @@ Page({
         frontColor: app.d.frontColor,//
         backgroundColor: app.d.bgcolor //页面标题为路由参数
       });
-    } else {
-      //不存在openid  先获取 在回调  传递that
-      setTimeout(function () {
-        that.loadProductDetail();
-      }, 1000);
-    }
   },
   //首次进去选中
   one: function () {
@@ -145,7 +136,7 @@ Page({
   },
 
   onReady: function () {
-
+    this.pop = this.selectComponent("#pop")
   },
 
   setTimeData:function(time){
@@ -176,7 +167,8 @@ Page({
   },
   onShareAppMessage:function(options){
     var self = this;
-    var path = '/pages/group_buy/cantuan?id=' + self.id + '&groupid=' + self.groupid + '&man_num=' + this.data.man_num + '&pro_id=' + self.goodsInfo.ptgoods_id;
+    var referee_openid = app.globalData.userInfo.user_id;
+    var path = '/pages/group_buy/cantuan?id=' + self.id + '&groupid=' + self.groupid + '&man_num=' + this.data.man_num + '&pro_id=' + self.goodsInfo.ptgoods_id + '&referee_openid=' + referee_openid;
     console.log(path)
     return {
       title: '【快来拼】' + self.data.price + '元就能拼到 ' +self.goodsInfo.p_name,
@@ -198,6 +190,7 @@ Page({
   },
   goToBuy:function(){
     var that = this;
+    console.log(that,'that///////////////')
     var obj = '';
     var value = [];
     if (that.data.prostatus == 1) {
@@ -223,7 +216,7 @@ Page({
       })
     } else {
       var sizeid = that.data.sizeid;    
-      obj += '&pro_name=' + that.goodsInfo.ptgoods_name + '&num=' + that.data.num + '&pro_id=' + that.goodsInfo.ptgoods_id + '&sizeid=' + sizeid + '&groupid=' + that.groupid + '&oid=' + that.id + '&pagefrom=cantuan';
+      obj += '&pro_name=' + that.goodsInfo.ptgoods_name + '&num=' + that.data.num + '&pro_id=' + that.goodsInfo.ptgoods_id + '&sizeid=' + sizeid + '&groupid=' + that.groupid + '&oid=' + that.id + '&pagefrom=cantuan&referee_openid=' + that.options.referee_openid;
       app.redirect('group_buy/payfor', obj);
     }
   }
@@ -410,6 +403,10 @@ Page({
     })
   },
   getUserformid: function (e) {
+    if (app.userlogin(1)) {
+      this.pop.clickPup(this)
+      return
+    }
     var formid = e.detail.formId;
     this.sendFormid(formid)
     this.setModalStatus(e);
@@ -459,35 +456,35 @@ Page({
       }
     }.bind(this), 200)
   },
-  material: function (res) {
-    wx.getUserInfo({
-      success: function (res) {
-        var userInfo = res.userInfo;
-        var nickName = userInfo.nickName;
-        var avatarUrl = userInfo.avatarUrl;
-        var gender = userInfo.gender; //性别 0：未知、1：男、2：女
-        wx.request({
-          url: app.d.ceshiUrl + '&action=user&m=material',
-          method: 'post',
-          data: {
-            openid: app.globalData.userInfo.openid,
-            nickName: nickName,
-            avatarUrl: avatarUrl,
-            gender: gender
-          },
-          header: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          success: function (res) {
-            wx.showToast({
-              title: res.data.info,
-              success: 2000
-            });
-          }
-        })
-      }
-    })
-  },
+  // material: function (res) {
+  //   wx.getUserInfo({
+  //     success: function (res) {
+  //       var userInfo = res.userInfo;
+  //       var nickName = userInfo.nickName;
+  //       var avatarUrl = userInfo.avatarUrl;
+  //       var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+  //       wx.request({
+  //         url: app.d.ceshiUrl + '&action=user&m=material',
+  //         method: 'post',
+  //         data: {
+  //           openid: app.globalData.userInfo.openid,
+  //           nickName: nickName,
+  //           avatarUrl: avatarUrl,
+  //           gender: gender
+  //         },
+  //         header: {
+  //           'Content-Type': 'application/x-www-form-urlencoded'
+  //         },
+  //         success: function (res) {
+  //           wx.showToast({
+  //             title: res.data.info,
+  //             success: 2000
+  //           });
+  //         }
+  //       })
+  //     }
+  //   })
+  // },
   //获取用户信息新接口
   agreeGetUser: function (e) {
     let that = this

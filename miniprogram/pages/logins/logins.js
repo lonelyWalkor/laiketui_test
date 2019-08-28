@@ -219,7 +219,6 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function (res) {
-
           wx.showToast({
             title: '授权成功!',
             success: 2000
@@ -228,9 +227,10 @@ Page({
           setTimeout(function () {
             that.clickPup()
 
-            wx.switchTab({
-              url: '../index/index',
-            })
+            // wx.switchTab({
+            //   url: '../index/index',
+            // })
+
           }, 1800);
 
         }

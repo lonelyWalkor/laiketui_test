@@ -72,6 +72,11 @@ Page({
     vm.onLoad(vm.data.options);
   },
   onLoad: function(options) {
+    if (options.referee_openid != '') {
+      app.globalData.userInfo['referee_openid'] = options.referee_openid;
+    } else {
+      app.globalData.userInfo['referee_openid'] = '';
+    }
     var that = this;
     that.get_plug();
     if (!that.data.options) {
@@ -79,7 +84,6 @@ Page({
         options: options,
       });
     }
-
     var uid = app.globalData.userInfo.openid; // 微信id
     var wallet = app.globalData.userInfo.wallet; // 钱包状态
     wx.setNavigationBarColor({
@@ -157,7 +161,6 @@ Page({
 
   // 选择支付方式
   switchChange: function(e) {
-    console.log(e)
     var that = this;
     var check = e.currentTarget.dataset.check;
     var index = e.currentTarget.dataset.index;
@@ -173,7 +176,6 @@ Page({
     var pay_type = that.data.pays;
     var i = 0;
     var one_pay = '';
-    console.log(pay_type)
     for (var j = 0; j < pay_type.length; j++) {
       if (pay_type[j].checked) {
         i += 1;
@@ -291,9 +293,6 @@ Page({
   // 提交订单支付
   createProductOrderByWX: function(e) {
     var that = this;
-    console.log(that.data.dat.open_num)
-    console.log(that.data.dat.num)
-    console.log('that')
     if (parseInt(that.data.proattr.have) >= parseInt(that.data.groupres.groupnum) && that.options.pagefrom =='cantuan') {
       wx.showToast({
         title: '抱歉，最多只能同时拼' + that.data.groupres.groupnum + '个团！',
@@ -347,7 +346,6 @@ Page({
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           success: function(res) {
-            console.log(res.data.hasnum, that.data.groupres.man_num)
             if (Number(res.data.hasnum) >= Number(that.data.groupres.man_num)) {
               wx.showModal({
                 content: "此团已满，请选择其他团或重新开团!",
@@ -416,8 +414,6 @@ Page({
   // 发起钱包支付
   wallet_pay: function() {
     var that = this;
-    console.log(that);
-    console.log('wallet_pay');
     var coupon_money = that.data.coupon_money;
     var user_money = that.data.user_money;
     var num = that.options.num;
@@ -464,8 +460,6 @@ Page({
     var num = that.options.num;
     var freight = that.data.freight;
     var total = coupon_money * num + freight;
-
-    console.log('createGroup');
     app.request.wxRequest({
       url: '&action=groupbuy&m=createGroup',
       data: {
@@ -494,6 +488,11 @@ Page({
       method: 'post',
       success: function(res) {
         if (res.code == 1 && status == 1) {
+          if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+            var referee_openid = app.globalData.userInfo.referee_openid;
+            var openid = app.globalData.userInfo.openid
+            that.refereeopenid(referee_openid, openid);//储存推荐人
+          }
           wx.showModal({
             content: "成功开团！",
             showCancel: false,
@@ -550,9 +549,13 @@ Page({
       },
       method: 'post',
       success: function(res) {
-        console.log(res)
         if (status == 1) {
           if (res.code == 1) {
+            if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+              var referee_openid = app.globalData.userInfo.referee_openid;
+              var openid = app.globalData.userInfo.openid
+              that.refereeopenid(referee_openid, openid);//储存推荐人
+            }
             wx.showModal({
               content: "成功入团！",
               showCancel: false,
@@ -567,6 +570,12 @@ Page({
             var man_num = that.data.groupres.man_num - 1 - res.ptnumber;
             that.canGroupNotice(res.order, res.endtime, that.data.proattr.group_price, that.coupon_money, app.globalData.userInfo.openid, that.data.form_id, man_num, that.data.proattr.pro_name, 'pages/order/detail?orderId=' + res.id)
           } else if (res.code == 2) {
+            that.detailed(res.gcode);//分销
+            if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+              var referee_openid = app.globalData.userInfo.referee_openid;
+              var openid = app.globalData.userInfo.openid
+              that.refereeopenid(referee_openid, openid);//储存推荐人
+            }
 
             wx.showModal({
               content: "恭喜您,拼团成功！",
@@ -600,8 +609,6 @@ Page({
   // 调起微信支付
   wxpay: function() {
     var that = this;
-    console.log(that);
-    console.log(11111);
     var cmoney = that.data.coupon_money;
     wx.request({
       url: app.d.ceshiUrl + '&action=pay&m=pay',
@@ -625,36 +632,14 @@ Page({
             signType: 'MD5',
             paySign: res.data.paySign,
             success: function(res) {
-              console.log(res)
               that.verification(dingdanhao)
             },
             fail: function(res) {
-              // wx.request({
-              //   url: 'http://192.168.0.104/589fec3364886bd29ccb4536c3c9290a/LKT/notify_url.php?trade_no=' + dingdanhao,
-              //   method: 'post',
-              //   data: {
-              //     trade_no: dingdanhao //微信交易单号
-              //   },
-              //   header: {
-              //     'Content-Type': 'application/x-www-form-urlencoded'
-              //   },
-              //   success: function (res) {
-              //     console.log(res)
-              //     that.verification(dingdanhao)
-              //   }
-              // })
               wx.showModal({
                 content: "取消支付！",
                 showCancel: false,
                 confirmText: "确定",
-                // success: function(res) {
-
-                // }
               })
-              // wx.showToast({
-              //   title: '取消支付！',
-              //   duration: 2000
-              // });
             }
           })
         }
@@ -671,8 +656,6 @@ Page({
 
   //发送数据到客户微信上
   openGroupNotice: function(order_sn, member, endtime, price, sum, user_id, form_id, f_pname, path) {
-    // console.log(that);
-    // console.log('createGroup');
     app.request.wxRequest({
       url: '&action=groupbuy&m=Send_open',
       method: 'post',
@@ -770,7 +753,12 @@ Page({
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function(res) {
-        console.log(res)
+        that.detailed(res.data.data.ptcode);//分销
+        if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+          var referee_openid = app.globalData.userInfo.referee_openid;
+          var openid = app.globalData.userInfo.openid
+          that.refereeopenid(referee_openid, openid);//储存推荐人
+        }
         if (res.data.status) {
           wx.showModal({
             content: "恭喜您,拼团成功！",
@@ -792,6 +780,41 @@ Page({
         }
       }
     })
-  }
+  },
+   detailed: function (sNo) {//分销
+    wx.request({
+      url: app.d.ceshiUrl + '&action=distribution&m=pt_detailed_commission',
+      method: 'post',
+      data: {
+        userid: app.globalData.userInfo.openid,
+        ptcode: sNo,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+    })
+  },
+  //储存推荐人
+  refereeopenid: function (referee_openid, openid) {
+    wx.request({
+      url: app.d.ceshiUrl + '&action=app&m=referee_openid',
+      method: 'post',
+      data: {
+        openid: openid,
+        referee_openid: referee_openid,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+      },
+      error: function (e) {
+        wx.showToast({
+          title: '网络异常！',
+          duration: 2000,
+        });
+      },
+    });
+  },
 
 })
