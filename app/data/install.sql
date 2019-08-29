@@ -1436,7 +1436,7 @@ CREATE TABLE `lkt_product_img` (
   `id` int(11) unsigned NOT NULL COMMENT '图片id',
   `product_url` varchar(100) NOT NULL COMMENT '产品图片',
   `product_id` int(11) NOT NULL COMMENT '所属产品id',
-  `seller_id` char(15) NOT NULL DEFAULT '' COMMENT '用户id',
+  `seller_id` char(15) DEFAULT '' COMMENT '用户id',
   `add_date` timestamp NULL DEFAULT NULL COMMENT '添加时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='图片表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1460,7 +1460,7 @@ DROP TABLE IF EXISTS `lkt_product_list`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lkt_product_list` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '产品id',
-  `product_number` varchar(100) NOT NULL COMMENT '商品编号',
+  `product_number` varchar(100)  COMMENT '商品编号',
   `product_title` varchar(100) NOT NULL DEFAULT '' COMMENT '产品名字',
   `subtitle` varchar(100) DEFAULT NULL COMMENT '副标题',
   `product_class` varchar(32) NOT NULL COMMENT '产品类别',
@@ -1483,6 +1483,14 @@ CREATE TABLE `lkt_product_list` (
   `separate_distribution` varchar(50) DEFAULT '0' COMMENT '单独分销',
   `recycle` tinyint(4) NOT NULL DEFAULT '0' COMMENT '回收站 0.显示 1.回收',
   `initial` varchar(255) DEFAULT NULL COMMENT '初始值',
+  `leve` int(2) DEFAULT '0' COMMENT '向上返几级',
+  `leve1` float(4,2) DEFAULT '0.00' COMMENT '一级佣金比例',
+  `leve2` float(4,2) DEFAULT '0.00' COMMENT '二级佣金比例',
+  `leve3` float(4,2) DEFAULT '0.00' COMMENT '三级佣金比例',
+  `leve4` float(4,2) DEFAULT '0.00' COMMENT '四级佣金比例',
+  `leve5` float(4,2) DEFAULT '0.00' COMMENT '五级佣金比例',
+  `type` int(2) DEFAULT '1' COMMENT '佣金发放类型，1 支付成功 2.确认收货',
+  `commissions` float(11,2) DEFAULT '0.00' COMMENT '分销佣金所需手续费',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='产品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1493,9 +1501,24 @@ CREATE TABLE `lkt_product_list` (
 
 LOCK TABLES `lkt_product_list` WRITE;
 /*!40000 ALTER TABLE `lkt_product_list` DISABLE KEYS */;
-INSERT INTO `lkt_product_list` VALUES ('1', '', 'LEGO 乐高积木 创意百变系列 玩具和百货商店 31036', '', '-1-', '1541597062168.jpeg','<p style=\"text-align: center;\"><img src=\"/ueditor/php/upload/image/20181107/1541597101.jpg\" title=\"1541597101.jpg\" alt=\"59bb872eNf44497eb.jpg\"/></p>','100', '2018-06-21 15:50:03', '49', '1,2,3', '64', '0', '', '9', '0', '0', '12.00', '0', '1', '0', '0', '0', 'a:5:{s:3:\"cbj\";s:2:\"20\";s:2:\"yj\";s:3:\"100\";s:2:\"sj\";s:2:\"60\";s:4:\"unit\";s:3:\"盒\";s:5:\"kucun\";s:2:\"64\";}');
+INSERT INTO `lkt_product_list` VALUES ('1', '', 'LEGO 乐高积木 创意百变系列 玩具和百货商店 31036', '', '-1-', '1541597062168.jpeg','<p style=\"text-align: center;\"><img src=\"/ueditor/php/upload/image/20181107/1541597101.jpg\" title=\"1541597101.jpg\" alt=\"59bb872eNf44497eb.jpg\"/></p>','100', '2018-06-21 15:50:03', '49', '1,2,3', '64', '0', '', '9', '0', '0', '12.00', '0', '1', '0', '0', '0', 'a:5:{s:3:\"cbj\";s:2:\"20\";s:2:\"yj\";s:3:\"100\";s:2:\"sj\";s:2:\"60\";s:4:\"unit\";s:3:\"盒\";s:5:\"kucun\";s:2:\"64\";}','0','0.00','0.00','0.00','0.00','0.00','1','0.00');
 /*!40000 ALTER TABLE `lkt_product_list` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+CREATE TABLE `lkt_detailed_commission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `userid` varchar(50) DEFAULT NULL,
+  `sNo` varchar(255) DEFAULT NULL COMMENT '订单号',
+  `money` float(10,2) DEFAULT '0.00' COMMENT '应发佣金',
+  `s_money` float(10,2) DEFAULT '0.00' COMMENT '实发佣金',
+  `status` int(2) DEFAULT '1' COMMENT '1.未发放，2.已发放',
+  `addtime` datetime DEFAULT NULL COMMENT '添加时间',
+  `type` int(2) DEFAULT NULL COMMENT '类型',
+  `Referee` varchar(50) DEFAULT NULL COMMENT '上级',
+  `recycle` int(2) DEFAULT '0' COMMENT '0 不回收  1.回收',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='分销佣金明细表';
 
 --
 -- Table structure for table `lkt_record`
