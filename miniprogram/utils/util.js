@@ -28,7 +28,6 @@ function getUesrBg(that){
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: function (res) {
-      console.log(that.globalData.userInfo,22222222222222)
       var num = res.data.cart.toString()
       if(num >0){
         wx.setTabBarBadge({

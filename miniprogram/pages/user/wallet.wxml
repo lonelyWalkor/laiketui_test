@@ -65,10 +65,11 @@
               <text class='my_money' wx:if="{{item.type == 12}}">(转好友)</text>
               <text class='my_money' wx:if="{{item.type == 21}}">(提现成功)</text>
             </view>
-            <view class='obtain_bt_2' wx:if="{{item.type == 1 || item.type == 5 || item.type == 13 || item.type == 14 || item.type == 22 || item.type == 23 || item.type == 24}}">
+            <view class='obtain_bt_2' wx:if="{{item.type == 1 || item.type == 5 || item.type == 13 || item.type == 7|| item.type == 14 || item.type == 22 || item.type == 23 || item.type == 24}}">
               +{{item.money}}  
               <text class='my_money' wx:if="{{item.type == 1}}">(充值)</text>
               <text class='my_money' wx:if="{{item.type == 5}}">(退款)</text>
+              <text class='my_money' wx:if="{{item.type == 7}}">(返佣)</text>
               <text class='my_money' wx:if="{{item.type == 13}}">(转入)</text>
               <text class='my_money' wx:if="{{item.type == 14}}">(系统充值)</text>
               <text class='my_money' wx:if="{{item.type == 22}}">(提现失败)</text>
