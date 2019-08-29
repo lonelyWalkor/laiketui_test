@@ -903,10 +903,15 @@ class groupbuyAction extends Action {
         }
 
         $groupmsg = $db -> select("select * from lkt_group_open where ptcode='$oid'");
-        $userid = $db -> select("select user_id from lkt_user where wx_id='$user_id' ");
-        $userid = $userid[0] -> user_id;
-        $isrecd = $db -> select("select count(*) as recd from lkt_order where ptcode='$oid' and pid='$groupid' and user_id='$userid'");
-        $recd = $isrecd[0] -> recd;
+        if($user_id && $user_id!='undefined'){
+            $userid = $db -> select("select user_id from lkt_user where wx_id='$user_id' ");
+            $userid = $userid[0] -> user_id;
+            $isrecd = $db -> select("select count(*) as recd from lkt_order where ptcode='$oid' and pid='$groupid' and user_id='$userid'");
+            $recd = $isrecd[0] -> recd;
+        }else{
+            $recd=0;
+        }
+
         
      if($recd > 0){
         $sql = "select m.*,d.p_name,d.p_price,d.sid from (select k.*,p.name,p.num,p.sheng,p.shi,p.xian,p.address,p.mobile,p.status from lkt_group_open as k right join lkt_order as p on k.ptcode=p.ptcode where p.ptcode='$oid' and p.user_id='$userid') as m left join lkt_order_details as d on m.sNo=d.r_sNo";

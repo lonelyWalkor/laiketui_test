@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-28 18:02:00
+ * @LastEditTime: 2019-08-28 18:31:25
+ * @LastEditors: Please set LastEditors
+ -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -103,12 +110,28 @@ form[name=form1] input{
 	}
 	.form-horizontal .formControls {
     padding-right: 10px;
-}
+}    #masks {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        z-index: 10002;
+        background-color: #FFF;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
+    #masks img {
+        width: 50px;
+    }
         </style>
     {/literal}
     <title>修改产品</title>
 </head>
-<body>
+<body style="overflow-y:hidden;">
+<div id="masks">
+    <img src="images/icon1/loads.gif">
+</div>
 <div class="breadcrumb" style="margin-top: 0;"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span><a href="index.php?module=product" style="text-decoration:none;" onmouseover="this.style.color='#333'">产品列表管理</a><span class="c-gray en">&gt;</span> 修改产品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭"><i class="Hui-iconfont">&#xe6a6;</i></a></div>
 <div class="pd-20" id="page">
     <form name="form1" action="index.php?module=product&action=modify" enctype="multipart/form-data" method="post">
@@ -600,6 +623,14 @@ var page = new Vue({
             unit:'{/literal}{$initial->unit}{literal}',
             imageClickInfo:'',
             imageClickInfoIndex:0
+        },
+        created:function(){
+            this.$nextTick(function () {
+                $('#masks').hide()
+                $(document.body).css({
+                    "overflow-y": "auto"
+                })
+            })
         },
         methods: {
             change: function(item, index) {

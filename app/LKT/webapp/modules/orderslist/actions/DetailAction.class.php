@@ -48,9 +48,11 @@ class DetailAction extends Action {
         $reduce_price = 0; // 满减金额
         $coupon_price = 0; // 优惠券金额
         $allow = 0; // 积分
-
+        
+          // $reduce_price = 0; // 满减金额
+          // $coupon_price = 0; // 优惠券金额
       foreach ($res as $k => $v) { 
-
+// print_r($v);die;
         $sid = $v -> sid;
 		$data['user_name'] = $v -> user_name; // 联系人
         $data['name'] = $v -> name; // 联系人
@@ -86,6 +88,7 @@ class DetailAction extends Action {
         $data['courier_num'] = $v -> courier_num; // 快递单号
 
           $data['drawid'] = $v -> drawid; // 抽奖ID
+          $data['coupon_price'] = $v -> coupon_price; // 快递单号
           $reduce_price = $v -> reduce_price; // 满减金额
           $coupon_price = $v -> coupon_price; // 优惠券金额
           $allow = $v -> allow; // 积分
@@ -331,8 +334,6 @@ class DetailAction extends Action {
                 }
             }
 
-          $reduce_price = 0; // 满减金额
-          $coupon_price = 0; // 优惠券金额
           $allow = 0; // 积分
           $sql02 = "select * from lkt_express ";
           $r02 = $db -> select($sql02);

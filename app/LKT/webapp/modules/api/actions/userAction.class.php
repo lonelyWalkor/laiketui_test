@@ -69,6 +69,7 @@ class userAction extends Action {
         $request = $this->getContext()->getRequest();
         // 获取信息
         $openid = $_POST['openid']; // 微信id
+        // print_r($openid);die;
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -286,7 +287,7 @@ class userAction extends Action {
         $list_1 = [];
         if($r_5){
             foreach ($r_5 as $k => $v) {
-                if($v->type == 1 ||$v->type == 4 ||$v->type == 5 || $v->type == 6 ||$v->type == 12||$v->type == 13||$v->type == 14){
+                if($v->type == 1 ||$v->type == 4 ||$v->type == 5 || $v->type == 6|| $v->type == 7 ||$v->type == 12||$v->type == 13||$v->type == 14){
                     $v->time = substr($v->add_date,0,strrpos($v->add_date,':'));
                     $list_1[$k]=$v;
                 }

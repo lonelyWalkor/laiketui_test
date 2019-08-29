@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-28 18:01:58
+ * @LastEditTime: 2019-08-28 18:31:16
+ * @LastEditors: Please set LastEditors
+ -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -121,12 +128,29 @@ function check(f) {
 .inputC:checked+label::before {
     top: 8px;
 }
+    #masks {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        z-index: 10002;
+        background-color: #FFF;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
+    #masks img {
+        width: 50px;
+    }
 </style>
 {/literal}
 
 <title>添加产品</title>
 </head>
-<body>
+<body style="overflow-y:hidden;">
+<div id="masks">
+    <img src="images/icon1/loads.gif">
+</div>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> <a href="index.php?module=product" style="text-decoration:none;" onmouseover="this.style.color='#333'">产品列表管理</a> <span class="c-gray en">&gt;</span> 发布产品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 
 <div class="pd-20" id="page">
@@ -531,6 +555,14 @@ KindEditor.ready(function (K) {
                     unit: '',
                     imageClickInfo:'',
                     imageClickInfoIndex:0
+                },
+                created:function(){
+                    this.$nextTick(function () {
+                        $('#masks').hide()
+                        $(document.body).css({
+                            "overflow-y": "auto"
+                        })
+                    })
                 },
                 methods: {
                     change: function(item, index) {

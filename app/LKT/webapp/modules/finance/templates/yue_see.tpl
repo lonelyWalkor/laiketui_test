@@ -38,7 +38,7 @@
 	                    <td>{$item->user_name}</td>
 	                    <td>{$item->typename}</td>
 						<td>
-							{if $item->type == 1 ||$item->type == 5 || $item->type == 13 || $item->type == 14 || $item->type == 19 || $item->type == 20 || $item->type == 22 || $item->type == 23}+{$item->money}{/if}
+							{if $item->type == 1 ||$item->type == 5 || $item->type == 13 || $item->type == 7 ||$item->type == 14 || $item->type == 19 || $item->type == 20 || $item->type == 22 || $item->type == 23}+{$item->money}{/if}
 							{if $item->type == 2 ||$item->type == 4 || $item->type == 11 || $item->type == 12 || $item->type == 21}-{$item->money}{/if}
 						</td>
 						<td>{if $item->source == 1}小程序{elseif $item->source == 2}app{/if}</td>
@@ -48,6 +48,7 @@
 							{if $item->type == 2 }申请提现{/if}
 							{if $item->type == 4 }余额消费{/if}
 							{if $item->type == 5 }退款{/if}
+							{if $item->type == 7 }返佣{/if}
 							{if $item->type == 11 }系统扣款{/if}
 							{if $item->type == 12 }给好友转余额{/if}
 							{if $item->type == 13 }转入余额{/if}

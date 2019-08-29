@@ -55,6 +55,7 @@ td a{
 					<option value="2" {if $type =='2' }selected {/if}>申请提现</option>
 					<option value="4" {if $type =='4' } selected{/if}>余额消费</option>
 					<option value="5" {if $type =='5' } selected{/if}>退款</option>
+					<option value="7" {if $type =='7' } selected{/if}>佣金</option>
 					<option value="11" {if $type =='11' } selected{/if}>系统扣款</option>
 					<option value="12" {if $type =='12' } selected{/if}>给好友转余额</option>
 					<option value="13" {if $type =='13'} selected{/if}>转入余额</option>
