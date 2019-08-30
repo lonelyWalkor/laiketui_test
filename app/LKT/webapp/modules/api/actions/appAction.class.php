@@ -215,8 +215,8 @@ class appAction extends Action {
                 // 查询订单设置表
                 $sql = "select * from lkt_order_config where id = 1";
                 $r = $db->select($sql);
-                $order_overdue = $r[0]->order_overdue; // 未付款订单保留时间
-                $unit = $r[0]->unit; // 未付款订单保留时间单位
+                $order_overdue = $r?$r[0]->order_overdue:1; // 未付款订单保留时间
+                $unit = $r?$r[0]->unit:'小时'; // 未付款订单保留时间单位
                 if($order_overdue != 0){
                     if($unit == '天'){
                         $time01 = date("Y-m-d H:i:s",strtotime("-$order_overdue day")); // 订单过期删除时间
@@ -377,9 +377,11 @@ class appAction extends Action {
         $request = $this->getContext()->getRequest();
         $openid =$request->getParameter('openid');
         $referee_openid =$request->getParameter('referee_openid');
-        $sql = "select Referee from lkt_user where wx_id = '$openid'";
+        $sql = "select Referee,user_id from lkt_user where wx_id = '$openid'";//判断有没有推荐人
             $rr = $db->select($sql);
-            if(!$rr[0]->Referee){
+            $userid = $rr[0]->user_id;
+            $sql01 = $db->selectrow("select * from lkt_user where Referee = '$userid'");//同时有没有下级
+            if(!$rr[0]->Referee && $sql01 < 1){
                   $sql01 = "update lkt_user set Referee = '$referee_openid' where wx_id = '$openid' ";
                     $db->update($sql01);
             }
