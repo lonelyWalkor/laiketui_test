@@ -93,6 +93,7 @@ class addsignAction extends Action {
 				exit();
 			}
 			$sqld = "update lkt_order_details set r_status='$trade' $con where r_sNo='$sNo'";
+			// print_r($sqld);die;
 			$rd = $db -> update($sqld);
 			if ($rd < 1) {
                 $db->rollback();
@@ -113,8 +114,6 @@ class addsignAction extends Action {
 				$num = $value -> num;
 
                 $db->insert("insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$p_id','$sid','$num',1,CURRENT_TIMESTAMP)");//增加一条出库记录
-
-
 				//查询openid
 				$sql_openid = "select wx_id from lkt_user where user_id = '$user_id'";
 				$res_openid = $db -> select($sql_openid);
@@ -150,7 +149,8 @@ class addsignAction extends Action {
 		} else if ($otype == 'pt') {
 			$sqll = 'update lkt_order set status=2 where sNo="' . $sNo . '"';
 			$rl = $db -> update($sqll);
-			$sqld = 'update lkt_order_details set ' . substr($con, 1) . ' where r_sNo="' . $sNo . '"';
+			$sqld = 'update lkt_order_details set  r_status=2, ' . substr($con, 1) . ' where r_sNo="' . $sNo . '"';
+			// print_r($sqld);die;
 			$rd = $db -> update($sqld);
 			$msgsql = "select o.id,o.user_id,o.sNo,d.p_name,o.name,o.address,d.p_id,d.sid,d.num from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.sNo='$sNo'";
 			$msgres = $db -> select($msgsql);
