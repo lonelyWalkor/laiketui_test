@@ -170,6 +170,7 @@ class userAction extends Action {
                     }
                 }
             }
+
         }
         $support = '来客电商提供技术支持';
         // 状态 0：未付款 1：未发货 2：待收货 3：待评论 4：退货 5:已完成 6 订单关闭 9拼团中 10 拼团失败-未退款 11 拼团失败-已退款
@@ -267,46 +268,61 @@ class userAction extends Action {
                 $user['Cardholder'] = ''; // 持卡人
                 $user['Bank_card_number'] = ''; // 银行卡号
             }
-        }
+        
 
-        // 根据推荐人等于会员编号,查询推荐人总数
-        $sql = "select count(Referee) as a from lkt_user where Referee = '$user_id'";
-        $r_3 = $db -> select($sql);
-        $user['invitation_num'] = $r_3[0]->a;
-        // 根据微信id,查询分享列表里的礼券总和
-        $sql = "select sum(coupon) as a from lkt_share where wx_id = '$openid'";
-        $r_4 = $db->select($sql);
-        if($r_4[0]->a == ''){
-            $user['coupon'] = 0;
-        }else{
-            $user['coupon'] = $r_4[0]->a;
-        }
-        // 根据用户id、类型为充值,查询操作列表-----消费记录
-        $sql = "select money,add_date,type from lkt_record where user_id = '$user_id' order by add_date desc";
-        $r_5 = $db->select($sql);
-        $list_1 = [];
-        if($r_5){
-            foreach ($r_5 as $k => $v) {
-                if($v->type == 1 ||$v->type == 4 ||$v->type == 5 || $v->type == 6|| $v->type == 7 ||$v->type == 12||$v->type == 13||$v->type == 14){
-                    $v->time = substr($v->add_date,0,strrpos($v->add_date,':'));
-                    $list_1[$k]=$v;
+            // 根据推荐人等于会员编号,查询推荐人总数
+            $sql = "select count(Referee) as a from lkt_user where Referee = '$user_id'";
+            $r_3 = $db -> select($sql);
+            $user['invitation_num'] = $r_3[0]->a;
+            // 根据微信id,查询分享列表里的礼券总和
+            $sql = "select sum(coupon) as a from lkt_share where wx_id = '$openid'";
+            $r_4 = $db->select($sql);
+            if($r_4[0]->a == ''){
+                $user['coupon'] = 0;
+            }else{
+                $user['coupon'] = $r_4[0]->a;
+            }
+            // 根据用户id、类型为充值,查询操作列表-----消费记录
+            $sql = "select money,add_date,type from lkt_record where user_id = '$user_id' order by add_date desc";
+            $r_5 = $db->select($sql);
+            $list_1 = [];
+            $list_3 = [];
+            if($r_5){
+                foreach ($r_5 as $k => $v) {
+                    if($v->type == 4 || $v->type == 6||$v->type == 12||$v->type == 11||$v->type == 2||$v->type == 21){
+                        $v->time = substr($v->add_date,0,strrpos($v->add_date,':'));
+                        $list_1[$k]=$v;
+                    }
+                    if($v->type == 1  ||$v->type == 5 || $v->type == 7 ||$v->type == 13||$v->type == 14||$v->type == 22||$v->type == 23||$v->type == 24){
+                        $v->time = substr($v->add_date,0,strrpos($v->add_date,':'));
+                        $list_3[$k]=$v;
+                    }
                 }
             }
-        }
-        $sql = "select money,add_date from lkt_record where user_id = '$user_id' and type = 21 order by add_date desc";
-        $r_6 = $db->select($sql);
-        if($r_6){
-            foreach ($r_6 as $k => $v) {
-               $v->time = substr($v->add_date,0,strrpos($v->add_date,':'));
+            $sql = "select money,add_date from lkt_record where user_id = '$user_id' and type = 21 order by add_date desc";
+            $r_6 = $db->select($sql);
+            if($r_6){
+                foreach ($r_6 as $k => $v) {
+                   $v->time = substr($v->add_date,0,strrpos($v->add_date,':'));
+                }
+                $list_2 = $r_6;
+            }else{
+                $list_2 = '';
             }
-            $list_2 = $r_6;
-        }else{
-            $list_2 = '';
+
+         $detailed_commission = $db -> select("select sum(s_money) as s_money from lkt_detailed_commission where Referee = '$user_id' and status =1");
+         // print_r($detailed_commission);die;
+            if($detailed_commission && $detailed_commission !='null'){
+                $detailed_commission =$detailed_commission[0]->s_money;
+                
+            }else{
+                $detailed_commission='0';
+            }
+            echo json_encode(array('status'=>1,'user'=>$user,'list_1'=>$list_1,'list_2'=>$list_2,'list_3'=>$list_3,'detailed_commission'=>$detailed_commission));
+            exit();
+        
+            return;
         }
-        echo json_encode(array('status'=>1,'user'=>$user,'list_1'=>$list_1,'list_2'=>$list_2));
-        exit();
-    
-        return;
     }
     // 获取用户手机号
     public function secret_key(){

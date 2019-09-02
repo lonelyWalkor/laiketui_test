@@ -178,10 +178,11 @@ class IndexAction extends Action {
                     unset($plug[$k]);
                 }
 
-                if(strpos($v->name,'红包') !== false){ 
-                    if(!$rfhb){
+              
+                if(strpos($v->name,'我的客户') !== false){ 
+                    // if(!$rfhb){
                         unset($plug[$k]);
-                    }
+                    // }
                 }
             }
         }

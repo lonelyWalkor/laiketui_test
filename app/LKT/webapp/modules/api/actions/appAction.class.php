@@ -204,6 +204,7 @@ class appAction extends Action {
                 // }else{
                     $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
                 // }
+                    // print_r($sql);die;
                 $db->update($sql);
                 $user_id = $rr[0]->user_id;
               
