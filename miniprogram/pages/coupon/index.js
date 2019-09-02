@@ -144,7 +144,7 @@ Page({
   // 点击领取
   receive: function (e) {
     if(app.userlogin(1)){
-      this.pop.clickPup()
+      this.pop.clickPup(this)
       return
     }
     

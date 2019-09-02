@@ -30,13 +30,14 @@ Page({
     this.pop = this.selectComponent("#pop")
   },
   onLoad: function (options) {
-
+    
     if (options.referee_openid != '') {
       app.globalData.userInfo['referee_openid'] = options.referee_openid;
     } else {
       app.globalData.userInfo['referee_openid'] = '';
     }
-
+   // console.log(app.globalData.userInfo['referee_openid'])
+    
     var scene = decodeURIComponent(options.scene);
 
     if (scene != 'undefined' && scene.length > 1 && scene != '') {
@@ -173,7 +174,7 @@ Page({
   //分享朋友圈 查看保存图片
   user_share: function () {
     if (app.userlogin(1)) {
-      this.pop.clickPup()
+      this.pop.clickPup(this)
       return
     }
     var that = this;
@@ -304,6 +305,7 @@ Page({
     this.setData({
       show_share: false
     });
+    console.log("/pages/group_buy/detail?gid=" + this.gid + '&sum=' + this.data.sum + '&group_id=' + this.data.groupid + '&pagefrom=share&referee_openid=' + app.globalData.userInfo.user_id,1111)
     return {
       title: this.data.itemData.pro_name,
       path: "/pages/group_buy/detail?gid=" + this.gid + '&sum=' + this.data.sum + '&group_id=' + this.data.groupid + '&pagefrom=share&referee_openid=' + app.globalData.userInfo.user_id,
@@ -393,7 +395,9 @@ Page({
         that.setData({
           showModalStatus: false
         });
-        obj += '&pro_name=' + that.goodsInfo.detail.pro_name + '&num=' + that.data.num + '&pro_id=' + that.goodsInfo.detail.product_id + '&sizeid=' + sizeid + '&groupid=' + that.data.groupid + '&pagefrom=kaituan&oid=321';
+
+        obj += '&pro_name=' + that.goodsInfo.detail.pro_name + '&num=' + that.data.num + '&pro_id=' + that.goodsInfo.detail.product_id + '&sizeid=' + sizeid + '&groupid=' + that.data.groupid + '&pagefrom=kaituan&oid=321&referee_openid=' + app.globalData.userInfo['referee_openid'];
+
         app.redirect('group_buy/payfor', obj);
       }
     }

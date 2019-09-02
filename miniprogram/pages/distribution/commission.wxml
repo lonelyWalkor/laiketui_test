@@ -1,0 +1,25 @@
+<!--pages/distribution/commission.wxml-->
+<view>
+  <view class="search_no" style='padding-top:60px' wx:if="{{list_3.length < 1}}">
+    <view class="font_14"  style='padding-bottom:2%;'><image class="scimg" src="/images/search_no.png"></image></view>
+    <text>暂时还没预计佣金记录/(ㄒoㄒ)/~~</text>
+  </view>
+  <view class='obtain_box'>
+    <scroll-view scroll-y="true" style='height:100%;overflow:auto;padding-bottom:45px;'>
+      <view class='jf_obtain' wx:for="{{ list_3 }}">
+
+        <view class='obtain_bt_3'>
+          <view style='color: #B8B8B8;font-size: 22rpx;'>{{item.addtime}}</view>
+        </view>
+
+        <view class='obtain_bt_2' style="color:#020202;font-weight:bold;">
+          +{{item.s_money}}  
+        </view>
+
+      </view>
+      <view class='load' wx:if="{{ list_3.length > 1 }}">没有更多了</view>
+    </scroll-view>
+  </view>
+
+
+</view>

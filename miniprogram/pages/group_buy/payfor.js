@@ -73,11 +73,13 @@ Page({
   },
   onLoad: function(options) {
     console.log(options,'24444----------------------')
+    
     if (options.referee_openid != '') {
       app.globalData.userInfo['referee_openid'] = options.referee_openid;
     } else {
       app.globalData.userInfo['referee_openid'] = '';
     }
+
     var that = this;
     that.get_plug();
     if (!that.data.options) {
@@ -489,9 +491,10 @@ Page({
       method: 'post',
       success: function(res) {
         if (res.code == 1 && status == 1) {
-          if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+          if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined')            {
             var referee_openid = app.globalData.userInfo.referee_openid;
             var openid = app.globalData.userInfo.openid
+
             that.refereeopenid(referee_openid, openid);//储存推荐人
           }
           wx.showModal({
@@ -499,6 +502,7 @@ Page({
             showCancel: false,
             confirmText: "确定",
             success: function() {
+
               wx.redirectTo({
                 url: '../group_buy/cantuan?id=' + res.gcode + '&groupid=' + that.data.groupres.status + '&pro_id=' +
                   that.data.pro_id + '&man_num=' + that.data.groupres.man_num
@@ -516,7 +520,12 @@ Page({
       }
     })
   },
-
+  promiss: function (callback, referee_openid, openid) {
+    return new Promise((s, l) => {
+      callback(referee_openid, openid)
+      s()
+    })
+  },
   canGroupOrder: function(status, trade_no) {
     var that = this
     var coupon_money = that.coupon_money;
@@ -571,13 +580,20 @@ Page({
             var man_num = that.data.groupres.man_num - 1 - res.ptnumber;
             that.canGroupNotice(res.order, res.endtime, that.data.proattr.group_price, that.coupon_money, app.globalData.userInfo.openid, that.data.form_id, man_num, that.data.proattr.pro_name, 'pages/order/detail?orderId=' + res.id)
           } else if (res.code == 2) {
-            that.detailed(res.gcode);//分销
+          
             if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
               var referee_openid = app.globalData.userInfo.referee_openid;
               var openid = app.globalData.userInfo.openid
-              that.refereeopenid(referee_openid, openid);//储存推荐人
+              // that.promiss(that.refereeopenid, referee_openid, openid).then(res => {
+              //   that.detailed(res.gcode);//分销
+              // })
+              that.refereeopenid(referee_openid, openid)
+              that.detailed(res.gcode);
+            } else {
+              that.detailed(res.gcode);//分销
             }
-
+            
+            // debugger;
             wx.showModal({
               content: "恭喜您,拼团成功！",
               showCancel: false,
@@ -589,6 +605,7 @@ Page({
                 })
               }
             })
+            
           } else if (res.code == 3) {
             wx.showModal({
               content: "很抱歉,此团已满！支付金额已退还到您钱包账户",
@@ -754,15 +771,23 @@ Page({
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: function(res) {
-        that.detailed(res.data.data.ptcode);//分销
+        // debugger;
         if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
           var referee_openid = app.globalData.userInfo.referee_openid;
           var openid = app.globalData.userInfo.openid
-          that.refereeopenid(referee_openid, openid);//储存推荐人
+          // that.promiss(that.refereeopenid, referee_openid, openid).then(res => {
+          //   that.detailed(res.data.data.ptcode);//分销
+          // })
+          that.refereeopenid(referee_openid, openid)
+          that.detailed(res.data.data.ptcode);
+        }else{
+          that.detailed(res.data.data.ptcode);
         }
+        // that.refereeopenid(referee_openid, openid)
+        
         if (res.data.status) {
           wx.showModal({
-            content: "恭喜您,拼团成功！",
+            content: "恭喜您,拼团成功1！",
             showCancel: false,
             confirmText: "确定",
             success: function() {
@@ -780,19 +805,6 @@ Page({
           })
         }
       }
-    })
-  },
-   detailed: function (sNo) {//分销
-    wx.request({
-      url: app.d.ceshiUrl + '&action=distribution&m=pt_detailed_commission',
-      method: 'post',
-      data: {
-        userid: app.globalData.userInfo.openid,
-        ptcode: sNo,
-      },
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
     })
   },
   //储存推荐人
@@ -816,6 +828,20 @@ Page({
         });
       },
     });
+  },
+
+   detailed: function (sNo) {//分销
+    wx.request({
+      url: app.d.ceshiUrl + '&action=distribution&m=pt_detailed_commission',
+      method: 'post',
+      data: {
+        userid: app.globalData.userInfo.openid,
+        ptcode: sNo,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+    })
   },
 
 })

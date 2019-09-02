@@ -114,13 +114,6 @@ Page({
     } else {
       app.globalData.userInfo['referee_openid'] = '';
     }
-    // console.log(app.globalData.userInfo, 'openid')
-    // if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid !='undefined'){
-    //   console.log(66411)
-    //   var referee_openid = app.globalData.userInfo.referee_openid;
-    //   var openid = app.globalData.userInfo.openid
-    //   that.refereeopenid(referee_openid, openid);//储存推荐人
-    // }
     that.setData({
       productId: option.productId,
       userid: option.userid ? option.userid : false,
@@ -157,31 +150,6 @@ Page({
       }
     })
   },
-  // //储存推荐人
-  // refereeopenid: function (referee_openid, openid){
-  //   wx.request({
-  //     url: app.d.ceshiUrl + '&action=app&m=referee_openid',
-  //     method: 'post',
-  //     data: {
-  //       openid: openid,
-  //       referee_openid: referee_openid,
-  //     },
-  //     header: {
-  //       'Content-Type': 'application/x-www-form-urlencoded'
-  //     },
-  //     success: function (res) {
-     
-        
-        
-  //     },
-  //     error: function (e) {
-  //       wx.showToast({
-  //         title: '网络异常！',
-  //         duration: 2000,
-  //       });
-  //     },
-  //   });
-  // },
   // 商品详情数据获取 
   loadProductDetail: function () {
     var that = this;
@@ -411,7 +379,7 @@ Page({
   //跳转cart
   go_cart: function () {
     if (app.userlogin(1)) {
-      this.pop.clickPup()
+      this.pop.clickPup(this)
       return
     }
     util.getUesrBgplus(this, app, false)
@@ -701,6 +669,7 @@ Page({
       if (res.from === 'button') {
         // 来自页面内转发按钮
       }
+    console.log('pages/product/detail?productId=' + id + '&referee_openid=' + referee_openid)
       return {
         title: title,
         imageUrl: that.data.bannerItem[0],
@@ -733,7 +702,7 @@ Page({
   // 添加到收藏
   addFavorites: function (e) {
     if (app.userlogin(1)) {
-      this.pop.clickPup()
+      this.pop.clickPup(this)
       return
     }
     var that = this;
@@ -842,7 +811,7 @@ Page({
   },
   add_fromid: function (e) {
     if (app.userlogin(1)){
-      this.pop.clickPup()
+      this.pop.clickPup(this)
       return 
     }
 
@@ -904,7 +873,7 @@ Page({
   // 弹窗
   set_share: function (e) {
     if (app.userlogin(1)){
-      this.pop.clickPup()
+      this.pop.clickPup(this)
       return
     }
     var taht = this;

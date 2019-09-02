@@ -160,10 +160,9 @@ Page({
         dz_stu: false,
       });
       util.getUesrBgplus(that, app, false)
-      wx.redirectTo({
-
+      wx.navigateTo({
         url: '../order/pay?cartId=' + that.data.cartId,
-      });
+      })
     }
 
     if (that.data.pages_sx) {
@@ -652,8 +651,15 @@ Page({
         success: function(res) {
           var status = res.data.status;
           if (status) {
+            if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+              // console.log(66411)
+              var referee_openid = app.globalData.userInfo.referee_openid;
+              var openid = app.globalData.userInfo.openid
+              that.refereeopenid(referee_openid, openid);//储存推荐人
+            }
             //支付成功  修改订单
             that.up_order(order);
+            
           } else {
             //支付失败：提示
             wx.showToast({
@@ -678,6 +684,12 @@ Page({
       });
     }
 
+  },
+  promiss: function (callback, referee_openid, openid){
+    return new Promise((s,l) => {
+      callback(referee_openid, openid)
+      s()
+    })
   },
   // 调起微信支付
   wxpay: function(order) {
@@ -721,7 +733,23 @@ Page({
             paySign: res.data.paySign,
             success: function(res) {
               //支付成功  修改订单
-              that.up_order(order);
+              if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
+                // console.log(66411)
+                var referee_openid = app.globalData.userInfo.referee_openid;
+                var openid = app.globalData.userInfo.openid
+
+                that.promiss(that.refereeopenid, referee_openid, openid).then(res => {
+                  that.up_order(order);
+                })
+
+                // that.refereeopenid(referee_openid, openid);// 储存推荐人
+
+              } else {
+                that.up_order(order);
+              }
+
+              
+             
                 wx.redirectTo({
                   url: '../order/detail?orderId=' + oid + '&&type1=22'
                 })
@@ -754,14 +782,9 @@ Page({
   up_order: function(order) {
     
     var that = this;
+
+   
     that.detailed(order.sNo);//分销
-    if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
-      // console.log(66411)
-      var referee_openid = app.globalData.userInfo.referee_openid;
-      var openid = app.globalData.userInfo.openid
-      that.refereeopenid(referee_openid, openid);//储存推荐人
-    }
-    
     var type1 = that.data.type1;
     var d_yuan = that.data.d_yuan;
     var cmoney = order.coupon_money;
@@ -826,21 +849,6 @@ Page({
     })
 
   },
-
-  detailed: function (sNo){//分销
-    wx.request({
-      url: app.d.ceshiUrl + '&action=distribution&m=detailed_commission',
-      method: 'post',
-      data: {
-        userid: app.globalData.userInfo.openid,
-        order_id:sNo,
-      },
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-    })
-  },
-
   //储存推荐人
   refereeopenid: function (referee_openid, openid) {
     wx.request({
@@ -863,6 +871,22 @@ Page({
       },
     });
   },
+
+  detailed: function (sNo){//分销
+    wx.request({
+      url: app.d.ceshiUrl + '&action=distribution&m=detailed_commission',
+      method: 'post',
+      data: {
+        userid: app.globalData.userInfo.openid,
+        order_id:sNo,
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+    })
+  },
+
+
 
 
   //获取插件

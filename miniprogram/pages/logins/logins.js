@@ -22,7 +22,6 @@ Page({
     this.clickPup()
   },
   clickPup: function (vm) {
-
     this.setData({
       logoimg: app.globalData.logoimg,
       loadtitle: app.globalData.title,
@@ -97,14 +96,6 @@ Page({
       title: '正在登入',
       success: 2000
     });
-
-
-
-
-
-
-
-
 
     console.log(e.detail.userInfo)
     if (e.detail.errMsg == 'getUserInfo:ok') {
@@ -191,8 +182,8 @@ Page({
   getOP: function (res) {
     //提交用户信息 获取用户id
     let that = this
-    app.getUserInfo('','',res,function(){
-
+    let thatplus = this.data.thvm
+    app.getUserInfo('', '', res, function (){
       let userInfo = res;
       var user = app.globalData.userInfo;
 
@@ -226,10 +217,11 @@ Page({
 
           setTimeout(function () {
             that.clickPup()
+            thatplus.onLoad()
             // getCurrentPages()[getCurrentPages().length - 1].onLoad()
-            wx.switchTab({
-              url: '../index/index',
-            })
+            // wx.switchTab({
+            //   url: '../index/index',
+            // })
 
           }, 1800);
 
