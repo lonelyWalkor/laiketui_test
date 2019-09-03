@@ -79,7 +79,7 @@ class distributionAction extends Action {
         }else{
             $start = 0;
         }
-
+        $openid = $request -> getParameter('openid');
        echo json_encode(array('res'=>'请购买商业授权!','status'=>1));
         exit();
 
@@ -102,5 +102,12 @@ class distributionAction extends Action {
         exit();
 
    }
+      public function show(){//佣金详情
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        $id = $request -> getParameter('id');
+           echo json_encode(array('res'=>'请购买商业授权!','status'=>1));
+        exit();
+    }
 }
 ?>
