@@ -69,19 +69,7 @@ Page({
     this.getMyClientData()
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    this.getMyClientData()
-  },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
   getMyClientData: function () {
     var that = this
     if (!that.data.isopen) {
@@ -100,27 +88,28 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function (res) {
-          var data = res.data
-
-          var list_3 = that.data.list_3
-          if (data.res.length){
-
-            list_3 = list_3.concat(data.res)
+          if (res.data.status){
             that.setData({
-              list_3: list_3
+              list_3: 1
             })
-
+          }else{
+            var data = res.data
+            var list_3 = that.data.list_3
+            if (data.res.length) {
+              list_3 = list_3.concat(data.res)
+              that.setData({
+                list_3: list_3
+              })
+            }
+            that.data.load = true
+            if (that.data.total === data.total) {
+              that.data.isopen = false
+            } else {
+              that.data.total++
+            }
           }
-          
 
-          that.data.load = true
-
-          if (that.data.total === data.total){
-            that.data.isopen = false
-          } else {
-            that.data.total++
-          }
-          
+          console.log(list_3)
         },
         error: function (e) {
           wx.showToast({

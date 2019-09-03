@@ -105,26 +105,34 @@ Page({
         },
         success: function (res) {
           var data = res.data
-          var total = data.total
+          if(data.status){
+            that.setData({
+              num: data.num,
+              r01:1
+            });
+          }else{
+            var total = data.total
+            if (res.statusCode === 404) {
+              return
+            }
+            var r01 = that.data.r01
+            r01 = r01.concat(data.r01)
+            that.setData({
+              num: data.num,
+              r01: r01
+            });
 
-          if (res.statusCode === 404){
-            
-            return 
+            that.data.load = true
+
+            if (that.data.total === total) {
+              that.data.isopen = false
+            } else {
+              that.data.total++
+            }
           }
-          var r01 = that.data.r01
-          r01 = r01.concat(data.r01)
-          that.setData({
-            num: data.num,
-            r01: r01
-          });
 
-          that.data.load = true
 
-          if (that.data.total === total) {
-            that.data.isopen = false
-          } else {
-            that.data.total++
-          }
+          
         },
         error: function (e) {
           wx.showToast({
