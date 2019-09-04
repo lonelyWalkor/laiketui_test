@@ -6,20 +6,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    total:1,
-    r01:[],
-    isopen:true,
-    load: true,
-    num:0
+    total: 1,
+    r01: [],
+    isopen: true,
+    load: true
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     // 设置标题
     wx.setNavigationBarColor({
-      frontColor: app.d.frontColor,//
+      frontColor: app.d.frontColor, //
       backgroundColor: app.d.bf_color, //页面标题为路由参数
       animation: {
         duration: 400,
@@ -32,40 +31,40 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.setData({
       num: 0,
       r01: [],
       total: 1,
-      isopen:true
+      isopen: true
     })
     this.getMyClientData()
   },
@@ -73,22 +72,22 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
     this.getMyClientData()
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
   /**
    * get my client
    */
-  getMyClientData:function(){
+  getMyClientData: function() {
     var that = this;
-    if (!that.data.isopen){
+    if (!that.data.isopen) {
       return
     }
     if (that.data.load) {
@@ -103,18 +102,16 @@ Page({
         header: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        success: function (res) {
+        success: function(res) {
           var data = res.data
-          if(data.status){
+          if (data.status) {
             that.setData({
-              num: data.num,
-              r01:1
+              num: 0,
+              r01: 1
             });
-          }else{
+          } else {
             var total = data.total
-            if (res.statusCode === 404) {
-              return
-            }
+
             var r01 = that.data.r01
             r01 = r01.concat(data.r01)
             that.setData({
@@ -130,11 +127,8 @@ Page({
               that.data.total++
             }
           }
-
-
-          
         },
-        error: function (e) {
+        error: function(e) {
           wx.showToast({
             title: '网络异常！',
             duration: 2000
@@ -143,11 +137,11 @@ Page({
       })
     }
   },
-  setNav: function (event){
+  setNav: function(event) {
     var openid = event.target.dataset.openid
     var title = event.target.dataset.title
     var num = event.target.dataset.num
-    if (num){
+    if (num) {
       wx.navigateTo({
         url: './myclientdef?title=' + title + '&openid=' + openid,
       })

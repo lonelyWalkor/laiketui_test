@@ -114,8 +114,8 @@ Page({
     //离开界面时清除定时器
     clearInterval(this.data.timeout);
     
-    util.getUesrBgplus(that, app, false)
-    util.getUesrBgplus(that, app, true)
+    util.getUesrBgplus(this, app, false)
+    util.getUesrBgplus(this, app, true)
   },
   // 选择支付方式
   switchChange: function (e) {

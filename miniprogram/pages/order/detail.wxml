@@ -39,7 +39,7 @@
       </view>
     </view>
 
-    <view class="shop df" wx:for="{{list}}">
+    <view class="shop df" wx:for="{{list}}"  wx:key="key" >
       <navigator url="../product/detail?productId={{item.p_id}}&size={{item.sid}}"  hover-class="changestyle">
         <image class="sh_slt" src="{{item.imgurl}}"></image>
       </navigator>
@@ -52,7 +52,7 @@
         <view class="sp_jg">
           <view class='guige'>¥ {{item.p_price}} </view> 
           <view class='guige'>x{{item.num}}</view>
-          <navigator wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype =='' && item.r_status != 3}}" bindtap='return_goods' data-order-id="{{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;margin-top:10px;' class="font_12 red fl_r mr_5">申请售后</navigator>
+          <view wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype =='' && item.r_status != 3}}" bindtap='return_goods' data-order-id="{{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;margin-top:10px;' class="font_12 red fl_r mr_5">申请售后</view>
         </view>
       </view>
       <view style='clear:both;'></view>
@@ -66,12 +66,36 @@
 
   <view class="top_1">
     <view class='ddlb'>
-      <view class='ddlb_v'>订单号：<text class='fright'>{{sNo}}</text></view>
-      <view class='ddlb_v'>时间：<text class='fright'>{{add_time}}</text></view>
-      <view class='ddlb_v'>商品总价：<text class='fright'>￥{{pro_price}}</text></view>
-      <view class='ddlb_v' wx:if="{{coupon_money != 0}}">优惠券：<text class='fright'>-￥{{coupon_money}}</text></view>
-      <view class='ddlb_v'>运费：<text class='fright'>￥{{freight}}</text></view>
-      <view class='ddlb_v'>订单总价：<text class='fright'>￥{{z_price}}</text></view>
+
+      <view class='ddlb_v'>
+        <text class="ddlb_v-lift">订单号：</text>
+        <text class='fright'>{{sNo}}</text>
+      </view>
+
+      <view class='ddlb_v'>
+        <text class="ddlb_v-lift">时间：</text>
+        <text class='fright'>{{add_time}}</text>
+      </view>
+
+      <view class='ddlb_v'>
+        <text class="ddlb_v-lift">商品总价：</text>
+        <text class='fright'>￥{{pro_price}}</text>
+      </view>
+
+      <view class='ddlb_v' wx:if="{{coupon_money != 0}}">
+        <text class="ddlb_v-lift">优惠券：</text>
+        <text class='fright'>-￥{{coupon_money}}</text>
+      </view>
+
+      <view class='ddlb_v'>
+        <text class="ddlb_v-lift">运费：</text>
+        <text class='fright'>￥{{freight}}</text>
+      </view>
+
+      <view class='ddlb_v'>
+        <text class="ddlb_v-lift">订单总价：</text>
+        <text class='fright'>￥{{z_price}}</text>
+      </view>
     </view>
     <view style='clear:both'></view>
   </view>

@@ -40,7 +40,7 @@
           </view>
           <text>没有可用订单/(ㄒoㄒ)/~~</text>
         </view>
-        <view class="list" wx:for="{{orderList0}}">
+        <view class="list" wx:for="{{orderList0}}" wx:key="key" >
          
             <view class="top">
               <view>订单号：{{item.r_sNo}}
@@ -83,7 +83,7 @@
           </view>
           <text>没有可用订单/(ㄒoㄒ)/~~</text>
         </view>
-        <view class="list" wx:for="{{orderList1}}">
+        <view class="list" wx:for="{{orderList1}}"  wx:key="key" >
           
           <view class="top">
             <view>订单号：{{item.r_sNo}}

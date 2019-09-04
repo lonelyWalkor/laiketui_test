@@ -91,11 +91,11 @@ Page({
         });
 
         if (prolist == '' || res.data.status == 0) {
-          wx.showToast({
-            title: '已为您全部加载完毕!',
-            icon:'none',
-            duration: 2000
-          });
+          // wx.showToast({
+          //   title: '已为您全部加载完毕!',
+          //   icon:'none',
+          //   duration: 2000
+          // });
           return false;
         }else{
           
@@ -255,9 +255,9 @@ Page({
           
           console.log(res.data.list.length)
           if (res.data.list.length){
-            setTimeout(function () {
+            // setTimeout(function () {
               that.listnsg();
-            }, 2000);
+            // }, 2000);
           }
 
         },
@@ -327,9 +327,9 @@ Page({
 
           console.log(res.data.list.length)
           if (res.data.list.length) {
-            setTimeout(function () {
+            // setTimeout(function () {
               that.listnsg();
-            }, 2000);
+            // }, 2000);
           }
 
         },
@@ -355,6 +355,7 @@ Page({
     }else{
       time = 1500;
     }
+
     setTimeout(function () {
       that.setData({
         zjList_box: false
@@ -363,6 +364,7 @@ Page({
         that.listnsg();
       }, 2000);
     }, time);
+    
     that.setData({
       headimgurl: zjList[zi].headimgurl,
       user_name: zjList[zi].user_name,

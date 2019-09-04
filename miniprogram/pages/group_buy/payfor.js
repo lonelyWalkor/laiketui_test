@@ -458,7 +458,7 @@ Page({
 
   createGroupOrder: function(status, trade_no) {
     var that = this
-
+    // console.log(that,'8989859552')
     var coupon_money = that.coupon_money;
     var num = that.options.num;
     var freight = that.data.freight;
@@ -473,7 +473,7 @@ Page({
         time_over: that.data.groupres.time_over, //结束时间
         sizeid: that.data.sizeid, //商品规格id
         groupid: that.data.groupres.status, //拼团id
-        ptgoods_name: that.data.proattr.group_title, //商品名称
+        ptgoods_name: that.data.proattr.pro_name, //商品名称
         d_price: that.data.proattr.member_price, //单价
         price: total, //付款金额
         name: that.data.buymsg.name, //收件人姓名

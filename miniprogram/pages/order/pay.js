@@ -468,7 +468,6 @@ Page({
     console.log(that)
     console.log('*******fdgdfgdf********')
     var paytype = that.data.paytype;
-
     if (paytype) {
       that.setData({
         paytype: paytype,
@@ -651,15 +650,18 @@ Page({
         success: function(res) {
           var status = res.data.status;
           if (status) {
+          
             if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
-              // console.log(66411)
               var referee_openid = app.globalData.userInfo.referee_openid;
               var openid = app.globalData.userInfo.openid
-              that.refereeopenid(referee_openid, openid);//储存推荐人
+              that.promiss(that.refereeopenid, referee_openid, openid).then(res => {
+                that.up_order(order);
+              })
+
+            } else {
+              //支付成功  修改订单
+              that.up_order(order);
             }
-            //支付成功  修改订单
-            that.up_order(order);
-            
           } else {
             //支付失败：提示
             wx.showToast({
@@ -732,18 +734,15 @@ Page({
             signType: 'MD5',
             paySign: res.data.paySign,
             success: function(res) {
+              console(app.globalData.userInfo.referee_openid,'app.globalData.userInfo.referee_openid')
               //支付成功  修改订单
               if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
-                // console.log(66411)
+                
                 var referee_openid = app.globalData.userInfo.referee_openid;
                 var openid = app.globalData.userInfo.openid
-
                 that.promiss(that.refereeopenid, referee_openid, openid).then(res => {
                   that.up_order(order);
                 })
-
-                // that.refereeopenid(referee_openid, openid);// 储存推荐人
-
               } else {
                 that.up_order(order);
               }

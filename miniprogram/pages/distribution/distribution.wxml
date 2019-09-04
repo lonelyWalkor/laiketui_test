@@ -1,0 +1,158 @@
+<view class='wallet'>
+  <view class='wallet-balance'>2000.00</view>
+  <view class='wallet-title'>账户余额（元）</view>
+</view>
+
+<navigator url='./myclient'>
+  <view class='top-nav'>
+    <view class='nav-title'>预计佣金(元)</view>
+    <view class='nav-sum'>
+      <view class='nav-sum-s'>15.25</view>
+      <image src='../../images/icons/jt.png'></image>
+    </view>
+  </view>
+</navigator>
+
+<view class='record'>
+  <view class='record-nav'>
+    <view class='record-nav-title record-nav-pitch'>入账记录</view>
+    <view class='record-nav-title'>消费记录</view>
+    <view class='record-nav-title'>提现记录</view>
+  </view>
+  <view class='record-content'>
+    <scroll-view scroll-y class='content-list'>
+      <view class='list-item'>
+
+        <view>
+          <view class='item-title'>
+            DD订单佣金
+          </view>
+          <view class='item-time'>
+            2018-06-08 13:39:55
+          </view>
+        </view>
+
+        <view class='item-money'>
+          +3.14
+        </view>
+
+      </view>
+
+      <view class='list-item'>
+
+        <view>
+          <view class='item-title'>
+            DD订单佣金
+          </view>
+          <view class='item-time'>
+            2018-06-08 13:39:55
+          </view>
+        </view>
+
+        <view class='item-money'>
+          +3.14
+        </view>
+
+      </view>
+      <view class='list-item'>
+
+        <view>
+          <view class='item-title'>
+            DD订单佣金
+          </view>
+          <view class='item-time'>
+            2018-06-08 13:39:55
+          </view>
+        </view>
+
+        <view class='item-money'>
+          +3.14
+        </view>
+
+      </view>
+
+      <view class='list-item'>
+
+        <view>
+          <view class='item-title'>
+            DD订单佣金
+          </view>
+          <view class='item-time'>
+            2018-06-08 13:39:55
+          </view>
+        </view>
+
+        <view class='item-money'>
+          +3.14
+        </view>
+
+      </view>
+      <view class='list-item'>
+
+        <view>
+          <view class='item-title'>
+            DD订单佣金
+          </view>
+          <view class='item-time'>
+            2018-06-08 13:39:55
+          </view>
+        </view>
+
+        <view class='item-money'>
+          +3.14
+        </view>
+
+      </view>
+
+      <view class='list-item'>
+
+        <view>
+          <view class='item-title'>
+            DD订单佣金
+          </view>
+          <view class='item-time'>
+            2018-06-08 13:39:55
+          </view>
+        </view>
+
+        <view class='item-money'>
+          +3.14
+        </view>
+
+      </view>
+      <view class='list-item'>
+
+        <view>
+          <view class='item-title'>
+            DD订单佣金
+          </view>
+          <view class='item-time'>
+            2018-06-08 13:39:55
+          </view>
+        </view>
+
+        <view class='item-money'>
+          +3.14
+        </view>
+
+      </view>
+
+      <view class='list-item'>
+
+        <view>
+          <view class='item-title'>
+            DD订单佣金
+          </view>
+          <view class='item-time'>
+            2018-06-08 13:39:55
+          </view>
+        </view>
+
+        <view class='item-money'>
+          +3.14
+        </view>
+
+      </view>
+    </scroll-view>
+  </view>
+</view>

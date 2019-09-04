@@ -36,7 +36,7 @@ Page({
     } else {
       app.globalData.userInfo['referee_openid'] = '';
     }
-   // console.log(app.globalData.userInfo['referee_openid'])
+    console.log(app.globalData.userInfo['referee_openid'])
     
     var scene = decodeURIComponent(options.scene);
 

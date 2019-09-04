@@ -1,0 +1,117 @@
+/* pages/distribution/distribution.wxss */
+.wallet {
+  height: 221rpx;
+  background-color: #FF6347;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.wallet-balance {
+  font-weight:400;
+  font-size:72rpx;
+  color: #FFFFFF;
+
+}
+
+.wallet-title {
+  font-weight:500;
+  font-size:26rpx;
+  color: #FFFFFF;
+  opacity:0.8;
+}
+
+/* nav */
+.top-nav {
+  background-color: #e0573e;
+  height: 90rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0rpx 30rpx;
+}
+
+.nav-title{
+  font-size:28rpx;
+  font-weight:500;
+  color: #F4F4F4;
+
+}
+
+.nav-sum {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-sum image {
+  width: 16rpx;
+  height: 30rpx;
+}
+
+.nav-sum-s {
+  padding-right: 20rpx;
+  font-size:40rpx;
+  font-weight:400;
+  color: #FEFEFE;
+}
+
+/* 记录 */
+.record {
+
+}
+
+.record-nav {
+  height: 90rpx;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  padding: 0rpx 66rpx;
+  align-items: center;
+  border-bottom: 2rpx solid #EAE9EC;
+}
+
+.record-nav-title {
+  font-size:30rpx;
+  font-weight: 500;
+  color: #999999;
+}
+
+.record-nav-pitch {
+  color: #020202;
+  font-weight:bold;
+  border-bottom: 4rpx solid #020202;
+  line-height: 86rpx;
+}
+
+.list-item {
+  height: 120rpx;
+  padding: 0rpx 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2rpx solid #EAE9EC;
+}
+
+.item-title {
+  color: #020202;
+  font-size:28rpx;
+  font-weight:500;
+}
+
+.item-time {
+  color: #B8B8B8;
+  font-size: 22rpx;
+  font-weight:500;
+}
+
+.item-money {
+  color: #020202;
+  font-size: 28rpx;
+  font-weight:bold;
+}
+
+.content-list {
+  height: 800rpx;
+}

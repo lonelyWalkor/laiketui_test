@@ -501,7 +501,7 @@ width:100%;
 }
 
 .fright{
-  float:right;
+  /* float:right; */
   color: #808080;
 }
 
@@ -511,6 +511,8 @@ width:100%;
 }
 .ddlb_v{
   color: #000;
+  display: flex;
+  justify-content: space-between;
 }
 
 .anniu{
@@ -551,4 +553,8 @@ button{
 
 .font_12{
   font-size: 10px;
+}
+.ddlb_v-lift {
+  width: 120rpx;
+  text-align: end;
 }

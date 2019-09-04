@@ -6,19 +6,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list_3:[],
-    total:1,
-    isopen:true,
-    load:true
+    list_3: [],
+    total: 1,
+    isopen: true,
+    load: true,
+    money: '0'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     // 设置标题
     wx.setNavigationBarColor({
-      frontColor: app.d.frontColor,//
+      frontColor: app.d.frontColor, //
       backgroundColor: app.d.bf_color, //页面标题为路由参数
       animation: {
         duration: 400,
@@ -31,35 +32,35 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.setData({
       list_3: [],
       total: 1,
@@ -69,8 +70,20 @@ Page({
     this.getMyClientData()
   },
 
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+    this.getMyClientData()
+  },
 
-  getMyClientData: function () {
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  },
+  getMyClientData: function() {
     var that = this
     if (!that.data.isopen) {
       return
@@ -87,18 +100,20 @@ Page({
         header: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        success: function (res) {
-          if (res.data.status){
+        success: function(res) {
+          var data = res.data
+          if (data.status) {
             that.setData({
               list_3: 1
             })
-          }else{
-            var data = res.data
+          } else {
             var list_3 = that.data.list_3
             if (data.res.length) {
+
               list_3 = list_3.concat(data.res)
               that.setData({
-                list_3: list_3
+                list_3: list_3,
+                money: data.money
               })
             }
             that.data.load = true
@@ -108,10 +123,8 @@ Page({
               that.data.total++
             }
           }
-
-          console.log(list_3)
         },
-        error: function (e) {
+        error: function(e) {
           wx.showToast({
             title: '网络异常！',
             duration: 2000
@@ -120,5 +133,10 @@ Page({
       })
     }
 
+  },
+  navto: function(event) {
+    wx.navigateTo({
+      url: './brokeragedatails?id=' + event.target.dataset.id
+    })
   }
 })
