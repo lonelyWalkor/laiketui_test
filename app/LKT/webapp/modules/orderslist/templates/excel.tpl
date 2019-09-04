@@ -21,6 +21,7 @@
 				<th style="width: 75px;">支付方式</th>
 				<th style="width: 75px;">发货方式</th>
 				<th style="width: 75px;">订单类型</th>
+				<th style="width: 75px;">用户ID</th>
 				<th style="width: 75px;">用户</th>
 				<th>平台</th>
 				<th>下单时间</th>
@@ -63,6 +64,11 @@
 					<td>
 						<div>
 							<span >{if $item->otype == 'pt'}拼团订单{else}普通订单{/if}</span>
+						</div>
+					</td>
+					<td>
+						<div  class="goods-name">
+							<span >{$item->user_id}</span>
 						</div>
 					</td>
 					<td>

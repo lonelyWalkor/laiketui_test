@@ -37,17 +37,10 @@ function check(f){
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red">*</span> 品牌名称：</label>
             <div class="formControls col-4">
-                <input type="text" class="input-text" name="pname" id="pname" value="{$brand_name}" datatype="*6-18" style="width: 260px;">
+                <input type="text" class="input-text" name="pname" id="pname" value="{$brand_name}" datatype="*6-18" style="width: 260px; "  disabled>
             </div>
             <div class="col-4"> </div>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-4"><span class="c-red"></span>英文名称：</label>
-            <div class="formControls col-6">
-                <input type="text" class="input-text" name="y_pname" id="y_pname" value="{$brand_name}" datatype="*6-18" style="width: 260px;" >
-            </div>
-            <div class="col-4"> </div>
-        </div> -->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>品牌图片：</label>
             <div class="formControls col-xs-8 col-sm-4"> 

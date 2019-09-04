@@ -33,7 +33,7 @@ class IndexAction extends Action {
         foreach ($_GET as $key => $value001) {
             $con .= "&$key=$value001";
         }
-        
+    
         if($cid){ // 上级id
             // 根据分类id,查询所有下级
             $sql = "select * from lkt_product_class where recycle = 0 and sid = '$cid' order by sort desc limit $start,$pagesize";
@@ -41,7 +41,11 @@ class IndexAction extends Action {
             if($rr){
                 // 有数据
                 $level = $rr[0]->level;
-                $level01 = $rr[0]->level-1;
+                $level001 = $rr[0]->sid;
+                
+                $rr01 = $db->select("select sid from lkt_product_class where recycle = 0 and cid = '$level001'");
+                // print_r($rr01);die;
+                $level01 = $rr01[0]->sid;
                 // 循环查询该分类是否有商品
                 foreach ($rr as $k => $v){
                     $product_class = '-' . $v->cid . '-';
@@ -54,10 +58,10 @@ class IndexAction extends Action {
                     }
                 }
             }else{ // 没数据，查询当前分类级别
-                $sql = "select level from lkt_product_class where recycle = 0 and cid = '$cid' order by sort desc limit $start,$pagesize";
+                $sql = "select level,sid from lkt_product_class where recycle = 0 and cid = '$cid' order by sort desc limit $start,$pagesize";
                 $rrr = $db->select($sql);
                 $level = $rrr[0]->level+1;
-                $level01 = $rrr[0]->level;
+                $level01 = $rrr[0]->sid;
             }
             $sid_1 = $cid;
             $request->setAttribute("cid",$sid_1);

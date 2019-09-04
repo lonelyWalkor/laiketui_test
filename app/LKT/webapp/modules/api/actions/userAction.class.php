@@ -310,10 +310,18 @@ class userAction extends Action {
                 $list_2 = '';
             }
 
-         $detailed_commission = $db -> select("select sum(s_money) as s_money from lkt_detailed_commission where Referee = '$user_id' and status =1");
-         // print_r($detailed_commission);die;
-            if($detailed_commission && $detailed_commission !='null'){
-                $detailed_commission =$detailed_commission[0]->s_money;
+         $detailed_commission = $db -> select("select sum(s_money) as s_money from lkt_detailed_commission where Referee = '$user_id' and status =1 and recycle =0");
+         $detailed_commission1 = $db -> select("select sum(s_money) as s_money from lkt_detailed_commission where Referee = '$user_id' and status =3");
+            if($detailed_commission && $detailed_commission[0]->s_money !='null'){
+                
+               if($detailed_commission1 && $detailed_commission1[0]->s_money !='null'){
+                    $detailed_commission =$detailed_commission[0]->s_money - $detailed_commission1[0]->s_money;
+                    if($detailed_commission <0){
+                         $detailed_commission='0';
+                    }
+               }else{
+                    $detailed_commission =$detailed_commission[0]->s_money;
+               }
                 
             }else{
                 $detailed_commission='0';

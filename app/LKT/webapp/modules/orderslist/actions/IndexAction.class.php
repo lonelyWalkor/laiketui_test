@@ -35,7 +35,7 @@ class IndexAction extends Action {
             $prostr .= " and lpl.brand_id = '$brand'";
         }
         $brand_str = '';
-        $sql01 = "select brand_id ,brand_name from lkt_brand_class";
+        $sql01 = "select brand_id ,brand_name from lkt_brand_class where recycle = 0";
         $r01 = $db->select($sql01);
         foreach ($r01 as $key => $value) {
             if ($brand == $value->brand_id) {
@@ -107,7 +107,7 @@ class IndexAction extends Action {
             $condition .= " and o.status=$costatus";
         }
         if ($sNo !== false)
-            $condition .= ' and (o.sNo like "%' . $sNo . '%" or o.name like "%' . $sNo . '%" or o.mobile like "%' . $sNo . '%")';
+            $condition .= ' and (o.sNo like "%' . $sNo . '%" or o.name like "%' . $sNo . '%" or o.mobile like "%' . $sNo . '%" or o.user_id like "%' . $sNo . '%" )';
         $class = '';
         foreach ($data as $k => $v) {
             if ($status === false) {

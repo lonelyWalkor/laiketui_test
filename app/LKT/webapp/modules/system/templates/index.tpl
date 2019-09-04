@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:27
+ * @LastEditTime: 2019-09-03 19:03:29
+ * @LastEditors: Please set LastEditors
+ -->
 
 <!DOCTYPE HTML>
 <html>
@@ -86,6 +93,7 @@
                     <input type="text" name="upload_file" value="{$upload_file}" class="input-text">
                 </div>
             </div>
+
         </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
@@ -94,6 +102,9 @@
             </div>
         </div>
     </form>
+
+    <button onclick="clearCache()">清除系统缓存</button>
+    
 </div>
 </div>
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div> 
@@ -111,6 +122,22 @@
 <script src="style/kindeditor/lang/zh_CN.js"></script>
 {literal}
 <script type="text/javascript">
+
+function clearCache(){
+    $.ajax({
+        url: 'index.php?module=system&action=delFile',
+        success: function(msg){
+            var res = JSON.parse(msg)
+            if(res.status == 1){
+                alert("清理成功");
+            }else{
+                alert("清理失败");
+            }
+        }
+    });
+}
+
+
 $('.table-sort').dataTable({
     "aaSorting": [[ 1, "desc" ]],//默认第几个排序
     "bStateSave": true,//状态保存
@@ -119,11 +146,12 @@ $('.table-sort').dataTable({
       {"orderable":false,"aTargets":[0,4]}// 制定列不参与排序
     ]
 });
+
 $(function(){  
     $(".pimg").click(function(){  
         var _this = $(this);//将当前的pimg元素作为_this传入函数  
         imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);  
-    });  
+    });
 });
 function imgShow(outerdiv, innerdiv, bigimg, _this){  
     var src = _this.attr("src");//获取当前点击的pimg元素中的src属性  

@@ -48,29 +48,12 @@
             <tbody>
             {foreach from=$list item=item name=f1}
                 <tr class="text-c">
-                    <td>{$smarty.foreach.f1.iteration}</td>
+                    <!-- <td>{$smarty.foreach.f1.iteration}</td> -->
+                    <td>{$item->brand_id}</td>
                     <td>{if $item->brand_pic != ''}<image class='pimg' src="{$uploadImg}{$item->brand_pic}" style="width: 50px;height:50px;"/>{else}<span>暂无图片</span>{/if}</td>
                     <td>{$item->brand_name}</td>
-                    <!-- <td>{if $item->status == 0}启用{else}禁用{/if}</td> -->
                     <td>{$item->brand_time}</td>
                     <td>
-<!--                         {if $item->status == 1}
-                            <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="confirm1('确定要启用此商品品牌吗?',{$item->brand_id},'启用')" title="启用" >
-                            	<div style="align-items: center;font-size: 12px;display: flex;">
-	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
-	                                <img src="images/icon1/qy.png"/>&nbsp;启用
-	                            	</div>
-	                            </div>
-                            </a>
-                        {elseif $item->status == 0}
-                            <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="confirm1('确定要禁用此商品品牌吗?',{$item->brand_id},'禁用')" title="禁用" >
-                            	<div style="align-items: center;font-size: 12px;display: flex;">
-	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
-	                                <img src="images/icon1/jy.png"/>&nbsp;禁用
-	                            	</div>
-	                            </div>
-                            </a>
-                        {/if} -->
                         <a style="text-decoration:none" class="ml-5" href="index.php?module=brand_class&action=modify&cid={$item->brand_id}" title="修改" >
                         	<div style="align-items: center;font-size: 12px;display: flex;">
                             	<div style="margin:0 auto;;display: flex;align-items: center;"> 

@@ -104,7 +104,7 @@ i{
                         	<div class="prompt">
                        	 		<p class="prompt-content" style="text-align:center;font-size:22px;margin:30px auto;">${content}</p>
                        	 		<div style="text-align:center;margin-bottom:20px;">
-                       	 			<span class="pd20" >应退：${price} <input type="hidden" value="${price}" class="ytje"> &nbsp; 实退2:</span>
+                       	 			<span class="pd20" >应退：${price} <input type="hidden" value="${price}" class="ytje"> &nbsp; 实退:</span>
                                     <input type="text" oninput="ShowElement(this)" style="width:100px" value="${price}" class="prompt-text inp_maie textIpt">
                         	
                         		</div>

@@ -305,14 +305,18 @@
 				{$brand_str}
 			</select>
 
-			<input type="text" name="sNo" size='8' value="{$sNo}" id="" placeholder=" 订单编号或会员名称/电话..." autocomplete="off" style="width:200px" class="input-text">
+			<input type="text" name="sNo" size='8' value="{$sNo}" id="" placeholder=" 订单编号或会员名称/ID/电话..." autocomplete="off" style="width:200px" class="input-text">
 			<div style="position: relative;display: inline-block;">
-				<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />
+
+				<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" placeholder="请输入开始时间" onclick="new Calendar().show(document.form1.startdate);"/>
 				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 10px;top: 7px;" onclick="new Calendar().show(document.form1.startdate);" />
+
 			</div>至
 			<div style="position: relative;display: inline-block;margin-left: 5px;">
-				<input  name="enddate" value="{$enddate}" size="8" readonly class="scinput_s iptRl" style="" />
+
+				<input  name="enddate" value="{$enddate}" size="8" readonly class="scinput_s iptRl" style="" placeholder="请输入结束时间" onclick="new Calendar().show(document.form1.enddate);"/>
 				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 10px;top: 7px;" onclick="new Calendar().show(document.form1.enddate);" />
+
 			</div>
 			<input class="btn btn-success" id="btn1" type="submit" value="查询">
 			<input type="button" value="重置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076; height: 31px;" class="reset" onclick="empty()" />
@@ -337,6 +341,7 @@
 				<th style="width: 75px;">支付方式</th>
 				<th style="width: 75px;">发货方式</th>
 				<th style="width: 75px;">订单类型</th>
+				<th style="width: 75px;">用户ID</th>
 				<th style="width: 75px;">用户</th>
 				<th>平台</th>
 				<th>下单时间</th>
@@ -389,6 +394,11 @@
 					<td>
 						<div>
 							<span >{if $item->otype == 'pt'}拼团订单{else}普通订单{/if}</span>
+						</div>
+					</td>
+					<td>
+						<div  class="goods-name">
+							<span >{$item->user_id}</span>
 						</div>
 					</td>
 					<td>

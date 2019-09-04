@@ -120,12 +120,31 @@ class examineAction extends Action {
                     $p_id = $order_res[0] -> p_id;
                     $sid = $order_res[0] -> sid;
                     $num = $order_res[0] -> num;
-                     $db->insert("insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$p_id','$sid','$num',0,CURRENT_TIMESTAMP)");//增加一条入库记录
+                    $sNo = $order_res[0] -> sNo;
+                    //返佣金
+                     $re01 = $db->select("select * from lkt_detailed_commission where sNo = '$sNo' and status = 1 and recycle = 0 ");
+
+                     if($re01){
+                        foreach ($re01 as $key => $value) {
+                            $userid =$value->userid;
+                            $sNo =$value->sNo;
+                            $money =$value->money;
+                            $sNo =$value->sNo;
+                            $s_money =$value->s_money;
+                            $type =$value->type;
+                            $Referee =$value->Referee;
+                            $rrr = $db->insert("insert into lkt_detailed_commission(userid,sNo,money,s_money,status,type,Referee,addtime) values('$userid','$sNo','$money','$s_money','3','$type','$Referee',CURRENT_TIMESTAMP)");
+                        }
+                     }
+
+
+
+                    $db->insert("insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$p_id','$sid','$num',0,CURRENT_TIMESTAMP)");//增加一条入库记录
 
                         $r_update = $db->update("update lkt_product_list set num=num+$num,volume=volume-$num where id = '$p_id'");
 
                         $r_update = $db->update("update lkt_configure set num=num+$num ,total_num=total_num+$num where id = '$sid'");
-                    // print_r($pay);die;
+
                     if ($pay == 'wallet_Pay'||$pay == 'wallet_pay') {
                         //查询订单信息
                  
@@ -575,10 +594,16 @@ class examineAction extends Action {
                             $res = 0;
                         }
                     }
+
+                    
+
+
+
+
                 } else {
                     $res = 0;
                 }
-            }
+            }//
 
         } else {
             if ($m == 8) {//拒绝申请
@@ -604,26 +629,26 @@ class examineAction extends Action {
                     exit;
                 }
                 //查询openid
-                // $sql_openid = "select wx_id from lkt_user where user_id = '$user_id'";
-                // $res_openid = $db -> select($sql_openid);
-                // $openid = $res_openid[0] -> wx_id;
-                // $froms = $this -> get_fromid($openid);
-                // $form_id = $froms['fromid'];
-                // $page = 'pages/index/index';
-                // //消息模板id
-                // $send_id = $template_id;
-                // $keyword1 = array('value' => $sNo, "color" => "#173177");
-                // $keyword2 = array('value' => $company, "color" => "#173177");
-                // $keyword3 = array('value' => $time, "color" => "#173177");
-                // $keyword4 = array('value' => '退款失败', "color" => "#173177");
-                // $keyword5 = array('value' => $z_price . '元', "color" => "#173177");
-                // $keyword6 = array('value' => $text, "color" => "#173177");
-                // $keyword7 = array('value' => '系统更改订单状态', "color" => "#173177");
-                // //拼成规定的格式
-                // $o_data = array('keyword1' => $keyword1, 'keyword2' => $keyword2, 'keyword3' => $keyword3, 'keyword4' => $keyword4, 'keyword5' => $keyword5, 'keyword6' => $keyword6, 'keyword7' => $keyword7);
+                $sql_openid = "select wx_id from lkt_user where user_id = '$user_id'";
+                $res_openid = $db -> select($sql_openid);
+                $openid = $res_openid[0] -> wx_id;
+                $froms = $this -> get_fromid($openid);
+                $form_id = $froms['fromid'];
+                $page = 'pages/index/index';
+                //消息模板id
+                $send_id = $template_id;
+                $keyword1 = array('value' => $sNo, "color" => "#173177");
+                $keyword2 = array('value' => $company, "color" => "#173177");
+                $keyword3 = array('value' => $time, "color" => "#173177");
+                $keyword4 = array('value' => '退款失败', "color" => "#173177");
+                $keyword5 = array('value' => $z_price . '元', "color" => "#173177");
+                $keyword6 = array('value' => $text, "color" => "#173177");
+                $keyword7 = array('value' => '系统更改订单状态', "color" => "#173177");
+                //拼成规定的格式
+                $o_data = array('keyword1' => $keyword1, 'keyword2' => $keyword2, 'keyword3' => $keyword3, 'keyword4' => $keyword4, 'keyword5' => $keyword5, 'keyword6' => $keyword6, 'keyword7' => $keyword7);
 
-                // $res = $this -> Send_Prompt($appid, $appsecret, $form_id, $openid, $page, $send_id, $o_data);
-                // $this -> get_fromid($openid, $form_id);
+                $res = $this -> Send_Prompt($appid, $appsecret, $form_id, $openid, $page, $send_id, $o_data);
+                $this -> get_fromid($openid, $form_id);
                 $res =1;
 
             } else {
