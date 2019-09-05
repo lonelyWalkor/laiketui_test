@@ -133,11 +133,7 @@ Page({
             that.setData({
               remind: true
             });
-            wx.showToast({
-              title: res.data.err,
-              icon: 'none',
-              duration: 2000,
-            });
+
 
           }
         },
