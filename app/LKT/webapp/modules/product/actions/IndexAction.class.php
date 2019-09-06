@@ -164,12 +164,9 @@ class IndexAction extends Action {
                 $present_price = '';
             }
 
-             $sql01 = "select brand_name from lkt_brand_class where brand_id ='".$value->brand_id."'";//根据品牌ID查询对应名称
-                $r01 = $db->select($sql01);
-                if($r01[0]->brand_name){
-                    $brand_name = $r01[0]->brand_name;
-                }
-            $value->brand_name = $brand_name ?$brand_name:'';  
+              //根据品牌ID查询对应名称
+                $r01 = $db->select("select brand_name from lkt_brand_class where brand_id ='".$value->brand_id."'");
+            $value->brand_name = $r01 ?$r01[0]->brand_name:'';  
             $value->unit = $unit;
             $value->price = $present_price;
             $value->pname = $pname;
