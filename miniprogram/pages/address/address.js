@@ -1,6 +1,5 @@
 var app = getApp();
 var t = 0;
-var show = false;
 var moveY = 200;
 var index = [0, 0, 0];
 var sheng = [];//省
@@ -17,7 +16,8 @@ Page({
     xian: xian,
     value: [0, 0, 0],
     cartId: 0,
-    arr:[]
+    arr:[],
+    show:false
   },
 
   /**
@@ -95,15 +95,15 @@ Page({
   },
   // 点击选择城市
   translate: function (e) {
-    if (t == 0) {
-      moveY = 0;
-      show = false;
-      t = 1;
-    } else {
+    // if (t == 0) {
+    //   moveY = 0;
+    //   this.data.show = false;
+    //   t = 1;
+    // } else {
       moveY = 200;
-      show = true;
+      this.data.show = true;
       t = 0;
-    }
+    // }
     var province = this.data.province ? this.data.province : this.data.sheng[0].G_CName, 
       city = this.data.city ? this.data.city : this.data.shi[0].G_CName, 
       county = this.data.county ? this.data.county : this.data.xian[0].G_CName;
@@ -113,14 +113,17 @@ Page({
       city: city,
       county: county
     });
-    animationEvents(this, moveY, show);
+    animationEvents(this, moveY, this.data.show);
   },
   //隐藏弹窗浮层
   hiddenFloatView(e) {
     moveY = 200;
-    show = true;
-    t = 0;
-    animationEvents(this, moveY, show);
+    this.setData({
+      show: false
+    });
+    t = 1;
+
+    // animationEvents(this, moveY, show);
   },
   //滑动事件
   bindChange: function (e) {
@@ -327,12 +330,14 @@ Page({
 
 //动画事件
 function animationEvents(that, moveY, show) {
+  
   that.animation = wx.createAnimation({
     transformOrigin: "50% 50%",
     duration: 400,
-    timingFunction: "ease",
+    timingFunction: "linear",
     delay: 0
   })
+
   that.animation.translateY(moveY + 'vh').step()
   that.setData({
     animation: that.animation.export(),
