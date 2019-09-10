@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-09-03 15:50:15
+ * @LastEditTime: 2019-09-09 17:29:39
+ * @LastEditors: Please set LastEditors
+ -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -67,9 +74,7 @@
                 border: 1px solid #eee!important;
 
             }
-        </style>
 
-        <style>
             .order-item {
                 border: 1px solid transparent;
                 margin-bottom: 1rem;
@@ -272,6 +277,11 @@
             .table td, .table th{
             	vertical-align: middle;
             }
+
+            .numss {
+              display:flex;
+              justify-content: flex-end;
+            }
         </style>
 
         <SCRIPT language=javascript>
@@ -307,30 +317,30 @@
 
         </SCRIPT>
 
-<script language="VBScript">
-dim hkey_root,hkey_path,hkey_key
-hkey_root="HKEY_CURRENT_USER"
-hkey_path="\Software\Microsoft\Internet Explorer\PageSetup"
-//设置网页打印的页眉页脚为空
-function pagesetup_null()
-on error resume next
-Set RegWsh = CreateObject("WScript.Shell")
-hkey_key="\header"
-RegWsh.RegWrite hkey_root+hkey_path+hkey_key,""
-hkey_key="\footer"
-RegWsh.RegWrite hkey_root+hkey_path+hkey_key,""
-end function
+        <script language="VBScript">
+        dim hkey_root,hkey_path,hkey_key
+        hkey_root="HKEY_CURRENT_USER"
+        hkey_path="\Software\Microsoft\Internet Explorer\PageSetup"
+        //设置网页打印的页眉页脚为空
+        function pagesetup_null()
+        on error resume next
+        Set RegWsh = CreateObject("WScript.Shell")
+        hkey_key="\header"
+        RegWsh.RegWrite hkey_root+hkey_path+hkey_key,""
+        hkey_key="\footer"
+        RegWsh.RegWrite hkey_root+hkey_path+hkey_key,""
+        end function
 
-//设置网页打印的页眉页脚为默认值
-function pagesetup_default()
-on error resume next
-Set RegWsh = CreateObject("WScript.Shell")
-hkey_key="\header"
-RegWsh.RegWrite hkey_root+hkey_path+hkey_key,"&w&b页码，&p/&P"
-hkey_key="\footer"
-RegWsh.RegWrite hkey_root+hkey_path+hkey_key,"&u&b&d"
-end function
-</script>
+        //设置网页打印的页眉页脚为默认值
+        function pagesetup_default()
+        on error resume next
+        Set RegWsh = CreateObject("WScript.Shell")
+        hkey_key="\header"
+        RegWsh.RegWrite hkey_root+hkey_path+hkey_key,"&w&b页码，&p/&P"
+        hkey_key="\footer"
+        RegWsh.RegWrite hkey_root+hkey_path+hkey_key,"&u&b&d"
+        end function
+        </script>
 
     {/literal}
     <title>订单详情</title>
@@ -339,13 +349,13 @@ end function
 <nav class="breadcrumb" name= 'breadcrumb' id= 'breadcrumb'><i class="Hui-iconfont" >&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 订单列表 <span class="c-gray en">&gt;</span> 订单详情 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=orderslist';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div>
     <aside class="mtb" style="margin:10px 0px 20px 10px">
-        <a class="newBtn btn radius" style="display: inline-block;border: none;" href="index.php?module=orderslist&action=Modify&sNo={$data.sNo}">
+        <a class="newBtn btn radius" style="display: inline-block;border: none;" href="index.php?module=orderslist">
             <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/xg_w.png"/>&nbsp;修改订单
+                <img src="images/icon1/xg_w.png"/>&nbsp;返回
             </div>
         </a>
         <input type="hidden" id="dingdan" value="{$data.sNo}">
-        {if $data.otype!='pt'}
+     <!--    {if $data.otype!='pt'}
             {if $data.status01 == 1}
                 <button value="发货" class="newBtn btn radius" onclick="send_btn(this,'{$data.otype}','{$data.sNo}', '{$data.gstatus}','{$data.drawid}')" style="border: none;width: 80px!important;background-color: #ff453d!important;margin: 0px 10px;">
                     <div style="height: 100%;display: flex;align-items: center;">
@@ -367,7 +377,7 @@ end function
                     </div>
                 </button>
             {/if}
-        {/if}
+        {/if} -->
 <!--         <button class="btn radius newbtn b02" style="height: 36px;border: none;" onclick="printTure();">
             <div style="height: 100%;display: flex;align-items: center;">
                 <img src="images/icon1/dy.png"/>&nbsp;打印
@@ -433,32 +443,39 @@ end function
                 <th class="center">总金额</th>
                 <th class="center">单位</th>
                 <th class="center">运费</th>
-                <th class="center">满减金额</th>
-                <th class="center">优惠金额</th>
-                <th class="center">积分</th>
+                <th class="center">操作</th>
             </tr>
             {foreach from=$detail item=item name=f1}
-                <tr>
-                    <td style="text-align:left;" id="p_name">
-                        <img class='pimg' src="{$uploadImg}{$item->pic}" style="margin-right: 20px;" width="50" height="50"/>{$item->p_name}
+                 <tr>
+                     <td style="text-align:left;" id="p_name">
+                         <img class='pimg' src="{$uploadImg}{$item->pic}" style="margin-right: 20px;" width="50" height="50"/>
+
+                          <a style="display: contents;" href="index.php?module=product&action=see&id=1&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}" title="查看">
+                            {$item->p_name}
+                          </a>
+                        
+                     </td>
+                     <td class="center"><span class="grText">{$item->size}</span></td>
+                     <td class="center"><span class="grText">{$item->p_id}</span></td>
+                     <td class="center" rowspan="{$item->index}"><span class="grText">￥{$item->p_price}</span></td>
+                     <td class="center" rowspan="{$item->index}"><span class="grText">{$item->num}</span></td>
+                     <td class="center" rowspan="{$item->index}"><span  class="grText"style="font-weight: bold;">￥{$item->p_price*$item->num}</span></td>
+                     <td class="center" rowspan="{$item->index}"><span  class="grText" style="">￥{$item->z_price+$item->freight}</span></td>
+                     <td class="center" rowspan="{$item->index}"><span class="grText" style="font-weight: bold;">￥{$item->z_price+$item->freight}</span></td>
+                     <td class="center">{$item->unit}</td>
+                     <td class="center">{$item->freight}</td>
+                     <td class="center">
+                      <a class="hover_a" href="index.php?module=stock&product_title={$item->p_name}" title="查看">
+                        <img src="images/icon1/ck.png" />&nbsp;查看
+                      </a>
                     </td>
-                    <td class="center"><span class="grText">{$item->size}</span></td>
-                    <td class="center"><span class="grText">{$item->p_id}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span class="grText">￥{$item->p_price}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span class="grText">{$item->num}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span  class="grText"style="font-weight: bold;">￥{$item->p_price*$item->num}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span  class="grText" style="">￥{$item->z_price+$item->freight}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span class="grText" style="font-weight: bold;">￥{$item->z_price+$item->freight}</span></td>
-                    <td class="center">{$item->unit}</td>
-                    <td class="center">{$item->freight}</td>
-                    {if $smarty.foreach.f1.first}
-                        <td class="center" style="border: 1px solid #eee;" rowspan="{$num}">{$reduce_price}</td>
-                        <td class="center" style="border: 1px solid #eee;" rowspan="{$num}">{$coupon_price}</td>
-                        <td class="center" style="border: 1px solid #eee;" rowspan="{$num}">{$allow}</td>
-                    {/if}
-                </tr>
-            {/foreach}
+                 </tr>
+             {/foreach}
         </table>
+        <div class="numss">
+                    <spa style="margin-right: 20px;">优惠合计：-￥{$reduce_price+$coupon_price} 元</span>
+          <span>合计支付： ￥{$data.freight+$data.z_price} 元</span>
+        </div>
     </div>
     <input type="hidden" name="ddd" value="{$data.lottery_status}">
     <input type="hidden" name="ddcc" value="{$data.drawid}">
@@ -937,41 +954,6 @@ end function
         $(".dc").hide();
     })
 
-    // $(".dj").click(function(){
-    //     var dingdan = $("#dingdan").val();
-    //     var stu = '{/literal}{$data.status01}{literal}';
-    //     var stu01 = '{/literal}{$data.r_status}{literal}';
-    //     if(stu==6){
-    //         layer.msg('订单已关闭，不能发货!',{time:1000});
-    //         $(".dc").hide();
-    //     }
-    //     if(stu>=2 && stu !=6){
-    //         layer.msg('订单已发货，请勿重复操作!',{time:1000});
-    //         $(".dc").hide();
-    //     }
-
-    //     if(stu == 0){
-    //         layer.msg('订单还没付款!',{time:1000});
-    //         $(".dc").hide();
-    //     }
-
-    //     if(stu == 1){
-    //         var lottery_status = '{/literal}{$data.lottery_status}{literal}';
-    //         var drawid = '{/literal}{$data.drawid}{literal}';
-
-    //         if(lottery_status ==7){//普通订单
-    //             system_category_add('添加快递信息','index.php?module=orderslist&action=addsign&id='+dingdan,400,300);
-    //         }else if(lottery_status ==4){//抽奖订单
-    //             system_category_add('添加快递信息','index.php?module=orderslist&action=addsign&id='+dingdan,400,300);
-
-    //         }else{
-    //             layer.msg('未中奖订单不能发货！',{time:1000});
-    //             $(".dc").hide();
-    //         }
-
-    //     }
-
-    // })
 
     function system_category_del(obj,id,control){
 

@@ -382,7 +382,7 @@ class appAction extends Action {
             $rr = $db->select($sql);
             $userid = $rr[0]->user_id;
             $sql01 = $db->selectrow("select * from lkt_user where Referee = '$userid'");//同时有没有下级
-            if(!$rr[0]->Referee && $sql01 < 1){
+            if(!$rr[0]->Referee && $sql01 < 1 && $referee_openid !=$userid){//同时推荐人不是自己
                   $sql01 = "update lkt_user set Referee = '$referee_openid' where wx_id = '$openid' ";
                     $db->update($sql01);
             }
@@ -405,7 +405,6 @@ class appAction extends Action {
         $openid = $_POST['openid']; // 微信id
            $sql_c = 'select sum(a.Goods_num) as Goods_num from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$openid.'\' order by Create_time desc';
         $r_c = $db->select($sql_c);
-        // print_r($r_c);die;
         $cart =$r_c[0]->Goods_num?$r_c[0]->Goods_num:0;
         echo json_encode(array('cart'=>$cart));
             exit();

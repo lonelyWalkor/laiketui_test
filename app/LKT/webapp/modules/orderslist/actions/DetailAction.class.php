@@ -27,8 +27,17 @@ class DetailAction extends Action {
       $request = $this->getContext()->getRequest();
 
       $id = intval($request -> getParameter('id')); // 订单id
-
-
+      $da['having'] = $request -> getParameter('having');
+      $da['ordtype'] = $request -> getParameter('ordtype');
+      $da['gcode'] = $request -> getParameter('gcode');
+      $da['ocode'] = $request -> getParameter('ocode');
+      $da['status'] = $request -> getParameter('status');
+      $da['source'] = $request -> getParameter('source');
+      $da['brand'] = $request -> getParameter('brand');
+      $da['sNo'] = $request -> getParameter('sNo');     
+      $da['startdate'] = $request -> getParameter('startdate');
+      $da['enddate'] = $request -> getParameter('enddate');
+      $da['page'] = $request -> getParameter('page');
 
       $sql = "select * from lkt_config where id = '1'";
 
@@ -41,20 +50,18 @@ class DetailAction extends Action {
       $sql = 'select u.user_name,l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.coupon_id,l.reduce_price,l.coupon_price,l.allow,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size,d.freight from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo left join lkt_user as u on u.user_id=l.user_id  where l.id="'.$id.'"';
 
       $res = $db -> select($sql);
-
-
         $num = count($res);
       $data = array();
         $reduce_price = 0; // 满减金额
         $coupon_price = 0; // 优惠券金额
         $allow = 0; // 积分
-        
-          // $reduce_price = 0; // 满减金额
-          // $coupon_price = 0; // 优惠券金额
+        $freight =0;
+        $z_price =0;
       foreach ($res as $k => $v) { 
-// print_r($v);die;
         $sid = $v -> sid;
-		$data['user_name'] = $v -> user_name; // 联系人
+        $freight=$freight+$v -> freight;
+        
+		    $data['user_name'] = $v -> user_name; // 联系人
         $data['name'] = $v -> name; // 联系人
 
         $data['sNo'] = $v -> sNo; // 订单号
@@ -114,7 +121,7 @@ class DetailAction extends Action {
         }
 
         $res[$k] -> z_price = $v -> num * $v -> p_price;
-
+        $z_price =$z_price+$v -> num * $v -> p_price;
           $user_id= $v -> user_id; // 用户id
 
           $drawid= $v -> drawid; // 抽奖ID
@@ -152,8 +159,10 @@ class DetailAction extends Action {
 
 
       }
+      
 
-
+      $data['freight'] =$freight;
+      $data['z_price'] =$z_price;
 
       if(isset($data['express_id'])){
 
@@ -333,11 +342,9 @@ class DetailAction extends Action {
                   $request -> setAttribute("fenxiaoshang",$dd);
                 }
             }
-
           $allow = 0; // 积分
           $sql02 = "select * from lkt_express ";
           $r02 = $db -> select($sql02);
-          $request -> setAttribute("express", $r02);
           $request -> setAttribute("uploadImg",$uploadImg);
           $request -> setAttribute("data",$data);
           $request -> setAttribute("detail",$res);

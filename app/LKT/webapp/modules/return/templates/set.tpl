@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:23
+ * @LastEditTime: 2019-09-09 10:26:35
+ * @LastEditors: Please set LastEditors
+ -->
 
 <!DOCTYPE HTML>
 <html>
@@ -12,7 +19,18 @@
 <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 <link href="style/css/style.css" rel="stylesheet" type="text/css" />
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-
+{literal}
+<style>
+    .button-conter {
+        display: flex;
+        justify-content: center;
+    }
+    
+    #btn1 {
+        margin-right: 5px;
+    }
+</style>
+{/literal}
 <title>系统参数</title>
 
 </head>
@@ -44,8 +62,8 @@
 
         </div>
         <div class="row cl">
-            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
-                <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+            <div class="button-conter">
+                <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
                 <!-- <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;清空&nbsp;&nbsp;</button> -->
             </div>
         </div>

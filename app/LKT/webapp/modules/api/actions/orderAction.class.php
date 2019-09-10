@@ -368,41 +368,18 @@ class orderAction extends Action {
         $id = trim($request->getParameter('id'));// 订单详情id 
         $details = $request->getParameter('details');
         $type = trim($request->getParameter('type'));
-        if($type){
-            $sql = "select kd_num as express_id,kdid as courier_num from lkt_twelve_draw_user_address where oid = '$id'";
-            $r = $db->select($sql);
-        }else{
-            // 根据订单详情id,修改订单详情
-            if($details){
-                $sql = "select express_id,courier_num from lkt_order_details where r_sNo = '$id' AND id = '$details'";
-                $r = $db->select($sql);
-            }else{
-                $sql = "select express_id,courier_num from lkt_order_details where r_sNo = '$id'";
-                $r = $db->select($sql);
-            }
-        }
-        if($r){
-
-            if(!empty($r[0]->express_id) && !empty($r[0]->courier_num)){
-                $express_id = $r[0]->express_id;//快递公司ID
-                $courier_num = $r[0]->courier_num;//快递单号
+        $courier_num=trim($request->getParameter('courier_num')); ;//kuaididanhao
+        $express_id=trim($request->getParameter('express_id')); ;//kuaididanhao
+        if($express_id && $courier_num){
                 $sql01 = "select * from lkt_express where id = '$express_id'";
                 $r01 = $db->select($sql01);
                 $type = $r01[0]-> type;//快递公司代码
                 $kuaidi_name = $r01[0]-> kuaidi_name;
-                // $url = "http://www.kuaidi100.com/query?type=$type&postid=$courier_num";
-
                 $res = $this->logistics2($type,$courier_num);
-                // print_r($res);die;
-                // $res = $this->httpsRequest($url);
                 $res_1 = json_decode($res);
                 
                 echo json_encode(array('status'=>1,'res_1'=>$res_1,'name'=>$kuaidi_name,'courier_num'=>$courier_num));
                 exit();
-            }else{
-                echo json_encode(array('status'=>0,'err'=>'暂未查到!'));
-                exit();
-            }
         }else{
             echo json_encode(array('status'=>0,'err'=>'网络繁忙!'));
             exit();

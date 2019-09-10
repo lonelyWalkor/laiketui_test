@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:26
+ * @LastEditTime: 2019-09-09 10:20:20
+ * @LastEditors: Please set LastEditors
+ -->
 
 <!DOCTYPE HTML>
 <html>
@@ -37,7 +44,15 @@
   }
   input{
     margin-right: 5px;
-  }  
+  }
+  .button-conter {
+    display: flex;
+    justify-content: center;
+  }
+
+  #btn1 {
+      margin-right: 5px;
+  }
 </style>
 <script type="text/javascript">
 function check(f){
@@ -105,9 +120,9 @@ function check(f){
       </div> 
     </div>
     <div class="row cl">
-      <div class="col-10 col-offset-5">
-        <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-        <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+      <div class="button-conter">
+        <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
+        <button id="btn1" class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
       </div>
     </div>
   </form>

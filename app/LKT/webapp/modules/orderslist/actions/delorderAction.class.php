@@ -33,50 +33,39 @@ class delorderAction extends Action {
 	   $request = $this->getContext()->getRequest();
 
 	   $ids = trim($request->getParameter('ids'));
-
-       //$arr = explode(',',$ids);
-
-       $sql = "select o.id,o.drawid,o.sNo,o.ptcode,o.pid,d.lottery_status from lkt_order as o left join lkt_draw_user as d on o.drawid=d.id where o.id in ($ids)";
-
+     $ids=rtrim($ids,',');
+       $sql = "select o.id,o.drawid,o.sNo,o.ptcode,o.pid from lkt_order as o where o.id in ($ids)";
 	   $res = $db -> select($sql);
 
-	   $gcode = $db -> select("select status from lkt_group_buy where status=(select status from lkt_group_buy where is_show=1)");
-
-	   $gid = !empty($gcode)?$gcode[0]->status:1;
+	   $gcode = $db -> select("select group_id,ptstatus,sNo from lkt_group_open where ptstatus=1");
 
 	   $group = array();
 
 	   $draw = array();
 
-	   
+	   // print_r($gcode);die;
+     if($gcode){
+        foreach ($res as $k => $v) {   
+         foreach ($gcode as $key => $value) {
+                         if($value->sNo == $v -> sNo){
 
-       foreach ($res as $k => $v) {                //过滤掉还没结束的拼团订单，和还没得到结果的抽奖订单
+                           $group[] = $v -> sNo;
 
-       	   if($gid == $v -> pid){
+                           unset($res[$k]);
 
-       	   	 $group[] = $v -> sNo;
+                         }
+                      }             //过滤掉还没结束的拼团订单，和还没得到结果的抽奖订单
 
-       	   	 unset($res[$k]);
-
-       	   }
-
-       	   if(in_array($v->lottery_status, array(0,1,2,4)) && $v->lottery_status !== null){    //过滤还没出结果的抽奖订单
-
-             $draw[] = $v -> sNo;
-
-             unset($res[$k]);
-
-       	   }
-
-       	        
-
-       }
+             
+         }
+     }
+       
 
        $msg = '删除了 '.count($res).' 笔订单';
 
-       if(!empty($group) || !empty($draw)){
+       if(!empty($group)){
 
-          $msg .= ',已保留了 '.count($group).' 笔活动未结束的拼团订单, '.count($draw).' 笔未出结果的抽奖订单.';
+          $msg .= ',已保留了 '.count($group).' 笔活动未结束的拼团订单';
 
        }
 
@@ -88,9 +77,7 @@ class delorderAction extends Action {
 
        	   $deld = $db -> delete("delete from lkt_order_details where r_sNo='$value->sNo'");
 
-       	   $delg = $db -> delete("delete from lkt_group_open where ptcode='$value->ptcode'");
-
-       	   $delc = $db -> delete("delete from lkt_draw_user where id=$value->drawid");
+       	   $delg = $db -> delete("delete from lkt_group_open where group_id='$value->ptcode'");
 
          }
 

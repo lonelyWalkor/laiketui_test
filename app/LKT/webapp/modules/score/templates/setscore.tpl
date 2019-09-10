@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:26
+ * @LastEditTime: 2019-09-09 10:24:01
+ * @LastEditors: Please set LastEditors
+ -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -39,20 +46,15 @@
 .isbad{
     border: 2px solid red;
 }
-.btn1{
-    	width: 80px;
-     	height: 40px;
-     	line-height: 40px;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	    float: left;
-	    color: #6a7076;
-	    background-color: #fff;
-    }
-    .btn1:hover{
-    	text-decoration: none;
-    }
+
+.button-conter {
+    display: flex;
+    justify-content: center;
+}
+
+#btn1 {
+    margin-right: 5px;
+}
 </style>
 
 {/literal}
@@ -99,8 +101,8 @@
             
         </div>
         <div class="row cl">
-            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
-                <button class="btn btn-primary radius" type="button" name="savemsg" onclick="savevalues()" ><i class="Hui-iconfont">&#xe632;</i>修改</button>
+            <div class="button-conter">
+                <button id="btn1" class="btn btn-primary radius" type="button" name="savemsg" onclick="savevalues()" ><i class="Hui-iconfont">&#xe632;</i>修改</button>
             </div>
         </div>
     </form>

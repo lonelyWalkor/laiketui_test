@@ -18,34 +18,36 @@ class kuaidishowAction extends Action {
 		$request = $this -> getContext() -> getRequest();
         // 获取信息
         $r_sNo = trim($request->getParameter('r_sNo'));// 订单详情id 
-        $courier_num = $request->getParameter('courier_num');
+        // $courier_num = $request->getParameter('courier_num');
         // 根据订单详情id,修改订单详情
             $sql = "select express_id,courier_num from lkt_order_details where r_sNo = '$r_sNo'";
             $r = $db->select($sql);
+            $dd=[];
+            if($r){
+                foreach ($r as $key => $value) {
+                    if(!empty($value->express_id) && !empty($value->courier_num)){
+                        $express_id = $value->express_id;//快递公司ID
+                        $courier_num = $value->courier_num;//快递单号
+                        $sql01 = "select * from lkt_express where id = '$express_id'";
+                        $r01 = $db->select($sql01);
 
-        if(!empty($r[0]->express_id) && !empty($r[0]->courier_num)){
-            $express_id = $r[0]->express_id;//快递公司ID
-            $courier_num = $r[0]->courier_num;//快递单号
-            $sql01 = "select * from lkt_express where id = '$express_id'";
-            $r01 = $db->select($sql01);
-
-            $type = $r01[0]-> type;//快递公司代码
-            $kuaidi_name = $r01[0]-> kuaidi_name;
-           
-
-            $res = $this-> logistics2($type,$courier_num);
-
-            $res_1 = json_decode($res);
-            if (empty($res_1->data)) {
-                $res = array('code' => 0,'data'=>[]);
+                        $type = $r01[0]-> type;//快递公司代码
+                        $kuaidi_name = $r01[0]-> kuaidi_name;
+                        $res = $this-> logistics2($type,$courier_num);
+                        $res_1 = json_decode($res);
+                        if (empty($res_1->data)) {
+                            $res = array('code' => 0,'data'=>[],'courier_num'=>'','kuaidi_name'=>'');
+                        }else{
+                            $res = array('code' => 1,'data'=>$res_1->data,'courier_num'=>$courier_num,'kuaidi_name'=>$kuaidi_name);
+                        }
+                            $dd[] =$res;
+                    }
+                }
             }else{
-                $res = array('code' => 1,'data'=>$res_1->data);
-            }
-                
-        }else{
-            $res = array('code' => 0,'data'=>[]);
+                $res = array('code' => 0,'data'=>[],'courier_num'=>'','kuaidi_name'=>'');
+            $dd[] =$res;
         }
-        echo json_encode($res);exit;
+        echo json_encode($dd);exit;
 	}
 
 	public function execute() {

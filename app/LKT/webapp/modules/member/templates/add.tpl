@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:24
+ * @LastEditTime: 2019-09-09 10:10:41
+ * @LastEditors: Please set LastEditors
+ -->
 
 <!DOCTYPE HTML>
 <html>
@@ -14,6 +21,16 @@
 <link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
 <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 {literal}
+<style>
+    .button-conter {
+        display: flex;
+        justify-content: center;
+    }
+    
+    #btn1 {
+        margin-right: 5px;
+    }
+</style>
 <script type="text/javascript">
 function check(f){
     if(Trim(f.name.value) == "" ){
@@ -64,7 +81,7 @@ function check(f){
 			</span> </div>
         </div>
         <div class="row cl">
-            <div class="col-10 col-offset-5">
+            <div class="button-conter">
                 <button class="btn btn-primary radius" id="btn1" type="submit" name="Submit">
                 	<i class="Hui-iconfont">&#xe632;</i> 提 交
                 </button>

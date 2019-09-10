@@ -19,7 +19,7 @@ class IndexAction extends Action {
         $admin_id = $this->getContext()->getStorage()->read('admin_id');
 
         $ordtype = array('t0' => '全部订单', 't1' => '普通订单', 't2' => '拼团订单');
-        $data = array('未付款', '未发货', '已发货', '待评论', '退货', '已签收');
+        $data = array('未付款', '未发货', '已发货', '待评论', '退货', '已完成','订单关闭');
         $otype = isset($_GET['otype']) && $_GET['otype'] !== '' ? $_GET['otype'] : false;
         $status = isset($_GET['status']) && $_GET['status'] !== '' ? $_GET['status'] : false;
         $ostatus = isset($_GET['ostatus']) && $_GET['ostatus'] !== '' ? $_GET['ostatus'] : false;
@@ -101,6 +101,11 @@ class IndexAction extends Action {
                 $cstatus = intval(substr($status, 1));
                 $condition .= " and o.ptstatus=$cstatus";
             }
+        } else if (strlen($status) == 6) {
+            if ($status !== false) {
+                $cstatus = intval(substr($status, 6));
+                $condition .= " and o.status=7";
+            }
         }
         if ($ostatus !== false) {
             $costatus = intval(substr($ostatus, 1));
@@ -156,6 +161,7 @@ class IndexAction extends Action {
         $url = 'index.php?module=orderslist'.$con;
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
         foreach ($res1 as $k => $v) {
+
             $freight = 0;
 
             $res1[$k] -> statu = $res1[$k] -> status;
@@ -177,11 +183,28 @@ class IndexAction extends Action {
             $sqldt = "select lpl.imgurl,lpl.product_title,lpl.product_number,lod.p_price,lod.unit,lod.num,lod.size,lod.p_id,lod.courier_num,lod.express_id,lod.freight from lkt_order_details as lod left join lkt_product_list as lpl on lpl.id=lod.p_id where r_sNo='$v->sNo' $prostr";
             $products = $db -> select($sqldt);
             $res1[$k] -> freight = $freight;
-
+            $num =0;
+            $courier_num111='';
             if ($products) {
                 foreach ($products as $kd => $vd) {
+
                     $freight += $vd->freight;
+
+                    $num += $vd->num;
+                    $exper_id = $vd->express_id;
+                    if($exper_id){
+                        $r03 =$db->select("select * from lkt_express where id = $exper_id ");
+                        $products[$kd]-> kuaidi_name = $r03[0] -> kuaidi_name; // 快递公司名称
+                    }else{
+                        $products[$kd] -> kuaidi_name='';
+                      
+                    }
+                    $courier_num111[$kd]['kuaidi_name'] = $products[$kd] -> kuaidi_name;
+                    $courier_num111[$kd]['courier_num'] = $vd->courier_num;
                 }
+
+                $res1[$k] ->courier_num =$courier_num111;
+                $res1[$k] -> num = $num;
                 $res1[$k] -> products = $products;
 				$res1[$k] -> status_a = '0';//没有订单发货
 				  $sqldt01 = "select courier_num from lkt_order_details where r_sNo='$v->sNo'";
@@ -204,15 +227,15 @@ class IndexAction extends Action {
                             $res1[$k] -> bgcolor = '#f5b199';
                             break;
                         case 1 :
-                            $res1[$k] -> status = '拼团成功-未发货';
+                            $res1[$k] -> status = '未发货';
                             $res1[$k] -> bgcolor = '#f0908d';
                             break;
                         case 2 :
-                            $res1[$k] -> status = '拼团成功-已发货';
+                            $res1[$k] -> status = '已发货';
                             $res1[$k] -> bgcolor = '#f0908d';
                             break;
                         case 3 :
-                            $res1[$k] -> status = '拼团成功-已签收';
+                            $res1[$k] -> status = '已签收';
                             $res1[$k] -> bgcolor = '#f0908d';
                             break;
                         case 5 :
@@ -220,11 +243,11 @@ class IndexAction extends Action {
                             $res1[$k] -> bgcolor = '#f7b977';
                             break;
                         case 10 :
-                            $res1[$k] -> status = '拼团失败-未退款';
+                            $res1[$k] -> status = '未退款';
                             $res1[$k] -> bgcolor = '#ee827c';
                             break;
                         case 11 :
-                            $res1[$k] -> status = '拼团失败-已退款';
+                            $res1[$k] -> status = '已退款';
                             $res1[$k] -> bgcolor = '#ee827c';
                             break;
                     }
@@ -255,6 +278,10 @@ class IndexAction extends Action {
                             $res1[$k] -> status = '订单关闭';
                             $res1[$k] -> bgcolor = '#ffbd8b';
                             break;
+                        case 7 :
+                            $res1[$k] -> status = '订单关闭';
+                            $res1[$k] -> bgcolor = '#ffbd8b';
+                            break;
                         case 5 :
                             $res1[$k] -> status = '已完成';
                             $res1[$k] -> bgcolor = '#f7b977';
@@ -270,6 +297,7 @@ class IndexAction extends Action {
                     $exper_id = $products[0]->express_id;
                     $sql03 = "select * from lkt_express where id = $exper_id ";
                     $r03 =$db->select($sql03);
+
                     $res1[$k] -> kuaidi_name = $r03[0] -> kuaidi_name; // 快递公司名称
                 }
 
@@ -281,7 +309,7 @@ class IndexAction extends Action {
 
         }
  
-// print_r($res1);die;
+        // print_r($res1);die;
         $sql02 = "select * from lkt_express ";
         $r02 = $db -> select($sql02);
         $request -> setAttribute("express", $r02);
