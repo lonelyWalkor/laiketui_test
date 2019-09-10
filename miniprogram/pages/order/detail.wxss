@@ -73,11 +73,12 @@ page{
     float: left;
 }
 .sp_text{
-    display:flex;
-    line-height: 20px;
-    width: 100%;
-    text-align: left;
-    }
+  display:flex;
+  line-height: 20px;
+  width: 100%;
+  text-align: left;
+  flex-wrap: wrap;
+}
 .sp_tit{
     width: 100%;
     overflow: hidden;

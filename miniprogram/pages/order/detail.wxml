@@ -45,14 +45,21 @@
       </navigator>
     <view class="df_1" style='padding-left:7px;'>            
       <view class="sp_text">
+
         <navigator style='width:70%;' url="../product/detail?productId={{item.p_id}}&size={{item.sid}}" hover-class="changestyle">
           <view class="sp_tit ovh1" style="color: #000;">{{item.p_name}} </view>
           <view class="sp_tit ovh1" style='color:#808080'>[{{item.size}}]</view>
         </navigator>
+
         <view class="sp_jg">
+
           <view class='guige'>¥ {{item.p_price}} </view> 
           <view class='guige'>x{{item.num}}</view>
-          <view wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype =='' && item.r_status != 3}}" bindtap='return_goods' data-order-id="{{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;margin-top:10px;' class="font_12 red fl_r mr_5">申请售后</view>
+
+        </view>
+        <view style="width: 100%;">
+            <navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}&&courier_num={{item.courier_num}}&&express_id={{item.express_id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;'wx:if="{{item.express_id}}" data-order-id="{{item.id}}">查看物流</navigator>
+            <view wx:if="{{item.r_status > 0 && item.r_status < 4 && item.otype =='' && item.r_status != 3}}" bindtap='return_goods' data-order-id="{{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">申请售后</view>
         </view>
       </view>
       <view style='clear:both;'></view>

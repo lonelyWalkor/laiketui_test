@@ -126,6 +126,7 @@ Page({
       show = true;
       t = 0;
     }
+    
     animationEvents(this, moveY, show);
     this.AddressManagement1();
   },

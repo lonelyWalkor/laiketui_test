@@ -111,7 +111,7 @@
             <navigator wx:if="{{item.status == 1 && item.pid >0}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
             <navigator wx:if="{{item.status == 1&& item.pid ==''}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
             <navigator wx:if="{{item.status == 4}}" url="../order/detail?orderId={{item.id}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' class="font_12 red fl_r mr_5">订单详情</navigator>
-            <navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
+            <!-- <navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator> -->
             <view class="font_12 red fl_r mr_5" wx:if="{{item.status == 5 && item.pid ==''}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' data-order-id="{{item.id}}">订单完成</view>
             <view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2&& item.pid ==''}}" data-sNo="{{item.sNo}}">确认收货</view>
             <view class="font_12 red fl_r mr_5" bindtap="recOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 &&item.pid > 0}}" data-sNo="{{item.sNo}}">确认收货</view>
@@ -283,7 +283,7 @@
           <view class="bottom" >
            <navigator url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' class="font_12 red fl_r mr_5">订单详情</navigator>
             
-            <navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
+            <!-- <navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator> -->
             <!-- <view class="font_12 red fl_r mr_5" bindtap="escOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 1}}" data-order-id="{{item.id}}" data-sno="{{item.sNo}}">取消订单</view> -->
             <view class="font_12 red fl_r mr_5" bindtap="recOrder" style='color:{{bgcolor}};border:1px solid {{bgcolor}};' wx:if="{{item.status == 2&&item.pid==''}}" data-sNo="{{item.sNo}}">确认收货</view>
             <view class="font_12 red fl_r mr_5" bindtap="recOrder" style='border:1px solid #8a8a8a;color:#8a8a8a;' wx:if="{{item.status == 2 && item.pid > 0}}" data-sNo="{{item.sNo}}">确认收货</view>
@@ -342,8 +342,7 @@
 					<view class="bottom" >
 						<navigator wx:if="{{item.status != 1}}" url="../order/detail?orderId={{item.id}}" style='border:1px solid #8a8a8a;color:#8a8a8a;'
 						 class="font_12 red fl_r mr_5">订单详情</navigator>
-						<navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;'
-						 wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator>
+						<!-- <navigator class="font_12 red fl_r mr_5" url="../logistics/logistics?orderId={{item.sNo}}" style='border:1px solid #8a8a8a;color:#8a8a8a;'wx:if="{{item.status == 2 || item.status == 3}}" data-order-id="{{item.id}}">查看物流</navigator> -->
 						<navigator class="font_12 red fl_r mr_5" url="../comment/comment?ordersn={{item.sNo}}" style='color:{{bgcolor}};border:1px solid {{bgcolor}};'
 						 wx:if="{{item.status == 3&&item.pid ==''}}" data-order-id="{{item.id}}">立即评价</navigator>
              	<navigator class="font_12 red fl_r mr_5" url="../comment/comment?ordersn={{item.sNo}}"style='border:1px solid #8a8a8a;color:#8a8a8a;'
