@@ -172,7 +172,7 @@ Page({
         method: 'post',
         data: {
           pro_id: that.data.productId,
-          // openid: openid,
+          openid: openid,
           type1: that.data.type1,//判断是抽奖还是其他活动
           choujiangid: that.data.choujiangid,
           role: that.options.role ? that.options.role : '',
