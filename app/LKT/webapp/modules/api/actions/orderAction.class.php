@@ -250,7 +250,7 @@ class orderAction extends Action {
                         }
                         $r_status = $values->r_status; // 订单详情状态
 
-                        $sql_o = "select id from lkt_order_details where r_sNo = '$sNo' AND r_type = 0 AND r_status = '$r_status' and r_status != -1 ";
+                        $sql_o = "select id from lkt_order_details where r_sNo = '$sNo' AND r_type = 0 AND r_status = '$r_status' ";
                         $res_o = $db->selectrow($sql_o);//查询订单号和状态为审核中且状态为该状态的行数
 
                         $sql_d = "select id from lkt_order_details where r_sNo = '$sNo'";
@@ -261,10 +261,19 @@ class orderAction extends Action {
                             //如果订单数量相等 则修改父订单状态
                             $sql = "update lkt_order set status = '$r_status' where sNo = '$sNo'";
                             $r = $db->update($sql);
+                        }else{
+                            $res11 = $db->select("select min(r_status) as r_status from lkt_order_details where r_sNo = '$sNo'  AND r_status <= 6 and r_status >= 0 ");
+                            $res22 = $db->select("select min(status) as status from lkt_order where sNo = '$sNo'");
+                            if($res11[0]->r_status>$res22[0]->status){
+                                $dd=$res11[0]->r_status;
+                                 $sql = "update lkt_order set status = '$dd' where sNo = '$sNo'";
+                                 $r = $db->update($sql);
+                            }
+                           
                         }
-                        if($r_status > 0){
-                            $rew['status'] = $r_status;
-                        }
+                        // if($r_status > 0){
+                        //     $rew['status'] = $r_status;
+                        // }
                     }
                     $rew['list'] = $product;
                 }
