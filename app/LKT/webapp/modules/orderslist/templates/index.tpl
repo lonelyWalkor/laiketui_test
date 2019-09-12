@@ -791,7 +791,7 @@
 					<div class="f9e">物流单号{$key3+1}：</div>
 					{/foreach}
 					{else}
-					<div class="f9e">物流单号：</div>
+					<div class="f9e">物流单号1：</div>
 					{/if}
 
 					<div class="f9e">运费：</div>
@@ -845,7 +845,7 @@
 				</a>
 				{/if}
 
-				{if $item->statu < 0}
+				{if $item->statu == 0}
 				<a class="hover_a" onclick="colse('{$item->sNo}')">
 					<img src="images/iIcon/chaaG.png" />&nbsp;关闭订单
 				</a>

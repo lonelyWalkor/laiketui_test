@@ -355,7 +355,7 @@
             </div>
         </a>
         <input type="hidden" id="dingdan" value="{$data.sNo}">
-     <!--    {if $data.otype!='pt'}
+        {if $data.otype!='pt'}
             {if $data.status01 == 1}
                 <button value="发货" class="newBtn btn radius" onclick="send_btn(this,'{$data.otype}','{$data.sNo}', '{$data.gstatus}','{$data.drawid}')" style="border: none;width: 80px!important;background-color: #ff453d!important;margin: 0px 10px;">
                     <div style="height: 100%;display: flex;align-items: center;">
@@ -377,7 +377,7 @@
                     </div>
                 </button>
             {/if}
-        {/if} -->
+        {/if}
 <!--         <button class="btn radius newbtn b02" style="height: 36px;border: none;" onclick="printTure();">
             <div style="height: 100%;display: flex;align-items: center;">
                 <img src="images/icon1/dy.png"/>&nbsp;打印
@@ -408,7 +408,12 @@
             <li style="width: 26.66%;">发货时间：<span class="grText">{$data.deliver_time}</span></li>
             <li style="width: 20.00%;">快递公司：<span class="grText">{$data.express_name}</span></li>
             <li style="width: 26.66%;">购买用户：<span class="grText">{$data.user_name}</span> </li>
-            <li style="width: 26.66%;">支付方式：<span class="grText">{$data.mobile}</span></li>
+            <li style="width: 26.66%;">支付方式：<span class="grText">
+                    {if $data.paytype == 'wxPay'}
+                    微信支付
+                    {else}
+                    余额支付
+                    {/if}</span></li>
             <li style="width: 26.66%;">到货时间：<span class="grText">{$data.arrive_time}</span></li>
             <li style="width: 20.00%;">快递单号：
                 {if $data.courier_num ==''}
@@ -474,7 +479,7 @@
         </table>
         <div class="numss">
                     <spa style="margin-right: 20px;">优惠合计：-￥{$reduce_price+$coupon_price} 元</span>
-          <span>合计支付： ￥{$data.freight+$data.z_price} 元</span>
+          <span>合计支付： ￥{$data.freight+$data.z_price-$reduce_price-$coupon_price} 元</span>
         </div>
     </div>
     <input type="hidden" name="ddd" value="{$data.lottery_status}">

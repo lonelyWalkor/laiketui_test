@@ -609,7 +609,7 @@
                     appendMask1('发货成功',"cg");
                     window.history.go(-1);
                 }else{
-                    appendMask('快递单号已存在，请勿重复111',"ts");
+                    appendMask('添加失败',"ts");
                 }
             },
         });

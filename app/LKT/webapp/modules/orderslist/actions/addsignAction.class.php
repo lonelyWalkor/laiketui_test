@@ -34,7 +34,7 @@ class addsignAction extends Action {
 		}
 		$res_p ='';
 		if($sNo){
-			$sql_p = "select o.id,o.p_name,o.num,o.size,d.img,o.p_price,o.r_sNo,o.express_id from lkt_order_details as o left join lkt_configure as d on o.sid=d.id where o.r_sNo='$sNo'";
+			$sql_p = "select o.id,o.p_name,o.num,o.size,d.img,o.p_price,o.r_sNo,o.express_id from lkt_order_details as o left join lkt_configure as d on o.sid=d.id where o.r_sNo='$sNo' and o.r_status =1  ";
 				$res_p = $db -> select($sql_p);
 				$sqlcf = "select * from lkt_config where id = '1'";
 		        $rcf = $db -> select($sqlcf);
