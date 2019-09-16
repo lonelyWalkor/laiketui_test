@@ -1,23 +1,6 @@
 <?php
-
-
-
-
-
-
-
 class step2Action extends Action
-
-
-
 {
-
-
-
-
-
-
-
     public function execute ()
 
     {
@@ -72,6 +55,4 @@ class step2Action extends Action
 
 
 }
-
-
 ?>
