@@ -14,11 +14,14 @@ require_once(MO_LIB_DIR . '/DBAction.class.php');
 
 class ModifyAction extends Action {
 
-	public function getDefaultView() {
-       $db = DBAction::getInstance();
-	   $request = $this->getContext()->getRequest();
-
-
+  public function getDefaultView() {
+    $db = DBAction::getInstance();
+     $request = $this->getContext()->getRequest();
+     $m = $request -> getParameter('m'); // 订单id
+     if($m){
+       $this->$m();
+     }
+    
       $id = intval($request -> getParameter('id')); // 订单id
       $da['having'] = $request -> getParameter('having');
       $da['ordtype'] = $request -> getParameter('ordtype');
@@ -40,7 +43,7 @@ class ModifyAction extends Action {
 
 
 
-      $sql = 'select u.user_name,l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.coupon_id,l.reduce_price,l.coupon_price,l.allow,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size,d.freight from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo left join lkt_user as u on u.user_id=l.user_id  where l.id="'.$id.'"';
+      $sql = 'select u.user_name,l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.coupon_id,l.reduce_price,l.coupon_price,l.allow,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size,d.freight,d.id from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo left join lkt_user as u on u.user_id=l.user_id  where l.id="'.$id.'"';
 
             $res = $db -> select($sql);
         $num = count($res);
@@ -354,45 +357,89 @@ class ModifyAction extends Action {
 
     }
        
-	public function execute(){
-	   $db = DBAction::getInstance();
-	   $request = $this->getContext()->getRequest();
+  public function execute(){
+     $db = DBAction::getInstance();
+     $request = $this->getContext()->getRequest();
+     
+      $m = $request -> getParameter('m'); // 订单id
+     if($m){
+
+       $this->$m();
+     }
      $admin_id = $this->getContext()->getStorage()->read('admin_id');
 
-	   $name = addslashes(trim($request->getParameter('name')));
-	   $mobile = addslashes(trim($request->getParameter('mobile')));
-	   $sheng = addslashes(trim($request->getParameter('Select1')));
-	   $shi = addslashes(trim($request->getParameter('Select2')));
-	   $xian = addslashes(trim($request->getParameter('Select3')));
-	   $address = addslashes(trim($request->getParameter('address')));
-	   $r1 = $db -> selectarray('select G_CName from admin_cg_group where GroupID='.$sheng);
-	   $r1 = $r1[0]['G_CName'];
-	   $r2 = $db -> selectarray('select G_CName from admin_cg_group where GroupID='.$shi);
-	   $r2 = $r2[0]['G_CName'];
-	   $r3 = $db -> selectarray('select G_CName from admin_cg_group where GroupID='.$xian);
-	   $r3 = $r3[0]['G_CName'];
+     $name = addslashes(trim($request->getParameter('name')));
+     $mobile = addslashes(trim($request->getParameter('mobile')));
+     $sheng = addslashes(trim($request->getParameter('Select1')));
+     $shi = addslashes(trim($request->getParameter('Select2')));
+     $xian = addslashes(trim($request->getParameter('Select3')));
+     $address = addslashes(trim($request->getParameter('address')));
+     $r1 = $db -> selectarray('select G_CName from admin_cg_group where GroupID='.$sheng);
+     $r1 = $r1[0]['G_CName'];
+     $r2 = $db -> selectarray('select G_CName from admin_cg_group where GroupID='.$shi);
+     $r2 = $r2[0]['G_CName'];
+     $r3 = $db -> selectarray('select G_CName from admin_cg_group where GroupID='.$xian);
+     $r3 = $r3[0]['G_CName'];
 
-	   $address = $r1.$r2.$r3.$address;
-	   $sNo = addslashes(trim($request->getParameter('id')));
+     $address = $r1.$r2.$r3.$address;
+     $sNo = addslashes(trim($request->getParameter('id')));
        $sid = addslashes(trim($request->getParameter('sid')));
 
-	   $sql = 'update lkt_order set name="'.$name.'",mobile="'.$mobile.'",sheng="'.$sheng.'",shi="'.$shi.'",xian="'.$xian.'",address="'.$address.'" where sNo="'.$sNo.'"';	   
-	   $up = $db -> update($sql);
-	   if($up > 0){
+     $sql = 'update lkt_order set name="'.$name.'",mobile="'.$mobile.'",sheng="'.$sheng.'",shi="'.$shi.'",xian="'.$xian.'",address="'.$address.'" where sNo="'.$sNo.'"';     
+     $up = $db -> update($sql);
+     if($up > 0){
            $db->admin_record($admin_id,' 修改订单号为 '.$sNo.' 的信息 ',2);
 
            echo json_encode(array('status'=>1,'err'=>'修改成功!'));
                 exit();
-	   }else{
+     }else{
            $db->admin_record($admin_id,' 修改订单号为 '.$sNo.' 的信息失败 ',2);
 
           echo json_encode(array('status'=>0,'err'=>'修改失败!'));
                 exit();
-	   }
-	}
+     }
+  }
 
-	public function getRequestMethods(){
-		return Request :: POST;
-	}
+  public function m_price(){//修改未付款订单价格
+     $db = DBAction::getInstance();
+     $request = $this->getContext()->getRequest();
+     $id = intval($request -> getParameter('id')); // 订单id
+     $y_price = intval($request -> getParameter('y_price')); // 原价
+     $n_price = intval($request -> getParameter('n_price')); // 现价
+
+     if($y_price && $n_price && $id){
+      $price = $n_price-$y_price;
+      $rlud = $db -> select("select r_sNo from lkt_order_details where id ='$id'" );
+
+      $sqld = 'update lkt_order_details set p_price='.$n_price.'  where id="'.$id.'"';
+      $rd = $db -> update($sqld);
+        if($rlud){
+          $sNo = $rlud[0]->r_sNo;
+           if($price>=0){//提高价格
+              $sqll = 'update lkt_order set z_price=z_price+'."$price".' where sNo="'.$sNo.'"';
+              $rl = $db -> update($sqll);
+
+            }else{//降低价格
+              $sqll = 'update lkt_order set z_price=z_price'."$price".' where sNo="'.$sNo.'"';
+              // echo $sqll;
+              $rl = $db -> update($sqll);
+            }
+            echo json_encode(array('status'=>1,'err'=>'修改成功!'));
+                exit();
+        }else{
+          echo json_encode(array('status'=>0,'err'=>'参数错误!'));
+                exit();
+        }
+     }else{
+      echo json_encode(array('status'=>0,'err'=>'参数错误!'));
+                exit();
+     }
+
+
+  }
+
+  public function getRequestMethods(){
+    return Request :: POST;
+  }
 }
 ?>

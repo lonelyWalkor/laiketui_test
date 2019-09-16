@@ -508,8 +508,10 @@
              {foreach from=$detail item=item name=f1}
                  <tr>
                      <td style="text-align:left;" id="p_name">
+					 
                          <img class='pimg' src="{$uploadImg}{$item->pic}" style="margin-right: 20px;" width="50" height="50"/>
-
+						 
+						 <input type="hidden" id="inputid" value="{$item->id}">
                           <a style="display: contents;" href="index.php?module=product&action=see&id=1&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}" title="查看">
                             {$item->p_name}
                           </a>
@@ -517,7 +519,19 @@
                      </td>
                      <td class="center"><span class="grText">{$item->size}</span></td>
                      <td class="center"><span class="grText">{$item->p_id}</span></td>
-                     <td class="center" rowspan="{$item->index}"><span class="grText">￥{$item->p_price}</span></td>
+                     <td class="center" rowspan="{$item->index}">
+						
+						{if $item->r_status == '0'}
+							<span  id="Priceb" class="grText" onclick="openPrice()">￥{$item->p_price}</span>
+						{else}
+							<span  id="Priceb" class="grText">￥{$item->p_price}</span>
+						{/if}
+						
+						
+						<input type="hidden" id="inputidsss" value="{$item->p_price}">
+						<input id="Prices" style="display: none;" type="text" name="p_price" value="{$item->p_price}" autofocus>
+						
+					</td>
                      <td class="center" rowspan="{$item->index}"><span class="grText">{$item->num}</span></td>
                      <td class="center" rowspan="{$item->index}"><span  class="grText"style="font-weight: bold;">￥{$item->p_price*$item->num}</span></td>
                      <td class="center" rowspan="{$item->index}"><span  class="grText" style="">￥{$item->z_price+$item->freight}</span></td>
@@ -618,6 +632,51 @@
  
  
      <script type="text/javascript">
+	 
+		function openPrice(){
+		
+			
+			$('#Prices').show()
+			$('#Priceb').hide()
+			$('#Prices').focus()
+			
+		}
+		
+		$("#Prices").blur( function () { 
+				$('#Prices').hide()
+				$('#Priceb').show()
+				
+				var y_price = $('#inputidsss').val()
+				var n_price = $('#Prices').val()
+				
+				var id = $('#inputid').val()
+				
+				$.ajax({
+					url:"index.php?module=orderslist&action=Modify&m=m_price",
+					type:"post",
+					data:{
+						id:id,
+						y_price:y_price,
+						n_price:n_price
+					},
+					dataType:"json",
+					success:function (res) {
+						if(res.status === 1){
+							location.reload()
+						} else {
+							alert(res.err)
+						}
+						console.log(res)
+					}
+				})
+
+			}
+		)
+	 
+	 
+	 
+	 
+	 
          let changeNum = $(".changeNum").html();
          $(".changeNum").mouseover(function(){
              $(this).text("查看物流");
