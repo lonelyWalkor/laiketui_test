@@ -25,7 +25,7 @@ Page({
     this.setData({
       logoimg: app.globalData.logoimg,
       loadtitle: app.globalData.title,
-      thvm: vm
+      thvm: vm ? vm:''
     })
     let _that = this;
     if (!_that.data.click) {

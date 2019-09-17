@@ -108,8 +108,8 @@ Page({
           
           twoList[current].twodata.push(...prolist)
           var indexTwoData = twoList[0].twodata
-          console.log(twoList)
-          console.log('6666')
+          // console.log(twoList)
+          // console.log('6666')
           that.setData({
             page: page + 1,
             twoList: twoList,
@@ -471,9 +471,9 @@ Page({
     //签到活动弹窗,勿删
     setTimeout(function(){
       that.setData({
-        sign_image: app.globalData.userInfo.sign_image, // 签到图片
-        sign_status: app.globalData.userInfo.sign_status, // 是否签名
-        sign: app.globalData.userInfo.sign // 签名插件是否开启
+        sign_image: app.globalData.userInfo.sign_image ? app.globalData.userInfo.sign_image:'', // 签到图片
+        sign_status: app.globalData.userInfo.sign_status ? app.globalData.userInfo.sign_status:'', // 是否签名
+        sign: app.globalData.userInfo.sign ? app.globalData.userInfo.sign:'' // 签名插件是否开启
       })
   
       if (app.globalData.userInfo.sign == true){
