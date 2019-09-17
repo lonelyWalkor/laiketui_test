@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-28 18:01:58
- * @LastEditTime: 2019-08-28 18:31:16
+ * @LastEditTime: 2019-09-11 17:28:17
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -36,16 +36,6 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
 	}
 	   
 </style>
-<script type="text/javascript">
-function check(f) {
-    if (Trim(f.product_title.value) == "") {
-        alert("产品名称不能为空！");
-        f.product_title.value = '';
-        return false;
-    }
-    return true;
-}
-</script>
 {/literal}
 
 {literal}
@@ -154,7 +144,7 @@ function check(f) {
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> <a href="index.php?module=product" style="text-decoration:none;" onmouseover="this.style.color='#333'">产品列表管理</a> <span class="c-gray en">&gt;</span> 发布产品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 
 <div class="pd-20" id="page">
-    <form name="form1" action="" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return check(this);">
+    <form id="form1" name="form1" action="" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return check(this);">
         <input type="hidden" name="attribute" class="attribute" id="attribute" value='{$attribute}'/>
         <input type="hidden" name="uploadImg" value="{$uploadImg}"/>
         <input type="hidden" name="attribute_num" class="attribute_num" id="attribute_num" value='{$attribute_num}'/>
@@ -211,15 +201,15 @@ function check(f) {
             <div class="formContentSD">
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>成本价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>原价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>售价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
@@ -256,7 +246,7 @@ function check(f) {
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>库存：</span></div>
-                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" required="required" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
                 </div>
                         {literal}
                         <!-- 有规格 -->
@@ -322,30 +312,37 @@ function check(f) {
                                                 <input type="hidden" v-bind:name="'attr['+index+'][attr_list]['+attr_index+'][attr_group_name]'" v-bind:value="attr.attr_group_name">
                                                 <span>{{attr.attr_name}}</span>
                                             </td>
+
                                             <td>
                                                 <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][costprice]'" :value="cbj">
                                             </td>
+
                                             <td>
                                                 <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][yprice]'" :value="yj">
                                             </td>
+
                                             <td>
                                                 <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][price]'" :value="sj">
                                             </td>
+
                                             <td>
                                                 <input class="form-control form-control-sm" oninput="value=value.replace(/[^\d]/g,'')" v-bind:name="'attr['+index+'][num]'" :value="kucun" onkeypress="return noNumbers(event)" min="0" step="1">
                                             </td>
+
                                             <td>
                                                 <input class="unit" v-bind:name="'attr['+index+'][unit]'" :value="unit" style="border: 0px;background-color: transparent;" readOnly="readOnly">
                 
                                             </td>
+
                                             <td>
                                                 <div class="upload-group form_group form_flex">
                                                     <div class="form_attr_img ">
-                                                        <input type="hidden" :id="'picurl2'+index"  v-bind:name="'attr['+index+'][img]'" datatype="*" nullmsg="请选择图片11"/>
+                                                        <input type="hidden" :id="'picurl2'+index"  v-bind:name="setattrname('attr['+index+'][img]')" datatype="*" nullmsg="请选择图片11"/>
                                                         <img src="images/icon1/add_g_t.png" :id="'pic2'+index" class="upload-preview-img form_att select-file" @click="handleImageClick(item,index)" onclick="setTimeoutClick() ">
                                                     </div>
                                                 </div>
                                             </td>
+
                                         </tr>
                                     </table>
                                 </div>
@@ -369,6 +366,12 @@ function check(f) {
                     <input type="checkbox" id="sex-3" name="s_type[]" class="inputC" value="3" {if in_array(3,$s_type)}checked="checked"{/if}>
                     <label for="sex-3">推荐</label>
                 </div>
+				
+                <div class="ra1" style="width:100px;">
+                    <input type="checkbox" id="sex-4" name="s_type[]" class="inputC" value="4" {if in_array(4,$s_type)}checked="checked"{/if}>
+                    <label for="sex-4">首页推荐</label>
+                </div>
+				
             </div>
         </div>
 
@@ -421,7 +424,7 @@ function check(f) {
 		<div style="height: 70px;"></div>
         <div class="row cl page_bort_bottom">
             <div class="col-8 col-offset-4">
-                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius btn-right" onclick="check()">
+                <input type="submit" name="button" value="提 交" class="btn btn-primary radius btn-right">
                 <input type="button" name="reset" value="重 写" onclick="check1()" class="btn btn-primary radius btn-left" style='background: transparent!important;'>
             </div>
         </div>
@@ -844,52 +847,111 @@ function resetButton(){
     $('#ueditor_0').contents().find('p').html(""); 
 }
 
-var t_check = true;
-            function check() {
-                // console.log(t_check);
-                //   console.log(66666);
-                // if(!t_check && t_check ==false){
-                //     alert('请勿重复提交！', {
-                //         time: 2000
-                //     });
-                //     return false;
-                // }
-
-                // t_check = false;
-
-                $.ajax({
-                    cache: true,
-                    type: "POST",
-                    dataType: "json",
-                    url: 'index.php?module=product&action=add',
-                    data: $('#form1').serialize(), // 你的formid
-                    async: true,
-                    success: function(data) {
-                        t_check = true;
-                        alert(data.status, {
-                            time: 2000
-                        });
-                        if(data.suc) {
-                            location.href = "index.php?module=product";
-                        }
-                    }
-                });
+    // 表单验证
+    function verificationForm(){
+        var res = $('#form1').serializeArray()
+        var s_type = 0
+        
+        for(var i = 0; i < res.length; i++){
+            
+            if(res[i].name === 'product_title' && res[i].value === ''){
+                alert('请输入产品标题!')
+                return false
+            } else if(res[i].name === 'product_class' && res[i].value === '0'){
+                alert('请选择产品类别!')
+                return false
+            } else if(res[i].name === 'brand_class' && res[i].value === '0'){
+                alert('请选择品牌!')
+                return false
+            } else if(res[i].name === 'image' && res[i].value === ''){
+                alert('请设置产品主图!')
+                return false
+            } else if(res[i].name === 'weight' && res[i].value === ''){
+                alert('请设置产品重量!')
+                return false
+            } else if(res[i].name === 'initial[cbj]' && res[i].value === ''){
+                alert('请设置产品成本价!')
+                return false
+            } else if(res[i].name === 'initial[yj]' && res[i].value === ''){
+                alert('请设置产品原价!')
+                return false 
+            } else if(res[i].name === 'initial[sj]' && res[i].value === ''){
+                alert('请设置产品售价!')
+                return false 
+            } else if(res[i].name === 'initial[unit]' && res[i].value === ''){
+                alert('请选择产品单位!')
+                return false 
+            } else if(res[i].name === 'initial[kucun]' && res[i].value === ''){
+                alert('请设置产品库存!')
+                return false 
+            } else if(res[i].name === 's_type[]') {
+                s_type = 1
             }
-            function check1() {
-                $.ajax({
-                    cache: true,
-                    type: "GET",
-                    dataType: "json",
-                    url: 'index.php?module=product&action=add&m=del',
-                    data: $('#form1').serialize(), // 你的formid
-                    async: true,
-                    success: function(data) {
-                        if(data.suc) {
-                            location.href = "index.php?module=product";
-                        }
-                    }
+        }
+
+
+        if(page.$data.attr_group_list.length == 0){
+            alert('请设置属性名称!')
+            return false
+        }
+
+        if(s_type === 0){
+            alert('请选择显示类型!')
+            return false
+        }
+
+        return true
+    }
+
+    var t_check = true;
+    function check() {
+        if(!verificationForm()){
+            return false
+        }
+        // console.log(t_check);
+        //   console.log(66666);
+        // if(!t_check && t_check ==false){
+        //     alert('请勿重复提交！', {
+        //         time: 2000
+        //     });
+        //     return false;
+        // }
+
+        // t_check = false;
+
+        $.ajax({
+            cache: true,
+            type: "POST",
+            dataType: "json",
+            url: 'index.php?module=product&action=add',
+            data: $('#form1').serialize(), // 你的formid
+            async: true,
+            success: function(data) {
+                t_check = true;
+                alert(data.status, {
+                    time: 2000
                 });
+                if(data.suc) {
+                    location.href = "index.php?module=product";
+                }
             }
+        });
+    }
+    function check1() {
+        $.ajax({
+            cache: true,
+            type: "GET",
+            dataType: "json",
+            url: 'index.php?module=product&action=add&m=del',
+            data: $('#form1').serialize(), // 你的formid
+            async: true,
+            success: function(data) {
+                if(data.suc) {
+                    location.href = "index.php?module=product";
+                }
+            }
+        });
+    }
 </script>
 {/literal}
 </body>

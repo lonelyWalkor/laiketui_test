@@ -39,7 +39,7 @@ td a{
     background-color: #e5e5e5!important;
 }
 #btn7:hover{
-    background-color: #e5e5e5!important;
+    background-color: #225a1f!important;
 }
 #btn8:hover{
     border:1px solid #2890ff!important;
@@ -66,6 +66,7 @@ form .select{
 .tj{
     background-color: #feb04c;
 }
+.sytj {background-color: #007d65;}
 .paginationDiv {
     width: 100%;
     background-color: #fff;
@@ -158,6 +159,13 @@ form .select{
                 <img src="images/icon1/tj.png"/>&nbsp;<span>设为推荐</span>
             </div>
         </a>
+		
+        <a class="btn radius btn_sytj" id="btn7" style="background-color:#007d65;color: #fff;">
+            <div style="height: 100%;display: flex;align-items: center;" href="javascript:;" onclick="operation(10)">
+                <img src="images/icon1/tj.png"/>&nbsp;<span>设为首页推荐</span>
+            </div>
+        </a>
+		
         <a href="javascript:;" id="btn6" onclick="datadel()" style="background: #fff;color: #6a7076;border: none;" class="btn btn-danger radius">
             <div style="height: 100%;display: flex;align-items: center;">
                 <img src="images/icon1/del.png"/>&nbsp;删除
@@ -203,6 +211,7 @@ form .select{
                             {if $item1 == 1}<span class="proSpan xp">新品</span>{/if}
                             {if $item1 == 2}<span class="proSpan rx">热销</span>{/if}
                             {if $item1 == 3}<span class="proSpan tj">推荐</span>{/if}
+							{if $item1 == 4}<span class="proSpan sytj">首页推荐</span>{/if}
                         {/foreach}
                     </td>
                     <td style="min-width: 140px;">{$item->pname}</td>
@@ -294,6 +303,7 @@ form .select{
 			var xpFlag = false
 			var rxFlag = false
 			var tjFlag = false
+			var sytjFlag = false
 			var xzindex = 0
 			
 			for(var i=1;i<$('.inputC').length;i++){
@@ -321,6 +331,11 @@ form .select{
 					// 有产品不是推荐
 					tjFlag=true
 				}
+				
+				if($('.inputC').eq(i).parents('tr').find('.sytj').length==0){
+					// 有产品不是首页推荐
+					sytjFlag = true
+				}
 			}
 			$('#ipt1').prop('checked',qxFlag)
 			
@@ -329,6 +344,7 @@ form .select{
 				$(".btn_xp span").text('设为新品')
 				$(".btn_rx span").text('设为热销')
 				$(".btn_tj span").text('设为推荐')
+				$(".btn_sytj span").text('设为首页推荐')
 				return
 			}
 			if(upFlag){
@@ -351,6 +367,12 @@ form .select{
 			}else{
 				$(".btn_tj span").text('取消推荐')
 			}
+			
+			if(sytjFlag){
+				$(".btn_sytj span").text('设为首页推荐')
+			}else{
+				$(".btn_sytj span").text('取消首页推荐')
+			}
 		}else{
 			// 如果是全选
 			if($(this).is(':checked')){
@@ -358,6 +380,8 @@ form .select{
 				var xpFlag = false
 				var rxFlag = false
 				var tjFlag = false
+				var sytjFlag = false
+				
 				for(var i=1;i<$('.inputC').length;i++){
 					if($('.inputC').eq(i).parents('tr').find('.sp_up span').text()!='已上架'){
 						// 有商品下架了
@@ -375,6 +399,12 @@ form .select{
 						// 有产品不是推荐
 						tjFlag=true
 					}
+					
+					if($('.inputC').eq(i).parents('tr').find('.sytj').length==0){
+						// 有产品不是首页推荐
+						sytjFlag=true
+					}
+					
 					if($('.inputC').eq(i).parents('tr').find('.xp').length==0&&$('.inputC').eq(i).parents('tr').find('.rx').length==0&&$('.inputC').eq(i).parents('tr').find('.tj').length==0){
 						break
 					}
@@ -399,11 +429,18 @@ form .select{
 				}else{
 					$(".btn_tj span").text('取消推荐')
 				}
+				
+				if(sytjFlag){
+					$(".btn_sytj span").text('设为首页推荐')
+				}else{
+					$(".btn_sytj span").text('取消首页推荐')
+				}
 			}else{
 				$(".btn_up span").text('产品上架')
 				$(".btn_xp span").text('设为新品')
 				$(".btn_rx span").text('设为热销')
 				$(".btn_tj span").text('设为推荐')
+				$(".btn_sytj span").text('设为首页推荐')
 			}
 		}
 	})
@@ -524,6 +561,8 @@ function operation(type){
 	var btn_xp = $(".btn_xp span").text();
 	var btn_rx = $(".btn_rx span").text();
 	var btn_tj = $(".btn_tj span").text();
+	var btn_sytj = $(".btn_sytj span").text();
+	
 	if(type == 1 &&btn_up == "产品下架"){
 	    type = 2;
 	}else if(type == 3 && btn_xp == "取消新品"){
@@ -532,7 +571,10 @@ function operation(type){
 	    type = 6;
 	}else if(type == 7 && btn_tj == "取消推荐"){
 	    type = 8;
-	}
+	} else if(type == 10 && btn_sytj == "取消首页推荐"){
+        type = 9
+    }
+	
     confirm2("确认修改吗？",Id,type);
 }
 function appendMask(content,src){

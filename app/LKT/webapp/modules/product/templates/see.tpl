@@ -282,6 +282,10 @@ form[name=form1] input{
                     <input type="checkbox" id="sex-3" class="inputC" name="s_type[]" value="3" {if in_array(3,$s_type)}checked="checked"{/if} disabled>
                     <label for="sex-3">推荐</label>
                 </div>
+                <div class="ra1" style="width:100px;">
+                    <input type="checkbox" id="sex-4" name="s_type[]" class="inputC" value="4" {if in_array(4,$s_type)}checked="checked"{/if} disabled>
+                    <label for="sex-4" style="width:100%;">首页推荐</label>
+                </div>
             </div>
         </div>
 

@@ -217,7 +217,7 @@ class copyAction extends Action {
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
 //      return $this->getDefaultView();
-
+// print_r($request);die;
         if($product_title == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -225,18 +225,15 @@ class copyAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }else{
-            $sql = "select id,product_title from lkt_product_list where recycle = 0";
+            $sql = "select id,product_title from lkt_product_list where recycle = 0 and product_title ='$product_title'";
             $r = $db->select($sql);
+            // print_r($r);
             if($r){
-                foreach ($r as $k => $v){
                     header("Content-type:text/html;charset=utf-8");
-                    if($product_title == $v->product_title){
                         echo "<script type='text/javascript'>" .
                             "alert('产品名称重复！');" .
                             "</script>";
                         return $this->getDefaultView();
-                    }
-                }
             }
         }
 

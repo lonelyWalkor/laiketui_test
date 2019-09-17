@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-28 18:02:00
- * @LastEditTime: 2019-08-28 18:31:25
+ * @LastEditTime: 2019-09-11 17:36:28
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -19,18 +19,6 @@
     <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
     <link href="style/css/style3.css" rel="stylesheet" type="text/css" />
     <script language="javascript"  src="modpub/js/check.js"> </script>
-    {literal}
-        <script type="text/javascript">
-            function check(f){
-                if(Trim(f.product_title.value)==""){
-                    alert("产品名称不能为空！");
-                    f.pname.value = '';
-                    return false;
-                }
-                return true;
-            }
-        </script>
-    {/literal}
     {literal}
         <style type="text/css">
             .input-text, .scinput_s{
@@ -134,7 +122,7 @@ form[name=form1] input{
 </div>
 <div class="breadcrumb" style="margin-top: 0;"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span><a href="index.php?module=product" style="text-decoration:none;" onmouseover="this.style.color='#333'">产品列表管理</a><span class="c-gray en">&gt;</span> 修改产品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭"><i class="Hui-iconfont">&#xe6a6;</i></a></div>
 <div class="pd-20" id="page">
-    <form name="form1" action="index.php?module=product&action=modify" enctype="multipart/form-data" method="post">
+    <form id="form1" name="form1" action="index.php?module=product&action=modify" enctype="multipart/form-data" method="post" onsubmit="return check(this);">
         <input type="hidden" name="id" value='{$id}'/>
         <input type="hidden" name="uploadImg" value='{$uploadImg}'/>
         <input type="hidden" name="attribute" class="attribute" id="attribute" value='{$attribute1}'/>
@@ -352,6 +340,10 @@ form[name=form1] input{
                     <input type="checkbox" id="sex-3" class="inputC" name="s_type[]" value="3" {if in_array(3,$s_type)}checked="checked"{/if}>
                     <label for="sex-3">推荐</label>
                 </div>
+                <div class="ra1" style="width:100px;">
+                    <input type="checkbox" id="sex-4" name="s_type[]" class="inputC" value="4" {if in_array(4,$s_type)}checked="checked"{/if}>
+                    <label for="sex-4" style="width:100%;">首页推荐</label>
+                </div>
             </div>
         </div>
 
@@ -403,7 +395,7 @@ form[name=form1] input{
 		<div style="height: 70px;"></div>
         <div class="row cl page_bort_bottom">
             <div class="col-8 col-offset-4">
-                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius btn-right" onclick="check()">
+                <input type="submit" name="button" value="提 交" class="btn btn-primary radius btn-right">
                 <input type="button" name="reset" value="取 消"  class="btn btn-primary radius btn-left" id="resetId" onclick="javascript :history.back(-1);" style="background: transparent!important;">
             </div>
         </div>
@@ -894,8 +886,66 @@ var page = new Vue({
         }
           return realLength;
     };
+    // 表单验证
+    function verificationForm(){
+        var res = $('#form1').serializeArray()
+        var s_type = 0
+        
+        for(var i = 0; i < res.length; i++){
+            
+            if(res[i].name === 'product_title' && res[i].value === ''){
+                alert('请输入产品标题!')
+                return false
+            } else if(res[i].name === 'product_class' && res[i].value === '0'){
+                alert('请选择产品类别!')
+                return false
+            } else if(res[i].name === 'brand_class' && res[i].value === '0'){
+                alert('请选择品牌!')
+                return false
+            } else if(res[i].name === 'image' && res[i].value === ''){
+                alert('请设置产品主图!')
+                return false
+            } else if(res[i].name === 'weight' && res[i].value === ''){
+                alert('请设置产品重量!')
+                return false
+            } else if(res[i].name === 'initial[cbj]' && res[i].value === ''){
+                alert('请设置产品成本价!')
+                return false
+            } else if(res[i].name === 'initial[yj]' && res[i].value === ''){
+                alert('请设置产品原价!')
+                return false 
+            } else if(res[i].name === 'initial[sj]' && res[i].value === ''){
+                alert('请设置产品售价!')
+                return false 
+            } else if(res[i].name === 'initial[unit]' && res[i].value === ''){
+                alert('请选择产品单位!')
+                return false 
+            } else if(res[i].name === 'initial[kucun]' && res[i].value === ''){
+                alert('请设置产品库存!')
+                return false 
+            } else if(res[i].name === 's_type[]') {
+                s_type = 1
+            }
+        }
 
+
+        if(page.$data.attr_group_list.length == 0){
+            alert('请设置属性名称!')
+            return false
+        }
+
+        if(s_type === 0){
+            alert('请选择显示类型!')
+            return false
+        }
+
+        return true
+    }
     function check() {
+        if(!verificationForm()){
+            return false
+        }
+
         var url = 'index.php?module=product&action=modify';
         if(!t_check){
             alert('请勿重复提交！', {

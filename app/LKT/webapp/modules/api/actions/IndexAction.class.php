@@ -68,55 +68,14 @@ class IndexAction extends Action {
         }
 
         $shou = [];
-        $sql = "select * from lkt_index_page order by sort desc";
-        $r_t = $db->select($sql);
-        if($r_t){
-            foreach ($r_t as $k => $v) {
-                if($v->type == 'category'){
-                    $product_class = $v->url;
-                    $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$product_class-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC";
-                    $r_cs = $db->select($sql_cs);
-
-                    // $cproduct = [];
-                    if($r_cs){
-                        foreach ($r_cs as $keyc => $valuec) {
-                            $valuec->imgurl = $img . $valuec->imgurl;
-                            $shou[] = $valuec;
-                        }
-                    }
-
-                }
+           $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.status = 0 and a.num >0 and s_type like '%4%' group by c.pid  order by a.volume desc limit  0,10";
+            $r_cs = $db->select($sql_cs);
+        if($r_cs){
+            foreach ($r_cs as $keyc => $valuec) {
+                $valuec->imgurl = $img . $valuec->imgurl;
+                $shou[] = $valuec;
             }
-        }else{
-            $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC";
-
-                    $r_cs = $db->select($sql_cs);
-                    // $cproduct = [];
-                    if($r_cs){
-                        foreach ($r_cs as $keyc => $valuec) {
-                            $valuec->imgurl = $img . $valuec->imgurl;
-                            $shou[] = $valuec;
-                        }
-                    }
-            }
-            if($shou){
-                $key = "id";
-                $arr =$shou;
-                $tmp_arr =[];
-                foreach ($arr as $k => $v) {
-                    if (in_array($v->$key, $tmp_arr)) {//搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
-                        unset($arr[$k]);
-                    } else {
-                        $tmp_arr[] = $v->$key;
-                    }
-                }
-
-                sort($arr);
-                $shou=$arr;
-            }
-        $start=0;
-        $pagesize=10;
-        $shou = array_slice($shou,$start,$pagesize);
+        }
         //查询用户等级判断是否升级
         $distribus = [];
         //列出等级关系
@@ -226,50 +185,18 @@ class IndexAction extends Action {
         $end = 10;
         //查询商品并分类显示返回JSON至小程序
         if($index == 0){
-        $sql = "select * from lkt_index_page order by sort desc";
-        $r_t = $db->select($sql);
-         $product = [];
-        if($r_t){
-            foreach ($r_t as $k => $v) {
-                if($v->type == 'category'){
-                    $product_class = $v->url;
-                    $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$product_class-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC ";
-                    $r_cs = $db->select($sql_cs);
 
-                    if($r_cs){
-                        foreach ($r_cs as $keyc => $valuec) {
-                            $valuec->imgurl = $img . $valuec->imgurl;
-                            $product[] = array('id' => $valuec->id,'product_title' => $valuec->product_title,'price' =>$valuec->yprice,'price_yh' => $valuec->price,'imgurl' => $valuec->imgurl,'volume' => $valuec->volume);
-                        }
-                    }
+            $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.status = 0 and a.num >0 and s_type like '%4%' group by c.pid  order by a.volume  DESC LIMIT $start,$end";
+            // print_r($sql_cs);die;
+            $r_cs = $db->select($sql_cs);
+
+            if($r_cs){
+                foreach ($r_cs as $keyc => $valuec) {
+                    $valuec->imgurl = $img . $valuec->imgurl;
+                    $product[] = array('id' => $valuec->id,'product_title' => $valuec->product_title,'price' =>$valuec->yprice,'price_yh' => $valuec->price,'imgurl' => $valuec->imgurl,'volume' => $valuec->volume);
                 }
             }
 
-        }else{
-                $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC";
-
-                        $r_cs = $db->select($sql_cs);
-                        if($r_cs){
-                            foreach ($r_cs as $keyc => $valuec) {
-                                $valuec->imgurl = $img . $valuec->imgurl;
-                                $product[$k] = array('id' => $valuec->id,'product_title' => $valuec->product_title,'price' =>$valuec->yprice,'price_yh' => $valuec->price,'imgurl' => $valuec->imgurl,'volume' => $valuec->volume);
-                            }
-                        }
-        }
-        if($product){
-                $arr =$product;
-                $tmp_arr =[];
-                foreach ($arr as $k => $v) {
-                    if (in_array($v['id'], $tmp_arr)) {//搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
-                        unset($arr[$k]);
-                    } else {
-                        $tmp_arr[] =$v['id'];
-                    }
-                }
-                sort($arr);
-                $product=$arr;
-            }
-        $product = array_slice($product,$start,$end);
          echo json_encode(array('prolist'=>$product,'status'=>1));
                     exit;
         }else if(!$index){
