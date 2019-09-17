@@ -183,6 +183,7 @@ class IndexAction extends Action {
         }
         $start = 10*$paegr;
         $end = 10;
+        $product ='';
         //查询商品并分类显示返回JSON至小程序
         if($index == 0){
 
