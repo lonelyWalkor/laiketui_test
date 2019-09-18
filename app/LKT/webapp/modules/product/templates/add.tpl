@@ -1,8 +1,8 @@
 <!--
  * @Description: In User Settings Edit
  * @Author: your name
- * @Date: 2019-08-28 18:01:58
- * @LastEditTime: 2019-09-11 17:28:17
+ * @Date: 2019-08-26 13:55:22
+ * @LastEditTime: 2019-09-06 14:12:23
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -22,20 +22,30 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
 <script language="javascript" src="modpub/js/check.js"></script>
 {literal}
 <style type="text/css">
-	form[name=form1] input{
-		margin: 0px;
-	}
-	.inputC+label{
-		width: 50px;
-		height: 20px;
-		line-height: 20px;
-		border: none;
-	}
-	.inputC:checked +label::before{
-		display: inline-block;
-	}
-	   
+    form[name=form1] input{
+        margin: 0px;
+    }
+    .inputC+label{
+        width: 50px;
+        height: 20px;
+        line-height: 20px;
+        border: none;
+    }
+    .inputC:checked +label::before{
+        display: inline-block;
+    }
+       
 </style>
+<script type="text/javascript">
+function check(f) {
+    if (Trim(f.product_title.value) == "") {
+        alert("产品名称不能为空！");
+        f.product_title.value = '';
+        return false;
+    }
+    return true;
+}
+</script>
 {/literal}
 
 {literal}
@@ -57,32 +67,32 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
     display: none;
 }
 .ra1{
-	position: relative;
-	width: 70px;
-	margin-right: 20px;
-	border: 1px solid #eee;
-	border-radius: 5px;
-	height: 30px;
-	line-height: 30px;
-	float: left;
+    position: relative;
+    width: 70px;
+    margin-right: 20px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    height: 30px;
+    line-height: 30px;
+    float: left;
 }
 .ra1 label{
-	height: 30px;
-	text-align: center;
-	line-height: 30px;
-	margin: 0 auto;
-	width: 90%;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    margin: 0 auto;
+    width: 90%;
     left: 6px;
     background: none;
 }
 .ra1 input{
-	float: left;
-	position: absolute;
-	height: 30px;
-	line-height: 30px;
+    float: left;
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
 }
 .inputC:checked +label::before{
-	top: 8px;
+    top: 8px;
 }
 .formListSD {
     color: #414658;
@@ -118,6 +128,77 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
 .inputC:checked+label::before {
     top: 8px;
 }
+    .switch{
+        appearance: none;
+        -moz-appearance:button;
+        -webkit-appearance: none;
+    }
+    .switch {
+        position: relative;
+        margin: 0;
+        width: 40PX;
+        height: 24PX;
+        border: 1PX solid #EBEBF9;
+        outline: 0;
+        border-radius: 16PX;
+        box-sizing: border-box;
+        background-color: #EBEBF9;
+        -webkit-transition: background-color 0.1s, border 0.1s;
+        transition: background-color 0.1s, border 0.1s;
+        visibility: inherit !important;
+    }
+
+    .switch:before {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 38PX;
+        height: 22PX;
+        border-radius: 19PX;
+        background-color: #EBEBF9;
+        -webkit-transition: -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+        transition: -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+        transition: transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+    }
+
+    .switch:after {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 1px;
+        width: 22PX;
+        height: 22PX;
+        border-radius: 15PX;
+        background-color: #FFFFFF;
+        /*box-shadow: 0 1PX 3PX rgba(0, 0, 0, 0.4);*/
+        -webkit-transition: -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+        transition: -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+        transition: transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+    }
+
+    .switch:checked{
+        background: #00D287;
+        border: solid 1px #00D287;
+    }
+
+    .switch:checked:before{
+        transform: scale(0);
+    }
+
+    .switch:checked:after{
+        transform: translateX(15PX);
+    }
+
+    .blg{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .blg span {
+        padding-left: 5px;
+    }
     #masks {
         width: 100%;
         height: 100vh;
@@ -137,7 +218,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
 
 <title>添加产品</title>
 </head>
-<body style="overflow-y:hidden;">
+<body>
 <div id="masks">
     <img src="images/icon1/loads.gif">
 </div>
@@ -151,7 +232,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$product_title}" placeholder="" id="product_titleId" name="product_title">
+                <input required="required" type="text" class="input-text" value="{$product_title}" placeholder="" id="product_titleId" name="product_title">
             </div>
         </div>
         <div class="row cl">
@@ -174,7 +255,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red"></span>产品品牌：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>产品品牌：</label>
             <div class="formControls col-2">
                 <!-- <span class="select-box"> -->
                     <select name="brand_class" id="brand_classId" class="select">
@@ -182,6 +263,32 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
                         {$brand}
                     </select>
                <!--  </span> -->
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-2"><span class="c-red">*</span>产品主图：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                {if $image}
+                    <img id="thumb_url" src='{$image}' style="height:100px;width:150px">
+                    <input type="hidden" name="oldpic" value="{$image}">
+                {else}
+                    <img id="thumb_url" src='../LKT/images/nopic.jpg' style="height:100px;width:150px">
+                    <input type="hidden" name="oldpic" value="">
+                {/if}
+                <input type="hidden" id="picurl" name="image" datatype="*" nullmsg="请选择图片"/>
+                <button class="btn btn-success" id="image" type="button">选择图片</button>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-2">产品展示图：</label>
+
+            <div class="formControls col-10" style="width: 40%;">
+
+                <div class="uploader-thum-container">
+                    <input name="imgurls[]" id="imgurls" multiple='multiple' type="file" style="width:210px;" accept="upload_image/x-png,image/gif,image/jpeg"/>注:最多五张,一定为.jpg格式
+                </div>
+
             </div>
         </div>
 <!--         <div class="row cl">
@@ -193,7 +300,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
             <div class="formControls col-4" style="width: 26.8%;">
-                <input type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight">
+                <input required="required" type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight">
             </div>
             <text style="line-height:30px;">克</text>
         </div>
@@ -201,15 +308,15 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
             <div class="formContentSD">
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>成本价：</span></div>
-                    <div class="formInputSD"><input type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>原价：</span></div>
-                    <div class="formInputSD"><input type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>售价：</span></div>
-                    <div class="formInputSD"><input type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
+                    <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
@@ -246,7 +353,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>库存：</span></div>
-                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" required="required" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
                 </div>
                         {literal}
                         <!-- 有规格 -->
@@ -312,37 +419,30 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
                                                 <input type="hidden" v-bind:name="'attr['+index+'][attr_list]['+attr_index+'][attr_group_name]'" v-bind:value="attr.attr_group_name">
                                                 <span>{{attr.attr_name}}</span>
                                             </td>
-
                                             <td>
                                                 <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][costprice]'" :value="cbj">
                                             </td>
-
                                             <td>
                                                 <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][yprice]'" :value="yj">
                                             </td>
-
                                             <td>
                                                 <input class="form-control form-control-sm" type="number" onkeypress="return noNumbers(event)" min="0" step="0.01" v-bind:name="'attr['+index+'][price]'" :value="sj">
                                             </td>
-
                                             <td>
                                                 <input class="form-control form-control-sm" oninput="value=value.replace(/[^\d]/g,'')" v-bind:name="'attr['+index+'][num]'" :value="kucun" onkeypress="return noNumbers(event)" min="0" step="1">
                                             </td>
-
                                             <td>
                                                 <input class="unit" v-bind:name="'attr['+index+'][unit]'" :value="unit" style="border: 0px;background-color: transparent;" readOnly="readOnly">
                 
                                             </td>
-
                                             <td>
                                                 <div class="upload-group form_group form_flex">
                                                     <div class="form_attr_img ">
-                                                        <input type="hidden" :id="'picurl2'+index"  v-bind:name="setattrname('attr['+index+'][img]')" datatype="*" nullmsg="请选择图片11"/>
+                                                        <input type="hidden" :id="'picurl2'+index"  v-bind:name="'attr['+index+'][img]'" datatype="*" nullmsg="请选择图片11"/>
                                                         <img src="images/icon1/add_g_t.png" :id="'pic2'+index" class="upload-preview-img form_att select-file" @click="handleImageClick(item,index)" onclick="setTimeoutClick() ">
                                                     </div>
                                                 </div>
                                             </td>
-
                                         </tr>
                                     </table>
                                 </div>
@@ -366,12 +466,10 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
                     <input type="checkbox" id="sex-3" name="s_type[]" class="inputC" value="3" {if in_array(3,$s_type)}checked="checked"{/if}>
                     <label for="sex-3">推荐</label>
                 </div>
-				
                 <div class="ra1" style="width:100px;">
                     <input type="checkbox" id="sex-4" name="s_type[]" class="inputC" value="4" {if in_array(4,$s_type)}checked="checked"{/if}>
                     <label for="sex-4">首页推荐</label>
                 </div>
-				
             </div>
         </div>
 
@@ -382,28 +480,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
                 <input type="number" class="input-text" value="{$volume}" id="volumeId" name="volume">
             </div>
         </div>
-        <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>产品主图：</label>
-            <div class="formControls col-xs-8 col-sm-10">
-                {if $image}
-                    <img id="thumb_url" src='{$image}' style="height:100px;width:150px">
-                    <input type="hidden" name="oldpic" value="{$image}">
-                {else}
-                    <img id="thumb_url" src='../LKT/images/nopic.jpg' style="height:100px;width:150px">
-                    <input type="hidden" name="oldpic" value="">
-                {/if}
-                <input type="hidden" id="picurl" name="image" datatype="*" nullmsg="请选择图片"/>
-                <button class="btn btn-success" id="image" type="button">选择图片</button>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-2">产品展示图：</label>
-            <div class="formControls col-10" style="width: 40%;">
-                <div class="uploader-thum-container">
-                    <input name="imgurls[]" id="imgurls" multiple='multiple' type="file" style="width:210px;" accept="upload_image/x-png,image/gif,image/jpeg"/>注:最多五张,一定为.jpg格式
-                </div>
-            </div>
-        </div>
+		
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>运费设置：</label>
             <div class="formControls col-2"> <!-- <span class="select-box"> -->
@@ -421,10 +498,10 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
                 <script id="editor" type="text/plain" name="content" style="width:100%;height:400px;">{$content}</script>
             </div>
         </div>
-		<div style="height: 70px;"></div>
+        <div style="height: 70px;"></div>
         <div class="row cl page_bort_bottom">
             <div class="col-8 col-offset-4">
-                <input type="submit" name="button" value="提 交" class="btn btn-primary radius btn-right">
+                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius btn-right" onclick="check()">
                 <input type="button" name="reset" value="重 写" onclick="check1()" class="btn btn-primary radius btn-left" style='background: transparent!important;'>
             </div>
         </div>
@@ -441,6 +518,9 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 {literal}
 <script>
+$(document.body).css({
+    "overflow-y": "hidden"
+});
 $(function() {
     $("#imgurls").change(function() {
         var files = this.files;
@@ -451,9 +531,37 @@ $(function() {
         }
     })
 })
+var isShow = false
 $(function(){
     var ue = UE.getEditor('editor');
+    $("#islabel1").hide()
+    $("#islabel2").hide()
+    $("#islabel3").hide()
+    $("#ischange").click(function(e) {
+        isShow = !isShow
+        if(isShow){
+            $('#iaaaa').remove()
+            $("#islabel1").show()
+            $("#islabel2").show()
+            $("#islabel3").show()
+            return
+        }       
+
+        $("#islabel1").hide()
+        $("#islabel2").hide()
+        $("#islabel3").hide()
+        $('#iaaaa').hide()
+        $("#ishidden").append(`<input type="hidden" name="is_distribution" value="0" id="iaaaa">`)
+    })
+        var distribution =$("input[name='distribution']").val();
+    if(distribution == 1){
+        $("#islabel1").show()
+        $("#islabel2").show()
+        $("#islabel3").show()
+    }
+
 });
+
 KindEditor.ready(function (K) {
     var editor = K.editor({
         allowFileManager: true,
@@ -536,9 +644,22 @@ KindEditor.ready(function (K) {
                 // $("#unit1").prepend(unit);
             });
             var map = new Map();
+            var leve1 = "{/literal}{$data.leve1}{literal}"
+            var leve2 = "{/literal}{$data.leve2}{literal}"
+            var leve3 = "{/literal}{$data.leve3}{literal}"
+            var leve4 = "{/literal}{$data.leve4}{literal}"
+            var leve5 = "{/literal}{$data.leve5}{literal}"
+            var listA = [
+                {title:'一级佣金比例：',num:leve1?leve1:0,lev:1,name:'leve1'},
+                {title:'二级佣金比例：',num:leve2?leve2:0,lev:2,name:'leve2'},
+                {title:'三级佣金比例：',num:leve3?leve3:0,lev:3,name:'leve3'}
+            ]
+            var is1 = "{/literal}{$data.leve}{literal}"
             var page = new Vue({
                 el: "#page",
                 data: {
+                   values:is1?is1:0,
+                    listval:[],
                     sub_cat_list: [],
                     attr_group_list: JSON.parse('[]', true), //可选规格数据
                     attr_group_count: JSON.parse('[]', true).length,
@@ -559,6 +680,11 @@ KindEditor.ready(function (K) {
                     imageClickInfo:'',
                     imageClickInfoIndex:0
                 },
+                watch:{
+                    values:function(l){
+                        this.setlist(l)
+                    }
+                },
                 created:function(){
                     this.$nextTick(function () {
                         $('#masks').hide()
@@ -566,6 +692,7 @@ KindEditor.ready(function (K) {
                             "overflow-y": "auto"
                         })
                     })
+                    
                 },
                 methods: {
                     change: function(item, index) {
@@ -574,10 +701,20 @@ KindEditor.ready(function (K) {
                     handleImageClick(data,index){
                         this.imageClickInfo = data;
                         this.imageClickInfoIndex = index
+                    },
+                    setlist(l){
+                        if(l > 0 && l<6){
+                            this.listval = []
+                            for(var i = 0;i < l;i++){
+                                this.listval.push(listA[i])
+                            }
+                            return
+                        }
+                        this.listval = []
                     }
                 }
             });
-
+            page.setlist({/literal}{$data.leve}{literal})
             // 点击属性框，显示添加属性按钮
             $(".add-attr-group-input").click(function() {
                 $(".add-attr-group-btn").css("display", "");
@@ -800,143 +937,120 @@ KindEditor.ready(function (K) {
                 return results;
             }
             
-function setTimeoutClick(){
-    console.log('timeout')
-    setTimeout(image_click, 100);
-}
-// 属性值上传商品图片
-function image_click() {
-    console.log('image click')
-    var id = page.imageClickInfoIndex
-    console.log(page.imageClickInfoIndex)
-
-    KindEditor.ready(function (K) {
-        var editor = K.editor({
-            allowFileManager: true,
-            uploadJson: "index.php?module=system&action=uploadImg", //上传功能
-            fileManagerJson: 'kindeditor/php/file_manager_json.php', //网络空间
-        });
-        editor.loadPlugin('image', function () {
-            editor.plugin.imageDialog({
-                showRemote: false, //网络图片不开启
-                //showLocal : false, //不开启本地图片上传
-                imageUrl: K("#picurl2"+id).val(),
-                clickFn: function (url, title, width, height, border, align) {
-                    K('#picurl2'+id).val(url);
-                    $('#pic2'+id).attr("src", url);
-                    editor.hideDialog();
-                }
+    function setTimeoutClick(){
+        console.log('timeout')
+        setTimeout(image_click, 100);
+    }
+    // 属性值上传商品图片
+    function image_click() {
+        console.log('image click')
+        var id = page.imageClickInfoIndex
+        console.log(page.imageClickInfoIndex)
+        KindEditor.ready(function (K) {
+            var editor = K.editor({
+                allowFileManager: true,
+                uploadJson: "index.php?module=system&action=uploadImg", //上传功能
+                fileManagerJson: 'kindeditor/php/file_manager_json.php', //网络空间
+            });
+            editor.loadPlugin('image', function () {
+                editor.plugin.imageDialog({
+                    showRemote: false, //网络图片不开启
+                    //showLocal : false, //不开启本地图片上传
+                    imageUrl: K("#picurl2"+id).val(),
+                    clickFn: function (url, title, width, height, border, align) {
+                        K('#picurl2'+id).val(url);
+                        $('#pic2'+id).attr("src", url);
+                        editor.hideDialog();
+                    }
+                });
             });
         });
-    });
+    }
 
-}
-
-function resetButton(){
-    $('#product_numberId').val("");
-    $('#product_titleId').val("");
-    $('#subtitleId').val("");
-    $("#product_classId option[value='0']").attr("selected", "selected");
-    $("#brand_classId option[value='0']").attr("selected", "selected");
-    $('#weightId').val("");
-    $('#sex-1').attr("checked","");
-    $('#sex-2').attr("checked","");
-    $('#sex-3').attr("checked","");
-    $('#volumeId').val("");
-    $("#freightId option[value='0']").attr("selected", "selected");
-    $('#ueditor_0').contents().find('p').html(""); 
-}
-
-    // 表单验证
+    function resetButton(){
+        $('#product_numberId').val("");
+        $('#product_titleId').val("");
+        $('#subtitleId').val("");
+        $("#product_classId option[value='0']").attr("selected", "selected");
+        $("#brand_classId option[value='0']").attr("selected", "selected");
+        $('#weightId').val("");
+        $('#sex-1').attr("checked","");
+        $('#sex-2').attr("checked","");
+        $('#sex-3').attr("checked","");
+        $('#volumeId').val("");
+        $("#freightId option[value='0']").attr("selected", "selected");
+        $('#ueditor_0').contents().find('p').html(""); 
+    }
+    // 简单的表单验证
     function verificationForm(){
-        var res = $('#form1').serializeArray()
-        var s_type = 0
-        
-        for(var i = 0; i < res.length; i++){
-            
-            if(res[i].name === 'product_title' && res[i].value === ''){
-                alert('请输入产品标题!')
-                return false
-            } else if(res[i].name === 'product_class' && res[i].value === '0'){
-                alert('请选择产品类别!')
-                return false
-            } else if(res[i].name === 'brand_class' && res[i].value === '0'){
-                alert('请选择品牌!')
-                return false
-            } else if(res[i].name === 'image' && res[i].value === ''){
-                alert('请设置产品主图!')
-                return false
-            } else if(res[i].name === 'weight' && res[i].value === ''){
-                alert('请设置产品重量!')
-                return false
-            } else if(res[i].name === 'initial[cbj]' && res[i].value === ''){
-                alert('请设置产品成本价!')
-                return false
-            } else if(res[i].name === 'initial[yj]' && res[i].value === ''){
-                alert('请设置产品原价!')
-                return false 
-            } else if(res[i].name === 'initial[sj]' && res[i].value === ''){
-                alert('请设置产品售价!')
-                return false 
-            } else if(res[i].name === 'initial[unit]' && res[i].value === ''){
-                alert('请选择产品单位!')
-                return false 
-            } else if(res[i].name === 'initial[kucun]' && res[i].value === ''){
-                alert('请设置产品库存!')
-                return false 
-            } else if(res[i].name === 's_type[]') {
-                s_type = 1
-            }
-        }
 
+        console.log(page._data)
+        var res = $('#form1').serializeArray()
+        var s_type = false
+        for(var i = 0; i < res.length; i++){
+            if(res[i].name === 'product_class'){
+                if(res[i].value === '0'){
+                    alert('请选择产品类别!')
+                    return false
+                }
+            } else if(res[i].name === 'image'){
+                if(res[i].value === ''){
+                    alert('请设置产品主图!')
+                    return false
+                }
+            } else if(res[i].name === 'initial[unit]'){
+                if(res[i].value === ''){
+                    alert('请选择商品属性!')
+                    return false
+                } 
+            } else if(res[i].name === 's_type[]'){
+                s_type = true
+            } else if(res[i].name === 'brand_class'){
+                if(res[i].value === '0'){
+                    alert('请选择产品品牌!')
+                    return false
+                }
+            }
+            
+        }
 
         if(page.$data.attr_group_list.length == 0){
             alert('请设置属性名称!')
             return false
         }
 
-        if(s_type === 0){
+        if(!s_type){
             alert('请选择显示类型!')
             return false
         }
-
+        
         return true
     }
 
     var t_check = true;
     function check() {
-        if(!verificationForm()){
-            return false
-        }
-        // console.log(t_check);
-        //   console.log(66666);
-        // if(!t_check && t_check ==false){
-        //     alert('请勿重复提交！', {
-        //         time: 2000
-        //     });
-        //     return false;
-        // }
+        return verificationForm()
 
-        // t_check = false;
 
-        $.ajax({
-            cache: true,
-            type: "POST",
-            dataType: "json",
-            url: 'index.php?module=product&action=add',
-            data: $('#form1').serialize(), // 你的formid
-            async: true,
-            success: function(data) {
-                t_check = true;
-                alert(data.status, {
-                    time: 2000
-                });
-                if(data.suc) {
-                    location.href = "index.php?module=product";
-                }
-            }
-        });
+        // $.ajax({
+        //     cache: true,
+        //     type: "POST",
+        //     dataType: "json",
+        //     url: 'index.php?module=product&action=add',
+        //     data: $('#form1').serialize(), // 你的formid
+        //     async: true,
+        //     success: function(data) {
+        //         t_check = true;
+        //         alert(data.status, {
+        //             time: 2000
+        //         });
+        //         if(data.suc) {
+        //             location.href = "index.php?module=product";
+        //         }
+        //     }
+        // })
     }
+    
     function check1() {
         $.ajax({
             cache: true,

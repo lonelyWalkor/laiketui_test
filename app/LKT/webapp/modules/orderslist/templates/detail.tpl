@@ -479,7 +479,7 @@
         </table>
         <div class="numss">
                     <spa style="margin-right: 20px;">优惠合计：-￥{$reduce_price+$coupon_price} 元</span>
-          <span>合计支付： ￥{$data.freight+$data.z_price-$reduce_price-$coupon_price} 元</span>
+          <span>合计支付： ￥{$data.freight+$data.z_price} 元</span>
         </div>
     </div>
     <input type="hidden" name="ddd" value="{$data.lottery_status}">

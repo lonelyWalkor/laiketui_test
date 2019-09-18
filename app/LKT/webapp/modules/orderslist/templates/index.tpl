@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-03 15:50:15
- * @LastEditTime: 2019-09-09 18:34:22
+ * @LastEditTime: 2019-09-17 18:29:49
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -528,7 +528,7 @@
 		}
 
 		.tab_news label {
-			margin-left: 0px !important;
+			margin-left: 10px !important;
 		}
 
 		.tab_tb_news label {
@@ -538,6 +538,9 @@
 		.custom-control {
 			padding-left: 0px !important;
 		}
+		.custom-control-indicator {
+			margin-top: 0px !important;
+		}
 	</style>
 
 	{/literal}
@@ -545,7 +548,7 @@
 </head>
 
 <body>
-	<nav class="breadcrumb" style="height: 50px;"><i class="Hui-iconfont">&#xe627;</i> 订单管理 <span
+	<nav class="breadcrumb" style="height: 50px;margin:0px 10px;"><i class="Hui-iconfont">&#xe627;</i> 订单管理 <span
 			class="c-gray en">&gt;</span> 订单列表<a class="btn btn-success radius r mr-20"
 			style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i
 				class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -562,16 +565,18 @@
 					<input type="text" name="sNo" id="sNo_" size='8' value="{$sNo}" placeholder="请输入订单编号/姓名/电话/会员ID"
 						style="width:230px;height: 31px;" class="input-text seach_bottom">
 
-					<select name="otype" class="select seach_bottom" id="otype_"
-						style="width: 130px;font-size: 14px;height: 31px;color: #cccccc;vertical-align: middle;">
+					<select name="otype" class="select seach_bottom" id="otype_" style="width: 130px;font-size: 14px;height: 31px;color: #cccccc;vertical-align: middle;">
 						<option value="">请选择订单类型</option>
 
 						{foreach from=$ordtype item="item" key="key"}
-						<option value="{$key}" {if $otype==$key}selected{/if}>{$item} </option> {/foreach} </select> <select
-							name="status" class="select seach_bottom" id="status_"
-							style="width: 130px;font-size: 14px;height: 31px;color: #cccccc;vertical-align: middle;">
+						<option value="{$key}" {if $otype==$key}selected{/if}>{$item} </option>
+						{/foreach} 
+					
+					</select>
+						
+					<select name="status" class="select seach_bottom" id="status_" style="width: 130px;font-size: 14px;height: 31px;color: #cccccc;vertical-align: middle;">
 						<option value="">请选择订单状态</option>
-						{$class}1111
+						{$class}
 					</select>
 
 					<input type="text" class="input-text seach_bottom" value="{$startdate}" placeholder="请输入开始时间" id="startdate"
@@ -631,8 +636,7 @@
 						<td colspan="{if $otype == 't2'}10{else}9{/if}" class="tab_tb_news">
 							<label class="custom-control custom-checkbox">
 
-								<input name="orders[]" value="{$item->id}" type="checkbox" class="custom-control-input orders_select">
-
+								<input name="orders[]" value="{$item->id}" type="checkbox" class="custom-control-input orders_select" title="{$item->status}">
 								<span class="custom-control-indicator"></span>
 
 								<span class="custom-control-description">
@@ -791,7 +795,7 @@
 					<div class="f9e">物流单号{$key3+1}：</div>
 					{/foreach}
 					{else}
-					<div class="f9e">物流单号1：</div>
+					<div class="f9e">物流单号：</div>
 					{/if}
 
 					<div class="f9e">运费：</div>
@@ -957,25 +961,37 @@
 	{literal}
 	<script type="text/javascript">
 		// 删除订单
-		var con_str = ''
+		
 		var deIsOpn = 0
+		var conStr = ''
 		function del_orders() {
+			
+
+
 			var $sel = $(".orders_select");
 			var b = true;
-
+			var con_str = ''
 			for (var i = 0; i < $sel.length; i++) {
 				if ($sel[i].checked == true) {
+					if($sel[i].title === '拼团中'){
+						parent.appendMask2('存在拼团中的订单不能删除')
+						deIsOpn = 0
+						return 
+					}
 					con_str += $sel[i].value + ',';
 				}
 			}
 
+			
+
 			if (con_str.length) {
 				deIsOpn = 1
-				alert('请选择需要删除的订单!')
+				conStr = con_str
+				parent.appendMask2('确认删除此所选订单？此操作不可恢复！')
 				// confirm123("确认删除此所选订单？此操作不可恢复！", con_str, 'index.php?module=orderslist&action=del&data=', '删除');
 				
 			} else {
-				alert('请选择需要删除的订单!')
+				parent.appendMask2('请选择需要删除的订单')
 			}
 		}
 
@@ -984,7 +1000,7 @@
 		function colse(sNo) {
 			colsEsno = sNo
 			deIsOpn = 2
-			alert('确定要关闭此订单吗！')
+			parent.appendMask2('确认删除此所选订单？此操作不可恢复！',{colsEsno,deIsOpn})
 		}
 
 		function navto(URI) {
@@ -1510,7 +1526,7 @@
 		// 删除订单
 		function deleteS(){
 			$.ajax({
-				url: 'index.php?module=orderslist&action=delorder&ids=' + con_str,
+				url: 'index.php?module=orderslist&action=delorder&ids=' + conStr,
 				type: "post",
 				data: {},
 				success: function (res) {
@@ -1533,10 +1549,17 @@
 				}
 			})
 		}
-
 		
 		function closeMask1() {
 			$(".maskNew").remove();
+			if(deIsOpn === 1){
+				deleteS()
+			} else if(deIsOpn === 2){
+				openS()
+			}
+		}
+
+		function deletes(){
 			if(deIsOpn === 1){
 				deleteS()
 			} else if(deIsOpn === 2){
@@ -1597,14 +1620,24 @@
 
 		}
 		function empty() {
+
+
 			$("input[name='sNo']").val('');
 			$("input[name='startdate']").val('');
 			$("input[name='enddate']").val('');
+
+			$("#otype_").val(null).trigger("change");
+			$("#status_").val(null).trigger("change");
+
 			$("#otype").val('');
 			$("#status").val('');
 			$("#source").val('');
 			$("#brand").val('');
+
 		}
+
+
+		
 
 	</script>
 	{/literal}
