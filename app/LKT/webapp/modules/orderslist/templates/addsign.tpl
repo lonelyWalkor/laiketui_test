@@ -15,17 +15,17 @@
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-	<link href="//at.alicdn.com/t/font_353057_iozwthlolt.css" rel="stylesheet">
-	<link href="style/statics/mch/css/bootstrap.min.css" rel="stylesheet">
-	<link href="style/statics/mch/css/jquery.datetimepicker.min.css" rel="stylesheet">
-	<link href="style/statics/css/flex.css?version=2.5.8.0" rel="stylesheet">
-	<link href="style/statics/css/common.css?version=2.5.8.0" rel="stylesheet">
-	<link href="style/statics/mch/css/common.v2.css?version=2.5.8.0" rel="stylesheet">
+    <link href="//at.alicdn.com/t/font_353057_iozwthlolt.css" rel="stylesheet">
+    <link href="style/statics/mch/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style/statics/mch/css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="style/statics/css/flex.css?version=2.5.8.0" rel="stylesheet">
+    <link href="style/statics/css/common.css?version=2.5.8.0" rel="stylesheet">
+    <link href="style/statics/mch/css/common.v2.css?version=2.5.8.0" rel="stylesheet">
 
-	<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-	<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-	<link href="style/css/style.css" rel="stylesheet" type="text/css" />
-	<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+    <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="style/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
     {literal}
     <style type="text/css">
         .center {
@@ -471,7 +471,7 @@
         </div>
     </div>
 
-	<div class="dc" style="display:none;">
+    <div class="dc" style="display:none;">
         <div class="maskNewContent">
 
             <div class="maskTitle ">
@@ -528,24 +528,24 @@
         </div>
     </div>
 
-	<script type="text/javascript" src="style/js/jquery.js"></script>
-	<script type='text/javascript' src='modpub/js/calendar.js'></script>
-	<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="style/js/jquery.js"></script>
+    <script type='text/javascript' src='modpub/js/calendar.js'></script>
+    <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
 
-	<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
-	<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="style/js/H-ui.js"></script>
-	<script type="text/javascript" src="style/js/H-ui.admin.js"></script>
-	<script type="text/javascript" src="style/js/layer.js"></script>
-	<!--_footer 作为公共模版分离出去-->
-	<!--请在下方写此页面业务相关的脚本-->
-	<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
-	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-	<script language="javascript" src="style/ssd1.js"> </script>
+    <script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="style/js/H-ui.js"></script>
+    <script type="text/javascript" src="style/js/H-ui.admin.js"></script>
+    <script type="text/javascript" src="style/js/layer.js"></script>
+    <!--_footer 作为公共模版分离出去-->
+    <!--请在下方写此页面业务相关的脚本-->
+    <script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+    <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+    <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+    <script language="javascript" src="style/ssd1.js"> </script>
 
-	<script type="text/javascript" src="style/js/laydate/laydate.js"></script>
+    <script type="text/javascript" src="style/js/laydate/laydate.js"></script>
     {literal}
     <script type="text/javascript">
         var numberingDom = $('input[name=numbering]')
@@ -563,14 +563,14 @@
         }
         
         var aa=$(".pd-20").height()-56;
-		var bb=$("#form1").height();
-		console.log(aa,bb)
-		if(aa<bb){
-			$(".page_h20").css("display","block")
-		}else{
-			$(".page_h20").css("display","none")
-			$(".row_cl").addClass("page_footer")
-		}
+        var bb=$("#form1").height();
+        console.log(aa,bb)
+        if(aa<bb){
+            $(".page_h20").css("display","block")
+        }else{
+            $(".page_h20").css("display","none")
+            $(".row_cl").addClass("page_footer")
+        }
         
         function edit_checkbox() {
             console.log("edit_checkbox");

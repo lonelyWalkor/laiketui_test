@@ -234,7 +234,7 @@ class DetailAction extends Action {
 
    }else{
 
-      if($data['gstatus'] == 0){
+       if($data['gstatus'] == 0){
 
         $data['r_status'] = '未付款';
 
@@ -345,6 +345,7 @@ class DetailAction extends Action {
           $allow = 0; // 积分
           $sql02 = "select * from lkt_express ";
           $r02 = $db -> select($sql02);
+          // print_r($res);die;
           $request -> setAttribute("uploadImg",$uploadImg);
           $request -> setAttribute("data",$data);
           $request -> setAttribute("detail",$res);

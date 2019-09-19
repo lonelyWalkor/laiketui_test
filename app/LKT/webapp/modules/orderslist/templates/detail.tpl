@@ -355,29 +355,6 @@
             </div>
         </a>
         <input type="hidden" id="dingdan" value="{$data.sNo}">
-        {if $data.otype!='pt'}
-            {if $data.status01 == 1}
-                <button value="发货" class="newBtn btn radius" onclick="send_btn(this,'{$data.otype}','{$data.sNo}', '{$data.gstatus}','{$data.drawid}')" style="border: none;width: 80px!important;background-color: #ff453d!important;margin: 0px 10px;">
-                    <div style="height: 100%;display: flex;align-items: center;">
-                        <img src="images/icon1/fh.png"/>&nbsp;发货
-                    </div>
-                </button>
-            {/if}
-        {else}
-            {if $data.gstatus==1}
-                <button class=" newBtn btn radius ptfh " onclick="send_btn(this,'{$data.otype}','{$data.sNo}', '{$data.gstatus}','{$data.drawid}')">
-                    <div style="height: 100%;display: flex;align-items: center;">
-                        <img src="images/icon1/fh.png"/>&nbsp;发货
-                    </div>
-                </button>
-            {elseif $data.gstatus==10}
-                <button class="btn radius newBtn" style="background-color:#ff453d;" onclick="system_category_del(this,{$data.id},{$data.z_price})">
-                    <div style="height: 100%;display: flex;align-items: center;">
-                        <img src="images/icon1/tk.png"/>&nbsp;退款
-                    </div>
-                </button>
-            {/if}
-        {/if}
 <!--         <button class="btn radius newbtn b02" style="height: 36px;border: none;" onclick="printTure();">
             <div style="height: 100%;display: flex;align-items: center;">
                 <img src="images/icon1/dy.png"/>&nbsp;打印
@@ -455,7 +432,7 @@
                      <td style="text-align:left;" id="p_name">
                          <img class='pimg' src="{$uploadImg}{$item->pic}" style="margin-right: 20px;" width="50" height="50"/>
 
-                          <a style="display: contents;" href="index.php?module=product&action=see&id=1&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}" title="查看">
+                          <a style="display: contents;" href="index.php?module=product&action=see&id={$item->p_id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}" title="查看">
                             {$item->p_name}
                           </a>
                         

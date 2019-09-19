@@ -86,7 +86,7 @@
 							</div>
 						</td>
 						<td  width="150px" style="text-align: left;">
-							{if $item2->mobile !='' }<span>{$item2->courier_num}({$item2->kuaidi_name})</span>
+							{if $item2->courier_num !='' }<span>{$item2->courier_num}({$item2->kuaidi_name})</span>
 							{else}暂无{/if}
 						</td>
 						<td  width="150px" style="text-align: left;">{$item2->freight}</td>

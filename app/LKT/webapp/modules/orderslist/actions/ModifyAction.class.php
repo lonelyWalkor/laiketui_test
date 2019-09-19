@@ -230,39 +230,40 @@ class ModifyAction extends Action {
 
    }else{
 
-      if($data['r_status'] == 0){
+       if($data['gstatus'] == 0){
 
         $data['r_status'] = '未付款';
 
-      }else if($data['r_status'] == 1){
+      }else if($data['gstatus'] == 1){
 
         $data['r_status'] = '未发货';
 
-      }else if($data['r_status'] == 2){
+      }else if($data['gstatus'] == 2){
 
         $data['r_status'] = '已发货';
 
-      }else if($data['r_status'] == 3){
+      }else if($data['gstatus'] == 3){
 
         $data['r_status'] = '待评论';
 
-      }else if($data['r_status'] == 4){
+      }else if($data['gstatus'] == 4){
 
         $data['r_status'] = '退货';
 
-      }else if($data['r_status'] == 5){
+      }else if($data['gstatus'] == 5){
 
         $data['r_status'] = '已完成';
 
-      }else if($data['r_status'] == 6){
+      }else if($data['gstatus'] == 6){
 
         $data['r_status'] = '订单关闭';
 
-      }else if($data['r_status'] == 12){
+      }else if($data['gstatus'] == 12){
 
         $data['r_status'] = '已完成';
 
       }
+
 
     }
 
@@ -387,7 +388,7 @@ class ModifyAction extends Action {
 
      $sql = 'update lkt_order set name="'.$name.'",mobile="'.$mobile.'",sheng="'.$sheng.'",shi="'.$shi.'",xian="'.$xian.'",address="'.$address.'" where sNo="'.$sNo.'"';     
      $up = $db -> update($sql);
-     if($up > 0){
+     if($up >= 0){
            $db->admin_record($admin_id,' 修改订单号为 '.$sNo.' 的信息 ',2);
 
            echo json_encode(array('status'=>1,'err'=>'修改成功!'));
@@ -427,7 +428,7 @@ class ModifyAction extends Action {
             echo json_encode(array('status'=>1,'err'=>'修改成功!'));
                 exit();
         }else{
-          echo json_encode(array('status'=>0,'err'=>'参数错误!'));
+          echo json_encode(array('status'=>0,'err'=>'参数错误1!'));
                 exit();
         }
      }else{
