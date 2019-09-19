@@ -203,19 +203,23 @@ class IndexAction extends Action {
                     $courier_num111[$kd]['courier_num'] = $vd->courier_num;
                 }
 
-                $res1[$k] ->courier_num =$courier_num111;
+                
+              
+                
                 $res1[$k] -> num = $num;
                 $res1[$k] -> products = $products;
-				$res1[$k] -> status_a = '0';//没有订单发货
-				  $sqldt01 = "select courier_num from lkt_order_details where r_sNo='$v->sNo'";
-            				$courier_num = $db -> select($sqldt01);
-            				if($courier_num){
-            				 	foreach ($courier_num as $kdd => $vdd) {
-					                if($vdd->courier_num){
-					                	$res1[$k] -> status_a = '1';
-					                }   
-					            }
-            				}
+                $res1[$k] -> status_a = '0';//没有订单发货
+
+                  $sqldt01 = "select courier_num from lkt_order_details where r_sNo='$v->sNo'";
+        
+                            $courier_num = $db -> select($sqldt01);
+                            if($courier_num){
+                                foreach ($courier_num as $kdd => $vdd) {
+                                    if($vdd->courier_num){
+                                        $res1[$k] -> status_a = '1';
+                                    }   
+                                }
+                            }
                 if ($v -> otype == 'pt') {
                     switch ($v->status) {
                         case 0 :
@@ -306,9 +310,29 @@ class IndexAction extends Action {
 
             }
             $res1[$k] -> freight = $freight;
+            if($courier_num111[0]){//去重
+                $key = "id";
+                $arr =$courier_num111;
+                $tmp_arr =[];
+               
+                foreach ($arr as $k1 => $v1) {
+                    if($v1['courier_num']){
+                        if (in_array($v1['courier_num'], $tmp_arr)) {//搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
+                                unset($arr[$k1]);
+                            } else {
+                                $tmp_arr[] = $v1['courier_num'];
+                            }
+                    }
+                    
+                }
 
+                sort($arr);
+                $courier_num111=$arr;
+            }
+            $res1[$k] ->courier_num =$courier_num111;
         }
  
+            
         // print_r($res1);die;
         $sql02 = "select * from lkt_express ";
         $r02 = $db -> select($sql02);
