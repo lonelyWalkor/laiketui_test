@@ -133,9 +133,10 @@ Page({
   //隐藏弹窗浮层
   hiddenFloatView(e) {
     moveY = 200;
-    show = true;
-    t = 0;
-    animationEvents(this, moveY, show);
+    this.setData({
+      show: false
+    });
+    t = 1;
   },
   //滑动事件
   bindChange: function (e) {
