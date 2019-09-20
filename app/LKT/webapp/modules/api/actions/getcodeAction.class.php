@@ -14,7 +14,7 @@ require_once(MO_LIB_DIR . '/Tools.class.php');
 class getcodeAction extends Action {
 
     public function getDefaultView() {
-    	 $db = DBAction::getInstance();
+         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
                //现在时间的前一天
         $datetime = date('Y-m-d H:i:s',time()-24*60*60);
@@ -82,19 +82,19 @@ class getcodeAction extends Action {
         if($m == 'code'){
             $this->code();
         }elseif($m == 'madeCode'){
-        	$this->madeCode();
+            $this->madeCode();
         }elseif($m == 'createPromotion'){
-        	$this->createPromotion();
+            $this->createPromotion();
         }elseif($m == 'Send_Prompt'){
-        	$this->Send_Prompt();
+            $this->Send_Prompt();
         }elseif($m == 'getToken'){
-        	$this->getToken();
+            $this->getToken();
         }elseif($m == 're_code'){
-        	$this->re_code();
+            $this->re_code();
         }elseif($m == 're_password'){
-        	$this->re_password();
+            $this->re_password();
         }elseif($m == 'product_share'){
-        	$this->product_share();
+            $this->product_share();
         }
         return;
     }
@@ -103,7 +103,7 @@ class getcodeAction extends Action {
         return Request :: POST;
     }
     // 获取用户会话密钥
-	public function code(){
+    public function code(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         
@@ -112,23 +112,23 @@ class getcodeAction extends Action {
         if($r){
             $appid = $r[0]->appid; // 小程序唯一标识
             $appsecret = $r[0]->appsecret; // 小程序的 app secret
-        }	
-        $AccessToken = $this->getAccessToken($appid, $appsecret);		
-		$res = $this->get_qrcode($AccessToken);
+        }   
+        $AccessToken = $this->getAccessToken($appid, $appsecret);       
+        $res = $this->get_qrcode($AccessToken);
         return $res;
-	}
+    }
 
 
-	
-	//获得二维码
-	public function get_qrcode($AccessToken) {
+    
+    //获得二维码
+    public function get_qrcode($AccessToken) {
         // header('content-type:image/jpeg');  测试时可打开此项 直接显示图片
         $db = DBAction::getInstance();
-		$request = $this->getContext()->getRequest();
-		$path =$request->getParameter('path');
-		$width = $request->getParameter('width');
-		$id =trim($request->getParameter('id'));
-		// 查询系统参数
+        $request = $this->getContext()->getRequest();
+        $path =$request->getParameter('path');
+        $width = $request->getParameter('width');
+        $id =trim($request->getParameter('id'));
+        // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
         $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
@@ -138,31 +138,31 @@ class getcodeAction extends Action {
         }else{ // 不存在
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
-		$filename="ewm".$id.".jpg";///	
-	    $imgDir = '../LKT/images/';
-	    //要生成的图片名字
-	    $newFilePath = $imgDir.$filename;
-	    if(is_file($newFilePath)){
-	    	return $filename; 
-	    }else{
-		    //获取三个重要参数 页面路径  图片宽度  文章ID
-	        $arr = ["path"=> $path, "width"=>$width];
-	        $data = json_encode($arr);
-			//把数据转化JSON 并发送
-	        $url = 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' . $AccessToken;
-	        //获取二维码API地址
-	        $da = $this->httpsRequest($url,$data);
-			//发送post带参数请求 
+        $filename="ewm".$id.".jpg";///  
+        $imgDir = '../LKT/images/';
+        //要生成的图片名字
+        $newFilePath = $imgDir.$filename;
+        if(is_file($newFilePath)){
+            return $filename; 
+        }else{
+            //获取三个重要参数 页面路径  图片宽度  文章ID
+            $arr = ["path"=> $path, "width"=>$width];
+            $data = json_encode($arr);
+            //把数据转化JSON 并发送
+            $url = 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' . $AccessToken;
+            //获取二维码API地址
+            $da = $this->httpsRequest($url,$data);
+            //发送post带参数请求 
 
-	    	$newFile = fopen($newFilePath,"w"); //打开文件准备写入
-		    fwrite($newFile,$da); //写入二进制流到文件
-		    fclose($newFile); //关闭文件
-			//拼接服务器URL 返回
-			$url = $img.$filename;
-			return $filename;  
-	    }
+            $newFile = fopen($newFilePath,"w"); //打开文件准备写入
+            fwrite($newFile,$da); //写入二进制流到文件
+            fclose($newFile); //关闭文件
+            //拼接服务器URL 返回
+            $url = $img.$filename;
+            return $filename;  
+        }
      
-	}
+    }
 
 
     /** 制作商品分享带参数二维码
@@ -179,7 +179,7 @@ class getcodeAction extends Action {
      return json
    */
 
-	public function product_share(){
+    public function product_share(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
@@ -219,22 +219,22 @@ class getcodeAction extends Action {
         $lu_token = isset($uur[0]) ? md5($uur[0]->img_token):md5($id);
         $img_token = isset($uur[0]) ? $uur[0]->img_token:false;
 
-	   //定义固定分享图片储存路径 以便删除
- 		$imgDir = 'product_share_img/';
+       //定义固定分享图片储存路径 以便删除
+        $imgDir = 'product_share_img/';
         $sql = "select * from lkt_config where id=1";
         $r = $db->select($sql);
         if($r){
             $appid = $r[0]->appid; // 小程序唯一标识
             $appsecret = $r[0]->appsecret; // 小程序的 app secret
             $uploadImg_domain = $r[0]->uploadImg_domain; // 图片上传域名
-	        $uploadImg = $r[0]->uploadImg; // 图片上传位置
-	        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-	            $img = $uploadImg_domain . $uploadImg; // 图片路径
-	        }else{ 
+            $uploadImg = $r[0]->uploadImg; // 图片上传位置
+            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+                $img = $uploadImg_domain . $uploadImg; // 图片路径
+            }else{ 
                 // 不存在
-	            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-	        }
-	        $product_img = $uploadImg.$product_img;
+                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+            }
+            $product_img = $uploadImg.$product_img;
             $font_file_path = dirname(dirname(MO_WEBAPP_DIR));
             $font_file  = $font_file_path.substr($uploadImg,2);
         }
@@ -356,16 +356,16 @@ class getcodeAction extends Action {
            }
         }
 
-		// header("content-type:image/jpeg");
-		imagejpeg($dest,$uploadImg.$imgDir.$pic);
-		$url=$img.$imgDir.$pic;
-		echo json_encode(array('status' => true,'url' => $url,'waittext'=>$waittext));
-		exit;
-	}
-	//创建图片 根据类型
-	public function create_imagecreatefromjpeg($pic_path)
-	{			
-		  $pathInfo = pathinfo($pic_path);
+        // header("content-type:image/jpeg");
+        imagejpeg($dest,$uploadImg.$imgDir.$pic);
+        $url=$img.$imgDir.$pic;
+        echo json_encode(array('status' => true,'url' => $url,'waittext'=>$waittext));
+        exit;
+    }
+    //创建图片 根据类型
+    public function create_imagecreatefromjpeg($pic_path)
+    {           
+          $pathInfo = pathinfo($pic_path);
           if(array_key_exists('extension',$pathInfo)){
               switch( strtolower($pathInfo['extension']) ) { 
                case 'jpg': 
@@ -385,9 +385,9 @@ class getcodeAction extends Action {
             $imagecreatefromjpeg = 'imagecreatefromstring'; 
             $pic_path = file_get_contents($pic_path); 
           }
-		  $im = $imagecreatefromjpeg($pic_path);
-		  return $im;
-	}
+          $im = $imagecreatefromjpeg($pic_path);
+          return $im;
+    }
 
     public function getRealData($data)
     {
@@ -405,7 +405,7 @@ class getcodeAction extends Action {
         
         return $data;
     }
-	
+    
     public function write_img($target, $data, $imgurl)
     {   
         $img = $this->create_imagecreatefromjpeg($imgurl);
@@ -554,30 +554,30 @@ class getcodeAction extends Action {
      
     }
 
-	function httpsRequest($url, $data=null) {
-		// 1.初始化会话
-		$ch = curl_init();
-		// 2.设置参数: url + header + 选项
-		// 设置请求的url
-		curl_setopt($ch, CURLOPT_URL, $url);
-		// 保证返回成功的结果是服务器的结果
-		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+    function httpsRequest($url, $data=null) {
+        // 1.初始化会话
+        $ch = curl_init();
+        // 2.设置参数: url + header + 选项
+        // 设置请求的url
+        curl_setopt($ch, CURLOPT_URL, $url);
+        // 保证返回成功的结果是服务器的结果
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		if(!empty($data)) {
-			// 发送post请求
-			curl_setopt($ch, CURLOPT_POST, 1);
-			// 设置发送post请求参数数据
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-		}
-		// 3.执行会话; $result是微信服务器返回的JSON字符串
-		$result = curl_exec($ch);
-		// 4.关闭会话
-		curl_close($ch);
-		return $result;
-	}
-	//抽奖通知
-	public function Send_success($rew){
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if(!empty($data)) {
+            // 发送post请求
+            curl_setopt($ch, CURLOPT_POST, 1);
+            // 设置发送post请求参数数据
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        // 3.执行会话; $result是微信服务器返回的JSON字符串
+        $result = curl_exec($ch);
+        // 4.关闭会话
+        curl_close($ch);
+        return $result;
+    }
+    //抽奖通知
+    public function Send_success($rew){
             $db = DBAction::getInstance();
             $request = $this->getContext()->getRequest();
             $sql = "select * from lkt_config where id=1";
@@ -618,12 +618,12 @@ class getcodeAction extends Action {
                 }
             }
     }
-	public function getToken(){
-		$db = DBAction::getInstance();
-	    $request = $this->getContext()->getRequest();
-	    $sql = "select * from lkt_config where id=1";
-	    $r = $db->select($sql);
-	    if($r){
+    public function getToken(){
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        $sql = "select * from lkt_config where id=1";
+        $r = $db->select($sql);
+        if($r){
             $appid = $r[0]->appid; // 小程序唯一标识
             $appsecret = $r[0]->appsecret; // 小程序的 app secret
             $company = $r[0]->company; // 公司名称
@@ -631,73 +631,73 @@ class getcodeAction extends Action {
             echo json_encode(array('access_token' => $AccessToken,'company' => $company));
             exit();
         }
-	}
+    }
 
-	public function Send_Prompt()
-	{
-			$db = DBAction::getInstance();
-	        $request = $this->getContext()->getRequest();
-	        $openid = trim($request->getParameter('user_id'));  //--
-	        $form_id = trim($request->getParameter('form_id'));//--
-	        $page = trim($request->getParameter('page'));      //--
-	        // $oid = trim($request->getParameter('oid'));
-	        $f_price = trim($request->getParameter('price'));
-	        $f_sNo = trim($request->getParameter('order_sn'));
-	        $f_pname = trim($request->getParameter('f_pname'));
-	        $time =date("Y-m-d h:i:s",time());
-	        $sql = "select * from lkt_config where id=1";
-	        $r = $db->select($sql);
-	        if($r){
-	            $appid = $r[0]->appid; // 小程序唯一标识
-	            $appsecret = $r[0]->appsecret; // 小程序的 app secret
-	            $address =  $r[0]->company;
+    public function Send_Prompt()
+    {
+            $db = DBAction::getInstance();
+            $request = $this->getContext()->getRequest();
+            $openid = trim($request->getParameter('user_id'));  //--
+            $form_id = trim($request->getParameter('form_id'));//--
+            $page = trim($request->getParameter('page'));      //--
+            // $oid = trim($request->getParameter('oid'));
+            $f_price = trim($request->getParameter('price'));
+            $f_sNo = trim($request->getParameter('order_sn'));
+            $f_pname = trim($request->getParameter('f_pname'));
+            $time =date("Y-m-d h:i:s",time());
+            $sql = "select * from lkt_config where id=1";
+            $r = $db->select($sql);
+            if($r){
+                $appid = $r[0]->appid; // 小程序唯一标识
+                $appsecret = $r[0]->appsecret; // 小程序的 app secret
+                $address =  $r[0]->company;
 
-	            $company = array('value' => $address,"color"=> "#173177" );
-				$time = array('value' => $time,"color"=> "#173177" );
-				$f_pname = array('value' => $f_pname,"color"=> "#173177" );
-				$f_sNo = array('value' => $f_sNo,"color"=> "#173177" );
-				$f_price = array('value' => $f_price,"color"=> "#173177" );
-				$o_data = array('keyword1' => $company,'keyword2' => $time,'keyword3' => $f_pname,'keyword4' => $f_sNo,'keyword5' => $f_price);
+                $company = array('value' => $address,"color"=> "#173177" );
+                $time = array('value' => $time,"color"=> "#173177" );
+                $f_pname = array('value' => $f_pname,"color"=> "#173177" );
+                $f_sNo = array('value' => $f_sNo,"color"=> "#173177" );
+                $f_price = array('value' => $f_price,"color"=> "#173177" );
+                $o_data = array('keyword1' => $f_sNo,'keyword2' => $time,'keyword3' => $f_pname,'keyword4' => $f_price,'keyword5' => $time);
 
-	            $AccessToken = $this->getAccessToken($appid, $appsecret);
-	            $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token='.$AccessToken;
+                $AccessToken = $this->getAccessToken($appid, $appsecret);
+                $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token='.$AccessToken;
                 $sql = "select * from lkt_notice where id = '1'";
                 $r = $db->select($sql);
-                $template_id = $r[0]->pay_success;
-	            $data = json_encode(array('access_token'=>$AccessToken,'touser'=>$openid,'template_id'=>$template_id,'form_id'=>$form_id,'page'=>$page,'data'=>$o_data));
-	            $da = $this->httpsRequest($url,$data);
-	            echo json_encode($da);
+                $template_id = $r[0]->order_success;
+                $data = json_encode(array('access_token'=>$AccessToken,'touser'=>$openid,'template_id'=>$template_id,'form_id'=>$form_id,'page'=>$page,'data'=>$o_data));
+                $da = $this->httpsRequest($url,$data);
+                echo json_encode($da);
 
-	            exit();
-	        }	
-	        
-	}
-		
-	function getAccessToken($appID, $appSerect) {
-			$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appID."&secret=".$appSerect;
-			// 时效性7200秒实现
-			// 1.当前时间戳
-			$currentTime = time();
-			// 2.修改文件时间
-			$fileName = "accessToken"; // 文件名
+                exit();
+            }   
+            
+    }
+        
+    function getAccessToken($appID, $appSerect) {
+            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appID."&secret=".$appSerect;
+            // 时效性7200秒实现
+            // 1.当前时间戳
+            $currentTime = time();
+            // 2.修改文件时间
+            $fileName = "accessToken"; // 文件名
             // var_dump(is_file($fileName),$fileName);
-			if(is_file($fileName)) {
-				$modifyTime = filemtime($fileName);
-				if(($currentTime - $modifyTime) < 7200) {
-					// 可用, 直接读取文件的内容
-					$accessToken = file_get_contents($fileName);
-					return $accessToken;
-				}
-			}
-			// 重新发送请求
-			$result = $this-> httpsRequest($url);
-			$jsonArray = json_decode($result, true);
-			// 写入文件
-			$accessToken = $jsonArray['access_token'];
-			file_put_contents($fileName, $accessToken);
-			return $accessToken;
-	}
-	
+            if(is_file($fileName)) {
+                $modifyTime = filemtime($fileName);
+                if(($currentTime - $modifyTime) < 7200) {
+                    // 可用, 直接读取文件的内容
+                    $accessToken = file_get_contents($fileName);
+                    return $accessToken;
+                }
+            }
+            // 重新发送请求
+            $result = $this-> httpsRequest($url);
+            $jsonArray = json_decode($result, true);
+            // 写入文件
+            $accessToken = $jsonArray['access_token'];
+            file_put_contents($fileName, $accessToken);
+            return $accessToken;
+    }
+    
     //生成红包文字
     function madeCode(){
         $db = DBAction::getInstance();
@@ -716,75 +716,75 @@ class getcodeAction extends Action {
     }
 
      //生成推广图片
-	function getPromotion($name,$ditu,$x,$y,$wx_id,$kuan = 300){
-		$db = DBAction::getInstance();
-		$sql_w = "select user_id from lkt_user where wx_id='".$wx_id.'\' ';
+    function getPromotion($name,$ditu,$x,$y,$wx_id,$kuan = 300){
+        $db = DBAction::getInstance();
+        $sql_w = "select user_id from lkt_user where wx_id='".$wx_id.'\' ';
         $r_w = $db->select($sql_w);
-		//信息准备
-		$userid = $r_w[0]->user_id;
-		// $dest = imagecreatefromjpeg('../LKT/images/bottom/img01.jpg');  //底图1 http://127.0.0.1:8080/LKT/images/1523861937693.jpeg
-		$dest = imagecreatefromjpeg($ditu);  //底图1
-		$dirName = '../LKT/images/';
-		$headfilename = 'logo.jpg';
-		$filename = '';
-		//取得二维码图片文件名称
-		$erweima = $this->code();
+        //信息准备
+        $userid = $r_w[0]->user_id;
+        // $dest = imagecreatefromjpeg('../LKT/images/bottom/img01.jpg');  //底图1 http://127.0.0.1:8080/LKT/images/1523861937693.jpeg
+        $dest = imagecreatefromjpeg($ditu);  //底图1
+        $dirName = '../LKT/images/';
+        $headfilename = 'logo.jpg';
+        $filename = '';
+        //取得二维码图片文件名称
+        $erweima = $this->code();
 
-		/*带参数二维码图片是否已经存在*/
-		if(file_exists($dirName.$erweima)){
-			$filename = $erweima;
-		}else{
-			$ch = curl_init ();
-			curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
-			curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false );
-			curl_setopt ( $ch, CURLOPT_URL, $filename );
-			ob_start ();
-			curl_exec ( $ch );
-			$headfile = ob_get_contents ();
-			ob_end_clean ();
-			if(!file_exists($dirName)){
-			mkdir($dirName, 0777, true);
-			}
-			//保存文件
-			$res = fopen($dirName.$erweima,'a');
-			fwrite($res,$headfile);
-			fclose($res);
-			$filename = $erweima;
-		}
-		// exit;
-		/*二维码组合底图1*/
-		$src = imagecreatefromjpeg($dirName.$filename);
-		list($width, $height, $type, $attr) = getimagesize($dirName.$filename);
-		$image=imagecreatetruecolor($kuan, $kuan);
-		imagecopyresampled($image, $src, 0, 0, 0, 0, $kuan, $kuan, $width,$height);
-		imagecopymerge($dest, $image,$x, $y, 0, 0, $kuan, $kuan, 100);
-		// /*end 二维码*/$x, $y,$wx_id 20, 580
-			
-		// /* 图片组合完成 保存图片 */
-		$pic = $userid.$name.'tui.jpg';
-		$res = imagejpeg($dest,$dirName.$pic);
-		$url='http://'.$_SERVER['HTTP_HOST'].'/duan/LKT/images/'.$pic;/* end 保存*/
+        /*带参数二维码图片是否已经存在*/
+        if(file_exists($dirName.$erweima)){
+            $filename = $erweima;
+        }else{
+            $ch = curl_init ();
+            curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
+            curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false );
+            curl_setopt ( $ch, CURLOPT_URL, $filename );
+            ob_start ();
+            curl_exec ( $ch );
+            $headfile = ob_get_contents ();
+            ob_end_clean ();
+            if(!file_exists($dirName)){
+            mkdir($dirName, 0777, true);
+            }
+            //保存文件
+            $res = fopen($dirName.$erweima,'a');
+            fwrite($res,$headfile);
+            fclose($res);
+            $filename = $erweima;
+        }
+        // exit;
+        /*二维码组合底图1*/
+        $src = imagecreatefromjpeg($dirName.$filename);
+        list($width, $height, $type, $attr) = getimagesize($dirName.$filename);
+        $image=imagecreatetruecolor($kuan, $kuan);
+        imagecopyresampled($image, $src, 0, 0, 0, 0, $kuan, $kuan, $width,$height);
+        imagecopymerge($dest, $image,$x, $y, 0, 0, $kuan, $kuan, 100);
+        // /*end 二维码*/$x, $y,$wx_id 20, 580
+            
+        // /* 图片组合完成 保存图片 */
+        $pic = $userid.$name.'tui.jpg';
+        $res = imagejpeg($dest,$dirName.$pic);
+        $url='http://'.$_SERVER['HTTP_HOST'].'/duan/LKT/images/'.$pic;/* end 保存*/
         return $url;
-	}
-	function createPromotion (){
-		$url = [];
-		 $db = DBAction::getInstance();
+    }
+    function createPromotion (){
+        $url = [];
+         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-		$wx_id =$request->getParameter('openid');
+        $wx_id =$request->getParameter('openid');
 
-		$sql = "select image,x,y,kuan from lkt_extension ";
+        $sql = "select image,x,y,kuan from lkt_extension ";
         $r = $db->select($sql);
         if ($r) {
-        	foreach ($r as $key => $value) {
-        		$str = $value->image;
-        		$img =  str_replace("/duan/","../",$str);
-        		$img_url = $this->getPromotion($key+1,$img,$value->x,$value->y,$wx_id,$value->kuan);
-        		$url[$key] = array('hpcontent_id' => $key+1,'hp_img_url' => $img_url);
-        	}
+            foreach ($r as $key => $value) {
+                $str = $value->image;
+                $img =  str_replace("/duan/","../",$str);
+                $img_url = $this->getPromotion($key+1,$img,$value->x,$value->y,$wx_id,$value->kuan);
+                $url[$key] = array('hpcontent_id' => $key+1,'hp_img_url' => $img_url);
+            }
         }
-		echo json_encode(array('status'=>1,'pictures'=>$url));
-		exit;
-	}
+        echo json_encode(array('status'=>1,'pictures'=>$url));
+        exit;
+    }
 
 
 }

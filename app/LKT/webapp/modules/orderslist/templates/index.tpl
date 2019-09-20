@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-03 15:50:15
- * @LastEditTime: 2019-09-17 18:29:49
+ * @LastEditTime: 2019-09-19 11:33:55
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -607,6 +607,7 @@
 			<table class="table table-bordered bg-white">
 				<thead>
 					<tr class="txc">
+
 						<th class="tab_news">
 							<label class="custom-control custom-checkbox">
 								<input name="orders_all" value="all" type="checkbox" class="custom-control-input orders_all">
@@ -615,19 +616,20 @@
 							订单信息
 						</th>
 
-						<th>订单总计</th>
-						<th>数量</th>
-						<th>订单状态</th>
+						<th style="min-width: 100px;">订单总计</th>
+						<th style="min-width: 100px;">数量</th>
+						<th style="min-width: 100px;">订单状态</th>
 						{if $otype == 't2'}
-						<th>拼团状态</th>
+						<th style="min-width: 100px;">拼团状态</th>
 						{/if}
-						<th>订单类型</th>
+						<th style="min-width: 100px;">订单类型</th>
 
-						<th>买家信息</th>
-						<th>支付方式</th>
-						<th>物流信息</th>
+						<th style="min-width: 100px;">买家信息</th>
+						<th style="min-width: 100px;">支付方式</th>
+						<th style="min-width: 100px;">物流信息</th>
 						<th class="tab_dat">操作</th>
 					</tr>
+					
 				</thead>
 				<tbody>
 					{foreach from=$order item=item name=f1}
@@ -791,11 +793,13 @@
 				<div class="wlmk_box" style="width: 100px;">
 
 					{if !empty($item->courier_num)}
-					{foreach from=$item->courier_num item=item3 name=f3 key=key3}
-					<div class="f9e">物流单号{$key3+1}：</div>
-					{/foreach}
+						{foreach from=$item->courier_num item=item3 name=f3 key=key3}
+
+							<div id="wl" class="f9e">物流单号 {$key3+1}: </div>
+							
+						{/foreach}
 					{else}
-					<div class="f9e">物流单号：</div>
+						<div class="f9e">物流单号：</div>
 					{/if}
 
 					<div class="f9e">运费：</div>
@@ -805,10 +809,14 @@
 					{if !empty($item->courier_num)}
 						{foreach from=$item->courier_num item=item3 name=f3 key=key3}
 							{if !empty($item3.courier_num)}
-							<div class="goods-name" style="width:200px;"><span>{$item3.courier_num
-									}(</span><span>{$item3.kuaidi_name})</span></div>
-									{else}
-							<div>暂无</div>
+
+								<div class="goods-name doods-span" style="width:200px;">
+									<span>{$item3.courier_num}({$item3.kuaidi_name})</span>
+									<span class="vieworder" onclick="send_btn1(this,'{$item->sNo}','{$item3.courier_num}',true)" style="display: none">查看物流</span>
+								</div>
+
+							{else}
+								<div>暂无</div>
 							{/if}
 						{/foreach}
 					{else}
@@ -823,14 +831,13 @@
 		<!-- 操作 -->
 		<td class="tab_dat">
 
-			<a class="hover_a" href="index.php?module=orderslist&action=Detail&id={$item->id}" title="订单详情">
+			<a class="hover_a" onclick="navto('index.php?module=orderslist&action=Detail&id={$item->id}')" title="订单详情">
 				<img src="images/icon1/ck.png" />&nbsp;订单详情
 			</a>
 
 
 				{if $item->statu <= 3}
-					<a class="hover_a"
-						href="index.php?module=orderslist&action=Modify&id={$item->id}&type=updata" title="编辑订单">
+					<a class="hover_a" onclick="navto('index.php?module=orderslist&action=Modify&id={$item->id}&type=updata')" title="编辑订单">
 						<img src="images/icon1/xg.png" />&nbsp;编辑订单
 					</a>
 				{else}
@@ -960,6 +967,30 @@
 
 	{literal}
 	<script type="text/javascript">
+		// 查看物流
+		// 移入
+		$('.doods-span').on('mouseenter',function(vm){
+			var son = vm.currentTarget.children[0]
+			var span = vm.currentTarget.children[1]
+			
+			
+			span.style.display = 'inline-flex'
+			son.style.display = 'none'
+		})
+		// 移出
+		$('.doods-span').on('mouseleave',function(vm){
+			var son = vm.currentTarget.children[0]
+			var span = vm.currentTarget.children[1]
+			
+			span.style.display = 'none'
+			son.style.display = 'inline-flex'
+		})
+
+		// 订单查询
+		$('.vieworder').on('click',function(vm){
+			console.log(vm.target.title)
+		})
+
 		// 删除订单
 		
 		var deIsOpn = 0
@@ -1000,13 +1031,16 @@
 		function colse(sNo) {
 			colsEsno = sNo
 			deIsOpn = 2
-			parent.appendMask2('确认删除此所选订单？此操作不可恢复！',{colsEsno,deIsOpn})
+			parent.appendMask2('确认关闭此订单？',{colsEsno,deIsOpn})
 		}
 
 		function navto(URI) {
 			var parma = $('#form1').serializeArray()
 			var urllist = []
 			parma.forEach(function (item) {
+				if(item.name === 'sNo'){
+					item.name = item.name + 1
+				}
 				urllist.push(item.name + '=' + item.value)
 			})
 			parma = "&" + urllist.join('&') + '&page=' + $('.active').children('a').text()
@@ -1105,14 +1139,31 @@
 
 		};
 
-		function send_btn1(obj, id, courier_num) {
+		function send_btn1(obj, id, courier_num, is = false) {
+
 			var r_sNo = id;
+
 			$.ajax({
 				url: 'index.php?module=orderslist&action=kuaidishow&r_sNo=' + r_sNo + '&courier_num=' + courier_num,
 				type: "post",
-				data: {},
 				success: function (res) {
 					var data = JSON.parse(res);
+					
+					if(!data[0].data.length){
+						appendMask('暂无物流信息！', "ts");
+						return
+					}
+					
+					if(is){
+						d = []
+						for(var item of data){
+							if(item.courier_num === courier_num){
+								d.push(item)
+							}
+						}
+						data = d
+					}
+
 					if (data.length) {
 						closeMask1();
 						var str = '';
@@ -1183,17 +1234,17 @@
 			location.href = location.href + '&pageto=' + type;
 		}
 		var i = 0;
-		// $('select[name=otype]').change(function () {
-		// 	let ss = $(this).children('option:selected').val();
-		// 	if (ss == 't2') {
-		// 		$('select[name=status]').empty();
-		// 		$('select[name=status]').append("<option value=''>拼团状态</option><option value='g0'>未付款</option><option value='g1'>拼团中</option><option value='g2'>拼团成功</option><option value='g3'>拼团失败</option>");
-		// 	} else {
-		// 		$('select[name=status]').empty();
-		// 		$('select[name=status]').append("<option value=''>订单状态</option><option value='0'>未付款</option><option value='1'>未发货</option><option value='2'>已发货</option><option value='3'>待评论</option><option value='4'>退货</option><option value='5'>已签收</option>");
-		// 		$('select[name=ostatus]').remove();
-		// 	}
-		// })
+		$('select[name=otype]').change(function () {
+			let ss = $(this).children('option:selected').val();
+			if (ss == 't2') {
+				$('select[name=status]').empty();
+				$('select[name=status]').append("<option value=''>拼团状态</option><option value='g0'>未付款</option><option value='g1'>拼团中</option><option value='g2'>拼团成功</option><option value='g3'>拼团失败</option>");
+			} else {
+				$('select[name=status]').empty();
+				$('select[name=status]').append("<option value=''>订单状态</option><option value='0'>未付款</option><option value='1'>未发货</option><option value='2'>已发货</option><option value='3'>待评论</option><option value='4'>退货</option><option value='5'>已签收</option>");
+				$('select[name=ostatus]').remove();
+			}
+		})
 
 		$('select[name=status]').change(function () {
 			let ss = $('select[name=otype]').children('option:selected').val();

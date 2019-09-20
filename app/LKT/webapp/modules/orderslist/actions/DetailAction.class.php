@@ -25,7 +25,7 @@ class DetailAction extends Action {
       $db = DBAction::getInstance();
 
       $request = $this->getContext()->getRequest();
-
+// print_r($request);die;
       $id = intval($request -> getParameter('id')); // 订单id
       $da['having'] = $request -> getParameter('having');
       $da['ordtype'] = $request -> getParameter('ordtype');
@@ -33,8 +33,8 @@ class DetailAction extends Action {
       $da['ocode'] = $request -> getParameter('ocode');
       $da['status'] = $request -> getParameter('status');
       $da['source'] = $request -> getParameter('source');
-      $da['brand'] = $request -> getParameter('brand');
-      $da['sNo'] = $request -> getParameter('sNo');     
+      $da['otype'] = $request -> getParameter('otype');
+      $da['sNo'] = $request -> getParameter('sNo1');     
       $da['startdate'] = $request -> getParameter('startdate');
       $da['enddate'] = $request -> getParameter('enddate');
       $da['page'] = $request -> getParameter('page');
@@ -57,6 +57,7 @@ class DetailAction extends Action {
         $allow = 0; // 积分
         $freight =0;
         $z_price =0;
+        $courier_num111='';
       foreach ($res as $k => $v) { 
         $sid = $v -> sid;
         $freight=$freight+$v -> freight;
@@ -105,7 +106,18 @@ class DetailAction extends Action {
           $data['trade_no'] = $v -> trade_no; // 微信支付交易号
           $data['freight'] = $v -> freight; // 运费
         $data['id'] = $id;
-// print_r($data);die;
+
+        $exper_id = $v -> express_id;
+        if($exper_id){
+            $r03 =$db->select("select * from lkt_express where id = $exper_id ");
+            $res[$k]-> kuaidi_name = $r03[0] -> kuaidi_name; // 快递公司名称
+        }else{
+            $res[$k] -> kuaidi_name='';
+
+        }
+        $courier_num111[$k]['kuaidi_name'] = $res[$k] -> kuaidi_name;
+        $courier_num111[$k]['courier_num'] = $v->courier_num;
+        // print_r($data);die;
         // 根据产品id,查询产品主图
 
         $psql = 'select imgurl from lkt_product_list where id="'.$v -> p_id.'"';
@@ -156,34 +168,33 @@ class DetailAction extends Action {
 
         }
 
-
-
       }
-      
+   
+      if($courier_num111[0]){//去重
+                $key = "id";
+                $arr =$courier_num111;
+                $tmp_arr =[];
+               
+                foreach ($arr as $k1 => $v1) {
+                    if($v1['courier_num']){
+                        if (in_array($v1['courier_num'], $tmp_arr)) {//搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
+                                unset($arr[$k1]);
+                            } else {
+                                $tmp_arr[] = $v1['courier_num'];
+                            }
+                    }
+                    
+                }
 
+                sort($arr);
+                $courier_num111=$arr;
+            }
+            
+            $data['courier_num'] = $courier_num111; // 快递单号
       $data['freight'] =$freight;
       $data['z_price'] =$z_price;
 
-      if(isset($data['express_id'])){
-
-        $exper_id = $data['express_id'];
-
-        // 根据快递公司id,查询快递公司表信息
-
-        $sql03 = "select * from lkt_express where id = $exper_id ";
-
-        $r03 =$db->select($sql03);
-
-        $data['express_name'] = $r03[0] -> kuaidi_name; // 快递公司名称
-
-      }else{
-
-        $data['express_name'] = '';
-
-      }
-
-   
-
+   // print_r($data);die;
    if($data['otype'] == 'pt'){
 
       switch ($data['gstatus']) {
@@ -290,9 +301,10 @@ class DetailAction extends Action {
 
       if(!empty($sNo)&&!empty($trade)){
 
-        $sql01 = "select * from lkt_order where sNo = $sNo ";
-
+        $sql01 = "select * from lkt_order where sNo = '$sNo' ";
+// print_r($sql01);die;
         $r01 =$db->select($sql01);
+
 
         $data['status01'] = $r01[0]->status; // 根据订单号查询该订单的状态
 
@@ -354,6 +366,7 @@ class DetailAction extends Action {
           $request -> setAttribute("coupon_price",$coupon_price);
           $request -> setAttribute("allow",$allow);
           $request -> setAttribute("num",$num);
+          $request->setAttribute("da", $da);
 
       return View :: INPUT;
 

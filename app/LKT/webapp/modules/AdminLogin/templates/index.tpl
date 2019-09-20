@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:23
+ * @LastEditTime: 2019-09-17 17:02:49
+ * @LastEditors: Please set LastEditors
+ -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -9,6 +16,7 @@
 
 	<LINK rel="Bookmark" href="/favicon.ico" >
 	<LINK rel="Shortcut Icon" href="/favicon.ico" />
+	
 	<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
 	<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 	<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
@@ -95,7 +103,7 @@
 				background: #fff;
 				border-radius: 10px;
 			}
-			.closeMask{
+			/* .closeMask{
 				width: 100px;
 				height: 50px;
 				border: 1px solid #eee;
@@ -107,7 +115,7 @@
 				position: absolute;
 				bottom: 30px;
 				left: 200px;
-			}
+			} */
 			#jbxx,#changePassword{
 				position: absolute;
 				z-index: 9999999;
@@ -535,9 +543,9 @@
 		<div class="show_iframe">
 			<div  class="loading"></div>
 			{if $type == 0}
-			<iframe scrolling="yes" frameborder="0" src="index.php?module=index"></iframe>
+			<iframe id="childframe" scrolling="yes" frameborder="0" src="index.php?module=index"></iframe>
 			{else}
-			<iframe scrolling="yes" frameborder="0" src="index.php?module=system"></iframe>
+			<iframe id="childframe" scrolling="yes" frameborder="0" src="index.php?module=system"></iframe>
 			{/if}
 		</div>
 	</div>
@@ -1150,26 +1158,56 @@
             })
         });
         function appendMask(content,src){
-			$("body").append(`
-					<div class="maskNew">
-						<div class="maskNewContent">
-							<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
-							<div class="maskTitle">基本信息</div>	
-							<div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
-							<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
-								${content}
-							</div>
-							<div style="text-align:center;margin-top:30px">
-								<button class="closeMask" onclick=closeMask1() >确认</button>
-							</div>
-							
-						</div>
-					</div>	
-				`)
-		}
+						$("body").append(`
+								<div class="maskNew">
+									<div class="maskNewContent">
+										<a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
+										<div class="maskTitle">基本信息</div>	
+										<div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
+										<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+											${content}
+										</div>
+										<div style="text-align:center;margin-top:30px">
+											<button class="closeMask" onclick=closeMask1() >确认</button>
+										</div>
+										
+									</div>
+								</div>	
+							`)
+					}
         function closeMask1(){
-			$(".maskNew").remove();
-		}
+					$(".maskNew").remove();
+				}
+
+				function appendMask2(content){
+
+					$("body").append(`
+						<div class="maskNew">
+							<div class="maskNewContent">
+								<a href="javascript:void(0);" class="closeA" onclick=closeMask12() ><img src="images/icon1/gb.png"/></a>
+								<div class="maskTitle">提示</div>	
+								<div style="text-align:center;margin-top:30px"><img src="images/icon1/ts.png"></div>
+								<div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
+									${content}
+								</div>
+								<div style="text-align:center;margin-top:30px">
+									<button class="closeMask" onclick=closeMask12() >确认</button>
+									<button class="closeMask" onclick=closeMask10() >取消</button>
+								</div>
+								
+							</div>
+						</div>	
+					`)
+				}
+				
+				function closeMask12(){
+					$(".maskNew").remove();
+					$('iframe')[1].contentWindow.deletes()
+				}
+				
+				function closeMask10() {
+					$(".maskNew").remove();
+				}
 	</script>
 {/literal}
 </body>

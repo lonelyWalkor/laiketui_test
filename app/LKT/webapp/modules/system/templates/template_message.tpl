@@ -20,10 +20,10 @@
               <div class="panel-body">
                   <div class="form-group">  
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <label class="col-xs-12 col-sm-4 col-md-4 control-label">购买成功通知</label> 
+                        <label class="col-xs-12 col-sm-4 col-md-4 control-label">支付成功通知</label> 
                         <div class="col-sm-8 col-xs-12">    
                                 
-                            <input type="text" name="notice[pay_success]" class="form-control" value="{$notice->pay_success}">   
+                            <input type="text" name="notice[order_success]" class="form-control" value="{$notice->order_success}">   
                             <div class="help-block">小程序模板消息编号示例: m1FFBWiae7r4Sx3cMZ7dyt0 </div>    
                                 
                         </div>    
@@ -37,14 +37,7 @@
                                 
                         </div>    
                     </div>            
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <label class="col-xs-12 col-sm-4 col-md-4 control-label">订单支付成功通知</label>   
-                        <div class="col-sm-8 col-xs-12">    
-                                
-                            <input type="text" name="notice[order_success]" class="form-control" value="{$notice->order_success}">   
-                            <div class="help-block">小程序模板消息编号示例: m1FFBWiae7r4Sx3cMZ7dyt0 </div>    
-                                
-                        </div>            </div>            
+                       
                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <label class="col-xs-12 col-sm-4 col-md-4 control-label">开团成功提醒</label> 
                         <div class="col-sm-8 col-xs-12">    

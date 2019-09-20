@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-26 13:55:25
- * @LastEditTime: 2019-09-10 11:49:53
+ * @LastEditTime: 2019-09-10 14:07:38
  * @LastEditors: Please set LastEditors
  -->
 
@@ -161,12 +161,12 @@
   <script src="style/kindeditor/lang/zh_CN.js"></script>
   {literal}
   <script>
+    /**
+     *
+     * @docs 表单验证
+     **/
     function check(vm){
-
       var formArr = $('#plugAddForm').serializeArray()
-      console.log(formArr)
-
-
       for(var item of formArr){
         if(item.name === 'name' && item.value === ''){
           alert('首页插件名称不能为空！')
@@ -177,7 +177,10 @@
         } else if(item.name === 'url' && item.value === ''){
           alert('首页链接不能为空！')
           return false
-        }
+        } else if(item.name === 'software_id' && item.value === '0'){
+          alert('请选择软件!')
+          return false
+        } 
       }
       return true
     }

@@ -24,7 +24,7 @@ class DetailInputView extends SmartyView {
         $this->setAttribute("coupon_price",$request->getAttribute("coupon_price"));
         $this->setAttribute("allow",$request->getAttribute("allow"));
         $this->setAttribute("num",$request->getAttribute("num"));
-        $this->setAttribute("data",$request->getAttribute("data"));
+        $this->setAttribute("da",$request->getAttribute("da"));
 
         $this->setTemplate("detail.tpl");
 

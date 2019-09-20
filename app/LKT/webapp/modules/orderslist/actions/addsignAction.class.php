@@ -162,7 +162,7 @@ class addsignAction extends Action {
 				      $r = $db -> selectrow("select id from lkt_order_details where r_sNo='" . $sNo ."'");
 				      // echo "select id from lkt_order_details where r_sNo='" . $sNo ."'";
 
-					$r01 = $db -> selectrow("select id from lkt_order_details where r_sNo='" . $sNo ."' and r_status =2");
+					$r01 = $db -> selectrow("select id from lkt_order_details where r_sNo='" . $sNo ."' and r_status >=2");
 					// echo "$r";echo "-----";echo "$r01";
 					if($r == $r01){//全部子订单发货完全改变lkt_order表
 						$sqll = 'update lkt_order set status=2 where sNo="' . $sNo . '"';

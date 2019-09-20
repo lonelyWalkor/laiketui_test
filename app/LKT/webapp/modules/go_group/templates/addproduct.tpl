@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:23
+ * @LastEditTime: 2019-09-17 14:15:25
+ * @LastEditors: Please set LastEditors
+ -->
 
 <!DOCTYPE HTML>
 <html>
@@ -214,9 +221,8 @@
 								<tr class="text-c" style="height:60px!important;">
 									<input type="hidden" name="attr_id"  value="{$item1->attr_id}">
 									<td class="tab_label">
-										<input  type="checkbox" class="inputC input_agreement_protocol" {if $item1->select}checked{/if} attr-data="{$item1->attr_id}" id = "{$item1->id}{$key}" targ="{$item1->id + $key}" name="id[]"  value = "{$item1->id + $key}" style="position: absolute;">
-										<label for="{$item1->id}{$key}">
-										</label>
+										<input id="ptradio" type="radio" class="inputC input_agreement_protocol" {if $item1->select}checked{/if} attr-data="{$item1->attr_id}" id = "{$item1->id}{$key}" targ="{$item1->id + $key}" name="id[]"  value = "{$item1->id + $key}">
+
 									</td>
 									<td>{$key+1}</td>
 									<td style="display: flex;align-items: center;">
@@ -357,36 +363,43 @@
 			return v2;
 		}
 
-        function baocungroup(){
+    function baocungroup(){
 			var pList = '{';
 			var goods_id = '';
 			var each_times = 0;
-			$("input[type='checkbox']").each(function () {
+
+			$("#ptradio").each(function () {
 				//如果选中状态
 				if ($(this).is(':checked')) {
+					
+
 					//判断每一次的id是否相等
 					if(goods_id == ''){
 						goods_id = $(this).val();
+						
 					}else if (goods_id != $(this).val()){
+						
 						alert('请选择同一个产品id号的商品');
 						pList = [];
 						goods_id = '';
 						checkdata = false;
 						return;
 					}
+
 					let attr = $(this).attr('attr-data');
 					pList +='"'+attr+'":"~",';
 					each_times++;
 				}
 			});
+
 			// console.log(each_times);
             if(each_times == 0){
                 alert('请选择拼团商品');
                 checkdata = false;
                 return;
             }
-            pList=pList.substring(0,pList.length-1);
-            pList +='}';
+            pList = pList.substring(0,pList.length-1);
+            pList += '}';
 
             var checkdata = true;
             var gdata = {};
@@ -529,24 +542,21 @@
 
 							$.each(res,function(index,element){
 								table += '<tr class="text-c" style="height:60px!important;">' +
-                                    '<input type="hidden" name="attr_id"  value="'+element.attr_id+'">' +
-                                    '<td class="tab_label">' +
-                                     '<input  type="checkbox" class="inputC input_agreement_protocol" attr-data="'+element.attr_id+'" id = "'+element.id+index+'" targ="'+element.id+index+'" name="id[]" onchange="check_one('+element.id+index+')" value = "'+element.id+'" style="position: absolute;">' +
-
-
-										' <label for="'+element.id+index+'">' +
-                                    '</label>' +
-                                    '</td>' +
-                                    '<td>'+(index+1)+'</td>' +
-                                    '<td>' +
-                                    // '<img src ="'+element.image+'" style="width: 40px;height:40px;">'+element.product_title+' '+ element.attr+'</td>' +
-                                    '<img src ="'+element.image+'" style="width: 40px;height:40px;">'+element.product_title+'</td>' +
-                                    ' <td>'+element.id+'</td> ' +
-                                    // ' <td>'+element.name+'</td> ' +
-                                    '<td>'+element.num+'</td> ' +
-                                    // '<td>'+element.min_inventory+'</td> ' +
-                                    '<td>'+element.price+'</td>' +
-                                    '</tr>';
+													'<input type="hidden" name="attr_id"  value="'+element.attr_id+'">' +
+													'<td class="tab_label">' +
+														'<input id="ptradio"  type="radio" class="inputC input_agreement_protocol" attr-data="'+element.attr_id+'" id = "'+element.id+index+'" targ="'+element.id+index+'" name="id[]" onchange="check_one('+element.id+index+')" value = "'+element.id+'">' +
+													'</label>' +
+													'</td>' +
+													'<td>'+(index+1)+'</td>' +
+													'<td>' +
+													// '<img src ="'+element.image+'" style="width: 40px;height:40px;">'+element.product_title+' '+ element.attr+'</td>' +
+													'<img src ="'+element.image+'" style="width: 40px;height:40px;">'+element.product_title+'</td>' +
+													' <td>'+element.id+'</td> ' +
+													// ' <td>'+element.name+'</td> ' +
+													'<td>'+element.num+'</td> ' +
+													// '<td>'+element.min_inventory+'</td> ' +
+													'<td>'+element.price+'</td>' +
+													'</tr>';
 								$("#proattr").html(table);
 							})
 

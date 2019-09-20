@@ -29,8 +29,8 @@ class ModifyAction extends Action {
       $da['ocode'] = $request -> getParameter('ocode');
       $da['status'] = $request -> getParameter('status');
       $da['source'] = $request -> getParameter('source');
-      $da['brand'] = $request -> getParameter('brand');
-      $da['sNo'] = $request -> getParameter('sNo');     
+      $da['otype'] = $request -> getParameter('otype');
+      $da['sNo'] = $request -> getParameter('sNo1');     
       $da['startdate'] = $request -> getParameter('startdate');
       $da['enddate'] = $request -> getParameter('enddate');
       $da['page'] = $request -> getParameter('page');
@@ -85,23 +85,27 @@ class ModifyAction extends Action {
         $data['otype'] = $v -> otype;  // 订单类型
 
         $data['content'] = $v -> content; // 退货原因
-
-        $data['express_id'] = $v -> express_id; // 快递公司id
-
-        $data['courier_num'] = $v -> courier_num; // 快递单号
-
-          $data['drawid'] = $v -> drawid; // 抽奖ID
-          $data['coupon_price'] = $v -> coupon_price; // 快递单号
-          $reduce_price = $v -> reduce_price; // 满减金额
-          $coupon_price = $v -> coupon_price; // 优惠券金额
-          $allow = $v -> allow; // 积分
+        $data['drawid'] = $v -> drawid; // 抽奖ID
+        $data['coupon_price'] = $v -> coupon_price; // 快递单号
+        $reduce_price = $v -> reduce_price; // 满减金额
+        $coupon_price = $v -> coupon_price; // 优惠券金额
+        $allow = $v -> allow; // 积分
 
         $data['paytype'] = $v -> pay; // 支付方式
 
-          $data['trade_no'] = $v -> trade_no; // 微信支付交易号
-          $data['freight'] = $v -> freight; // 运费
+        $data['trade_no'] = $v -> trade_no; // 微信支付交易号
+        $data['freight'] = $v -> freight; // 运费
         $data['id'] = $id;
+        $exper_id = $v -> express_id;
+        if($exper_id){
+            $r03 =$db->select("select * from lkt_express where id = $exper_id ");
+            $res[$k]-> kuaidi_name = $r03[0] -> kuaidi_name; // 快递公司名称
+        }else{
+            $res[$k] -> kuaidi_name='';
 
+        }
+        $courier_num111[$k]['kuaidi_name'] = $res[$k] -> kuaidi_name;
+        $courier_num111[$k]['courier_num'] = $v->courier_num;
         // 根据产品id,查询产品主图
 
         $psql = 'select imgurl from lkt_product_list where id="'.$v -> p_id.'"';
@@ -156,29 +160,29 @@ class ModifyAction extends Action {
 
       }
       
+      if($courier_num111[0]){//去重
+          $key = "id";
+          $arr =$courier_num111;
+          $tmp_arr =[];
+         
+          foreach ($arr as $k1 => $v1) {
+              if($v1['courier_num']){
+                  if (in_array($v1['courier_num'], $tmp_arr)) {//搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
+                          unset($arr[$k1]);
+                      } else {
+                          $tmp_arr[] = $v1['courier_num'];
+                      }
+              }
+              
+          }
 
+          sort($arr);
+          $courier_num111=$arr;
+      }
+      
+      $data['courier_num'] = $courier_num111; // 快递单号
       $data['freight'] =$freight;
       $data['z_price'] =$z_price;
-
-      if(isset($data['express_id'])){
-
-        $exper_id = $data['express_id'];
-
-        // 根据快递公司id,查询快递公司表信息
-
-        $sql03 = "select * from lkt_express where id = $exper_id ";
-
-        $r03 =$db->select($sql03);
-
-        $data['express_name'] = $r03[0] -> kuaidi_name; // 快递公司名称
-
-      }else{
-
-        $data['express_name'] = '';
-
-      }
-
-   
 
    if($data['otype'] == 'pt'){
 
@@ -353,6 +357,7 @@ class ModifyAction extends Action {
           $request -> setAttribute("coupon_price",$coupon_price);
           $request -> setAttribute("allow",$allow);
           $request -> setAttribute("num",$num);
+          $request -> setAttribute("da",$da);
 
       return View :: INPUT;
 
@@ -405,8 +410,8 @@ class ModifyAction extends Action {
      $db = DBAction::getInstance();
      $request = $this->getContext()->getRequest();
      $id = intval($request -> getParameter('id')); // 订单id
-     $y_price = intval($request -> getParameter('y_price')); // 原价
-     $n_price = intval($request -> getParameter('n_price')); // 现价
+     $y_price = $request -> getParameter('y_price'); // 原价
+     $n_price = $request -> getParameter('n_price'); // 现价
 
      if($y_price && $n_price && $id){
       $price = $n_price-$y_price;

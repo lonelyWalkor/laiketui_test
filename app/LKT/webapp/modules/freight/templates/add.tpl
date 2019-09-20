@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:24
+ * @LastEditTime: 2019-09-18 18:04:38
+ * @LastEditors: Please set LastEditors
+ -->
 
 <!DOCTYPE HTML>
 <html>
@@ -23,13 +30,19 @@
 	width: 100px;
     height: 20px;
     border: none;
-	}
-.inputC:checked +label::before{
-	display: inline-block;
-	position: absolute;
+}
+
+.inputC + label::before {
+    display: inline-block;
+    position: absolute;
     left: -17px;
     top: 4px;
-}	
+    border: 1px solid #ffffff;
+    width: 14px;
+    height: 14px;
+    background: #ffffff !important;
+}
+	
 </style>
 <script type="text/javascript">
 function check(f){
@@ -212,6 +225,11 @@ function check(f){
     margin:  0 auto;
     padding-top: 10px;
 }
+
+.readtitle {
+    left: -5px;
+    visibility: visible !important;
+}
 </style>
 {/literal}
 {literal}
@@ -242,7 +260,7 @@ function choice(){
 
             for (var k in list) {
                 rew += "<div class='radio-box' style='width: 32%;'>" +
-                    "<input name='list' class='inputC' type='checkbox' id='sex-"+list[k]['GroupID']+"' value='"+list[k]['GroupID']+"'>" +
+                    "<input name='list' class='inputC readtitle' type='checkbox' id='sex-"+list[k]['GroupID']+"' value='"+list[k]['GroupID']+"'>" +
                     "<label for='sex-"+list[k]['GroupID']+"'>"+list[k]['G_CName']+"</label>" +
                     "</div>"
             }

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-26 13:55:26
- * @LastEditTime: 2019-09-09 10:18:45
+ * @LastEditTime: 2019-09-17 18:05:05
  * @LastEditors: Please set LastEditors
  -->
 
@@ -73,33 +73,33 @@ function check(f){
         <label class="form-label col-xs-4 col-sm-2">角色权限：</label>
         <div class="J_CheckWrap col-xs-8 col-sm-8" style="border: solid 1px #eee;">
             {foreach from=$list item=item key=key}
-            <p class="permission-list" style="background-color: #efefef;">
+            <p class="permission-list" style="background-color: #efefef;display: flex;">
                 <input type="checkbox" class="inputC" id="user-{$key}" value="{$item->level}/{$item->name}" name="permission[]" {if $item->status == 1}checked="checked"{/if}/>
                 <label for="user-{$key}"></label>
-                {$item->title}
+                <span style="padding-left: 10px;">{$item->title}</span>
             </p>
             <div class="checks">
                 {foreach from=$item->res item=item1 key=key1}
-                <p class="cl permission-list2">
+                <p class="cl permission-list2" style="display: flex;">
                     <input type="checkbox" class="inputC" value="{$item1->level}/{$item1->name}/{$item1->module}/{$item1->action}" name="permission[]" {if $item1->status == 1}checked="checked"{/if} id="user-{$key}-{$key1}"/>
                     <label for="user-{$key}-{$key1}"></label>
-                    {$item1->title}
+                    <span style="padding-left: 10px;">{$item1->title}</span>
                 </p>
                 {if $item1->res}
                 <div class="checks" style="border-bottom: solid 1px #eee;">
                     {foreach from=$item1->res item=item2 key=key2}
-                    <p>
+                    <p style="display: flex;">
                         <input type="checkbox" class="inputC" value="{$item2->level}/{$item2->name}/{$item2->module}/{$item2->action}" name="permission[]" {if $item2->status == 1}checked="checked"{/if} id="user-{$key}-{$key1}-{$key2}"/>
                         <label for="user-{$key}-{$key1}-{$key2}"></label>
-                        {$item2->title}
+                        <span style="padding-left: 10px;">{$item2->title}</span>
                     </p>
                     {if $item2->res}
                     <div class="checks" style="border-bottom: solid 1px #eee;">
                         {foreach from=$item2->res item=item3 key=key3}
-                        <p style="display: inline-block;">
+                        <p style="display: inline-block;display: flex;">
                             <input class="inputC" type="checkbox" value="{$item3->level}/{$item3->name}/{$item3->module}/{$item3->action}" name="permission[]" {if $item3->status == 1}checked="checked"{/if} id="user-{$key}-{$key1}-{$key2}-{$key3}"/>
                             <label for="user-{$key}-{$key1}-{$key2}-{$key3}"></label>
-                            {$item3->title}
+                            <span style="padding-left: 10px;">{$item3->title}</span>
                         </p>
                         {/foreach} 
                     </div>

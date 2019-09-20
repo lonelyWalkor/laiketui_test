@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-03 15:50:15
- * @LastEditTime: 2019-09-09 17:29:39
+ * @LastEditTime: 2019-09-19 14:03:57
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -346,15 +346,16 @@
     <title>订单详情</title>
 </head>
 <body>
-<nav class="breadcrumb" name= 'breadcrumb' id= 'breadcrumb'><i class="Hui-iconfont" >&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 订单列表 <span class="c-gray en">&gt;</span> 订单详情 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=orderslist';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb" name= 'breadcrumb' id= 'breadcrumb' style="margin: 0px 10px;"><i class="Hui-iconfont" >&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 订单列表 <span class="c-gray en">&gt;</span> 订单详情 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=orderslist';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div>
     <aside class="mtb" style="margin:10px 0px 20px 10px">
-        <a class="newBtn btn radius" style="display: inline-block;border: none;" href="index.php?module=orderslist">
+        <a class="newBtn btn radius" style="display: inline-block;border: none;" href="index.php?module=orderslist&having={$da.having}&ordtype={$da.ordtype}&gcode={$da.gcode}&ocode={$da.ocode}&sNo={$da.sNo}&otype={$da.otype}&status={$da.status}&startdate={$da.startdate}&enddate={$da.enddate}&page={$da.page}">
             <div style="height: 100%;display: flex;align-items: center;">
                 <img src="images/icon1/xg_w.png"/>&nbsp;返回
             </div>
         </a>
         <input type="hidden" id="dingdan" value="{$data.sNo}">
+
 <!--         <button class="btn radius newbtn b02" style="height: 36px;border: none;" onclick="printTure();">
             <div style="height: 100%;display: flex;align-items: center;">
                 <img src="images/icon1/dy.png"/>&nbsp;打印
@@ -391,15 +392,18 @@
                     {else}
                     余额支付
                     {/if}</span></li>
-            <li style="width: 26.66%;">到货时间：<span class="grText">{$data.arrive_time}</span></li>
-            <li style="width: 20.00%;">快递单号：
-                {if $data.courier_num ==''}
-                    <span class="grText" style="display: inline-block;" >{$data.courier_num}</span>
+            <li style="width: 46.66%;">到货时间：<span class="grText">{$data.arrive_time}</span></li>
+            <li>快递单号：
+                {foreach from=$data.courier_num item=item name=f1}
+                    {if $item.courier_num ==''}
+                    <span class="grText" style="display: inline-block;" >{$item.courier_num}({$item.kuaidi_name})</span>
                 {else}
-                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$data.courier_num})">
-                        <span style="display: inline-block;" class="grText changeNum">{$data.courier_num}</span>
+                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$item.courier_num})">
+                        <span style="display: inline-block;" class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
                     </a>
                 {/if}
+                {/foreach}
+                
             </li>
         </ul>
     </div>
@@ -432,7 +436,7 @@
                      <td style="text-align:left;" id="p_name">
                          <img class='pimg' src="{$uploadImg}{$item->pic}" style="margin-right: 20px;" width="50" height="50"/>
 
-                          <a style="display: contents;" href="index.php?module=product&action=see&id={$item->p_id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}" title="查看">
+                          <a style="display: contents;" href="index.php?module=product&action=see&id={$item->id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}" title="查看">
                             {$item->p_name}
                           </a>
                         

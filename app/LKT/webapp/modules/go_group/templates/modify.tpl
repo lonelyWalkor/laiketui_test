@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:23
+ * @LastEditTime: 2019-09-17 14:18:05
+ * @LastEditors: Please set LastEditors
+ -->
 
 <!DOCTYPE HTML>
 <html>
@@ -232,10 +239,8 @@
                                 <tr class="text-c" style="height:60px!important;">
                                     <input type="hidden" name="attr_id"  value="{$item1->attr_id}">
                                     <td class="tab_label">
-                                        <input  type="checkbox" class="inputC input_agreement_protocol" {if $item1->select}checked{/if} attr-data="{$item1->attr_id}" id = "{$item1->id}{$key}" targ="{$item1->id + $key}" name="id[]"  value = "{$item1->id + $key}" style="position: absolute;">
-                                         <label for="{$item1->id}{$key}">
-                                            </label>
-                                        </td>
+                                        <input id="ptradio" type="radio" class="inputC input_agreement_protocol" {if $item1->select}checked{/if} attr-data="{$item1->attr_id}" id = "{$item1->id}{$key}" targ="{$item1->id + $key}" name="id[]"  value = "{$item1->id + $key}">
+                                    </td>
                                     <td>{$key+1}</td>
 
                                {if $g_status == 2}
@@ -402,7 +407,7 @@
             var goods_id = '';
             var each_times = 0;
 
-            $("input[type='checkbox']").each(function () {
+            $("#ptradio").each(function () {
                 // console.log('each');
                 //如果选中状态
                 if ($(this).is(':checked')) {

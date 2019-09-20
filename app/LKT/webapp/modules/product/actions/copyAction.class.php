@@ -229,9 +229,12 @@ class copyAction extends Action {
             $r = $db->select($sql);
             // print_r($r);
             if($r){
+                
+                print_r(11);
+             
                     header("Content-type:text/html;charset=utf-8");
                         echo "<script type='text/javascript'>" .
-                            "alert('产品名称重复！');" .
+                            "alert('产品名称重复111！');" .
                             "</script>";
                         return $this->getDefaultView();
             }
