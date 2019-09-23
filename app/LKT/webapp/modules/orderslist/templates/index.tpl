@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-03 15:50:15
- * @LastEditTime: 2019-09-19 11:33:55
+ * @LastEditTime: 2019-09-20 18:54:28
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -1171,6 +1171,7 @@
 
 						for(var item of data){
 							title +='<div style="margin-bottom: 30px;">' + item.kuaidi_name + ":" + item.courier_num
+							
 							for(var aaa of item.data){
 								str += '<div class="time" style="margin-left: 30px;">' + aaa.time + '</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">' + aaa.context + '</div>';
 							}

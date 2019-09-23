@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-03 15:50:15
- * @LastEditTime: 2019-09-19 14:03:57
+ * @LastEditTime: 2019-09-20 18:56:03
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -384,21 +384,21 @@
             <li style="width: 26.66%;">下单时间：<span class="grText">{$data.add_time}</span></li>
             <li style="width: 26.66%;">订单状态：<span class="grText">{$data.r_status}</span></li>
             <li style="width: 26.66%;">发货时间：<span class="grText">{$data.deliver_time}</span></li>
-            <li style="width: 20.00%;">快递公司：<span class="grText">{$data.express_name}</span></li>
-            <li style="width: 26.66%;">购买用户：<span class="grText">{$data.user_name}</span> </li>
+            <li style="width: 20.00%;">购买用户：<span class="grText">{$data.user_name}</span></li>
+
             <li style="width: 26.66%;">支付方式：<span class="grText">
                     {if $data.paytype == 'wxPay'}
                     微信支付
                     {else}
                     余额支付
                     {/if}</span></li>
-            <li style="width: 46.66%;">到货时间：<span class="grText">{$data.arrive_time}</span></li>
+            <li style="width: 70.66%;">到货时间：<span class="grText">{$data.arrive_time}</span></li>
             <li>快递单号：
                 {foreach from=$data.courier_num item=item name=f1}
                     {if $item.courier_num ==''}
                     <span class="grText" style="display: inline-block;" >{$item.courier_num}({$item.kuaidi_name})</span>
                 {else}
-                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$item.courier_num})">
+                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}','{$item.courier_num}',true)">
                         <span style="display: inline-block;" class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
                     </a>
                 {/if}
@@ -693,29 +693,58 @@
 
     };
 
-    function send_btn1(obj, id,courier_num) {
+    function send_btn1(obj, id, courier_num, is = false) {
+
         var r_sNo = id;
+
         $.ajax({
-            url:'index.php?module=orderslist&action=kuaidishow&r_sNo='+r_sNo+'&courier_num='+courier_num,
-            type:"post",
-            data:{},
-            success:function (res) {
+            url: 'index.php?module=orderslist&action=kuaidishow&r_sNo=' + r_sNo + '&courier_num=' + courier_num,
+            type: "post",
+            success: function (res) {
                 var data = JSON.parse(res);
-                console.log(data.code);
-                if(data.code == 1){
-                    closeMask1();
-                    console.log(1);
-                    var str = '';
-                    for (var i = 0; i < data.data.length; i++) {
-                        str += '<div class="time" style="margin-left: 30px;">'+data.data[i].time+'</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">'+data.data[i].context+'</div>';
+                
+                if(!data[0].data.length){
+                    appendMask('暂无物流信息！', "ts");
+                    return
+                }
+                
+                if(is){
+                    d = []
+                    for(var item of data){
+                        if(item.courier_num === courier_num){
+                            d.push(item)
+                        }
                     }
-                    wl_appendMask(str,"cg");
-                }else{
-                    appendMask('暂无物流信息！',"ts");
+                    data = d
+                }
+
+                if (data.length) {
+                    closeMask1();
+                    var str = '';
+                    var title = ''
+
+                    for(var item of data){
+                        title +='<div style="margin-bottom: 30px;">' + item.kuaidi_name + ":" + item.courier_num
+                        
+                        for(var aaa of item.data){
+                            str += '<div class="time" style="margin-left: 30px;">' + aaa.time + '</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">' + aaa.context + '</div>';
+                        }
+
+                        title += str + '</div>'
+                    }
+                    
+                    // for (var i = 0; i < data.data.length; i++) {
+                    // 	str += '<div class="time" style="margin-left: 30px;">' + data.data[i].time + '</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">' + data.data[i].context + '</div>';
+                    // }
+
+                    wl_appendMask(title, "cg");
+                } else {
+                    appendMask('暂无物流信息！', "ts");
                 }
             },
         });
     };
+    
     function confirm1 (content,id,content1){
         $("body").append(`
                 <div class="maskNew">

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-26 13:55:24
- * @LastEditTime: 2019-09-18 18:04:38
+ * @LastEditTime: 2019-09-20 19:32:23
  * @LastEditors: Please set LastEditors
  -->
 
@@ -244,6 +244,8 @@ $("#type").change(function(){
     $('.keep').hide();
     $('.pop_model').hide();
 });
+
+var chelen = 0
 function choice(){
     var type = $('input:radio:checked').val();
     if(freight_num == 0){
@@ -252,19 +254,21 @@ function choice(){
         var hidden_freight = document.getElementById("hidden_freight").value;
         var data = hidden_freight;
     }
-    var rew = '';
+    var rew = "<div class='radio-box' style='width: 32%;'><input name='list' class='inputC readtitle selectall' type='checkbox' onclick='checkboxOnclick(this)'><label for=''>全选</label></div>";
+
     $.get("index.php?module=freight&action=province",{data:data},function(res){
         var res = JSON.parse( res );
         if(res.status == 1){
             var list = res.list;
-
+            chelen = list.length
             for (var k in list) {
                 rew += "<div class='radio-box' style='width: 32%;'>" +
-                    "<input name='list' class='inputC readtitle' type='checkbox' id='sex-"+list[k]['GroupID']+"' value='"+list[k]['GroupID']+"'>" +
+                    "<input  onclick='checkbox(this)' name='list' class='inputC readtitle Sopen' type='checkbox' id='sex-"+list[k]['GroupID']+"' value='"+list[k]['GroupID']+"'>" +
                     "<label for='sex-"+list[k]['GroupID']+"'>"+list[k]['G_CName']+"</label>" +
                     "</div>"
             }
             document.getElementById("province").innerHTML=rew;
+
             $('.keep').show();
             $('.pop_model').show();
             if(type == 0){
@@ -279,6 +283,37 @@ function choice(){
             location.replace(location.href);
         }
     });
+}
+
+var checkcon = 0
+function checkbox(vm){
+    if ( vm.checked == true){
+        checkcon++
+    } else {
+        checkcon--
+    }
+    
+    if(checkcon == chelen){
+
+        $('.selectall')[0].checked = true
+    } else {
+        $('.selectall')[0].checked = false
+    }
+}
+
+function checkboxOnclick(checkbox){
+    var domList = $('.Sopen')
+    if ( checkbox.checked == true){
+        checkcon = chelen
+        for(var i in domList){
+            domList[i].checked = true
+        }
+    } else {
+        checkcon = 0
+        for(var i in domList){
+            domList[i].checked = false
+        }
+    }  
 }
 // 关闭
 function select_hid(){
@@ -388,7 +423,7 @@ function appendMask(content,src){
         <div class="maskNew">
             <div class="maskNewContent">
                 <a href="javascript:void(0);" class="closeA" onclick=closeMask1() ><img src="images/icon1/gb.png"/></a>
-                <div class="maskTitle">删除</div>
+                <div class="maskTitle">提示</div>
                 <div style="text-align:center;margin-top:30px"><img src="images/icon1/${src}.png"></div>
                 <div style="height: 50px;position: relative;top:20px;font-size: 22px;text-align: center;">
                     ${content}
