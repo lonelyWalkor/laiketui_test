@@ -186,7 +186,7 @@ class addressAction extends Action {
         if(preg_match("/^1[34578]\d{9}$/", $mobile)){
             $sql04 = "update lkt_user_address set name = '$user_name',tel= '$mobile',sheng='$sheng',city ='$shi',quyu ='$xian',address ='$address',address_xq ='$address_xq',code ='$code',uid ='$uid',is_default='$is_default' where id = '$id_arr'";
             $r04 = $db->update($sql04);
-            if($r04 ==1){
+            if($r04 >=0){
                 echo json_encode(array('status'=>1,'info'=>'修改成功！'));
             }else{
                 echo json_encode(array('status'=>0,'info'=>'修改失败！'));

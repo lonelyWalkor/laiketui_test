@@ -187,13 +187,14 @@ class productAction extends Action {
             $typeArr=explode('-',$typestr);
             //  取数组最后一个元素 并查询分类名称
             $cid = end($typeArr);
+            $pname ='';
             $sql_p = "select pname from lkt_product_class where cid ='".$cid."'";
             $r_p = $db->select($sql_p);
             $pname = '自营';
             if($r_p){
                 $pname = $r_p['0']->pname;
             }
-            $pname = $r_p['0']->pname;
+            // $pname = $r_p['0']->pname;
             $product = [];
             $imgurl = $img.$res['0']->img;
             $content = $res['0']->content;
@@ -1571,17 +1572,18 @@ class productAction extends Action {
                 // $sql_x = "update lkt_product_list set volume = volume + $num,num = num-$num where id = $pid";
                 // $r_x = $db->update($sql_x); 
             }
-
+            $time =date("Y-m-d H:i:s",time()); // 当前时间
             if($r_u){
                 // 根据订单号,查询订单id、订单金额
                 $sql_id = "select * from lkt_order where sNo = '$order_id' ";
                 $r_id = $db->select($sql_id);
                 if($r_id){
                     $id = $r_id['0']->id; // 订单id
+                    $time =$r_id[0]->add_time;
                 }else{
                     $id = 0;
                 }
-                $time =date("Y-m-d h:i:s",time()); // 当前时间
+                
                 $ds =  false;
 
                 echo json_encode(array('status'=>1,'succ'=>'操作成功!','sNo' => $order_id,'coupon_money' => $coupon_money,'id' => $id,'pname'=>$pname,'time'=>$time,'qu'=>$ds));

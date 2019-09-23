@@ -644,7 +644,9 @@ class getcodeAction extends Action {
             $f_price = trim($request->getParameter('price'));
             $f_sNo = trim($request->getParameter('order_sn'));
             $f_pname = trim($request->getParameter('f_pname'));
-            $time =date("Y-m-d h:i:s",time());
+            $time = trim($request->getParameter('time'));
+            $time =$time ?$time :date("Y-m-d H:i:s",time());
+            // $time =date("Y-m-d H:i:s",time());
             $sql = "select * from lkt_config where id=1";
             $r = $db->select($sql);
             if($r){
