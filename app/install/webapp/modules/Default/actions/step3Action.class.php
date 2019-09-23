@@ -176,7 +176,7 @@ class step3Action extends Action {
 		$db = new mysqli($servername, $username, $password);
 		if ($db -> connect_error) {
 			header("Content-type: text/html;charset=utf-8");
-			echo "<script language='javascript'>" . "alert('连接失败!');" . "location.href='index.php?action=step2';</script>";
+			echo "<script language='javascript'>" . "alert('数据库连接失败，有可能密码错误或者数据库没有访问权限!');" . "location.href='index.php?action=step2';</script>";
 			return;
 			exit ;
 		} else {
