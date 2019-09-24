@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-26 13:55:23
- * @LastEditTime: 2019-09-17 17:02:49
+ * @LastEditTime: 2019-09-24 09:52:23
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -401,7 +401,29 @@
 			#changeInf{
 				cursor: pointer;
 			}
-		    
+		  
+			.footers {
+				height: 40px;
+				width: 98%;
+				background-color: #222;
+				color: #ddd;
+				z-index: 5000;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				padding: 0px 20px;
+				display: flex;
+				justify-content:space-between;
+				align-items: center;
+			}
+			
+			.ba {
+				color: #ddd;
+			}
+
+			.ba:hover {
+				color: #06c;
+			}
 		</style>
 	{/literal}
 </head>
@@ -558,7 +580,7 @@
 			Saas+APP+小程序+H5+多店铺+完美的二开神器+已经打通微信支付宝APP支付<br/>
 			<a target="_blank" style="color:red" href="http://www.laiketui.com/action/">【点击查看】</a>
 		</div>
-		<button class="closeMask">确认</button>
+		<button class="closeMask" style="bottom: 5px;position: absolute;left: 38%;">确认</button>
 	</div>
 </div>
 <div id="changePassword">
@@ -685,6 +707,20 @@
 				</div>
 			</form>
 		</div>
+	</div>
+</div>
+<div class="footers">
+	<div>
+			<span>联系地址：长沙市岳麓区绿地中央广场5栋3408</span>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<span>0731-86453408</span>
+	</div>
+
+	<div>
+			<span>
+				<a class="ba" href="http://www.laiketui.com">Copyright&nbsp;©&nbsp;2017&nbsp;壹拾捌号网络版权所有[官方网站]&nbsp;&nbsp;</a>
+				<a class="ba" href="http://www.miibeian.gov.cn">湘ICP备17020355号</a>
+			</span>
 	</div>
 </div>
 <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>

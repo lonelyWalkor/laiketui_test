@@ -20,12 +20,12 @@
 <link href="style/css/style.css" rel="stylesheet" type="text/css" />
 <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
-<title>系统参数</title>
+<title>系统参数</title
 
 </head>
 
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 系统管理 <span class="c-gray en">&gt;</span> 系统参数 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb" style="margin-left:10px;"><i class="Hui-iconfont">&#xe616;</i> 系统管理 <span class="c-gray en">&gt;</span> 系统参数 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <form name="form1" action="index.php?module=system" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
         <div id="tab-system" class="HuiTab">
@@ -93,17 +93,30 @@
                     <input type="text" name="upload_file" value="{$upload_file}" class="input-text">
                 </div>
             </div>
-
+			
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-4">系统缓存：</label>
+				
+                <div class="formControls col-xs-8 col-sm-6">
+                    <button class="btn btn-warning radius" onclick="clearCache()">清除系统缓存</button>
+                </div>
+            </div>
+			
         </div>
         <div class="row cl">
-            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
-                <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+            <div class="col-xs-8 col-sm-9" style="display:flex;justify-content: center;">
+			
+                <button class="btn btn-primary radius" type="submit" name="Submit" style="margin-right:20px;">
+					<i class="Hui-iconfont">&#xe632;</i>
+					保存
+				</button>
                 <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+				
             </div>
         </div>
     </form>
 
-    <button onclick="clearCache()">清除系统缓存</button>
+    
     
 </div>
 </div>
