@@ -16,7 +16,7 @@ class seeAction extends Action {
     公司：湖南壹拾捌号网络技术有限公司
      */
     public function getDefaultView() {
-        $db = DBAction::getInstance();
+       $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
         // 接收信息
@@ -28,6 +28,8 @@ class seeAction extends Action {
         // 根据产品id，查询产品产品信息
         $sql = "select * from lkt_product_list where id = '$id'";
         $r = $db->select($sql);
+         $status=0;
+         // print_r($sql);die;
         if($r){
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
@@ -43,7 +45,7 @@ class seeAction extends Action {
             $status = $r[0]->status; // 上下架状态
              $initial = $r[0]->initial;//初始值
         }
-
+// print_r($data);die;
         $arr = explode(',',$s_type);
 
         if (!empty($brand_class)) {
@@ -69,8 +71,9 @@ class seeAction extends Action {
             }
         }
 
+
         //绑定产品分类
-        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle = 0";
+        $sql = "select cid,pname from lkt_product_class where recycle = 0 and sid = 0  order by sort desc";
         $r = $db->select($sql);
         $res = '';
         foreach ($r as $key => $value) {
@@ -114,7 +117,7 @@ class seeAction extends Action {
         }
 
         // 品牌
-        $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0 and recycle = 0 ";
+        $sql01 = "select * from lkt_brand_class where recycle = 0 and status = 0 order by sort asc, brand_time desc";
         $r01 = $db->select($sql01);
         $brand = '';
         $brand_num = 0;
@@ -143,9 +146,10 @@ class seeAction extends Action {
         //查询规格数据
         $size = "select * from lkt_configure where pid = '$id'";
         $res_size = $db->select($size);
-        if ($res_size) {
             $attr_group_list = [];
             $checked_attr_list = [];
+        if ($res_size) {
+
             $arrar_t = unserialize($res_size[0]->attribute);
             foreach ($arrar_t as $key => $value) {
                 $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => [], 'attr_all' => []);
@@ -181,10 +185,10 @@ class seeAction extends Action {
             $initial = array();
         }
         $initial = (object)$initial;
-
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);
         $request->setAttribute("volume",$volume);
+        $request->setAttribute("status", $status);
         $request->setAttribute("uploadImg",$uploadImg);
         $request->setAttribute("checked_attr_list",$checked_attr_list);
         $request->setAttribute("attr_group_list",$attr_group_list);
@@ -201,6 +205,7 @@ class seeAction extends Action {
         $request->setAttribute('imgurl', isset($imgurl) ? $imgurl : '');
         $request->setAttribute('imgurls', isset($imgurls) ? $imgurls : '');
         $request->setAttribute('freight_list', $freight_list);// 运费
+     
         return View :: INPUT;
     }
 

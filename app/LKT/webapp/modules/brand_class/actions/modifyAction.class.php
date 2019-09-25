@@ -42,7 +42,6 @@ class modifyAction extends Action {
 
         $brand_id = intval($request->getParameter('cid')); // 品牌id
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片上传位置
-        $brand_name = addslashes(trim($request->getParameter('pname'))); // 品牌名称
         $brand_y_pname = addslashes(trim($request->getParameter('y_pname'))); // 品牌名称
         $image = addslashes(trim($request->getParameter('image'))); // 品牌新图片
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 品牌原图片
@@ -57,26 +56,10 @@ class modifyAction extends Action {
         }else{
             $image = $oldpic;
         }
-        if($brand_name == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('中文名称不能为空！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }
-        //检查分类名是否重复
-        $sql = "select brand_name from lkt_brand_class where brand_name = '$brand_name' and brand_id != '$brand_id' ";
-        $r = $db->select($sql);
-        if ($r) {
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('商品品牌中文名称{$brand_name} 已经存在，请选用其他名称修改！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }
+
 		//更新分类列表
 		$sql = "update lkt_brand_class " .
-			"set brand_name = '$brand_name',brand_y_name = '$brand_y_pname',brand_pic = '$image',producer = '$producer',remarks = '$remarks',sort = '$sort'"
+			"set brand_y_name = '$brand_y_pname',brand_pic = '$image',producer = '$producer',remarks = '$remarks',sort = '$sort'"
 			." where brand_id = '$brand_id'";
 		$r = $db->update($sql);
 

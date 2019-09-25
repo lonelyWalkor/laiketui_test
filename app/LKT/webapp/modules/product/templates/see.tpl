@@ -1,8 +1,8 @@
 <!--
  * @Description: In User Settings Edit
  * @Author: your name
- * @Date: 2019-08-28 18:02:01
- * @LastEditTime: 2019-08-28 18:29:59
+ * @Date: 2019-08-26 13:55:22
+ * @LastEditTime: 2019-08-28 17:27:59
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -32,69 +32,69 @@
         </script>
     {/literal}
     {literal}
-        <style type="text/css">
-            .input-text, .scinput_s{
-                width: 300px;
-            }
-            .ra1{
-    position: relative;
-    width: 70px;
-    margin-right: 20px;
-    border: 1px solid #eee;
-    border-radius: 5px;
-    height: 30px;
-    line-height: 30px;
-    float: left;
-}
-.ra1 label{
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    margin: 0 auto;
-    width: 90%;
-    left: 6px;
-    background: none;
-}
-.ra1 input{
-    float: left;
-    position: absolute;
-    height: 30px;
-    line-height: 30px;
-}
-.formListSD {
-    color: #414658;
-}
+    <style type="text/css">
+    .input-text, .scinput_s{
+        width: 300px;
+    }
+    .ra1{
+        position: relative;
+        width: 70px;
+        margin-right: 20px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        height: 30px;
+        line-height: 30px;
+        float: left;
+    }
+    .ra1 label{
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        margin: 0 auto;
+        width: 90%;
+        left: 6px;
+        background: none;
+    }
+    .ra1 input{
+        float: left;
+        position: absolute;
+        height: 30px;
+        line-height: 30px;
+    }
+    .formListSD {
+        color: #414658;
+    }
 
-.formContentSD {
-    padding: 0;
-    padding-top: 10px;
-    position: relative;
-}
+    .formContentSD {
+        padding: 0;
+        padding-top: 10px;
+        position: relative;
+    }
 
-.formTextSD {
-    margin-right: 8px;
-    width: 11%!important;
-}
+    .formTextSD {
+        margin-right: 8px;
+        width: 11%!important;
+    }
 
-.formInputSD input,
-.formInputSD select {
-    width: 287px;
-}
+    .formInputSD input,
+    .formInputSD select {
+        width: 287px;
+    }
 
-.formInputSD input[type='number'] {
-    padding-left: 10px;
-    margin-bottom: 10px;
-}
+    .formInputSD input[type='number'] {
+        padding-left: 10px;
+        margin-bottom: 10px;
+    }
 
-.formInputSD select,
-.formInputSD select {
-    padding-left: 8px;
-    margin-bottom: 10px;
-}
-.inputC:checked +label::before{
-    top: 8px;
-}
-form[name=form1] input{
+    .formInputSD select,
+    .formInputSD select {
+        padding-left: 8px;
+        margin-bottom: 10px;
+    }
+    .inputC:checked +label::before{
+        top: 8px;
+    }
+    form[name=form1] input{
         margin: 0px;
     }
      .form-label{
@@ -125,11 +125,11 @@ form[name=form1] input{
     #masks img {
         width: 50px;
     }
-        </style>
+    </style>
     {/literal}
     <title>修改产品</title>
 </head>
-<body style="overflow-y:hidden;">
+<body>
 <div id="masks">
     <img src="images/icon1/loads.gif">
 </div>
@@ -195,13 +195,68 @@ form[name=form1] input{
                 </div>
             </div>
         </div>
-        <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
-            <div class="formControls col-4" style="width: 26.8%;">
-                <input type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight" disabled>
+                    <div class="row cl">
+                <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
+                <div class="formControls col-4" style="width: 26.8%;">
+                    <input type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight" disabled>
+                </div>
+                <text style="line-height:30px;">克</text>
             </div>
-            <text style="line-height:30px;">克</text>
-        </div>
+
+            <div class="row cl">
+                <label class="form-label col-2"><span class="c-red">*</span>成本价：</label>
+                <div class="formControls col-4" style="width: 26.8%;">
+                    <input class="input-text" style="width:300px;" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0"  step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" disabled>
+                </div>
+                <text style="line-height:30px;">克</text>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-2"><span class="c-red">*</span>原价：</label>
+                <div class="formControls col-4" style="width: 26.8%;">
+                    <input class="input-text" style="width:300px;" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0"  step="0.01" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" disabled>
+                </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-2"><span class="c-red">*</span>售价：</label>
+                <div class="formControls col-4" style="width: 26.8%;">
+                    <input class="input-text" style="width:300px;" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0"  step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" disabled>
+                </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-2"><span class="c-red">*</span>单位：</label>
+                <div class="formControls col-4" style="width: 26.8%;">
+                    <select name="initial[unit]" class="select " style="width: 300px;" id="unit" style="width:300px;" disabled>
+                        <option value="盒" {if $initial->unit =='盒' } selected="selected" {/if}>盒</option>
+                        <option value="篓"{if $initial->unit =='篓' } selected="selected" {/if}>篓</option>
+                        <option value="箱" {if $initial->unit =='箱' } selected="selected" {/if}>箱</option>
+                        <option value="个" {if $initial->unit =='个' } selected="selected" {/if}>个</option>
+                        <option value="套" {if $initial->unit =='套' } selected="selected" {/if}>套</option>
+                        <option value="包" {if $initial->unit =='包' } selected="selected" {/if}>包</option>
+                        <option value="支" {if $initial->unit =='支'} selected="selected" {/if}>支</option>
+                        <option value="条" {if $initial->unit =='条'} selected="selected" {/if}>条</option>
+                        <option value="根" {if $initial->unit =='根'} selected="selected" {/if}>根</option>
+                        <option value="本" {if $initial->unit =='本'} selected="selected" {/if}>本</option>
+                        <option value="瓶" {if $initial->unit =='瓶'} selected="selected" {/if}>瓶</option>
+                        <option value="块" {if $initial->unit =='块'} selected="selected" {/if}>块</option>
+                        <option value="片" {if $initial->unit =='片' } selected="selected" {/if}>片</option>
+                        <option value="把" {if $initial->unit =='把' } selected="selected" {/if}>把</option>
+                        <option value="组" {if $initial->unit =='组' } selected="selected" {/if}>组</option>
+                        <option value="双" {if $initial->unit =='双' } selected="selected" {/if}>双</option>
+                        <option value="台" {if $initial->unit =='台' } selected="selected" {/if}>台</option>
+                        <option value="件" {if $initial->unit =='件' } selected="selected" {/if}>件</option>
+                        
+                    </select>
+                </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-2"><span class="c-red">*</span>库存：</label>
+                <div class="formControls col-4" style="width: 26.8%;">
+                    <input type="number" class="input-text"  style="width:300px;" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" min="0"  step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" disabled>
+                </div>
+            </div>
         <div class="formDivSD">
             <div class="formContentSD">
                 {literal}
@@ -286,6 +341,7 @@ form[name=form1] input{
                     <input type="checkbox" id="sex-4" name="s_type[]" class="inputC" value="4" {if in_array(4,$s_type)}checked="checked"{/if} disabled>
                     <label for="sex-4" style="width:100%;">首页推荐</label>
                 </div>
+            
             </div>
         </div>
 
@@ -312,7 +368,7 @@ form[name=form1] input{
                 <script id="editor" type="text/plain" name="content" style="width:100%;height:400px;" disabled>{$content}</script>
             </div>
         </div>
-		<div style="height: 70px;"></div>
+        <div style="height: 70px;"></div>
         <div class="row cl page_bort_bottom">
             <div class="col-8 col-offset-4">
                 <input type="button" name="reset" value="返回"  class="btn btn-primary radius btn-right" id="resetId" onclick="javascript :history.back(-1);" style="background: transparent!important;">
@@ -335,8 +391,8 @@ form[name=form1] input{
 $(function(){
     var ue = UE.getEditor('editor');
     ue.ready(function() {
-//不可编辑
-    ue.setDisabled();
+        //不可编辑
+        ue.setDisabled();
     }); 
 });
 
@@ -413,78 +469,6 @@ function getFloatStr(num){
         return false;
     }
 
-  // $('#unit').live('click', function() {
-  //       var unit = $("#unit").val();
-  //       page.unit = $("#unit").val();
-  //       $(".unit").val(unit);
-  //   });
-  //   //设置成本价等
-  //   function set_cbj(obj) {
-  //       page.cbj = $(obj).val();
-  //       if(page.checked_attr_list.length > 0){
-  //           for (k in page.checked_attr_list){
-  //               page.checked_attr_list[k].costprice = $(obj).val();
-  //           }
-  //       }
-
-  //   }
-  //   function set_yj(obj) {
-  //       page.yj = $(obj).val();
-  //       if(page.checked_attr_list.length > 0){
-  //           for (k in page.checked_attr_list){
-  //               page.checked_attr_list[k].yprice = $(obj).val();
-  //           }
-  //       }
-  //   }
-  //   function set_sj(obj) {
-  //       page.sj = $(obj).val();
-  //       if(page.checked_attr_list.length > 0){
-  //           for (k in page.checked_attr_list){
-  //               page.checked_attr_list[k].price = $(obj).val();
-  //           }
-  //       }
-  //   }
-  //   function set_kucun(obj) {
-  //       page.kucun = $(obj).val();
-  //       if(page.checked_attr_list.length > 0){
-  //           for (k in page.checked_attr_list){
-  //               page.checked_attr_list[k].num = $(obj).val();
-  //           }
-  //       }
-  //   }
-
-
-  //   var Map = function() {
-  //       this._data = [];
-  //       this.set = function(key, val) {
-  //           for(var i in this._data) {
-  //               if(this._data[i].key == key) {
-  //                   this._data[i].val = val;
-  //                   return true;
-  //               }
-  //           }
-  //           this._data.push({
-  //               key: key,
-  //               val: val,
-  //           });
-  //           return true;
-  //       };
-  //       this.get = function(key) {
-  //           for(var i in this._data) {
-  //               if(this._data[i].key == key)
-  //                   return this._data[i].val;
-  //           }
-  //           return null;
-  //       };
-  //       this.delete = function(key) {
-  //           for(var i in this._data) {
-  //               if(this._data[i].key == key) {
-  //                   this._data.splice(i, 1);
-  //               }
-  //           }
-  //           return true;
-  //       };
-  //   };
     var map = new Map();
 var page = new Vue({
         el: "#page",
@@ -512,9 +496,6 @@ var page = new Vue({
         created:function(){
             this.$nextTick(function () {
                 $('#masks').hide()
-                $(document.body).css({
-                    "overflow-y": "auto"
-                })
             })
         },
         methods: {
@@ -527,340 +508,7 @@ var page = new Vue({
             }
         }
     });
-    // console.log('checked_attr_list 全局')
-    // console.log(page.checked_attr_list)
-    // console.log(page)
-//     // 点击属性框，显示添加属性按钮
-//     $(".add-attr-group-input").live("click", function(){
-//         $(".add-attr-group-btn").css("display", "");
-//     });
-//     // 属性框离开事件，延迟500毫秒隐藏隐藏添加属性按钮
-//     $(".add-attr-group-input").blur(function(){
-//         setTimeout('$(".add-attr-group-btn").css("display", "none")', 500);
-//     });
-//     // 添加属性
-//     $( ".add-attr-group-btn").live("click", function() {
-//         var name = $(".add-attr-group-input").val();
-//         name = $.trim(name);
-//         if(name == ""){
-//             alert("属性名不能为空！");
-//             return;
-//         }
 
-//         for(var i in page.attr_group_list) {
-//             if(page.attr_group_list[i].attr_group_name == name){
-//                 alert("属性名称重复！");
-//                 return;
-//             }
-//         }
-//         page.attr_group_list.push({
-//             attr_group_name: name,
-//             attr_list: [],
-//         });
-//         $(".add-attr-group-input").val("");
-//         page.checked_attr_list = getAttrList();
-//         //获取属性值上传图片
-//         getTheImgList()
-//         console.log('checked_attr_list')
-//         console.log(page.checked_attr_list)
-//     });
-//     // 添加属性值
-//     $( ".add-attr-btn").live("click", function() {
-//         var name = $(this).parents(".attr-input-group").find(".add-attr-input").val();
-//         var index = $(this).attr("index");
-//         name = $.trim(name);
-//         if(name == ""){
-//             alert("属性值不能为空！");
-//             return;
-//         }
-
-//         /**筛选重复*/
-//         var ck_list = page.checked_attr_list;
-//         if(ck_list.length > 0){
-//             for(var pi in ck_list) {
-//                 if(ck_list[pi].attr_list[index]){
-//                     if(name == ck_list[pi].attr_list[index].attr_name){
-//                         alert("属性值重复！");
-//                         return;
-//                     }
-//                 }
-//             }
-//         }
-//         /**筛选重复*/
-
-//         page.attr_group_list[index].attr_list.push({
-//             attr_name: name,
-//             status:true
-//         });
-//         // 如果是单规格的，添加新规格时不清空原先的数据
-//         page.old_checked_attr_list = page.checked_attr_list;
-//         var attrList = getAttrList();
-//         if(page.attr_group_list.length === 1) {
-//             for(var i in attrList) {
-//                 if(i > page.old_checked_attr_list.length - 1) {
-//                     page.old_checked_attr_list.push(attrList[i])
-//                 }
-//             }
-//             var newCheckedAttrList = page.old_checked_attr_list;
-//         } else if(page.attr_group_list.length === page.attr_group_count) {
-//             for(var pi in attrList) {
-//                 var pAttrName = '';
-//                 for(var pj in attrList[pi].attr_list) {
-//                     pAttrName += attrList[pi].attr_list[pj].attr_name
-//                 }
-//                 for(var ci in page.old_checked_attr_list) {
-//                     var cAttrName = '';
-//                     for(var cj in page.old_checked_attr_list[ci].attr_list) {
-//                         cAttrName += page.old_checked_attr_list[ci].attr_list[cj].attr_name;
-//                     }
-//                     if(pAttrName === cAttrName) {
-//                         attrList[pi] = page.old_checked_attr_list[ci];
-//                     }
-//                 }
-//             }
-//             var newCheckedAttrList = attrList;
-//         } else {
-//             var newCheckedAttrList = attrList;
-//         }
-//         $(this).parents(".attr-input-group").find(".add-attr-input").val("");
-//         page.checked_attr_list = newCheckedAttrList;
-//     });
-//     // 删除属性
-//     $( ".attr-group-delete").live("click",function() {
-//         var index = $(this).attr("index");
-//         page.attr_group_list.splice(index, 1);
-//         page.checked_attr_list = getAttrList();
-//     });
-//     // 删除属性值
-//     $(".attr-delete").live("click", function() {
-//         var index = $(this).attr("index");
-//         var group_index = $(this).attr("group-index");
-//         console.log(page.attr_group_list[group_index]);
-//         page.attr_group_list[group_index].attr_list.splice(index, 1);
-//         // 如果是单规格的，删除规格时不清空原先的数据
-//         page.old_checked_attr_list = page.checked_attr_list;
-//         var attrList = getAttrList();
-//         if(page.attr_group_list.length === 1) {
-//             var newCheckedAttrList = [];
-//             for(var i in page.attr_group_list[0].attr_list) {
-//                 var attrName = page.attr_group_list[0].attr_list[i].attr_name;
-//                 for(j in page.old_checked_attr_list) {
-//                     var oldAttrName = page.old_checked_attr_list[j].attr_list[0].attr_name;
-//                     if(attrName === oldAttrName) {
-//                         newCheckedAttrList.push(page.old_checked_attr_list[j]);
-//                         break;
-//                     }
-//                 }
-//             }
-//         } else if(page.attr_group_list.length === page.attr_group_count) {
-//             for(var pi in attrList) {
-//                 var pAttrName = '';
-//                 for(var pj in attrList[pi].attr_list) {
-//                     pAttrName += attrList[pi].attr_list[pj].attr_name
-//                 }
-//                 for(var ci in page.old_checked_attr_list) {
-//                     var cAttrName = '';
-//                     for(var cj in page.old_checked_attr_list[ci].attr_list) {
-//                         cAttrName += page.old_checked_attr_list[ci].attr_list[cj].attr_name;
-//                     }
-//                     if(pAttrName === cAttrName) {
-//                         attrList[pi] = page.old_checked_attr_list[ci];
-//                     }
-//                 }
-//             }
-//             var newCheckedAttrList = attrList;
-//         } else {
-//             var newCheckedAttrList = attrList;
-//         }
-
-//         page.checked_attr_list = newCheckedAttrList;
-//     });
-
-//     function getAttrList() {
-//         var array = [];
-//         for(var i in page.attr_group_list) {
-//             for(var j in page.attr_group_list[i].attr_list) {
-//                 var object = {
-//                     attr_group_name: page.attr_group_list[i].attr_group_name,
-//                     attr_id: null,
-//                     attr_name: page.attr_group_list[i].attr_list[j].attr_name,
-//                 };
-//                 if(!array[i])
-//                     array[i] = [];
-//                 array[i].push(object);
-//             }
-//         }
-
-//         var len = array.length;
-//         var results = [];
-//         var indexs = {};
-//         function specialSort(start) {
-//             start++;
-//             if(start > len - 1) {
-//                 return;
-//             }
-//             if(!indexs[start]) {
-//                 indexs[start] = 0;
-//             }
-//             if(!(array[start] instanceof Array)) {
-//                 array[start] = [array[start]];
-//             }
-
-//             for(indexs[start] = 0; indexs[start] < array[start].length; indexs[start]++) {
-//                 specialSort(start);
-//                 if(start == len - 1) {
-//                     var temp = [];
-//                     for(var i = len - 1; i >= 0; i--) {
-//                         if(!(array[start - i] instanceof Array)) {
-//                             array[start - i] = [array[start - i]];
-//                         }
-//                         if(array[start - i][indexs[start - i]]) {
-//                             temp.push(array[start - i][indexs[start - i]]);
-//                         }
-//                     }
-
-//                     var key = [];
-//                     for(var i in temp) {
-//                         key.push(temp[i].attr_id);
-//                     }
-//                     var oldVal = map.get(key.sort().toString());
-//                     console.log('getAttrList key')
-//                     console.log(key)
-//                     var unit = $("#unit").val();
-//                     if(oldVal) {
-//                         console.log('getAttrList 有oldVal')
-//                         results.push({
-//                             attr_list: temp,
-//                             costprice: oldVal.no,
-//                             yprice: oldVal.pic,
-//                             price: oldVal.price,
-//                             num: oldVal.num,
-//                             unit: unit,
-//                             img: '',
-//                         });
-//                     } else {
-//                         console.log('getAttrList 无oldVal')
-//                         console.log(page)
-//                         var img = $(".upload-preview-list").children(":first").children('.upload-preview-img').attr('src');
-//                         results.push({
-//                             attr_list: temp,
-//                             costprice: page.cbj,
-//                             yprice: page.yj,
-//                             price: page.sj,
-//                             num: page.kucun,
-//                             unit: unit,
-//                             img: img
-//                         });
-//                     }
-//                 }
-//             }
-//         }
-//         specialSort(-1);
-//         return results;
-//     }
-           
-//     document.onkeydown = function(e) {
-//         if(!e) e = window.event;
-//         if((e.keyCode || e.which) == 13) {
-//             $("[name=Submit]").click();
-//         }
-//     }
-
-//     var t_check = true;
-            
-//     var GetLength = function (str) {
-//         ///<summary>获得字符串实际长度，中文2，英文1</summary>
-//         ///<param name="str">要获得长度的字符串</param>
-//         var realLength = 0, len = str.length, charCode = -1;
-//         for (var i = 0; i < len; i++) {
-//             charCode = str.charCodeAt(i);
-//             if (charCode >= 0 && charCode <= 128) realLength += 1;
-//             else realLength += 2;
-//         }
-//           return realLength;
-//     };
-
-//     function check() {
-//         var url = 'index.php?module=product&action=modify';
-//         if(!t_check){
-//             alert('请勿重复提交！', {
-//                 time: 2000
-//             });
-//             return false;
-//         }
-
-//         t_check = false;
-//         $.ajax({
-//             cache: true,
-//             type: "POST",
-//             dataType: "json",
-//             url: url,
-//             data: $('#form1').serialize(), // 你的formid
-//             async: true,
-//             success: function(data) {
-//                 t_check = true;
-//                 layer.msg(data.status, {
-//                     time: 2000
-//                 });
-//                 if(data.suc) {
-//                     location.href ='index.php?module=product&action=Index&cid='+del_str.cid+'&brand_id='+del_str.brand_id+'&status='+status+'&s_type='+'&product_title='+del_str.product_title+'&show_adr='+del_str.show_adr+'&page='+del_str.page+'&pagesize='+del_str.pagesize;
-//                 }
-//             }
-//         });
-//     }
-
-
-// function setTimeoutClick(){
-//     console.log('timeout')
-//     setTimeout(image_click, 100);
-// }
-
-// // 属性值上传商品图片
-// function image_click() {
-//     console.log('image click')
-//     var id = page.imageClickInfoIndex
-//     console.log(page.imageClickInfoIndex)
-
-//     KindEditor.ready(function (K) {
-//         var editor = K.editor({
-//             allowFileManager: true,
-//             uploadJson: "index.php?module=system&action=uploadImg", //上传功能
-//             fileManagerJson: 'kindeditor/php/file_manager_json.php', //网络空间
-//         });
-//         editor.loadPlugin('image', function () {
-//             editor.plugin.imageDialog({
-//                 showRemote: false, //网络图片不开启
-//                 //showLocal : false, //不开启本地图片上传
-//                 imageUrl: K("#picurl2"+id).val(),
-//                 clickFn: function (url, title, width, height, border, align) {
-//                     K('#picurl2'+id).val(url);
-//                     $('#picurl2'+id).val(url)
-//                     $('#pic2'+id).attr("src", url);
-//                     editor.hideDialog();
-//                     console.log(url)
-//                     console.log($('#picurl2'+id).val())
-//                 }
-//             });
-//         });
-//     });
-
-// }
-
-
-// function resetButton(){
-//     $('#product_numberId').val("");
-//     $('#product_titleId').val("");
-//     $('#subtitleId').val("");
-//     $("#product_classId option[value='0']").attr("selected", "selected");
-//     $("#brand_classId option[value='0']").attr("selected", "selected");
-//     $('#weightId').val("");
-//     $('#sex-1').attr("checked","");
-//     $('#sex-2').attr("checked","");
-//     $('#sex-3').attr("checked","");
-//     $('#volumeId').val("");
-//     $("#freightId option[value='0']").attr("selected", "selected");
-//     $('#ueditor_0').contents().find('p').html("");
-// }
 </script>
 {/literal}
 </body>

@@ -118,7 +118,7 @@ class examineAction extends Action {
                     $user_id = $order_res[0] -> user_id;
                     $consumer_money = $order_res[0] -> consumer_money;
                     $p_id = $order_res[0] -> p_id;
-                    $sid = $order_res[0] -> sid;
+                    $sid = $order_res[0] -> sid; 
                     $num = $order_res[0] -> num;
                     $sNo = $order_res[0] -> sNo;
                     //返佣金
@@ -143,7 +143,7 @@ class examineAction extends Action {
 
                         $r_update = $db->update("update lkt_product_list set num=num+$num,volume=volume-$num where id = '$p_id'");
 
-                        $r_update = $db->update("update lkt_configure set num=num+$num ,total_num=total_num+$num where id = '$sid'");
+                        $r_update = $db->update("update lkt_configure set num=num+$num  where id = '$sid'");
 
                     if ($pay == 'wallet_Pay'||$pay == 'wallet_pay') {
                         //查询订单信息
@@ -317,24 +317,25 @@ class examineAction extends Action {
                         }
 
                         if ($wxres_t == 'SUCCESS' || $rr) {
-                            // $froms = $this -> get_fromid($openid);
-                            // $form_id = $froms['fromid'];
-                            // $page = 'pages/index/index';
-                            // //消息模板id
-                            // $send_id = $template_id;
-                            // $keyword1 = array('value' => $sNo, "color" => "#173177");
-                            // $keyword2 = array('value' => $company, "color" => "#173177");
-                            // $keyword3 = array('value' => $time, "color" => "#173177");
-                            // $keyword4 = array('value' => '退款成功', "color" => "#173177");
-                            // $keyword5 = array('value' => $z_price . '元', "color" => "#173177");
-                            // $keyword6 = array('value' => '预计24小时内到账', "color" => "#173177");
-                            // $keyword7 = array('value' => '原支付方式', "color" => "#173177");
-                            // //拼成规定的格式
-                            // $o_data = array('keyword1' => $keyword1, 'keyword2' => $keyword2, 'keyword3' => $keyword3, 'keyword4' => $keyword4, 'keyword5' => $keyword5, 'keyword6' => $keyword6, 'keyword7' => $keyword7);
+                            $froms = $this -> get_fromid($openid);
+                            $form_id = $froms['fromid'];
+                            $page = 'pages/index/index';
+                            //消息模板id
+                            $send_id = $template_id;
+                            $keyword1 = array('value' => $sNo, "color" => "#173177");
+                            $keyword2 = array('value' => $company, "color" => "#173177");
+                            $keyword3 = array('value' => $time, "color" => "#173177");
+                            $keyword4 = array('value' => '退款成功', "color" => "#173177");
+                            $keyword5 = array('value' => $z_price . '元', "color" => "#173177");
+                            $keyword6 = array('value' => '预计24小时内到账', "color" => "#173177");
+                            $keyword7 = array('value' => '原支付方式', "color" => "#173177");
+                            //拼成规定的格式
+                            $o_data = array('keyword1' => $keyword1, 'keyword2' => $keyword2, 'keyword3' => $keyword3, 'keyword4' => $keyword4, 'keyword5' => $keyword5, 'keyword6' => $keyword6, 'keyword7' => $keyword7);
 
-                            // $res = $this -> Send_Prompt($appid, $appsecret, $form_id, $openid, $page, $send_id, $o_data);
-
-                            // $this -> get_fromid($openid, $form_id);
+                            $res = $this -> Send_Prompt($appid, $appsecret, $form_id, $openid, $page, $send_id, $o_data);
+                            if($form_id){
+                                $this -> get_fromid($openid, $form_id);
+                            }
                             $res =1;
 
                             $sql_o = "select id from lkt_order_details where r_sNo = '$sNo' and r_status = '4'";
@@ -416,19 +417,22 @@ class examineAction extends Action {
                         $form_id = $froms['fromid'];
                         $page = 'pages/index/index';
                         //消息模板id
-                        // $send_id = $template_id;
-                        // $keyword1 = array('value' => $sNo, "color" => "#173177");
-                        // $keyword2 = array('value' => $company, "color" => "#173177");
-                        // $keyword3 = array('value' => $time, "color" => "#173177");
-                        // $keyword4 = array('value' => '退款成功', "color" => "#173177");
-                        // $keyword5 = array('value' => $consumer_money . '元消费金', "color" => "#173177");
-                        // $keyword6 = array('value' => '预计24小时内到账', "color" => "#173177");
-                        // $keyword7 = array('value' => '原支付方式', "color" => "#173177");
-                        // //拼成规定的格式
-                        // $o_data = array('keyword1' => $keyword1, 'keyword2' => $keyword2, 'keyword3' => $keyword3, 'keyword4' => $keyword4, 'keyword5' => $keyword5, 'keyword6' => $keyword6, 'keyword7' => $keyword7);
+                        $send_id = $template_id;
+                        $keyword1 = array('value' => $sNo, "color" => "#173177");
+                        $keyword2 = array('value' => $company, "color" => "#173177");
+                        $keyword3 = array('value' => $time, "color" => "#173177");
+                        $keyword4 = array('value' => '退款成功', "color" => "#173177");
+                        $keyword5 = array('value' => $consumer_money . '元消费金', "color" => "#173177");
+                        $keyword6 = array('value' => '预计24小时内到账', "color" => "#173177");
+                        $keyword7 = array('value' => '原支付方式', "color" => "#173177");
+                        //拼成规定的格式
+                        $o_data = array('keyword1' => $keyword1, 'keyword2' => $keyword2, 'keyword3' => $keyword3, 'keyword4' => $keyword4, 'keyword5' => $keyword5, 'keyword6' => $keyword6, 'keyword7' => $keyword7);
 
-                        // $res = $this -> Send_Prompt($appid, $appsecret, $form_id, $openid, $page, $send_id, $o_data);
-                        // $this -> get_fromid($openid, $form_id);
+                        $res = $this -> Send_Prompt($appid, $appsecret, $form_id, $openid, $page, $send_id, $o_data);
+                        if($form_id){
+                           $this -> get_fromid($openid, $form_id); 
+                        }
+                        
                         $res =1;
                         $sql_o = "select id from lkt_order_details where r_sNo = '$sNo' and r_status = '4'";
                         $res_o = $db -> selectrow($sql_o);
@@ -520,27 +524,29 @@ class examineAction extends Action {
                         if ($wxtk_res['result_code'] == 'SUCCESS') {
 
                             //查询openid
-                            // $sql_openid = "select wx_id from lkt_user where user_id = '$user_id'";
-                            // $res_openid = $db -> select($sql_openid);
-                            // $openid = $res_openid[0] -> wx_id;
-                            // $froms = $this -> get_fromid($openid);
-                            // $form_id = $froms['fromid'];
-                            // $page = 'pages/index/index';
-                            // //消息模板id
-                            // $send_id = $template_id;
-                            // $keyword1 = array('value' => $sNo, "color" => "#173177");
-                            // $keyword2 = array('value' => $company, "color" => "#173177");
-                            // $keyword3 = array('value' => $time, "color" => "#173177");
-                            // $keyword4 = array('value' => '退款成功', "color" => "#173177");
-                            // $keyword5 = array('value' => $z_price . '元', "color" => "#173177");
-                            // $keyword6 = array('value' => '预计24小时内到账', "color" => "#173177");
-                            // $keyword7 = array('value' => '原支付方式', "color" => "#173177");
-                            // //拼成规定的格式
-                            // $o_data = array('keyword1' => $keyword1, 'keyword2' => $keyword2, 'keyword3' => $keyword3, 'keyword4' => $keyword4, 'keyword5' => $keyword5, 'keyword6' => $keyword6, 'keyword7' => $keyword7);
+                            $sql_openid = "select wx_id from lkt_user where user_id = '$user_id'";
+                            $res_openid = $db -> select($sql_openid);
+                            $openid = $res_openid[0] -> wx_id;
+                            $froms = $this -> get_fromid($openid);
+                            $form_id = $froms['fromid'];
+                            $page = 'pages/index/index';
+                            //消息模板id
+                            $send_id = $template_id;
+                            $keyword1 = array('value' => $sNo, "color" => "#173177");
+                            $keyword2 = array('value' => $company, "color" => "#173177");
+                            $keyword3 = array('value' => $time, "color" => "#173177");
+                            $keyword4 = array('value' => '退款成功', "color" => "#173177");
+                            $keyword5 = array('value' => $z_price . '元', "color" => "#173177");
+                            $keyword6 = array('value' => '预计24小时内到账', "color" => "#173177");
+                            $keyword7 = array('value' => '原支付方式', "color" => "#173177");
+                            //拼成规定的格式
+                            $o_data = array('keyword1' => $keyword1, 'keyword2' => $keyword2, 'keyword3' => $keyword3, 'keyword4' => $keyword4, 'keyword5' => $keyword5, 'keyword6' => $keyword6, 'keyword7' => $keyword7);
 
-                            // $res = $this -> Send_Prompt($appid, $appsecret, $form_id, $openid, $page, $send_id, $o_data);
-
-                            // $this -> get_fromid($openid, $form_id);
+                            $res = $this -> Send_Prompt($appid, $appsecret, $form_id, $openid, $page, $send_id, $o_data);
+                            if($form_id){
+                                $this -> get_fromid($openid, $form_id);
+                            }
+                            
                             $res =1;
 
                             $sql_o = "select id from lkt_order_details where r_sNo = '$sNo' and r_status = '4'";

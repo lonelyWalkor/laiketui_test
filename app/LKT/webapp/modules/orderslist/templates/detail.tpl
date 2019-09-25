@@ -436,7 +436,7 @@
                      <td style="text-align:left;" id="p_name">
                          <img class='pimg' src="{$uploadImg}{$item->pic}" style="margin-right: 20px;" width="50" height="50"/>
 
-                          <a style="display: contents;" href="index.php?module=product&action=see&id={$item->id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}" title="查看">
+                          <a style="display: contents;" href="index.php?module=product&action=see&id={$item->p_id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}" title="查看">
                             {$item->p_name}
                           </a>
                         

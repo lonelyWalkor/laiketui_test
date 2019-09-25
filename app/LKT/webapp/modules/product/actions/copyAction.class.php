@@ -34,11 +34,10 @@ class copyAction extends Action {
             $volume = $r[0]->volume;//volume拟定销量
             $freight_id = $r[0]->freight;
             $status = $r[0]->status; // 上下架状态
-             $initial = $r[0]->initial;//初始值
+            $initial = $r[0]->initial;//初始值
         }
 
         $arr = explode(',',$s_type);
-
         if (!empty($brand_class)) {
             $sql01 = "select brand_id ,brand_name from lkt_brand_class where brand_id = $brand_class";
             $r01 = $db->select($sql01);
@@ -61,9 +60,8 @@ class copyAction extends Action {
                }
             }
         }
-
         //绑定产品分类
-        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle = 0";
+        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle = 0 order by sort desc";
         $r = $db->select($sql);
         $res = '';
         foreach ($r as $key => $value) {
@@ -107,7 +105,7 @@ class copyAction extends Action {
         }
 
         // 品牌
-        $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0 and recycle = 0 ";
+        $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0 and recycle = 0 order by sort asc, brand_time desc";
         $r01 = $db->select($sql01);
         $brand = '';
         $brand_num = 0;
@@ -174,7 +172,7 @@ class copyAction extends Action {
             $initial = array();
         }
         $initial = (object)$initial;
-
+// print_r($brand);die;
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);
         $request->setAttribute("volume",$volume);
@@ -217,7 +215,8 @@ class copyAction extends Action {
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
 //      return $this->getDefaultView();
-// print_r($request);die;
+        
+
         if($product_title == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -225,18 +224,18 @@ class copyAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }else{
-            $sql = "select id,product_title from lkt_product_list where recycle = 0 and product_title ='$product_title'";
+            $sql = "select id,product_title from lkt_product_list where recycle = 0";
             $r = $db->select($sql);
-            // print_r($r);
             if($r){
-                
-                print_r(11);
-             
+                foreach ($r as $k => $v){
                     header("Content-type:text/html;charset=utf-8");
+                    if($product_title == $v->product_title){
                         echo "<script type='text/javascript'>" .
-                            "alert('产品名称重复111！');" .
+                            "alert('产品名称重复！');" .
                             "</script>";
                         return $this->getDefaultView();
+                    }
+                }
             }
         }
 
@@ -247,7 +246,7 @@ class copyAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
-        if($brand_id == '0'|| $brand_id == ''){
+        if($brand_id == '0'){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('请选择品牌！');" .
@@ -326,7 +325,7 @@ class copyAction extends Action {
         $z_num = 0;
         $attributes = [];
         if (count($attr) == 0) {
-			 header("Content-type:text/html;charset=utf-8");
+             header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('请填写属性！');" .
                     "</script>";

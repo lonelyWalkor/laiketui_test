@@ -19,7 +19,7 @@ class IndexAction extends Action {
         $uploadImg = $this->getContext()->getStorage()->read('uploadImg');
 
         $cid = $request->getParameter("cid"); // 分类id
-        $array = ['顶级','一级','二级','三级','四级','五级'];
+        $array = ['顶级','一级','二级','三级','四级','五级','六级','七级','八级','九级','十级','十一级','十二级'];
         $pagesize = $request -> getParameter('pagesize');
         $pagesize = $pagesize ? $pagesize:'10';
         $page = $request->getParameter('page'); // 页码
@@ -91,8 +91,9 @@ class IndexAction extends Action {
 
 
         $level= $level ? $level:0;
+        // print_r($array);die;
         $newlerevl = $array[$level];
-// print_r($level01);die;
+// print_r($newlerevl);die;
         $request->setAttribute("level_xs",$newlerevl);
         $request->setAttribute("level",$level);
         $request->setAttribute("list",$rr);

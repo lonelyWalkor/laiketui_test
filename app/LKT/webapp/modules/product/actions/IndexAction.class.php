@@ -39,12 +39,12 @@ class IndexAction extends Action {
         }
 
         //分类
-        $sql = "select cid,pname from lkt_product_class where recycle = 0 and sid = 0 ";
+        $sql = "select cid,pname from lkt_product_class where recycle = 0 and sid = 0  order by sort desc";
         $rr = $db->select($sql);
         $res = $this->product_class($rr,$product_class);
        
         //品牌
-        $sql = "select * from lkt_brand_class where recycle = 0 and status = 0";
+        $sql = "select * from lkt_brand_class where recycle = 0 and status = 0 order by sort asc, brand_time desc";
         $rr1 = $db->select($sql);
         $rew = '';
         foreach ($rr1 as $key => $value) {
@@ -111,7 +111,11 @@ class IndexAction extends Action {
         $status_num = 0;
         foreach ($r as $key => $value) {
             $pid =  $value ->id;//id
-
+            $prrr =0;//初始价格
+            if($value->initial != ''){
+                $initial = unserialize($value->initial);
+                $prrr =$initial['sj'];
+            }
             $sa= $db->select("select id from lkt_group_product where product_id = $pid and g_status = 2");//查询该商品是否正在参加拼团活动
             if($sa){
                 $value ->g_status = 1;//正在参加拼团活动
@@ -161,10 +165,10 @@ class IndexAction extends Action {
                 $present_price = $min;//最低价格
             }else{
                 $unit = '';
-                $present_price = '';
+                $present_price = $prrr;
             }
 
-              //根据品牌ID查询对应名称
+             //根据品牌ID查询对应名称
                 $r01 = $db->select("select brand_name from lkt_brand_class where brand_id ='".$value->brand_id."'");
             $value->brand_name = $r01 ?$r01[0]->brand_name:'';  
             $value->unit = $unit;

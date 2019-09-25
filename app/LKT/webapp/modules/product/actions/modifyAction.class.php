@@ -36,7 +36,7 @@ class modifyAction extends Action {
             $status = $r[0]->status; // 上下架状态
              $initial = $r[0]->initial;//初始值
         }
-
+// print_r($data);die;
         $arr = explode(',',$s_type);
 
         if (!empty($brand_class)) {
@@ -62,8 +62,9 @@ class modifyAction extends Action {
             }
         }
 
+
         //绑定产品分类
-        $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle = 0";
+        $sql = "select cid,pname from lkt_product_class where recycle = 0 and sid = 0  order by sort desc";
         $r = $db->select($sql);
         $res = '';
         foreach ($r as $key => $value) {
@@ -107,7 +108,7 @@ class modifyAction extends Action {
         }
 
         // 品牌
-        $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0 and recycle = 0 ";
+        $sql01 = "select * from lkt_brand_class where recycle = 0 and status = 0 order by sort asc, brand_time desc";
         $r01 = $db->select($sql01);
         $brand = '';
         $brand_num = 0;
@@ -136,9 +137,10 @@ class modifyAction extends Action {
         //查询规格数据
         $size = "select * from lkt_configure where pid = '$id'";
         $res_size = $db->select($size);
-  		if ($res_size) {
             $attr_group_list = [];
             $checked_attr_list = [];
+  		if ($res_size) {
+
             $arrar_t = unserialize($res_size[0]->attribute);
             foreach ($arrar_t as $key => $value) {
                 $attr_group_list[] = array('attr_group_name' => $key, 'attr_list' => [], 'attr_all' => []);
@@ -174,7 +176,6 @@ class modifyAction extends Action {
             $initial = array();
         }
         $initial = (object)$initial;
-
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);
         $request->setAttribute("volume",$volume);
@@ -221,8 +222,8 @@ class modifyAction extends Action {
         if($product_title == ''){
 			header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
-                "alert('产品名称不能为空！');" .
-                "location.href='index.php?module=product&action=add';</script>";
+                "alert('产品名称不能为空！');" ."</script>";
+                // "location.href='index.php?module=product&action=modify';</script>";
             return $this->getDefaultView();
         }else{
             $sql = "select product_title from lkt_product_list where id != '$id' and product_title = '$product_title' and recycle =0";
@@ -230,8 +231,8 @@ class modifyAction extends Action {
             if($r){
 				header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
-                    "alert('{$product_title} 已经存在，请选用其他标题进行修改！');" .
-                    "location.href='index.php?module=product&action=modify';</script>";
+                    "alert('{$product_title} 已经存在，请选用其他标题进行修改！');" ."</script>";
+                    // "location.href='index.php?module=product&action=modify';</script>";
                 return $this->getDefaultView();
             }
         }
@@ -526,7 +527,7 @@ class modifyAction extends Action {
             if($z_num < 1){
                 $sql_1 = "update lkt_product_list set status='1' where id = '$id'";
             }else{
-                $rr=$db->select("select status  from lkt_product_list where id = '$id'");
+                $rr=$db->select("select status from lkt_product_list where id = '$id'");
                 $status =$rr[0]->status?$rr[0]->status:0;
                 if($status == 2){
                      $sql_1 = "update lkt_product_list set status='2' where id = '$id'";

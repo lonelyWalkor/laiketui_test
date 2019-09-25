@@ -1,8 +1,8 @@
 <!--
  * @Description: In User Settings Edit
  * @Author: your name
- * @Date: 2019-08-28 18:01:50
- * @LastEditTime: 2019-09-11 17:31:52
+ * @Date: 2019-08-26 13:55:22
+ * @LastEditTime: 2019-09-11 16:57:23
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -113,11 +113,11 @@ form[name=form1] input{
     #masks img {
         width: 50px;
     }
-        </style>
+    </style>
     {/literal}
     <title>修改产品</title>
 </head>
-<body style="overflow-y:hidden;">
+<body>
 <div id="masks">
     <img src="images/icon1/loads.gif">
 </div>
@@ -128,12 +128,14 @@ form[name=form1] input{
         <input type="hidden" name="uploadImg" value='{$uploadImg}'/>
         <input type="hidden" name="attribute" class="attribute" id="attribute" value='{$attribute1}'/>
         <input type="hidden" name="attribute_key" class="attribute_key" id="attribute_key" value='{$attribute_key2}'/>
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$product_title}" placeholder="" id="product_titleId" name="product_title">
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>副标题：</label>
             <div class="formControls" style="display: inline-block;">
@@ -141,12 +143,7 @@ form[name=form1] input{
             </div>
             <text style="line-height:30px;">*简洁表达产品，用来显示在首页产品，避免截取时不能表达是什么产品。</text>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>商品条形码：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$scan}" placeholder="" id="scanId" name="scan">
-            </div>
-        </div> -->
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
             <div class="formControls col-2"> <!-- <span class="select-box"> -->
@@ -157,6 +154,7 @@ form[name=form1] input{
                 <!-- </span> -->
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>产品品牌：</label>
             <div class="formControls col-2"><!--  <span class="select-box"> -->
@@ -164,15 +162,10 @@ form[name=form1] input{
                     <option selected="selected" value="0">请选择品牌</option>
                         {$r02}
                 </select>
-                <!-- </span> -->
+               
             </div>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>关键词：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$keyword}" placeholder="" id="keywordId" name="keyword">
-            </div>
-        </div> -->
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
             <div class="formControls col-4" style="width: 26.8%;">
@@ -180,57 +173,58 @@ form[name=form1] input{
             </div>
             <text style="line-height:30px;">克</text>
         </div>
+
         <div class="formDivSD">
             <div class="formContentSD">
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>成本价：</span></div>
                     <div class="formInputSD"><input type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
                 </div>
+
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>原价：</span></div>
                     <div class="formInputSD"><input type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01"  onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
                 </div>
+
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>售价：</span></div>
                     <div class="formInputSD"><input type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01"  onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
                 </div>
+
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
                     <div class="formInputSD">
                         <select name="initial[unit]" class="select " style="width: 300px;" id="unit">
-                           
-                          {if $initial->unit != ''}
-                                    <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
-                         {else}
-                                    <option value="盒">盒</option>
-                                    <option value="篓">篓</option>
-                                    <option value="箱">箱</option>
-                                    <option value="盒">盒</option>
-                                    <option value="个">个</option>
-                                    <option value="套">套</option>
-                                    <option value="包">包</option>
-                                    <option value="支">支</option>
-                                    <option value="条">条</option>
-                                    <option value="根">根</option>
-                                    <option value="本">本</option>
-                                    <option value="瓶">瓶</option>
-                                    <option value="块">块</option>
-                                    <option value="片">片</option>
-                                    <option value="把">把</option>
-                                    <option value="组">组</option>
-                                    <option value="双">双</option>
-                                    <option value="台">台</option>
-                                    <option value="件">件</option>
-                          {/if}
+                                    <option value="盒" {if $initial->unit =='盒' } selected="selected" {/if}>盒</option>
+                                    <option value="篓"{if $initial->unit =='篓' } selected="selected" {/if}>篓</option>
+                                    <option value="箱" {if $initial->unit =='箱' } selected="selected" {/if}>箱</option>
+                                    <option value="个" {if $initial->unit =='个' } selected="selected" {/if}>个</option>
+                                    <option value="套" {if $initial->unit =='套' } selected="selected" {/if}>套</option>
+                                    <option value="包" {if $initial->unit =='包' } selected="selected" {/if}>包</option>
+                                    <option value="支" {if $initial->unit =='支'} selected="selected" {/if}>支</option>
+                                    <option value="条" {if $initial->unit =='条'} selected="selected" {/if}>条</option>
+                                    <option value="根" {if $initial->unit =='根'} selected="selected" {/if}>根</option>
+                                    <option value="本" {if $initial->unit =='本'} selected="selected" {/if}>本</option>
+                                    <option value="瓶" {if $initial->unit =='瓶'} selected="selected" {/if}>瓶</option>
+                                    <option value="块" {if $initial->unit =='块'} selected="selected" {/if}>块</option>
+                                    <option value="片" {if $initial->unit =='片' } selected="selected" {/if}>片</option>
+                                    <option value="把" {if $initial->unit =='把' } selected="selected" {/if}>把</option>
+                                    <option value="组" {if $initial->unit =='组' } selected="selected" {/if}>组</option>
+                                    <option value="双" {if $initial->unit =='双' } selected="selected" {/if}>双</option>
+                                    <option value="台" {if $initial->unit =='台' } selected="selected" {/if}>台</option>
+                                    <option value="件" {if $initial->unit =='件' } selected="selected" {/if}>件</option>
+                    
              
                                    
                         </select>
                     </div>
                 </div>
+
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>库存：</span></div>
                     <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
                 </div>
+                
                 {literal}
                     <!-- 有规格 -->
                     <div >
@@ -255,7 +249,7 @@ form[name=form1] input{
                                                 <span class="arrt_span">{{attr_group.attr_group_name}}：</span>
                                                 <input class="add-attr-input add_input" placeholder="请输入属性值" style="padding-left: 10px;">
                                                 <a v-bind:index="i" class="add-attr-btn adds_ntn" href="javascript:"><span>添加属性值</span></a>
-                                                <a v-bind:index="i" href="javascript:" class="attr-group-delete dels_btn" v-if="attr_group.status"><span>删除属性值</span></a>
+                                                <a v-bind:index="i" href="javascript:" class="attr-group-delete dels_btn"><span>删除属性值</span></a>
                                             </div>
                                             <div class="arrt_bgcolor" style="margin-right: 60px;">
                                                 <div v-for="(attr,j) in attr_group.attr_list" class="attr_input_group arrt_clear arrt_zi">
@@ -360,6 +354,7 @@ form[name=form1] input{
                 <input type="number" class="input-text" value="{$volume}" name="volume" id="volumeId">
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品主图：</label>
             <div class="formControls col-xs-8 col-sm-10" style="width: 20%;">
@@ -398,7 +393,7 @@ form[name=form1] input{
                 <script id="editor" type="text/plain" name="content" style="width:100%;height:400px;">{$content}</script>
             </div>
         </div>
-		<div style="height: 70px;"></div>
+        <div style="height: 70px;"></div>
         <div class="row cl page_bort_bottom">
             <div class="col-8 col-offset-4">
                 <input type="submit" name="button" value="提 交" class="btn btn-primary radius btn-right" style="margin-right: 60px!important;">
@@ -418,6 +413,9 @@ form[name=form1] input{
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 {literal}
 <script>
+$(document.body).css({
+    "overflow-y": "hidden"
+});
 $(function() {
     $("#imgurls").change(function() {
         var files = this.files;
@@ -450,10 +448,11 @@ KindEditor.ready(function(K) {
         });
     });
 });
-
+var isShow = false
 $(function(){
     var ue = UE.getEditor('editor');
 });
+
 $(document).ready(function(){
     var imgList = getTheImgList();
     if(imgList){
@@ -637,12 +636,23 @@ var page = new Vue({
             handleImageClick(data,index){
                 this.imageClickInfo = data;
                 this.imageClickInfoIndex = index
+            },
+            setlist(l){
+                if(l > 0 && l<6){
+                    this.listval = []
+                    for(var i = 0;i < l;i++){
+                        this.listval.push(listA[i])
+                    }
+                    return
+                }
+                this.listval = []
             }
         }
     });
-    console.log('checked_attr_list 全局')
-    console.log(page.checked_attr_list)
-    console.log(page)
+    page.setlist({/literal}{$data.leve}{literal})
+    // console.log('checked_attr_list 全局')
+    // console.log(page.checked_attr_list)
+    // console.log(page)
     // 点击属性框，显示添加属性按钮
     $(".add-attr-group-input").live("click", function(){
         $(".add-attr-group-btn").css("display", "");
@@ -892,11 +902,16 @@ var page = new Vue({
         }
           return realLength;
     };
+
+
+
     // 表单验证
     function verificationForm(){
         var res = $('#form1').serializeArray()
         var s_type = 0
-        
+
+        console.log(res)
+
         for(var i = 0; i < res.length; i++){
             
             if(res[i].name === 'product_title' && res[i].value === ''){
@@ -934,7 +949,6 @@ var page = new Vue({
             }
         }
 
-
         if(page.$data.attr_group_list.length == 0){
             alert('请设置属性名称!')
             return false
@@ -948,12 +962,11 @@ var page = new Vue({
         return true
     }
 
-    var t_check = true;
     function check() {
+        
         if(!verificationForm()){
             return false
         }
-        
 
     }
 

@@ -44,7 +44,7 @@ class IndexAction extends Action {
             }
         }
 
-        $condition = " a.recycle = 0 ";
+        $condition = " a.recycle = 0 and c.recycle=0";
         $excel_condition = $condition;
         if ($product_title != '') {
             $condition .= " and a.product_title like '%$product_title%' ";

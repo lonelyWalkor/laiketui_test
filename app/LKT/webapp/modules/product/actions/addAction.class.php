@@ -75,7 +75,7 @@ class addAction extends Action {
         }else{
             $initial = array();
         }
-
+// print_r($data);die;
 
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);
@@ -244,11 +244,9 @@ class addAction extends Action {
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片路径
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $subtitle = addslashes(trim($request->getParameter('subtitle'))); // 小标题
-        // $scan = addslashes(trim($request->getParameter('scan'))); // 条形码
         $initial =$request->getParameter('initial'); // 初始值
         $product_class = addslashes(trim($request->getParameter('product_class'))); // 产品类别
         $brand_id = addslashes(trim($request->getParameter('brand_class'))); // 品牌
-        // $keyword = addslashes(trim($request->getParameter('keyword'))); // 关键词
         $weight = addslashes(trim($request->getParameter('weight'))); // 重量
         $s_type = $request->getParameter('s_type'); // 显示类型
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
@@ -381,7 +379,7 @@ class addAction extends Action {
                     $attr_list_srt .= $v['attr_group_name'] . '-' . $v['attr_name'];
                 }
                 $z_num += $value['num'];
-//              $value['total_num'] = $value['num'];
+
                 if ($value['img'] == '') {
                     header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
@@ -419,8 +417,6 @@ class addAction extends Action {
                 $attributes[] = $value;
             }
         }
-
-// print_r( count($attributes));die;
         if(count($s_type) == 0){
             $type = 0;
         }else{
@@ -439,6 +435,7 @@ class addAction extends Action {
                 return $this->getDefaultView();
             }
         } 
+
         //    开启事务
         $db->begin();
         // 发布产品

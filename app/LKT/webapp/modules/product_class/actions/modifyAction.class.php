@@ -67,7 +67,7 @@ class modifyAction extends Action {
             $str_option[0] = $resc;
         }
 
-        $array = ['顶级','一级','二级','三级','四级','五级'];
+        $array = ['顶级','一级','二级','三级','四级','五级','六级','七级','八级','九级','十级','十一级','十二级'];
 
       //获取网页地址   xiaochengxu.laiketui.com/open/LKT/index.php
         $dd = $_SERVER['PHP_SELF'];
@@ -161,7 +161,7 @@ class modifyAction extends Action {
         }
 
 
-        $level = $level+1;
+        $level = $level;
 		//更新分类列表
 		$sql = "update lkt_product_class " .
 			"set pname = '$pname',img = '$image',sid = '$sid',level='$level', sort = '$sort',bg='$bg'"
@@ -169,7 +169,7 @@ class modifyAction extends Action {
         // var_dump($sql);exit;
 		$r = $db->update($sql);
 
-		if($r < 1) {
+		if($r < 0) {
     		echo "<script type='text/javascript'>" .
 				"alert('未知原因，修改产品分类失败！');" .
 				"location.href='index.php?module=product_class';</script>";

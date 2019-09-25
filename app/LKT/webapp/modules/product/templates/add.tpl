@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-26 13:55:22
- * @LastEditTime: 2019-09-06 14:12:23
+ * @LastEditTime: 2019-09-11 16:15:57
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -38,6 +38,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
 </style>
 <script type="text/javascript">
 function check(f) {
+
     if (Trim(f.product_title.value) == "") {
         alert("产品名称不能为空！");
         f.product_title.value = '';
@@ -229,12 +230,14 @@ function check(f) {
         <input type="hidden" name="attribute" class="attribute" id="attribute" value='{$attribute}'/>
         <input type="hidden" name="uploadImg" value="{$uploadImg}"/>
         <input type="hidden" name="attribute_num" class="attribute_num" id="attribute_num" value='{$attribute_num}'/>
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品标题：</label>
             <div class="formControls col-4" style="width: 16.8%;">
-                <input required="required" type="text" class="input-text" value="{$product_title}" placeholder="" id="product_titleId" name="product_title">
+                <input type="text" class="input-text" value="{$product_title}" placeholder="" id="product_titleId" name="product_title">
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>副标题：</label>
             <div class="formControls" style="display: inline-block;">
@@ -247,6 +250,7 @@ function check(f) {
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
             <div class="formControls col-2"><!--  <span class="select-box"> -->
+                
                 <select name="product_class" id="product_classId" class="select">
                     <option selected="selected" value="0">请选择类别</option>
                     {$ctype}
@@ -254,6 +258,7 @@ function check(f) {
                 <!-- </span> -->
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品品牌：</label>
             <div class="formControls col-2">
@@ -265,9 +270,11 @@ function check(f) {
                <!--  </span> -->
             </div>
         </div>
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>产品主图：</label>
             <div class="formControls col-xs-8 col-sm-10">
+
                 {if $image}
                     <img id="thumb_url" src='{$image}' style="height:100px;width:150px">
                     <input type="hidden" name="oldpic" value="{$image}">
@@ -275,6 +282,7 @@ function check(f) {
                     <img id="thumb_url" src='../LKT/images/nopic.jpg' style="height:100px;width:150px">
                     <input type="hidden" name="oldpic" value="">
                 {/if}
+
                 <input type="hidden" id="picurl" name="image" datatype="*" nullmsg="请选择图片"/>
                 <button class="btn btn-success" id="image" type="button">选择图片</button>
             </div>
@@ -300,51 +308,55 @@ function check(f) {
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
             <div class="formControls col-4" style="width: 26.8%;">
-                <input required="required" type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight">
+                <input type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight">
             </div>
             <text style="line-height:30px;">克</text>
         </div>
+
         <div class="formDivSD">
             <div class="formContentSD">
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>成本价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" ></div>
+                    <div class="formInputSD">
+                        <input type="number" name="initial[cbj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_cbj(this);" value="{$initial->cbj}" placeholder="请设置商品的默认成本价" >
+                    </div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>原价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[yj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_yj(this);" value="{$initial->yj}" placeholder="请设置商品的默认原价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>售价：</span></div>
-                    <div class="formInputSD"><input required="required" type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
+                    <div class="formInputSD"><input type="number" name="initial[sj]" onkeypress="return noNumbers(event)" min="0" step="0.01" onblur="set_sj(this);" value="{$initial->sj}" placeholder="请设置商品的默认售价" ></div>
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>单位：</span></div>
+
                     <div class="formInputSD">
                         <select name="initial[unit]" class="select " style="width: 300px;" id="unit">
                            
-                          {if $initial->unit != ''}
-                                    <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
-                         {else}
-                                    <option value="">请选择商品属性</option>
-                                    <option value="盒">盒</option>
-                                    <option value="篓">篓</option>
-                                    <option value="箱">箱</option>
-                                    <option value="个">个</option>
-                                    <option value="套">套</option>
-                                    <option value="包">包</option>
-                                    <option value="支">支</option>
-                                    <option value="条">条</option>
-                                    <option value="根">根</option>
-                                    <option value="本">本</option>
-                                    <option value="瓶">瓶</option>
-                                    <option value="块">块</option>
-                                    <option value="片">片</option>
-                                    <option value="把">把</option>
-                                    <option value="组">组</option>
-                                    <option value="双">双</option>
-                                    <option value="台">台</option>
-                                    <option value="件">件</option>
+                            {if $initial->unit != ''}
+                                <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
+                            {else}
+                                <option value="">请选择商品属性</option>
+                                <option value="盒">盒</option>
+                                <option value="篓">篓</option>
+                                <option value="箱">箱</option>
+                                <option value="个">个</option>
+                                <option value="套">套</option>
+                                <option value="包">包</option>
+                                <option value="支">支</option>
+                                <option value="条">条</option>
+                                <option value="根">根</option>
+                                <option value="本">本</option>
+                                <option value="瓶">瓶</option>
+                                <option value="块">块</option>
+                                <option value="片">片</option>
+                                <option value="把">把</option>
+                                <option value="组">组</option>
+                                <option value="双">双</option>
+                                <option value="台">台</option>
+                                <option value="件">件</option>
                           {/if}
              
                                    
@@ -353,7 +365,9 @@ function check(f) {
                 </div>
                 <div class="formListSD">
                     <div class="formTextSD"><span class="must">*</span><span>库存：</span></div>
-                    <div class="formInputSD"><input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" required="required" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" ></div>
+                    <div class="formInputSD">
+                        <input type="number" name="initial[kucun]" oninput="value=value.replace(/[^\d]/g,'')" min="0" step="1" onblur="set_kucun(this);" value="{$initial->kucun}" placeholder="请设置商品的默认库存" >
+                    </div>
                 </div>
                         {literal}
                         <!-- 有规格 -->
@@ -454,22 +468,27 @@ function check(f) {
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>显示类型：</label>
             <div class="formControls col-xs-8 col-sm-8 skin-minimal">
+            
                 <div class="ra1">
                     <input name="s_type[]" type="checkbox" id="sex-1" class="inputC" value="1" {if in_array(1,$s_type)}checked="checked"{/if}>
                     <label for="sex-1">新品</label>
                 </div>
+                
                 <div class="ra1">
                     <input type="checkbox" id="sex-2" name="s_type[]" class="inputC" value="2" {if in_array(2,$s_type)}checked="checked"{/if}>
                     <label for="sex-2">热销</label>
                 </div>
+                
                 <div class="ra1">
                     <input type="checkbox" id="sex-3" name="s_type[]" class="inputC" value="3" {if in_array(3,$s_type)}checked="checked"{/if}>
                     <label for="sex-3">推荐</label>
                 </div>
+                
                 <div class="ra1" style="width:100px;">
-                    <input type="checkbox" id="sex-4" name="s_type[]" class="inputC" value="4" {if in_array(4,$s_type)}checked="checked"{/if}>
+                    <input type="checkbox" id="sex-4" name="s_type[]" class="inputC" value="4" {if in_array(3,$s_type)}checked="checked"{/if}>
                     <label for="sex-4">首页推荐</label>
                 </div>
+                
             </div>
         </div>
 
@@ -480,7 +499,6 @@ function check(f) {
                 <input type="number" class="input-text" value="{$volume}" id="volumeId" name="volume">
             </div>
         </div>
-		
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red"></span>运费设置：</label>
             <div class="formControls col-2"> <!-- <span class="select-box"> -->
@@ -981,45 +999,56 @@ KindEditor.ready(function (K) {
         $("#freightId option[value='0']").attr("selected", "selected");
         $('#ueditor_0').contents().find('p').html(""); 
     }
-    // 简单的表单验证
+    // 表单验证
     function verificationForm(){
 
-        console.log(page._data)
         var res = $('#form1').serializeArray()
-        var s_type = false
+        var s_type = 0
+        
         for(var i = 0; i < res.length; i++){
-            if(res[i].name === 'product_class'){
-                if(res[i].value === '0'){
-                    alert('请选择产品类别!')
-                    return false
-                }
-            } else if(res[i].name === 'image'){
-                if(res[i].value === ''){
-                    alert('请设置产品主图!')
-                    return false
-                }
-            } else if(res[i].name === 'initial[unit]'){
-                if(res[i].value === ''){
-                    alert('请选择商品属性!')
-                    return false
-                } 
-            } else if(res[i].name === 's_type[]'){
-                s_type = true
-            } else if(res[i].name === 'brand_class'){
-                if(res[i].value === '0'){
-                    alert('请选择产品品牌!')
-                    return false
-                }
-            }
             
+            if(res[i].name === 'product_title' && res[i].value === ''){
+                alert('请输入产品标题!')
+                return false
+            } else if(res[i].name === 'product_class' && res[i].value === '0'){
+                alert('请选择产品类别!')
+                return false
+            } else if(res[i].name === 'brand_class' && res[i].value === '0'){
+                alert('请选择品牌!')
+                return false
+            } else if(res[i].name === 'image' && res[i].value === ''){
+                alert('请设置产品主图!')
+                return false
+            } else if(res[i].name === 'weight' && res[i].value === ''){
+                alert('请设置产品重量!')
+                return false
+            } else if(res[i].name === 'initial[cbj]' && res[i].value === ''){
+                alert('请设置产品成本价!')
+                return false
+            } else if(res[i].name === 'initial[yj]' && res[i].value === ''){
+                alert('请设置产品原价!')
+                return false 
+            } else if(res[i].name === 'initial[sj]' && res[i].value === ''){
+                alert('请设置产品售价!')
+                return false 
+            } else if(res[i].name === 'initial[unit]' && res[i].value === ''){
+                alert('请选择产品单位!')
+                return false 
+            } else if(res[i].name === 'initial[kucun]' && res[i].value === ''){
+                alert('请设置产品库存!')
+                return false 
+            } else if(res[i].name === 's_type[]') {
+                s_type = 1
+            }
         }
+
 
         if(page.$data.attr_group_list.length == 0){
             alert('请设置属性名称!')
             return false
         }
 
-        if(!s_type){
+        if(s_type === 0){
             alert('请选择显示类型!')
             return false
         }
@@ -1030,25 +1059,6 @@ KindEditor.ready(function (K) {
     var t_check = true;
     function check() {
         return verificationForm()
-
-
-        // $.ajax({
-        //     cache: true,
-        //     type: "POST",
-        //     dataType: "json",
-        //     url: 'index.php?module=product&action=add',
-        //     data: $('#form1').serialize(), // 你的formid
-        //     async: true,
-        //     success: function(data) {
-        //         t_check = true;
-        //         alert(data.status, {
-        //             time: 2000
-        //         });
-        //         if(data.suc) {
-        //             location.href = "index.php?module=product";
-        //         }
-        //     }
-        // })
     }
     
     function check1() {

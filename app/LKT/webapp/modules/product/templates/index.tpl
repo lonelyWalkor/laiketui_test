@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-09-11 14:53:59
+ * @LastEditTime: 2019-09-11 15:18:51
+ * @LastEditors: Please set LastEditors
+ -->
 
 <!DOCTYPE HTML>
 <html>
@@ -159,13 +166,13 @@ form .select{
                 <img src="images/icon1/tj.png"/>&nbsp;<span>设为推荐</span>
             </div>
         </a>
-		
+
         <a class="btn radius btn_sytj" id="btn7" style="background-color:#007d65;color: #fff;">
             <div style="height: 100%;display: flex;align-items: center;" href="javascript:;" onclick="operation(10)">
                 <img src="images/icon1/tj.png"/>&nbsp;<span>设为首页推荐</span>
             </div>
         </a>
-		
+
         <a href="javascript:;" id="btn6" onclick="datadel()" style="background: #fff;color: #6a7076;border: none;" class="btn btn-danger radius">
             <div style="height: 100%;display: flex;align-items: center;">
                 <img src="images/icon1/del.png"/>&nbsp;删除
@@ -211,7 +218,7 @@ form .select{
                             {if $item1 == 1}<span class="proSpan xp">新品</span>{/if}
                             {if $item1 == 2}<span class="proSpan rx">热销</span>{/if}
                             {if $item1 == 3}<span class="proSpan tj">推荐</span>{/if}
-							{if $item1 == 4}<span class="proSpan sytj">首页推荐</span>{/if}
+                            {if $item1 == 4}<span class="proSpan sytj">首页推荐</span>{/if}
                         {/foreach}
                     </td>
                     <td style="min-width: 140px;">{$item->pname}</td>
@@ -294,157 +301,152 @@ form .select{
 
 {literal}
 <script type="text/javascript">
-	// 关联全选
-	$('.table').on("change",".inputC",function(e){
-		if($(this).attr('id')!='ipt1'){
-			//不是全选
-			var qxFlag = true
-			var upFlag = false
-			var xpFlag = false
-			var rxFlag = false
-			var tjFlag = false
-			var sytjFlag = false
-			var xzindex = 0
-			
-			for(var i=1;i<$('.inputC').length;i++){
-				if(!$('.inputC').eq(i).is(':checked')&&qxFlag){
-					qxFlag=false
-				}
-				
-				if(!$('.inputC').eq(i).is(':checked')){
-					continue
-				}
-				xzindex++
-				if($('.inputC').eq(i).parents('tr').find('.sp_up span').text()!='已上架'){
-					// 有商品下架了
-					upFlag=true
-				}
-				if($('.inputC').eq(i).parents('tr').find('.xp').length==0){
-					// 有产品不是新品
-					xpFlag=true
-				}
-				if($('.inputC').eq(i).parents('tr').find('.rx').length==0){
-					// 有产品不是热销
-					rxFlag=true
-				}
-				if($('.inputC').eq(i).parents('tr').find('.tj').length==0){
-					// 有产品不是推荐
-					tjFlag=true
-				}
-				
-				if($('.inputC').eq(i).parents('tr').find('.sytj').length==0){
-					// 有产品不是首页推荐
-					sytjFlag = true
-				}
-			}
-			$('#ipt1').prop('checked',qxFlag)
-			
-			if(xzindex==0){
-				$(".btn_up span").text('产品上架')
-				$(".btn_xp span").text('设为新品')
-				$(".btn_rx span").text('设为热销')
-				$(".btn_tj span").text('设为推荐')
-				$(".btn_sytj span").text('设为首页推荐')
-				return
-			}
-			if(upFlag){
-				$(".btn_up span").text('产品上架')
-			}else{
-				$(".btn_up span").text('产品下架')
-			}
-			if(xpFlag){
-				$(".btn_xp span").text('设为新品')
-			}else{
-				$(".btn_xp span").text('取消新品')
-			}
-			if(rxFlag){
-				$(".btn_rx span").text('设为热销')
-			}else{
-				$(".btn_rx span").text('取消热销')
-			}
-			if(tjFlag){
-				$(".btn_tj span").text('设为推荐')
-			}else{
-				$(".btn_tj span").text('取消推荐')
-			}
-			
-			if(sytjFlag){
-				$(".btn_sytj span").text('设为首页推荐')
-			}else{
-				$(".btn_sytj span").text('取消首页推荐')
-			}
-		}else{
-			// 如果是全选
-			if($(this).is(':checked')){
-				var upFlag = false
-				var xpFlag = false
-				var rxFlag = false
-				var tjFlag = false
-				var sytjFlag = false
-				
-				for(var i=1;i<$('.inputC').length;i++){
-					if($('.inputC').eq(i).parents('tr').find('.sp_up span').text()!='已上架'){
-						// 有商品下架了
-						upFlag=true
-					}
-					if($('.inputC').eq(i).parents('tr').find('.xp').length==0){
-						// 有产品不是新品
-						xpFlag=true
-					}
-					if($('.inputC').eq(i).parents('tr').find('.rx').length==0){
-						// 有产品不是热销
-						rxFlag=true
-					}
-					if($('.inputC').eq(i).parents('tr').find('.tj').length==0){
-						// 有产品不是推荐
-						tjFlag=true
-					}
-					
-					if($('.inputC').eq(i).parents('tr').find('.sytj').length==0){
-						// 有产品不是首页推荐
-						sytjFlag=true
-					}
-					
-					if($('.inputC').eq(i).parents('tr').find('.xp').length==0&&$('.inputC').eq(i).parents('tr').find('.rx').length==0&&$('.inputC').eq(i).parents('tr').find('.tj').length==0){
-						break
-					}
-				}
-				if(upFlag){
-					$(".btn_up span").text('产品上架')
-				}else{
-					$(".btn_up span").text('产品下架')
-				}
-				if(xpFlag){
-					$(".btn_xp span").text('设为新品')
-				}else{
-					$(".btn_xp span").text('取消新品')
-				}
-				if(rxFlag){
-					$(".btn_rx span").text('设为热销')
-				}else{
-					$(".btn_rx span").text('取消热销')
-				}
-				if(tjFlag){
-					$(".btn_tj span").text('设为推荐')
-				}else{
-					$(".btn_tj span").text('取消推荐')
-				}
-				
-				if(sytjFlag){
-					$(".btn_sytj span").text('设为首页推荐')
-				}else{
-					$(".btn_sytj span").text('取消首页推荐')
-				}
-			}else{
-				$(".btn_up span").text('产品上架')
-				$(".btn_xp span").text('设为新品')
-				$(".btn_rx span").text('设为热销')
-				$(".btn_tj span").text('设为推荐')
-				$(".btn_sytj span").text('设为首页推荐')
-			}
-		}
-	})
-	
+    // 关联全选
+    $('.table').on("change",".inputC",function(e){
+        if($(this).attr('id')!='ipt1'){
+            //不是全选
+            var qxFlag = true
+            var upFlag = false
+            var xpFlag = false
+            var rxFlag = false
+            var tjFlag = false
+            var sytjFlag = false
+            var xzindex = 0
+            
+            for(var i=1;i<$('.inputC').length;i++){
+                if(!$('.inputC').eq(i).is(':checked')&&qxFlag){
+                    qxFlag=false
+                }
+                
+                if(!$('.inputC').eq(i).is(':checked')){
+                    continue
+                }
+                xzindex++
+                if($('.inputC').eq(i).parents('tr').find('.sp_up span').text()!='已上架'){
+                    // 有商品下架了
+                    upFlag=true
+                }
+                if($('.inputC').eq(i).parents('tr').find('.xp').length==0){
+                    // 有产品不是新品
+                    xpFlag=true
+                }
+                if($('.inputC').eq(i).parents('tr').find('.rx').length==0){
+                    // 有产品不是热销
+                    rxFlag=true
+                }
+                if($('.inputC').eq(i).parents('tr').find('.tj').length==0){
+                    // 有产品不是推荐
+                    tjFlag=true
+                }
+                
+                if($('.inputC').eq(i).parents('tr').find('.sytj').length==0){
+                    // 有产品不是首页推荐
+                    sytjFlag = true
+                }
+            }
+            $('#ipt1').prop('checked',qxFlag)
+            
+            if(xzindex==0){
+                $(".btn_up span").text('产品上架')
+                $(".btn_xp span").text('设为新品')
+                $(".btn_rx span").text('设为热销')
+                $(".btn_tj span").text('设为推荐')
+                $(".btn_sytj span").text('设为首页推荐')
+                return
+            }
+            if(upFlag){
+                $(".btn_up span").text('产品上架')
+            }else{
+                $(".btn_up span").text('产品下架')
+            }
+            if(xpFlag){
+                $(".btn_xp span").text('设为新品')
+            }else{
+                $(".btn_xp span").text('取消新品')
+            }
+            if(rxFlag){
+                $(".btn_rx span").text('设为热销')
+            }else{
+                $(".btn_rx span").text('取消热销')
+            }
+            if(tjFlag){
+                $(".btn_tj span").text('设为推荐')
+            }else{
+                $(".btn_tj span").text('取消推荐')
+            }
+            
+            if(sytjFlag){
+                $(".btn_sytj span").text('设为首页推荐')
+            }else{
+                $(".btn_sytj span").text('取消首页推荐')
+            }
+        }else{
+            // 如果是全选
+            if($(this).is(':checked')){
+                var upFlag = false
+                var xpFlag = false
+                var rxFlag = false
+                var tjFlag = false
+                for(var i=1;i<$('.inputC').length;i++){
+                    if($('.inputC').eq(i).parents('tr').find('.sp_up span').text()!='已上架'){
+                        // 有商品下架了
+                        upFlag=true
+                    }
+                    if($('.inputC').eq(i).parents('tr').find('.xp').length==0){
+                        // 有产品不是新品
+                        xpFlag=true
+                    }
+                    if($('.inputC').eq(i).parents('tr').find('.rx').length==0){
+                        // 有产品不是热销
+                        rxFlag=true
+                    }
+                    if($('.inputC').eq(i).parents('tr').find('.tj').length==0){
+                        // 有产品不是推荐
+                        tjFlag=true
+                    }
+                    if($('.inputC').eq(i).parents('tr').find('.sytj').length==0){
+                        // 有产品不是首页推荐
+                        sytjFlag=true
+                    }
+                    if($('.inputC').eq(i).parents('tr').find('.xp').length==0&&$('.inputC').eq(i).parents('tr').find('.rx').length==0&&$('.inputC').eq(i).parents('tr').find('.tj').length==0){
+                        break
+                    }
+                }
+                if(upFlag){
+                    $(".btn_up span").text('产品上架')
+                }else{
+                    $(".btn_up span").text('产品下架')
+                }
+                if(xpFlag){
+                    $(".btn_xp span").text('设为新品')
+                }else{
+                    $(".btn_xp span").text('取消新品')
+                }
+                if(rxFlag){
+                    $(".btn_rx span").text('设为热销')
+                }else{
+                    $(".btn_rx span").text('取消热销')
+                }
+                if(tjFlag){
+                    $(".btn_tj span").text('设为推荐')
+                }else{
+                    $(".btn_tj span").text('取消推荐')
+                }
+                if(sytjFlag){
+                    $(".btn_sytj span").text('设为首页推荐')
+                }else{
+                    $(".btn_sytj span").text('取消首页推荐')
+                }
+            }else{
+                $(".btn_up span").text('产品上架')
+                $(".btn_xp span").text('设为新品')
+                $(".btn_rx span").text('设为热销')
+                $(".btn_tj span").text('设为推荐')
+                $(".btn_sytj span").text('设为首页推荐')
+            }
+        }
+    })
+    
 function empty() {
     location.replace('index.php?module=product');
 }
@@ -548,6 +550,7 @@ function datadel(){
 }
 /*批量操作*/
 function operation(type){
+    
     var checkbox=$("input[name='id[]']:checked");//被选中的复选框对象
     for(var i=0;i<checkbox.length;i++){
         Id+=checkbox.eq(i).val()+",";
@@ -556,25 +559,25 @@ function operation(type){
         appendMask("未选择数据！","ts");
         return false;
     }
-	
-	var btn_up = $(".btn_up span").text();
-	var btn_xp = $(".btn_xp span").text();
-	var btn_rx = $(".btn_rx span").text();
-	var btn_tj = $(".btn_tj span").text();
-	var btn_sytj = $(".btn_sytj span").text();
-	
-	if(type == 1 &&btn_up == "产品下架"){
-	    type = 2;
-	}else if(type == 3 && btn_xp == "取消新品"){
-	    type = 4;
-	}else if(type == 5 && btn_rx == "取消热销"){
-	    type = 6;
-	}else if(type == 7 && btn_tj == "取消推荐"){
-	    type = 8;
-	} else if(type == 10 && btn_sytj == "取消首页推荐"){
+    
+    var btn_up = $(".btn_up span").text();
+    var btn_xp = $(".btn_xp span").text();
+    var btn_rx = $(".btn_rx span").text();
+    var btn_tj = $(".btn_tj span").text();
+    var btn_sytj = $(".btn_sytj span").text();
+
+    if(type == 1 &&btn_up == "产品下架"){
+        type = 2;
+    }else if(type == 3 && btn_xp == "取消新品"){
+        type = 4;
+    }else if(type == 5 && btn_rx == "取消热销"){
+        type = 6;
+    }else if(type == 7 && btn_tj == "取消推荐"){
+        type = 8;
+    } else if(type == 10 && btn_sytj == "取消首页推荐"){
         type = 9
     }
-	
+
     confirm2("确认修改吗？",Id,type);
 }
 function appendMask(content,src){

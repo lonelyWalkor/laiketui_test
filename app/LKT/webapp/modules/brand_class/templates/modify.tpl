@@ -29,7 +29,7 @@ function check(f){
 <title>修改新闻分类</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品品牌管理 <span class="c-gray en">&gt;</span> 修改产品品牌 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=brand_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 品牌管理 <span class="c-gray en">&gt;</span> 修改产品品牌 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=brand_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <form name="form1" action="index.php?module=brand_class&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <input type="hidden" name="cid" value="{$brand_id}" />

@@ -95,7 +95,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
 <title>修改分类</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品商品管理 <span class="c-gray en">&gt;</span> 修改商品分类 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 商品管理 <span class="c-gray en">&gt;</span> 修改商品分类 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product_class';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 <div class="pd-20">
     <form name="form1" action="index.php?module=product_class&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return removeDisable()">
         <input type="hidden" name="cid" value="{$cid_r}" />
@@ -121,21 +121,21 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         <div class="row cl slevel_box" style="display: none;">
             <label class="form-label col-4"><span class="c-red"></span>上级分类：</label>
             <div class="formControls col-1 slevel_1"> <span class="select-box">
-                <select name="select_1" class="select" onchange="one()" id="select_1">
+                <select name="select_1" class="select" onchange="one()" id="select_1" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype}
                 </select>
                 </span>
             </div>
             <div class="formControls col-1 slevel_2"> <span class="select-box">
-                <select name="select_2" class="select" onchange="two()" id="select_2">
+                <select name="select_2" class="select" onchange="two()" id="select_2" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype1}
                 </select>
                 </span>
             </div>
             <div class="formControls col-1 slevel_3"> <span class="select-box" >
-                <select name="select_3" class="select" onchange="three()" id="select_3">
+                <select name="select_3" class="select" onchange="three()" id="select_3" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
@@ -143,7 +143,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
             </div>
 
             <div class="formControls col-1 slevel_4"> <span class="select-box" >
-                <select name="select_4" class="select" onchange="four()" id="select_4">
+                <select name="select_4" class="select" onchange="four()" id="select_4" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
@@ -151,7 +151,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
             </div>
 
             <div class="formControls col-1 slevel_5"> <span class="select-box" >
-                <select name="select_5" class="select" onchange="five()" id="select_5">
+                <select name="select_5" class="select" onchange="five()" id="select_5" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>

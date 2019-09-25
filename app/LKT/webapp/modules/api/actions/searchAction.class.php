@@ -8,7 +8,6 @@
 
  */
 require_once(MO_LIB_DIR . '/DBAction.class.php');
-
 class searchAction extends Action {
 
 	public function getDefaultView() {
@@ -189,6 +188,8 @@ class searchAction extends Action {
     $id = trim($request->getParameter('cid')); //  '分类ID'
     $paegr = trim($request->getParameter('page')); //  '页面'
     $select = trim($request->getParameter('select')); //  选中的方式 0 默认  1 销量   2价格
+    $status111 =$request->getParameter('status');//分销才传status
+   
     if($select == 0){
       $select = 'a.add_date'; 
     }elseif ($select == 1) {
@@ -217,7 +218,6 @@ class searchAction extends Action {
     }else{
         $img = '';
     }
-
     if(!$paegr){
       $paegr = 1;
     }
@@ -230,27 +230,111 @@ class searchAction extends Action {
       $bg = $img.$r_c[0]->bg;
     }
 
-    $sql = "select a.id,a.product_title,volume,min(c.price) as price,c.yprice,c.img,c.name,c.color,c.size,a.s_type,c.id AS sizeid from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%$id%' and c.num >0 and a.status = 0 group by c.pid  order by $select $sort LIMIT $start,$end ";
+      if($status111 && $status111 ==1){
+       $pro = $this->distribution($db,$img,$paegr);//分销
+        echo json_encode(array('status'=>1,'pro'=>$pro,'bg'=>$bg));exit();
+    }
+        $sql = "select * from lkt_product_list as a where a.recycle = 0 and a.num >0 and a.status = 0 and  a.product_class like '%-$id-' order by status asc,a.add_date desc,a.sort desc limit $start,$end ";
+        // print_r($sql);die;
+        $r = $db->select($sql);
+// print_r($r);die;
+        $status_num = 0;
+        if($r){
+        foreach ($r as $key => $value) {
+            $pid =  $value ->id;//id
+            $prrr =0;//初始售价
+            $yprrr =0;//初始原价
+            if($value->initial != ''){
+                $initial = unserialize($value->initial);
+                $prrr =$initial['sj'];
+                $yprrr =$initial['yj'];
+            }
+            $imgurl = $img.$value->imgurl;/* end 保存*/
+            $sql = "select id,num,unit,price,yprice from lkt_configure where pid = '$pid'";//根据商品ID去查询商品对应的规格
+            $r_s = $db->select($sql);
+            if($r_s){
+                $price = [];
+                $yprice = [];
+                $unit = $r_s[0]->unit;
+                 foreach ($r_s as $k1 => $v1){
+                    $price[$k1] = $v1->price;
+                    $yprice[$k1] = $v1->yprice;
+                }
+                $min = min($price);
+                $ymin = min($yprice);
+                $present_price = $min;//最低价格
+            }else{
+                $unit = '';
+                $present_price = $prrr;
+                $ymin =$yprrr;
+            }
 
-    $r = $db->select($sql);
 
-    if($r){
-      $product = [];
-      foreach ($r as $k => $v) {
-        $imgurl = $img.$v->img;/* end 保存*/
-        $names = ' '.$v->name . $v->color ;
-        if($v->name == $v->color || $v->name == '默认'){
-          $names = '';
+            $value->unit = $unit;
+            $value->price = $present_price;
+            $product[$key] = array('id' => $pid,'name' => $value->product_title,'price' =>$ymin ,'price_yh' => $value->price,'imgurl' => $imgurl,'volume' => $value->volume,'s_type' => $value->s_type);
         }
-        $product[$k] = array('id' => $v->id,'name' => $v->product_title . $names,'price' => $v->yprice,'price_yh' => $v->price,'imgurl' => $imgurl,'size'=>$v->sizeid,'volume' => $v->volume,'s_type' => $v->s_type);
-      }
-      echo json_encode(array('status'=>1,'pro'=>$product,'bg'=>$bg));
-      exit;
-    }else{
+         echo json_encode(array('status'=>1,'pro'=>$product,'bg'=>$bg));
+        }else{
       echo json_encode(array('status'=>0,'err'=>'没有了！'));
       exit;
     }
   }
+
+
+    public function class_sort($product_class)//根据类别查询下一级
+    {
+          $db = DBAction::getInstance();
+         $typestr=trim($product_class,'-');
+            $typeArr=explode('-',$typestr);
+            //  取数组最后一个元素 并查询分类名称
+            $cid = end($typeArr);//找到本级ID
+            $k[] = '-'.$product_class.'-';
+           
+            if(!empty($cid)){//循环下一级
+                $sql_e = "select cid,pname from lkt_product_class where recycle = 0 and sid = $cid";
+                $r_e = $db->select($sql_e);
+                if($r_e){
+                    foreach ($r_e as $k01 => $v01) {//循环第三级
+                        $k[] = '-'.$product_class.'-'.$v01->cid.'-';
+                        $sql_e01 = "select cid,pname from lkt_product_class where recycle = 0 and sid = $v01->cid";
+                        $r_e01 = $db->select($sql_e01); 
+
+                        if($r_e01){
+                            foreach ($r_e01 as $k02 => $v02) {
+                                
+                               $k[] = '-'.$product_class.'-'.$v01->cid.'-'.$v02->cid.'-';
+                            }
+                        } 
+                    }  
+                }
+            }
+            // print_r($k);die;
+            return $k;
+    }
+     function distribution($db,$img,$paegr){
+      $pagesize =10;
+        if ($paegr) {
+            $start = ($paegr - 1) * $pagesize;
+        } else {
+             $start = 0;
+        }
+        $product='';
+            $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,a.s_type from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.status = 0 and a.num >0 and  a.recycle = 0 and is_distribution = 1 group by c.pid  order by a.volume desc limit  $start,$pagesize";
+            $r_cs = $db->select($sql_cs);
+            if($r_cs){
+                foreach ($r_cs as $keyc => $value) {
+                  // print_r($value->imgurl);die;
+                    $value->imgurl = $img . $value->imgurl;
+                    $product[$keyc] = array('id' => $value->id,'name' => $value->product_title,'price' => $value->price,'price_yh' => $value->yprice,'imgurl' => $value->imgurl,'volume' => $value->volume,'s_type' => $value->s_type);
+                }
+            }
+            return $product;
+
+
+
+    }
+
 }
 
 ?>
