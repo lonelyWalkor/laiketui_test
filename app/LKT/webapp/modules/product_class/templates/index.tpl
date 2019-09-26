@@ -98,7 +98,7 @@ td a{
                             	</div>
                             </div>
                         </a>
-                        {if $level <=6}
+                        {if $level <5}
                         <a  style="text-decoration:none;width: 44%;" class="ml-5" href="index.php?module=product_class&action=add&cid={$item->cid}" title="在此分类下添加" >
                         	<div style="align-items: center;font-size: 12px;display: flex;">
                             	<div style="margin:0 auto;;display: flex;align-items: center;"> 

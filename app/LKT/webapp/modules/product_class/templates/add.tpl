@@ -50,25 +50,30 @@ function check(f){
             <label class="form-label col-4"><span class="c-red"></span>分类级别：</label>
             <div class="formControls col-1"> <span class="select-box">
                 <select name="select_c" class="select" onchange="slevel()" id="select_c"  disabled>
-                    {if $level01 >= 0}
+                    {if $level01 == 0}
                     <option {if $level == 0}selected="true"{/if} value="0">顶级</option>
                     {/if}
-                    {if $level01 >= 1}
+                    {if $level01 == 1}
                     <option {if $level == 1}selected="true"{/if} value="1">一级</option>
                     {/if}
-                    {if $level01 >= 2}
+                    {if $level01 == 2}
                     <option {if $level == 2}selected="true"{/if} value="2">二级</option>
                     {/if}
-                    {if $level01 >= 3}
+                    {if $level01 == 3}
                     <option {if $level == 3}selected="true"{/if} value="3">三级</option>
                     {/if}
-                    {if $level01 >= 4}
+                    {if $level01 == 4}
                     <option {if $level == 4}selected="true"{/if} value="4">四级</option>
                     {/if}
-                    {if $level01 >= 5}
+                    {if $level01 == 5}
                     <option {if $level == 5}selected="true"{/if} value="5">五级</option>
                     {/if}
-
+                    {if $level01 == 6}
+                    <option {if $level == 5}selected="true"{/if} value="5">六级</option>
+                    {/if}
+                    {if $level01 >= 7}
+                    <option {if $level == 5}selected="true"{/if} value="5">七级</option>
+                    {/if}
                 </select>
                 </span>
             </div>
