@@ -55,11 +55,11 @@ class addAction extends Action {
         if($cid){
             $co =" and cid = '$cid'" ;
         }
-        $level01 = $db->select("select max(level) as level  from lkt_product_class where recycle = 0 ".$co);
+        $level001 = $db->select("select max(level) as level  from lkt_product_class where recycle = 0 ".$co);
+         $level01 = 0;
+        // print_r("select max(level) as level  from lkt_product_class where recycle = 0 ".$co);die;
         if($cid){
-           $level01 = $level01[0]->level +1;
-        }else{
-            $level01 = $level01[0]->level;
+           $level01 = $level001[0]->level +1;
         }
         if($r){
             $sid = $r[0]->sid; // 上级id
