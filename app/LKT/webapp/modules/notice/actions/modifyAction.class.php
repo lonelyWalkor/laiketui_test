@@ -91,7 +91,7 @@ class modifyAction extends Action {
 
         $url = addslashes(trim($request->getParameter('uploadImg'))); // 图片上传位置
 
-        $name = addslashes(trim($request->getParameter('name'))); // name
+        $name = addslashes(trim($request->getParameter('notice'))); // name
 
         $detail = addslashes(trim($request->getParameter('detail'))); // 
 
@@ -125,7 +125,7 @@ class modifyAction extends Action {
 
         $sql = "update lkt_set_notice " .
 
-            "set img_url = '$image',user = '$admin_id',detail = '$detail',time = CURRENT_TIMESTAMP " . "where id = '$id'";
+            "set name='$name',img_url = '$image',user = '$admin_id',detail = '$detail',time = CURRENT_TIMESTAMP " . "where id = '$id'";
 
 
 
