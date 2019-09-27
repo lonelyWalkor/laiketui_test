@@ -76,7 +76,7 @@
 
 ![稳定版皮肤](https://images.gitee.com/uploads/images/2019/0514/100638_e7f9fbc9_2029865.png "在这里输入图片标题")
 
-### 分销小程序单店版本截图（新版炫彩皮肤）
+### 百货小程序单店版本截图（新版炫彩皮肤）
 
 ![新版本截图](https://images.gitee.com/uploads/images/2019/0927/080854_34db1391_2029865.png "100638_e7f9fbc9_2029865.png")
 
