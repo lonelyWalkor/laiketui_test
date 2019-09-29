@@ -396,11 +396,13 @@
             <li>快递单号：
                 {foreach from=$data.courier_num item=item name=f1}
                     {if $item.courier_num ==''}
-                    <span class="grText" style="display: inline-block;" >{$item.courier_num}({$item.kuaidi_name})</span>
+                    <span class="grText" style="display: inline-block;" ></span>
                 {else}
-                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}','{$item.courier_num}',true)">
-                        <span style="display: inline-block;" class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
-                    </a>
+                    <span>
+                            <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$item.courier_num})">
+                            <span style="display: inline-block;width: 222px;" class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
+                        </a>
+                    </span>
                 {/if}
                 {/foreach}
                 
@@ -540,10 +542,17 @@
 
 
     <script type="text/javascript">
-        let changeNum = $(".changeNum").html();
-        $(".changeNum").mouseover(function(){
+         let changeNum = ''
+
+         $(".changeNum").mouseover(function(){
+            changeNum = $(this).html();
             $(this).text("查看物流");
-        });
+         });
+         
+        // let changeNum = $(".changeNum").html();
+        // $(".changeNum").mouseover(function(){
+        //     $(this).text("查看物流");
+        // });
         $(".changeNum").mouseout(function(){
             $(this).text(changeNum);
         })

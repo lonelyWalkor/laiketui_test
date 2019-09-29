@@ -387,11 +387,6 @@
              </div>
          </a>
          <input type="hidden" id="dingdan" value="{$data.sNo}">
- <!--         <button class="btn radius newbtn b02" style="height: 36px;border: none;" onclick="printTure();">
-             <div style="height: 100%;display: flex;align-items: center;">
-                 <img src="images/icon1/dy.png"/>&nbsp;打印
-             </div>
-         </button>&nbsp;&nbsp; -->
          <input type="hidden" class="control" name="control" value="{$data.z_price}" >
          <input type="hidden" name="qingkongyema" id="qingkongyema" class="b02" value="清空页码" onclick="pagesetup_null()">&nbsp;&nbsp;
          <input type="hidden" class="tab" value="恢复页码" onclick="pagesetup_default()">
@@ -423,28 +418,18 @@
                     余额支付
                     {/if}</span></li>
              <li style="width: 46.66%;">到货时间：<span class="grText">{$data.arrive_time}</span></li>
-             <li>快递单号：
+             <li>
+                快递单号：
 
-                 <!-- {if $data.courier_num ==''}
-                    <span class="grText" style="display: inline-block;" >{$data.courier_num}</span>
-                 {else}
-                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$data.courier_num})">
-                        <span style="display: inline-block;" class="grText changeNum">{$data.courier_num}</span>
-                    </a>
-                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$data.courier_num})">
-                        <span style="display: inline-block;" class="grText changeNum">{$data.courier_num}</span>
-                    </a>
-                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$data.courier_num})">
-                        <span style="display: inline-block;" class="grText changeNum">{$data.courier_num}</span>
-                    </a>
-                 {/if} -->
                  {foreach from=$data.courier_num item=item name=f1}
                     {if $item.courier_num ==''}
-                    <span class="grText" style="display: inline-block;" >{$item.courier_num}({$item.kuaidi_name})</span>
+                    <span class="grText" style="display: inline-block;" ></span>
                 {else}
-                    <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$item.courier_num})">
-                        <span style="display: inline-block;" class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
-                    </a>
+                    <span>
+                            <a class="send-btn1 "  href="javascript:" onclick="send_btn1(this,'{$data.sNo}',{$item.courier_num})">
+                            <span style="display: inline-block;width: 222px;" class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
+                        </a>
+                    </span>
                 {/if}
                 {/foreach}
                  
@@ -621,8 +606,6 @@
  
  
      <script type="text/javascript">
-
-
         function openPrice(){
 			$('#Prices').show()
 			$('#Priceb').hide()
@@ -660,19 +643,25 @@
 			}
 		)
 
-         let changeNum = $(".changeNum").html();
+         let changeNum = ''
+
          $(".changeNum").mouseover(function(){
-             $(this).text("查看物流");
+            changeNum = $(this).html();
+            $(this).text("查看物流");
          });
+
          $(".changeNum").mouseout(function(){
+            
              $(this).text(changeNum);
          })
+
          $(function(){
              $(".pimg").click(function(){
                  var _this = $(this);//将当前的pimg元素作为_this传入函数
                  imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
              });
          });
+
          function imgShow(outerdiv, innerdiv, bigimg, _this){
              var src = _this.attr("src");//获取当前点击的pimg元素中的src属性
              $(bigimg).attr("src", src);//设置#bigimg元素的src属性

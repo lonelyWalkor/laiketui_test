@@ -322,18 +322,26 @@ class IndexAction extends Action {
                             } else {
                                 $tmp_arr[] = $v1['courier_num'];
                             }
-                    }
-                    
+                    }                    
                 }
 
                 sort($arr);
                 $courier_num111=$arr;
+                 $ddd='';
+                foreach ($courier_num111 as $key => $value) {
+                    if(!$value['kuaidi_name']){
+                       unset($courier_num111[$key]);  
+                    }else{
+                        $ddd[]=$value;
+                    }
+                  
+                }
+
             }
-            $res1[$k] ->courier_num =$courier_num111;
+            $res1[$k] ->courier_num =$ddd;
         }
- 
-            
         // print_r($res1);die;
+ 
         $sql02 = "select * from lkt_express ";
         $r02 = $db -> select($sql02);
         $request -> setAttribute("express", $r02);

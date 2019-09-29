@@ -164,26 +164,29 @@ class ModifyAction extends Action {
           $key = "id";
           $arr =$courier_num111;
           $tmp_arr =[];
-         
+         $dd='';
           foreach ($arr as $k1 => $v1) {
               if($v1['courier_num']){
                   if (in_array($v1['courier_num'], $tmp_arr)) {//搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
                           unset($arr[$k1]);
                       } else {
                           $tmp_arr[] = $v1['courier_num'];
+
+                          $dd[]=$v1;
+
                       }
               }
               
           }
 
-          sort($arr);
-          $courier_num111=$arr;
+          sort($dd);
+          $courier_num111=$dd;
       }
       
       $data['courier_num'] = $courier_num111; // 快递单号
       $data['freight'] =$freight;
       $data['z_price'] =$z_price;
-
+// print_r( $data['courier_num']);
    if($data['otype'] == 'pt'){
 
       switch ($data['gstatus']) {

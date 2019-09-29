@@ -794,9 +794,9 @@
 
 					{if !empty($item->courier_num)}
 						{foreach from=$item->courier_num item=item3 name=f3 key=key3}
-
+							{if !empty($item3.courier_num)}
 							<div id="wl" class="f9e">物流单号 {$key3+1}: </div>
-							
+							{/if}
 						{/foreach}
 					{else}
 						<div class="f9e">物流单号：</div>
@@ -815,8 +815,6 @@
 									<span class="vieworder" onclick="send_btn1(this,'{$item->sNo}','{$item3.courier_num}',true)" style="display: none">查看物流</span>
 								</div>
 
-							{else}
-								<div>暂无</div>
 							{/if}
 						{/foreach}
 					{else}
