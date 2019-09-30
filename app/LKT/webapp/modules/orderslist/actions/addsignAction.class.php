@@ -360,10 +360,7 @@ class addsignAction extends Action {
                     $db->update($sql);
                 }
             }
-                $sql = "update lkt_user set consumer_money = consumer_money + '$consumer_money' where user_id = '$user_id'";
-                $db->update($sql);
             //修改库存
-
             $ss = $db->select("select sid,num,p_id from lkt_order_details where r_sNo = $sNo");
             if($ss){
                 foreach ($ss as $key => $value) {
@@ -379,9 +376,8 @@ class addsignAction extends Action {
                 }
             }
 
-
            	$rl = $db -> update("update lkt_order set status=7 where sNo='" . $sNo . "'");
-		$rd = $db -> update("update lkt_order_details set r_status=6 where r_sNo='" . $sNo . "'");
+			$rd = $db -> update("update lkt_order_details set r_status=6 where r_sNo='" . $sNo . "'");
             if($rl>0 && $rd>0){
                 if($status == 1){
                     $sql = "update lkt_user set money = money + '$z_price' where user_id = '$user_id'";

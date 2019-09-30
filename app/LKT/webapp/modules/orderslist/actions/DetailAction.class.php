@@ -189,6 +189,8 @@ class DetailAction extends Action {
                 sort($arr);
                 $courier_num111=$arr;
             }
+
+            
             
             $data['courier_num'] = $courier_num111; // 快递单号
       $data['freight'] =$freight;

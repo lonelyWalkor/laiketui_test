@@ -22,6 +22,7 @@ class ModifyAction extends Action {
        $this->$m();
      }
     
+     // print_r($request);die;
       $id = intval($request -> getParameter('id')); // 订单id
       $da['having'] = $request -> getParameter('having');
       $da['ordtype'] = $request -> getParameter('ordtype');
@@ -43,9 +44,9 @@ class ModifyAction extends Action {
 
 
 
-      $sql = 'select u.user_name,l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.coupon_id,l.reduce_price,l.coupon_price,l.allow,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size,d.freight,d.id from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo left join lkt_user as u on u.user_id=l.user_id  where l.id="'.$id.'"';
+      $sql = 'select u.user_name,l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.coupon_id,l.reduce_price,l.coupon_price,l.allow,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size,d.freight from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo left join lkt_user as u on u.user_id=l.user_id  where l.id="'.$id.'"';
 
-            $res = $db -> select($sql);
+      $res = $db -> select($sql);
         $num = count($res);
       $data = array();
         $reduce_price = 0; // 满减金额
@@ -53,6 +54,7 @@ class ModifyAction extends Action {
         $allow = 0; // 积分
         $freight =0;
         $z_price =0;
+        $courier_num111='';
       foreach ($res as $k => $v) { 
         $sid = $v -> sid;
         $freight=$freight+$v -> freight;
@@ -85,17 +87,23 @@ class ModifyAction extends Action {
         $data['otype'] = $v -> otype;  // 订单类型
 
         $data['content'] = $v -> content; // 退货原因
-        $data['drawid'] = $v -> drawid; // 抽奖ID
-        $data['coupon_price'] = $v -> coupon_price; // 快递单号
-        $reduce_price = $v -> reduce_price; // 满减金额
-        $coupon_price = $v -> coupon_price; // 优惠券金额
-        $allow = $v -> allow; // 积分
+
+        $data['express_id'] = $v -> express_id; // 快递公司id
+
+        $data['courier_num'] = $v -> courier_num; // 快递单号
+
+          $data['drawid'] = $v -> drawid; // 抽奖ID
+          $data['coupon_price'] = $v -> coupon_price; // 快递单号
+          $reduce_price = $v -> reduce_price; // 满减金额
+          $coupon_price = $v -> coupon_price; // 优惠券金额
+          $allow = $v -> allow; // 积分
 
         $data['paytype'] = $v -> pay; // 支付方式
 
-        $data['trade_no'] = $v -> trade_no; // 微信支付交易号
-        $data['freight'] = $v -> freight; // 运费
+          $data['trade_no'] = $v -> trade_no; // 微信支付交易号
+          $data['freight'] = $v -> freight; // 运费
         $data['id'] = $id;
+
         $exper_id = $v -> express_id;
         if($exper_id){
             $r03 =$db->select("select * from lkt_express where id = $exper_id ");
@@ -106,6 +114,7 @@ class ModifyAction extends Action {
         }
         $courier_num111[$k]['kuaidi_name'] = $res[$k] -> kuaidi_name;
         $courier_num111[$k]['courier_num'] = $v->courier_num;
+        // print_r($data);die;
         // 根据产品id,查询产品主图
 
         $psql = 'select imgurl from lkt_product_list where id="'.$v -> p_id.'"';
@@ -156,37 +165,35 @@ class ModifyAction extends Action {
 
         }
 
-
-
       }
-      
+   
       if($courier_num111[0]){//去重
-          $key = "id";
-          $arr =$courier_num111;
-          $tmp_arr =[];
-         $dd='';
-          foreach ($arr as $k1 => $v1) {
-              if($v1['courier_num']){
-                  if (in_array($v1['courier_num'], $tmp_arr)) {//搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
-                          unset($arr[$k1]);
-                      } else {
-                          $tmp_arr[] = $v1['courier_num'];
+                $key = "id";
+                $arr =$courier_num111;
+                $tmp_arr =[];
+               
+                foreach ($arr as $k1 => $v1) {
+                    if($v1['courier_num']){
+                        if (in_array($v1['courier_num'], $tmp_arr)) {//搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
+                                unset($arr[$k1]);
+                            } else {
+                                $tmp_arr[] = $v1['courier_num'];
+                            }
+                    }
+                    
+                }
 
-                          $dd[]=$v1;
+                sort($arr);
+                $courier_num111=$arr;
+            }
 
-                      }
-              }
-              
-          }
-
-          sort($dd);
-          $courier_num111=$dd;
-      }
-      
-      $data['courier_num'] = $courier_num111; // 快递单号
+            
+            
+            $data['courier_num'] = $courier_num111; // 快递单号
       $data['freight'] =$freight;
       $data['z_price'] =$z_price;
-// print_r( $data['courier_num']);
+
+   // print_r($data);die;
    if($data['otype'] == 'pt'){
 
       switch ($data['gstatus']) {
@@ -271,7 +278,6 @@ class ModifyAction extends Action {
 
       }
 
-
     }
 
       $status = 0;
@@ -294,9 +300,10 @@ class ModifyAction extends Action {
 
       if(!empty($sNo)&&!empty($trade)){
 
-        $sql01 = "select * from lkt_order where sNo = $sNo ";
-
+        $sql01 = "select * from lkt_order where sNo = '$sNo' ";
+// print_r($sql01);die;
         $r01 =$db->select($sql01);
+
 
         $data['status01'] = $r01[0]->status; // 根据订单号查询该订单的状态
 
@@ -328,7 +335,6 @@ class ModifyAction extends Action {
 
       $r02 =$db->select($sql02);
 
-
 //佣金信息
       $sqllud = "select a.*,b.user_name,b.headimgurl from lkt_distribution_record as a ,lkt_user as b  where a.sNo = ".$data['sNo']." and a.level >0  and a.user_id = b.user_id order by level asc";
             $rlud = $db -> select($sqllud);
@@ -347,20 +353,19 @@ class ModifyAction extends Action {
                   $request -> setAttribute("fenxiaoshang",$dd);
                 }
             }
-
-            // print_r($res);die;
           $allow = 0; // 积分
           $sql02 = "select * from lkt_express ";
           $r02 = $db -> select($sql02);
-          $request -> setAttribute("express", $r02);
+          // print_r($res);die;
           $request -> setAttribute("uploadImg",$uploadImg);
           $request -> setAttribute("data",$data);
           $request -> setAttribute("detail",$res);
+          $request -> setAttribute("express",$r02);
           $request -> setAttribute("reduce_price",$reduce_price);
           $request -> setAttribute("coupon_price",$coupon_price);
           $request -> setAttribute("allow",$allow);
           $request -> setAttribute("num",$num);
-          $request -> setAttribute("da",$da);
+          $request->setAttribute("da", $da);
 
       return View :: INPUT;
 

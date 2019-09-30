@@ -148,7 +148,7 @@ class IndexAction extends Action {
                 $res1 = $db -> select($sql1); 
                 $db->admin_record($admin_id,' 导出全部订单的信息 ',4);
             }elseif ($pageto == 'inquiry'){ // 导出查询
-                $sql1 = "select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id $condition order by add_time desc limit $start,$pagesize";
+                $sql1 = "select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id $condition order by add_time desc ";
                 $res1 = $db -> select($sql1); 
                 $db->admin_record($admin_id,' 导出查询的订单的信息 ',4);
             }else{

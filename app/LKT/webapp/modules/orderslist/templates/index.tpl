@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-03 15:50:15
- * @LastEditTime: 2019-09-20 18:54:28
+ * @LastEditTime: 2019-09-29 20:13:07
  * @LastEditors: Please set LastEditors
  -->
 <!DOCTYPE HTML>
@@ -231,13 +231,13 @@
 		}
 
 		.wl_maskNewContent {
-			width: 500px;
-			height: 430px;
+			width: 920px;
+			height: 600px;
+			background: rgba(255, 255, 255, 1);
+			border-radius: 4px;
 			margin: 0 auto;
 			position: relative;
 			top: 10%;
-			background: #fff;
-			border-radius: 10px;
 		}
 
 		.dc {
@@ -538,6 +538,7 @@
 		.custom-control {
 			padding-left: 0px !important;
 		}
+
 		.custom-control-indicator {
 			margin-top: 0px !important;
 		}
@@ -565,16 +566,14 @@
 					<input type="text" name="sNo" id="sNo_" size='8' value="{$sNo}" placeholder="请输入订单编号/姓名/电话/会员ID"
 						style="width:230px;height: 31px;" class="input-text seach_bottom">
 
-					<select name="otype" class="select seach_bottom" id="otype_" style="width: 130px;font-size: 14px;height: 31px;color: #cccccc;vertical-align: middle;">
+					<select name="otype" class="select seach_bottom" id="otype_"
+						style="width: 130px;font-size: 14px;height: 31px;color: #cccccc;vertical-align: middle;">
 						<option value="">请选择订单类型</option>
 
 						{foreach from=$ordtype item="item" key="key"}
-						<option value="{$key}" {if $otype==$key}selected{/if}>{$item} </option>
-						{/foreach} 
-					
-					</select>
-						
-					<select name="status" class="select seach_bottom" id="status_" style="width: 130px;font-size: 14px;height: 31px;color: #cccccc;vertical-align: middle;">
+						<option value="{$key}" {if $otype==$key}selected{/if}>{$item} </option> {/foreach} </select> <select
+							name="status" class="select seach_bottom" id="status_"
+							style="width: 130px;font-size: 14px;height: 31px;color: #cccccc;vertical-align: middle;">
 						<option value="">请选择订单状态</option>
 						{$class}
 					</select>
@@ -629,7 +628,7 @@
 						<th style="min-width: 100px;">物流信息</th>
 						<th class="tab_dat">操作</th>
 					</tr>
-					
+
 				</thead>
 				<tbody>
 					{foreach from=$order item=item name=f1}
@@ -638,7 +637,8 @@
 						<td colspan="{if $otype == 't2'}10{else}9{/if}" class="tab_tb_news">
 							<label class="custom-control custom-checkbox">
 
-								<input name="orders[]" value="{$item->id}" type="checkbox" class="custom-control-input orders_select" title="{$item->status}">
+								<input name="orders[]" value="{$item->id}" type="checkbox" class="custom-control-input orders_select"
+									title="{$item->status}">
 								<span class="custom-control-indicator"></span>
 
 								<span class="custom-control-description">
@@ -793,13 +793,13 @@
 				<div class="wlmk_box" style="width: 100px;">
 
 					{if !empty($item->courier_num)}
-						{foreach from=$item->courier_num item=item3 name=f3 key=key3}
-							{if !empty($item3.courier_num)}
-							<div id="wl" class="f9e">物流单号 {$key3+1}: </div>
-							{/if}
-						{/foreach}
+					{foreach from=$item->courier_num item=item3 name=f3 key=key3}
+					{if !empty($item3.courier_num)}
+					<div id="wl" class="f9e">物流单号 {$key3+1}: </div>
+					{/if}
+					{/foreach}
 					{else}
-						<div class="f9e">物流单号：</div>
+					<div class="f9e">物流单号：</div>
 					{/if}
 
 					<div class="f9e">运费：</div>
@@ -807,18 +807,19 @@
 
 				<div class="wlmk_box_2">
 					{if !empty($item->courier_num)}
-						{foreach from=$item->courier_num item=item3 name=f3 key=key3}
-							{if !empty($item3.courier_num)}
+					{foreach from=$item->courier_num item=item3 name=f3 key=key3}
+					{if !empty($item3.courier_num)}
 
-								<div class="goods-name doods-span" style="width:200px;">
-									<span>{$item3.courier_num}({$item3.kuaidi_name})</span>
-									<span class="vieworder" onclick="send_btn1(this,'{$item->sNo}','{$item3.courier_num}',true)" style="display: none">查看物流</span>
-								</div>
+					<div class="goods-name doods-span" style="width:200px;">
+						<span>{$item3.courier_num}({$item3.kuaidi_name})</span>
+						<span class="vieworder" onclick="send_btn1(this,'{$item->sNo}','{$item3.courier_num}',true)"
+							style="display: none">查看物流</span>
+					</div>
 
-							{/if}
-						{/foreach}
+					{/if}
+					{/foreach}
 					{else}
-						<div>暂无</div>
+					<div>暂无</div>
 					{/if}
 
 					<div>{if $item->freight}￥{$item->freight}{else}免邮{/if}</div>
@@ -834,14 +835,14 @@
 			</a>
 
 
-				{if $item->statu <= 3}
-					<a class="hover_a" onclick="navto('index.php?module=orderslist&action=Modify&id={$item->id}&type=updata')" title="编辑订单">
-						<img src="images/icon1/xg.png" />&nbsp;编辑订单
-					</a>
+			{if $item->statu <= 3} <a class="hover_a"
+				onclick="navto('index.php?module=orderslist&action=Modify&id={$item->id}&type=updata')" title="编辑订单">
+				<img src="images/icon1/xg.png" />&nbsp;编辑订单
+				</a>
 				{else}
-					<div class="stopCss">
-						<img style="margin-top: -3px;" src="images/iIcon/bianji.png" />&nbsp;编辑订单
-					</div>
+				<div class="stopCss">
+					<img style="margin-top: -3px;" src="images/iIcon/bianji.png" />&nbsp;编辑订单
+				</div>
 				{/if}
 
 				{if $item->statu == 1}
@@ -872,6 +873,7 @@
 	<div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 
 	</div>
+
 	<div class="dc" style="display:none;">
 		<div class="maskNewContent">
 			<div class="maskTitle ">
@@ -944,6 +946,7 @@
 			</div>
 		</div>
 	</div>
+
 	<script type="text/javascript" src="style/js/jquery.js"></script>
 	<script type='text/javascript' src='modpub/js/calendar.js'></script>
 	<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
@@ -967,34 +970,34 @@
 	<script type="text/javascript">
 		// 查看物流
 		// 移入
-		$('.doods-span').on('mouseenter',function(vm){
+		$('.doods-span').on('mouseenter', function (vm) {
 			var son = vm.currentTarget.children[0]
 			var span = vm.currentTarget.children[1]
-			
-			
+
+
 			span.style.display = 'inline-flex'
 			son.style.display = 'none'
 		})
 		// 移出
-		$('.doods-span').on('mouseleave',function(vm){
+		$('.doods-span').on('mouseleave', function (vm) {
 			var son = vm.currentTarget.children[0]
 			var span = vm.currentTarget.children[1]
-			
+
 			span.style.display = 'none'
 			son.style.display = 'inline-flex'
 		})
 
 		// 订单查询
-		$('.vieworder').on('click',function(vm){
+		$('.vieworder').on('click', function (vm) {
 			console.log(vm.target.title)
 		})
 
 		// 删除订单
-		
+
 		var deIsOpn = 0
 		var conStr = ''
 		function del_orders() {
-			
+
 
 
 			var $sel = $(".orders_select");
@@ -1002,23 +1005,25 @@
 			var con_str = ''
 			for (var i = 0; i < $sel.length; i++) {
 				if ($sel[i].checked == true) {
-					if($sel[i].title === '拼团中'){
+					if ($sel[i].title === '拼团中') {
 						parent.appendMask2('存在拼团中的订单不能删除')
 						deIsOpn = 0
-						return 
+						return
 					}
 					con_str += $sel[i].value + ',';
 				}
 			}
 
-			
+
 
 			if (con_str.length) {
 				deIsOpn = 1
 				conStr = con_str
+
 				parent.appendMask2('确认删除此所选订单？此操作不可恢复！')
+
 				// confirm123("确认删除此所选订单？此操作不可恢复！", con_str, 'index.php?module=orderslist&action=del&data=', '删除');
-				
+
 			} else {
 				parent.appendMask2('请选择需要删除的订单')
 			}
@@ -1029,14 +1034,14 @@
 		function colse(sNo) {
 			colsEsno = sNo
 			deIsOpn = 2
-			parent.appendMask2('确认关闭此订单？',{colsEsno,deIsOpn})
+			parent.appendMask2('确认关闭此订单？', { colsEsno, deIsOpn })
 		}
 
 		function navto(URI) {
 			var parma = $('#form1').serializeArray()
 			var urllist = []
 			parma.forEach(function (item) {
-				if(item.name === 'sNo'){
+				if (item.name === 'sNo') {
 					item.name = item.name + 1
 				}
 				urllist.push(item.name + '=' + item.value)
@@ -1146,16 +1151,16 @@
 				type: "post",
 				success: function (res) {
 					var data = JSON.parse(res);
-					
-					if(!data[0].data.length){
+
+					if (!data[0].data.length) {
 						appendMask('暂无物流信息！', "ts");
 						return
 					}
-					
-					if(is){
+
+					if (is) {
 						d = []
-						for(var item of data){
-							if(item.courier_num === courier_num){
+						for (var item of data) {
+							if (item.courier_num === courier_num) {
 								d.push(item)
 							}
 						}
@@ -1167,19 +1172,75 @@
 						var str = '';
 						var title = ''
 
-						for(var item of data){
-							title +='<div style="margin-bottom: 30px;">' + item.kuaidi_name + ":" + item.courier_num
-							
-							for(var aaa of item.data){
-								str += '<div class="time" style="margin-left: 30px;">' + aaa.time + '</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">' + aaa.context + '</div>';
-							}
+						// for(var item of data){
+						// 	title +='<div style="margin-bottom: 30px;">' + item.kuaidi_name + ":" + item.courier_num
 
-							title += str + '</div>'
-						}
-						
+						// 	for(var aaa of item.data){
+						// 		str += '<div class="time" style="margin-left: 30px;">' + aaa.time + '</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">' + aaa.context + '</div>';
+						// 	}
+
+						// 	title += str + '</div>'
+						// }
+
 						// for (var i = 0; i < data.data.length; i++) {
 						// 	str += '<div class="time" style="margin-left: 30px;">' + data.data[i].time + '</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">' + data.data[i].context + '</div>';
 						// }
+
+
+						function getnr(data) {
+							for (var aaa of data) {
+
+								str += `
+
+								
+									<li>
+										<i style="color:rgba(151,160,180,1);font-size:14px;font-style: initial;">${aaa.time}</i>
+										<i style="color:rgba(65,70,88,1);font-size:14px;font-style: initial;">${aaa.context}</i>
+									</li>
+								
+								
+								`
+
+
+							}
+								// <div class="time">
+								// 	${aaa.time}
+								// </div>
+								
+								// <div class="step">
+								// ${aaa.context}
+								// </div>
+							return str
+						}
+
+						for (var item of data) {
+							title = `
+
+						<div class="row">
+						
+							<div class="col-2" style="text-align: end;color: rgba(65,70,88,1);font-size: 14px;">物流公司：</div>
+							<div class="col-9" style="color:rgba(65,70,88,1);font-size: 14px;">${ item.kuaidi_name}</div>
+						</div>
+
+						<div class="row">
+							<div class="col-2" style="text-align: end;color: rgba(65,70,88,1);font-size: 14px;">运单号码：</div>
+							<div class="col-9" style="color:rgba(65,70,88,1);font-size: 14px;">${ item.courier_num}</div>
+						</div>
+
+						<div class="row">
+							<div class="col-2" style="text-align: end;color: rgba(65,70,88,1);font-size: 14px;">物流跟踪：</div>
+							<div class="col-9">
+									<ul>
+							${
+
+								getnr(item.data)
+
+								}
+							</ul>
+							</div>
+						</div>
+						`
+						}
 
 						wl_appendMask(title, "cg");
 					} else {
@@ -1477,17 +1538,20 @@
 		function wl_appendMask(content, src) {
 			$("body").append(`
 				<div class="wl_maskNew">
+
 					<div class="wl_maskNewContent">
 						<a href="javascript:void(0);" class="closeA" onclick=close_wl_Mask1() ><img src="images/icon1/gb.png"/></a>
-						<div class="maskTitle">物流信息</div>
-						<div style="height: 370px;position: relative;top:20px;font-size: 22px;text-align: center;overflow: scroll;">
+						<div class="maskTitle" style="display: block;font-size:16px;font-weight:bold;">物流信息</div>
+						<div style="height: 470px;position: relative;top:20px;font-size: 22px;overflow: scroll;">
 							${content}
 						</div>
 						<div style="text-align:center;margin-top:30px">
-							<button class="closeMask" onclick=close_wl_Mask1() >确认</button>
-						</div>
+					<button class="closeMask" onclick=close_wl_Mask1() >确认</button>
+				</div>
 					</div>
 				</div>
+
+
 			`)
 		}
 
@@ -1574,13 +1638,13 @@
 		}
 
 		// 删除订单
-		function deleteS(){
+		function deleteS() {
 			$.ajax({
 				url: 'index.php?module=orderslist&action=delorder&ids=' + conStr,
 				type: "post",
 				data: {},
 				success: function (res) {
-								// 刷新
+					// 刷新
 					location.replace(location.href);
 					// debugger
 				}
@@ -1588,7 +1652,7 @@
 		}
 
 		// 关闭订单
-		function openS(){
+		function openS() {
 			$.ajax({
 				url: 'index.php?module=orderslist&action=addsign&m=close&sNo=' + colsEsno,
 				type: "post",
@@ -1599,20 +1663,20 @@
 				}
 			})
 		}
-		
+
 		function closeMask1() {
 			$(".maskNew").remove();
-			if(deIsOpn === 1){
+			if (deIsOpn === 1) {
 				deleteS()
-			} else if(deIsOpn === 2){
+			} else if (deIsOpn === 2) {
 				openS()
 			}
 		}
 
-		function deletes(){
-			if(deIsOpn === 1){
+		function deletes() {
+			if (deIsOpn === 1) {
 				deleteS()
-			} else if(deIsOpn === 2){
+			} else if (deIsOpn === 2) {
 				openS()
 			}
 		}
@@ -1687,7 +1751,7 @@
 		}
 
 
-		
+
 
 	</script>
 	{/literal}

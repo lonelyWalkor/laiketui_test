@@ -44,12 +44,13 @@ class delAction extends Action {
             foreach ($str_option as $key => $value) {
                $class = '-'.$value.'-';
                $r=$db->select("select id from lkt_product_list where product_class like '%$class%' and recycle = 0");
+               // print_r($r);
                if($r){
                 $sta=1;
                }
             }
 
-            if($sta == 1){
+            if($sta == 0){
                 $this->del($str_option);
                 echo 1;
                 return;
@@ -66,6 +67,9 @@ class delAction extends Action {
     }
     public function del($str_option){
         foreach ($str_option as $k => $v){
+            $db = DBAction::getInstance();
+            $request = $this->getContext()->getRequest();
+            $admin_id = $this->getContext()->getStorage()->read('admin_id');
             $sql = "select * from lkt_product_class where cid = '$v'";
             $rr = $db->select($sql);
             $img = $rr[0]->img;
