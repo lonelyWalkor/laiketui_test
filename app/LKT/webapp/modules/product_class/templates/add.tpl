@@ -69,10 +69,10 @@ function check(f){
                     <option {if $level == 5}selected="true"{/if} value="5">五级</option>
                     {/if}
                     {if $level01 == 6}
-                    <option {if $level == 5}selected="true"{/if} value="5">六级</option>
+                    <option {if $level == 5}selected="true"{/if} value="6">六级</option>
                     {/if}
                     {if $level01 >= 7}
-                    <option {if $level == 5}selected="true"{/if} value="5">七级</option>
+                    <option {if $level == 5}selected="true"{/if} value="7">七级</option>
                     {/if}
                 </select>
                 </span>

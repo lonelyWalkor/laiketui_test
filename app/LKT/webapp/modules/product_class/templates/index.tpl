@@ -262,7 +262,7 @@ function closeMask(id){
             if(res==1){
                 appendMask("删除成功","cg")
             }else if(res == 2){
-                appendMask("有下级不允删除","ts")
+                appendMask("有商品不允删除","ts")
             }else{
                 appendMask("删除失败","ts")
             }
