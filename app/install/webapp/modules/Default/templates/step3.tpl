@@ -1,43 +1,13 @@
 <!DOCTYPE html>
-
-
-
 <html>
-
-
-
 	<head>
-
-
-
 		<meta charset="utf-8" />
-
-
-
 		<title>创建数据库-来客电商 V2.0 系统</title>
-
-
-
 	<link type="text/css" href="style/install/css/index.css" rel="stylesheet">
-
-
-
 	<link type="text/css" href="style/install/css/style.css" rel="stylesheet">
-
-
-
 	<script type="text/javascript" src="style/install/js/jquery.min.js" ></script>
-
-
-
 	</head>
-
-
-
 	<body>
-
-
-
 		<div class="border">
 
 

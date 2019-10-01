@@ -32,7 +32,7 @@ class step1Action extends Action
             array('PHP版本', '5.4', '5.4+', PHP_VERSION, 'success'),
 
 
-            array('MYSQL版本', '5.5', '5.7+', '未知', 'success'), //PHP5.5不支持mysql版本检测
+            array('MYSQL版本', '5.5', '5.6+', '未知', 'success'), //PHP5.5不支持mysql版本检测
 
 
             array('附件上传', '不限制', '2M+', '未知', 'success'),

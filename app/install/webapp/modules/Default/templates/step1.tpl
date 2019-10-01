@@ -1,151 +1,51 @@
 <!DOCTYPE html>
-
-
-
 <html>
-
-
-
 	<head>
-
-
-
 		<meta charset="utf-8" />
-
-
-
 		<title>环境检测-来客电商 V2.0  商城管理系统</title>
-
-
-
-	<link type="text/css" href="style/install/css/index.css" rel="stylesheet">
-
-
-
-	<link type="text/css" href="style/install/css/style.css" rel="stylesheet">
-
-
-
-	</head>
-
-
-
-	<body>
-
-
-
+	    <link type="text/css" href="style/install/css/index.css" rel="stylesheet">
+        <link type="text/css" href="style/install/css/style.css" rel="stylesheet">
+</head>
+<body>
 		<div class="border">
-
-
-
 			<div class="header">
-
-
-
 				<span class="logo"></span>
-
-
-
 				<span class="intro">安装向导</span>
-
-
-
 			</div>
-
-
 
 			<div class="install_steps">
-
-
-
 				<div class="steps  active"><span class="num">1</span>安装协议
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
-
-
 
 				<div class="steps  active"><span class="num">2</span>环境检测
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
-
-
 
 				<div class="steps"><span class="num">3</span>创建数据库
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
-
-
 
 				<div class="steps"><span class="num">4</span>安装
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
-
-
 
 				<div class="steps"><span class="num">5</span>完成
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
 
-
-
 			</div>
-
-
 
 			<div class="rule_title">来客电商 V2.0 <span>安装协议</span></div>
 
-
-
 			<div class="rules">
-
-
 
 			 <h1 style="text-align:center;">环境检测</h1>
 
-
-
        <table class="table">
 
-
-
         <caption><h2>运行环境检查</h2></caption>
-
-
-
         <thead>
-
-
-
             <tr>
 
 
@@ -391,6 +291,3 @@
 
 
 </html>
-
-
-
