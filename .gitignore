@@ -1,0 +1,9 @@
+.DS_Store
+*/.DS_Store
+app/data/install.lock
+app/install/webapp/_cache/
+app/install/webapp/_compile/
+app/LKT/webapp/_cache/
+app/LKT/webapp/_compile/
+app/LKT/webapp/config/db_config.php
+app/install/webapp/config/db_config.php
