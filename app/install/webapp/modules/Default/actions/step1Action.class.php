@@ -20,6 +20,7 @@ class step1Action extends Action
         @chmod(WEB_PATH, 0777);
         $request = $this->getContext()->getRequest();
         $type = true;
+        $_SESSION['install_step'] = '1';
         // $_SESSION['install_error'] = false;
         //环境检测
 

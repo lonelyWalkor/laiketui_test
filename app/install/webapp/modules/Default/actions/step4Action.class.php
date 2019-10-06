@@ -23,9 +23,7 @@ class step4Action extends Action
     public function getDefaultView ()
     {
 
-        $step = $this -> getContext() -> getStorage() -> read('step');
-
-        if ($step < 3 || !isset($step)) {
+        if ($_SESSION['install_step'] < 3 || !isset($_SESSION['install_step'])) {
 
             header("Content-type: text/html;charset=utf-8");
 

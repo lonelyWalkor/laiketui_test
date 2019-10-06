@@ -119,7 +119,7 @@ class step3Action extends Action {
 
 		$res_for = $this -> insert_member($db, $DB['prefix'], $info);
 
-		$this->getContext()->getStorage()->write('step',3);
+		$_SESSION['install_step'] = '3';
 
 		return View::INPUT;
 
