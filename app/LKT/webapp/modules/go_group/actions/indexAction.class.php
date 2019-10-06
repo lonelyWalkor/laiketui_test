@@ -171,7 +171,7 @@ class IndexAction extends Action {
                 left join lkt_product_list as p on g.product_id=p.id 
                 left join lkt_configure as c on g.attr_id=c.id 
                 where $and" . " 
-                
+                group by g.group_id 
                 order by g.id desc limit $start,$pagesize";
                 // print_r($sql);die;
         $res = $db -> select($sql);
@@ -180,7 +180,7 @@ class IndexAction extends Action {
                 left join lkt_product_list as p on g.product_id=p.id 
                 left join lkt_configure as c on g.attr_id=c.id 
                 where $and" . " 
-               
+                group by g.group_id 
                 order by g.id desc ");
 
         if($res){
