@@ -31,7 +31,7 @@ table{height: 50px;}
 
 /*新增*/
 body{min-height: 100vh;}
-.breadcrumb{background: #edf1f5;margin: 0;border: none;padding-left: 0px;padding: 0px;line-height: 56px;height: 56px;}
+.breadcrumb{background: #edf1f5;margin: 0;border: none;padding-left: 10px;line-height: 56px;height: 56px;}
 .breadcrumb span{padding:0 5px;}
 .breadcrumb .btn-success{display: none;}
 .breadcrumb .Hui-iconfont{display: none;}
