@@ -1,43 +1,20 @@
 <!DOCTYPE html>
 
 <html lang="en" class="app">
-
-
-
   <head>
 
     <meta charset="utf-8">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>公众平台管理系统</title>
-
-    <meta name="keywords" content="微信,微信公众平台" />
-
-    <meta name="description" content="微信公众平台管理系统，是国内最完善移动网站及移动互联网技术解决方案。" />
-
-    <link rel="shortcut icon" href="http://ketter.mingxingnaxieshi.com/attachment/images/global/wechat.jpg" />
-
-
-
     <script  type="text/javascript" src="style/tgt/util.js"></script>
-
     <link rel="stylesheet" href="style/tgt/font-awesome.min.css" type="text/css" />
-
     <link rel="stylesheet" href="style/tgt/webfont.css" type="text/css" />
-
     <link rel="stylesheet" href="style/tgt/fontStyle.css" type="text/css" />
-
     <link rel="stylesheet" href="style/tgt/iconfont.css" type="text/css" />
-
     <link rel="stylesheet" href="style/tgt/bootstrap.min.css" type="text/css" />
-
     <link rel="stylesheet" href="style/tgt/common.css">
-
     <link rel="stylesheet" href="style/tgt/animate.min.css" type="text/css" />
-
     <link rel="stylesheet" href="style/tgt/style.min.css" type="text/css" />
 
 {literal}
@@ -53,9 +30,7 @@
     </script>
 
     <script src="style/tgt/require.js"></script>
-
     <script src="style/tgt/config.js"></script>
-
     <script src="style/tgt/jquery-1.11.1.min.js"></script>
 
 {/literal}
@@ -67,11 +42,8 @@
   <body>
 
     <script type="text/javascript" src="style/tgt/jquery.gcjs.js"></script>
-
     <script type="text/javascript" src="style/tgt/jquery.form.js"></script>
-
     <script type="text/javascript" src="style/tgt/tooltipbox.js"></script>
-
     <script type="text/javascript" src="style/tgt/sceollFix.js"></script>
 
     {literal}

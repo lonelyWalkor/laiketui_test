@@ -14,8 +14,6 @@
 
     <title>公众平台管理系统</title>
 
-    <meta name="keywords" content="微信,微信公众平台" />
-    <meta name="description" content="微信公众平台管理系统，是国内最完善移动网站及移动互联网技术解决方案。" />
     <script  type="text/javascript" src="style/tgt/util.js"></script>
     <link rel="stylesheet" href="style/tgt/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="style/tgt/webfont.css" type="text/css" />
@@ -39,17 +37,11 @@
     </script>
 
     <script src="style/tgt/require.js"></script>
-
     <script src="style/tgt/config.js"></script>
-
     <script src="style/tgt/jquery-1.11.1.min.js"></script>
-
     <script type="text/javascript" src="style/tgt/jquery.gcjs.js"></script>
-
     <script type="text/javascript" src="style/tgt/jquery.form.js"></script>
-
     <script type="text/javascript" src="style/tgt/tooltipbox.js"></script>
-
     <script type="text/javascript" src="style/tgt/sceollFix.js"></script>
 
 {/literal}

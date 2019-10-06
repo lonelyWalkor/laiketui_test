@@ -104,7 +104,6 @@ td a{
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div> 
 
 <script type="text/javascript" src="style/js/jquery.js"></script>
-
 <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
 <script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script> 
