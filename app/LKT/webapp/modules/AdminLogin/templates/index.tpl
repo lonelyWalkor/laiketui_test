@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:23
- * @LastEditTime: 2019-09-24 09:52:23
- * @LastEditors: Please set LastEditors
- -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -978,82 +971,14 @@
                     return node;
                 }
             });
-            $(".menu-system").each(function(){
-                $(this).mouseover(function(){
-                    $(this).find(".asideImg").eq(0).hide();
-                    $(this).find(".asideImg").eq(1).show();
-                    $(this).addClass("active");
-                    $(this).find(".t2").css("color","#148cf1");
-                    $(".selected .t2").css("color","#148cf1");
-                })
-                $(this).mouseout(function(){
-                    $(this).find(".asideImg").eq(1).hide();
-                    $(this).find(".asideImg").eq(0).show();
-                    $(this).removeClass("active");
-                    $(".selected .t2").css("color","#333");
-                    $(".sp5").find(".asideImgWrap img").eq(0).hide();
-                    $(".sp5").find(".asideImgWrap img").eq(1).show();
-                    $(".t2").css("color","#333");
-                    $(".sp5").find(".t2").css("color","#148cf1");
-                })
-
-                $(this).click(function(){
-                    if(!$(".changeAside").hasClass("changed")){
-                        $(".menu-system dt").each(function(){
-                            if($(this).hasClass("selected")){
-                                $(this).find(".asideImgRight").eq(0).hide();
-                                $(this).find(".asideImgRight").eq(1).show();
-                            }
-                            else{
-                                $(this).find(".asideImgRight").eq(1).hide();
-                                $(this).find(".asideImgRight").eq(0).show();
-                            }
-                        });
-                    }
-                })
-            });
-            $(".changeAside").click(function(){
-                if($(this).hasClass("changed")){
-                    $(this).removeClass("changed");
-                    $("aside").animate({width:"200"});//200
-                    $(".Hui-article-box").animate({left:"200"});//200
-                    $(".Hui-aside .menu_dropdown dl dt").animate({paddingLeft:"30"})
-                    setTimeout(function(){
-                        $(".t2,.asideImgWrapRight").show();
-                    },500);
-                    $(".asideImg").css("left","0px");
-                    $("#menu-article a").css({
-                        width:"50px",
-                        height:"50px",
-                        position:"static"
-                    })
-                }
-                else{
-                    $(this).addClass("changed");
-                    $("aside").animate({width:"50"});//200
-                    $(".Hui-article-box").animate({left:"50"});//200
-                    $(".t2,.asideImgWrapRight").hide();
-                    $(".Hui-aside .menu_dropdown dl dt").animate({paddingLeft:"0"});//30
-                    $(".asideImg").css("left","15px");
-                    $(".menu-system dd ").hide();
-                    $(".asideImgRight:odd").hide();
-                    $(".asideImgRight:even").show();
-                    $("#menu-article a").css({
-                        position:"absolute",
-                        width:"50px",
-                        height:"50px",
-                        left:"0px",
-                    })
-
-                }
-            });
+            
             $(".menu-system").each(function(){
                 $(this).mouseover(function(){
                     $(this).removeClass("active");
 
                 })
                 $(this).mouseover(function(){
-                    if($(".changeAside").hasClass("changed")){
+                	if($(".changeAside").hasClass("changed")){
                         $(".menu-system dt").addClass("selected");
                         $(this).css({
                             paddingRight:"190px",
@@ -1244,6 +1169,8 @@
 				function closeMask10() {
 					$(".maskNew").remove();
 				}
+
+
 	</script>
 {/literal}
 </body>
