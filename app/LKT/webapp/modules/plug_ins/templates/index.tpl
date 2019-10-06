@@ -27,13 +27,7 @@
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe654;</i> 插件管理 <span class="c-gray en">&gt;</span> 插件列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
-    <div style="clear:both;">
-        <button class="btn newBtn radius" value="添加插件" onclick="location.href='index.php?module=plug_ins&action=add';">
-        	<div style="height: 100%;display: flex;align-items: center;font-size: 14px;">
-                <img src="images/icon1/add.png"/>&nbsp;添加插件
-           	</div>
-        </button>
-    </div>
+    
     <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
@@ -122,13 +116,7 @@
                             </a>
                             {/if}
                         {/if}
-                        <a style="text-decoration:none" class="ml-5" href="javascript:void(0);" onclick="confirm('确定要删除此插件吗?',{$item->id})">
-                        	<div style="align-items: center;font-size: 12px;display: flex;">
-                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
-                                <img src="images/icon1/del.png"/>&nbsp;删除
-                            	</div>
-                			</div>
-                        </a>
+                        
                     </td>
                 </tr>
             {/foreach}
