@@ -119,12 +119,26 @@ class step3Action extends Action {
 
 		$res_for = $this -> insert_member($db, $DB['prefix'], $info);
 
+		$this->getContext()->getStorage()->write('step',3);
+
 		return View::INPUT;
 
 	}
 
 	public function getDefaultView() {
+		$request = $this -> getContext() -> getRequest();
+		$admin = $request -> getParameter('admin');
+		if (!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])) {
 
+				// $this->error('请填写完整管理员信息');
+
+				header("Content-type: text/html;charset=utf-8");
+
+				echo "<script language='javascript'>" . "alert('请填写完整管理员信息！');" . "location.href='index.php?action=step2';</script>";
+
+				return;
+
+			}
 		return View::INPUT;
 
 	}
