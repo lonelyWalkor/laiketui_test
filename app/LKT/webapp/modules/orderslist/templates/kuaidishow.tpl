@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="style/css/style.css" />
 <link href="style/ssd1.css" rel="stylesheet" type="text/css" />
 <script src="style/jquery-1.11.3.js"></script>
-<script language="javascript"  src="style/ssd1.js"> </script>
+<script language="javascript"  src="style/js/ssd1.js"> </script>
 
 
 <title>快递信息</title>

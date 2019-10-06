@@ -670,7 +670,7 @@
     <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
     <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/validate-methods.js"></script>
     <script type="text/javascript" src="style/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-    <script language="javascript" src="style/ssd1.js"> </script>
+    <script language="javascript" src="style/js/ssd1.js"> </script>
     {literal}
 
 

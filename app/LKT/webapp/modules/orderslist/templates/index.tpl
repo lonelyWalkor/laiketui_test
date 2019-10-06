@@ -15,7 +15,6 @@
 	<meta name="viewport"
 		content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
-	<link href="//at.alicdn.com/t/font_353057_iozwthlolt.css" rel="stylesheet">
 	<link href="style/statics/mch/css/bootstrap.min.css" rel="stylesheet">
 	<link href="style/statics/mch/css/jquery.datetimepicker.min.css" rel="stylesheet">
 	<link href="style/statics/css/flex.css?version=2.5.8.0" rel="stylesheet">
@@ -962,7 +961,7 @@
 	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
 	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/validate-methods.js"></script>
 	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-	<script language="javascript" src="style/ssd1.js"> </script>
+	<script language="javascript" src="style/js/ssd1.js"> </script>
 
 	<script type="text/javascript" src="style/js/laydate/laydate.js"></script>
 
