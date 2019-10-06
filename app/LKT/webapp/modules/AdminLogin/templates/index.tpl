@@ -718,7 +718,7 @@
 
 	<div>
 			<span>
-				<a class="ba" href="http://www.laiketui.com">Copyright&nbsp;©&nbsp;2017&nbsp;壹拾捌号网络版权所有[官方网站]&nbsp;&nbsp;</a>
+				<a class="ba" href="http://www.laiketui.com">Copyright&nbsp;©&nbsp;2019&nbsp;壹拾捌号网络版权所有[官方网站]&nbsp;&nbsp;</a>
 				<a class="ba" href="http://www.miibeian.gov.cn">湘ICP备17020355号</a>
 			</span>
 	</div>

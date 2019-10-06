@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:22
- * @LastEditTime: 2019-09-11 16:15:57
- * @LastEditors: Please set LastEditors
- -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -533,7 +526,7 @@ function check(f) {
 <link rel="stylesheet" href="style/kindeditor/themes/default/default.css"/>
 <script src="style/kindeditor/kindeditor-min.js"></script>
 <script src="style/kindeditor/lang/zh_CN.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="style/js/vue.min.js"></script>
 {literal}
 <script>
 $(document.body).css({
