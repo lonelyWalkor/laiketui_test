@@ -378,9 +378,11 @@
                 {else}
                 <thead>
                 <tr class="text-c tab_tr">
-                    <th style="width: 30px"></th>
+                    
                     <th style="width:20%;">拼团活动名称</th>
+
                     <th style="width:20%;">商品名称</th>
+                     <th style="">状态</th>
                     <th style="">零售价</th>
                     <th style="">拼团价格</th>
                     <th style="width: 80px;">库存</th>
@@ -392,22 +394,12 @@
                 <tbody>
                 {foreach from=$list item=item}
                     <tr class="text-c tab_td">
+                       
                         <td>
-                            <input type="checkbox" class="inputC input_agreement_protocol" id="{$item->product_id}" name="id[]" value="{$item->product_id}" data-g_status="{$item->g_status}" style="position: absolute;" onclick="onshelves()"><label for="{$item->product_id}"></label>
-                        </td>
-                        <td>
-                            <div style="text-align: left; margin-left: 10px;">
+                            <div style="text-align: left; margin-left: 10px;width:20%;">
                                 {$item->group_title}
                             </div>
-                            <div>
-                                {if $item->g_status==1}
-                                    <span style="color: orange;">未开始</span>
-                                {elseif $item->g_status==2}
-                                    <span style="color: green;">进行中</span>
-                                {else}
-                                    <span style="color: red;">已结束</span>
-                                {/if}
-                            </div>
+                            
                         </td>
 
                         <td style="display: flex;align-items: center;">
@@ -422,6 +414,21 @@
                                 {$item->product_title}
                             </div>
                         </td>
+
+                        <td>
+                            
+                            <div>
+                               {if $item->g_status==1}
+                                    <span style="color: orange;">未开始</span>
+                                {elseif $item->g_status==2}
+                                    <span style="color: green;">进行中</span>
+                                {else}
+                                    <span style="color: red;">已结束</span>
+                                {/if}
+                            </div>
+                        </td>
+
+                        
                         <td>
                             {$item->price}元
                         </td>
