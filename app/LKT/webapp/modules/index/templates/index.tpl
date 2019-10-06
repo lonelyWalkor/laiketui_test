@@ -23,7 +23,7 @@
     <script src="style/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
     <script src="style/assets/vendor/chartist/js/chartist.min.js"></script>
     <script src="style/assets/scripts/klorofil-common.js"></script>
-    <script src="style/js/echarts.js" type="text/javascript" charset="utf-8"></script>
+    <script src="style/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
     <title>我的桌面</title>
     {literal}
         <style type="text/css">

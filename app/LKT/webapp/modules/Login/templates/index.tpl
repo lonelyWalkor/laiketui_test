@@ -8,12 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
 <title>欢迎登录后台管理系统</title>
-
-<link rel="icon" href="style/loginSpecial/images/favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="style/loginSpecial/images/favicon.ico" type="image/x-icon"/>
-<link href="style/loginSpecial/css/default.css" rel="stylesheet" type="text/css" />
 <link href="style/loginSpecial/css/styles.css" rel="stylesheet" type="text/css" />
-<link href="style/loginSpecial/css/demo.css" rel="stylesheet" type="text/css" />
 <link href="style/loginSpecial/css/loaders.css" rel="stylesheet" type="text/css" />
 <script src="style/loginSpecial/js/jquery-2.1.1.min.js"></script>
 </head>
@@ -141,13 +136,10 @@ $(".delText").each(function(){
 
 </script>
 {/literal}
-<link href="style/loginSpecial/layui/css/layui.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="style/loginSpecial/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src='style/loginSpecial/js/stopExecutionOnTimeout.js?t=1'></script>
-<script src="style/loginSpecial/layui/layui.js" type="text/javascript"></script>
 <script src="style/loginSpecial/js/Treatment.js" type="text/javascript"></script>
 <script src="style/loginSpecial/js/jquery.mockjax.js" type="text/javascript"></script>
-<!-- <script src="style/loginSpecial/js/controlLogin.js" type="text/javascript"></script> -->
 </body>
 </html>
 
