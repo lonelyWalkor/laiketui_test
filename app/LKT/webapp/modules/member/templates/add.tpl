@@ -1,11 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:24
- * @LastEditTime: 2019-09-09 10:10:41
- * @LastEditors: Please set LastEditors
- -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,12 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 {literal}
 <style>
     .button-conter {
@@ -81,20 +69,18 @@ function check(f){
 			</span> </div>
         </div>
         <div class="row cl">
-            <div class="button-conter">
-                <button class="btn btn-primary radius" id="btn1" type="submit" name="Submit">
-                	<i class="Hui-iconfont">&#xe632;</i> 提 交
-                </button>
-                <button class="btn btn-secondary radius" id="btn2" type="reset" name="reset">
-                	<i class="Hui-iconfont">&#xe632;</i> 重 置
+            <label class="form-label col-4 "></label>
+            <div class="formControls col-8">
+                <button class="btn btn-primary radius" id="btn1" type="submit" name="Submit" >
+                	提 交
                 </button>
             </div>
         </div>
     </form>
 </div>
 
-<script type="text/javascript" src="modpub/js/check.js" > </script>
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+
 {literal}
 <script type="text/javascript">
 function appendMask(content,src){

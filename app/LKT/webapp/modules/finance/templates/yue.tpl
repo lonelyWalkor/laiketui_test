@@ -7,10 +7,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/css/style.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
 <title>财务管理</title>
 {literal}
@@ -69,12 +66,12 @@ td a{
 				<input type="text" class="input-text" style="width:150px" placeholder="用户ID" autocomplete="off" name="name" value="{$name}">
 
 				<div style="position: relative;display: inline-block;">
-				<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />
-				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 25px;top: 7px;" onclick="new Calendar().show(document.form1.startdate);" />~
+				<input name="startdate" id="startdate" placeholder="请输入开始时间" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />
 				</div>
+				至
 				<div style="position: relative;display: inline-block;">
-				<input  name="enddate" value="{$enddate}" size="8" readonly class="scinput_s iptRl" style="" />
-				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 10px;top: 7px;" onclick="new Calendar().show(document.form1.enddate);" />
+				<input  name="enddate" id="enddate" value="{$enddate}" placeholder="请输入结束时间" size="8" readonly class="scinput_s iptRl" style="" />
+				
 				</div>
 				<input type="submit" class="btn btn-success" id="btn1" value="查 询">
 				&nbsp;
@@ -141,13 +138,10 @@ td a{
     </div>
     <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type='text/javascript' src='modpub/js/calendar.js'></script>
 
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
-<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script> 
-<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+
 <script type="text/javascript" src="style/js/H-ui.js"></script> 
 <script type="text/javascript" src="style/js/H-ui.admin.js"></script>
 
@@ -157,6 +151,20 @@ function excel(pageto) {
 	var pagesize = $("#pagesize").val();
 	location.href=location.href+'&pageto='+pageto+'&pagesize='+pagesize;
 }
+
+laydate.render({
+          elem: '#startdate', //指定元素
+           trigger: 'click',
+          type: 'date',
+
+        });
+       
+        laydate.render({
+          elem: '#enddate',
+          trigger: 'click',
+          type: 'date'
+        });
+
 </script>
 {/literal}
 </body>

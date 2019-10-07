@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html>
-
 <head>
 	<meta charset="utf-8">
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -8,10 +7,8 @@
 	<meta name="viewport"
 		content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
-	<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-	<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-	<link href="style/css/style.css" rel="stylesheet" type="text/css" />
-	<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+	{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+
 	{literal}
 	<style type="text/css">
 		#delorderdiv {
@@ -933,21 +930,10 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="style/js/jquery.js"></script>
-	<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
+	{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
-	<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="style/js/H-ui.js"></script>
-	<script type="text/javascript" src="style/js/H-ui.admin.js"></script>
-	<script type="text/javascript" src="style/js/layer.js"></script>
-	<!--_footer 作为公共模版分离出去-->
-	<!--请在下方写此页面业务相关的脚本-->
-	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 	<script language="javascript" src="style/js/ssd1.js"> </script>
 
-	<script type="text/javascript" src="style/js/laydate/laydate.js"></script>
 
 	{literal}
 	<script type="text/javascript">

@@ -7,12 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-
-<script language="javascript"  src="modpub/js/check.js"> </script>
 {literal}
 <script type="text/javascript">
 function check(f){
@@ -77,18 +73,19 @@ function check(f){
             <div class="col-4"></div>
         </div>
         <div class="row cl">
-            <div class="col-8 col-offset-4">
+            <label class="form-label col-4"></label>
+            <div class="formControls col-6">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
                 <input type="reset" name="reset" value="取消"  class="btn btn-primary radius" onclick="javascript :history.back(-1);">
             </div>
         </div>
     </form>
 </div>
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-min.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
+
+
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+
+
 {literal}
 <script>
 KindEditor.ready(function(K) {

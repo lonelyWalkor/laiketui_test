@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -7,11 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/css/style.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 {literal}
 <style type="text/css">
 i{
@@ -488,13 +484,13 @@ i{
 <option {if $r_type == 6}selected="selected"{/if} value="6" >拒绝并退回商品</option>
             </select>
           	<div style="position: relative;display: inline-block;">
-				<input name="startdate" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />
-				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 25px;top: 7px;" onclick="new Calendar().show(document.form1.startdate);" />~
+				<input name="startdate" id="startdate" placeholder="请输入开始时间" value="{$startdate}" size="8" readonly class="scinput_s iptRl" style="" />
 				</div>
+                至
 				<div style="position: relative;display: inline-block;">
-				<input  name="enddate" value="{$enddate}" size="8" readonly class="scinput_s iptRl" style="" />
-				<img src="images/icon1/rl.png" style="cursor:pointer;position: absolute;right: 10px;top: 7px;" onclick="new Calendar().show(document.form1.enddate);" />
-				</div>
+				<input  placeholder="请输入结束时间" name="enddate" id="enddate" value="{$enddate}" size="8" readonly class="scinput_s iptRl" style="" />
+				
+                </div>
 			<input name="" id="btn1" class="btn btn-success" type="submit" value="查询">
             <input type="button" id="btn2"  value="导出" class="btn btn-success" onclick="excel('all')">
         </form>
@@ -658,19 +654,25 @@ i{
     <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
 
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type='text/javascript' src='modpub/js/calendar.js'> </script>
-
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
-<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script> 
-<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 <script type="text/javascript" src="style/js/H-ui.js"></script> 
 <script type="text/javascript" src="style/js/H-ui.admin.js"></script>
 
 {literal}
 <script type="text/javascript">
 
+laydate.render({
+          elem: '#startdate', //指定元素
+           trigger: 'click',
+          type: 'date',
+
+        });
+       
+        laydate.render({
+          elem: '#enddate',
+          trigger: 'click',
+          type: 'date'
+        });
 
 
 function excel(pageto) {

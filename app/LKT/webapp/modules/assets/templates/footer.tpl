@@ -1,4 +1,5 @@
 <script type="text/javascript" src="style/js/jquery.js"></script>
+<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script>
 <script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 
@@ -12,3 +13,5 @@
 <script src="style/kindeditor/lang/zh_CN.js"></script>
 
 <script language="javascript"  src="style/js/check.js"> </script>
+<script type="text/javascript" src="style/js/laydate/laydate.js"></script>
+
