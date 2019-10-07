@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:22
- * @LastEditTime: 2019-08-28 17:27:59
- * @LastEditors: Please set LastEditors
- -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,11 +7,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-    <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-    <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-    <link href="style/css/style3.css" rel="stylesheet" type="text/css" />
-    <script language="javascript"  src="modpub/js/check.js"> </script>
+    {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+    
     {literal}
         <script type="text/javascript">
             function check(f){
@@ -368,7 +358,7 @@
                 <script id="editor" type="text/plain" name="content" style="width:100%;height:400px;" disabled>{$content}</script>
             </div>
         </div>
-        <div style="height: 70px;"></div>
+        <div style="height: 20px;"></div>
         <div class="row cl page_bort_bottom">
             <div class="col-8 col-offset-4">
                 <input type="button" name="reset" value="返回"  class="btn btn-primary radius btn-right" id="resetId" onclick="javascript :history.back(-1);" style="background: transparent!important;">
@@ -376,15 +366,11 @@
         </div>
     </form>
 </div>
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-min.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+<script src="style/js/vue.min.js"></script>
+
+
 {literal}
 <script>
 

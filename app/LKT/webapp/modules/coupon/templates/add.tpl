@@ -10,9 +10,6 @@
 
 <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
 <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
 {literal}
 <script type="text/javascript">
 function show(obj){
@@ -147,20 +144,17 @@ function change(){
         </div>
     </form>
 </div>
-<script type="text/javascript" src="style/laydate/laydate.js"></script>
-<script type="text/javascript" src="modpub/js/check.js" > </script>
 <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type='text/javascript' src='modpub/js/calendar.js'> </script>
 <script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
 <script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script> 
 <script type="text/javascript" src="style/lib/icheck/jquery.icheck.min.js"></script> 
 <script type="text/javascript" src="style/lib/Validform/5.3.2/Validform.min.js"></script> 
 <script type="text/javascript" src="style/lib/webuploader/0.1.5/webuploader.min.js"></script> 
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script> 
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> 
 <script type="text/javascript" src="style/js/H-ui.js"></script> 
 <script type="text/javascript" src="style/js/H-ui.admin.js"></script> 
+
+<script type="text/javascript" src="style/js/laydate/laydate.js"></script>
+
 
 <!-- 新增编辑器引入文件 -->
 <link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />

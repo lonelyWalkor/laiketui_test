@@ -11,7 +11,6 @@
 <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
 <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 <link href="style/css/style.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
 <title>优惠券参数</title>
 </head>

@@ -13,6 +13,7 @@ require_once(MO_LIB_DIR . '/Tools.class.php');
 
 class IdentifyAction extends Action {
    public function getDefaultView() {
+    
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $admin_id = $this->getContext()->getStorage()->read('admin_id');

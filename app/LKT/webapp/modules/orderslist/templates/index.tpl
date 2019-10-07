@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-09-03 15:50:15
- * @LastEditTime: 2019-09-29 20:13:07
- * @LastEditors: Please set LastEditors
- -->
 <!DOCTYPE HTML>
 <html>
 
@@ -15,12 +8,6 @@
 	<meta name="viewport"
 		content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
-	<link href="style/statics/mch/css/bootstrap.min.css" rel="stylesheet">
-	<link href="style/statics/mch/css/jquery.datetimepicker.min.css" rel="stylesheet">
-	<link href="style/statics/css/flex.css?version=2.5.8.0" rel="stylesheet">
-	<link href="style/statics/css/common.css?version=2.5.8.0" rel="stylesheet">
-	<link href="style/statics/mch/css/common.v2.css?version=2.5.8.0" rel="stylesheet">
-
 	<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
 	<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 	<link href="style/css/style.css" rel="stylesheet" type="text/css" />
@@ -947,17 +934,14 @@
 	</div>
 
 	<script type="text/javascript" src="style/js/jquery.js"></script>
-	<script type='text/javascript' src='modpub/js/calendar.js'></script>
 	<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
 
-	<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="style/js/H-ui.js"></script>
 	<script type="text/javascript" src="style/js/H-ui.admin.js"></script>
 	<script type="text/javascript" src="style/js/layer.js"></script>
 	<!--_footer 作为公共模版分离出去-->
 	<!--请在下方写此页面业务相关的脚本-->
-	<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
 	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/validate-methods.js"></script>
 	<script type="text/javascript" src="style/lib/jquery.validation/1.14.0/messages_zh.js"></script>

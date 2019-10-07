@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:22
- * @LastEditTime: 2019-09-11 16:57:23
- * @LastEditors: Please set LastEditors
- -->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -13,12 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
+    {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-    <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-    <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-    <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-    <link href="style/css/style3.css" rel="stylesheet" type="text/css" />
-    <script language="javascript"  src="modpub/js/check.js"> </script>
     {literal}
         <style type="text/css">
             .input-text, .scinput_s{
@@ -374,7 +363,7 @@ form[name=form1] input{
                             <img class="pimg" src="{$uploadImg}{$item->product_url}" style="width: 50px;height: 50px;">
                         {/foreach}
                     {/if}
-                    注:最多五张,一定为.jpg格式
+                    注:最多五张
                 </div>
             </div>
         </div>
@@ -393,24 +382,20 @@ form[name=form1] input{
                 <script id="editor" type="text/plain" name="content" style="width:100%;height:400px;">{$content}</script>
             </div>
         </div>
-        <div style="height: 70px;"></div>
+        <div style="height: 20px;"></div>
         <div class="row cl page_bort_bottom">
-            <div class="col-8 col-offset-4">
-                <input type="submit" name="button" value="提 交" class="btn btn-primary radius btn-right" style="margin-right: 60px!important;">
-                <input type="button" name="reset" value="取 消"  class="btn btn-primary radius btn-left" id="resetId" onclick="javascript :history.back(-1);" style='background: transparent!important;'>
+            <label class="form-label col-2"></label>
+            <div class="formControls col-2">
+                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius btn-right" onclick="check()">
+                <input type="button" name="reset" value="返 回" onclick="javascript:history.back(-1);" class="btn btn-primary radius btn-left" >
             </div>
+
         </div>
     </form>
 </div>
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-min.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+<script src="style/js/vue.min.js"></script>
+
 {literal}
 <script>
 $(document.body).css({

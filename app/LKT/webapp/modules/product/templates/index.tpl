@@ -1,11 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-09-11 14:53:59
- * @LastEditTime: 2019-09-11 15:18:51
- * @LastEditors: Please set LastEditors
- -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -15,11 +7,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/css/style.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-<title>产品分类管理</title>
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+
+<title>产品列表管理</title>
 {literal}
 <style type="text/css">
 td a{
@@ -290,14 +280,13 @@ form .select{
     </div>
     <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
-<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div>
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script>
-<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="style/js/H-ui.js"></script>
-<script type="text/javascript" src="style/js/H-ui.admin.js"></script>
+
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
+    <div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" />
+    </div>
+</div>
+
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
 {literal}
 <script type="text/javascript">
@@ -499,41 +488,7 @@ var Id = '';
 function del(obj,id){
     confirm("确认删除此商品吗？",id);
 }
-// function del(id) {
-//             $.ajax({
-//                 cache: true,
-//                 type: "POST",
-//                 dataType: "json",
-//                 url: 'index.php?module=product&action=del&id='+id,
-//                 data: {},
-//                 async: true,
-//                 success: function (res) {
-//                     if (res.status == "1") {
-//                         $.get("index.php?module=product&action=shelves", {'id': id}, function (res) {
-//                             $(".maskNew").remove();
-//                             if (res.status == 1) {
-//                                 layer.msg(res.info);
-//                                 intervalId = setInterval(function () {
-//                                     clearInterval(intervalId);
-//                                     location.replace(location.href);
-//                                 }, 2000);
 
-//                             }else {
-//                                 layer.msg(res.info);
-//                             }
-//                         }, "json");
-//                     }else if (res.status == 2) {
-//                         layer.msg('该商品有参与插件活动，无法下架！');
-//                     }else if (res.status == 3) {
-//                         layer.msg('该商品有未完成的订单，无法下架！');
-//                     }else if (res.status == 4) {
-//                         layer.msg('请先去完善商品信息！');
-//                     } else {
-//                         layer.msg("修改失败！");
-//                     }
-//                 }
-//             });
-//         }
 
 /*批量删除*/
 function datadel(){

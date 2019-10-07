@@ -8,11 +8,8 @@
 content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css"/>
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css"/>
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css"/>
-<link href="style/css/style3.css" rel="stylesheet" type="text/css" />
-<script language="javascript" src="modpub/js/check.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+
 {literal}
 <style type="text/css">
     form[name=form1] input{
@@ -287,7 +284,7 @@ function check(f) {
             <div class="formControls col-10" style="width: 40%;">
 
                 <div class="uploader-thum-container">
-                    <input name="imgurls[]" id="imgurls" multiple='multiple' type="file" style="width:210px;" accept="upload_image/x-png,image/gif,image/jpeg"/>注:最多五张,一定为.jpg格式
+                    <input name="imgurls[]" id="imgurls" multiple='multiple' type="file" style="width:210px;" accept="upload_image/x-png,image/gif,image/jpeg"/>注:最多五张
                 </div>
 
             </div>
@@ -509,23 +506,17 @@ function check(f) {
                 <script id="editor" type="text/plain" name="content" style="width:100%;height:400px;">{$content}</script>
             </div>
         </div>
-        <div style="height: 70px;"></div>
+        <div style="height: 20px;"></div>
         <div class="row cl page_bort_bottom">
-            <div class="col-8 col-offset-4">
+            <label class="form-label col-2"></label>
+            <div class="formControls col-2">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius btn-right" onclick="check()">
-                <input type="button" name="reset" value="重 写" onclick="check1()" class="btn btn-primary radius btn-left" style='background: transparent!important;'>
+                <input type="button" name="reset" value="重 写" onclick="check1()" class="btn btn-primary radius btn-left" >
             </div>
         </div>
     </form>
 </div>
-<script type = "text/javascript" src = "style/js/jquery.js" ></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css"/>
-<script src="style/kindeditor/kindeditor-min.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 <script src="style/js/vue.min.js"></script>
 {literal}
 <script>

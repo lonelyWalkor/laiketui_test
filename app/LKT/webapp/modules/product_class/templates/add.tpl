@@ -1,11 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-09-29 15:36:53
- * @LastEditTime: 2019-09-29 18:39:32
- * @LastEditors: Please set LastEditors
- -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -15,34 +7,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-<script language="javascript"  src="modpub/js/check.js"> </script>
+
 {literal}
 
-<script type="text/javascript">
-function check(f){
-    if(Trim(f.pname.value)==""){
-        alert("分类名称不能为空！");
-        f.pname.value = '';
-        return false;
-    }
-    if(Trim(f.sort.value)==""){
-        alert("分类排序号不能为空！");
-        f.sort.value = '';
-        return false;
-    }
-    f.sort.value = Trim(f.sort.value);
-    if(!/^(([1-9][0-9]*)|0)(\.[0-9]{1,2})?$/.test(f.sort.value)){
-        alert("排序号必须为数字，且格式为 ####.## ！");
-        f.sort.value = '';
-        return false;
-    }
-    return true;
-}
-</script>
+
 {/literal}
 <title>添加商品分类</title>
 </head>
@@ -167,7 +137,8 @@ function check(f){
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
-            <div class="col-8 col-offset-4">
+            <label class="form-label col-4"></label>
+            <div class="orm-label col-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
                 <input type="button" name="reset" value="返回"  class="btn btn-primary radius" id="resetId" onclick="javascript:location.href='index.php?module=product_class';">
                 <!-- <input type="reset" name="reset" value="清 空"  class="btn btn-primary radius"> -->
@@ -176,11 +147,9 @@ function check(f){
     </form>
     <input type="hidden" id="pic" value="{$pic}" >
 </div>
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-all.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
+
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+
 
 <script>
 

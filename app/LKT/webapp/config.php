@@ -43,4 +43,6 @@ define('MO_CACHE_DIR', MO_WEBAPP_DIR . '/_cache');
 // Smarty
 define('SMARTY_COMPILE_DIR', MO_WEBAPP_DIR . "/_compile/");
 
+define('BASE_PATH',str_replace('\\','/',realpath(dirname(__FILE__).'/'))."/");
+
 ?>

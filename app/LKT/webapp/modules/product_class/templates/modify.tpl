@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -8,12 +7,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-<script language="javascript"  src="modpub/js/check.js"> </script>
-<script type="text/javascript" src="style/js/jquery.js"></script>
 {literal}
 <style type="text/css">
 #select_c {
@@ -203,7 +198,8 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         </div>
 
         <div class="row cl">
-            <div class="col-8 col-offset-4">
+            <label class="form-label col-4"></label>
+            <div class="form-label col-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
                 
                 <input type="button" name="reset" value="返回"  class="btn btn-primary radius" id="resetId" onclick="javascript :history.back(-1);">
@@ -216,10 +212,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
 
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:999;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div>
 
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-all.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
 <script>
 
