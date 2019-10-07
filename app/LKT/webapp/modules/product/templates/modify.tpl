@@ -519,7 +519,7 @@
 <link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
 <script src="style/kindeditor/kindeditor-min.js"></script>
 <script src="style/kindeditor/lang/zh_CN.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="style/js/vue.min.js"></script>
 {literal}
 <script>
     $(document.body).css({

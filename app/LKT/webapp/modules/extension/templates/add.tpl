@@ -8,15 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>公众平台管理系统</title>
     <script  type="text/javascript" src="style/tgt/util.js"></script>
-    <link rel="stylesheet" href="style/tgt/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="style/tgt/webfont.css" type="text/css" />
-    <link rel="stylesheet" href="style/tgt/fontStyle.css" type="text/css" />
-    <link rel="stylesheet" href="style/tgt/iconfont.css" type="text/css" />
-    <link rel="stylesheet" href="style/tgt/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="style/tgt/common.css">
-    <link rel="stylesheet" href="style/tgt/animate.min.css" type="text/css" />
-    <link rel="stylesheet" href="style/tgt/style.min.css" type="text/css" />
-
+    <link rel="stylesheet" href="style/assets/css/bootstrap.min.css" type="text/css" />
+    
 {literal}
 
     <script>
@@ -31,7 +24,7 @@
 
     <script src="style/tgt/require.js"></script>
     <script src="style/tgt/config.js"></script>
-    <script src="style/tgt/jquery-1.11.1.min.js"></script>
+    <script src="style/js/jquery.min.js"></script>
 
 {/literal}
 

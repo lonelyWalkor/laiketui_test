@@ -6,23 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link href="style/css/dashboard.css" rel="stylesheet" />
-    <link rel="stylesheet" href="style/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style/assets/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style/assets/vendor/linearicons/style.css">
+    <link rel="stylesheet" href="style/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/assets/vendor/chartist/css/chartist-custom.css">
     <link rel="stylesheet" href="style/assets/css/main.css">
-    <link rel="stylesheet" href="style/assets/css/demo.css">
     <link href="style/css/style.css" rel="stylesheet" />
-    <link href="style/css/font-awesome.css" rel="stylesheet" />
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
     <script src="style/assets/vendor/jquery/jquery.min.js"></script>
     <script src="style/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="style/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="style/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
     <script src="style/assets/vendor/chartist/js/chartist.min.js"></script>
-    <script src="style/assets/scripts/klorofil-common.js"></script>
     <script src="style/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
     <title>我的桌面</title>
     {literal}
