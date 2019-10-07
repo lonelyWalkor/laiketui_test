@@ -6,10 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/css/style.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+
 <title>积分列表</title>
 {literal}
 <style>
@@ -133,15 +131,9 @@ td a{
 	<div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
 
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type='text/javascript' src='modpub/js/calendar.js'></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script>
-<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="style/js/H-ui.js"></script>
-<script type="text/javascript" src="style/js/H-ui.admin.js"></script>
+
 {literal}
 <script type="text/javascript">
 function excel(pageto) {

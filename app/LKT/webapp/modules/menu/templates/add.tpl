@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:26
- * @LastEditTime: 2019-09-09 10:15:07
- * @LastEditors: Please set LastEditors
- -->
 <!DOCTYPE HTML>
 <html>
 
@@ -15,12 +8,8 @@
     <meta name="viewport"
         content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
+    {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-    <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-    <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-    <link href="style/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
-    <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-    <link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
     {literal}
     <style>
         .button-conter {
@@ -136,22 +125,19 @@
                 </div>
             </div>
             <div class="row cl">
-                <div class="button-conter">
+                <label class="form-label col-4"></label>
+                <div class="formControls col-4 ">
                     <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit"><i
                             class="Hui-iconfont">&#xe632;</i> 提 交</button>
-                    <button id="btn2" class="btn btn-secondary radius" type="reset" name="reset"><i
-                            class="Hui-iconfont">&#xe632;</i> 重 写</button>
+                    <button  class="btn btn-secondary radius" type="button" name="reset" onclick='history.go(-1)'><i
+                            class="Hui-iconfont">&#xe632;</i> 返 回</button>
                 </div>
             </div>
         </form>
     </div>
+    {php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
-    <script type="text/javascript" src="modpub/js/check.js"> </script>
-    <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
-    <!-- 新增编辑器引入文件 -->
-    <link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-    <script src="style/kindeditor/kindeditor-min.js"></script>
-    <script src="style/kindeditor/lang/zh_CN.js"></script>
+
     {literal}
     <script>
         KindEditor.ready(function (K) {
