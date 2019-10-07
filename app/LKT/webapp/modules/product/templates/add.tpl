@@ -638,7 +638,7 @@ KindEditor.ready(function (K) {
             function set_kucun(obj) {
                 page.kucun = $(obj).val();
             }
-            $('#unit').live('click', function() {
+            $('#unit').on('click', function() {
                 var unit = $("#unit").val();
                 console.log(unit)
                 page.unit = $("#unit").val();
@@ -750,7 +750,7 @@ KindEditor.ready(function (K) {
             });
             // 添加属性值
 
-            $(".add-attr-btn").live("click", function() {
+            $(".add-attr-btn").on("click", function() {
 
                 var name = $(this).parents(".attr-input-group").find(".add-attr-input").val();
                 var index = $(this).attr("index");
@@ -816,13 +816,13 @@ KindEditor.ready(function (K) {
                 page.checked_attr_list = newCheckedAttrList;
             });
             // 删除属性
-            $(".attr-group-delete").live("click", function() {
+            $(".attr-group-delete").on("click", function() {
                 var index = $(this).attr("index");
                 page.attr_group_list.splice(index, 1);
                 page.checked_attr_list = getAttrList();
             });
             // 删除属性值
-            $(".attr-delete").live("click", function() {
+            $(".attr-delete").on("click", function() {
                 var index = $(this).attr("index");
                 var group_index = $(this).attr("group-index");
                 page.attr_group_list[group_index].attr_list.splice(index, 1);
