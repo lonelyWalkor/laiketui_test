@@ -516,8 +516,17 @@ function check(f) {
         </div>
     </form>
 </div>
-{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+
+<script type="text/javascript" src="style/js/jquery.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<link rel="stylesheet" href="style/kindeditor/themes/default/default.css"/>
+<script src="style/kindeditor/kindeditor-min.js"></script>
+<script src="style/kindeditor/lang/zh_CN.js"></script>
+<script language="javascript"  src="style/js/check.js"> </script>
 <script src="style/js/vue.min.js"></script>
+
 {literal}
 <script>
 $(document.body).css({
@@ -638,7 +647,7 @@ KindEditor.ready(function (K) {
             function set_kucun(obj) {
                 page.kucun = $(obj).val();
             }
-            $('#unit').on('click', function() {
+            $('#unit').live('click', function() {
                 var unit = $("#unit").val();
                 console.log(unit)
                 page.unit = $("#unit").val();
@@ -721,6 +730,11 @@ KindEditor.ready(function (K) {
             $(".add-attr-group-input").click(function() {
                 $(".add-attr-group-btn").css("display", "");
             });
+
+            $(".add-attr-group-input").focus(function() {
+                $(".add-attr-group-btn").css("display", "");
+            });
+
             // 属性框离开事件，延迟500毫秒隐藏隐藏添加属性按钮
             $(".add-attr-group-input").blur(function() {
                 setTimeout('$(".add-attr-group-btn").css("display", "none")', 500);
@@ -750,7 +764,7 @@ KindEditor.ready(function (K) {
             });
             // 添加属性值
 
-            $(".add-attr-btn").on("click", function() {
+            $(".add-attr-btn").live("click", function() {
 
                 var name = $(this).parents(".attr-input-group").find(".add-attr-input").val();
                 var index = $(this).attr("index");
@@ -816,13 +830,13 @@ KindEditor.ready(function (K) {
                 page.checked_attr_list = newCheckedAttrList;
             });
             // 删除属性
-            $(".attr-group-delete").on("click", function() {
+            $(".attr-group-delete").live("click", function() {
                 var index = $(this).attr("index");
                 page.attr_group_list.splice(index, 1);
                 page.checked_attr_list = getAttrList();
             });
             // 删除属性值
-            $(".attr-delete").on("click", function() {
+            $(".attr-delete").live("click", function() {
                 var index = $(this).attr("index");
                 var group_index = $(this).attr("group-index");
                 page.attr_group_list[group_index].attr_list.splice(index, 1);

@@ -393,7 +393,16 @@ form[name=form1] input{
         </div>
     </form>
 </div>
-{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+
+
+<script type="text/javascript" src="style/js/jquery.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<link rel="stylesheet" href="style/kindeditor/themes/default/default.css"/>
+<script src="style/kindeditor/kindeditor-min.js"></script>
+<script src="style/kindeditor/lang/zh_CN.js"></script>
+<script language="javascript"  src="style/js/check.js"> </script>
 <script src="style/js/vue.min.js"></script>
 
 {literal}
@@ -510,7 +519,7 @@ function getFloatStr(num){
         return false;
     }
 
-  $('#unit').on('click', function() {
+  $('#unit').live('click', function() {
         var unit = $("#unit").val();
         page.unit = $("#unit").val();
         $(".unit").val(unit);
@@ -639,15 +648,20 @@ var page = new Vue({
     // console.log(page.checked_attr_list)
     // console.log(page)
     // 点击属性框，显示添加属性按钮
-    $(".add-attr-group-input").on("click", function(){
+    $(".add-attr-group-input").live("click", function(){
         $(".add-attr-group-btn").css("display", "");
     });
+
+    $(".add-attr-group-input").live("focus", function(){
+        $(".add-attr-group-btn").css("display", "");
+    });
+
     // 属性框离开事件，延迟500毫秒隐藏隐藏添加属性按钮
     $(".add-attr-group-input").blur(function(){
         setTimeout('$(".add-attr-group-btn").css("display", "none")', 500);
     });
     // 添加属性
-    $( ".add-attr-group-btn").on("click", function() {
+    $( ".add-attr-group-btn").live("click", function() {
         var name = $(".add-attr-group-input").val();
         name = $.trim(name);
         if(name == ""){
@@ -673,7 +687,7 @@ var page = new Vue({
         console.log(page.checked_attr_list)
     });
     // 添加属性值
-    $( ".add-attr-btn").on("click", function() {
+    $( ".add-attr-btn").live("click", function() {
         var name = $(this).parents(".attr-input-group").find(".add-attr-input").val();
         var index = $(this).attr("index");
         name = $.trim(name);
@@ -734,13 +748,13 @@ var page = new Vue({
         page.checked_attr_list = newCheckedAttrList;
     });
     // 删除属性
-    $( ".attr-group-delete").on("click",function() {
+    $( ".attr-group-delete").live("click",function() {
         var index = $(this).attr("index");
         page.attr_group_list.splice(index, 1);
         page.checked_attr_list = getAttrList();
     });
     // 删除属性值
-    $(".attr-delete").on("click", function() {
+    $(".attr-delete").live("click", function() {
         var index = $(this).attr("index");
         var group_index = $(this).attr("group-index");
         console.log(page.attr_group_list[group_index]);
