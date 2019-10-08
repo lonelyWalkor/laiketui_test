@@ -1,11 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:26
- * @LastEditTime: 2019-09-17 18:05:05
- * @LastEditors: Please set LastEditors
- -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -17,9 +9,6 @@
 
 <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
 <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
 {literal}
 <style>
 div{

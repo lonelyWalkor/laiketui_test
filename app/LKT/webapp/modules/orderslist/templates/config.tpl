@@ -34,9 +34,10 @@
             </div>
         </div>
         <div class="row cl">
-            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-4">
+            <label class="form-label col-xs-4 col-sm-4"></label>
+            <div class="formControls col-xs-8 col-sm-4">
                 <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
-<!--                 <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;重置&nbsp;&nbsp;</button> -->
+
             </div>
         </div>
     </form>

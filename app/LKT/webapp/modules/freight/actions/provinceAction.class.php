@@ -21,6 +21,7 @@ class provinceAction extends Action {
         foreach ($r as $k => $v){
             $res[$v->GroupID] = $v->G_CName; // 省名称数组
         }
+        
         if($data){ // 有运费信息
             $arr = json_decode($data,true);
 

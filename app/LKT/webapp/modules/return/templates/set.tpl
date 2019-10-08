@@ -1,11 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:23
- * @LastEditTime: 2019-09-09 10:26:35
- * @LastEditors: Please set LastEditors
- -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,11 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/css/style.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 {literal}
 <style>
     .button-conter {
@@ -62,7 +50,8 @@
 
         </div>
         <div class="row cl">
-            <div class="button-conter">
+            <label class="form-label col-xs-4 col-sm-4"></label>
+            <div class="formControls col-xs-8 col-sm-6">
                 <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
                 <!-- <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;清空&nbsp;&nbsp;</button> -->
             </div>
@@ -70,7 +59,5 @@
     </form>
 </div>
 </div>
-<script type="text/javascript" src="style/js/jquery.js"></script>
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
 </body>
 </html>

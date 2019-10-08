@@ -1,11 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:24
- * @LastEditTime: 2019-09-20 19:32:23
- * @LastEditors: Please set LastEditors
- -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,12 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-
-<script language="javascript"  src="modpub/js/check.js"> </script>
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 {literal}
 <style type="text/css">
 .inputC{
@@ -105,7 +92,8 @@ function check(f){
             </table>
         </div>
         <div class="row cl">
-            <div class="col-8 col-offset-4">
+            <label class="form-label col-2"></label>
+            <div class="formControls col-2">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
             </div>
         </div>
@@ -174,20 +162,8 @@ function check(f){
         </div>
     </div>
 </div>
-<script type = "text/javascript" src = "style/js/jquery.js" ></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
-<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css"/>
-<script src="style/kindeditor/kindeditor-min.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
 
-<!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script>
-<script type="text/javascript" src="style/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="style/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 {literal}
 <style>
 .keep{
