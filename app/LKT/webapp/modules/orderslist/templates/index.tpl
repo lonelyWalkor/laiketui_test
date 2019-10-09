@@ -11,6 +11,12 @@
 
 	{literal}
 	<style type="text/css">
+
+		.tab_content {
+		    background-color: white;
+		    text-align: center;
+		}
+
 		#delorderdiv {
 			margin-left: 20px;
 			display: inline;
@@ -585,10 +591,10 @@
 
 
 		</div>
-		<div class="mt-20 table-scroll">
-			<table class="table table-bordered bg-white">
+		<div class="mt-20 table-scroll" style="overflow: scroll; width: 101%; height: 495px;">
+			<table class="table table-bordered tab_content">
 				<thead>
-					<tr class="txc">
+					<tr class="txc tab_tr">
 
 						<th class="tab_news">
 							<label class="custom-control custom-checkbox">
@@ -598,17 +604,17 @@
 							订单信息
 						</th>
 
-						<th style="min-width: 100px;">订单总计</th>
-						<th style="min-width: 100px;">数量</th>
-						<th style="min-width: 100px;">订单状态</th>
+						<th >订单总计</th>
+						<th >数量</th>
+						<th s>订单状态</th>
 						{if $otype == 't2'}
-						<th style="min-width: 100px;">拼团状态</th>
+						<th >拼团状态</th>
 						{/if}
-						<th style="min-width: 100px;">订单类型</th>
+						<th >订单类型</th>
 
-						<th style="min-width: 100px;">买家信息</th>
-						<th style="min-width: 100px;">支付方式</th>
-						<th style="min-width: 100px;">物流信息</th>
+						<th >买家信息</th>
+						<th >支付方式</th>
+						<th >物流信息</th>
 						<th class="tab_dat">操作</th>
 					</tr>
 
@@ -641,7 +647,7 @@
 							<!-- 只显示一个 -->
 							{if $key2 < 1} <div class="goods-item" flex="dir:left box:first">
 
-								<div class="fs-0 f9e">
+								<div class="fs-0 f9e" style="float:left">
 									<div class="goods-pic" style="background-image: url('{$uploadImg}{$item2->imgurl}')"></div>
 								</div>
 
@@ -824,7 +830,7 @@
 				</a>
 				{else}
 				<div class="stopCss">
-					<img style="margin-top: -3px;" src="images/iIcon/bianji.png" />&nbsp;编辑订单
+					<img style="margin-top: -3px;" src="images/icon1/xg.png" />&nbsp;编辑订单
 				</div>
 				{/if}
 
@@ -937,6 +943,24 @@
 
 	{literal}
 	<script type="text/javascript">
+
+		$(".orders_all").bind("click",
+            function () {
+                $(".orders_select").prop("checked", $(this).prop("checked"));
+            });
+        $(".orders_select").bind("click",
+            function () {
+                var $sel = $(".orders_select");
+                var b = true;
+                for (var i = 0; i < $sel.length; i++) {
+                    if ($sel[i].checked == false) {
+                        b = false;
+                        break;
+                    }
+                }
+                $(".orders_all").prop("checked", b);
+            })
+        
 		// 查看物流
 		// 移入
 		$('.doods-span').on('mouseenter', function (vm) {

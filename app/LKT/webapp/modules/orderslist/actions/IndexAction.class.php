@@ -184,7 +184,7 @@ class IndexAction extends Action {
             $products = $db -> select($sqldt);
             $res1[$k] -> freight = $freight;
             $num =0;
-            $courier_num111='';
+            $courier_num111=array();
             if ($products) {
                 foreach ($products as $kd => $vd) {
 
@@ -327,7 +327,7 @@ class IndexAction extends Action {
 
                 sort($arr);
                 $courier_num111=$arr;
-                 $ddd='';
+                $ddd=array();
                 foreach ($courier_num111 as $key => $value) {
                     if(!$value['kuaidi_name']){
                        unset($courier_num111[$key]);  

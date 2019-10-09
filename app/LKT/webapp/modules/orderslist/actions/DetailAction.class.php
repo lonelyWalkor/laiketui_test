@@ -57,7 +57,7 @@ class DetailAction extends Action {
         $allow = 0; // 积分
         $freight =0;
         $z_price =0;
-        $courier_num111='';
+        $courier_num111=array();
       foreach ($res as $k => $v) { 
         $sid = $v -> sid;
         $freight=$freight+$v -> freight;
