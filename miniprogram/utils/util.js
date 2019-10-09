@@ -84,7 +84,7 @@ function getUesrBgplus(that,app,is) {
 }
 
 function getUri(){
-  return 'http://127.0.0.1/LKT/index.php?module=api&software_name=3&edition=1.0'
+  return 'http://testtest:8185/LKT/index.php?module=api&software_name=3&edition=1.0'
 }
 
 module.exports = {
