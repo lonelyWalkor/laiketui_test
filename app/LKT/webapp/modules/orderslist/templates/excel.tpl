@@ -52,7 +52,7 @@
 							<span style="text-align: left;">{$item2->num}</span>
 						</td>
 						<td  width="150px" style="text-align: left;">{$item2->p_price}</td>
-						<td style="text-align: left;">{$item2->p_price *$item2->num}</td>
+						<td style="text-align: left;">{$item2->p_priceee}</td>
 						<td style="text-align: left;">
 							<div>
 								<span style="">{$item->status}</span>

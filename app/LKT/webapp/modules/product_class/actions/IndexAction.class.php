@@ -27,6 +27,7 @@ class IndexAction extends Action {
             $start = ($page-1)*$pagesize;
         }else{
             $start = 0;
+            $page=1;
         }
 
         $con = '';

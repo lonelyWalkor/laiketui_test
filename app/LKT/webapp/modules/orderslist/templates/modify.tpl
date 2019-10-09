@@ -525,16 +525,15 @@
 
 
                     <td class="center" rowspan="{$item->index}">
+
                         {if $item->r_status == '0'}
-                        <span id="Priceb-{$item->id}" class="grText"
-                            onclick="openPrice('#Prices-{$item->id}','#Priceb-{$item->id}','#inputidsss-{$item->id}','#inputid-{$item->id}')">￥{$item->p_price}</span>
+                        <span id="Priceb-{$item->id}" class="grText" onclick="openPrice('#Prices-{$item->id}','#Priceb-{$item->id}','#inputidsss-{$item->id}','#inputid-{$item->id}')">￥{$item->p_price}</span>
                         {else}
                         <span id="Priceb-{$item->id}" class="grText">￥{$item->p_price}</span>
                         {/if}
 
                         <input type="hidden" id="inputidsss-{$item->id}" value="{$item->p_price}">
-                        <input id="Prices-{$item->id}" style="display: none;" type="text" name="p_price"
-                            value="{$item->p_price}" autofocus>
+                        <input id="Prices-{$item->id}" style="display: none;" type="text" name="p_price" value="{$item->p_price}" autofocus>
                     </td>
 
                     <td class="center">{$item->unit}</td>
@@ -656,7 +655,6 @@
 
                 var y_price = $(idb).val()
                 var n_price = $(id).val()
-
                 var idbbbb = $(hiid).val()
                 
                 

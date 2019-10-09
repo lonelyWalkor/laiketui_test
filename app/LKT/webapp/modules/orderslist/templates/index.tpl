@@ -1294,7 +1294,7 @@
 				$('select[name=status]').append("<option value=''>拼团状态</option><option value='g0'>未付款</option><option value='g1'>拼团中</option><option value='g2'>拼团成功</option><option value='g3'>拼团失败</option>");
 			} else {
 				$('select[name=status]').empty();
-				$('select[name=status]').append("<option value=''>订单状态</option><option value='0'>未付款</option><option value='1'>未发货</option><option value='2'>已发货</option><option value='3'>待评论</option><option value='4'>退货</option><option value='5'>已签收</option>");
+				$('select[name=status]').append("<option value=''>请选择订单状态</option><option value='0'>未付款</option><option value='1'>未发货</option><option value='2'>已发货</option><option value='3'>待评论</option><option value='4'>退货</option><option value='5'>已完成</option><option value='6'>订单关闭</option>");
 				$('select[name=ostatus]').remove();
 			}
 		})
@@ -1727,7 +1727,7 @@
 
 		}
 		function empty() {
-
+			// 
 
 			$("input[name='sNo']").val('');
 			$("input[name='startdate']").val('');
@@ -1740,6 +1740,7 @@
 			$("#status").val('');
 			$("#source").val('');
 			$("#brand").val('');
+			// location.reload()
 
 		}
 

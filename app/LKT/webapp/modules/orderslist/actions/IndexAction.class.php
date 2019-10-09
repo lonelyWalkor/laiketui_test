@@ -189,7 +189,7 @@ class IndexAction extends Action {
                 foreach ($products as $kd => $vd) {
 
                     $freight += $vd->freight;
-
+                    $vd->p_priceee=$vd->p_price*$vd->num;
                     $num += $vd->num;
                     $exper_id = $vd->express_id;
                     if($exper_id){

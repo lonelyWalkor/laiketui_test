@@ -434,20 +434,21 @@
                 <li style="width: 100%;padding-left: 20px;">收货地址：<span class="grText">{$data.address}</span></li>
             </ul>
         </div>
-        <div style="border-radius: 10px;margin-bottom: 20px;background-color: #fff;padding:10px;">
+
+        </div> -->
+                <div style="border-radius: 10px;margin-bottom: 20px;background-color: #fff;padding:10px;">
             <p class="ulTitle">商品信息</p>
             <table class="table">
                 <tr>
                     <th class="center">商品名称</th>
                     <th class="center">商品规格</th>
-                    <th class="center">商品id</th>
+                    <th class="center">商品ID</th>
                     <th class="center">商品单价</th>
+                    <th class="center">单位</th>
                     <th class="center">商品数量</th>
                     <th class="center">商品总价</th>
-                    <th class="center">实付</th>
-                    <th class="center">总金额</th>
-                    <th class="center">单位</th>
                     <th class="center">运费</th>
+                    <th class="center">总金额</th>
                     <th class="center">操作</th>
                 </tr>
                 {foreach from=$detail item=item name=f1}
@@ -456,36 +457,58 @@
                         <img class='pimg' src="{$uploadImg}{$item->pic}" style="margin-right: 20px;" width="50"
                             height="50" />
 
+                        <input type="hidden" id="inputid-{$item->id}" value="{$item->id}">
                         <a style="display: contents;"
-                            href="index.php?module=product&action=see&id={$item->p_id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}"
+                            href="index.php?module=product&action=see&id=1&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}"
                             title="查看">
                             {$item->p_name}
                         </a>
 
                     </td>
+
                     <td class="center"><span class="grText">{$item->size}</span></td>
+
+
                     <td class="center"><span class="grText">{$item->p_id}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span class="grText">￥{$item->p_price}</span></td>
+
+
+                    <td class="center" rowspan="{$item->index}">
+
+                        {if $item->r_status == '0'}
+                        <span id="Priceb-{$item->id}" class="grText" onclick="openPrice('#Prices-{$item->id}','#Priceb-{$item->id}','#inputidsss-{$item->id}','#inputid-{$item->id}')">￥{$item->p_price}</span>
+                        {else}
+                        <span id="Priceb-{$item->id}" class="grText">￥{$item->p_price}</span>
+                        {/if}
+
+                        <input type="hidden" id="inputidsss-{$item->id}" value="{$item->p_price}">
+                        <input id="Prices-{$item->id}" style="display: none;" type="text" name="p_price" value="{$item->p_price}" autofocus>
+                    </td>
+
+                    <td class="center">{$item->unit}</td>
                     <td class="center" rowspan="{$item->index}"><span class="grText">{$item->num}</span></td>
+
                     <td class="center" rowspan="{$item->index}"><span class="grText"
                             style="font-weight: bold;">￥{$item->p_price*$item->num}</span></td>
-                    <td class="center" rowspan="{$item->index}"><span class="grText"
-                            style="">￥{$item->z_price+$item->freight}</span></td>
+
+
+                    <td class="center">{$item->freight}</td>
+
                     <td class="center" rowspan="{$item->index}"><span class="grText"
                             style="font-weight: bold;">￥{$item->z_price+$item->freight}</span></td>
-                    <td class="center">{$item->unit}</td>
-                    <td class="center">{$item->freight}</td>
                     <td class="center">
                         <a class="hover_a" href="index.php?module=stock&product_title={$item->p_name}" title="查看">
                             <img src="images/icon1/ck.png" />&nbsp;查看
                         </a>
                     </td>
+
+
                 </tr>
                 {/foreach}
             </table>
+
             <div class="numss">
-                <spa style="margin-right: 20px;">优惠合计：-￥{$reduce_price+$coupon_price} 元</span>
-                    <span>合计支付： ￥{$data.freight+$data.z_price-$reduce_price-$coupon_price} 元</span>
+                <span>优惠合计：-￥{$reduce_price+$coupon_price} 元</span>
+                <span>合计支付： ￥{$data.freight+$data.z_price-$reduce_price-$coupon_price} 元</span>
             </div>
         </div>
         <input type="hidden" name="ddd" value="{$data.lottery_status}">

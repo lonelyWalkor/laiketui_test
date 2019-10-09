@@ -22,6 +22,7 @@ class IndexAction extends Action {
             $start = ($page-1)*$pagesize;
         }else{
             $start = 0;
+            $page =1;
         }
         $sql = "select * from lkt_brand_class where recycle = 0 ";
         $r_pager = $db->select($sql);
