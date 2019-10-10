@@ -135,10 +135,10 @@ class modifyAction extends Action {
         $imgurls = $db->select($imgs_sql);
 
         //查询规格数据
-        $size = "select * from lkt_configure where pid = '$id'";
-        $res_size = $db->select($size);
-            $attr_group_list = [];
-            $checked_attr_list = [];
+$size = "select * from lkt_configure where pid = '$id' and recycle =0";
+$res_size = $db->select($size);
+$attr_group_list = [];
+$checked_attr_list = [];
   		if ($res_size) {
 
             $arrar_t = unserialize($res_size[0]->attribute);
@@ -169,24 +169,48 @@ class modifyAction extends Action {
             foreach ($attr_group_list as $key => $value) {
                 $attr_group_list[$key] = $this->array_key_remove($attr_group_list[$key], 'attr_all');
             }
+            foreach ($res_size as $k => $v) {
+                $res_row = $db->selectrow("select id from lkt_order_details where sid = '$v->id' and r_status !=3 and r_status !=5 and r_status !=6");  
+                $attribute = unserialize($v->attribute); // 属性
+                $attr_lists = [];
+                //列出属性名 
+                foreach ($attribute as $key => $value) {
+
+                    if ($res_row && $attr_group_list) {
+                        // print_r($value);
+                        foreach ($attr_group_list as $keya => $valuea) {
+                            if ($key == $valuea['attr_group_name']) {
+                             foreach ($valuea['attr_list'] as $key11 => $value11) {
+                                 if($value == $value11['attr_name']){
+                                    $attr_group_list[$keya]['attr_list'][$key11]['status']=false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
         }
-        if($initial != ''){
-            $initial = unserialize($initial);
-        }else{
-            $initial = array();
-        }
-        $initial = (object)$initial;
-        $attr_group_list = json_encode($attr_group_list);
-        $checked_attr_list = json_encode($checked_attr_list);
-        $request->setAttribute("volume",$volume);
-        $request->setAttribute("status", $status);
-        $request->setAttribute("uploadImg",$uploadImg);
-        $request->setAttribute("checked_attr_list",$checked_attr_list);
-        $request->setAttribute("attr_group_list",$attr_group_list);
-         $request->setAttribute('initial', isset($initial) ? $initial : '');
-        $request->setAttribute('s_type', $arr);  
-        $request->setAttribute("ctypes",$res);
-        $request->setAttribute('id', $id);
+    }
+    if($initial != ''){
+        $initial = unserialize($initial);
+    }else{
+        $initial = array();
+    }
+
+    $initial = (object)$initial;
+    $attr_group_list = json_encode($attr_group_list);
+    $checked_attr_list = json_encode($checked_attr_list);
+    $request->setAttribute("volume",$volume);
+    $request->setAttribute("status", $status);
+    $request->setAttribute("uploadImg",$uploadImg);
+    $request->setAttribute("checked_attr_list",$checked_attr_list);
+    $request->setAttribute("attr_group_list",$attr_group_list);
+    $request->setAttribute('initial', isset($initial) ? $initial : '');
+    $request->setAttribute('s_type', $arr);  
+    $request->setAttribute("ctypes",$res);
+    $request->setAttribute('id', $id);
         $request->setAttribute('r02', $brand);//所有品牌
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');

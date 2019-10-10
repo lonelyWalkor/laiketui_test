@@ -144,7 +144,7 @@ class seeAction extends Action {
         $imgurls = $db->select($imgs_sql);
 
         //查询规格数据
-        $size = "select * from lkt_configure where pid = '$id'";
+        $size = "select * from lkt_configure where pid = '$id' and recycle =0";
         $res_size = $db->select($size);
             $attr_group_list = [];
             $checked_attr_list = [];
