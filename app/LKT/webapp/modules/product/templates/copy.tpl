@@ -357,13 +357,19 @@ form[name=form1] input{
             <label class="form-label col-2">产品展示图：</label>
             <div class="formControls col-10">
                 <div class="uploader-thum-container">
+
                     <input name="imgurls[]" id="imgurls"  multiple='multiple' type="file" style="width:210px;" accept="upload_image/x-png,image/gif,image/jpeg" />
-                    {if $imgurls != ''}
-                        {foreach from=$imgurls item=item name=f1}
-                            <img class="pimg" src="{$uploadImg}{$item->product_url}" style="width: 50px;height: 50px;">
-                        {/foreach}
-                    {/if}
-                    注:最多五张
+
+                    <div id="ZSIMG">
+                        {if $imgurls != ''}
+                            {foreach from=$imgurls item=item name=f1}
+                                <input type="hidden" name="imgurls[]" value="{$item->product_url}" />
+                
+                                <img class="pimg" src="{$uploadImg}{$item->product_url}" style="width: 50px;height: 50px;">
+                            {/foreach}
+                        {/if}
+                    </div>
+                    注:最多五张,一定为.jpg格式
                 </div>
             </div>
         </div>
@@ -412,6 +418,8 @@ $(document.body).css({
 });
 $(function() {
     $("#imgurls").change(function() {
+        $('#ZSIMG').remove()
+
         var files = this.files;
         if (files && files.length > 5) {
             alert("超过5张");
@@ -651,11 +659,6 @@ var page = new Vue({
     $(".add-attr-group-input").live("click", function(){
         $(".add-attr-group-btn").css("display", "");
     });
-
-    $(".add-attr-group-input").live("focus", function(){
-        $(".add-attr-group-btn").css("display", "");
-    });
-
     // 属性框离开事件，延迟500毫秒隐藏隐藏添加属性按钮
     $(".add-attr-group-input").blur(function(){
         setTimeout('$(".add-attr-group-btn").css("display", "none")', 500);
@@ -962,6 +965,9 @@ var page = new Vue({
     }
 
     function check() {
+
+
+
         
         if(!verificationForm()){
             return false

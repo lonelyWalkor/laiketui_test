@@ -212,6 +212,7 @@ class copyAction extends Action {
         $content = addslashes(trim($request->getParameter('content'))); // 产品内容
         $image = addslashes(trim($request->getParameter('image'))); // 产品图片
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 产品图片
+        $imgurls = $request->getParameter('imgurls'); // 产品图片
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
 //      return $this->getDefaultView();
@@ -325,7 +326,7 @@ class copyAction extends Action {
         $z_num = 0;
         $attributes = [];
         if (count($attr) == 0) {
-             header("Content-type:text/html;charset=utf-8");
+			 header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
                     "alert('请填写属性！');" .
                     "</script>";
@@ -423,9 +424,17 @@ class copyAction extends Action {
                     if($info){
                         //循环遍历插入商品图片表
                         $sql_img = "insert into lkt_product_img(product_url,product_id,add_date) " . "values('$imgURL_name','$id1',CURRENT_TIMESTAMP)";
+                        // print_r( $sql_img);
                         $id2 = $db->insert($sql_img,'last_insert_id');
                         
                     }
+                }
+            }elseif ($imgurls && !$files[0]) {
+                foreach ($imgurls as $key => $value) {
+                    //循环遍历插入商品图片表
+                        $sql_img = "insert into lkt_product_img(product_url,product_id,add_date) " . "values('$value','$id1',CURRENT_TIMESTAMP)";
+                        // print_r( $sql_img);
+                        $id2 = $db->insert($sql_img,'last_insert_id');
                 }
             }
 
