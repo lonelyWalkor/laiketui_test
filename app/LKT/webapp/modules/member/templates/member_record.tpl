@@ -33,6 +33,7 @@
         </form>
     </div>
     <div class="mt-20">
+        <div class="mt-20 table-scroll" style="overflow: scroll; width: 100%; height: 495px;">
         <table class="table table-border table-bordered table-bg table-hover">
             <thead>
                 <tr class="text-c">
@@ -63,6 +64,7 @@
             {/foreach}
             </tbody>
         </table>
+    </div>
     </div>
     <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>

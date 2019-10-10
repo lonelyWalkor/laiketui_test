@@ -54,6 +54,7 @@ td a{
         <input type="button" class="btn btn-primary radius" id="syj" value="返回上一级" onclick="location.href='index.php?module=product_class&action=Index&cid={$level01}';" {if !$level} style="display: none;"{/if} />
     </div>
     <div class="mt-20">
+        <div class="mt-20 table-scroll" style="overflow: scroll; width: 100%; height: 585px;">
         <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
                 <tr class="text-c">
@@ -118,6 +119,7 @@ td a{
             {/foreach}
             </tbody>
         </table>
+    </div>
     </div>
     <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
