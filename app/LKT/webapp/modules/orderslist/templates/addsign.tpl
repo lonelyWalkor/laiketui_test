@@ -238,7 +238,7 @@
         }
 
         .maskLeft {
-            width: 30%;
+            width: 25%;
             float: left;
             text-align: right;
             padding-right: 20px;
@@ -330,6 +330,8 @@
         }
         
         .tml_flex{width: 44%!important;margin:auto;}
+
+
     </style>
   {/literal}
     <title>订单详情</title>
@@ -511,6 +513,7 @@
     </div>
 
     {php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+        <script language="javascript" src="style/js/ssd1.js"> </script>
     
     {literal}
     <script type="text/javascript">
