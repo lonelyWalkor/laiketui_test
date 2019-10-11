@@ -513,7 +513,7 @@
     </div>
 
     {php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
-        <script language="javascript" src="style/ssd1.js"> </script>
+        <script language="javascript" src="style/js/ssd1.js"> </script>
     
     {literal}
     <script type="text/javascript">
