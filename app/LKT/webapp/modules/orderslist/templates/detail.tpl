@@ -364,9 +364,7 @@
         <aside class="mtb" style="margin:10px 0px 20px 10px">
             <a class="newBtn btn radius" style="display: inline-block;border: none;"
                 href="index.php?module=orderslist&having={$da.having}&ordtype={$da.ordtype}&gcode={$da.gcode}&ocode={$da.ocode}&sNo={$da.sNo}&otype={$da.otype}&status={$da.status}&startdate={$da.startdate}&enddate={$da.enddate}&page={$da.page}">
-                <div style="height: 100%;display: flex;align-items: center;">
-                    <img src="images/icon1/xg_w.png" />&nbsp;返回
-                </div>
+                返回
             </a>
             <input type="hidden" id="dingdan" value="{$data.sNo}">
 
@@ -414,22 +412,22 @@
                     <span class="grText" style="display: inline-block;"></span>
                     {else}
                     <span>
-                        <a class="send-btn1 " href="javascript:"
+                        <a class="send-btn1 " style="text-decoration:underline" href="javascript:"
                             onclick="send_btn1(this,'{$data.sNo}','{$item.courier_num}')">
-                            <span style="display: inline-block;width: 222px;"
+                            <span style="width: 222px;"
                                 class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
-                        </a>
+                        </a> | 
                     </span>
                     {/if}
                     {/foreach}
-
+                    注：点击单号查看物流
                 </li>
             </ul>
         </div>
         <div style="border-radius: 10px;margin-bottom: 20px;background-color: #fff;">
             <p class="ulTitle">收货人信息</p>
             <ul class="ul2" style="height: 190px;">
-                <li style="width: 100%;padding-left: 20px;">收货人：<span class="grText">{$data.name}</span> </li>
+                <li style="width: 100%;padding-left: 20px;">&nbsp;&nbsp;&nbsp;收货人：<span class="grText">{$data.name}</span> </li>
                 <li style="width:100%;padding-left: 20px;">联系电话：<span class="grText">{$data.mobile}</span></li>
                 <li style="width: 100%;padding-left: 20px;">收货地址：<span class="grText">{$data.address}</span></li>
             </ul>
@@ -584,20 +582,7 @@
 
 
     <script type="text/javascript">
-            let changeNum = ''
 
-        $(".changeNum").mouseover(function () {
-            changeNum = $(this).html();
-            $(this).text("查看物流");
-        });
-
-        // let changeNum = $(".changeNum").html();
-        // $(".changeNum").mouseover(function(){
-        //     $(this).text("查看物流");
-        // });
-        $(".changeNum").mouseout(function () {
-            $(this).text(changeNum);
-        })
         $(function () {
             $(".pimg").click(function () {
                 var _this = $(this);//将当前的pimg元素作为_this传入函数

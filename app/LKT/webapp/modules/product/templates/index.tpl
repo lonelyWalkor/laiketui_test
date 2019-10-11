@@ -9,7 +9,7 @@
 
 {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-<title>产品列表管理</title>
+<title>商品列表管理</title>
 {literal}
 <style type="text/css">
 td a{
@@ -98,7 +98,7 @@ form .select{
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品列表管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 商品列表管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
     <div class="text-c">
         <form name="form1" action="index.php" method="get">
@@ -106,26 +106,26 @@ form .select{
             <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
             <select name="cid" class="select" style="width: 80px;height: 31px;vertical-align: middle;" id="cid">
-                <option value="0" >请选择产品分类</option>
+                <option value="0" >请选择商品分类</option>
                 {$class}
             </select>
             <select name="brand_id" class="select" style="width: 80px;height: 31px;vertical-align: middle;" id="brand_id">
-                <option value="0" >请选择产品品牌</option>
+                <option value="0" >请选择商品品牌</option>
                 {$rew}
             </select>
             <select name="s_type" class="select" style="width: 80px;height: 31px;vertical-align: middle;" id="s_type">
-                <option value="0" >请选择产品类型</option>
+                <option value="0" >请选择商品类型</option>
                 <option value="1" {if $s_type == 1}selected="selected"{/if} >新品</option>
                 <option value="2" {if $s_type == 2}selected="selected"{/if}>热销</option>
                 <option value="3" {if $s_type == 3}selected="selected"{/if}>推荐</option>
             </select>
             <select name="status" class="select" style="width: 80px;height: 31px;vertical-align: middle;" id="status">
-                <option value="0" >请选择产品状态</option>
+                <option value="0" >请选择商品状态</option>
                 <option value="2" {if $status == 2}selected="selected"{/if}>上架</option>
                 <option value="1" {if $status == 1}selected="selected"{/if}>下架</option>
                 <option value="3" {if $status == 3}selected="selected"{/if}>待上架</option>
             </select>
-            <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入产品名称" autocomplete="off" style="width:200px" class="input-text">
+            <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入商品名称" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="btn9" class="btn btn-success" type="submit" value="查询">
             <input type="button" value="重 置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="resetButton()"  />
         </form>
@@ -133,12 +133,12 @@ form .select{
     <div style="clear:both;margin-top: 10px;" class="btnDiv">
         <a class="btn radius" id="btn1" style="background-color:#38b4ed;color: #fff;" href="index.php?module=product&action=add">
             <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/add.png"/>&nbsp;发布产品
+                <img src="images/icon1/add.png"/>&nbsp;发布商品
             </div>
         </a>
         <a class="btn radius btn_up" id="btn2" style="background-color:#77c037;color: #fff;" href="javascript:;" onclick="operation(1)">
             <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/sj.png"/>&nbsp;<span>产品上架</span>
+                <img src="images/icon1/sj.png"/>&nbsp;<span>商品上架</span>
             </div>
         </a>
         <a class="btn radius btn_xp" id="btn3" style="background-color:#42b4b3;color: #fff;" href="javascript:;" onclick="operation(3)">
@@ -180,12 +180,12 @@ form .select{
                         <label for="ipt1"></label>
                     </div>
                 </th>
-                {*<th>产品编号</th>*}
-                <th>产品图片</th>
-                <th>产品标题</th>
+                {*<th>商品编号</th>*}
+                <th>商品图片</th>
+                <th>商品标题</th>
                 <th>分类名称</th>
                 <!-- <th>发布时间</th> -->
-                <th>产品品牌</th>
+                <th>商品品牌</th>
                 <th>价格</th>
                 <th>库存</th>
                 <th>销量</th>
@@ -265,7 +265,7 @@ form .select{
                                 </div> 
                             </div>
                         </a>
-                        <a style="text-decoration:none" class="ml-5" onclick="del(this,{$item->id})">
+                        <a  title="删除" style="text-decoration:none" class="ml-5" onclick="del(this,{$item->id})">
                             <div style="align-items: center;font-size: 12px;display: flex;">
                                 <div style="margin: 0 auto;display: flex;align-items: center;">
                                 <img src="images/icon1/del.png"/>&nbsp;删除
@@ -318,27 +318,27 @@ form .select{
                     upFlag=true
                 }
                 if($('.inputC').eq(i).parents('tr').find('.xp').length==0){
-                    // 有产品不是新品
+                    // 有商品不是新品
                     xpFlag=true
                 }
                 if($('.inputC').eq(i).parents('tr').find('.rx').length==0){
-                    // 有产品不是热销
+                    // 有商品不是热销
                     rxFlag=true
                 }
                 if($('.inputC').eq(i).parents('tr').find('.tj').length==0){
-                    // 有产品不是推荐
+                    // 有商品不是推荐
                     tjFlag=true
                 }
                 
                 if($('.inputC').eq(i).parents('tr').find('.sytj').length==0){
-                    // 有产品不是首页推荐
+                    // 有商品不是首页推荐
                     sytjFlag = true
                 }
             }
             $('#ipt1').prop('checked',qxFlag)
             
             if(xzindex==0){
-                $(".btn_up span").text('产品上架')
+                $(".btn_up span").text('商品上架')
                 $(".btn_xp span").text('设为新品')
                 $(".btn_rx span").text('设为热销')
                 $(".btn_tj span").text('设为推荐')
@@ -346,9 +346,9 @@ form .select{
                 return
             }
             if(upFlag){
-                $(".btn_up span").text('产品上架')
+                $(".btn_up span").text('商品上架')
             }else{
-                $(".btn_up span").text('产品下架')
+                $(".btn_up span").text('商品下架')
             }
             if(xpFlag){
                 $(".btn_xp span").text('设为新品')
@@ -384,19 +384,19 @@ form .select{
                         upFlag=true
                     }
                     if($('.inputC').eq(i).parents('tr').find('.xp').length==0){
-                        // 有产品不是新品
+                        // 有商品不是新品
                         xpFlag=true
                     }
                     if($('.inputC').eq(i).parents('tr').find('.rx').length==0){
-                        // 有产品不是热销
+                        // 有商品不是热销
                         rxFlag=true
                     }
                     if($('.inputC').eq(i).parents('tr').find('.tj').length==0){
-                        // 有产品不是推荐
+                        // 有商品不是推荐
                         tjFlag=true
                     }
                     if($('.inputC').eq(i).parents('tr').find('.sytj').length==0){
-                        // 有产品不是首页推荐
+                        // 有商品不是首页推荐
                         sytjFlag=true
                     }
                     if($('.inputC').eq(i).parents('tr').find('.xp').length==0&&$('.inputC').eq(i).parents('tr').find('.rx').length==0&&$('.inputC').eq(i).parents('tr').find('.tj').length==0){
@@ -404,9 +404,9 @@ form .select{
                     }
                 }
                 if(upFlag){
-                    $(".btn_up span").text('产品上架')
+                    $(".btn_up span").text('商品上架')
                 }else{
-                    $(".btn_up span").text('产品下架')
+                    $(".btn_up span").text('商品下架')
                 }
                 if(xpFlag){
                     $(".btn_xp span").text('设为新品')
@@ -429,7 +429,7 @@ form .select{
                     $(".btn_sytj span").text('取消首页推荐')
                 }
             }else{
-                $(".btn_up span").text('产品上架')
+                $(".btn_up span").text('商品上架')
                 $(".btn_xp span").text('设为新品')
                 $(".btn_rx span").text('设为热销')
                 $(".btn_tj span").text('设为推荐')
@@ -523,7 +523,7 @@ function operation(type){
     var btn_tj = $(".btn_tj span").text();
     var btn_sytj = $(".btn_sytj span").text();
 
-    if(type == 1 &&btn_up == "产品下架"){
+    if(type == 1 &&btn_up == "商品下架"){
         type = 2;
     }else if(type == 3 && btn_xp == "取消新品"){
         type = 4;

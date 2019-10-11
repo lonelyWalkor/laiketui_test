@@ -124,6 +124,7 @@ class showPager {
             for($i = $from; $i <= $to; $i++) {
                 $multipage .= ($i == $page|| ($i == 1 && !$page)) ? "<li class='active'><a href='$url&page=".$i.$para.'\' >'.$i.'</a></li>' : "<li ><a href='$url&page=".$i.$para.'\' >'.$i. '</a></li>';
             }
+            $page = $page==0?1:$page;
             $multipage .= ($page < $maxpage ? "<li><a style='width:80px' href='$url&page=".($page + 1).$para.'\' >下一页</a></li>' : '').
                 ($to < $maxpage ? "<li><a href='$url&page=".$maxpage.$para.'\' class="last" >尾页</a></li>' : '');
                 $multipage = $multipage ? '<div class="paginationDiv"> <div class="showDataNum">显示'.$start.'到'.$end.'，共'.$total.'条</div><ul class="pagination"><li class=""></li>'.$multipage.'<li></li></ul><div class="clearfix"></div></div>' : '';

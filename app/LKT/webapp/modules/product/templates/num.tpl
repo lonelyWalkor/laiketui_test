@@ -13,7 +13,7 @@
     <link href="style/css/style.css" rel="stylesheet" type="text/css" />
     <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
 
-    <title>产品分类管理</title>
+    <title>商品分类管理</title>
     {literal}
         <style type="text/css">
             td a{
@@ -31,13 +31,13 @@
     {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 库存管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 库存管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="pd-20">
     <div class="text-c">
         <form name="form1" action="index.php" method="get">
             <input type="hidden" name="module" value="product" />
             <input type="hidden" name="action" value="num" />
-            <input type="text" name="product_title" size='8' value="{$product_title}" id="" placeholder=" 产品标题" autocomplete="off" style="width:200px" class="input-text">
+            <input type="text" name="product_title" size='8' value="{$product_title}" id="" placeholder=" 商品标题" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="btn1" class="btn btn-success" type="submit" value="查询">
             <input type="button" value="清空" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="empty()" />
         </form>
@@ -47,8 +47,8 @@
             <thead>
             <tr class="text-c">
                 <th>序</th>
-                <th>产品图片</th>
-                <th>产品标题</th>
+                <th>商品图片</th>
+                <th>商品标题</th>
                 <th>发布时间</th>
                 <th>价格</th>
                 <th>数量（双击修改）</th>
@@ -67,7 +67,7 @@
                     <td><span style="color:red;">{$item->price}</span></td>
                     <td><input type="number" class="input-text" name="num" id="num_{$item->attribute_id}" value="{$item->num}" readOnly="readOnly" style="background-color: #eeeeee;" ondblclick="double({$item->attribute_id})" onblur="leave({$item->id},{$item->attribute_id});" />{$item->unit}</td>
                     {*<td>*}
-                        {*<a style="text-decoration:none" class="ml-5"  onclick="confirm('确定要删除此产品吗?',{$item->id})">*}
+                        {*<a style="text-decoration:none" class="ml-5"  onclick="confirm('确定要删除此商品吗?',{$item->id})">*}
                         	{*<div style="align-items: center;font-size: 12px;display: flex;">*}
                             	{*<div style="margin:0 auto;;display: flex;align-items: center;"> *}
                                 {*<img src="images/icon1/del.png"/>&nbsp;删除*}
@@ -162,13 +162,13 @@ function leave(id,attribute_id) {
             document.getElementById('num_'+attribute_id).style.backgroundColor="#eeeeee";
 
             if(res == 1){
-                appendMask('修改产品数量成功',"cg");
+                appendMask('修改商品数量成功',"cg");
                 // location.href="index.php?module=product&action=num";
             }else if(res == 2){
                 location.href="index.php?module=product&action=num";
             }else{
                 $('#num_'+attribute_id).val(ynum);
-                appendMask('修改产品数量失败',"ts");
+                appendMask('修改商品数量失败',"ts");
             }
 
         }
