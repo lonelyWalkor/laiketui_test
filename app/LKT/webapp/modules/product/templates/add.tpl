@@ -30,7 +30,7 @@ content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,
 function check(f) {
 
     if (Trim(f.product_title.value) == "") {
-        alert("产品名称不能为空！");
+        alert("商品名称不能为空！");
         f.product_title.value = '';
         return false;
     }
@@ -207,13 +207,13 @@ function check(f) {
 </style>
 {/literal}
 
-<title>添加产品</title>
+<title>添加商品</title>
 </head>
 <body>
 <div id="masks">
     <img src="images/icon1/loads.gif">
 </div>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> <a href="index.php?module=product" style="text-decoration:none;" onmouseover="this.style.color='#333'">产品列表管理</a> <span class="c-gray en">&gt;</span> 发布产品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> <a href="index.php?module=product" style="text-decoration:none;" onmouseover="this.style.color='#333'">商品列表管理</a> <span class="c-gray en">&gt;</span> 发布商品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
 
 <div class="pd-20" id="page">
     <form id="form1" name="form1" action="" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return check(this);">
@@ -222,7 +222,7 @@ function check(f) {
         <input type="hidden" name="attribute_num" class="attribute_num" id="attribute_num" value='{$attribute_num}'/>
 
         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>产品标题：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>商品标题：</label>
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$product_title}" placeholder="" id="product_titleId" name="product_title">
             </div>
@@ -234,11 +234,11 @@ function check(f) {
                 <input type="text" class="input-text" value="{$subtitle}" placeholder="" id="subtitleId" name="subtitle">
                 
             </div>
-            <text style="line-height:30px;position: relative;">*简洁表达产品，用来显示在首页产品，避免截取时不能表达是什么产品。</text>
+            <text style="line-height:30px;position: relative;">*简洁表达商品，用来显示在首页商品，避免截取时不能表达是什么商品。</text>
         </div>
 
         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>产品类别：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>商品类别：</label>
             <div class="formControls col-2"><!--  <span class="select-box"> -->
                 
                 <select name="product_class" id="product_classId" class="select">
@@ -250,7 +250,7 @@ function check(f) {
         </div>
 
         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>产品品牌：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>商品品牌：</label>
             <div class="formControls col-2">
                 <!-- <span class="select-box"> -->
                     <select name="brand_class" id="brand_classId" class="select">
@@ -262,7 +262,7 @@ function check(f) {
         </div>
 
         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>产品主图：</label>
+            <label class="form-label col-2"><span class="c-red">*</span>商品主图：</label>
             <div class="formControls col-xs-8 col-sm-10">
 
                 {if $image}
@@ -279,7 +279,7 @@ function check(f) {
         </div>
 
         <div class="row cl">
-            <label class="form-label col-2">产品展示图：</label>
+            <label class="form-label col-2">商品展示图：</label>
 
             <div class="formControls col-10" style="width: 40%;">
 
@@ -328,7 +328,7 @@ function check(f) {
                             {if $initial->unit != ''}
                                 <option selected="selected" value="{$initial->unit}">{$initial->unit}</option>
                             {else}
-                                <option value="">请选择商品属性</option>
+                                <option value="">请选择单位</option>
                                 <option value="盒">盒</option>
                                 <option value="篓">篓</option>
                                 <option value="箱">箱</option>
@@ -510,8 +510,8 @@ function check(f) {
         <div class="row cl page_bort_bottom">
             <label class="form-label col-2"></label>
             <div class="formControls col-2">
-                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius btn-right" onclick="check()">
-                <input type="button" name="reset" value="重 写" onclick="check1()" class="btn btn-primary radius btn-left" >
+                <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius btn-right" >
+                <input type="button" name="reset" value="返 回" onclick="javascript:history.back(-1);" class="btn btn-primary radius btn-left" >
             </div>
         </div>
     </form>
@@ -1006,34 +1006,34 @@ KindEditor.ready(function (K) {
         for(var i = 0; i < res.length; i++){
             
             if(res[i].name === 'product_title' && res[i].value === ''){
-                alert('请输入产品标题!')
+                alert('请输入商品标题!')
                 return false
             } else if(res[i].name === 'product_class' && res[i].value === '0'){
-                alert('请选择产品类别!')
+                alert('请选择商品类别!')
                 return false
             } else if(res[i].name === 'brand_class' && res[i].value === '0'){
                 alert('请选择品牌!')
                 return false
             } else if(res[i].name === 'image' && res[i].value === ''){
-                alert('请设置产品主图!')
+                alert('请设置商品主图!')
                 return false
             } else if(res[i].name === 'weight' && res[i].value === ''){
-                alert('请设置产品重量!')
+                alert('请设置商品重量!')
                 return false
             } else if(res[i].name === 'initial[cbj]' && res[i].value === ''){
-                alert('请设置产品成本价!')
+                alert('请设置商品成本价!')
                 return false
             } else if(res[i].name === 'initial[yj]' && res[i].value === ''){
-                alert('请设置产品原价!')
+                alert('请设置商品原价!')
                 return false 
             } else if(res[i].name === 'initial[sj]' && res[i].value === ''){
-                alert('请设置产品售价!')
+                alert('请设置商品售价!')
                 return false 
             } else if(res[i].name === 'initial[unit]' && res[i].value === ''){
-                alert('请选择产品单位!')
+                alert('请选择商品单位!')
                 return false 
             } else if(res[i].name === 'initial[kucun]' && res[i].value === ''){
-                alert('请设置产品库存!')
+                alert('请设置商品库存!')
                 return false 
             } else if(res[i].name === 's_type[]') {
                 s_type = 1

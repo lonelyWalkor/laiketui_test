@@ -397,9 +397,7 @@
         <aside class="mtb" style="margin:10px 0px 20px 10px">
             <a class="newBtn btn radius" style="display: inline-block;border: none;"
                 href="index.php?module=orderslist&having={$da.having}&ordtype={$da.ordtype}&gcode={$da.gcode}&ocode={$da.ocode}&sNo={$da.sNo}&otype={$da.otype}&status={$da.status}&startdate={$da.startdate}&enddate={$da.enddate}&page={$da.page}">
-                <div style="height: 100%;display: flex;align-items: center;">
-                    <img src="images/icon1/xg_w.png" />&nbsp;返回
-                </div>
+                返回
             </a>
             <input type="hidden" id="dingdan" value="{$data.sNo}">
             <input type="hidden" class="control" name="control" value="{$data.z_price}">
@@ -442,13 +440,13 @@
                     <span class="grText" style="display: inline-block;"></span>
                     {else}
                     <span>
-                        <a class="send-btn1 " href="javascript:"
+                        <a class="send-btn1 " style="text-decoration:underline" href="javascript:"
                             onclick="send_btn1(this,'{$data.sNo}',{$item.courier_num})">
-                            <span style="display: inline-block;width: 222px;"
+                            <span style="width: 222px;"
                                 class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
                         </a>
                     </span>
-                    {/if}
+                    {/if}注：点击单号查看物流
                     {/foreach}
 
                 </li>
@@ -460,7 +458,7 @@
                 <ul class="ul2" style="height: 190px;">
 
                     <li style="width: 100%;padding-left: 20px;">
-                        收货人：
+                        &nbsp;&nbsp;&nbsp;收货人：
                         <span class="grText">
                             <input type="hidden" name="id" value="{$data.sNo}" />
                             <input type="hidden" name="sid" value="{$data.id}" />
@@ -479,7 +477,7 @@
                     <li style="width: 100%;padding-left: 20px;">
                         收货地址：
                         <span class="grText">
-                            <input type="text" style="width: auto;" class="input-text" value="{$data.address}"
+                            <input type="text" style="width: 500px;" class="input-text" value="{$data.address}"
                                 name="address">
                         </span>
                     </li>
@@ -690,17 +688,7 @@
 
 
 
-        let changeNum = ''
-
-        $(".changeNum").mouseover(function () {
-            changeNum = $(this).html();
-            $(this).text("查看物流");
-        });
-
-        $(".changeNum").mouseout(function () {
-
-            $(this).text(changeNum);
-        })
+        
 
         $(function () {
             $(".pimg").click(function () {

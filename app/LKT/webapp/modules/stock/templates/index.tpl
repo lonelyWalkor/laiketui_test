@@ -48,7 +48,7 @@ td a{
             <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入商品名称" style="width:200px" class="input-text" onfocus="this.placeholder=''" onblur="this.placeholder='请输入商品名称'">
             <input type="button" value="重置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076; height: 31px;border-radius: 5px;" class="reset" onclick="empty()" />
 
-            <input name="" id="btn9" class="btn btn-success" type="submit" value="查询">
+            <input name="" id="btn9" class="btn " type="submit" value="查询">
             <input id="btn1" class="btn btn-success" type="button" value="导出" onclick="excel(location.href)" style="float: right;">
         </form>
     </div>
