@@ -278,7 +278,7 @@ class signAction extends Action {
                     echo json_encode(array('status'=>1,'sign_time'=>$sign_time,'imgurl'=>$imgurl,'num'=>$num,'details'=>$details));
                     exit;
                 }else{
-                    echo json_encode(array('status'=>0,'err'=>'暂无签到记录！','num'=>0,'details'=>$details));
+                    echo json_encode(array('status'=>0,'sign_time'=>$sign_time,'err'=>'暂无签到记录！','num'=>0,'details'=>$details));
                     exit;
                 }
                 //------------------------
