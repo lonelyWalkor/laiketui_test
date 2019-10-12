@@ -1849,8 +1849,7 @@ class productAction extends Action {
         $start = ($paegr-1)*10;
         $end = 10;
 
-        $sql ="select a.id,a.product_title,a.imgurl,a.volume,min(c.price) as price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.s_type like '%$id%' and a.status = 0 and a.num >0 group by c.pid order by $select $sort LIMIT $start,$end ";
-
+        $sql ="select a.s_type,a.id,a.product_title,a.imgurl,a.volume,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.s_type like '%$id%' and a.status = 0 and a.num >0 group by c.pid order by $select $sort LIMIT $start,$end ";
         $r = $db->select($sql);
         if($r){
             $product = [];
