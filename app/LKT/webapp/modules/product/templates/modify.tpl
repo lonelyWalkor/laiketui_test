@@ -265,7 +265,7 @@
                     <img class="pimg" src="{$uploadImg}{$item->product_url}" style="width: 50px;height: 50px;">
                     {/foreach}
                     {/if}
-                    注:最多五张,一定为.jpg格式
+                    注:最多五张
                 </div>
             </div>
         </div>
@@ -283,7 +283,7 @@
             {/foreach}
             {/foreach} -->
 
-            <div class="row cl">
+            <div class="row cl" style="display:none">
                 <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
                 <div class="formControls col-4" style="width: 26.8%;">
                     <input type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight">
@@ -1055,9 +1055,6 @@ function noNumbers(e){
                 return false
             } else if(res[i].name === 'image' && res[i].value === ''){
                 alert('请设置商品主图!')
-                return false
-            } else if(res[i].name === 'weight' && res[i].value === ''){
-                alert('请设置商品重量!')
                 return false
             } else if(res[i].name === 'initial[cbj]' && res[i].value === ''){
                 alert('请设置商品成本价!')

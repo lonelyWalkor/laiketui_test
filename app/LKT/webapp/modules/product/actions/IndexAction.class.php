@@ -104,7 +104,7 @@ class IndexAction extends Action {
         }
         $pager = new ShowPager($total,$pagesize,$page);//[total_record] => 12 [pagesize] => 10 [total_pages] => 2 [cur_page] => 1 [offset] => 0 [_pernum] => 10
 
-        $sql = "select * from lkt_product_list as a where $condition order by status asc,a.add_date desc,a.sort desc limit $start,$pagesize ";
+        $sql = "select * from lkt_product_list as a where $condition order by id desc,status asc,a.add_date desc,a.sort desc limit $start,$pagesize ";
         // print_r($sql);die;
         $r = $db->select($sql);
         $list = [];
