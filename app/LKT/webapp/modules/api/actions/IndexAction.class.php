@@ -118,8 +118,11 @@ order by a.sort DESC LIMIT 0,10";
             foreach ($r_s as $k => $v) {
                 $imgurl = $img .$v->imgurl;
                 $pid = $v->id;
-                $price =$v->yprice;
-                $price_yh =$v->price;
+                $sql_ttt = "select price,yprice from lkt_configure where pid ='$pid' order by price asc ";
+                $r_ttt = $db->select($sql_ttt);
+                $price =$r_ttt[0]->yprice;
+                $price_yh =$r_ttt[0]->price;
+
                 $product[$k] = array('id' => $v->id,'name' => $v->product_title,'price' => $price,'price_yh' => $price_yh,'imgurl' => $imgurl,'volume' => $v->volume);
             }
             $twoList['0'] = array('id' => '0','name' => '首页','count' => 1,'twodata' => $shou,'distributor'=>$distributor);
@@ -208,6 +211,12 @@ group by c.pid  order by a.volume desc limit  $start,$end";
 
             if($r_cs){
                 foreach ($r_cs as $keyc => $valuec) {
+                    $pid = $valuec->id;
+                    $sql_ttt = "select price,yprice from lkt_configure where pid ='$pid' order by price asc ";
+                    $r_ttt = $db->select($sql_ttt);
+                    $price =$r_ttt[0]->yprice;
+                    $price_yh =$r_ttt[0]->price;
+                    
                     $valuec->imgurl = $img . $valuec->imgurl;
                     $product[] = array('id' => $valuec->id,'product_title' => $valuec->product_title,'price' =>$valuec->yprice,'price_yh' => $valuec->price,'imgurl' => $valuec->imgurl,'volume' => $valuec->volume);
                 }
@@ -234,8 +243,10 @@ order by a.sort DESC LIMIT $start,$end";
             foreach ($r_s as $k => $v) {
                 $imgurl = $img .$v->imgurl;/* end 保存*/
                 $pid = $v->id;
-                $price =$v->yprice;
-                $price_yh =$v->price;
+                $sql_ttt = "select price,yprice from lkt_configure where pid ='$pid' order by price asc ";
+                $r_ttt = $db->select($sql_ttt);
+                $price =$r_ttt[0]->yprice;
+                $price_yh =$r_ttt[0]->price;
                 $product[$k] = array('id' => $v->id,'product_title' => $v->product_title,'price' => $price,'price_yh' => $price_yh,'imgurl' => $imgurl,'volume' => $v->volume);
             }
                     echo json_encode(array('prolist'=>$product,'status'=>1));
