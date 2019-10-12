@@ -263,21 +263,9 @@ class addAction extends Action {
                 "alert('产品名称不能为空！');" .
                 "</script>";
             return $this->getDefaultView();
-        }else{
-            $sql = "select id,product_title from lkt_product_list where recycle = 0";
-            $r = $db->select($sql);
-            if($r){
-                foreach ($r as $k => $v){
-                    header("Content-type:text/html;charset=utf-8");
-                    if($product_title == $v->product_title){
-                        echo "<script type='text/javascript'>" .
-                            "alert('产品名称重复！');" .
-                            "</script>";
-                        return $this->getDefaultView();
-                    }
-                }
-            }
         }
+
+        
         if($product_class == '0'){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -292,29 +280,7 @@ class addAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
-        if($weight == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('请填写商品重量！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }else{
-            if(is_numeric($weight)){
-                if($weight < 0){
-                    header("Content-type:text/html;charset=utf-8");
-                    echo "<script type='text/javascript'>" .
-                        "alert('重量不能为负数！');" .
-                        "</script>";
-                    return $this->getDefaultView();
-                }
-            }else{
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('请填写正确的商品重量值！');" .
-                    "</script>";
-                return $this->getDefaultView();
-            }
-        }
+
        if($initial){
             foreach ($initial as $k => $v){
                 if($k == 'cbj' && $v == ''){
@@ -405,10 +371,10 @@ class addAction extends Action {
                 if ($costprice > $price) {
        
                     header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('成本价不能大于售价！');" .
-                    "</script>";
-                return $this->getDefaultView();
+                    echo "<script type='text/javascript'>" .
+                        "alert('成本价不能大于售价！');" .
+                        "</script>";
+                    return $this->getDefaultView();
                 }
 
                 $value['img'] = preg_replace('/.*\//', '', $value['img']);

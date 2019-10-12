@@ -249,16 +249,6 @@ $checked_attr_list = [];
                 "alert('产品名称不能为空！');" ."</script>";
                 // "location.href='index.php?module=product&action=modify';</script>";
             return $this->getDefaultView();
-        }else{
-            $sql = "select product_title from lkt_product_list where id != '$id' and product_title = '$product_title' and recycle =0";
-            $r = $db->select($sql);
-            if($r){
-				header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('{$product_title} 已经存在，请选用其他标题进行修改！');" ."</script>";
-                    // "location.href='index.php?module=product&action=modify';</script>";
-                return $this->getDefaultView();
-            }
         }
 
         if($product_class == ''){
@@ -276,29 +266,7 @@ $checked_attr_list = [];
             return $this->getDefaultView();
         }
 
-        if($weight == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('请填写商品重量！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }else{
-            if(is_numeric($weight)){
-                if($weight < 0){
-                    header("Content-type:text/html;charset=utf-8");
-                    echo "<script type='text/javascript'>" .
-                        "alert('重量不能为负数！');" .
-                        "</script>";
-                    return $this->getDefaultView();
-                }
-            }else{
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('请填写正确的商品重量值！');" .
-                    "</script>";
-                return $this->getDefaultView();
-            }
-        }
+        
 
             if($initial){
             foreach ($initial as $k => $v){

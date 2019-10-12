@@ -294,11 +294,12 @@ function check(f) {
             <div class="formControls col-4" style="width: 16.8%;">
                 <input type="text" class="input-text" value="{$keyword}" placeholder="" id="keywordId" name="keyword">
             </div>
-        </div> -->
-        <div class="row cl">
+        </div>
+ -->
+        <div class="row cl" style="display:none">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
-            <div class="formControls col-4" style="width: 26.8%;">
-                <input type="text" class="input-text" value="{$weight}" placeholder="" id="weightId" name="weight">
+            <div class="formControls col-4" style="width: 16.8%;">
+                <input type="text" class="input-text" value="{$weight}" placeholder="请填入数字" id="weightId" name="weight">
             </div>
             <text style="line-height:30px;">克</text>
         </div>
@@ -1017,9 +1018,6 @@ KindEditor.ready(function (K) {
                 return false
             } else if(res[i].name === 'image' && res[i].value === ''){
                 alert('请设置商品主图!')
-                return false
-            } else if(res[i].name === 'weight' && res[i].value === ''){
-                alert('请设置商品重量!')
                 return false
             } else if(res[i].name === 'initial[cbj]' && res[i].value === ''){
                 alert('请设置商品成本价!')
