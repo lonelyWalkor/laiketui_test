@@ -8,11 +8,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+
 {literal}
 <script>
 function change(){
@@ -132,12 +130,10 @@ function change(){
   </form>
   <input type="hidden" id="pic" value="{$pic}" >
 </div>
-<script type="text/javascript" src="modpub/js/check.js" > </script>
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-all.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
+
+
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+
 {literal}
 <script>
 KindEditor.ready(function(K) {
@@ -151,7 +147,7 @@ KindEditor.ready(function(K) {
   K('#image1').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurl1').val(),
           clickFn : function(url, title, width, height, border, align) {
@@ -166,7 +162,7 @@ KindEditor.ready(function(K) {
   K('#image2').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurl2').val(),
           clickFn : function(url, title, width, height, border, align) {
