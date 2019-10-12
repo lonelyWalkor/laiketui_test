@@ -100,7 +100,7 @@ class addAction extends Action {
     }
     public function attr($attribute){//属性
       		$checked_attr_list=$attribute?$attribute:'';
-            $attr_group_list='';
+            $attr_group_list=array();
     		$attr_group_list1 =[];
             foreach ($attribute as $key => $value) {
             	$aa = $value['attr_list'];
