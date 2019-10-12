@@ -300,7 +300,8 @@ form[name=form1] input{
 
                                         <td>
                                             <div  class="upload-group form_group form_flex">
-                                                <div class="form_attr_img ">
+                                                <div class="form_attr_img " style="border: 1px solid;
+    background-color: black;">
                                                     <input type="hidden" :id="'picurl2'+index" v-bind:name="'attr['+index+'][img]'" datatype="*" nullmsg="请选择图片"/>
                                                         <img src="images/icon1/add_g_t.png" :id="'pic2'+index" class="upload-preview-img form_att select-file" @click="handleImageClick(item,index)" onclick="setTimeoutClick() ">
                                                 </div>
