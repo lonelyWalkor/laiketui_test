@@ -8,9 +8,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/css/style.css" rel="stylesheet" type="text/css" />
+
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
 <title>活动列表</title>
 {literal}
@@ -53,7 +52,7 @@
     </div>
     <div class="mt-20" style="clear:both;">
         <a class="btn newBtn radius" href="index.php?module=sign&action=add">
-        	<i class="Hui-iconfont">&#xe610;</i>&nbsp;发布活动
+        	发布活动
         </a>
     </div>
     <div class="mt-20">
@@ -86,7 +85,7 @@
                             	</div>
             				</div>
                         </a>
-                        {if $item->status != 1}
+                        
                             <a style="text-decoration:none" class="ml-5" href="index.php?module=sign&action=del&id={$item->id}&uploadImg={$uploadImg}" onclick="return confirm('确定要删除此活动吗?')">
                             	<div style="align-items: center;font-size: 12px;display: flex;">
 	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
@@ -94,7 +93,7 @@
 	                            	</div>
             					</div>
                             </a>
-                        {/if}
+                        
                     </td>
                 </tr>
                 {/foreach}
@@ -104,13 +103,8 @@
     <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
 </div>
 
-<script type="text/javascript" src="style/js/jquery.js"></script>
 
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
-<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
-<script type="text/javascript" src="style/js/H-ui.js"></script> 
-<script type="text/javascript" src="style/js/H-ui.admin.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
 {literal}
 <script type="text/javascript">

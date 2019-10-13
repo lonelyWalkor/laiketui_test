@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:25
- * @LastEditTime: 2019-09-17 14:36:08
- * @LastEditors: Please set LastEditors
- -->
 <!DOCTYPE HTML>
 <html>
 
@@ -16,9 +9,8 @@
         content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-    <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-    <link href="style/css/style.css" rel="stylesheet" type="text/css" />
+
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
     <title>添加活动</title>
 </head>
 
@@ -66,11 +58,10 @@
                 </div>
             </div>
             <div class="row cl">
-                <div class="col-10 col-offset-2">
-                    <button class="btn btn-primary radius" type="submit" name="Submit"><i
-                            class="Hui-iconfont">&#xe632;</i> 提 交</button>
-                    <button class="btn btn-secondary radius" type="reset" name="reset"><i
-                            class="Hui-iconfont">&#xe632;</i> 重 写</button>
+                <label class="form-label col-2"></label>
+                <div class="formControls col-10">
+                    <button class="btn btn-primary radius" type="submit" name="Submit">提 交</button>
+                    <button class="btn btn-secondary radius" type="reset" name="reset">重 写</button>
                 </div>
             </div>
         </form>
@@ -79,22 +70,7 @@
     </div>
 
     
-    <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script>
-    <script type="text/javascript" src="style/lib/Validform/5.3.2/Validform.min.js"></script>
-    <script type="text/javascript" src="style/js/H-ui.js"></script>
-    <script type="text/javascript" src="style/js/H-ui.admin.js"></script>
-
-    <script type="text/javascript" src="style/js/laydate/laydate.js"></script>
-
-
-    <script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script>
-    <script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
-    <script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
-    <!-- 新增编辑器引入文件 -->
-    <link rel="stylesheet" href="style/kindeditor/themes/default/default.css"/>
-    <script src="style/kindeditor/kindeditor-min.js"></script>
-    <script src="style/kindeditor/lang/zh_CN.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
     {literal}
     <script>
@@ -152,7 +128,7 @@
             K('#image').click(function () {
                 editor.loadPlugin('image', function () {
                     editor.plugin.imageDialog({
-                        //showRemote : false, //网络图片不开启
+                        showRemote : false, //网络图片不开启
                         //showLocal : false, //不开启本地图片上传
                         imageUrl: K('#picurl').val(),
                         clickFn: function (url, title, width, height, border, align) {

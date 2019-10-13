@@ -8,8 +8,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+
+
 {literal}
 <script type="text/javascript">
 function show(obj){
@@ -138,27 +140,19 @@ function change(){
         </div>
         
         <div class="row cl">
-            <div class="col-10 col-offset-4">
-                <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-                <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+            <label class="form-label col-4" ></label>
+            <div class="formControls col-2">
+                <button class="btn btn-primary radius" type="submit" name="Submit">提 交</button>
+                <button class="btn btn-secondary radius" type="reset" name="reset">重 写</button>
             </div>
         </div>
     </form>
 </div>
 
-<script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> 
-<script type="text/javascript" src="style/lib/Validform/5.3.2/Validform.min.js"></script> 
-<script type="text/javascript" src="style/lib/webuploader/0.1.5/webuploader.min.js"></script> 
-<script type="text/javascript" src="style/js/H-ui.js"></script> 
-<script type="text/javascript" src="style/js/H-ui.admin.js"></script> 
-<script type="text/javascript" src="style/js/laydate/laydate.js"></script>
+
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
 
-<!-- 新增编辑器引入文件 -->
-<link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-<script src="style/kindeditor/kindeditor-min.js"></script>
-<script src="style/kindeditor/lang/zh_CN.js"></script>
 {literal}
 <script>
 // KindEditor.ready(function(K) {
