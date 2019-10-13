@@ -122,9 +122,10 @@ function change(){
       </div>
     </div>
     <div class="row cl">
-      <div class="col-10 col-offset-4">
-        <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-        <!-- <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button> -->
+      <label class="form-label col-4"></label>
+      <div class="formControls col-4">
+        <button class="btn btn-primary radius" type="submit" name="Submit">提 交</button>
+        <button class="btn btn-secondary radius" type="reset" name="reset">重 写</button>
       </div>
     </div>
   </form>
