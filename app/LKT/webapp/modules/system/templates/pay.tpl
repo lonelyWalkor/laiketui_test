@@ -51,12 +51,12 @@
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>支付证书文件：</label>
-                <div class="iconfont icon-zhengshu-copy" >
+                <div class="formControls col-xs-8 col-sm-6" >
                     <input style="padding-left: 10px;" type="file" accept=".zip" name="upload_cert">
                     <span style="color: #333;font-size: 12px;">注:仅可上传zip压缩包</span>
                 </div>
             </div>
-            <div class="row cl">
+            <div class="row cl" style="display:none">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>证书路径：</label>
                 <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" name="mch_cert" value="{$mch_cert}" class="input-text">
@@ -67,8 +67,8 @@
         <div class="row cl">
           <label class="form-label col-xs-4 col-sm-4"></label>
             <div class="formControls col-xs-8 col-sm-6">
-                <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
-                <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+                <button class="btn btn-primary radius" type="submit" name="Submit">保 存</button>
+                <button class="btn btn-default radius" type="reset">取 消</button>
             </div>
         </div>
     </form>
