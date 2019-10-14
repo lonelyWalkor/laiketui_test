@@ -396,7 +396,7 @@ class copyAction extends Action {
             }elseif ($imgurls && !$files[0]) {
                 foreach ($imgurls as $key => $value) {
                     //循环遍历插入商品图片表
-                        $sql_img = "insert into lkt_product_img(product_url,product_id,add_date) " . "values('$value','$id1',CURRENT_TIMESTAMP)";
+                        $sql_img = "insert into lkt_product_img(id,product_url,product_id,add_date) " . "values(0,'$value','$id1',CURRENT_TIMESTAMP)";
                         // print_r( $sql_img);
                         $id2 = $db->insert($sql_img,'last_insert_id');
                 }

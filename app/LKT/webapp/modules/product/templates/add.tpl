@@ -275,6 +275,8 @@ function check(f) {
 
                 <input type="hidden" id="picurl" name="image" datatype="*" nullmsg="请选择图片"/>
                 <button class="btn btn-success" id="image" type="button">选择图片</button>
+
+（建议上传160px*160px）
             </div>
         </div>
 
@@ -286,6 +288,7 @@ function check(f) {
                 <div class="uploader-thum-container">
                     <input name="imgurls[]" id="imgurls" multiple='multiple' type="file" style="width:210px;" accept="upload_image/x-png,image/gif,image/jpeg"/>注:最多五张
                 </div>
+                （建议上传375px*375px）
 
             </div>
         </div>

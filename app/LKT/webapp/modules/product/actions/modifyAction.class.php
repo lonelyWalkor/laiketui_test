@@ -407,7 +407,8 @@ $checked_attr_list = [];
                 $info = move_uploaded_file($file,"../LKT/images/$imgsURL_name");
                 if($info){
                     //循环遍历插入
-                    $sql_img = "insert into lkt_product_img(product_url,product_id,add_date) " . "values('$imgsURL_name','$id',CURRENT_TIMESTAMP)";
+                    $sql_img = "insert into lkt_product_img(id,product_url,product_id,add_date) " . "values(0,'$imgsURL_name','$id',CURRENT_TIMESTAMP)";
+                    
                     $r = $db->insert($sql_img);
                 }
             }
