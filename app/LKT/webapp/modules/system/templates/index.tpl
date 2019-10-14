@@ -95,13 +95,13 @@
 			
         </div>
         <div class="row cl">
-            <div class="col-xs-8 col-sm-9" style="display:flex;justify-content: center;">
+            <label class="form-label col-xs-4 col-sm-4"></label>
+            <div class="formControls col-xs-8 col-sm-6" >
 			
-                <button class="btn btn-primary radius" type="submit" name="Submit" style="margin-right:20px;">
-					<i class="Hui-iconfont">&#xe632;</i>
-					保存
+                <button class="btn btn-primary radius" type="submit" name="Submit" >
+					保 存
 				</button>
-                <button class="btn btn-default radius" type="reset">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+                <button class="btn btn-default radius" type="reset">取 消</button>
 				
             </div>
         </div>
