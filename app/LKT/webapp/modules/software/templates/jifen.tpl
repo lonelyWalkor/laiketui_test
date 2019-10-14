@@ -8,10 +8,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-<link href="style/css/style.css" rel="stylesheet" type="text/css" />
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+
 
 <title>关注设置积分</title>
 </head>
@@ -42,11 +40,12 @@
         </div>
 
         <div class="row cl">
-          <div class="col-4 " style="text-align: right;">
+            <label class="form-label col-2"></label>
+          <div class="formControls col-10" >
 
-            <button class="btn btn-primary radius " style=" margin-right: 10px;" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
+            <button class="btn btn-primary radius " style=" margin-right: 10px;" type="submit" name="Submit">提 交</button>
 
-            <button class="btn btn-secondary radius" style="margin-right: -50px;"  type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+            <button class="btn btn-secondary radius" style="margin-right: -50px;"  type="reset" name="reset">重 写</button>
 
           </div>
 
