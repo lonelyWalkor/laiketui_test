@@ -426,7 +426,7 @@ class addAction extends Action {
                     $info = move_uploaded_file($file,$uploadImg.$imgURL_name);//把图片移动到指定文件夹
                     if($info){
                         //循环遍历插入商品图片表
-                        $sql_img = "insert into lkt_product_img(product_url,product_id,add_date) " . "values('$imgURL_name','$id1',CURRENT_TIMESTAMP)";
+                        $sql_img = "insert into lkt_product_img(id,product_url,product_id,add_date) " . "values(0,'$imgURL_name','$id1',CURRENT_TIMESTAMP)";
                         $id2 = $db->insert($sql_img,'last_insert_id');
                         
                     }

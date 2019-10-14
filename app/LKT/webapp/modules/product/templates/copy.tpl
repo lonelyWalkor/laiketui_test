@@ -352,7 +352,9 @@ form[name=form1] input{
                 <input type="hidden" name="img_oldpic" value="{$imgurl}" >
                 <img id="thumb_url" src='{$uploadImg}{$imgurl}' style="height:50px;width:50px">
                 <span class="btn btn-success " id="image"  type="button" >选择图片</span>
+                （建议上传160px*160px）
             </div>
+
         </div>
         <div class="row cl">
             <label class="form-label col-2">商品展示图：</label>
@@ -370,8 +372,9 @@ form[name=form1] input{
                             {/foreach}
                         {/if}
                     </div>
-                    注:最多五张,一定为.jpg格式
+                    注:最多五张
                 </div>
+                （建议上传375px*375px）
             </div>
         </div>
         <div class="row cl">
