@@ -570,8 +570,6 @@
                                 <div class="realDivTitle">订单统计</div>
                                 <div class="title1" style="float: right; margin-right: 20px" >
                                     <a href="javacript:void(0)" class="activeTJTBtn">本周</a>
-                                    <a href="javacript:void(0)">本月</a>
-                                    <a href="javacript:void(0)">本年</a>
                                 </div>
                                 <div class="tjtDivIn" id="ddTJT" style="height:345px;"></div>
                             </div>

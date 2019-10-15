@@ -433,7 +433,7 @@
             </ul>
         </div>
 
-        </div> -->
+        </div> 
                 <div style="border-radius: 10px;margin-bottom: 20px;background-color: #fff;padding:10px;">
             <p class="ulTitle">商品信息</p>
             <table class="table">

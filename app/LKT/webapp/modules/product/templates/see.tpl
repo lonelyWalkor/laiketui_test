@@ -360,8 +360,9 @@
         </div>
         <div style="height: 20px;"></div>
         <div class="row cl page_bort_bottom">
-            <div class="col-8 col-offset-4">
-                <input type="button" name="reset" value="返回"  class="btn btn-primary radius btn-right" id="resetId" onclick="javascript :history.back(-1);" style="background: transparent!important;">
+            <label class="form-label col-xs-4 col-sm-2"></label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <input type="button" name="reset" value="返回"  class="btn btn-primary" id="resetId" onclick="javascript :history.back(-1);" >
             </div>
         </div>
     </form>
