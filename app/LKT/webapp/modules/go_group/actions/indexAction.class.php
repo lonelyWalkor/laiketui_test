@@ -25,7 +25,7 @@ class IndexAction extends Action {
         $group_num = $request->getParameter("group_num"); // 拼团人数
         $status = trim($request->getParameter('status'));
         $pagesize = $request->getParameter('pagesize');
-                $pageto = $request -> getParameter('pageto'); 
+        $pageto = $request -> getParameter('pageto'); 
         $pagesize = $pagesize ? $pagesize : 10;
         // 每页显示多少条数据
         $page = $request->getParameter('page');
@@ -46,9 +46,9 @@ class IndexAction extends Action {
         //如果活动状态不为空
         if($group_status!='' && $group_status!='#'){
             // $whereStr.=" AND gp.g_status = $group_status";
-             $whereStr.=" AND a.ptstatus = $group_status";
-            
-        }
+           $whereStr.=" AND a.ptstatus = $group_status";
+
+       }
         $rrr = huodongzhuangtai($db);////监测拼团活动有没有过期的，改变其活动状态
         $img = $this->img($db);
         //如果是查看订单
@@ -61,16 +61,16 @@ class IndexAction extends Action {
             }else{
                 $type = 'canrecord';
                 $sql = "SELECT b.*,c.user_name,d.product_title AS p_name,d.product_title, a.ptcode,f.endtime,a.sNo as a,f.sNo as b,b.product_id as goods_id,f.ptstatus
-                        FROM lkt_order as a ,lkt_group_product as b,lkt_user as c,lkt_product_list as d,lkt_group_open as f
-                        where a.pid = b.group_id and a.user_id = c.user_id and b.product_id = d.id and a.ptcode = f.ptcode and a.sNo <> f.sNo"
-                                .$whereStr."
-                        ORDER BY f.endtime desc
-                        limit $start,$pagesize";
+                FROM lkt_order as a ,lkt_group_product as b,lkt_user as c,lkt_product_list as d,lkt_group_open as f
+                where a.pid = b.group_id and a.user_id = c.user_id and b.product_id = d.id and a.ptcode = f.ptcode and a.sNo <> f.sNo"
+                .$whereStr."
+                ORDER BY f.endtime desc
+                limit $start,$pagesize";
                 $sql1 = "SELECT b.*,c.user_name,d.product_title AS p_name, a.ptcode,f.endtime,a.sNo ,f.sNo,f.ptstatus
-                        FROM lkt_order as a ,lkt_group_product as b,lkt_user as c,lkt_product_list as d,lkt_group_open as f
-                        where a.pid = b.group_id and a.user_id = c.user_id and b.product_id = d.id and a.ptcode = f.ptcode and a.sNo <> f.sNo"
-                                .$whereStr."
-                        ORDER BY f.endtime desc";
+                FROM lkt_order as a ,lkt_group_product as b,lkt_user as c,lkt_product_list as d,lkt_group_open as f
+                where a.pid = b.group_id and a.user_id = c.user_id and b.product_id = d.id and a.ptcode = f.ptcode and a.sNo <> f.sNo"
+                .$whereStr."
+                ORDER BY f.endtime desc";
             }
             $res = $db->select($sql);
             $res_all = $db->select($sql1);
@@ -98,8 +98,8 @@ class IndexAction extends Action {
                         $v->openmoney = 0;
                         if(!empty($biliArr)){
                             foreach ($biliArr as $key => $value) {
-                               $groupman =$v->groupman= $key;
-                                $KC_arr = explode("~",$value);
+                             $groupman =$v->groupman= $key;
+                             $KC_arr = explode("~",$value);
                                 $v->openmoney =($KC_arr[1]*$v->price)/100;//开团 人价格
                                 $v->canmoney =$KC_arr[0]*$v->price/100;//参团 人价格
                             }
@@ -166,37 +166,45 @@ class IndexAction extends Action {
         }
 
         // 查询插件表
-        $sql = "select *
-                from lkt_group_product as g 
-                left join lkt_product_list as p on g.product_id=p.id 
-                left join lkt_configure as c on g.attr_id=c.id 
-                where $and" . " 
-                group by g.group_id 
-                order by g.id desc limit $start,$pagesize";
+        $sql = "select MIN(g.group_title) AS group_title,
+        MIN(g.id) AS gid,
+        MIN(g.g_status) AS g_status,
+        g.group_id,
+        MIN(group_data) AS group_data,
+        MIN(group_level) AS group_level,
+        min(g.is_show) as is_show,
+        min(p.product_title) as product_title,
+        min(p.imgurl) as imgurl,
+        min(c.price) as price
+        from lkt_group_product as g 
+        left join lkt_product_list as p on g.product_id=p.id 
+        left join lkt_configure as c on g.attr_id=c.id 
+        where $and" . " 
+        group by g.group_id 
+        order by MIN(g.id) DESC limit $start,$pagesize";
                 // print_r($sql);die;
         $res = $db -> select($sql);
-        $res1 = $db -> select("select *
-                from lkt_group_product as g 
-                left join lkt_product_list as p on g.product_id=p.id 
-                left join lkt_configure as c on g.attr_id=c.id 
-                where $and" . " 
-                group by g.group_id 
-                order by g.id desc ");
-
+        $res1 = $db -> select("select MIN(g.group_title) AS group_title,MIN(g.id) AS gid,MIN(g.g_status) AS g_status,g.group_id,MIN(group_data) AS group_data,MIN(group_level) AS group_level,min(g.is_show) as is_show,min(p.product_title) as product_title,min(p.imgurl) as imgurl,min(c.price) as price
+            from lkt_group_product as g 
+            left join lkt_product_list as p on g.product_id=p.id 
+            left join lkt_configure as c on g.attr_id=c.id 
+            where $and" . " 
+            group by g.group_id 
+            order by MIN(g.id) DESC ");
         if($res){
             foreach ($res as $k => $v) {
                 $group_data = unserialize($v -> group_data);
                 $group_level = unserialize($v -> group_level);
                 
-                    $min_man = 1;
-                    $min_bili = 100;
-                    foreach ($group_level as $k_ => $v_){
-                        $biliArr = explode('~',$v_);
-                            if($biliArr[0] < $min_bili){
-                                $min_man = $k_;
-                                $min_bili = $biliArr[0];
-                            }
+                $min_man = 1;
+                $min_bili = 100;
+                foreach ($group_level as $k_ => $v_){
+                    $biliArr = explode('~',$v_);
+                    if($biliArr[0] < $min_bili){
+                        $min_man = $k_;
+                        $min_bili = $biliArr[0];
                     }
+                }
                 $v->min_man = $min_man;
                 $min_price = $min_bili * $v->price / 100;
                 $v->min_price = sprintf("%.2f", $min_price);
@@ -244,7 +252,7 @@ class IndexAction extends Action {
     public function getRequestMethods(){
         return Request :: NONE;
     }
-     public function img($db){
+    public function img($db){
            // 查询系统参数
 
         $sql1 = "select * from lkt_config where id = 1";
