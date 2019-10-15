@@ -76,7 +76,7 @@ function check(f){
             <label class="form-label col-4"></label>
             <div class="formControls col-6">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="reset" name="reset" value="取消"  class="btn btn-primary radius" onclick="javascript :history.back(-1);">
+                <input type="button" name="button" value="返 回"  class="btn btn-primary radius" onclick="javascript :history.back(-1);">
             </div>
         </div>
     </form>

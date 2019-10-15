@@ -10,13 +10,7 @@
 {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
 {literal}
-<script type="text/javascript">
-function check(f){
-    if(Trim(f.news_title.value) == "" ){
-        alert('文章标题不能为空！');
-        return false;
-    }
-}
+
 </script>
 {/literal}
 <title>用户信息详情</title>
@@ -58,7 +52,7 @@ function check(f){
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb" style="margin-top: 20px;"><i class="Hui-iconfont">&#xe705;</i> 用户管理 
+<nav class="breadcrumb" ><i class="Hui-iconfont">&#xe705;</i> 用户管理 
 	<span class="c-gray en">&gt;</span> 用户列表管理 <span class="c-gray en">&gt;</span> 用户信息详情 
 </nav>
 <div class="pd-20"style="padding-top: 0px;">
