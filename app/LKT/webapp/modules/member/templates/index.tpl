@@ -26,7 +26,7 @@
     <div style="clear:both;">
         <button class="btn newBtn radius" onclick="location.href='index.php?module=member&action=add';" >
         	<div style="height: 100%;display: flex;align-items: center;font-size: 14px;">
-                <img src="images/icon1/add.png"/>&nbsp;添加管理员
+                添加管理员
            	 </div>
         </button>
         <!--<button class="btn radius" onclick="multiple_del()" style="height:36px;width: 84px;" >
