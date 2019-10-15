@@ -167,7 +167,7 @@
             <div class="formControls col-xs-8 col-sm-10" style="width: 20%;">
                 <input type="hidden" id="picurl" value="{$uploadImg}{$imgurl}" class="td-input" name="image"/>
                 <input type="hidden" name="img_oldpic" value="{$imgurl}" >
-                <img id="thumb_url" src='{$uploadImg}{$imgurl}' style="height:50px;width:50px">
+                <img id="thumb_url" src='{$uploadImg}{$imgurl}' style="height:160px;width:160px">
                 <!-- <span class="btn btn-success " id="image"  type="button" disabled>选择图片</span> -->
             </div>
         </div>

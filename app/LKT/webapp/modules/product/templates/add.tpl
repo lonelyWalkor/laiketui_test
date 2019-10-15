@@ -266,10 +266,10 @@ function check(f) {
             <div class="formControls col-xs-8 col-sm-10">
 
                 {if $image}
-                    <img id="thumb_url" src='{$image}' style="height:100px;width:150px">
+                    <img id="thumb_url" src='{$image}' style="height:160px;width:160px">
                     <input type="hidden" name="oldpic" value="{$image}">
                 {else}
-                    <img id="thumb_url" src='../LKT/images/nopic.jpg' style="height:100px;width:150px">
+                    <img id="thumb_url" src='../LKT/images/nopic.jpg' style="height:160px;width:160px">
                     <input type="hidden" name="oldpic" value="">
                 {/if}
 
