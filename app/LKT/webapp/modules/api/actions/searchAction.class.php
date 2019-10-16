@@ -151,30 +151,40 @@ class searchAction extends Action {
       }
       $start = 10*($num-1);
       $end = 10;
-      $sqlb = "select a.id,product_title,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%$cid%' and a.status = 0 group by c.pid order by $select $sort  LIMIT $start,$end";
+      //$sqlb = "select a.id,product_title,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%$cid%' and a.status = 0 group by c.pid order by $select $sort  LIMIT $start,$end";
+      $sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,
+a.imgurl as img ,c.price 
+from lkt_product_list AS a RIGHT JOIN (select min(price) price,pid from lkt_configure group by pid) AS c
+ON a.id = c.pid 
+where a.product_class like '%$cid%' and a.status = 0  
+order by $select $sort LIMIT $start,$end
+";
       $data = $db -> select($sqlb);
       
     }else{   //如果不是商品分类名称，则直接搜产品
       $type = 1;
       $keyword = addslashes($keyword);
-      $sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_title like '%$keyword%' and a.status = 0 group by c.pid order by $select $sort";
-
+      //$sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_title like '%$keyword%' and a.status = 0 group by c.pid order by $select $sort";
+      $sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,
+a.imgurl as img ,c.price 
+from lkt_product_list AS a RIGHT JOIN (select min(price) price,pid from lkt_configure group by pid) AS c
+ON a.id = c.pid 
+where a.product_title like '%$keyword%' and a.status = 0  
+order by $select $sort 
+";
       $data = $db -> select($sqlb);
     }
     if(!empty($data)){
       $product = array();
       foreach ($data as $k => $v) {
         $imgurl = $img.$v->img;/* end 保存*/
-        $names = ' '.$v->name . $v->color ;
         if($type == 1){
           $cid = $v->product_class;
         }else{
           $cid = $cid;
         }
-        if($v->name == $v->color || $v->name == '默认'){
-            $names = '';
-        }
-        $product[$k] = array('id' => $v->id,'name' => $v->product_title . $names,'price' => $v->yprice,'price_yh' => $v->price,'imgurl' => $imgurl,'size'=>$v->cid,'volume' => $v->volume,'s_type' => $v->s_type);
+        $names = '';
+        $product[$k] = array('id' => $v->id,'name' => $v->product_title . $names,'price' => $v->price,'price_yh' => $v->price,'imgurl' => $imgurl,'size'=>0,'volume' => $v->volume,'s_type' => $v->s_type);
       }
       echo json_encode(array('list'=>$product,'cid'=>$cid,'code'=>1,'type'=>$type));exit();
     }else{
