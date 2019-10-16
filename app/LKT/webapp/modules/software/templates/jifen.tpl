@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -34,8 +33,7 @@
         <div class="row cl">
             <label class="form-label col-2">积分规则：</label>
             <div class="formControls col-10"> 
-                <textarea style="width:80%;height:400px;" name="rule">{$r[0]->rule}</textarea>
-                
+                <script id="editor" type="text/plain" name="rule" style="width:100%;height:400px;">{$r[0]->rule}</script>
             </div>
         </div>
 
@@ -55,6 +53,64 @@
 </div>
 
 
+<script type="text/javascript" src="style/js/jquery.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="style/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<link rel="stylesheet" href="style/kindeditor/themes/default/default.css"/>
+<script src="style/kindeditor/kindeditor-min.js"></script>
+<script src="style/kindeditor/lang/zh_CN.js"></script>
+<script language="javascript"  src="style/js/check.js"> </script>
+<script src="style/js/vue.min.js"></script>
+
+{literal}
+<script>
+$(document.body).css({
+    "overflow-y": "hidden"
+});
+$(function() {
+    $("#imgurls").change(function() {
+        var files = this.files;
+        if (files && files.length > 5) {
+            alert("超过5张");
+            this.value = "" //删除选择
+            // $(this).focus(); //打开选择窗口
+        }
+    })
+})
+var isShow = false
+$(function(){
+    var ue = UE.getEditor('editor');
+    $("#islabel1").hide()
+    $("#islabel2").hide()
+    $("#islabel3").hide()
+    $("#ischange").click(function(e) {
+        isShow = !isShow
+        if(isShow){
+            $('#iaaaa').remove()
+            $("#islabel1").show()
+            $("#islabel2").show()
+            $("#islabel3").show()
+            return
+        }       
+
+        $("#islabel1").hide()
+        $("#islabel2").hide()
+        $("#islabel3").hide()
+        $('#iaaaa').hide()
+        $("#ishidden").append(`<input type="hidden" name="is_distribution" value="0" id="iaaaa">`)
+    })
+        var distribution =$("input[name='distribution']").val();
+    if(distribution == 1){
+        $("#islabel1").show()
+        $("#islabel2").show()
+        $("#islabel3").show()
+    }
+
+});
+
+{/literal}
+</script>
 
 </body>
 </html>
