@@ -158,10 +158,11 @@ class addproductAction extends Action
         $brandsql = "select brand_id,brand_name from lkt_brand_class where  recycle = 0";
         $brandres = $db -> select($brandsql);
 
-         $sql01 = "select a.num,a.attribute,a.price,a.id as attr_id,b.id,b.product_title,b.imgurl
+         $sql01 = "select min(b.num) as num,min(a.attribute) attribute,min(a.price) price,min(a.id) AS attr_id,min(b.id) id,min(b.product_title) product_title,min(b.imgurl) imgurl
                 from lkt_configure as a 
                 left join lkt_product_list as b on a.pid = b.id 
                 where b.recycle = 0 and b.num >0 and a.num > 0 and b.status = 0 group by a.pid ";
+                // print_r($sql01);die;
         $res01 = $db->select($sql01);
         foreach($res01 as $k =>$vee){
 
@@ -205,7 +206,7 @@ class addproductAction extends Action
         if($pro_name){
             $condition .= " and b.product_title like '%{$pro_name}%' ";
         }
-        $sql = "select a.num,a.attribute,a.price,a.id as attr_id,b.id,b.product_title,b.imgurl
+        $sql = "select min(b.num) as num,min(a.attribute) attribute,min(a.price) price,min(a.id) AS attr_id,min(b.id) id,min(b.product_title) product_title,min(b.imgurl) imgurl
                 from lkt_configure as a 
                 left join lkt_product_list as b on a.pid = b.id 
                 where b.recycle = 0 and b.num >0 and a.num > 0 and b.status = 0 ".$condition."group by a.pid ";
