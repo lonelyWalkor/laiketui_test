@@ -89,6 +89,7 @@ function dateformat(micro_second) {
 }
 Page({
 	data: {
+    ispayOrder:false,
 		clock: '',
 		orderId: 0,
 		orderData: {},
@@ -397,12 +398,12 @@ Page({
           var p_id = res.data.p_id;
           var status_pid = res.data.pid;
           var list = res.data.list;
-          var z_price = Number(res.data.z_price);
+          var z_price = Number(res.data.z_price).toFixed(2);
           var pro_price = 0;
           var freight = res.data.freight ? res.data.freight : 0;
           var red_packet = res.data.red_packet;
           for (var i = 0; i < list.length; i++) {
-            pro_price = Number(pro_price) + Number(list[i].p_price) * Number(list[i].num);
+            pro_price = (Number(pro_price) + Number(list[i].p_price) * Number(list[i].num)).toFixed(2);
           }
           if (status == 1) {
             //支付倒计时
@@ -423,7 +424,7 @@ Page({
               freight: freight,
               id: res.data.id,
               sNo: res.data.sNo,
-              z_price: z_price,
+              z_price: Number(z_price).toFixed(2),
               add_time: res.data.add_time,
               rstatus: res.data.rstatus,
               list: res.data.list,
@@ -554,6 +555,16 @@ Page({
 
 	//触发支付
 	payOrder: function(e) {
+
+    if (this.data.ispayOrder){
+      return 
+    }
+
+    this.setData({
+      ispayOrder: true
+    })
+
+
 		var that = this;
 		var order_id = e.detail.target.dataset.orderid; //订单ID
 		var order_sn = e.detail.target.dataset.ordersn; //订单号
@@ -561,13 +572,15 @@ Page({
 		var pay = e.detail.target.dataset.pay; //支付方式
 		var user_id = app.globalData.userInfo.openid; //openid
 		var form_id = e.detail.formId; //消息ID
-		this.setData({
-			form_id: form_id,
-		});
-		console.log(pay)
+
 		if(pay) {
+
+
 			if(pay == "wxPay") {
 				that.payOrderByWechat(order_id, order_sn, price);
+        wx.showLoading({
+          title: '加载中',
+        })
 			} else {
 				wx.showModal({
 					title: '余额支付',
@@ -578,6 +591,9 @@ Page({
 							that.wallet_pay(order_id, order_sn, price);
 							console.log('用户点击确定');
 						} else if(res.cancel) {
+              that.setData({
+                ispayOrder: false
+              })
 							console.log('用户点击取消')
 						}
 					}
@@ -589,6 +605,7 @@ Page({
 				icon: 'none',
 				duration: 2000,
 			});
+
 			//当都没有选中时 循环找到默认的支付方式 在设置支付方式数据
 			var pays = that.data.pays,
 				j = 0;
@@ -599,10 +616,12 @@ Page({
 					pays[j].checked = false;
 				}
 			}
+
 			that.setData({
 				pays: pays,
-				paytype: 'wxPay',
+				paytype: 'wxPay'
 			});
+
 			that.payOrderByWechat(order_id, order_sn, price);
 		}
 
@@ -610,9 +629,11 @@ Page({
 
 	// 微信支付
 	payOrderByWechat: function(order_id, order_sn, price) {
+
     var that = this;
 		var user_id = app.globalData.userInfo.openid;
 		//调起微信支付
+    
     console.log(price)
     // var cmoney = price.toFixed(2);
 		wx.request({
@@ -628,12 +649,18 @@ Page({
 				'Content-Type': 'application/x-www-form-urlencoded'
 			}, // 设置请求的 header
 			success: function(res) {
+        wx.hideLoading()
+        that.setData({
+          ispayOrder: false
+        })
+
 				if(res.data) {
           var dingdanhao = res.data.out_trade_no;
 
           that.up_out_trade_no(dingdanhao);
           that.setData({
-            trade_no: dingdanhao
+            trade_no: dingdanhao,
+            ispayOrder: false
           })
 					wx.requestPayment({
 						timeStamp: res.data.timeStamp,
@@ -661,6 +688,10 @@ Page({
               }, 1000);
 						},
 						fail: function(res) {
+              that.setData({
+                ispayOrder: false
+              })
+              wx.hideLoading()
 							wx.showModal({
 								content: "取消支付！",
 								showCancel: false,
@@ -672,6 +703,10 @@ Page({
 
 			},
 			fail: function() {
+        that.setData({
+          ispayOrder: false
+        })
+        wx.hideLoading()
 				wx.showToast({
 					title: '网络异常！err:wxpay',
 					duration: 2000
@@ -762,11 +797,17 @@ Page({
               that.up_order(that.data.order_sn);
             })
           } else {
+            that.setData({
+              ispayOrder: false
+            })
             that.up_order(that.data.order_sn);
           }
 					//支付成功  修改订单
 					
 				} else {
+          that.setData({
+            ispayOrder: false
+          })
 					wx.showToast({
 						title: '余额不足，请更换支付方式！',
 						icon: 'none',
@@ -775,6 +816,9 @@ Page({
 				}
 			},
 			fail: function() {
+        that.setData({
+          ispayOrder: false
+        })
 				wx.showToast({
 					title: '网络异常！',
 					duration: 2000
@@ -864,13 +908,13 @@ Page({
       })
     }
     wx.switchTab({
-      url: '../index/index'
+      url: '../index/indexs'
     })
   },
   //跳转index
   t_index: function () {
     wx.switchTab({
-      url: '../index/index'
+      url: '../index/indexs'
     })
   },
   up_out_trade_no: function (out_trade_no) {
