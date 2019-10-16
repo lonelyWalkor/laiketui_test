@@ -14,17 +14,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-	<link rel="Bookmark" href="/favicon.ico" >
-	<link rel="Shortcut Icon" href="/favicon.ico" />
-
-	<link rel="stylesheet" type="text/css" href="style/css/H-ui.min.css" />
-	<link rel="stylesheet" type="text/css" href="style/css/H-ui.admin.css" />
-	<link rel="stylesheet" type="text/css" href="style/css/bootstrap.min.css" />
-    <script type="text/javascript" src="style/js/jquery.js"></script>
-<script type="text/javascript" src="style/lib/laypage/1.2/laypage.js"></script>
-<script type="text/javascript" src="style/js/laydate/laydate.js"></script> <!-- 时间插件-->
-	<link href="style/css/style.css" rel="stylesheet" type="text/css"/>
+	{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+	{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 	<title>添加活动</title>
 	{literal}
 		<style type="text/css">

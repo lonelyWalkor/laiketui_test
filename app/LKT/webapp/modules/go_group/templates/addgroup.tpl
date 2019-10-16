@@ -9,20 +9,13 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="Bookmark" href="/favicon.ico" >
 <link rel="Shortcut Icon" href="/favicon.ico" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="lib/html5shiv.js"></script>
-<script type="text/javascript" src="lib/respond.min.js"></script>
-<![endif]-->
+
 <link rel="stylesheet" type="text/css" href="style/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="style/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css" href="style/lib/Hui-iconfont/1.0.7/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="style/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="style/css/style.css" />
-<!--[if IE 6]>
-<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script>DD_belatedPNG.fix('*');</script>
-<![endif]-->
-<!--/meta 作为公共模版分离出去-->
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 {literal}
 <style type="text/css">
    .content{
@@ -168,6 +161,7 @@
 <!-- <script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> -->
 <script type="text/javascript" src="style/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript" src="style/laydate/laydate.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 {literal}
 <script type="text/javascript">
   var radio = 1;

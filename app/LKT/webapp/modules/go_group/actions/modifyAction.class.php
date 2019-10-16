@@ -22,8 +22,7 @@ class modifyAction extends Action {
         $type = addslashes(trim($request->getParameter('type'))); // 用户id
           $img = $this->img($db);
 
-            $sql = "select b.*,c.price,c.num,c.attribute,p.product_title 
-                    from lkt_group_product as b 
+            $sql = "select MIN(b.group_title) AS group_title,MIN(b.id) AS id,MIN(b.g_status) AS g_status,b.group_id, MIN(b.group_data) AS group_data, MIN(b.group_level) AS group_level,min(b.is_show) as is_show,min(c.price) price,min(c.num) num,min(c.attribute) attribute,min(p.product_title) product_title, min(b.product_id) product_id from lkt_group_product as b 
                     left join lkt_configure as c on b.attr_id=c.id 
                     left join lkt_product_list as p on b.product_id=p.id 
                     where b.group_id=$id group by group_id";
@@ -77,7 +76,7 @@ class modifyAction extends Action {
         $prosql = "select a.num,a.attribute,a.price,a.id as attr_id,b.id,b.product_title,b.imgurl
         from lkt_configure as a 
         left join lkt_product_list as b on a.pid = b.id 
-        where b.recycle = 0 and b.num >0 and a.num > 0 and b.id = $pid";
+        where b.recycle = 0 and b.num >0 and a.num > 0 and b.id = $pid and a.recycle = 0 ";
         // print_r($prosql);die;
         $proattr = $db -> select($prosql);
         if(!empty($proattr)){
