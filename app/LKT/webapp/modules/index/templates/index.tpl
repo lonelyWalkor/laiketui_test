@@ -550,8 +550,7 @@
                                         {foreach from=$res_notice item = item1 name=f1}
                                             <li>
                                                 <a href="index.php?module=notice&action=article&id={$item1->id}">
-                                                    <span>{$item1->name}</span>
-                                                    <div class="newsDate">{$item1->time}</div>
+                                                    <span>{$item1->time|date_format:"%Y/%m/%d"} {$item1->name}</span>
                                                 </a>
                                             </li>
                                         {/foreach}
