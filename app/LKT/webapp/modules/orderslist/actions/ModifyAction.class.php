@@ -47,14 +47,16 @@ class ModifyAction extends Action {
       $sql = 'select u.user_name,l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.coupon_id,l.reduce_price,l.coupon_price,l.allow,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size,d.freight,d.id from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo left join lkt_user as u on u.user_id=l.user_id  where l.id="'.$id.'"';
 
       $res = $db -> select($sql);
-        $num = count($res);
+      $num = count($res);
       $data = array();
-        $reduce_price = 0; // 满减金额
-        $coupon_price = 0; // 优惠券金额
-        $allow = 0; // 积分
-        $freight =0;
-        $z_price =0;
-        $courier_num111=array();
+      $reduce_price = 0; // 满减金额
+      $coupon_price = 0; // 优惠券金额
+      $allow = 0; // 积分
+      $freight =0;
+      $o_price = $res[0]->z_price;//修改后的价格
+      $z_price =0;
+      $courier_num111=array();
+
       foreach ($res as $k => $v) { 
         $sid = $v -> sid;
         $freight=$freight+$v -> freight;
@@ -92,16 +94,16 @@ class ModifyAction extends Action {
 
         $data['courier_num'] = $v -> courier_num; // 快递单号
 
-          $data['drawid'] = $v -> drawid; // 抽奖ID
-          $data['coupon_price'] = $v -> coupon_price; // 快递单号
-          $reduce_price = $v -> reduce_price; // 满减金额
-          $coupon_price = $v -> coupon_price; // 优惠券金额
-          $allow = $v -> allow; // 积分
+        $data['drawid'] = $v -> drawid; // 抽奖ID
+        $data['coupon_price'] = $v -> coupon_price; // 快递单号
+        $reduce_price = $v -> reduce_price; // 满减金额
+        $coupon_price = $v -> coupon_price; // 优惠券金额
+        $allow = $v -> allow; // 积分
 
         $data['paytype'] = $v -> pay; // 支付方式
 
-          $data['trade_no'] = $v -> trade_no; // 微信支付交易号
-          $data['freight'] = $v -> freight; // 运费
+        $data['trade_no'] = $v -> trade_no; // 微信支付交易号
+        $data['freight'] = $v -> freight; // 运费
         $data['id'] = $id;
 
         $exper_id = $v -> express_id;
@@ -131,11 +133,11 @@ class ModifyAction extends Action {
 
         $res[$k] -> z_price = $v -> num * $v -> p_price;
         $z_price =$z_price+$v -> num * $v -> p_price;
-          $user_id= $v -> user_id; // 用户id
+        $user_id= $v -> user_id; // 用户id
 
-          $drawid= $v -> drawid; // 抽奖ID
+        $drawid= $v -> drawid; // 抽奖ID
 
-          $add_time = $v -> add_time; // 添加时间
+        $add_time = $v -> add_time; // 添加时间
 
         if(!empty($drawid)&& $drawid !=0){
 
@@ -189,11 +191,10 @@ class ModifyAction extends Action {
 
             
             
-            $data['courier_num'] = $courier_num111; // 快递单号
+      $data['courier_num'] = $courier_num111; // 快递单号
       $data['freight'] =$freight;
-      $data['z_price'] =$z_price;
+      $data['z_price'] =$z_price>$o_price?$o_price:$z_price;
 
-   // print_r($data);die;
    if($data['otype'] == 'pt'){
 
       switch ($data['gstatus']) {
@@ -388,6 +389,7 @@ class ModifyAction extends Action {
      $shi = addslashes(trim($request->getParameter('Select2')));
      $xian = addslashes(trim($request->getParameter('Select3')));
      $address = addslashes(trim($request->getParameter('address')));
+     $z_price = addslashes(trim($request->getParameter('z_price')));
      $r1 = $db -> selectarray('select G_CName from admin_cg_group where GroupID='.$sheng);
      $r1 = $r1[0]['G_CName'];
      $r2 = $db -> selectarray('select G_CName from admin_cg_group where GroupID='.$shi);
@@ -399,13 +401,13 @@ class ModifyAction extends Action {
      $sNo = addslashes(trim($request->getParameter('id')));
        $sid = addslashes(trim($request->getParameter('sid')));
 
-     $sql = 'update lkt_order set name="'.$name.'",mobile="'.$mobile.'",sheng="'.$sheng.'",shi="'.$shi.'",xian="'.$xian.'",address="'.$address.'" where sNo="'.$sNo.'"';     
+     $sql = 'update lkt_order set z_price='.$z_price.',name="'.$name.'",mobile="'.$mobile.'",address="'.$address.'" where sNo="'.$sNo.'"';     
      $up = $db -> update($sql);
-     if($up >= 0){
-           $db->admin_record($admin_id,' 修改订单号为 '.$sNo.' 的信息 ',2);
 
-           echo json_encode(array('status'=>1,'err'=>'修改成功!'));
-                exit();
+     if($up > 0){
+           $db->admin_record($admin_id,' 修改订单号为 '.$sNo.' 的信息 ',2);
+          echo json_encode(array('status'=>1,'err'=>'修改成功!'));
+            exit();
      }else{
            $db->admin_record($admin_id,' 修改订单号为 '.$sNo.' 的信息失败 ',2);
 

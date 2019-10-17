@@ -462,6 +462,7 @@
                         <span class="grText">
                             <input type="hidden" name="id" value="{$data.sNo}" />
                             <input type="hidden" name="sid" value="{$data.id}" />
+                            <input type="hidden" id="z_price" name="z_price" value="{$data.z_price}" />
                             <input type="text" style="width: auto;" class="input-text" name="name" value="{$data.name}">
                         </span>
                     </li>
@@ -524,12 +525,9 @@
 
                     <td class="center" rowspan="{$item->index}">
 
-                        {if $item->r_status == '0'}
-                        <span id="Priceb-{$item->id}" class="grText" onclick="openPrice('#Prices-{$item->id}','#Priceb-{$item->id}','#inputidsss-{$item->id}','#inputid-{$item->id}')">￥{$item->p_price}</span>
-                        {else}
+                        
                         <span id="Priceb-{$item->id}" class="grText">￥{$item->p_price}</span>
-                        {/if}
-
+                        
                         <input type="hidden" id="inputidsss-{$item->id}" value="{$item->p_price}">
                         <input id="Prices-{$item->id}" style="display: none;" type="text" name="p_price" value="{$item->p_price}" autofocus>
                     </td>
@@ -555,10 +553,15 @@
                 </tr>
                 {/foreach}
             </table>
-
+            <br/>
             <div class="numss">
                 <span>优惠合计：-￥{$reduce_price+$coupon_price} 元</span>
-                <span>合计支付： ￥{$data.freight+$data.z_price-$reduce_price-$coupon_price} 元</span>
+                &nbsp;
+                <span>合计支付： ￥
+                    <input type="text" id="s_z_price"  name="s_z_price" value="{$data.freight+$data.z_price-$reduce_price-$coupon_price}" />
+                    
+
+                    元</span>
             </div>
 
         </div>
@@ -1091,7 +1094,9 @@
         }
 
         function tijiao(type) {
+            $('#z_price').val($('#s_z_price').val());
             var t = $('#form22').serializeArray();
+            
 
             for (var item of t) {
                 if (item.name === "name" && item.value.length <= 0) {
@@ -1116,11 +1121,7 @@
                     if (res.status === 0) {
                         alert(res.err)
                     } else {
-                        if(type){
-                            location.reload()
-                        } else {
-                            window.location.href = 'index.php?module=orderslist'
-                        }
+                        alert("修改成功！");
                         
                     }
                 }
