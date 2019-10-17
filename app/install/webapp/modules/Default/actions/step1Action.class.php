@@ -65,40 +65,7 @@ class step1Action extends Action
 
         }
 
-
-
-
-
-        //数据库检测
-
-
-        // if(function_exists('mysql_get_server_info')){
-
-
-        //     $config[2][3] = mysql_get_server_info();
-
-
-        // if($config[2][3] < $config[2][1]){
-
-
-        //     $config[2][4] = 'error';
-
-
-        //         $_SESSION['install_error'] = $type;
-
-
-        //     }
-
-
-        // }
-
-
-
-
-
         //附件上传检测
-
-
         if(@ini_get('file_uploads'))
 
 
@@ -133,11 +100,6 @@ class step1Action extends Action
 
 
         unset($tmp);
-
-
-
-
-
         //磁盘空间检测
 
 
@@ -152,19 +114,11 @@ class step1Action extends Action
 
         $request->setAttribute("functions",$config);
 
-
-        
-
-
-            //目录文件读写检测
-
+        //目录文件读写检测
 
         unset($config);
-
-
-            //函数检测
-
-
+        
+        //函数检测
         $config = array(
 
 
@@ -272,10 +226,6 @@ class step1Action extends Action
 
         }
 
-
-        
-
-
             $request->setAttribute("files",$config);
 
 
@@ -317,10 +267,6 @@ class step1Action extends Action
 
 
         }
-
-
-        
-
 
         $request->setAttribute("func",$config);
 

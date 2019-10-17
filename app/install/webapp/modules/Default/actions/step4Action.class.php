@@ -6,14 +6,9 @@ class step4Action extends Action
 {
 
     public function execute ()
-
-
     {
 
-
         echo "string";
-
-
         return View::INPUT;
 
 
@@ -43,8 +38,6 @@ class step4Action extends Action
 
 
     public function getRequestMethods ()
-
-
     {
 
 

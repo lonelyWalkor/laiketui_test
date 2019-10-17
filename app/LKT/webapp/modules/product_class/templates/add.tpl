@@ -25,7 +25,7 @@
 
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>分类级别：</label>
-            <div class="formControls col-1"> <span class="select-box">
+            <div class="formControls col-1">
                 <select name="select_c" class="select" onchange="slevel()" id="select_c"  disabled>
                     {if $level01 == 0}
                     <option {if $level == 0}selected="true"{/if} value="0">顶级</option>
@@ -52,48 +52,48 @@
                     <option {if $level == 5}selected="true"{/if} value="7">七级</option>
                     {/if}
                 </select>
-                </span>
+               
             </div>
         </div>
 
         <div class="row cl slevel_box" style="display: none;">
             <label class="form-label col-4"><span class="c-red"></span>上级分类：</label>
-            <div class="formControls col-1 slevel_1"> <span class="select-box">
+            <div class="formControls col-1 slevel_1">
                 <select name="select_1" class="select" onchange="one()" id="select_1"  disabled>
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype}
                 </select>
-                </span>
+               
             </div>
-            <div class="formControls col-1 slevel_2"> <span class="select-box">
+            <div class="formControls col-1 slevel_2">
                 <select name="select_2" class="select" onchange="two()" id="select_2"  disabled>
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype1}
                 </select>
-                </span>
+                
             </div>
-            <div class="formControls col-1 slevel_3"> <span class="select-box" >
+            <div class="formControls col-1 slevel_3"> 
                 <select name="select_3" class="select" onchange="three()" id="select_3"  disabled>
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
-                </span>
+                
             </div>
 
-            <div class="formControls col-1 slevel_4"> <span class="select-box" >
+            <div class="formControls col-1 slevel_4"> 
                 <select name="select_4" class="select" onchange="four()" id="select_4"  disabled>
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
-                </span>
+                
             </div>
 
-            <div class="formControls col-1 slevel_5"> <span class="select-box" >
+            <div class="formControls col-1 slevel_5"> 
                 <select name="select_5" class="select" onchange="five()" id="select_5"  disabled>
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
-                </span>
+                
             </div>
 
         </div>
@@ -140,7 +140,7 @@
             <label class="form-label col-4"></label>
             <div class="orm-label col-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="button" name="reset" value="返回"  class="btn btn-primary radius" id="resetId" onclick="javascript:location.href='index.php?module=product_class';">
+                <input type="button" name="reset" value="返 回"  class="btn btn-primary radius" id="resetId" onclick="javascript:location.href='index.php?module=product_class';">
                 <!-- <input type="reset" name="reset" value="清 空"  class="btn btn-primary radius"> -->
             </div>
         </div>

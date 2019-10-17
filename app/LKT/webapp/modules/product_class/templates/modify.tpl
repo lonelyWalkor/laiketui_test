@@ -100,7 +100,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
 
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>分类级别：</label>
-            <div class="formControls col-1"> <span class="select-box">
+            <div class="formControls col-1"> 
                 <select name="select_c" class="select" onchange="slevel()" id="select_c"disabled="disabled" style="cursor: auto;">
                     <option {if $level == 0}selected="true"{/if} value="0">顶级</option>
                     <option {if $level == 1}selected="true"{/if} value="1">一级</option>
@@ -109,48 +109,48 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
                     <option {if $level == 4}selected="true"{/if} value="4">四级</option>
                     <option {if $level == 5}selected="true"{/if} value="5">五级</option>
                 </select>
-                </span>
+                
             </div>
         </div>
 
         <div class="row cl slevel_box" style="display: none;">
             <label class="form-label col-4"><span class="c-red"></span>上级分类：</label>
-            <div class="formControls col-1 slevel_1"> <span class="select-box">
+            <div class="formControls col-1 slevel_1"> 
                 <select name="select_1" class="select" onchange="one()" id="select_1" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype}
                 </select>
-                </span>
+                
             </div>
-            <div class="formControls col-1 slevel_2"> <span class="select-box">
+            <div class="formControls col-1 slevel_2">
                 <select name="select_2" class="select" onchange="two()" id="select_2" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype1}
                 </select>
-                </span>
+                
             </div>
-            <div class="formControls col-1 slevel_3"> <span class="select-box" >
+            <div class="formControls col-1 slevel_3"> 
                 <select name="select_3" class="select" onchange="three()" id="select_3" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
-                </span>
+                
             </div>
 
-            <div class="formControls col-1 slevel_4"> <span class="select-box" >
+            <div class="formControls col-1 slevel_4"> 
                 <select name="select_4" class="select" onchange="four()" id="select_4" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
-                </span>
+               
             </div>
 
-            <div class="formControls col-1 slevel_5"> <span class="select-box" >
+            <div class="formControls col-1 slevel_5"> 
                 <select name="select_5" class="select" onchange="five()" id="select_5" disabled="disabled">
                     <!-- <option selected="true" value="0">请选择</option> -->
                     {$ctype2}
                 </select>
-                </span>
+               
             </div>
 
         </div>
