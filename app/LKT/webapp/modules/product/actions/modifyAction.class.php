@@ -4,6 +4,7 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
  */
 require_once(MO_LIB_DIR . '/DBAction.class.php');
+require_once(MO_LIB_DIR . '/Tools.class.php');
 
 class modifyAction extends Action {
 
@@ -11,6 +12,7 @@ class modifyAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
+        $_SESSION['url'] = $_SERVER['HTTP_REFERER'];
         // 接收信息
         $id = intval($request->getParameter("id")); // 产品id
 
@@ -36,7 +38,7 @@ class modifyAction extends Action {
             $status = $r[0]->status; // 上下架状态
              $initial = $r[0]->initial;//初始值
         }
-// print_r($data);die;
+
         $arr = explode(',',$s_type);
 
         if (!empty($brand_class)) {
@@ -200,18 +202,18 @@ $checked_attr_list = [];
     }
     
 
-    $initial = (object)$initial;
-    $attr_group_list = json_encode($attr_group_list);
-    $checked_attr_list = json_encode($checked_attr_list);
-    $request->setAttribute("volume",$volume);
-    $request->setAttribute("status", $status);
-    $request->setAttribute("uploadImg",$uploadImg);
-    $request->setAttribute("checked_attr_list",$checked_attr_list);
-    $request->setAttribute("attr_group_list",$attr_group_list);
-    $request->setAttribute('initial', isset($initial) ? $initial : '');
-    $request->setAttribute('s_type', $arr);  
-    $request->setAttribute("ctypes",$res);
-    $request->setAttribute('id', $id);
+        $initial = (object)$initial;
+        $attr_group_list = json_encode($attr_group_list);
+        $checked_attr_list = json_encode($checked_attr_list);
+        $request->setAttribute("volume",$volume);
+        $request->setAttribute("status", $status);
+        $request->setAttribute("uploadImg",$uploadImg);
+        $request->setAttribute("checked_attr_list",$checked_attr_list);
+        $request->setAttribute("attr_group_list",$attr_group_list);
+        $request->setAttribute('initial', isset($initial) ? $initial : '');
+        $request->setAttribute('s_type', $arr);  
+        $request->setAttribute("ctypes",$res);
+        $request->setAttribute('id', $id);
         $request->setAttribute('r02', $brand);//所有品牌
         $request->setAttribute('product_title', isset($product_title) ? $product_title : '');
         $request->setAttribute('subtitle', isset($subtitle) ? $subtitle : '');
@@ -227,7 +229,6 @@ $checked_attr_list = [];
     public function execute(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // print_r($request);die;
         $id = intval($request->getParameter("id")); // 产品id
         $uploadImg = $request->getParameter('uploadImg'); // 图片上传位置
         $attr = $request->getParameter('attr'); // 属性
@@ -531,10 +532,10 @@ $checked_attr_list = [];
                
             }
             $r_update = $db->update($sql_1);
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('产品修改成功！');" .
-                "location.href='index.php?module=product';</script>";
+
+            //跳转
+            jump($_SESSION['url'],'产品修改成功！');
+
         }else{
             $db->rollback();
             foreach ($r_arr[0] as $k_arr => $v_arr){

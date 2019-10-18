@@ -68,7 +68,6 @@ class IndexAction extends Action {
 		$sql = "select id,name,password,admin_type,permission,status from lkt_admin where BINARY name = '$name' and password = '$password' ";
 
 		$result = $db->select($sql);
-		// print_r($sql);die;
 		if(!$result){
 			// 没有查询到匹配值就在lkt_record表里添加一组数据
 			$sql="insert into lkt_record (user_id,event) values ('$name','登录密码错误') ";

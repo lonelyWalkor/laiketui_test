@@ -169,7 +169,7 @@ class IndexAction extends Action {
             }
 
              //根据品牌ID查询对应名称
-                $r01 = $db->select("select brand_name from lkt_brand_class where brand_id ='".$value->brand_id."'");
+            $r01 = $db->select("select brand_name from lkt_brand_class where brand_id ='".$value->brand_id."'");
             $value->brand_name = $r01 ?$r01[0]->brand_name:'';  
             $value->unit = $unit;
             $value->price = $present_price;
@@ -182,7 +182,7 @@ class IndexAction extends Action {
 
         $url = "index.php?module=product&action=Index&cid=".urlencode($product_class)."&brand_id=".urlencode($brand_id)."&status=".urlencode($status)."&s_type=".urlencode($s_type)."&product_title=".urlencode($product_title)."&pagesize=".urlencode($pagesize);
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');// url 总条数 当前页码  每页显示条数 
-// print_r($list);die;
+        
         $sql = "select * from lkt_config where id = '1'";
         $r = $db->select($sql);
         $uploadImg = $r[0]->uploadImg; // 图片上传位置

@@ -36,4 +36,5 @@ function jump($url,$msg=null){
 	exit;
 }
 
+
 ?>
