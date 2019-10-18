@@ -611,7 +611,7 @@ Page({
           if (data.arr.pay_type == 'wallet_Pay') {
 
             that.wallet_pay(data.arr);
-            debugger
+
           }
           if (data.arr.pay_type == 'wxPay') {
             // 微信支付
@@ -741,6 +741,7 @@ Page({
     console.log(order)
     var that = this;
     app.d.order = order;
+
     this.setData({
       order: order
     })
@@ -774,6 +775,34 @@ Page({
             trade_no: dingdanhao
           })
 
+          console.log(res)
+
+          if (res.data.RETURN_MSG === "mch_id参数格式错误"){
+            wx.showModal({
+              content: "请设置商户号！",
+              showCancel: false,
+              confirmText: "确定",
+              success: function () {}
+            })
+            wx.hideLoading()
+            that.setData({
+              ispayOrder: false
+            })
+            return
+          } else if (res.data.RETURN_MSG === "签名错误"){
+            wx.showModal({
+              content: "商户key异常！",
+              showCancel: false,
+              confirmText: "确定",
+              success: function () { }
+            })
+            wx.hideLoading()
+            that.setData({
+              ispayOrder: false
+            })
+            return
+          }
+
           wx.requestPayment({
             timeStamp: res.data.timeStamp,
             nonceStr: res.data.nonceStr,
@@ -781,10 +810,10 @@ Page({
             signType: 'MD5',
             paySign: res.data.paySign,
             success: function (res) {
+
               wx.hideLoading()
-              that.setData({
-                ispayOrder: false
-              })
+
+              
               console.log(app.globalData.userInfo.referee_openid, 'app.globalData.userInfo.referee_openid')
               //支付成功  修改订单
               if (app.globalData.userInfo.referee_openid && app.globalData.userInfo.openid && app.globalData.userInfo.referee_openid != 'undefined') {
@@ -801,23 +830,26 @@ Page({
               }
 
 
-
-              wx.redirectTo({
-                url: '../order/detail?orderId=' + oid + '&&type1=22'
-              })
+              // console.log(oid,'oid')
+              // wx.redirectTo({
+              //   url: '../order/detail?orderId=' + oid + '&&type1=22'
+              // })
             },
             fail: function (res) {
               wx.hideLoading()
-              that.setData({
-                ispayOrder: false
-              })
               wx.showModal({
                 content: "取消支付！",
                 showCancel: false,
                 confirmText: "确定",
                 success: function (res) {
+
                   wx.redirectTo({
-                    url: '../order/detail?orderId=' + oid + '&&type1=22'
+                    url: '../order/detail?orderId=' + oid + '&&type1=22',
+                    success:function(){
+                      that.setData({
+                        ispayOrder: false
+                      })
+                    }
                   })
                 }
               })
@@ -842,8 +874,6 @@ Page({
   up_order: function (order) {
 
     var that = this;
-
-
     that.detailed(order.sNo);//分销
     var type1 = that.data.type1;
     var d_yuan = that.data.d_yuan;
@@ -888,19 +918,25 @@ Page({
         var form_id = that.data.form_id;
         var user_id = app.globalData.userInfo.openid; // 微信id
         //控制首页刷新
+
         app.d.indexchase = true;
         // 调用信息发送
-        that.notice(orderId, oid, f_coupon_money, user_id, form_id, f_pname);
+        console.log('信息发送', order.order_id)
+        that.notice(orderId, order.order_id, f_coupon_money, user_id, form_id, f_pname);
 
         wx.showModal({
-
           content: "支付成功！",
           showCancel: false,
           confirmText: "确定",
           success: function (res) {
-
+            console.log('支付成功', order.order_id)
             wx.redirectTo({
-              url: '../order/detail?orderId=' + oid + '&&type1=22'
+              url: '../order/detail?orderId=' + order.order_id + '&&type1=22',
+              success:function(){
+                that.setData({
+                  ispayOrder: false
+                })
+              }
             })
 
           }
@@ -994,10 +1030,6 @@ Page({
       }
     })
   },
-
-
-
-
 
   // 弹窗
   setModalStatus: function (e) {

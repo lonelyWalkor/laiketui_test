@@ -650,18 +650,38 @@ Page({
 			}, // 设置请求的 header
 			success: function(res) {
         wx.hideLoading()
-        that.setData({
-          ispayOrder: false
-        })
+
 
 				if(res.data) {
           var dingdanhao = res.data.out_trade_no;
 
           that.up_out_trade_no(dingdanhao);
-          that.setData({
-            trade_no: dingdanhao,
-            ispayOrder: false
-          })
+
+          if (res.data.RETURN_MSG === "mch_id参数格式错误") {
+            wx.showModal({
+              content: "请设置商户号！",
+              showCancel: false,
+              confirmText: "确定",
+              success: function () { }
+            })
+            that.setData({
+              ispayOrder: false
+            })
+            return
+          } else if (res.data.RETURN_MSG === "签名错误") {
+            wx.showModal({
+              content: "商户key异常！",
+              showCancel: false,
+              confirmText: "确定",
+              success: function () { }
+            })
+            that.setData({
+              ispayOrder: false
+            })
+            return
+          }
+
+
 					wx.requestPayment({
 						timeStamp: res.data.timeStamp,
 						nonceStr: res.data.nonceStr,
@@ -830,9 +850,6 @@ Page({
 	//修改订单
 	up_order: function(coupon_money) {
 		var that = this;
-    
-   
-    
 		wx.request({
 			url: app.d.ceshiUrl + '&action=product&m=up_order',
 			method: 'post',
@@ -863,8 +880,14 @@ Page({
 					showCancel: false,
 					confirmText: "确定",
 					success: function(res) {
+
 						wx.redirectTo({
-							url: '../order/detail?orderId=' + oid
+							url: '../order/detail?orderId=' + oid,
+              success:function(){
+                that.setData({
+                  ispayOrder: false
+                })
+              }
 						})
 					}
 				});

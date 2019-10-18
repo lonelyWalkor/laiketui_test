@@ -1,3 +1,11 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-26 13:55:25
+ * @LastEditTime: 2019-09-10 14:07:38
+ * @LastEditors: Please set LastEditors
+ -->
+
 <!DOCTYPE HTML>
 <html>
 
@@ -50,170 +58,38 @@
   <div class="pd-20">
     <form id="plugAddForm" name="form1" action="index.php?module=plug_ins&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data" onsubmit="return check(this);">
 
-      <div class="row cl">
-        <label class="form-label col-4"><span class="c-red">*</span>首页插件名称：</label>
-        <div class="formControls col-4">
-          <input type="text" class="input-text" value="" placeholder="" id="" name="name">
-        </div>
+       <label class="form-label col-4">上传软件包：</label>
+      <div class="formControls col-4">
+          <input type="file" name="file" accept=".zip"/>
       </div>
 
-      <div class="row cl">
-        <label class="form-label col-4">个人中心插件名称：</label>
-        <div class="formControls col-4">
-          <input type="text" class="input-text" value="" placeholder="" id="" name="subtitle_name">
-        </div>
-      </div>
+      <input type="submit" name="submit" value="上传文件并解压">
 
-      <div class="row cl">
-        <label class="form-label col-4"><span class="c-red"></span>插件类型：</label>
-        <div class="formControls col-4 skin-minimal">
-          <div class="radio-box">
-            <input name="type" type="radio" value="0" checked="checked" onclick="change()" />
-            <label for="sex-0">小程序</label>
-          </div>
-          <div class="radio-box">
-            <input name="type" type="radio" value="1" onclick="change()" />
-            <label for="sex-1">app</label>
-          </div>
-        </div>
-        <div class="col-4"> </div>
-      </div>
-
-      <div class="row cl">
-        <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>请选择软件：</label>
-        <div class="formControls col-xs-8 col-sm-4">
-          <select name="software_id" class="select" style="width: 80px;height: 31px;vertical-align: middle;">
-            {$list}
-          </select>
-        </div>
-        <div class="col-4"> </div>
-      </div>
-
-      <div class="row cl">
-        <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>首页插件图标：</label>
-        <div class="formControls col-xs-8 col-sm-4">
-          <img id="thumb_url1" src='../LKT/images/nopic.jpg' style="height:100px;width:150">
-          <input type="hidden" id="picurl1" name="image" datatype="*" nullmsg="请选择图片" />
-          <input type="hidden" name="oldpic1">
-          <button class="btn btn-success" id="image1" type="button">选择图片</button>
-        </div>
-        <div class="col-4"> </div>
-      </div>
-
-      <div class="row cl">
-        <label class="form-label col-xs-4 col-sm-4">个人中心插件图标：</label>
-        <div class="formControls col-xs-8 col-sm-4">
-          <img id="thumb_url2" src='../LKT/images/nopic.jpg' style="height:100px;width:150">
-          <input type="hidden" id="picurl2" name="subtitle_image" datatype="*" nullmsg="请选择图片" />
-          <input type="hidden" name="oldpic2">
-          <button class="btn btn-success" id="image2" type="button">选择图片</button>
-        </div>
-        <div class="col-4"> </div>
-      </div>
-
-      <div class="row cl">
-        <label class="form-label col-4"><span class="c-red">*</span>首页链接：</label>
-        <div class="formControls col-4">
-          <input type="text" class="input-text" value="" placeholder="" id="" name="url">
-        </div>
-      </div>
-
-      <div class="row cl">
-        <label class="form-label col-4">个人中心链接：</label>
-        <div class="formControls col-4">
-          <input type="text" class="input-text" value="" placeholder="" id="" name="subtitle_url">
-        </div>
-      </div>
-
-      <div class="row cl">
-        <label class="form-label col-4">排序号：</label>
-        <div class="formControls col-4">
-          <input type="text" class="input-text" value="100" placeholder="" id="" name="sort">
-        </div>
-      </div>
-
-      <div class="row cl">
-        <div class="button-conter">
-          <button class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i>
-            提交
-          </button>
-          <!-- <button class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button> -->
-        </div>
+      <div style="width: 300px;float: right;">
+        <samp style="color: red;font-size: 12px;">安装插件可能会修改数据库，请在安装前备份好数据资料</samp>
       </div>
       
     </form>
-    <input type="hidden" id="pic" value="{$pic}">
+    <!-- <input type="hidden" id="pic" value="{$pic}"> -->
   </div>
 
   <script type="text/javascript" src="modpub/js/check.js"> </script>
   <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
+
   <!-- 新增编辑器引入文件 -->
   <link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
   <script src="style/kindeditor/kindeditor-all.js"></script>
   <script src="style/kindeditor/lang/zh_CN.js"></script>
+
   {literal}
   <script>
-    /**
-     *
-     * @docs 表单验证
-     **/
     function check(vm){
-      var formArr = $('#plugAddForm').serializeArray()
-      for(var item of formArr){
-        if(item.name === 'name' && item.value === ''){
-          alert('首页插件名称不能为空！')
-          return false
-        }else if(item.name === 'image' && item.value === ''){
-          alert('首页插件图标不能为空！')
-          return false
-        } else if(item.name === 'url' && item.value === ''){
-          alert('首页链接不能为空！')
-          return false
-        } else if(item.name === 'software_id' && item.value === '0'){
-          alert('请选择软件!')
-          return false
-        } 
+      if(vm[0].value != ''){
+        return true
       }
-      return true
+      alert('请选择插件安装包！')
+      return false
     }
-    KindEditor.ready(function (K) {
-      var pic = $("#pic").val();
-      var editor = K.editor({
-        allowFileManager: true,
-        uploadJson: "index.php?module=system&action=uploadImg", //上传功能
-        fileManagerJson: 'style/kindeditor/php/file_manager_json.php?dirpath=' + pic, //网络空间
-      });
-      //上传背景图片
-      K('#image1').click(function () {
-        editor.loadPlugin('image', function () {
-          editor.plugin.imageDialog({
-            //showRemote : false, //网络图片不开启
-            //showLocal : false, //不开启本地图片上传
-            imageUrl: K('#picurl1').val(),
-            clickFn: function (url, title, width, height, border, align) {
-              K('#picurl1').val(url);
-              $('#thumb_url1').attr("src", url);
-              editor.hideDialog();
-            }
-          });
-        });
-      });
-      //上传背景图片
-      K('#image2').click(function () {
-        editor.loadPlugin('image', function () {
-          editor.plugin.imageDialog({
-            //showRemote : false, //网络图片不开启
-            //showLocal : false, //不开启本地图片上传
-            imageUrl: K('#picurl2').val(),
-            clickFn: function (url, title, width, height, border, align) {
-              K('#picurl2').val(url);
-              $('#thumb_url2').attr("src", url);
-              editor.hideDialog();
-            }
-          });
-        });
-      });
-    });
   </script>
   {/literal}
 </body>
