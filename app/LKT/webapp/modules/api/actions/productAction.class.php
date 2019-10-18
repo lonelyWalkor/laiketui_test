@@ -1573,7 +1573,7 @@ class productAction extends Action {
                 // $r_x = $db->update($sql_x); 
             }
             $time =date("Y-m-d H:i:s",time()); // 当前时间
-            if($r_u){
+            if($r_u>=0){
                 // 根据订单号,查询订单id、订单金额
                 $sql_id = "select * from lkt_order where sNo = '$order_id' ";
                 $r_id = $db->select($sql_id);
