@@ -21,6 +21,26 @@ class ModifyAction extends Action {
      if($m){
        $this->$m();
      }
+
+    $sql = "select * from lkt_product_list";
+    $rsb = $db->select($sql);
+    for ($i=0; $i < count($rsb); $i++) { 
+        $initial = $rsb[$i]->initial;
+       if($initial != ''){
+            $initial = unserialize($initial);
+        }else{
+            $initial = array();
+        }
+        print_r($initial);
+        //$initial = (object)$initial;
+        //$price  = $initial->sj;
+        $proid = $rsb[$i]->id;
+
+        $sql = "update lkt_configure set price=$price where pid=$proid";
+        //$db->update($sql);
+    }
+
+    exit;
     
      // print_r($request);die;
       $id = intval($request -> getParameter('id')); // 订单id
