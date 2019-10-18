@@ -198,6 +198,7 @@ $checked_attr_list = [];
     }else{
         $initial = array();
     }
+    
 
     $initial = (object)$initial;
     $attr_group_list = json_encode($attr_group_list);

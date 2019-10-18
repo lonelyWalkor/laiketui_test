@@ -145,7 +145,7 @@
     <view class='pay_bottom' wx:if="{{rstatus == 1}}" style='padding-top: 8px'>
       <view class="font_12 red fl_r mr_5" style='border: 0;height: 60px;display: flex;justify-content: flex-end	;width: 100%;padding: 0;'  >   
 		 <form bindsubmit="add_fromid" report-submit="true" > 
-          <button class="pay_foot" style='color: #808080;height: 50px;border: 1px solid #808080;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;' formType="submit" data-order-id="{{id}}" >返回首页</button> 
+          <button class="pay_foot" style='color: #808080;height: 50px;border: 1px solid #808080;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;'  bindtap="t_index" data-order-id="{{id}}" >返回首页</button> 
          </form> 
            <button class="pay_foot" style='color: #fff;background: #FF6347;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;' data-orderId="{{id}}" data-ordersn="{{sNo}}" open-type="contact" >联系客服</button> 
   
