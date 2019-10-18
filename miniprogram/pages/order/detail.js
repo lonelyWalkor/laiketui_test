@@ -931,13 +931,13 @@ Page({
       })
     }
     wx.switchTab({
-      url: '../index/indexs'
+      url: '../index/index'
     })
   },
   //跳转index
   t_index: function () {
     wx.switchTab({
-      url: '../index/indexs'
+      url: '../index/index'
     })
   },
   up_out_trade_no: function (out_trade_no) {

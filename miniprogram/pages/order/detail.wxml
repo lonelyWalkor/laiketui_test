@@ -134,7 +134,8 @@
         <form bindsubmit="payOrder" report-submit="true" style='width: 90px;height: 50px;float: right;padding-right:12px;'>
           <button class="pay_foot" style='color:{{bgcolor}};border:1px solid {{bgcolor}};border-radius:30px;margin: 12px 0!important;font-size:14px;padding:0;width:90px;height:32px;line-height:32px;' wx:if="{{rstatus == 0}}" data-pay="{{paytype}}" data-orderId="{{id}}"  data-price="{{payment}}" data-ordersn="{{sNo}}"  formType="submit" wx:if="{{rstatus == 0}}">立即支付</button> 
         </form>
-        <view style='color:#808080;border-color:#808080;font-size:14px;width:60px;height:30px;line-height:30px;border-radius:30px;' class="font_12 red fl_r mr_5 anniu" bindtap="t_index" wx:if="{{rstatus == 0}}" data-order-id="{{id}}">返回首页</view>
+        <button class="pay_foot" style='color: #808080;height: 50px;border: 1px solid #808080;border-radius: 3px;magin: 0;font-size: 13px;padding: 0;width: 90px;height: 30px;line-height: 30px;'  bindtap="t_index" data-order-id="{{id}}" >返回首页</button> 
+
 
         <view style='color:#808080;border-color:#808080;font-size:14px;width:60px;height:30px;line-height:30px;border-radius:30px;margin:12px 0' class="font_12 red fl_r mr_5 " bindtap="removeOrder" wx:if="{{rstatus == 0}}" data-order-id="{{id}}">取消订单</view>
 
