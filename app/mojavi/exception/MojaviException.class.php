@@ -284,7 +284,7 @@ class MojaviException extends Exception
                           <tr id="help">
                               <td colspan="2">
                                   For help resolving this issue, please visit
-                                  <a href="http://www.mojavi.org">www.mojavi.org</a>.
+                                  <a href="http://www.laiketui.com">www.laiketui.com</a>.
                               </td>
                           </tr>
                       </table>
