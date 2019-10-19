@@ -1122,6 +1122,7 @@
                         alert(res.err)
                     } else {
                         alert("修改成功！");
+                        window.history.go(-1);
                         
                     }
                 }
