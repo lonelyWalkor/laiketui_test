@@ -1,6 +1,6 @@
 <?php
 require_once(MO_LIB_DIR . '/DBAction.class.php');
-
+require_once(MO_LIB_DIR . '/Tools.class.php');
 class modifyAction extends Action {
 
 	public function getDefaultView() {
@@ -8,7 +8,7 @@ class modifyAction extends Action {
         $request = $this->getContext()->getRequest();
         // 接收信息
         $id = $request->getParameter("id");
-
+        $_SESSION['url'] = $_SERVER['HTTP_REFERER'];
         // 根据id，查询菜单
         $sql = "select * from lkt_core_menu where id = '$id'";
         $r_1 = $db->select($sql);
@@ -320,17 +320,15 @@ class modifyAction extends Action {
         if($r == -1) {
             $db->admin_record($admin_id,' 修改菜单id为 '.$id.' 失败 ',2);
 
-            echo "<script type='text/javascript'>" .
-                "alert('未知原因，修改失败！');" .
-                "location.href='index.php?module=menu';</script>";
-            return $this->getDefaultView();
+            //跳转
+            jump($_SESSION['url'],'未知原因，修改失败！');
+            
         } else {
             $db->admin_record($admin_id,' 修改菜单id为 '.$id.' 的信息',2);
 
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('修改成功！');" .
-                "location.href='index.php?module=menu';</script>";
+            //跳转
+            jump($_SESSION['url'],'修改成功！');
+
         }
 		return;
 	}

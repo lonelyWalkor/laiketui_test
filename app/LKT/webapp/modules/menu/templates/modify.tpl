@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:26
- * @LastEditTime: 2019-09-09 10:14:01
- * @LastEditors: Please set LastEditors
- -->
 <!DOCTYPE HTML>
 <html>
 
@@ -16,16 +9,8 @@
     content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-  <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-  <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-  <link href="style/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
-  <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-  <link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+  {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
-  <script type="text/javascript" src="modpub/js/check.js"> </script>
-  <script type="text/javascript" src="modpub/js/ajax.js"> </script>
-
-  <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
 
   {literal}
   <style>
@@ -71,26 +56,26 @@
       </div>
       <div class="row cl">
         <label class="form-label col-4"><span class="c-red"></span>归类：</label>
-        <div class="formControls col-1"> <span class="select-box">
+        <div class="formControls col-1"> 
             <select name="select_1" class="select" onchange="one()" id="select_1">
               <option selected="true" value="0">一级菜单</option>
               {$list}
             </select>
-          </span>
+          
         </div>
-        <div class="formControls col-1"> <span class="select-box">
+        <div class="formControls col-1">
             <select name="select_2" class="select" onchange="two()" id="select_2">
               <option selected="true" value="0">二级菜单</option>
               {$list1}
             </select>
-          </span>
+          
         </div>
-        <div class="formControls col-1"> <span class="select-box">
+        <div class="formControls col-1"> 
             <select name="select_3" class="select" onchange="three()" id="select_3">
               <option selected="true" value="0">三级菜单</option>
               {$list2}
             </select>
-          </span>
+          
         </div>
       </div>
       <div class="row cl" id="url" {if $level==1}style="display:none;" {/if}> <label class="form-label col-4"><span
@@ -131,7 +116,7 @@
           </div>
           <div class="radio-box">
             <input type="radio" id="sex-1" name="type" value="1" {if $type==1}checked{/if}> <label
-              for="sex-1">app</label>
+              for="sex-1">小程序</label>
           </div>
           <div class="radio-box">
             <input type="radio" id="sex-2" name="type" value="2" {if $type==2}checked{/if}> <label
@@ -146,21 +131,18 @@
         </div>
       </div>
       <div class="row cl">
-        <div class="button-conter">
-          <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提
+        <label class="form-label col-4"></label>
+        <div class="formControls col-4">
+          <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit">提
             交</button>
-          <button id="btn2" class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重
-            写</button>
         </div>
       </div>
     </form>
 
   </div>
 
-  <!-- 新增编辑器引入文件 -->
-  <link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-  <script src="style/kindeditor/kindeditor-min.js"></script>
-  <script src="style/kindeditor/lang/zh_CN.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
+
   {literal}
   <script>
     KindEditor.ready(function (K) {
