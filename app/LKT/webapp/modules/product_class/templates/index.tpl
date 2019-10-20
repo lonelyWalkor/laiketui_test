@@ -43,7 +43,13 @@ td a{
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span> 商品分类 </nav>
+
+<nav class="breadcrumb">
+    商品管理 <span class="c-gray en">&gt;</span> 
+    商品分类 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
 <div class="pd-20">
     <div style="clear:both;">
         <input type="hidden" name="cid" id="cid" value="{$cid}" >

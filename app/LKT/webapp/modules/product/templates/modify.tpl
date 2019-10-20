@@ -195,7 +195,16 @@
     <div id="masks">
         <img src="images/icon1/loads.gif">
     </div>
-    <div class="breadcrumb" style="margin-top: 0;"><i class="Hui-iconfont">&#xe616;</i> 商品管理 <span class="c-gray en">&gt;</span><a href="index.php?module=product" style="text-decoration:none;" onmouseover="this.style.color='#333'">商品列表管理</a><span class="c-gray en">&gt;</span> 修改商品 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=product';" title="关闭"><i class="Hui-iconfont">&#xe6a6;</i></a></div>
+
+
+<nav class="breadcrumb">
+    商品管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=product">商品列表</a> <span class="c-gray en">&gt;</span> 
+    修改商品 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+    
 
     <div class="pd-20" id="page">
         <form id="form1" name="form1" action="index.php?module=product&action=modify" enctype="multipart/form-data" method="post" onsubmit="return check(this);">

@@ -100,7 +100,8 @@ form .select{
 <body>
 <nav class="breadcrumb">
     商品管理 <span class="c-gray en">&gt;</span> 
-    商品列表
+    <a href="index.php?module=product">商品列表</a> <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
 </nav>
 
 <div class="pd-20">
