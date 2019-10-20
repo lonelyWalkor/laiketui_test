@@ -41,9 +41,9 @@
             <label class="form-label col-2"></label>
           <div class="formControls col-10" >
 
-            <button class="btn btn-primary radius " style=" margin-right: 10px;" type="submit" name="Submit">提 交</button>
+            <button class="btn btn-primary radius "  type="submit" name="Submit">提 交</button>
 
-            <button class="btn btn-secondary radius" style="margin-right: -50px;"  type="reset" name="reset">重 写</button>
+            <button class="btn btn-secondary radius"  type="reset" name="reset">重 写</button>
 
           </div>
 
@@ -65,9 +65,7 @@
 
 {literal}
 <script>
-$(document.body).css({
-    "overflow-y": "hidden"
-});
+
 $(function() {
     $("#imgurls").change(function() {
         var files = this.files;

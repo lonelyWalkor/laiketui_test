@@ -432,11 +432,13 @@
 	</a>
 	<ul class="bigUl">
 		<li {if $type == 0}class="active"{/if}><a href="index.php?module=AdminLogin">平台</a></li>
-		<li {if $type == 1}class="active"{/if}><a href="index.php?module=AdminLogin&type=1">小程序</a></li>
-		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">公众号</a></li>
-		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">生活号</a></li>
+		<li {if $type == 1}class="active"{/if}><a href="index.php?module=AdminLogin&type=1">微信小程序</a></li>
+		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">微信公众号</a></li>
+		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">支付宝小程序</a></li>
+		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">头条小程序</a></li>
+		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">百度小程序</a></li>
 		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">APP</a></li>
-		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">报表</a></li>
+		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">大数据分析</a></li>
 	</ul>
 
 	<ul class="Hui-userbar">

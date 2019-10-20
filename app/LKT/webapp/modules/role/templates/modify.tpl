@@ -7,9 +7,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-
+{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 
 
 {literal}
@@ -106,9 +104,10 @@ function check(f){
       </div> 
     </div>
     <div class="row cl">
-      <div class="button-conter">
-        <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-        <button id="btn1" class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
+      <label class="form-label col-xs-4 col-sm-2"></label>
+      <div class="col-xs-8 col-sm-8">
+        <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit">提 交</button>
+        
       </div>
     </div>
   </form>

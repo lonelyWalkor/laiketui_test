@@ -102,10 +102,11 @@ function check(f){
         </div>  
     </div>
     <div class="row cl">
-        <div class="button-conter">
-            <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit"><i class="Hui-iconfont">&#xe632;</i> 提 交</button>
-            <button id="btn2" class="btn btn-secondary radius" type="reset" name="reset"><i class="Hui-iconfont">&#xe632;</i> 重 写</button>
-        </div>
+        <label class="form-label col-xs-4 col-sm-2"></label>
+      <div class="col-xs-8 col-sm-8">
+        <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit">提 交</button>
+        
+      </div>
     </div>
 </form>
 </div>
