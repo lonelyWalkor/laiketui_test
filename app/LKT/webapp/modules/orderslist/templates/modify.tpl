@@ -388,11 +388,16 @@
 </head>
 
 <body>
-    <nav class="breadcrumb" name='breadcrumb' id='breadcrumb' style="margin: 0px 10px;"><i
-            class="Hui-iconfont">&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 订单列表 <span
-            class="c-gray en">&gt;</span> 编辑订单 <a class="btn btn-success radius r mr-20"
-            style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=orderslist';"
-            title="关闭"><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    订单管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=orderslist">订单列表</a> <span class="c-gray en">&gt;</span>  
+    编辑订单 <span class="c-gray en">&gt;</span>
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
     <div>
         <aside class="mtb" style="margin:10px 0px 20px 10px">
             <a class="newBtn btn radius" style="display: inline-block;border: none;"

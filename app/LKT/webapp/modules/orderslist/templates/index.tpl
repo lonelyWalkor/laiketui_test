@@ -538,10 +538,14 @@
 </head>
 
 <body>
-	<nav class="breadcrumb" style="height: 50px;margin:0px 10px;"><i class="Hui-iconfont">&#xe627;</i> 订单管理 <span
-			class="c-gray en">&gt;</span> 订单列表<a class="btn btn-success radius r mr-20"
-			style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i
-				class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    订单管理 <span class="c-gray en">&gt;</span> 
+    订单列表 <span class="c-gray en">&gt;</span>  
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
 	<div class="pd-20">
 		<div class="text-c">
 			<form name="form1" id="form1" action="index.php" method="get">

@@ -337,15 +337,18 @@
     <title>订单详情</title>
 </head>
 <body style="width:100%;">
-    <nav class="breadcrumb" style="height: 50px;">
-        <i class="Hui-iconfont">&#xe627;</i>
-        订单管理
-        <span class="c-gray en">&gt;</span>
-        订单列表
-        <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新">
-            <i class="Hui-iconfont">&#xe68f;</i>
-        </a>
-    </nav>
+
+
+
+<nav class="breadcrumb">
+    订单管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=orderslist">订单列表</a> <span class="c-gray en">&gt;</span>  
+    发货 <span class="c-gray en">&gt;</span>
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
+
     <section class="rt_wrap pd-20" style="margin-bottom: 0;background-color: white;">
         <form name="form1" id="form1" class="form form-horizontal" method="post" enctype="multipart/form-data">
             
@@ -354,9 +357,9 @@
                 <p class="ulTitle">商品信息</p>
                 <table class="table" style="width: 98%">
                     <tr>
-                        <th class="center tr_xhx">
+                        <th class=" tr_xhx">
                             <input  id="all" type="checkbox" class="inputC product_select" onchange="edit_checkbox()" style="display: none;">
-                            <label for="all"></label></td>
+                            <label for="all"></label>
                             选择</th>
                         <th class="center tr_xhx">商品名称</th>
                         <th class="center tr_xhx">商品图片</th>
@@ -368,7 +371,7 @@
                         <input type="hidden" name="where[sNo]" value="{$item->r_sNo}" class="order_id">
                         {if $item->express_id ==''}
                             <tr >
-                                <td>
+                                <td >
                                     <input name="id[]" id="{$item->id}" type="checkbox" data-status='{$item->r_status}' class="inputC product_select ckb" value="{$item->id}">
                                     <label for="{$item->id}"></label>
                                 </td>
