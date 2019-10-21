@@ -21,7 +21,13 @@
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe62d;</i> 管理员管理 <span class="c-gray en">&gt;</span> 管理员列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<nav class="breadcrumb">
+    用户管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=member">管理员列表</a>
+</nav>
+
+
 <div class="pd-20">
     <div style="clear:both;">
         <button class="btn newBtn radius" onclick="location.href='index.php?module=member&action=add';" >

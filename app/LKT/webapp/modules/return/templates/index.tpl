@@ -470,8 +470,7 @@ i{
 
 <nav class="breadcrumb">
     订单管理 <span class="c-gray en">&gt;</span> 
-    <a href="index.php?module=return">退货列表</a> <span class="c-gray en">&gt;</span>  
-    <a href="javascript:history.go(-1)">返回</a>
+    <a href="index.php?module=return">退货列表</a>
 </nav>
 
 

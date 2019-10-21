@@ -39,7 +39,15 @@ function check(f){
 <title>添加管理员</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe62d;</i> 管理员管理 <span class="c-gray en">&gt;</span> 管理员列表 <span class="c-gray en">&gt;</span> 添加管理员 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=member';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+
+<nav class="breadcrumb">
+    用户管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=member">管理员列表</a> <span class="c-gray en">&gt;</span>  
+    添加管理员 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
 <div class="pd-20">
     <form name="form1" action="index.php?module=member&action=add" class="form form-horizontal" method="post" onsubmit="return check(this);"  enctype="multipart/form-data" >
         <div class="row cl">

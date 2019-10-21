@@ -542,8 +542,7 @@
 
 <nav class="breadcrumb">
     订单管理 <span class="c-gray en">&gt;</span> 
-    订单列表 <span class="c-gray en">&gt;</span>  
-    <a href="javascript:history.go(-1)">返回</a>
+    订单列表 
 </nav>
 
 	<div class="pd-20">

@@ -36,8 +36,7 @@ td a{
 <nav class="breadcrumb">
     商品管理 <span class="c-gray en">&gt;</span> 
     库存管理 <span class="c-gray en">&gt;</span> 
-    库存列表 <span class="c-gray en">&gt;</span> 
-    <a href="javascript:history.go(-1)">返回</a>
+    库存列表 
 </nav>
 
 

@@ -52,9 +52,16 @@
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb" ><i class="Hui-iconfont">&#xe705;</i> 用户管理 
-	<span class="c-gray en">&gt;</span> 用户列表管理 <span class="c-gray en">&gt;</span> 用户信息详情 
+
+
+<nav class="breadcrumb">
+    用户管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=userlist">用户列表</a> <span class="c-gray en">&gt;</span>  
+    用户信息详情 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
 </nav>
+
+
 <div class="pd-20"style="padding-top: 0px;">
     <div class="Huiform">
     	<div class="ulTitle">
