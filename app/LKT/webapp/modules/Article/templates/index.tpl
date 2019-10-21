@@ -21,7 +21,15 @@
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe646;</i> 文章管理 <span class="c-gray en">&gt;</span> 所有文章 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    系统管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=Article">文章列表</a>
+    
+</nav>
+
+
 <div class="pd-20">
     <div style="clear:both;">
         <input type="button" class="btn btn-primary radius" value="发表文章" onclick="location.href='index.php?module=Article&action=add';" />
@@ -89,6 +97,7 @@
     </div>
 </div>
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div></div> 
+
 {php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
 

@@ -433,7 +433,7 @@
 	<ul class="bigUl">
 		<li {if $type == 0}class="active"{/if}><a href="index.php?module=AdminLogin">平台</a></li>
 		<li {if $type == 1}class="active"{/if}><a href="index.php?module=AdminLogin&type=1">微信小程序</a></li>
-		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">微信公众号</a></li>
+		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">公众号</a></li>
 		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">支付宝</a></li>
 		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">头条抖音</a></li>
 		<li><a class="none" href="#javascript" title="正在开发中，暂未发布">百度<r/a></li>

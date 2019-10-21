@@ -21,7 +21,14 @@
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe62f;</i> 公告管理 <span class="c-gray en">&gt;</span> 公告列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    系统管理 <span class="c-gray en">&gt;</span> 
+    公告列表 
+</nav>
+
+
 <div class="pd-20">
     <div style="clear:both;">
         <a class="btn btn-primary radius" href="index.php?module=notice&action=add">发布公告</a>
