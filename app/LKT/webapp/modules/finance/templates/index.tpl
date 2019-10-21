@@ -38,7 +38,13 @@ td a{
 <title>财务管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe63a;</i> 财务管理 <span class="c-gray en">&gt;</span> 提现列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<nav class="breadcrumb">
+    财务管理 <span class="c-gray en">&gt;</span> 
+    提现列表 
+</nav>
+
+
 <div class="pd-20">
 	<div>
 		<a href="index.php?module=finance" class="btn1" style="background-color: #62b3ff;color: #fff;">待审核</a> 

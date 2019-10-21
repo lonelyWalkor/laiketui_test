@@ -38,7 +38,13 @@ td a{
 </head>
 
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe627;</i> 财务管理 <span class="c-gray en">&gt;</span> 积分列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<nav class="breadcrumb">
+    财务管理 <span class="c-gray en">&gt;</span> 
+    积分列表 
+</nav>
+
+
 <div class="pd-20">
 	<div class="text-c">
 		<form name="form1" action="index.php?module=finance&action=jifen" method="get">
