@@ -38,45 +38,38 @@ function check(f){
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red">*</span>品牌名称:</label>
             <div class="formControls col-6">
-                <input type="text" class="input-text" name="pname" datatype="*6-18" style="width: 260px;">
+                <input type="text" class="input-text" name="pname" datatype="*6-18" style="width: 260px;" value="{$brand_name}">
             </div>
             <div class="col-4"> </div>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-4"><span class="c-red"></span>英文名称：</label>
-            <div class="formControls col-6">
-                <input type="text" class="input-text" name="y_pname" datatype="*6-18" style="width: 260px;">
-            </div>
-            <div class="col-4"> </div>
-        </div> -->
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>品牌logo：</label>
+            <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>品牌logo：</label>
             <div class="formControls col-xs-8 col-sm-6"> 
-                <img id="thumb_url" src='{$uploadImg}nopic.jpg' style="height:100px;width:150px;">
+                <img id="thumb_url" src='{$image}' style="height:100px;width:150px;" >
                 <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
                 <input type="hidden" name="oldpic" >
-                <button class="btn btn-success" id="image"  type="button" >选择图片</button>
+                <button class="btn btn-success" id="image"  type="button" >选择图片</button>（建议上传120px*120px）
             </div>
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>所属国家/市</label>
             <div class="formControls col-6">
-                <input type="text" class="input-text" name="producer" datatype="*6-18" style="width: 260px;">
+                <input type="text" class="input-text" name="producer" datatype="*6-18" style="width: 260px;" value="{$producer}">
             </div>
             <div class="col-4"></div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>排序：</label>
             <div class="formControls col-6">
-                <input type="text" class="input-text" name="sort" datatype="*6-18" value="100" style="width: 260px;">
+                <input type="text" class="input-text" name="sort" datatype="*6-18" value="100" style="width: 260px;" value="{$sort}">
             </div>
             <div class="col-4"></div>
         </div>
         <div class="row cl">
             <label class="form-label col-4"><span class="c-red"></span>备注：</label>
             <div class="formControls col-6">
-                <input type="text" class="input-text" name="remarks" datatype="*6-18" style="width: 260px;">
+                <input type="text" class="input-text" name="remarks" datatype="*6-18" style="width: 260px;" value="{$remarks}">
             </div>
             <div class="col-4"></div>
         </div>

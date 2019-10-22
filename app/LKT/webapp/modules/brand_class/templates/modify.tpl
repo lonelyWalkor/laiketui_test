@@ -47,12 +47,12 @@ function check(f){
             <div class="col-4"> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>品牌图片：</label>
+            <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>品牌图片：</label>
             <div class="formControls col-xs-8 col-sm-4"> 
                 <img id="thumb_url" src='{$uploadImg}{$brand_pic}' style="height:100px;width:150px;" >
                 <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
                 <input type="hidden" name="oldpic" value="{$brand_pic}" id="oldpic">
-                <button class="btn btn-success" id="image"  type="button" >选择图片</button>
+                <button class="btn btn-success" id="image"  type="button" >选择图片</button>（建议上传120px*120px）
             </div>
             <div class="col-4"> </div>
         </div>

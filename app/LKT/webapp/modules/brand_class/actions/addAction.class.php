@@ -10,8 +10,21 @@ class addAction extends Action {
 		$sql = "select * from lkt_config where id = '1'";
         $r = $db->select($sql);
         $uploadImg = $r[0]->uploadImg; // 图片上传位置
+         $brand_name = addslashes(trim($request->getParameter('pname'))); // 品牌名称
+        $brand_y_pname = addslashes(trim($request->getParameter('y_pname'))); // 品牌名称
+        $image = addslashes(trim($request->getParameter('image'))); // 品牌图片
+        $producer = addslashes(trim($request->getParameter('producer'))); // 产地
+        $sort = addslashes(trim($request->getParameter('sort'))); // 排序
+        $remarks = addslashes(trim($request->getParameter('remarks'))); // 备注
 
+// print_r($request);die;
 		$request->setAttribute("uploadImg",$uploadImg);
+		$request->setAttribute("brand_name",$brand_name);
+		$request->setAttribute("brand_y_pname",$brand_y_pname);
+		$request->setAttribute("image",$image);
+		$request->setAttribute("producer",$producer);
+		$request->setAttribute("sort",$sort);
+		$request->setAttribute("remarks",$remarks);
 		return View :: INPUT;
 	}
 
@@ -29,6 +42,12 @@ class addAction extends Action {
         $remarks = addslashes(trim($request->getParameter('remarks'))); // 备注
         if($image){
             $image = preg_replace('/.*\//','',$image);
+        }else{
+        	header("Content-type:text/html;charset=utf-8");
+            echo "<script type='text/javascript'>" .
+                "alert('品牌logo不能为空！');" .
+                "</script>";
+            return $this->getDefaultView();
         }
         if($brand_name == ''){
             header("Content-type:text/html;charset=utf-8");
