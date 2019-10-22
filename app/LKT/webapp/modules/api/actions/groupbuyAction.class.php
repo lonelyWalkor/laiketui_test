@@ -212,7 +212,7 @@ class groupbuyAction extends Action {
         $groupid = addslashes(trim($request->getParameter('groupid')));
         
         $total = $page*8;
-        $sql = "select min(attr_id) as attr_id,product_id,group_price,group_id,pro_name,image,market_price from lkt_group_product where group_id='$groupid' group by product_id limit $total,8";
+        $sql = "select min(attr_id) as attr_id,product_id,min(group_price) group_price,min(group_id) group_id,min(pro_name) pro_name,min(image) image,min(market_price) market_price from lkt_group_product where group_id='$groupid' group by product_id limit $total,8";
         $res = $db -> select($sql);
         
         // 查询系统参数
@@ -993,7 +993,6 @@ class groupbuyAction extends Action {
  
         $man_num = $db -> select("select * from lkt_group_config where id='1'");//用户参团可购买产品数
         $is_overdue = is_overdue($db,$groupid);//查询该拼团活动是否过期 1 过期，0 没有
-        // print_r($is_overdue);die;
        if(isset($man_num[0]) && $is_overdue==0){
                 $nn= $man_num[0] -> open_num + $man_num[0] -> can_num;
                $res -> productnum = $nn;//用户参团可购买产品数
