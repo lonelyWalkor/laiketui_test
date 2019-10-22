@@ -390,7 +390,7 @@
                     <tr class="text-c tab_td">
                        
                         <td>
-                            <div style="text-align: left; margin-left: 10px;width:20%;">
+                            <div style="text-align: left; margin-left: 10px;">
                                 {$item->group_title}
                             </div>
                             
