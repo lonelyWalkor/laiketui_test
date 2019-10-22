@@ -306,7 +306,17 @@ textarea,
 <title>修改订单信息</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 评价列表 <span class="c-gray en">&gt;</span> 修改评价信息 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=comments';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    系统管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=comments">评价列表</a> <span class="c-gray en">&gt;</span> 
+    修改评价信息 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
+
 <input type="hidden" name="id" class="cid" value="{$cid}">
 <div class="commentAll">
     <!--评论区域 begin-->

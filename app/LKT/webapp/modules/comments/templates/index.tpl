@@ -49,7 +49,15 @@
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe627;</i> 订单管理 <span class="c-gray en">&gt;</span> 评价列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    系统管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=comments">评价列表</a>
+</nav>
+
+
+
 <div class="pd-20">
     <div class="text-c"> 
         <form name="form1" action="index.php" method="get">
@@ -76,7 +84,7 @@
         <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
                 <tr class="text-c">
-                    <th>id</th>
+                    <th>ID</th>
                     <th>评价人</th>
                     <th>订单编号</th>
                     <th>商品名称</th>

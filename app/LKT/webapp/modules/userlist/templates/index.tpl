@@ -457,11 +457,7 @@ a{
         <div style="width:80%;margin:20px 0 20px 0px;height: 41px;line-height: 41px;display: flex; align-items: center;">
         	<input type="checkbox" id="allAndNotAll"/>
         	<label for="allAndNotAll" id="qxIpt" style="height: 29px;line-height: 29px;">全选</label>
-           	<a class="btn radius"  style="background-color:#38b4ed;color: #fff;margin-left: 20px;" id="getAllSelectedId" href="javascript:void(0);" title="发私信"  style="margin-left:20px;">
-           		<div style="height: 100%;display: flex;align-items: center;font-size: 14px;">
-                    <img src="images/icon1/fsx.png"/>&nbsp;发私信
-           	 	</div>
-           	</a>
+           	
         </div>
         <div class="mt-20 table-scroll" style="overflow: scroll; width: 100%; height: 495px;">
         <table class="table table-border table-bordered table-bg table-hover">
