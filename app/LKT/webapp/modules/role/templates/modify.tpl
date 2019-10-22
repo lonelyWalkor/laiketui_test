@@ -50,7 +50,15 @@ function check(f){
 <title>修改角色</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe62d;</i> 管理员管理 <span class="c-gray en">&gt;</span> 角色管理 <span class="c-gray en">&gt;</span> 修改角色 </nav>
+
+<nav class="breadcrumb">
+    配置管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=role">角色列表</a> <span class="c-gray en">&gt;</span> 
+    修改角色 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
 <div class="pd-20">
   <form name="form1" action="index.php?module=role&action=modify" class="form form-horizontal" method="post" onsubmit="return check(this);"  enctype="multipart/form-data" >
     <input type="hidden" name="id" value="{$id}" />
