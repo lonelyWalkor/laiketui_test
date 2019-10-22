@@ -359,7 +359,7 @@
 			var goods_id = '';
 			var each_times = 0;
 
-			$("#ptradio").each(function () {
+			$(".inputC").each(function () {
 				//如果选中状态
 				if ($(this).is(':checked')) {
 					
