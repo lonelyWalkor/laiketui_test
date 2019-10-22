@@ -506,6 +506,7 @@ Page({
     
   // 弹窗
   setModalStatus: function (e) {
+
     if (app.userlogin(1)) {
       this.pop.clickPup(this)
       return
@@ -521,27 +522,33 @@ Page({
     var paytype = e.currentTarget.dataset.type;
     this.animation = animation
     animation.translateY(300).step();
+
     this.setData({
       paytype: paytype,
       animationData: animation.export()
     })
     
     if (e.currentTarget.dataset.status == 1) {
+
       this.setData({
         showModalStatus: true
       });
+      
     }
     
     setTimeout(function () {
       animation.translateY(0).step()
+
       this.setData({
         animationData: animation
       })
+
       if (e.currentTarget.dataset.status == 0) {
         this.setData({
           showModalStatus: false
         });
       }
+
     }.bind(this), 200)
   },
 
