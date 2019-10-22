@@ -135,7 +135,7 @@
 
 
 {php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
-
+<script type="text/javascript" src="style/js/bootstrap.min.js"></script>
 {literal}
 <script type="text/javascript">
 

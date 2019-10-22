@@ -17,11 +17,7 @@
     content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-  <link href="style/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-  <link href="style/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-  <link href="style/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
-  <link href="style/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
-  <link href="style/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+  {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
   {literal}
   <style>
     .button-conter {
@@ -72,14 +68,7 @@
     </form>
     <!-- <input type="hidden" id="pic" value="{$pic}"> -->
   </div>
-
-  <script type="text/javascript" src="modpub/js/check.js"> </script>
-  <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
-
-  <!-- 新增编辑器引入文件 -->
-  <link rel="stylesheet" href="style/kindeditor/themes/default/default.css" />
-  <script src="style/kindeditor/kindeditor-all.js"></script>
-  <script src="style/kindeditor/lang/zh_CN.js"></script>
+{php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 
   {literal}
   <script>

@@ -145,7 +145,7 @@ order by a.sort DESC LIMIT 0,10";
             foreach ($plug as $k => $v) {
                 $v->image = $img . $v->image;
                 
-                if(strpos($v->name,'我的客户') !== false){ 
+                if(strpos($v->code,'FX') !== false){ 
                     // if(!$rfhb){
                         unset($plug[$k]);
                     // }

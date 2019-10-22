@@ -15,6 +15,7 @@ class modifyInputView extends SmartyView {
         $this->setAttribute('sort',$request->getAttribute('sort'));
         $this->setAttribute('http',$request->getAttribute('http'));
         $this->setAttribute('list',$request->getAttribute('list'));
+        $this->setAttribute('code',$request->getAttribute('code'));
 			 
 		$this->setTemplate("modify.tpl");
     }

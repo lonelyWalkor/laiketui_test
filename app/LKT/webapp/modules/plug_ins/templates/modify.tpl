@@ -50,11 +50,11 @@ function change(){
         <label class="form-label col-4"><span class="c-red"></span>插件类型：</label>
         <div class="formControls col-4 skin-minimal">
             <div class="radio-box">
-                <input name="type" type="radio" value="0" {if type == 0} checked="checked" {/if} onclick="change()"/>
+                <input name="type" type="radio" value="0" {if $type == 0} checked="checked" {/if} onclick="change()"/>
                 <label for="sex-0">小程序</label>
             </div>
             <div class="radio-box">
-                <input name="type" type="radio" value="1" {if type == 1} checked="checked" {/if} onclick="change()"/>
+                <input name="type" type="radio" value="1" {if $type == 1} checked="checked" {/if} onclick="change()"/>
                 <label for="sex-1">app</label>
             </div>
         </div>
@@ -119,6 +119,12 @@ function change(){
       <label class="form-label col-4">参数设置地址：</label>
       <div class="formControls col-4">
         <input type="text" class="input-text" disabled value="{$http}" placeholder="" id="" name="http">
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-4">插件标志code:</label>
+      <div class="formControls col-4">
+        <input type="text" class="input-text" disabled value="{$code}" placeholder="" id="" name="code">
       </div>
     </div>
     <div class="row cl">

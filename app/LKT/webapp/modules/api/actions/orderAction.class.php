@@ -151,7 +151,7 @@ class orderAction extends Action {
         // 根据用户id和前台参数,查询订单表 (id、订单号、订单价格、添加时间、订单状态、优惠券id)
         $sql = "select id,z_price,sNo,add_time,status,coupon_id,pid,drawid,ptcode,ptstatus from lkt_order as a where user_id = '$user_id' " . $res ." order by add_time desc";
         $r = $db->select($sql);
-        $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";//查询拼团插件的状态（0：未启用 1：启用）
+        $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and code ='PT'";//查询拼团插件的状态（0：未启用 1：启用）
         $plugopen = $db -> select($plugsql);
         $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;//不存在默认为为未启用
 

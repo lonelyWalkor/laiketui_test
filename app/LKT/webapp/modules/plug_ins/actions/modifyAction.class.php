@@ -15,6 +15,8 @@ class modifyAction extends Action {
         // 根据插件id，查询插件信息
         $sql = "select * from lkt_plug_ins where id = '$id'";
         $r = $db->select($sql);
+        // print_r($r);die;
+
         if($r){
             $software_id = $r[0]->software_id; // 软件id
             $name = $r[0]->name; // 首页插件名称
@@ -25,6 +27,7 @@ class modifyAction extends Action {
             $url = $r[0]->url ; // 首页链接
             $subtitle_url = $r[0]->subtitle_url ; // 个人中心链接
             $sort = $r[0]->sort ; // 排序
+            $code = $r[0]->code ; // code
         }
         $sql = "select id,name from lkt_software where id = '$software_id'";
         $rr = $db->select($sql);
@@ -33,6 +36,8 @@ class modifyAction extends Action {
 
         $sql = "select id,name from lkt_software where type = '$type'";
         $rrr = $db->select($sql);
+
+
         if($rrr){
             $rew .= '<option value="0" >全部</option>';
             $arr = json_decode(json_encode($rrr),true);
@@ -75,6 +80,7 @@ class modifyAction extends Action {
         $request->setAttribute('sort', $sort);
         $request->setAttribute('http', $http);
         $request->setAttribute('list', $rew);
+        $request->setAttribute('code', $code);
 
         return View :: INPUT;
 	}

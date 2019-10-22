@@ -136,18 +136,18 @@ class appAction extends Action {
         if($r_c){
             foreach ($r_c as $k => $v) {
                 $v->image = $img . $v->image;
-                if(strpos($v->name,'优惠券') !== false){ // 判断字符串里是否有 优惠券 
+                if(strpos($v->code,'YHQ') !== false){ // 判断字符串里是否有 优惠券 
                     $v->name = '优惠券'; 
                     $coupon[$k] = 1;
                 }else{
                     $coupon[$k] = 0;
                 }
-                if($v->name == '钱包'){
+                if($v->code == 'QB'){
                     $wallet[$k] = 1;
                 }else{
                     $wallet[$k] = 0;
                 }
-                if($v->name == '签到'){
+                if($v->code == 'QD'){
                     $sign[$k] = 1;
                 }else{
                     $sign[$k] = 0;
@@ -337,7 +337,7 @@ class appAction extends Action {
         $request = $this->getContext()->getRequest();
 
         // 查询插件表里,状态为启用的插件
-        $sql = "select name,image from lkt_plug_ins where status = 1 and type = 0 ";
+        $sql = "select name,image,code from lkt_plug_ins where status = 1 and type = 0 ";
         $r_c = $db->select($sql);
 
         $coupon = false;
@@ -348,22 +348,20 @@ class appAction extends Action {
 
         if($r_c){
             foreach ($r_c as $k => $v) {
-                if(strpos($v->name,'劵') !== false){
+                if(strpos($v->code,'YHQ') !== false){
                     // 判断字符串里是否有 优惠劵 
                     $v->name = '优惠劵';
                     $coupon = true;
                 }
-                if($v->name == '钱包'){
+                if($v->code == 'QB'){
                     $wallet = true;
                     $arrayName = array('name' => '钱包支付','value' => 'wallet_Pay','icon' => '../../images/qbzf.png','checked' => false);
                     @array_push($pays,$arrayName);
                 }
-                if($v->name == '签到'){
+                if($v->code == 'QD'){
                     $integral = true;
                 }
-                if($v->name == '发红包'){
-                    $red_packet = true;
-                }
+               
             }
 
             echo json_encode(array('status'=>1,'pays'=>$pays,'coupon'=>$coupon,'wallet'=>$wallet,'integral'=>$integral,'red_packet'=>$red_packet));

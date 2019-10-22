@@ -1356,6 +1356,7 @@ CREATE TABLE `lkt_plug_ins` (
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0：未启用 1：启用',
   `Customer_id` varchar(15) DEFAULT '' COMMENT '客户id',
+  `code` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '插件标志',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='插件表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1366,8 +1367,8 @@ CREATE TABLE `lkt_plug_ins` (
 
 LOCK TABLES `lkt_plug_ins` WRITE;
 /*!40000 ALTER TABLE `lkt_plug_ins` DISABLE KEYS */;
-INSERT INTO `lkt_plug_ins` VALUES (1,'3','优惠劵','我的优惠劵',0,'1541641112751.png','1541641131972.png','../coupon/index?currentTab=0&type=receive','../coupon/index?currentTab=1','2018-11-08 01:38:53',2,1,''),(2,'3','钱包','我的钱包',0,'1541641206532.png','1541641182932.png','../user/wallet','../user/wallet','2018-11-08 01:40:06',1,1,''),(3,'3','签到','我的积分',0,'1541641221938.png','1541641238944.png','../sign_in/sign_in','../user/score','2018-11-08 01:40:39',4,1,''),(5,'3','拼团','我的拼团',0,'1541641254824.png','154164126521.png','../group_buy/group','../order/order?currentTab=0&otype=pay6','2018-11-08 01:41:06',5,1,'');
-INSERT INTO `lkt_plug_ins` (`id`, `software_id`, `name`, `subtitle_name`, `type`, `image`, `subtitle_image`, `url`, `subtitle_url`, `add_time`, `sort`, `status`, `Customer_id`) VALUES ('6', '3', '我的客户', '我的客户', '0', '1567135328642.png', '1567135337307.png', '../distribution/myclient', '../distribution/myclient', '2019-08-30 11:22:18', '100', '1', '');
+INSERT INTO `lkt_plug_ins` VALUES (1,'3','优惠劵','我的优惠劵',0,'1541641112751.png','1541641131972.png','../coupon/index?currentTab=0&type=receive','../coupon/index?currentTab=1','2018-11-08 01:38:53',2,1,'','YHQ'),(2,'3','钱包','我的钱包',0,'1541641206532.png','1541641182932.png','../user/wallet','../user/wallet','2018-11-08 01:40:06',1,1,'','QB'),(3,'3','签到','我的积分',0,'1541641221938.png','1541641238944.png','../sign_in/sign_in','../user/score','2018-11-08 01:40:39',4,1,'','QD'),(5,'3','拼团','我的拼团',0,'1541641254824.png','154164126521.png','../group_buy/group','../order/order?currentTab=0&otype=pay6','2018-11-08 01:41:06',5,1,'','PT');
+INSERT INTO `lkt_plug_ins` (`id`, `software_id`, `name`, `subtitle_name`, `type`, `image`, `subtitle_image`, `url`, `subtitle_url`, `add_time`, `sort`, `status`, `Customer_id`) VALUES ('6', '3', '我的客户', '我的客户', '0', '1567135328642.png', '1567135337307.png', '../distribution/myclient', '../distribution/myclient', '2019-08-30 11:22:18', '100', '1', '','FX');
 
 /*!40000 ALTER TABLE `lkt_plug_ins` ENABLE KEYS */;
 UNLOCK TABLES;

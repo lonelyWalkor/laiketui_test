@@ -148,13 +148,12 @@ class groupbuyAction extends Action {
         }
 
         // $rrr = huodongzhuangtai($db);////监测拼团活动有没有过期的，改变其活动状态
-        $sqltime =  "select min(g.attr_id) as attr_id,g.*,p.product_title,p.status,p.product_class,p.imgurl,c.price,c.num ,g.group_id
-                from lkt_group_product as g 
+        $sqltime =  "select min(g.attr_id) AS attr_id,min(g.id) AS id,min(g.group_title) AS group_title,min(g.product_id) AS product_id,min(g.group_level) AS group_level,min(g.group_data) AS group_data,min(p.product_title) AS product_title,min(p. STATUS) AS STATUS,min(p.product_class) AS product_class,min(p.imgurl) AS imgurl,min(c.price) AS price,min(c.num) AS num,g.group_id from lkt_group_product as g 
                 left join lkt_product_list as p on g.product_id=p.id 
                 left join lkt_configure as c on g.attr_id=c.id 
-                where g.is_show=1 and g.g_status =2 and p.num >0 and p.status = 0 and g.recycle = 0
+                where g.is_show=1 and g.g_status =2 and p.num >0 and p.status = 0 and g.recycle = 0 and c.recycle = 0
                 group by g.group_id 
-                order by g.id desc limit  $start,$pagesize";
+                order by min(g.id) desc limit  $start,$pagesize";
          $restime = $db -> select($sqltime);
          // print_r($sqltime);die;
          if(!empty($restime)){
@@ -521,7 +520,7 @@ class groupbuyAction extends Action {
                 }
             }
         }
-        $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
+        $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and code='PT'";
         $plugopen = $db -> select($plugsql);
         $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
         
@@ -662,16 +661,13 @@ class groupbuyAction extends Action {
              $dat['cnum'] = 0;//自己已参团数
         }
         // 根据用户id,查询收货地址
-        $sql_a = 'select id from lkt_user_address where uid=(select user_id from lkt_user where wx_id="'.$uid.' ")';
+        $sql_a = 'select * from lkt_user_address where uid=(select user_id from lkt_user where wx_id="'.$uid.'") and is_default = 1';
+        // print_r($sql_a);die;
         $r_a = $db->select($sql_a);
         if($r_a){
             $arr['addemt']=0; // 有收货地址
             // 根据用户id、默认地址,查询收货地址信息
-            $sql_e = 'select * from lkt_user_address where uid=(select user_id from lkt_user where wx_id="'.$uid.'  ") and is_default = 1';
-            $r_e = $db->select($sql_e);
-            //$r_e = (array)$r_e['0'];
-            $r_e = !empty($r_e)?(array)$r_e['0']:array(); // 收货地址
-            $arr['adds'] = $r_e;
+             $arr['adds'] =!empty($r_a)?(array)$r_a['0']:array(); // 收货地址
         }else{
             $arr['addemt']=1; // 没有收货地址
             $arr['adds'] = ''; // 收货地址
@@ -1089,7 +1085,7 @@ class groupbuyAction extends Action {
 
                     }
 
-                $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and name like '%拼团%'";
+                $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and code = 'PT'";
                 $plugopen = $db -> select($plugsql);
                 $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
 
