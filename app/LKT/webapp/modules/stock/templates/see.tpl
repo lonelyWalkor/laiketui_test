@@ -53,7 +53,7 @@
               
                     {/if}
                     {if $item->type != 2}
-                        <td {if $item->flowing_num >= 0}style="color: #0abf0a;"{else}style="color:red;"{/if}>{$item->flowing_num}</td>
+                        <td {if $item->type == 0}style="color: #0abf0a;"{else}style="color:red;"{/if}>{$item->flowing_num}</td>
                         
                     {else}
                         <td>{$item->flowing_num}</td>

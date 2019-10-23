@@ -30,11 +30,11 @@ class seeAction extends Action {
             $start = 0;
         }
 
-        $sql0 = "select a.product_title,a.status,c.price,c.attribute,c.total_num,c.num,b.flowing_num,b.type,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id where  a.recycle = 0 and b.product_id = '$pid' and b.attribute_id = '$id' order by b.add_date desc";
+        $sql0 = "select a.product_title,a.status,c.price,c.attribute,c.total_num,c.num,b.flowing_num,b.type,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id where  a.recycle = 0 and b.product_id = '$pid' and b.attribute_id = '$id' and c.recycle = 0 order by b.add_date desc";
         $r0 = $db->select($sql0);
         $total = count($r0);
 
-        $sql1 = "select a.product_title,a.status,c.price,c.attribute,c.total_num,c.num,b.flowing_num,b.type,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id where  a.recycle = 0 and b.product_id = '$pid' and b.attribute_id = '$id' order by b.add_date desc limit $start,$pagesize";
+        $sql1 = "select a.product_title,a.status,c.price,c.attribute,c.total_num,c.num,b.flowing_num,b.type,b.add_date from lkt_stock as b left join lkt_product_list as a on b.product_id = a.id left join lkt_configure as c on b.attribute_id = c.id where  a.recycle = 0 and b.product_id = '$pid' and b.attribute_id = '$id' and c.recycle = 0 order by b.add_date desc limit $start,$pagesize";
         $r1 = $db->select($sql1);
         if($r1){
             foreach ($r1 as $k => $v){

@@ -31,7 +31,7 @@ class shipmentAction extends Action {
             $start = 0;
         }
 
-        $condition = "a.recycle = 0 and b.type = 1";
+        $condition = "a.recycle = 0 and b.type = 1 and c.recycle = 0";
         $excel_condition = $condition;
 
         if($product_title != '') {

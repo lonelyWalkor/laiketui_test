@@ -461,7 +461,7 @@
 
                         <input type="hidden" id="inputid-{$item->id}" value="{$item->id}">
                         <a style="display: contents;"
-                            href="index.php?module=product&action=see&id=1&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}"
+                            href="index.php?module=product&action=see&id={$item->p_id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}"
                             title="查看">
                             {$item->p_name}
                         </a>

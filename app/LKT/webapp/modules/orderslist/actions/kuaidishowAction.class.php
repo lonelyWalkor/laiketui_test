@@ -18,9 +18,9 @@ class kuaidishowAction extends Action {
 		$request = $this -> getContext() -> getRequest();
         // 获取信息
         $r_sNo = trim($request->getParameter('r_sNo'));// 订单详情id 
-        // $courier_num = $request->getParameter('courier_num');
+        $courier_num = $request->getParameter('courier_num');
         // 根据订单详情id,修改订单详情
-            $sql = "select express_id,courier_num from lkt_order_details where r_sNo = '$r_sNo'";
+            $sql = "select express_id,courier_num from lkt_order_details where r_sNo = '$r_sNo' and courier_num ='$courier_num'";
             $r = $db->select($sql);
             $dd=[];
             if($r){

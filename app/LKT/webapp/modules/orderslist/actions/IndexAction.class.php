@@ -28,6 +28,8 @@ class IndexAction extends Action {
         $prostr = '';
         $URL = '';
         $con = '';
+
+        $this->setpay($db);//修改待付款订单状态
         foreach ($_GET as $key => $value001) {
             $con .= "&$key=$value001";
         }
@@ -374,5 +376,26 @@ class IndexAction extends Action {
         return Request::NONE;
     }
 
+    function setpay($db){//超过待付款时间修改待付款订单状态
+        $re =$db->select("select * from lkt_order_config");
+        if($re[0]){
+            $order_failure =$re[0]->order_failure?$re[0]->order_failure:24;//待付款订单失效时间
+            $nowtimes = date('Y-m-d H:i:s',strtotime('-'.$order_failure .'hours'));//当前时间的前过期时间
+
+              $r01 =$db->select("select id,sNo from lkt_order where add_time <= '$nowtimes' and status=0 ");
+              if($r01){
+                foreach ($r01 as $key => $value) {
+                    $sNo=$value->sNo;
+                      $sqll = "update lkt_order set status='7' where sNo='$sNo'";//订单关闭
+                      $rl = $db -> update($sqll);
+                      $sqld = "update lkt_order_details set r_status='6'  where r_sNo='$sNo'";//订单关闭
+                      $rd = $db -> update($sqld);
+                }
+              }
+
+
+        }
+
+    }
 }
 ?>

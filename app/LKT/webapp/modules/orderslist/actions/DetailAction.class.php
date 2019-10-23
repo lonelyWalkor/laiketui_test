@@ -275,6 +275,10 @@ class DetailAction extends Action {
 
         $data['r_status'] = '订单关闭';
 
+      }else if($data['gstatus'] == 7){
+
+        $data['r_status'] = '订单关闭';
+
       }else if($data['gstatus'] == 12){
 
         $data['r_status'] = '已完成';

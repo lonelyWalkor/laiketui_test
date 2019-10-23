@@ -18,7 +18,7 @@ class ModifyAction extends Action {
      if($m){
        $this->$m();
      }
-      
+    
       $id = intval($request -> getParameter('id')); // 订单id
       $da['having'] = $request -> getParameter('having');
       $da['ordtype'] = $request -> getParameter('ordtype');

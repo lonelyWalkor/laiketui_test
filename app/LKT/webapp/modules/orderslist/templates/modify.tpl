@@ -262,13 +262,13 @@
         }
 
         .wl_maskNewContent {
-            width: 500px;
-            height: 519px;
+            width: 920px;
+            height: 600px;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 4px;
             margin: 0 auto;
             position: relative;
-            top: 200px;
-            background: #fff;
-            border-radius: 10px;
+            top: 10%;
         }
 
         .dc {
@@ -290,39 +290,6 @@
         .numss {
             display: flex;
             justify-content: flex-end;
-        }
-
-        .btnont {
-            background-color: #FFFFFF;
-            position: fixed;
-            bottom: 0px;
-            width: 98%;
-            display: flex;
-            height: 69px;
-            justify-content: flex-end;
-            align-items: center;
-        }
-
-        .butten_o {
-            width: 112px;
-            height: 36px;
-            background: inherit;
-            background-color: rgba(16, 142, 233, 1);
-            border: none;
-            border-radius: 4px;
-            -moz-box-shadow: none;
-            -webkit-box-shadow: none;
-            box-shadow: none;
-            font-family: 'MicrosoftYaHei', 'Microsoft YaHei';
-            font-weight: 400;
-            font-style: normal;
-            font-size: 14px;
-            color: #FFFFFF;
-            text-align: center;
-        }
-
-        .butten_o:hover {
-            background-color: #2481E5;
         }
     </style>
 
@@ -437,23 +404,21 @@
                         余额支付
                         {/if}</span></li>
                 <li style="width: 46.66%;">到货时间：<span class="grText">{$data.arrive_time}</span></li>
-                <li>
-                    快递单号：
-
+               <li>快递单号：
                     {foreach from=$data.courier_num item=item name=f1}
                     {if $item.courier_num ==''}
                     <span class="grText" style="display: inline-block;"></span>
                     {else}
                     <span>
                         <a class="send-btn1 " style="text-decoration:underline" href="javascript:"
-                            onclick="send_btn1(this,'{$data.sNo}',{$item.courier_num})">
+                            onclick="send_btn1(this,'{$data.sNo}','{$item.courier_num}')">
                             <span style="width: 222px;"
                                 class="grText changeNum">{$item.courier_num}({$item.kuaidi_name})</span>
-                        </a>
+                        </a> | 
                     </span>
-                    {/if}注：点击单号查看物流
+                    {/if}
                     {/foreach}
-
+                    注：点击单号查看物流
                 </li>
             </ul>
         </div>
@@ -515,7 +480,7 @@
 
                         <input type="hidden" id="inputid-{$item->id}" value="{$item->id}">
                         <a style="display: contents;"
-                            href="index.php?module=product&action=see&id=1&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}"
+                            href="index.php?module=product&action=see&id={$item->p_id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}"
                             title="查看">
                             {$item->p_name}
                         </a>
@@ -845,23 +810,104 @@
 
         };
 
-        function send_btn1(obj, id, courier_num) {
+        // function send_btn1(obj, id, courier_num) {
+        //     var r_sNo = id;
+        //     $.ajax({
+        //         url: 'index.php?module=orderslist&action=kuaidishow&r_sNo=' + r_sNo + '&courier_num=' + courier_num,
+        //         type: "post",
+        //         data: {},
+        //         success: function (res) {
+        //             var data = JSON.parse(res);
+        //             console.log(data.code);
+        //             if (data.code == 1) {
+        //                 closeMask1();
+        //                 console.log(1);
+        //                 var str = '';
+        //                 for (var i = 0; i < data.data.length; i++) {
+        //                     str += '<div class="time" style="margin-left: 30px;">' + data.data[i].time + '</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">' + data.data[i].context + '</div>';
+        //                 }
+        //                 wl_appendMask(str, "cg");
+        //             } else {
+        //                 appendMask('暂无物流信息！', "ts");
+        //             }
+        //         },
+        //     });
+        // };
+          function send_btn1(obj, id, courier_num, is = false) {
+
             var r_sNo = id;
+
             $.ajax({
                 url: 'index.php?module=orderslist&action=kuaidishow&r_sNo=' + r_sNo + '&courier_num=' + courier_num,
                 type: "post",
-                data: {},
                 success: function (res) {
                     var data = JSON.parse(res);
-                    console.log(data.code);
-                    if (data.code == 1) {
-                        closeMask1();
-                        console.log(1);
-                        var str = '';
-                        for (var i = 0; i < data.data.length; i++) {
-                            str += '<div class="time" style="margin-left: 30px;">' + data.data[i].time + '</div><div class="step" style="font-size: 0.5rem; padding: 5px 20px;    margin-left: 30px;">' + data.data[i].context + '</div>';
+
+                    if (!data[0].data.length) {
+                        appendMask('暂无物流信息！', "ts");
+                        return
+                    }
+
+                    if (is) {
+                        d = []
+                        for (var item of data) {
+                            if (item.courier_num === courier_num) {
+                                d.push(item)
+                            }
                         }
-                        wl_appendMask(str, "cg");
+                        data = d
+                    }
+
+                    if (data.length) {
+                        closeMask1();
+                        var str = '';
+                        var title = ''
+                        function getnr(data) {
+                            for (var aaa of data) {
+
+                                str += `
+
+                                
+                                    <li>
+                                        <i style="color:rgba(151,160,180,1);font-size:14px;font-style: initial;">${aaa.time}</i>
+                                        <i style="color:rgba(65,70,88,1);font-size:14px;font-style: initial;">${aaa.context}</i>
+                                    </li>
+                                
+                                `
+                            }
+                            return str
+                        }
+
+                        for (var item of data) {
+                            title = `
+
+                        <div class="row">
+                        
+                            <div class="col-2" style="text-align: end;color: rgba(65,70,88,1);font-size: 14px;">物流公司：</div>
+                            <div class="col-9" style="color:rgba(65,70,88,1);font-size: 14px;">${ item.kuaidi_name}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2" style="text-align: end;color: rgba(65,70,88,1);font-size: 14px;">运单号码：</div>
+                            <div class="col-9" style="color:rgba(65,70,88,1);font-size: 14px;">${ item.courier_num}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2" style="text-align: end;color: rgba(65,70,88,1);font-size: 14px;">物流跟踪：</div>
+                            <div class="col-9">
+                                    <ul>
+                            ${
+
+                                getnr(item.data)
+
+                                }
+                            </ul>
+                            </div>
+                        </div>
+                        `
+                        }
+
+                        wl_appendMask(title, "cg");
                     } else {
                         appendMask('暂无物流信息！', "ts");
                     }
@@ -915,19 +961,22 @@
         }
         function wl_appendMask(content, src) {
             $("body").append(`
-                 <div class="wl_maskNew">
-                     <div class="wl_maskNewContent">
-                         <a href="javascript:void(0);" class="closeA" onclick=close_wl_Mask1() ><img src="images/icon1/gb.png"/></a>
-                         <div class="maskTitle">物流信息</div>
-                         <div style="height: 370px;position: relative;top:20px;font-size: 22px;text-align: center;overflow: scroll;">
-                             ${content}
-                         </div>
-                         <div style="text-align:center;margin-top:30px">
-                             <button class="closeMask" onclick=close_wl_Mask1() >确认</button>
-                         </div>
-                     </div>
-                 </div>
-             `)
+                <div class="wl_maskNew">
+
+                    <div class="wl_maskNewContent">
+                        <a href="javascript:void(0);" class="closeA" onclick=close_wl_Mask1() ><img src="images/icon1/gb.png"/></a>
+                        <div class="maskTitle" style="display: block;font-size:16px;font-weight:bold;">物流信息</div>
+                        <div style="height: 470px;position: relative;top:20px;font-size: 22px;overflow: scroll;">
+                            ${content}
+                        </div>
+                        <div style="text-align:center;margin-top:30px">
+                    <button class="closeMask" onclick=close_wl_Mask1() >确认</button>
+                </div>
+                    </div>
+                </div>
+
+
+            `)
         }
 
         function close_wl_Mask1() {

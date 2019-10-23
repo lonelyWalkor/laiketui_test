@@ -45,7 +45,11 @@ function check(f){
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>品牌logo：</label>
             <div class="formControls col-xs-8 col-sm-6"> 
+                {if $image!=''}
                 <img id="thumb_url" src='{$image}' style="height:100px;width:150px;" >
+                {else}
+                 <img id="thumb_url" style="height:100px;width:150px;" >
+                {/if}
                 <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
                 <input type="hidden" name="oldpic" >
                 <button class="btn btn-success" id="image"  type="button" >选择图片</button>（建议上传120px*120px）
@@ -77,7 +81,11 @@ function check(f){
             <label class="form-label col-4"></label>
             <div class="formControls col-6">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
-                <input type="button" name="button" value="返 回"  class="btn btn-primary radius" onclick="javascript :history.back(-1);">
+                <a class="newBtn btn radius" style="display: inline-block;border: none;border: none;background-color: #2890ff!important;padding: 0;height: 36px!important;line-height: 36px!important;width: 60px;"
+                href="index.php?module=brand_class">
+                返回
+            </a>
+              <!--   <input type="button" name="button" value="返 回"  class="btn btn-primary radius" onclick="javascript :history.back(-1);"> -->
             </div>
         </div>
     </form>

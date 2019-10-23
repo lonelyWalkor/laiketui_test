@@ -42,7 +42,7 @@ class warningAction extends Action {
         }
 
 
-        $condition = " a.recycle = 0 and c.num <= $min_inventory ";
+        $condition = " a.recycle = 0 and c.num <= $min_inventory and c.recycle = 0";
         $excel_condition = $condition;
         if ($name != '') {
             $condition .= " and a.product_title like '%$name%' ";
@@ -53,13 +53,13 @@ class warningAction extends Action {
         if ($enddate != '') {
             $condition .= " and b.add_date <= '$enddate 23:59:59' ";
         }
-        $sql0 = "select a.product_title,a.status,c.id,c.pid,c.price,c.attribute,c.total_num,c.num,b.add_date from lkt_configure as c left join lkt_product_list as a on c.pid = a.id left join (select max(add_date) as add_date,type,attribute_id from lkt_stock where type = 2 group by attribute_id) as b on c.id = b.attribute_id where $condition order by a.sort,c.id ";
+        $sql0 = "select a.product_title,a.status,c.id,c.pid,c.price,c.attribute,c.total_num,c.num,b.add_date from lkt_configure as c left join lkt_product_list as a on c.pid = a.id left join lkt_stock as b on c.id = b.attribute_id where $condition order by a.sort,c.id ";
         $r0 = $db->select($sql0);
         $total = count($r0);
 
-        $sql1 = "select a.product_title,a.status,c.id,c.pid,c.price,c.attribute,c.total_num,c.num,b.add_date from lkt_configure as c left join lkt_product_list as a on c.pid = a.id left join (select max(add_date) as add_date,type,attribute_id from lkt_stock where type = 2 group by attribute_id) as b on c.id = b.attribute_id where $condition order by a.sort,c.id limit $start,$pagesize";
+        $sql1 = "select a.product_title,a.status,c.id,c.pid,c.price,c.attribute,c.total_num,c.num,b.add_date from lkt_configure as c left join lkt_product_list as a on c.pid = a.id left join lkt_stock as b on c.id = b.attribute_id where $condition order by a.sort,c.id limit $start,$pagesize";
         $r1 = $db->select($sql1);
-          // print_r($r1);die;
+          // print_r($sql1);die;
         if($r1){
             foreach ($r1 as $k => $v){
                 $attribute = unserialize($v->attribute);

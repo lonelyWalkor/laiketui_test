@@ -31,7 +31,7 @@ class enterAction extends Action {
             $start = 0;
         }
 
-        $condition = "a.recycle = 0 and b.type = 0";
+        $condition = "a.recycle = 0 and b.type = 0 and c.recycle = 0";
         $excel_condition = $condition;
        
         if ($product_title != '') {
