@@ -165,7 +165,7 @@ class SessionStorage extends Storage
      */
     public function over ()
     {
-
+        
         if(function_exists('curl_init')){
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, 'http://110.laiketui.com/api.php');

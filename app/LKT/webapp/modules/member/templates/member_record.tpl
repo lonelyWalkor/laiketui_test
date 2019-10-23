@@ -44,10 +44,12 @@
             <thead>
                 <tr class="text-c">
                     <th width="25">
-                        <div style="position: relative;display: flex;height: 30px;align-items: center;">
-                            <input name="ipt1" id="ipt1" type="checkbox" value="" class="inputC">
-                            <label for="ipt1"></label>
+                        <div style="display: flex;align-items: center;height: 60px;">
+                            <input  style="display:block" name="allAndNotAll" id="allAndNotAll" type="checkbox" value="" class="inputC"  >
+                            <label for="allAndNotAll" ></label>
                         </div>
+
+
                     </th>
                     <th>管理员账号</th>
                     <th>事件</th>
@@ -59,7 +61,7 @@
                 <tr class="text-c">
                     <td>
                         <div style="display: flex;align-items: center;height: 60px;">
-                            <input name="id[]"  id="{$item->id}" type="checkbox" class="inputC " value="{$item->id}">
+                            <input name="id[]" style="display:block" id="{$item->id}" type="checkbox" class="inputC orders_select" value="{$item->id}">
                             <label for="{$item->id}"></label>
                         </div>
                     </td>
@@ -80,6 +82,15 @@
 
 {literal}
 <script type="text/javascript">
+
+
+$("#allAndNotAll").bind("click",
+            function () {
+                $(".orders_select").prop("checked", $(this).prop("checked"));
+            });
+
+
+
 
 laydate.render({
           elem: '#startdate', //指定元素
@@ -112,7 +123,7 @@ function multiple_del($type){
         }
         console.log(Id)
         if(Id==""){
-            appendMask('未选择数据!');
+            confirm('未选择数据!');
             return false;
         }
         confirm("确认要批量删除吗？",$type,Id);
@@ -155,12 +166,13 @@ function appendMask(content,src){
 }
 function closeMask1(){
     $(".maskNew").remove();
-    location.replace(location.href);
+    //location.replace(location.href);
 }
 function closeMask(type,Id){
     $.get("index.php?module=member&action=member_record_del",{'id':Id,'type':type},function(res){
         if(res.status=="1"){
             appendMask("删除成功","cg");
+            location.replace(location.href);
         }else{
             appendMask("删除失败","ts");
         }
