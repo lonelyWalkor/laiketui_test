@@ -194,6 +194,24 @@ $checked_attr_list = [];
             }
 
         }
+        if($attr_group_list){
+            foreach ($attr_group_list as $k => $v) {
+                $re11 = 0;
+                $v['status'] = false;
+                if($v['attr_list']){
+                    foreach ($v['attr_list'] as $ke001 => $va001) {
+                        if($va001['status'] == true){
+                            $re11 =$re11 +1 ;
+                        }
+                    }
+                }
+                if(count($v['attr_list']) == $re11){
+                    $attr_group_list[$k]['status'] = true;
+                                    
+                }
+                unset($re11);
+            }
+        }
     }
     if($initial != ''){
         $initial = unserialize($initial);

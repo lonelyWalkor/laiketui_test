@@ -161,17 +161,17 @@ class userAction extends Action {
         // 查询插件表里,状态为启用的插件
         $sql = "select id,subtitle_name,subtitle_image,subtitle_url,code from lkt_plug_ins where status = 1 and type = 0 and software_id = 3 order by sort";
         $r_c = $db->select($sql);
-        // if($r_c){
-        //     foreach ($r_c as $k => $v) {
-        //         $v->subtitle_image = $img . $v->subtitle_image;
-        //         if(strpos($v->code,'红包') !== false){ 
-        //             if(!$rfhb){
-        //                 unset($r_c[$k]);
-        //             }
-        //         }
-        //     }
+        if($r_c){
+            foreach ($r_c as $k => $v) {
+                $v->subtitle_image = $img . $v->subtitle_image;
+                // if(strpos($v->code,'红包') !== false){ 
+                //     if(!$rfhb){
+                //         unset($r_c[$k]);
+                //     }
+                // }
+            }
 
-        // }
+        }
         $support = '来客电商提供技术支持';
         // 状态 0：未付款 1：未发货 2：待收货 3：待评论 4：退货 5:已完成 6 订单关闭 9拼团中 10 拼团失败-未退款 11 拼团失败-已退款
         // 抽奖状态（0.参团中 1.待抽奖 2.参团失败 3.抽奖失败 4.抽奖成功）
