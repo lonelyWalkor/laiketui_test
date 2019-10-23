@@ -431,12 +431,12 @@ a{
             <div style="height:30px; border-left:solid 1px #fff;">
                 <input type="hidden" name="module" value="userlist"  />
                 <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
-                <input type="text" class="input-text" style="width:200px" autocomplete="off" placeholder="用户名" name="name" value="{$name}">
+                <input type="text" class="input-text" style="width:200px" autocomplete="off" placeholder="用户名/用户ID" name="name" value="{$name}">
                 <input type="text" class="input-text" style="width:200px" placeholder="手机号码" name="tel" value="{$tel}">
                 <select name="source" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
                     <option value="0" selected>用户来源</option>
                     <option value="1" {if $source == 1} selected {/if}>小程序</option>
-                    <option value="2" {if $source == 2} selected {/if}>手机app</option>
+                    <option value="2" {if $source == 2} selected {/if}>APP</option>
                 </select>
                 <div style="position: relative;display: inline-block;">
 					<input name="startdate" value="{$startdate}" id="startdate" placeholder="请输入开始时间"  size="8" readonly class="scinput_s iptRl" style="" />
@@ -454,16 +454,13 @@ a{
     </div>
 
     <div class="mt-20">
-        <div style="width:80%;margin:20px 0 20px 0px;height: 41px;line-height: 41px;display: flex; align-items: center;">
-        	<input type="checkbox" id="allAndNotAll"/>
-        	<label for="allAndNotAll" id="qxIpt" style="height: 29px;line-height: 29px;">全选</label>
-           	
-        </div>
+        
         <div class="mt-20 table-scroll" style="overflow: scroll; width: 100%; height: 495px;">
         <table class="table table-border table-bordered table-bg table-hover">
             <thead>
                 <tr class="text-c">
-                    <th width="40">选择</th>
+                    <th width="40"><input type="checkbox" id="allAndNotAll"/>
+            <label for="allAndNotAll" id="qxIpt" style="height: 29px;line-height: 29px;">全选</label></th>
                     <th width="50">用户ID</th>
                     <th width="100">头像</th>
                     <th width="150">用户昵称</th>

@@ -39,7 +39,7 @@ class IndexAction extends Action {
         }
 		$condition = '';
 		if($name != ''){
-			$condition .= " and user_name like '%$name%' ";
+			$condition .= " and (user_name like '%$name%' or user_id = '$name') ";
 		}
 		
 		if($tel != ''){
