@@ -24,20 +24,25 @@
 </head>
 
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 系统管理 <span class="c-gray en">&gt;</span> 退货地址设置 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb">
+    配置管理 <span class="c-gray en">&gt;</span> 
+    售后地址设置
+</nav>
+
+
 <div class="page-container">
     <form name="form1" action="index.php?module=return&action=set" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
         <div id="tab-system" class="HuiTab">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>联系人：</label>
                 <div class="formControls col-xs-8 col-sm-6">
-                    <input type="text" name="name" autocomplete="off" value="{$list->name}" class="input-text">
+                    <input style="width:200px" type="text" name="name" autocomplete="off" value="{$list->name}" class="input-text">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>联系电话：</label>
                 <div class="formControls col-xs-8 col-sm-6">
-                    <input type="text" name="tel" autocomplete="off" value="{$list->tel}" class="input-text">
+                    <input style="width:200px" type="text" name="tel" autocomplete="off" value="{$list->tel}" class="input-text">
                 </div>
             </div>
 
