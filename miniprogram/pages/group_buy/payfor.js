@@ -5,6 +5,7 @@ function initSubMenuDisplay() {
 }
 Page({
   data: {
+    isbtn: false,
     pays: [],
     subMenuDisplay: initSubMenuDisplay(),
     itemData: {},
@@ -299,33 +300,65 @@ Page({
   // 提交订单支付
   createProductOrderByWX: function(e) {
     var that = this;
+
+    if (that.data.isbtn) {
+      return
+    }
+
+    // 开启按钮点击限制
+    that.setData({
+      isbtn: true
+    })
+
+    console.log(this.data.isbtn)
+
+
     if (parseInt(that.data.proattr.have) >= parseInt(that.data.groupres.groupnum) && that.options.pagefrom == 'cantuan') {
+
       wx.showToast({
         title: '抱歉，最多只能同时拼' + that.data.groupres.groupnum + '个团！',
         icon: 'none',
         duration: 2000
       })
+      // 关闭按钮点击限制
+      that.setData({
+        isbtn: false
+      })
+
     } else if (that.data.dat.open_num <= that.data.dat.num && that.options.pagefrom == 'kaituan') {
+
       wx.showToast({
         title: '抱歉，最多只能同时开' + that.data.dat.open_num + '个团！',
         icon: 'none',
         duration: 2000
       })
+      // 关闭按钮点击限制
+      that.setData({
+        isbtn: false
+      })
+
     } else {
+
       that.setData({
         form_id: e.detail.formId
       })
+
       var paytype = that.data.paytype;
+
       if (paytype) {
+
         that.setData({
           paytype: paytype,
         });
+
       } else {
+
         wx.showToast({
           title: '已为您选择默认支付方式！',
           icon: 'none',
           duration: 1500,
         });
+
         //当都没有选中时 循环找到默认的支付方式 在设置支付方式数据
         var pays = that.data.pays,
           j = 0;
@@ -341,7 +374,9 @@ Page({
       }
 
       var address = e.detail.value.address;
+
       if (address) {
+
         wx.request({
           url: app.d.ceshiUrl + '&action=groupbuy&m=isgrouppacked',
           method: 'post',
@@ -352,7 +387,9 @@ Page({
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           success: function(res) {
+
             if (Number(res.data.hasnum) >= Number(that.data.groupres.man_num)) {
+
               wx.showModal({
                 content: "此团已满，请选择其他团或重新开团!",
                 showCancel: false,
@@ -364,8 +401,10 @@ Page({
                 }
               })
             } else {
+
               // 收货地址存在
               if (paytype == 'wallet_Pay') {
+
                 wx.showModal({
                   title: '余额支付',
                   content: '是否使用余额支付？',
@@ -373,21 +412,35 @@ Page({
                     if (res.confirm) {
                       //组合支付 替换数据
                       that.wallet_pay()
+                    } else if (res.cancel){
+                      // 关闭按钮点击限制
+                      that.setData({
+                        isbtn: false
+                      })
                     }
                   }
                 })
               } else {
+
                 that.wxpay();
+
               }
+
             }
           }
         })
       } else {
+
         // 没有收货地址
         wx.showToast({
           title: "请添加收货地址!",
           duration: 3000
         });
+
+        // 关闭按钮点击限制
+        that.setData({
+          isbtn: false
+        })
       }
     }
   },
@@ -419,6 +472,7 @@ Page({
   },
   // 发起钱包支付
   wallet_pay: function() {
+
     var that = this;
     var coupon_money = that.data.coupon_money;
     var user_money = that.data.user_money;
@@ -426,6 +480,7 @@ Page({
     var freight = that.data.freight;
     var total = coupon_money * num + freight;
     if (user_money > coupon_money) {
+
       wx.request({
         url: app.d.ceshiUrl + '&action=product&m=wallet_pay',
         method: 'post',
@@ -437,11 +492,13 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function(res) {
+
           if (that.data.pagefrom == 'kaituan') {
             that.createGroupOrder(1, '')
           } else if (that.data.pagefrom == 'cantuan') {
             that.canGroupOrder(1, '')
           }
+
         },
         fail: function() {
           wx.showToast({
@@ -629,8 +686,12 @@ Page({
   },
   // 调起微信支付
   wxpay: function() {
+
+
     var that = this;
     var cmoney = that.data.coupon_money;
+
+
     wx.request({
       url: app.d.ceshiUrl + '&action=pay&m=pay',
       data: {
@@ -643,9 +704,12 @@ Page({
         'Content-Type': 'application/x-www-form-urlencoded'
       }, // 设置请求的 header
       success: function(res) {
+
         if (res.data) {
+
           var dingdanhao = res.data.out_trade_no;
           // that.up_out_trade_no(1, dingdanhao)
+
           wx.requestPayment({
             timeStamp: res.data.timeStamp,
             nonceStr: res.data.nonceStr,
@@ -662,12 +726,23 @@ Page({
               // that.verification(dingdanhao)
             },
             fail: function(res) {
+
               wx.showModal({
                 content: "取消支付！",
                 showCancel: false,
                 confirmText: "确定",
               })
+
+              // 关闭按钮点击限制
+              that.setData({
+                isbtn: false
+              })
             }
+          })
+        } else {
+          // 关闭按钮点击限制
+          that.setData({
+            isbtn: false
           })
         }
       },
@@ -677,6 +752,7 @@ Page({
           title: '网络异常！err:wxpay',
           duration: 2000
         });
+
       }
     })
   },
@@ -770,6 +846,7 @@ Page({
   },
   verification: function(trade_no) {
     var that = this;
+
     wx.request({
       url: app.d.ceshiUrl + '&action=groupbuy&m=verification',
       method: 'post',
@@ -790,15 +867,19 @@ Page({
           that.detailed(res.data.data.ptcode);
         }
         if (res.data.status) {
+
           wx.showModal({
             content: "恭喜您,拼团成功！",
             showCancel: false,
             confirmText: "确定",
             success: function() {
+
               wx.redirectTo({
                 url: '../group_buy/cantuan?id=' + res.data.data.ptcode + '&groupid=' + that.data.groupres.status + '&pro_id=' +
                   that.data.pro_id + '&man_num=' + that.data.groupres.man_num
               })
+
+
             }
           })
         } else {
@@ -806,6 +887,11 @@ Page({
             content: "参团失败！支付金额已退还到您钱包账户",
             showCancel: false,
             confirmText: "确定",
+          })
+
+          // 关闭按钮点击限制
+          that.setData({
+            isbtn: false
           })
         }
       }
@@ -833,7 +919,7 @@ Page({
     });
   },
 
-  detailed: function(sNo) { //分销
+  detailed: function (sNo) {//分销
     wx.request({
       url: app.d.ceshiUrl + '&action=distribution&m=pt_detailed_commission',
       method: 'post',
