@@ -157,7 +157,9 @@ CREATE TABLE `lkt_banner` (
 
 LOCK TABLES `lkt_banner` WRITE;
 /*!40000 ALTER TABLE `lkt_banner` DISABLE KEYS */;
-INSERT INTO `lkt_banner` VALUES (18,'1541599397768.jpeg','../product/detail?productId=18',9,'2018-06-21 03:33:37');
+INSERT INTO `lkt_banner` VALUES ('20', '1571912030366.png', 'undefined', '100', '2019-10-24 18:13:59');
+INSERT INTO `lkt_banner` VALUES ('21', '1571912056696.png', 'undefined', '100', '2019-10-24 18:14:28');
+INSERT INTO `lkt_banner` VALUES ('22', '1571912083753.png', 'undefined', '100', '2019-10-24 18:14:48');
 /*!40000 ALTER TABLE `lkt_banner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1385,10 +1387,10 @@ CREATE TABLE `lkt_plug_ins` (
 
 LOCK TABLES `lkt_plug_ins` WRITE;
 /*!40000 ALTER TABLE `lkt_plug_ins` DISABLE KEYS */;
-INSERT INTO `lkt_plug_ins` VALUES ('1', '3', '优惠劵', '我的优惠劵', '0', '1541641112751.png', '1541641131972.png', '../coupon/index?currentTab=0&type=receive', '../coupon/index?currentTab=1', '2018-11-08 09:38:53', '2', '1', '', 'YHQ');
-INSERT INTO `lkt_plug_ins` VALUES ('2', '3', '钱包', '我的钱包', '0', '1541641206532.png', '1571904693789.png', '../user/wallet', '../user/wallet', '2019-10-24 16:11:36', '1', '1', '', 'QB');
-INSERT INTO `lkt_plug_ins` VALUES ('3', '3', '签到', '我的积分', '0', '1541641221938.png', '1541641238944.png', '../sign_in/sign_in', '../user/score', '2018-11-08 09:40:39', '4', '1', '', 'QD');
-INSERT INTO `lkt_plug_ins` VALUES ('5', '3', '拼团', '我的拼团', '0', '1541641254824.png', '1571904730253.png', '../group_buy/group', '../order/order?currentTab=0&otype=pay6', '2019-10-24 16:12:12', '5', '1', '', 'PT');
+INSERT INTO `lkt_plug_ins` VALUES ('1', '3', '优惠劵', '我的优惠劵', '0', '1541641112751.png', '1541641131972.png', '../coupon/index?currentTab=0&type=receive', '../coupon/index?currentTab=1', '2018-11-08 17:38:53', '2', '1', '', 'YHQ');
+INSERT INTO `lkt_plug_ins` VALUES ('2', '3', '钱包', '我的钱包', '0', '1571913117990.png', '1571904693789.png', '../user/wallet', '../user/wallet', '2019-10-24 18:31:59', '1', '1', '', 'QB');
+INSERT INTO `lkt_plug_ins` VALUES ('3', '3', '签到', '我的积分', '0', '1541641221938.png', '1541641238944.png', '../sign_in/sign_in', '../user/score', '2018-11-08 17:40:39', '4', '1', '', 'QD');
+INSERT INTO `lkt_plug_ins` VALUES ('5', '3', '拼团', '我的拼团', '0', '1541641254824.png', '1571904730253.png', '../group_buy/group', '../order/order?currentTab=0&otype=pay6', '2019-10-25 00:12:12', '5', '1', '', 'PT');
 
 /*!40000 ALTER TABLE `lkt_plug_ins` ENABLE KEYS */;
 UNLOCK TABLES;
