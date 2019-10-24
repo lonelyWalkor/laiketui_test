@@ -179,10 +179,12 @@ form .select{
             <thead>
             <tr class="text-c">
                 <th width="40">
-                    <div style="position: relative;display: flex;height: 30px;align-items: center;">
-                        <input name="ipt1" id="ipt1" type="checkbox" value="" class="inputC">
-                        <label for="ipt1"></label>
+                    
+                    <div style="display: flex;align-items: center;height: 60px;">
+                            <input  style="display:block" name="ipt1" id="ipt1" type="checkbox" value="" class="inputC"  >
+                            <label for="ipt1" ></label>
                     </div>
+
                 </th>
                 {*<th>商品编号</th>*}
                 <th>商品图片</th>
@@ -202,7 +204,7 @@ form .select{
                 <tr class="text-c">
                     <td >
                         <div style="display: flex;align-items: center;height: 60px;">
-                            <input name="id[]"  id="{$item->id}" type="checkbox" class="inputC " value="{$item->id}">
+                            <input name="id[]"  id="{$item->id}" type="checkbox" class="inputC orders_select" value="{$item->id}">
                             <label for="{$item->id}"></label>
                         </div>
                     </td>
@@ -296,6 +298,16 @@ form .select{
 
 {literal}
 <script type="text/javascript">
+
+
+
+$("#ipt1").bind("click",
+            function () {
+                $(".orders_select").prop("checked", $(this).prop("checked"));
+            });
+
+
+/*
     // 关联全选
     $('.table').on("change",".inputC",function(e){
         if($(this).attr('id')!='ipt1'){
@@ -441,6 +453,7 @@ form .select{
             }
         }
     })
+*/
     
 function empty() {
     location.replace('index.php?module=product');
