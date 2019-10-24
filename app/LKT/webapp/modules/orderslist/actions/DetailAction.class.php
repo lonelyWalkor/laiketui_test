@@ -50,14 +50,17 @@ class DetailAction extends Action {
       $sql = 'select u.user_name,l.sNo,l.name,l.mobile,l.sheng,l.shi,l.z_price,l.xian,l.status,l.address,l.pay,l.trade_no,l.coupon_id,l.reduce_price,l.coupon_price,l.allow,l.drawid,l.otype,d.user_id,d.p_id,d.p_name,d.p_price,d.num,d.unit,d.add_time,d.deliver_time,d.arrive_time,d.r_status,d.content,d.express_id,d.courier_num,d.sid,d.size,d.freight from lkt_order_details as d left join lkt_order as l on l.sNo=d.r_sNo left join lkt_user as u on u.user_id=l.user_id  where l.id="'.$id.'"';
 
       $res = $db -> select($sql);
-        $num = count($res);
+      $num = count($res);
       $data = array();
-        $reduce_price = 0; // 满减金额
-        $coupon_price = 0; // 优惠券金额
-        $allow = 0; // 积分
-        $freight =0;
-        $z_price =0;
-        $courier_num111=array();
+      $reduce_price = 0; // 满减金额
+      $coupon_price = 0; // 优惠券金额
+      $allow = 0; // 积分
+      $freight =0;
+      $z_price =0;
+      $courier_num111=array();
+
+      $o_price = $res[0]->z_price;//修改后的价格
+
       foreach ($res as $k => $v) { 
         $sid = $v -> sid;
         $freight=$freight+$v -> freight;
@@ -95,16 +98,16 @@ class DetailAction extends Action {
 
         $data['courier_num'] = $v -> courier_num; // 快递单号
 
-          $data['drawid'] = $v -> drawid; // 抽奖ID
-          $data['coupon_price'] = $v -> coupon_price; // 快递单号
-          $reduce_price = $v -> reduce_price; // 满减金额
-          $coupon_price = $v -> coupon_price; // 优惠券金额
-          $allow = $v -> allow; // 积分
+        $data['drawid'] = $v -> drawid; // 抽奖ID
+        $data['coupon_price'] = $v -> coupon_price; // 快递单号
+        $reduce_price = $v -> reduce_price; // 满减金额
+        $coupon_price = $v -> coupon_price; // 优惠券金额
+        $allow = $v -> allow; // 积分
 
         $data['paytype'] = $v -> pay; // 支付方式
 
-          $data['trade_no'] = $v -> trade_no; // 微信支付交易号
-          $data['freight'] = $v -> freight; // 运费
+        $data['trade_no'] = $v -> trade_no; // 微信支付交易号
+        $data['freight'] = $v -> freight; // 运费
         $data['id'] = $id;
 
         $exper_id = $v -> express_id;
@@ -192,8 +195,9 @@ class DetailAction extends Action {
 
             
             
-            $data['courier_num'] = $courier_num111; // 快递单号
+      $data['courier_num'] = $courier_num111; // 快递单号
       $data['freight'] =$freight;
+      $data['o_price'] =$o_price;
       $data['z_price'] =$z_price;
 
    // print_r($data);die;

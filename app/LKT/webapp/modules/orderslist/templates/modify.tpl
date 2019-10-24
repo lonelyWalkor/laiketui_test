@@ -291,6 +291,31 @@
             display: flex;
             justify-content: flex-end;
         }
+
+        .butten_o {
+            width: 112px;
+            height: 36px;
+            background: inherit;
+            background-color: rgba(16, 142, 233, 1);
+            border: none;
+            border-radius: 4px;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            font-family: 'MicrosoftYaHei', 'Microsoft YaHei';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 14px;
+            color: #FFFFFF;
+            text-align: center;
+            line-height: 36px;
+            margin-top: 20px;
+        }
+        
+        .butten_o:hover{background-color: #2481E5;}
+
+        
+
     </style>
 
     <SCRIPT language=javascript>
@@ -528,9 +553,12 @@
                 <span>优惠合计：-￥{$reduce_price+$coupon_price} 元</span>
                 &nbsp;
                 <span>合计支付： ￥
+                    {if $data.z_price>$data.o_price}
+                    <input type="text" id="s_z_price"  name="s_z_price" value="{$data.o_price}" />
+                    {else}
                     <input type="text" id="s_z_price"  name="s_z_price" value="{$data.freight+$data.z_price-$reduce_price-$coupon_price}" />
+                    {/if}
                     
-
                     元</span>
             </div>
 
@@ -541,11 +569,15 @@
 
         </aside>
 
-        <div style="height:50px"></div>
 
-        <div class="btnont">
-            <button onclick="tijiao()" type="button" class="butten_o btn-right" style="float: right;">保存</button>
+        <div style="background-color: white;" class="row_cl">
+                <div style="float:  right;margin-right: 10px;width: 112px;">
+                    <button onclick="tijiao()" type="button" class="butten_o">保存</button>
+                </div>
+                <div style="clear: both;height: 20px;"></div>
         </div>
+
+
         <div id="outerdiv"
             style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
             <div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" /></div>

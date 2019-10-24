@@ -185,11 +185,12 @@ class ModifyAction extends Action {
                 $courier_num111=$arr;
             }
 
-            
-            
-      $data['courier_num'] = $courier_num111; // 快递单号
-      $data['freight'] =$freight;
-      $data['z_price'] =$z_price>$o_price?$o_price:$z_price;
+
+    $data['courier_num'] = $courier_num111; // 快递单号
+    $data['freight'] =$freight;
+    $data['o_price'] =$o_price;
+    $data['z_price'] =$z_price;
+    
 
    if($data['otype'] == 'pt'){
 
