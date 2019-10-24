@@ -176,9 +176,9 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
             <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>图片：</label>
             <div class="formControls col-xs-8 col-sm-6"> 
                 {if $img != ''}
-                    <img id="thumb_url" class="cimage" src='{$uploadImg}{$img}' style="height:100px;width:150px;">
+                    <img id="thumb_url" class="cimage" src='{$uploadImg}{$img}' style="height:60px;width:60px;">
                 {else}
-                    <img id="thumb_url" class="cimage" src='{$uploadImg}noimg.jpg' style="height:100px;width:150px;">
+                    <img id="thumb_url" class="cimage" src='{$uploadImg}noimg.jpg' style="height:60px;width:60px;">
                 {/if}
                 <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
                 <input type="hidden" name="oldpic" value="{$img}" >
@@ -190,7 +190,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>分类展示图片：</label>
             <div class="formControls col-xs-8 col-sm-6"> 
-                <img id="thumb_urlbg" class="cbg" src="{$uploadImg}{if $bg != ''}{$bg}{else}noimg.jpg{/if}" style="height:100px;width:150px">
+                <img id="thumb_urlbg" class="cbg" src="{$uploadImg}{if $bg != ''}{$bg}{else}noimg.jpg{/if}" style="height:145px;width:220px">
                 <input type="hidden"  id="picurlbg" name="bg" datatype="*" nullmsg="请选择图片"/> 
                 <input type="hidden" name="oldpicbg" value="{$bg}" >
                 <div>展示图尺寸:220*145</div>
@@ -208,7 +208,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
 
         <div class="row cl">
             <label class="form-label col-4"></label>
-            <div class="form-label col-4">
+            <div class="formControls col-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
                 
                 <input type="button" name="reset" value="返回"  class="btn btn-primary radius" id="resetId" onclick="javascript :history.back(-1);">
@@ -294,7 +294,7 @@ KindEditor.ready(function(K) {
   K('.cimage').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurl').val(),
           clickFn : function(url, title, width, height, border, align) {
@@ -308,7 +308,7 @@ KindEditor.ready(function(K) {
   K('.cbg').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurlbg').val(),
           clickFn : function(url, title, width, height, border, align) {

@@ -118,7 +118,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>图片：</label>
             <div class="formControls col-xs-8 col-sm-6"> 
-                <img id="thumb_url" src='{$uploadImg}noimg.jpg' class="cinage"  style="height:100px;width:150px;">
+                <img id="thumb_url" src='{$uploadImg}noimg.jpg' class="cinage"  style="height:60px;width:60px;">
                 <input type="hidden"  id="picurl" name="image" datatype="*"nullmsg="请选择图片"/> 
                 <input type="hidden" name="oldpic" value="" >
                 <div>图片尺寸:60*60</div>
@@ -129,7 +129,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-4"><span class="c-red"></span>分类展示图片：</label>
             <div class="formControls col-xs-8 col-sm-6"> 
-                <img id="thumb_urlbg" src='{$uploadImg}noimg.jpg' class="bg" style="height:100px;width:150px">
+                <img id="thumb_urlbg" src='{$uploadImg}noimg.jpg' class="bg" style="height:60px;width:60px">
                 <input type="hidden"  id="picurlbg" name="bg" datatype="*" nullmsg="请选择图片"/> 
                 <input type="hidden" name="oldpic" value="" >
                 <div>展示图尺寸:220*145</div>
@@ -146,7 +146,7 @@
         </div>
         <div class="row cl">
             <label class="form-label col-4"></label>
-            <div class="orm-label col-4">
+            <div class="formControls col-4">
                 <input type="submit" name="Submit" value="提 交" class="btn btn-primary radius">
                 <input type="button" name="reset" value="返 回"  class="btn btn-primary radius" id="resetId" onclick="javascript:location.href='index.php?module=product_class';">
                 <!-- <input type="reset" name="reset" value="清 空"  class="btn btn-primary radius"> -->
@@ -225,7 +225,7 @@ KindEditor.ready(function(K) {
   K('.cinage').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        // showRemote : false, //网络图片不开启
+         showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurl').val(),
           clickFn : function(url, title, width, height, border, align) {
@@ -240,12 +240,13 @@ KindEditor.ready(function(K) {
   K('.bg').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        // showRemote : false, //网络图片不开启
+         showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurlbg').val(),
           clickFn : function(url, title, width, height, border, align) {
           K('#picurlbg').val(url);
           $('#thumb_urlbg').attr("src",url);
+          $('#thumb_urlbg').attr("style","width:220px;height:145px");
           editor.hideDialog();
         }
       });
