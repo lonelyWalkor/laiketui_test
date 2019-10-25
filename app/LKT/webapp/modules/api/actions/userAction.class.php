@@ -289,7 +289,7 @@ class userAction extends Action {
             $list_3 = [];
             if($r_5){
                 foreach ($r_5 as $k => $v) {
-                    if($v->type == 4 || $v->type == 6||$v->type == 12||$v->type == 11||$v->type == 2||$v->type == 21){
+                    if($v->type == 4 || $v->type == 6||$v->type == 12||$v->type == 11){
                         $v->time = substr($v->add_date,0,strrpos($v->add_date,':'));
                         $list_1[$k]=$v;
                     }
@@ -299,7 +299,7 @@ class userAction extends Action {
                     }
                 }
             }
-            $sql = "select money,add_date from lkt_record where user_id = '$user_id' and type = 21 order by add_date desc";
+            $sql = "select money,add_date,type from lkt_record where user_id = '$user_id' and type in (2,21,22) order by add_date desc";
             $r_6 = $db->select($sql);
             if($r_6){
                 foreach ($r_6 as $k => $v) {

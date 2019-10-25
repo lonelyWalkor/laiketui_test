@@ -64,7 +64,6 @@
             </view>
             <view class='obtain_bt_2' wx:if="{{item.type == 2 || item.type == 4 || item.type == 6 || item.type == 11 || item.type == 12 || item.type == 21 }}">
               -{{item.money}}
-              <text class='my_money' wx:if="{{item.type == 2}}">(申请提现)</text>
               <text class='my_money' wx:if="{{item.type == 4}}">(消费)</text>
               <text class='my_money' wx:if="{{item.type == 6}}">(红包)</text>
               <text class='my_money' wx:if="{{item.type == 11}}">(系统扣款)</text>
@@ -99,12 +98,11 @@
             </view>
             <view class='obtain_bt_2' wx:if="{{item.type == 2 || item.type == 4 || item.type == 6 || item.type == 11 || item.type == 12 || item.type == 21 }}">
               -{{item.money}}
-              <text class='my_money' wx:if="{{item.type == 2}}">(申请提现)</text>
               <text class='my_money' wx:if="{{item.type == 4}}">(消费)</text>
               <text class='my_money' wx:if="{{item.type == 6}}">(红包)</text>
               <text class='my_money' wx:if="{{item.type == 11}}">(系统扣款)</text>
               <text class='my_money' wx:if="{{item.type == 12}}">(转好友)</text>
-              <text class='my_money' wx:if="{{item.type == 21}}">(提现成功)</text>
+              
             </view>
             <view class='obtain_bt_2' wx:if="{{item.type == 1 || item.type == 5 || item.type == 13 || item.type == 7|| item.type == 14 || item.type == 22 || item.type == 23 || item.type == 24}}">
               +{{item.money}}  
@@ -113,7 +111,6 @@
               <text class='my_money' wx:if="{{item.type == 7}}">(返佣)</text>
               <text class='my_money' wx:if="{{item.type == 13}}">(转入)</text>
               <text class='my_money' wx:if="{{item.type == 14}}">(系统充值)</text>
-              <text class='my_money' wx:if="{{item.type == 22}}">(提现失败)</text>
               <text class='my_money' wx:if="{{item.type == 23}}">(取消订单)</text>
                <text class='my_money' wx:if="{{item.type == 24}}">(分享)</text>
             </view>
@@ -143,7 +140,7 @@
               <text class='my_money' >(失败)</text>
             </view>
             <view class='obtain_bt_2' wx:if="{{item.type == 2}}">
-              {{item.money}}
+              -{{item.money}}
               <text class='my_money' >(申请)</text>
             </view>
           </view>

@@ -57,7 +57,7 @@ td a{
 			<input type="hidden" name="module" value="finance" />
 			<input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
-			<input type="text" class="input-text" style="width:250px" autocomplete="off" placeholder="用户名" name="name" value="{$name}">
+			<input type="text" class="input-text" style="width:250px" autocomplete="off" placeholder="用户ID" name="name" value="{$name}">
 			<input type="text" class="input-text" style="width:250px" autocomplete="off" placeholder="卡号" name="Bank_card_number" value="{$Bank_card_number}">
 			<input type="text" class="input-text" style="width:250px" autocomplete="off" placeholder="持卡人姓名" name="Cardholder" value="{$Cardholder}">
 	        <input type="submit" class="btn btn-success" value="查 询">
@@ -71,7 +71,7 @@ td a{
             <thead>
                 <tr class="text-c">
                 	<th width="40">序</th>
-		            <th width="150" aria-valuetext="name">用户名</th>
+		            <th width="150" aria-valuetext="name">用户ID</th>
 					<th width="130" aria-valuetext="source">来源</th>
 					<th width="130" aria-valuetext="add_date">提交时间</th>
 		            <th width="150" aria-valuetext="money">提现金额</th>
@@ -88,7 +88,7 @@ td a{
 	            {foreach from=$list item=item name=f1}
 	                <tr class="text-c">
 	                    <td>{$smarty.foreach.f1.iteration}</td>
-						<td>{$item->name}</td>
+						<td>{$item->user_id}</td>
 						<td>{if $item->source == 1}小程序{elseif $item->source == 2}app{/if}</td>
 	                    <td>{$item->add_date}</td>
 	                    <td>{$item->money}元</td>
@@ -99,14 +99,7 @@ td a{
 	                    <td>{$item->mobile}</td>
 	                    <td>{if $item->status == 0}<span style="color: #ff2a1f;">待审核</span>{elseif $item->status == 1}<span style="color: #30c02d;">审核通过</span>{else}<span style="color: #7A7A7A;">已拒绝</span>{/if}</td>
 	                    <td style="min-width: 180px">
-							<a style="text-decoration:none" class="ml-5" href="index.php?module=finance&action=see&user_id={$item->user_id}" title="查看">
-								<div style="align-items: center;font-size: 12px;display: flex;">
-	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
-	                                <img src="images/icon1/ck.png"/>&nbsp;查看
-	                            	</div>
-                        		</div>
-							</a>
-
+							
 							{if $item->status == 0}
 	                        <a style="text-decoration:none" class="ml-5" onclick="examine(this,1,'{$item->id}','{$item->user_id}','{$item->money}','{$item->s_charge}')" >
 		                        <div style="align-items: center;font-size: 12px;display: flex;">
