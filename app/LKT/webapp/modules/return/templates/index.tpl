@@ -479,7 +479,7 @@ i{
     <div class="text-c"> 
         <form name="form1" action="index.php" method="get">
             <input type="hidden" name="module" value="return" />
-            <input type="text" name="p_name" size='8' value="{$p_name}" id="" placeholder="订单号" autocomplete="off" style="width:200px" class="input-text">
+            <input type="text" name="p_name" size='8' value="{$p_name}" id="" placeholder="订单号/用户ID" autocomplete="off" style="width:200px" class="input-text">
             <select name="r_type" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
                 <option value="">订单状态</option>
 <option {if $r_type == 1}selected="selected"{/if} value="1">审核中</option>
@@ -505,8 +505,8 @@ i{
         <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
                 <tr class="text-c">
-                    <th>序号</th>
-                    <th width="150" aria-valuetext="user_id">用户id</th>
+                    <th width="50">序号</th>
+                    <th width="150" aria-valuetext="user_id">用户ID</th>
                     <th width="130" aria-valuetext="p_name">产品名称</th>
                     <th width="150" aria-valuetext="p_price">产品价格</th>
                     <th width="150" aria-valuetext="num">数量</th>

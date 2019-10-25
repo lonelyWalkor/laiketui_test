@@ -17,7 +17,7 @@ class IndexAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
-        $p_name = addslashes(trim($request->getParameter('p_name'))); // 产品名称
+        $p_name = addslashes(trim($request->getParameter('p_name'))); 
         $startdate = $request->getParameter("startdate");
         $enddate = $request->getParameter("enddate");
         $pageto = $request->getParameter('pageto'); // 导出
@@ -31,7 +31,7 @@ class IndexAction extends Action {
 
         $condition = ' r_status = 4 ';
         if($p_name != ''){
-            $condition .= " and r_sNo like '%$p_name%' ";
+            $condition .= " and (r_sNo like '%$p_name%' or user_id like '%$p_name%' ) ";
         }
         if($r_type){
 
