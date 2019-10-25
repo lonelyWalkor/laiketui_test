@@ -26,7 +26,7 @@
 			<input type="hidden" name="module" value="finance" />
 			<input type="hidden" name="action" value="recharge" />
 			<input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
-			<input type="text" class="input-text" style="width:250px" placeholder="账号" autocomplete="off" name="zhanghao" value="{$zhanghao}">
+			<input type="text" class="input-text" style="width:250px" placeholder="用户ID" autocomplete="off" name="zhanghao" value="{$zhanghao}">
 			<input type="text" class="input-text" style="width:250px" placeholder="手机号" autocomplete="off" name="mobile" value="{$mobile}">
 			<input type="text" class="input-text" style="width:250px" placeholder="昵称" autocomplete="off" name="user_name" value="{$user_name}">
 			<input type="submit" class="btn btn-success" value="查 询">
