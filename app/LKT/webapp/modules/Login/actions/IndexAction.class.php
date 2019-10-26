@@ -66,7 +66,6 @@ class IndexAction extends Action {
         
         // 查询表lkt_admin里的用户名,密码,权限.根据输入的用户名在数据库存在，而且输入的密码要跟数据库密码一样
 		$sql = "select id,name,password,admin_type,permission,status from lkt_admin where BINARY name = '$name' and password = '$password' ";
-
 		$result = $db->select($sql);
 		if(!$result){
 			// 没有查询到匹配值就在lkt_record表里添加一组数据

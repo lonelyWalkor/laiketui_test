@@ -76,7 +76,8 @@ class LoginFilter extends Filter {
                         $rew .= '&action=index';
                     }
                 }
-                if($r[0]->admin_type!=1 && !in_array($rew,$permission)){
+
+                if($r[0]->admin_type!=1 && !in_array(strtolower($rew),array_map('strtolower',$permission)) ){
                     header("Location: index.php?module=permission");
                     return;
                 }else{
