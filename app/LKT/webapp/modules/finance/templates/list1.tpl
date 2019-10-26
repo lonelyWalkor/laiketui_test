@@ -72,7 +72,7 @@
 		            <th width="150" aria-valuetext="Bank_card_number">卡号</th>
 		            <th width="150" aria-valuetext="mobile">联系电话</th>
 		            <th width="100" aria-valuetext="name">状态</th>
-					<th width="100">操作</th>
+					
 				</tr>
             </thead>
             <tbody>

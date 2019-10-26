@@ -40,7 +40,7 @@ class jifenAction extends Action {
 
         $condition = ' 1=1 ';
         if($user_name){
-            $condition .= " and b.user_name = '$user_name' ";
+            $condition .= " and (b.user_name = '$user_name' or b.user_id='$user_name') ";
         }
         if($mobile){
             $condition .= " and b.mobile = '$mobile' ";
