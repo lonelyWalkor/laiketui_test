@@ -6,19 +6,7 @@
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 require_once(MO_LIB_DIR . '/Tools.class.php');
 class IndexAction extends Action {
-// getContext() 检索当前应用程序上下文。
-// getRequest() 检索请求。
-// getUser() 检索用户。
-// setAuthenticated() 设置该用户的身份验证状态。
-// setAttribute() 设置一个属性。
-// strtolower() 把所有字符转换为小写
-// getParameter() 获取参数
-// unserialize() 从已存储的表示中创建 PHP 的值
-// getStorage() 检索存储。
-// write() 将数据写入此存储。
-// redirect() 将请求重定向到另一个URL。
-// isset() 检测变量是否设置 
-// trim() 去除字符串首尾处的空白字符
+
 	public function getDefaultView() {
 		$request = $this->getContext()->getRequest();
 		$this->getContext()->getUser()->setAuthenticated(false);
@@ -26,6 +14,7 @@ class IndexAction extends Action {
         $request->setAttribute("password",$request->getParameter("password"));
 		return View :: INPUT;
 	}
+
 	function get_client_ip($type = 0,$client=true) 
 	{
         $type       =  $type ? 1 : 0;
@@ -73,6 +62,7 @@ class IndexAction extends Action {
 			$r= $db -> update($sql);
 			$this ->jump('index.php?module=Login','登录失败！');
 		}
+
 		// 获取管理员id、管理员类型和管理员许可信息
 		$admin_id = $result[0]->name;
 		$admin_type = $result[0]->admin_type;
@@ -83,15 +73,16 @@ class IndexAction extends Action {
         }
         // 生成session_id
         $access_token = session_id();
-        //修改token
         $ip = $this->get_client_ip();
         $aid = $result[0]->id;
+        //修改token
         $sql = "update lkt_admin set token = '$access_token',ip = '$ip' where id = '$aid'";
         $db -> update($sql);
         // 在lkt_record表里添加一条消息
 		$sql="insert into lkt_record (user_id,event) values ('$name','登录成功')";
 		$r= $db -> update($sql);
         $db->admin_record($name,' 登录成功 ',0);
+
         // 设置该用户为登录状态
 		$this->getContext()->getUser()->setAuthenticated(true);
 		// 将数据存储起来
@@ -104,6 +95,7 @@ class IndexAction extends Action {
 		}
 		$this->getContext()->getStorage()->write('uploadImg',$uploadImg);
         $login_time = time();
+
         $this->getContext()->getStorage()->write('login_time',$login_time);
 		$this->getContext()->getStorage()->write('admin_id',$admin_id);
 		$this->getContext()->getStorage()->write('admin_type',$admin_type);
@@ -118,17 +110,16 @@ class IndexAction extends Action {
 	}
 
 	function jump($url,$msg=null){
-	//header("Content-type:text/html;charset=utf-8");
-	if($msg){
-		echo "<script type='text/javascript'>" .
-				"alert('$msg');" .
-				"location.href='$url';</script>";
-	}else{
-		echo "<script type='text/javascript'>" .
-				"location.href='$url';</script>";
+		if($msg){
+			echo "<script type='text/javascript'>" .
+					"alert('$msg');" .
+					"location.href='$url';</script>";
+		}else{
+			echo "<script type='text/javascript'>" .
+					"location.href='$url';</script>";
+		}
+		exit;
 	}
-	exit;
-}
 
 	
 }
