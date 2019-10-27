@@ -13,46 +13,19 @@ class IndexAction extends Action
     {
 
         if(is_file('../data/install.lock')){
-
-
             header("Content-type: text/html;charset=utf-8");
-
-
-                    echo"<script language='javascript'>" .
-
-
+                echo"<script language='javascript'>" .
                         "alert('已经成功安装了laiketui，请不要重复安装!');" .
-
-
                         "location.href='../index.php';</script>";
-
-
                     return ;
-
-
         }
 
-
         $type = true;
-
-
         $num = 0;
-
-
         $_SESSION['install_error'] = $type;
-
-
         $this->getContext()->getStorage()->write('step',$num);
-
-
         return View::SUCCESS;
-
-
     }
-
-
-
-
 
     public function getRequestMethods ()
     {

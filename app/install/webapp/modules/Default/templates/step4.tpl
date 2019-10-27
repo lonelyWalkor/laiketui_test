@@ -9,142 +9,51 @@
 	</head>
 	<body>
 
-
-
 		<div class="border">
 
-
-
 			<div class="header">
-
-
-
 				<span class="logo"></span>
-
-
-
 				<span class="intro">安装向导</span>
-
-
-
 			</div>
-
 
 
 			<div class="install_steps">
-
-
-
 				<div class="steps  active"><span class="num">1</span>安装协议
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
-
-
 
 				<div class="steps  active"><span class="num">2</span>环境检测
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
-
-
 
 				<div class="steps active"><span class="num">3</span>创建数据库
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
-
-
 
 				<div class="steps active"><span class="num">4</span>安装
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
-
-
 
 				<div class="steps active"><span class="num">5</span>完成
-
-
-
 					<span class="arrow"></span>
-
-
-
 				</div>
 
-
-
 			</div>
-
-
 
 			<div class="rule_title">来客电商 V2.0<span>安装协议</span></div>
-
-
-
 			<div class="rules" style="height:300px">
 
-
-
-	
-
-
-
-                
-
-
-
-      <h1>完成</h1>
-
-
-
-    <p>安装完成！</p>
-
-
+      			<h1>完成</h1>
+				<p>安装完成！</p>
 
 			</div>
 
-
-
 		    <div class="btn_group">
-
-		    	<div class="agree">  <a  href="../">登录后台</a></div>
-
-
+		    	<a  href="../"><div class="agree">登录后台</div></a>
 		    </div>
 
-
-
 		</div>
+	
 
-
-
-	</body>
-
-
-
+</body>
 </html>
-
-
-

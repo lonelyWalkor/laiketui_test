@@ -42,252 +42,78 @@
 
 			 <h1 style="text-align:center;">环境检测</h1>
 
-       <table class="table">
-
-        <caption><h2>运行环境检查</h2></caption>
-        <thead>
-            <tr>
-
-
-
-                <th>项目</th>
-
-
-
-                <th>所需配置</th>
-
-
-
-                <th>当前配置</th>
-
-
-
-            </tr>
-
-
-
-        </thead>
-
-
-
-        <tbody>
-
-
-
-            {foreach from=$functions item=item name=f1}
-
-
-
-                <tr>
-
-
-
-                    <td>{$item[0]}</td>
-
-
-
-                    <td>{$item[1]}</td>
-
-
-
-                    <td><i class="iconfont ico-{$item[4]}">&nbsp;</i>{$item[3]}</td>       
-
-
-
-                </tr>
-
-
-
-            {/foreach}
-
-
-
-        </tbody>
-
-
-
-    </table>
-
-
-
-    <!-- /需要判断/ -->
-
-
-
-    <table class="table">
-
-
-
-        <caption><h2>目录、文件权限检查</h2></caption>
-
-
-
-        <thead>
-
-
-
-            <tr>
-
-
-
-                <th>目录/文件</th>
-
-
-
-                <th>所需状态</th>
-
-
-
-                <th>当前状态</th>
-
-
-
-            </tr>
-
-
-
-        </thead>
-
-
-
-        <tbody>
-
-
-
-             {foreach from=$files item=item name=f1}
-
-
-
-                <tr>
-
-
-
-                    <td>{$item[3]}</td>
-
-
-
-                    <td><i class="iconfont ico-success">&nbsp;</i>可写</td>
-
-
-
-                    <td><i class="iconfont ico-{$item[2]}">&nbsp;</i>{$item[1]}</td>   
-
-
-
-                </tr>
-
-
-
-            {/foreach}
-
-
-
-        </tbody>
-
-
-
-    </table>
-
-
-
-	<!-- /需要判断/ -->
-
-
-
-    <table class="table">
-
-
-
-        <caption><h2>函数依赖性检查</h2></caption>
-
-
-
-        <thead>
-
-
-
-            <tr>
-
-
-
-                <th>函数名称</th>
-
-
-
-                <th>检查结果</th>
-
-
-
-            </tr>
-
-
-
-        </thead>
-
-
-
-        <tbody>
-
-
-
-            {foreach from=$func item=item name=f1}
-
-
-
-                <tr>
-
-
-
-                    <td>{$item[0]}()</td>
-
-
-
-                    <td><i class="iconfont ico-{$item[2]}">&nbsp;</i>{$item[1]}</td>
-
-
-
-                </tr>
-
-
-
-            {/foreach}
-
-
-
-        </tbody>
-
-
-
-    </table>
-
-
+               <table class="table">
+
+                <caption><h2>运行环境检查</h2></caption>
+                <thead>
+                    <tr>
+                        <th>项目</th>
+                        <th>所需配置</th>
+                        <th>当前配置</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {foreach from=$functions item=item name=f1}
+                        <tr>
+                            <td>{$item[0]}</td>
+                            <td>{$item[1]}</td>
+                            <td><i class="iconfont ico-{$item[4]}">&nbsp;</i>{$item[3]}</td>       
+                        </tr>
+                    {/foreach}
+                </tbody>
+
+            </table>
+
+                <!-- /需要判断/ -->
+                <table class="table">
+                    <caption><h2>目录、文件权限检查</h2></caption>
+                    <thead>
+                        <tr>
+                            <th>目录/文件</th>
+                            <th>所需状态</th>
+                            <th>当前状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                     {foreach from=$files item=item name=f1}
+                        <tr>
+                            <td>{$item[3]}</td>
+                            <td><i class="iconfont ico-success">&nbsp;</i>可写</td>
+                            <td><i class="iconfont ico-{$item[2]}">&nbsp;</i>{$item[1]}</td>   
+                        </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+
+        	<!-- /需要判断/ -->
+            <table class="table">
+                <caption><h2>函数依赖性检查</h2></caption>
+                <thead>
+                    <tr>
+                        <th>函数名称</th>
+                        <th>检查结果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach from=$func item=item name=f1}
+                        <tr>
+                            <td>{$item[0]}()</td>
+                            <td><i class="iconfont ico-{$item[2]}">&nbsp;</i>{$item[1]}</td>
+                        </tr>
+                    {/foreach}
+                </tbody>
+            </table>
 
 			</div>
 
-
-
             <div class="btn_group">     
-
-
-
-                <div class="agree">   <a onClick="javascript :history.back(-1);">返回上一页</a></div>
-
-
-
-                <div class="not_agree agree" style="background:#7CCD7C;"><a href="index.php?action=step2">下一步</a></div>
-
-
+                <a href="javascript :history.back(-1);"><div class="agree">返回上一页</div></a>
+                <a href="index.php?action=step2"><div class="not_agree agree" style="background:#7CCD7C;">下一步</div></a>
 
             </div>
 
-
-
 		</div>
-
-
-
 	</body>
-
-
-
 </html>

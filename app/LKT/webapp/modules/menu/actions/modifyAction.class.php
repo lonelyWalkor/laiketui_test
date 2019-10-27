@@ -195,7 +195,6 @@ class modifyAction extends Action {
         // 接收数据 
         $id = $request->getParameter("id");
         $title = addslashes(trim($request->getParameter('title'))); // 菜单名称
-//        $s_id = addslashes(trim($request->getParameter('s_id'))); // 上级id
         $image = addslashes(trim($request->getParameter('image'))); // 图标
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 产品图片
         $image1 = addslashes(trim($request->getParameter('image1'))); // 图标
@@ -208,14 +207,7 @@ class modifyAction extends Action {
         $s_id = $request->getParameter('val'); // 产品类别
         $level = $request->getParameter('level') + 1; // 级别
 
-//        if(!empty($s_id)){
-//            // 根据传过来的菜单id，查询菜单信息
-//            $sql = "select * from lkt_core_menu where id = '$s_id'";
-//            $r_1 = $db->select($sql);
-//            $name = $r_1[0]->name; // 菜单标识
-//        }else{
-//            $name = addslashes(trim($request->getParameter('name'))); // 菜单标识
-//        }
+
         if($title == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -233,29 +225,7 @@ class modifyAction extends Action {
                 return $this->getDefaultView();
             }
         }
-//        if($name == ''){
-//            header("Content-type:text/html;charset=utf-8");
-//            echo "<script type='text/javascript'>" .
-//                "alert('菜单标识不能为空！');" .
-//                "</script>";
-//            return $this->getDefaultView();
-//        }else{
-//            $sql = "select id,name,level from lkt_core_menu where id = '$id'";
-//            $r_3 = $db->select($sql);
-//            $yid = $r_3[0]->id;
-//            $yname = $r_3[0]->name;
-//            $ylevel = $r_3[0]->level;
-//            if($name != $yname){
-//                $sql = "update lkt_core_menu set name = '$name' where name = '$yname' and id = '$id' ";
-//                $db->update($sql);
-//                $sql = "update lkt_core_menu set name = '$name' where name = '$yname' and s_id = '$id' ";
-//                $db->update($sql);
-//
-//                $num = $level - $ylevel;
-//                $sql = "update lkt_core_menu set level = level+'$num' where s_id = '$yid'";
-//                $db->update($sql);
-//            }
-//        }
+
 
         if(is_numeric($sort)){
             if($sort <= 0){

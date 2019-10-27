@@ -99,8 +99,6 @@ class jifenAction extends Action {
         $request->setAttribute("mobile",$mobile);
         $request->setAttribute("type",$type);
         $request->setAttribute("list",$list);
-//        $request->setAttribute("starttime",$starttime);
-//        $request->setAttribute("group_end_time",$group_end_time);
 
         $request -> setAttribute('pages_show', $pages_show);
         $request -> setAttribute('pagesize', $pagesize);

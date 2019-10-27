@@ -82,13 +82,13 @@
     </form>
 			</div>
 		    <div class="btn_group">    	
-		    	<div class="agree">   <a  href="index.php?action=step2">上一步</a></div>
-		    	<div class="not_agree agree" style="background:#7CCD7C;"><a onclick="submit(this)">下一步</a></div>
+		    	<a  href="index.php?action=step2"><div class="agree">上一步</div></a>
+		    	<a onclick="submit(this)"><div class="not_agree agree" style="background:#7CCD7C;">下一步</div></a>
 		    </div>
 		</div>
 	</body>
 
-</html>
+
 <script>
 {literal}
 
@@ -96,106 +96,35 @@
 
 function submit(obj){
 
-
-
 	$(".load").show();
-
-
-
 	$(obj).text("安装中,大概用时30秒.............");
-
-
-
     $('form').submit();
-
-
 
 }
 
-
-
-
-
-
-
 function test(obj){
-
-
-
 	$(".load").show();
-
-
-
 	var localhost = $("#localhost").val();
-
-
-
 	var user = $("#user").val();
-
-
-
 	var pass = $("#password").val()
-
-
-
 	$.ajax({ 
-
-
-
 		type: "POST", 
-
-
-
 		url: "index.php?action=step3&m=test", 
-
-
-
 		data: 'localhost='+localhost+'&user='+user+'&pass='+pass, 
-
-
-
 		success: function(e){ 
 
-
-
 			if(e){
-
-
-
 				alert( "OK " + e ); 
-
-
-
 			}else{
-
-
-
 				alert( "NO " + e ); 
-
-
-
 			}
-
-
 
 		} 
 
-
-
 	});
 
-
-
 }
-
-
-
 {/literal}
 
-
-
-
-
-
-
 </script>
+</html>
