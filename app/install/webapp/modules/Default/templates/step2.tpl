@@ -83,7 +83,7 @@
 			</div>
 		    <div class="btn_group">    	
 		    	<a  href="index.php?action=step2"><div class="agree">上一步</div></a>
-		    	<a onclick="submit(this)"><div class="not_agree agree" style="background:#7CCD7C;">下一步</div></a>
+		    	<div onclick="submit(this)" class="not_agree agree" style="background:#7CCD7C;">下一步</div>
 		    </div>
 		</div>
 	</body>
