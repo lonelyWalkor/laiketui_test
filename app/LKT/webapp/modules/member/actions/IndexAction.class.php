@@ -8,13 +8,6 @@ class IndexAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-//        $admin_name = $this->getContext()->getStorage()->read('admin_id'); // 管理员账号
-
-//        $sql = "select id from lkt_admin where name = '$admin_name'";
-//        $r = $db->select($sql);
-//        $id = $r[0]->id;
-        // 查询管理员信息
-//        $sql = "select * from lkt_admin where admin_type is NULL and sid = '$id'";
         $sql = "select * from lkt_admin where recycle = 0";
         $rr = $db->select($sql);
         if($rr){

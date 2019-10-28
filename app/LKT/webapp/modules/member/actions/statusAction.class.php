@@ -24,10 +24,6 @@ class statusAction extends Action {
                 $db->admin_record($admin_id,'启用管理员'.$admin_name,5);
                  $res = array('status' => '1','info'=>'启用成功！');
                     echo json_encode($res);
-                // header("Content-type:text/html;charset=utf-8");
-                // echo "<script type='text/javascript'>" .
-                //     "alert('启用成功！');" .
-                //     "location.href='index.php?module=member';</script>";
                 return;
             }else if($status == 2){
                 $sql = "update lkt_admin set status = 1 where id = '$id'";
@@ -37,10 +33,6 @@ class statusAction extends Action {
                 $db->admin_record($admin_id,'禁用管理员'.$admin_name,5);
                  $res = array('status' => '1','info'=>'禁用成功！');
                 echo json_encode($res);
-                // header("Content-type:text/html;charset=utf-8");
-                // echo "<script type='text/javascript'>" .
-                //     "alert('禁用成功！');" .
-                //     "location.href='index.php?module=member';</script>";
                 return;
             }
         }
