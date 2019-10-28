@@ -1,41 +1,12 @@
  {literal}
-<!--<link href="style/css/iconfont.css" rel="stylesheet">
-<link href="style/css/flex.css" rel="stylesheet">-->
 <link href="style/css/common.css" rel="stylesheet">
-<!--<link href="style/css/style.css" rel="stylesheet" type="text/css"/>
-<link href="style/css/bootstrap.min.css" rel="stylesheet">
-<link href="style/css/jquery.datetimepicker.min.css" rel="stylesheet">-->
 <link href="style/css/common.v2.css" rel="stylesheet">
-
-<!--<link href="style/css/themes.css" rel="stylesheet" >
-<script>var _csrf = "laiketui";</script>-->
 <script>var _upload_url = "index.php?module=system&action=uploadImg";</script>
-<!--<script>var group_url = 'index.php?module=software&action=group&m=list_group';</script>-->
-<!--<script>var group_img = 'index.php?module=software&action=group';</script>-->
-<!--<script>var _upload_file_list_url = "index.php?module=system&action=fupload";</script>-->
-<!--<script>
-	var _district_data_url = "index.php?module=mch&action=modify&m=address";
-	var show_pages = 'index.php?module=software&action=navigation&m=show_pages&type=pageadd';
-</script>-->
-<!--<script>var CLODOP_URL = "style/js/Lodop.js"</script>-->
-<!--<script src="style/js/jquery.min.js"></script>-->
-<!--<script src="style/js/jquery.nicescroll.min.js"></script>
-<script src="style/js/common.js"></script>-->
-<!--<script src="style/js/vue.js"></script>-->
-<!--<script src="style/js/tether.min.js"></script>-->
-<!-- <script src="style/js/bootstrap.min.js"></script> -->
 <script src="style/js/plupload.full.min.js"></script>
-<!-- <script src="style/js/jquery.datetimepicker.full.min.js"></script> -->
 <script type="text/javascript" src="style/js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="style/js/common.js"></script>
 <script src="style/js/common.v2.js"></script>
-
-<!--<script src="style/js/clipboard.js"></script>
-
-<script src="style/js/layer/layer.js"></script>
-<script src="style/js/laydate/laydate.js"></script>-->
-
 <script>
 	//添加分组
 	$('.add-group').live('click', function() {

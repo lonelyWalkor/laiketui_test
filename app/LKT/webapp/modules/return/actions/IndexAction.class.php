@@ -27,8 +27,6 @@ class IndexAction extends Action {
         $r_type = trim($request->getParameter('r_type'));
 
 
-
-
         $condition = ' r_status = 4 ';
         if($p_name != ''){
             $condition .= " and (r_sNo like '%$p_name%' or user_id like '%$p_name%' ) ";

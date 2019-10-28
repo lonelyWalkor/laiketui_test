@@ -9,15 +9,11 @@
  */
 
 require_once(MO_LIB_DIR . '/DBAction.class.php');
-
 require_once(MO_LIB_DIR . '/ShowPager.class.php');
-
 require_once(MO_LIB_DIR . '/Tools.class.php');
 
 
-
 class StatusAction extends Action {
-
 
 
     public function getDefaultView() {
@@ -51,7 +47,6 @@ class StatusAction extends Action {
         $sNo = trim($request -> getParameter('sNo'));
         $paytype = trim($request -> getParameter('paytype'));
         $trade_no = trim($request -> getParameter('trade_no'));
-
 
         $refund = $ordernum = date('Ymd').mt_rand(10000,99999).substr(time(),5);
        if($paytype == 'wallet_Pay'){
@@ -101,7 +96,6 @@ class StatusAction extends Action {
 
         }
 
-      
 
     }
 
@@ -110,64 +104,34 @@ class StatusAction extends Action {
     public function Send_success($arr,$template_id,$page,$refundtype){
 
             $db = DBAction::getInstance();
-
             $request = $this->getContext()->getRequest();
-
             $sql = "select * from lkt_config where id=1";
-
             $r = $db->select($sql);
-
             if($r){
-
                 $appid = $r[0]->appid; // 小程序唯一标识
-
                 $appsecret = $r[0]->appsecret; // 小程序的 app secret
-
                 $AccessToken = $this->getAccessToken($appid, $appsecret);
-
                 $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token='.$AccessToken;
-
-                        
 
             }  
 
-            
+            $data = array();
+            $data['access_token'] = $AccessToken;
+            $data['touser'] = $arr -> uid;
+            $data['template_id'] = $template_id;
+            $data['form_id'] = $arr -> fromid;
+            $data['page'] = $page;
+            $price = $arr -> price.'元';
+            $minidata = array('keyword1' => array('value' => $arr -> sNo,'color' => "#173177"),'keyword2' => array('value' => $arr -> p_name,'color' => "#173177"),'keyword3' => array('value' => $price,'color' => "#173177"),'keyword4' => array('value' => $refundtype,'color' => "#FF4500"),'keyword5' => array('value' => '拼团失败--退款','color' => "#FF4500"));
+            $data['data'] = $minidata;
 
-                $data = array();
-
-                $data['access_token'] = $AccessToken;
-
-                $data['touser'] = $arr -> uid;
-
-                $data['template_id'] = $template_id;
-
-                $data['form_id'] = $arr -> fromid;
-
-                $data['page'] = $page;
-
-                $price = $arr -> price.'元';
-
-                $minidata = array('keyword1' => array('value' => $arr -> sNo,'color' => "#173177"),'keyword2' => array('value' => $arr -> p_name,'color' => "#173177"),'keyword3' => array('value' => $price,'color' => "#173177"),'keyword4' => array('value' => $refundtype,'color' => "#FF4500"),'keyword5' => array('value' => '拼团失败--退款','color' => "#FF4500"));
-
-                $data['data'] = $minidata;
-
-                $data = json_encode($data);
-
-                
-
-                $da = $this->httpsRequest($url,$data);
-
-                $delsql = "delete from lkt_user_fromid where open_id='$arr->uid' and fromid='$arr->fromid'";
-
-                
-
-                $db -> delete($delsql);             
-
-                  
+            $data = json_encode($data);
+            $da = $this->httpsRequest($url,$data);
+            $delsql = "delete from lkt_user_fromid where open_id='$arr->uid' and fromid='$arr->fromid'";
+            $db -> delete($delsql);             
+      
 
     }
-
-
 
    /*
 
@@ -182,46 +146,27 @@ class StatusAction extends Action {
      return array
 
    */
-
     private function wxrefundapi($ordersNo,$refund,$price){
 
           //通过微信api进行退款流程
-
-
-
           $parma = array(
-
             'appid'=> 'wx9d12fe23eb053c4f',
-
             'mch_id'=> '1499256602',
-
             'nonce_str'=> $this->createNoncestr(),
-
             'out_refund_no'=> $refund,
-
             'out_trade_no'=> $ordersNo,
-
             'total_fee'=> $price,
-
             'refund_fee'=> $price,
-
             'op_user_id' => '1499256602',
-
           );
 
           $parma['sign'] = $this->getSign($parma);
-
           $xmldata = $this->arrayToXml($parma);
-
           $xmlresult = $this->postXmlSSLCurl($xmldata,'https://api.mch.weixin.qq.com/secapi/pay/refund');
-
           $result = $this->xmlToArray($xmlresult);
-
           return $result;
 
     }
-
-
 
     /*
 
@@ -230,14 +175,10 @@ class StatusAction extends Action {
    */
 
     protected function createNoncestr($length = 32 ){
-
          $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-
          $str ="";
-
          for ( $i = 0; $i < $length; $i++ ) {
-
-         $str.= substr($chars, mt_rand(0, strlen($chars)-1), 1);
+            $str.= substr($chars, mt_rand(0, strlen($chars)-1), 1);
 
          }
 
@@ -254,35 +195,21 @@ class StatusAction extends Action {
    */
 
   protected function getSign($Obj){
-
      foreach ($Obj as $k => $v){
-
        $Parameters[$k] = $v;
-
      }
-
      //签名步骤一：按字典序排序参数
-
      ksort($Parameters);
-
      $String = $this->formatBizQueryParaMap($Parameters, false);
-
      //签名步骤二：在string后加入KEY
-
      $String = $String."&key=td153g1d2f321g23ggrd123g12fd1g22";
-
      //签名步骤三：MD5加密
-
      $String = md5($String);
-
      //签名步骤四：所有字符转为大写
-
      $result_ = strtoupper($String);
-
      return $result_;
 
    }
-
 
 
   /*
@@ -290,33 +217,20 @@ class StatusAction extends Action {
    *排序并格式化参数方法，签名时需要使用
 
    */
-
   protected function formatBizQueryParaMap($paraMap, $urlencode){
-
     $buff = "";
-
     ksort($paraMap);
-
     foreach ($paraMap as $k => $v){
-
       if($urlencode){
-
         $v = urlencode($v);
-
       }
-
-      //$buff .= strtolower($k) . "=" . $v . "&";
-
       $buff .= $k . "=" . $v . "&";
-
     }
 
-    $reqPar;
+    $reqPar = '';
 
     if (strlen($buff) > 0){
-
       $reqPar = substr($buff, 0, strlen($buff)-1);
-
     }
 
     return $reqPar;
@@ -328,41 +242,26 @@ class StatusAction extends Action {
   //数组转字符串方法
 
   protected function arrayToXml($arr){
-
     $xml = "<xml>";
-
     foreach ($arr as $key=>$val)
-
     {
-
       if (is_numeric($val)){
-
         $xml.="<".$key.">".$val."</".$key.">";
-
       }else{
-
          $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
-
       }
-
     }
-
     $xml.="</xml>";
-
     return $xml;
 
   }
 
 
-
   protected function xmlToArray($xml){
-
     $array_data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
-
     return $array_data;
 
   }
-
 
 
   //需要使用证书的请求
@@ -545,10 +444,5 @@ class StatusAction extends Action {
 
     }
 
-
-
 }
-
-
-
 ?>

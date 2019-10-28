@@ -2,8 +2,7 @@
 require_once (MO_CONFIG_DIR . '/db_config.php');
 class DBAction {
     /*
-     * Auth: leilove321 Date : 2009-05-13
-     * Edit_1: fly Date : 2010-01-06
+     * Auth: ketter Date : 2019-10-28
      * 本类是用来调用数据库操作的
      * 利用单例模式创建一个业务逻辑的实例 客户可以通过getInstance方法来得到DBAction的实例
      * 在整个运行周期中，该实例只会被创建一次

@@ -72,21 +72,6 @@ class template_messageAction extends Action {
 
 
 
-  /**
-
-  * 解压文件到指定目录﻿
-
-  * @param  string  zip压缩文件的路径
-
-  * @param  string  解压文件的目的路径
-
-  * @param  boolean 是否以压缩文件的名字创建目标文件夹
-
-  * @param  boolean 是否重写已经存在的文件
-
-  * @return boolean 返回成功 或失败
-
-  */
 
   public function unzip($src_file, $dest_dir=false, $create_zip_name_dir=false, $overwrite=true){
 
