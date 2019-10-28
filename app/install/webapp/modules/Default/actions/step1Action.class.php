@@ -66,10 +66,11 @@ class step1Action extends Action
         
         //函数检测
         $config = array(
-            array('dir',  '[√]可写', 'success', '../upfile/data'),
-            array('dir',  '[√]可写', 'success', '../upfile'),
-            array('dir',  '[√]可写', 'success', './style'),
-            array('dir',  '[√]可写', 'success', './static'),
+            array('dir',  '[√]可写', 'success', '../LKT/webapp/_cache'),
+            array('dir',  '[√]可写', 'success', '../LKT/webapp/_compile'),
+            array('dir',  '[√]可写', 'success', '../LKT/webapp/config'),
+            array('dir',  '[√]可写', 'success', './webapp/_cache'),
+            array('dir',  '[√]可写', 'success', './webapp/_compile'),
         );
 
         foreach ($config as &$val) {

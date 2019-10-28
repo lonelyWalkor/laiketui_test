@@ -21,12 +21,12 @@ class step2Action extends Action
 
       $_SESSION['install_step'] = '2';
       
-		    $num = 3;
-        $url = $this->curPageURL();
-        $request = $this->getContext()->getRequest();
-		    $request->setAttribute('url', isset($url) ? $url : '');
-        $this->getContext()->getStorage()->write('step',$num);
-        return View::INPUT;
+		  $num = 3;
+      $url = $this->curPageURL();
+      $request = $this->getContext()->getRequest();
+		  $request->setAttribute('url', isset($url) ? $url : '');
+      $this->getContext()->getStorage()->write('step',$num);
+      return View::INPUT;
     }
 
 
