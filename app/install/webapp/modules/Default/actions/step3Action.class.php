@@ -7,57 +7,37 @@ class step3Action extends Action {
 	public function execute() {
 		
 		$request = $this -> getContext() -> getRequest();
-
 		$admin = $request -> getParameter('admin');
-		// admin
-
 		$db = $request -> getParameter('db');
-		// db
-
 		$step = $this -> getContext() -> getStorage() -> read('step');
 
 		if ($step == 2) {
-
 			header("Content-type: text/html;charset=utf-8");
-
 			echo "<script language='javascript'>" . "alert('环境检测没有通过，请调整环境后重试！');" . "location.href='index.php?action=step2';</script>";
-
 			return;
 
 		} else {
 
 			if (!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])) {
-
-				// $this->error('请填写完整管理员信息');
-
 				header("Content-type: text/html;charset=utf-8");
-
 				echo "<script language='javascript'>" . "alert('请填写完整管理员信息！');" . "location.href='index.php?action=step2';</script>";
-
 				return;
 
 			} else if ($admin[1] != $admin[2]) {
-
-				// $this->error('确认密码和密码不一致');
-
 				header("Content-type: text/html;charset=utf-8");
-
 				echo "<script language='javascript'>" . "alert('确认密码和密码不一致!');" . "location.href='index.php?action=step2';</script>";
-
 				return;
 
 			} else {
 
 				$info = (array)$admin;
 				list($info['username'], $info['password'], $info['repassword'], $info['email']) = $admin;
-
 				$this -> getContext() -> getStorage() -> write('admin_info', $info);
 			}
 
 			if (!is_array($db) || empty($db[0]) || empty($db[1]) || empty($db[2]) || empty($db[3])) {
 
 				header("Content-type: text/html;charset=utf-8");
-
 				echo "<script language='javascript'>" . "alert('请填写完整的数据库配置!');" . "location.href='index.php?action=step2';</script>";
 
 				return;
@@ -65,17 +45,11 @@ class step3Action extends Action {
 			} else {
 
 				$DB = (array)$db;
-
 				list($DB['type'], $DB['hostname'], $DB['database'], $DB['username'], $DB['password'], $DB['hostport'], $DB['prefix']) = $db;
-
 				$DB['params']["\PDO::ATTR_PERSISTENT "] = TRUE;
-
 				$DB['params']["\PDO::ATTR_CASE "] = \PDO::CASE_LOWER;
-
 				$this -> getContext() -> getStorage() -> write('db_config', $DB);
-
 				$dbname = $DB['database'];
-
 				unset($db);
 
 			}
@@ -85,16 +59,10 @@ class step3Action extends Action {
 		$url = 'index.php';
 
 		$request -> setAttribute("url", $url);
-
 		//第一步创建数据库配置文件
-
 		$res_one = $this -> create_database_tab();
-
 		//连接数据库
-
 		$db = $this -> DB($DB['hostname'], $DB['username'], $DB['password'],$DB['hostport']);
-
-
 		//检测mysql版本
 		$mysql_server_info = $db->server_info;
 		$mysql_version = substr($mysql_server_info,0,strrpos($mysql_server_info,"."));
@@ -108,15 +76,12 @@ class step3Action extends Action {
         }
 
 		//第二步创建数据库
-
 		$res_two = $this -> create_database($DB['database'], $db);
 
 		//第三步创建数据表
-
 		$res_two = $this -> create_db_tables($DB['prefix'], $db, $DB['database']);
 
 		//最后添加管理员
-
 		$res_for = $this -> insert_member($db, $DB['prefix'], $info);
 
 		$_SESSION['install_step'] = '3';
@@ -130,15 +95,11 @@ class step3Action extends Action {
 		$admin = $request -> getParameter('admin');
 		if (!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])) {
 
-				// $this->error('请填写完整管理员信息');
-
 				header("Content-type: text/html;charset=utf-8");
-
 				echo "<script language='javascript'>" . "alert('请填写完整管理员信息！');" . "location.href='index.php?action=step2';</script>";
-
 				return;
 
-			}
+		}
 		return View::INPUT;
 
 	}
