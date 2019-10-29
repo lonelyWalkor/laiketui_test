@@ -90,7 +90,6 @@ class IndexAction extends Action {
 		}
 
         $url = "index.php?module=userlist&action=Index&name=".urlencode($name)."&tel=".urlencode($tel)."&source=".urlencode($source)."&startdate=".urlencode($startdate)."&enddate=".urlencode($enddate);
-        // $pages_show = $pager->multipage($url,ceil($total/$pagesize),$page, $para = '');
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
 
 		$request -> setAttribute('pageto', $pageto);
