@@ -81,7 +81,7 @@ class yueAction extends Action {
                 }
             }
         }
-        // print_r($list);die;
+
         $pager = new ShowPager($total,$pagesize,$page);
 
         $url = "index.php?module=finance&action=yue&name=".urlencode($name)."&otype=".urlencode($type)."&starttime=".urlencode($starttime)."&group_end_time=".urlencode($group_end_time)."&pagesize=".urlencode($pagesize);

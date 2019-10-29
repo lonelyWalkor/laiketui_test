@@ -17,7 +17,6 @@ class addAction extends Action {
         $sort = addslashes(trim($request->getParameter('sort'))); // 排序
         $remarks = addslashes(trim($request->getParameter('remarks'))); // 备注
 
-// print_r($request);die;
 		$request->setAttribute("uploadImg",$uploadImg);
 		$request->setAttribute("brand_name",$brand_name);
 		$request->setAttribute("brand_y_pname",$brand_y_pname);

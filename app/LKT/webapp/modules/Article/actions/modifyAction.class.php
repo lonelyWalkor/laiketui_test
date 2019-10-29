@@ -29,7 +29,6 @@ class modifyAction extends Action {
             $Article_imgurl = $r[0]->Article_imgurl; // 文章图片
 
         }
-
 		
         $dd = $_SERVER['PHP_SELF'];
         $ddd =explode('/', $dd);//打散成数组
@@ -71,19 +70,12 @@ class modifyAction extends Action {
         $content = addslashes($request->getParameter('content')); // 文章内容
 
         if($imgurl){
-
             $imgurl = preg_replace('/.*\//','',$imgurl);
-
             if($imgurl != $oldpic){
-
                 @unlink ($uploadImg.$oldpic);
-
             }
-
         }else{
-
             $imgurl = $oldpic; // 文章图片
-
         }
 
 		//更新数据表

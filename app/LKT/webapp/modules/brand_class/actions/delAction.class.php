@@ -15,10 +15,6 @@ class delAction extends Action {
                     $r = $db->select($sql);
                     $brand_pic = $r[0]->brand_pic;
                     
-
-                    // $sql01 = "delete from lkt_banner where id = '$id'";
-                    // $res01=$db->delete($sql01);
-
                     $sql = "select id from lkt_product_list where brand_id = '$brand_id' and recycle = 0";
                     $r = $db->select($sql);
                     if($r){
@@ -43,8 +39,6 @@ class delAction extends Action {
                     }
                     
   
-        // $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); 
-       
     }
 
     public function execute(){
