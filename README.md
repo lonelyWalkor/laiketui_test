@@ -11,6 +11,8 @@
 
 ### 如果对您有帮助，您可以点右上角 "Star" 支持一下，这才是我们继续免费下去的动力，谢谢！
 
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1030/082053_51b4b4e5_2029865.gif "1572394734266.gif")
+
 ### QQ交流群
 
 - 群一：631252151  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=e608e87cf657e7f0d0a6fe85b127784efd373f6e1e18d21b590af85f2612df55) ，群二：340645969  [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=427109459854834986069455266c718998467b63c78f455940d6291de01a7d0b)
