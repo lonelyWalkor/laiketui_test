@@ -19,12 +19,9 @@ class DBAction {
         $this->mConnId = mysqli_connect(MYSQL_SERVER, MYSQL_USER, MYSQL_PASSWORD,MYSQL_DATABASE,MYSQL_PORT);
         if (!$this->mConnId) {
             print " 连接数据库失败!可能是mysql数据库用户名或密码不正确!<br>";
-            //DELETE BY FLY AT 2010-9-18
-            //print(mysql_error()."<br>");
-            //DELETE END
             return false;
         }
-        //mysql_select_db(MYSQL_DATABASE, $this->mConnId);
+        
     }
 
     public static function getInstance() {
@@ -55,6 +52,7 @@ class DBAction {
         mysqli_free_result($rs);
         return $data;
     }
+
     //查询返回数组
     public function selectarray($sql){
         $sql = trim($sql);
@@ -68,6 +66,7 @@ class DBAction {
         mysqli_free_result($rs);
         return $data;
     }
+
     //查询返回影响行
     public function selectrow($sql) {
         $sql = trim($sql);
@@ -78,8 +77,8 @@ class DBAction {
         mysqli_free_result($rs);
         return $num;
     }
+
     //插入
-    // return 成功，返回执行影响行数或最后插入的ID，失败，返回-1
     public function insert($sql, $return = "affectedrows") {
         $sql = trim($sql);
         if (empty ($sql)) {return -1;}
@@ -93,15 +92,7 @@ class DBAction {
         }
     }
 
-    //数组插入
-    ///*
-    ///   数组键名必须为表的字段
-    ///	  测试 传值给$xs_sql
-    ///	  需要最后的id  传值给$return
-    ///	  2018-04-19 15:32
-    ///	  湖南壹拾捌号网络技术公司
-    ///	  苏涛
-    ///*/
+    
     public function insert_array($arr,$database,$xs_sql = '',$return = ''){
 
         if(is_array($arr)){
@@ -153,6 +144,7 @@ class DBAction {
         if ($rs == false) {return -1;}
         return mysqli_affected_rows($this->mConnId);
     }
+
     //删除
     // return 成功，返回执行影响行数，失败，返回-1
     public function delete($sql) {
@@ -218,12 +210,15 @@ class DBAction {
     public function begin() {
         return $this->query("START TRANSACTION");
     }
+
     public function commit() {
         return $this->query("COMMIT");
     }
+
     public function rollback() {
         return $this->query("ROLLBACK");
     }
+
     public function transaction($q_array) {
         $retval = 1;
         $this->begin();
@@ -243,44 +238,6 @@ class DBAction {
         }
     }
 
-    //加密函数
-    function lock_url($txt,$key='www.jb51.net')
-    {
-        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-=+";
-        $nh = rand(0,64);
-        $ch = $chars[$nh];
-        $mdKey = md5($key.$ch);
-        $mdKey = substr($mdKey,$nh%8, $nh%8+7);
-        $txt = base64_encode($txt);
-        $tmp = '';
-        $i=0;$j=0;$k = 0;
-        for ($i=0; $i<strlen($txt); $i++) {
-            $k = $k == strlen($mdKey) ? 0 : $k;
-            $j = ($nh+strpos($chars,$txt[$i])+ord($mdKey[$k++]))%64;
-            $tmp .= $chars[$j];
-        }
-        return urlencode($ch.$tmp);
-    }
-    //解密函数
-    function unlock_url($txt,$key='www.jb51.net')
-    {
-        $txt = urldecode($txt);
-        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-=+";
-        $ch = $txt[0];
-        $nh = strpos($chars,$ch);
-        $mdKey = md5($key.$ch);
-        $mdKey = substr($mdKey,$nh%8, $nh%8+7);
-        $txt = substr($txt,1);
-        $tmp = '';
-        $i=0;$j=0; $k = 0;
-        for ($i=0; $i<strlen($txt); $i++) {
-            $k = $k == strlen($mdKey) ? 0 : $k;
-            $j = strpos($chars,$txt[$i])-$nh - ord($mdKey[$k++]);
-            while ($j<0) $j+=64;
-            $tmp .= $chars[$j];
-        }
-        return base64_decode($tmp);
-    }
     // 管理员记录
     function admin_record($admin_name,$event,$type){
         $event = $admin_name . $event;
