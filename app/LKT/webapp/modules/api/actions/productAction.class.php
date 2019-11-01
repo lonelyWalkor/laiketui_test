@@ -162,7 +162,7 @@ class productAction extends Action {
         }
 
         // 根据产品id,查询产品数据
-        $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 and  a.num > 0";
+        $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 and  a.num > 0 and c.recycle = 0";
         // print_r($sql);die;
         $res = $db -> select($sql);
         if(!$res){
@@ -314,7 +314,7 @@ class productAction extends Action {
             }
 
             $commodityAttr = [];
-            $sql_size = "select * from lkt_configure where pid = '$id' AND num > 0";
+            $sql_size = "select * from lkt_configure where pid = '$id' AND num > 0 and recycle = 0";
             $r_size = $db->select($sql_size);
             // print_r($r_size);die;
             $array_price = [];
@@ -429,7 +429,7 @@ class productAction extends Action {
                 $user_id = '';
             }
 
-            $sql_k = "select num from lkt_configure where pid = '$Goods_id' and num >0";
+            $sql_k = "select num from lkt_configure where pid = '$Goods_id' and num >0 and recycle = 0";
             $res_k = $db->select($sql_k);
             if($res_k){
                 $num = $res_k[0]->num;
@@ -489,7 +489,7 @@ class productAction extends Action {
         }
         $start = ($paegr-1)*10;
         $end = $paegr*10;
-        $sql = 'select a.id,a.product_title,volume,c.price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like \'%-'.$id."-%' and a.status = 0 order by $select $sort LIMIT $start,$end ";
+        $sql = 'select a.id,a.product_title,volume,c.price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like \'%-'.$id."-%' and a.status = 0 and c.recycle = 0 order by $select $sort LIMIT $start,$end ";
         $r = $db->select($sql);
         if($r){
             $product = [];
