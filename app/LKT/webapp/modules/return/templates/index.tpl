@@ -142,30 +142,34 @@ i{
             }
 
             if(type == 2 || type == 5 || type == 8){
+
                     var text = $(".prompt-text").val();
-                    if(text.length >1){
-                          $.ajax({
+            console.log(text);
+
+                    if(text == ''){
+                       // jqtoast('理由不能为空');
+                       layer.msg('理由不能为空');
+                       return false;
+
+                    }
+                       $.ajax({
                            type: "POST",
                            url: url,
                            data: "id="+id+'&text='+text+'&m='+type,
                            success: function(res){
-                           	console.log(res);
+                            console.log(res);
                             if(res){
                                 td.html(str);
                                 td.prev().html('<span style="color:#ff2a1f;">已拒绝</span>');
-                                jqtoast('提交成功');
+                                layer.msg('提交成功');
                                 setTimeout(function () {
                                     al.remove();
                                 },300);     
                             }else{
-                                jqtoast('操作失败!');
+                                layer.msg('操作失败!');
                             }
                            }
                         });
-
-                    }else{
-                        jqtoast('原由不能为空!');
-                    }
             }else{
 
                     var text = $(".prompt-text").val();
@@ -185,12 +189,12 @@ i{
                                    var status = '<span style="color:#A4D3EE;">待买家发货</span>';
                                 }
                                 td.prev().html('<span style="color:#30c02d;">'+status+'</span>');
-                                jqtoast('提交成功');
+                                layer.msg('提交成功');
                                 setTimeout(function () {
                                     al.remove();
                                 },300);     
                             }else{
-                                jqtoast('操作失败!');
+                                layer.msg('操作失败!');
                             }
                            }
                         });
@@ -212,17 +216,17 @@ i{
                                        var status = '<span style="color:#A4D3EE;">待买家发货</span>';
                                     }
                                     td.prev().html('<span style="color:#30c02d;">'+status+'</span>');
-                                    jqtoast('退款成功'+text);
+                                    layer.msg('退款成功'+text);
                                     setTimeout(function () {
                                         al.remove();
                                     },300);     
                                 }else{
-                                    jqtoast('操作失败!');
+                                    layer.msg('操作失败!');
                                 }
                                }
                             });
                         }else{
-                            jqtoast('输入金额有误,请重新输入!');
+                            layer.msg('输入金额有误,请重新输入!');
                         }
                                               
                     }

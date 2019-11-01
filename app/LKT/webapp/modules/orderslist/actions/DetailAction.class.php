@@ -94,11 +94,12 @@ class DetailAction extends Action {
         // print_r($data);die;
         // 根据产品id,查询产品主图
 
-        $psql = 'select imgurl from lkt_product_list where id="'.$v -> p_id.'"';
+        $psql = 'select imgurl,product_title from lkt_product_list where id="'.$v -> p_id.'"';
         $img = $db -> selectarray($psql);
 
         if(!empty($img)){
           $v -> pic = $img[0]['imgurl'];
+          $v -> p_name = $img[0]['product_title'];
           $res[$k] = $v;
         }
 

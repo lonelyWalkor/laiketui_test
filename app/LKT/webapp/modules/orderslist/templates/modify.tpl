@@ -504,7 +504,7 @@
                             height="50" />
 
                         <input type="hidden" id="inputid-{$item->id}" value="{$item->id}">
-                        <a style="display: contents;"
+                         <a style="display: contents; border: none;"
                             href="index.php?module=product&action=see&id={$item->p_id}&product_title={$item->p_name}&url=Index&uploadImg={$uploadImg}"
                             title="查看">
                             {$item->p_name}
@@ -554,9 +554,9 @@
                 &nbsp;
                 <span>合计支付： ￥
                     {if $data.z_price>$data.o_price}
-                    <input type="text" id="s_z_price"  name="s_z_price" value="{$data.o_price}" />
+                    <input type="text" id="s_z_price"  name="s_z_price" value="{$data.o_price}" {if $data.gstatus !=0} disabled {/if} />
                     {else}
-                    <input type="text" id="s_z_price"  name="s_z_price" value="{$data.freight+$data.z_price-$reduce_price-$coupon_price}" />
+                    <input type="text" id="s_z_price"  name="s_z_price" value="{$data.freight+$data.z_price-$reduce_price-$coupon_price}" {if $data.gstatus !=0} disabled {/if}/>
                     {/if}
                     
                     元</span>

@@ -613,7 +613,8 @@ class examineAction extends Action {
 
         } else {
             if ($m == 8) {//拒绝申请
-                $sql_id = "select a.id,a.trade_no,a.sNo,a.pay,a.z_price,a.user_id from lkt_order as a LEFT JOIN lkt_order_details AS m ON a.sNo = m.r_sNo where m.id = '$id' and a.status = '4' ";
+                $sql_id = "select a.id,a.trade_no,a.sNo,a.pay,a.z_price,a.user_id from lkt_order as a LEFT JOIN lkt_order_details AS m ON a.sNo = m.r_sNo where m.id = '$id' ";
+                // print_r($sql_id);die;
                 $order_res = $db -> select($sql_id);
                 $sNo = $order_res[0] -> sNo;
                 $z_price = $order_res[0] -> z_price;

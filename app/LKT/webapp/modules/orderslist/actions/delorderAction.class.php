@@ -9,7 +9,7 @@
  */
 
 require_once(MO_LIB_DIR . '/DBAction.class.php');
-
+require_once(MO_LIB_DIR . '/Timer.class.php');
 
 class delorderAction extends Action {
 
@@ -49,6 +49,12 @@ class delorderAction extends Action {
        }
        
       foreach ($res as $key => $value) {
+        $sql = "select p_id,num,sid from lkt_order_details where  r_sNo='$value->sNo'";
+        $res1 = $db -> select($sql);
+        $size_id = $res1[0]->sid;
+        $pid = $res1[0]->p_id;
+        $num = $res1[0]->num;
+         addkuncun($db,$size_id,$pid,$num);//取消订单或者取消支付或者过期未付款修改库存
           $delo = $db -> delete("delete from lkt_order where sNo='$value->sNo'");
           $deld = $db -> delete("delete from lkt_order_details where r_sNo='$value->sNo'");
           $delg = $db -> delete("delete from lkt_group_open where group_id='$value->ptcode'");

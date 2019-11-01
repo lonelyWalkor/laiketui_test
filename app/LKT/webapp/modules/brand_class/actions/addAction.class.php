@@ -63,7 +63,7 @@ class addAction extends Action {
         	$recycle = $r[0]->recycle;
         	$brand_id = $r[0]->brand_id;
         	if($recycle ==1){//该商品名称存在，但被回收，取消回收
-        		$sql = "update lkt_brand_class set recycle = 0 , status = 0 ,brand_pic='$image' where brand_id = '$brand_id'";
+        		$sql = "update lkt_brand_class set recycle = 0 , status = 0 ,brand_pic='$image',brand_time=CURRENT_TIMESTAMP where brand_id = '$brand_id'";
         		$res = $db->update($sql);
         		if($res == -1) {
 		            $db->admin_record($admin_id,'添加商品品牌'.$brand_name.'失败',1);

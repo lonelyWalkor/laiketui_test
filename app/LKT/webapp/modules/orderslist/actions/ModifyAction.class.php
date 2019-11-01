@@ -114,17 +114,13 @@ class ModifyAction extends Action {
         $courier_num111[$k]['courier_num'] = $v->courier_num;
         // print_r($data);die;
         // 根据产品id,查询产品主图
-
-        $psql = 'select imgurl from lkt_product_list where id="'.$v -> p_id.'"';
-
+        $psql = 'select imgurl,product_title from lkt_product_list where id="'.$v -> p_id.'"';
         $img = $db -> selectarray($psql);
 
         if(!empty($img)){
-
           $v -> pic = $img[0]['imgurl'];
-
+          $v -> p_name = $img[0]['product_title'];
           $res[$k] = $v;
-
         }
 
         $res[$k] -> z_price = $v -> num * $v -> p_price;
@@ -354,7 +350,7 @@ class ModifyAction extends Action {
           $allow = 0; // 积分
           $sql02 = "select * from lkt_express ";
           $r02 = $db -> select($sql02);
-          // print_r($res);die;
+          // print_r($data);die;
           $request -> setAttribute("uploadImg",$uploadImg);
           $request -> setAttribute("data",$data);
           $request -> setAttribute("detail",$res);
@@ -401,7 +397,7 @@ class ModifyAction extends Action {
      $sql = 'update lkt_order set z_price='.$z_price.',name="'.$name.'",mobile="'.$mobile.'",address="'.$address.'" where sNo="'.$sNo.'"';     
      $up = $db -> update($sql);
 
-     if($up > 0){
+     if($up >= 0){
            $db->admin_record($admin_id,' 修改订单号为 '.$sNo.' 的信息 ',2);
           echo json_encode(array('status'=>1,'err'=>'修改成功!'));
             exit();
