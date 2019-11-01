@@ -10,6 +10,7 @@
 require_once (MO_LIB_DIR . '/DBAction.class.php');
 require_once (MO_LIB_DIR . '/ShowPager.class.php');
 require_once (MO_LIB_DIR . '/Tools.class.php');
+require_once(MO_LIB_DIR . '/Timer.class.php');
 
 class addsignAction extends Action {
 
@@ -362,17 +363,13 @@ class addsignAction extends Action {
             }
             //修改库存
             $ss = $db->select("select sid,num,p_id from lkt_order_details where r_sNo = $sNo");
+
             if($ss){
                 foreach ($ss as $key => $value) {
                   $size_id=$value->sid;
                   $num=$value->num;
                   $pid=$value->p_id;
-                    // 根据商品id,修改商品数量
-			        $sql_p = "update lkt_configure set  num = num + $num where id = $size_id";
-			        $r_p = $db->update($sql_p); 
-			        // 根据商品id,修改卖出去的销量
-			        $sql_x = "update lkt_product_list set volume = volume - $num,num = num+$num where id = $pid";
-			        $r_x = $db->update($sql_x); 
+                           addkuncun($db,$size_id,$pid,$num);//取消订单或者取消支付或者过期未付款修改库存
                 }
             }
 

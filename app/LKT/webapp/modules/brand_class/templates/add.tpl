@@ -47,12 +47,16 @@ function check(f){
             <div class="formControls col-xs-8 col-sm-6"> 
                 {if $image!=''}
                 <img id="thumb_url" src='{$image}' style="height:100px;width:150px;" >
-                {else}
-                 <img id="thumb_url" style="height:100px;width:150px;" >
-                {/if}
-                <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
+                <input type="hidden"  id="picurl" name="image" value="{$image}" /> 
                 <input type="hidden" name="oldpic" >
                 <button class="btn btn-success" id="image"  type="button" >选择图片</button>（建议上传120px*120px）
+                {else}
+                 <img id="thumb_url" style="height:100px;width:150px;" >
+                 <input type="hidden"  id="picurl" name="image" datatype="*" nullmsg="请选择图片"/> 
+                <input type="hidden" name="oldpic" >
+                <button class="btn btn-success" id="image"  type="button" >选择图片</button>（建议上传120px*120px）
+                {/if}
+          
             </div>
             <div class="col-4"> </div>
         </div>

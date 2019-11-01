@@ -350,18 +350,17 @@ class appAction extends Action {
             foreach ($r_c as $k => $v) {
                 if(strpos($v->code,'YHQ') !== false){
                     // 判断字符串里是否有 优惠劵 
-                    $v->name = '优惠劵';
+                    $v->name = '优惠劵';//
                     $coupon = true;
                 }
-                if($v->code == 'QB'){
+                if($v->code == 'QB'){//钱包
                     $wallet = true;
                     $arrayName = array('name' => '钱包支付','value' => 'wallet_Pay','icon' => '../../images/qbzf.png','checked' => false);
                     @array_push($pays,$arrayName);
                 }
-                if($v->code == 'QD'){
+                if($v->code == 'QD'){//签到
                     $integral = true;
                 }
-               
             }
 
             echo json_encode(array('status'=>1,'pays'=>$pays,'coupon'=>$coupon,'wallet'=>$wallet,'integral'=>$integral,'red_packet'=>$red_packet));
@@ -401,7 +400,8 @@ class appAction extends Action {
         $request = $this->getContext()->getRequest();
         // 获取信息
         $openid = $_POST['openid']; // 微信id
-           $sql_c = 'select sum(a.Goods_num) as Goods_num from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$openid.'\' order by Create_time desc';
+           $sql_c = 'select sum(a.Goods_num) as Goods_num from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$openid.'\' and m.recycle = 0 and c.recycle = 0 order by Create_time desc';
+           // print_r($sql_c);die;
         $r_c = $db->select($sql_c);
         $cart =$r_c[0]->Goods_num?$r_c[0]->Goods_num:0;
         echo json_encode(array('cart'=>$cart));

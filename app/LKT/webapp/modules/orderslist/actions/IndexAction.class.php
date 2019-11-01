@@ -96,7 +96,12 @@ class IndexAction extends Action {
         if (strlen($status) == 1) {
             if ($status !== false) {
                 $cstatus = intval($status);
-                $condition .= " and o.status=$cstatus";
+                if($cstatus==6){
+                     $condition .= " and (o.status=7 or o.status=6)";
+                }else{
+                    $condition .= " and o.status=$cstatus";
+                }
+                
             }
         } else if (strlen($status) > 1) {
             if ($status !== false) {
@@ -106,10 +111,12 @@ class IndexAction extends Action {
         } else if (strlen($status) == 6) {
             if ($status !== false) {
                 $cstatus = intval(substr($status, 6));
-                $condition .= " and o.status=7";
+                $condition .= " and (o.status=7 or o.status=6)";
             }
         }
+
         if ($ostatus !== false) {
+
             $costatus = intval(substr($ostatus, 1));
             $condition .= " and o.status=$costatus";
         }
@@ -128,6 +135,7 @@ class IndexAction extends Action {
                 }
             }
         }
+
 
         $sql1111 = 'select SUM(o.z_price) as z_price,COUNT(o.id) as num from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id ' . $condition . ' order by add_time desc ';
 
@@ -157,7 +165,7 @@ class IndexAction extends Action {
                $sql1 = "select o.id,o.consumer_money,o.sNo,o.name,o.sheng,o.shi,o.xian,o.source,o.address,o.add_time,o.mobile,o.z_price,o.status,o.reduce_price,o.coupon_price,o.allow,o.drawid,o.otype,o.ptstatus,o.spz_price,o.pay,o.drawid,lu.user_name,o.user_id from lkt_order as o left join lkt_user as lu on o.user_id = lu.user_id $condition order by add_time desc limit $start,$pagesize";
                 $res1 = $db -> select($sql1); 
             }
-        
+        // print_r($sql1);die;
         
         $pager = new ShowPager($total,$pagesize,$page);
         $url = 'index.php?module=orderslist'.$con;
@@ -227,33 +235,41 @@ class IndexAction extends Action {
                         case 0 :
                             $res1[$k] -> status = '未付款';
                             $res1[$k] -> bgcolor = '#f5b1aa';
+                            $res1[$k] -> pt_status = '待付款';
                             break;
                         case 9 :
                             $res1[$k] -> status = '拼团中';
+                            $res1[$k] -> pt_status = '拼团中';
                             $res1[$k] -> bgcolor = '#f5b199';
                             break;
                         case 1 :
                             $res1[$k] -> status = '未发货';
+                            $res1[$k] -> pt_status = '拼团成功';
                             $res1[$k] -> bgcolor = '#f0908d';
                             break;
                         case 2 :
                             $res1[$k] -> status = '已发货';
+                            $res1[$k] -> pt_status = '拼团成功';
                             $res1[$k] -> bgcolor = '#f0908d';
                             break;
                         case 3 :
                             $res1[$k] -> status = '已签收';
+                            $res1[$k] -> pt_status = '拼团成功';
                             $res1[$k] -> bgcolor = '#f0908d';
                             break;
                         case 5 :
                             $res1[$k] -> status = '已签收';
+                            $res1[$k] -> pt_status = '拼团成功';
                             $res1[$k] -> bgcolor = '#f7b977';
                             break;
                         case 10 :
                             $res1[$k] -> status = '未退款';
+                            $res1[$k] -> pt_status = '拼团失败';
                             $res1[$k] -> bgcolor = '#ee827c';
                             break;
                         case 11 :
                             $res1[$k] -> status = '已退款';
+                            $res1[$k] -> pt_status = '拼团失败';
                             $res1[$k] -> bgcolor = '#ee827c';
                             break;
                     }
