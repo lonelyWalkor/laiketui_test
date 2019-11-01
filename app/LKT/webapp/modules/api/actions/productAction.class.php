@@ -162,7 +162,7 @@ class productAction extends Action {
         }
 
         // 根据产品id,查询产品数据
-        $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 and  a.num > 0 and c.recycle = 0";
+        $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 and  a.num > 0";
         // print_r($sql);die;
         $res = $db -> select($sql);
         if(!$res){
@@ -314,7 +314,7 @@ class productAction extends Action {
             }
 
             $commodityAttr = [];
-            $sql_size = "select * from lkt_configure where pid = '$id' AND num > 0 and recycle = 0";
+            $sql_size = "select * from lkt_configure where pid = '$id' AND num > 0";
             $r_size = $db->select($sql_size);
             // print_r($r_size);die;
             $array_price = [];
@@ -998,7 +998,7 @@ class productAction extends Action {
 
         $arr = [];
         $uid = trim($request->getParameter('user_id')); //  '分类ID'
-        $sql_c = 'select a.*,c.price,c.attribute,c.img,c.num as pnum,m.product_title,c.id AS sizeid from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$uid.'\' AND m.recycle = 0 AND c.recycle = 0 order by Create_time desc';
+        $sql_c = 'select a.*,c.price,c.attribute,c.img,c.num as pnum,m.product_title,c.id AS sizeid from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$uid.'\' order by Create_time desc';
         
         $r_c = $db->select($sql_c);
 
@@ -1272,11 +1272,13 @@ class productAction extends Action {
             $typeArr=explode(',',$typestr);
             foreach ($typeArr as $key => $value) {
                 // 联合查询返回购物信息
+
                 if($typee ==1){//直接购买
                     $sql_c = "select a.Size_id,a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,m.freight,c.price,c.attribute,c.img,c.yprice,c.unit from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$value' and c.num >= $num ";
                 }else{
                     $sql_c = "select a.Size_id,a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,m.freight,c.price,c.attribute,c.img,c.yprice,c.unit from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$value' and c.num >= a.Goods_num ";
                 }
+                
                 $r_c = $db->select($sql_c);
                 if(!empty($r_c)){
                       $product = (array)$r_c['0']; // 转数组
@@ -1847,8 +1849,7 @@ class productAction extends Action {
         $start = ($paegr-1)*10;
         $end = 10;
 
-        $sql ="select a.id,a.product_title,a.imgurl,a.volume,min(c.price) as price,c.yprice,c.img,a.s_type,c.id AS sizeid from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.s_type like '%$id%' and a.status = 0 and a.num >0 group by c.pid order by $select $sort LIMIT $start,$end ";
-
+        $sql ="select a.s_type,a.id,a.product_title,a.imgurl,a.volume,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.s_type like '%$id%' and a.status = 0 and a.num >0 group by c.pid order by $select $sort LIMIT $start,$end ";
         $r = $db->select($sql);
         if($r){
             $product = [];
