@@ -28,18 +28,7 @@ function check(f){
       }
   }
 }
-// $(document).ready(function(){
-//     $("input").blur(function(){
-//         var mobi = $('input[name="y_password"]').val();
-//         if(mobi.length != 0){
-//             document.getElementById('password').style.display = ""; // 显示
-//             document.getElementById('password1').style.display = ""; // 显示
-//         }else{
-//             document.getElementById('password').style.display = "none"; // 不显示
-//             document.getElementById('password1').style.display = "none"; // 不显示
-//         }
-//     });
-// });
+
 
 </script>
 {/literal}
