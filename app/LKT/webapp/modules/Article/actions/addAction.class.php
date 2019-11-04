@@ -14,7 +14,6 @@ require_once(MO_LIB_DIR . '/DBAction.class.php');
 class addAction extends Action {
 
 
-
 	public function getDefaultView() {
         $db = DBAction::getInstance();
         $dd = $_SERVER['PHP_SELF'];
@@ -29,11 +28,9 @@ class addAction extends Action {
         $pic =str_replace('..', '', $pic);
     
         $request = $this->getContext()->getRequest();
-
         //获取文章类别
         $sql = "select cat_id,cat_name from lkt_news_class ";
         $r = $db->select($sql);
-
         $request->setAttribute("ctype",$r);
         $request->setAttribute('pic', $pic.'/images');
 

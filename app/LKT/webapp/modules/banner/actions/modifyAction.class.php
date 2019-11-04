@@ -52,7 +52,6 @@ class modifyAction extends Action {
             $image = preg_replace('/.*\//','',$image);
             if($image != $oldpic){
                 @unlink ($uploadImg.$oldpic);
-
             }
 
         }else{
