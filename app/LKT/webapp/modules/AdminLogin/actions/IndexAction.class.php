@@ -98,7 +98,7 @@ class IndexAction extends Action {
             }
             $typee = 2;
         }
-        // print_r($list);die;
+
         $sql = "select domain from lkt_config where id = 1";
         $rr = $db->select($sql);
         $domain = $rr[0]->domain;
@@ -112,8 +112,6 @@ class IndexAction extends Action {
         $request->setAttribute('type',$type);
         $request->setAttribute('login_time',$login_time);
         $request->setAttribute('domain',$domain);
-
-//        $this->getContext()->getStorage()->write('cart_type',$cart_type);
 
         return View :: INPUT;
     }
