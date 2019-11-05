@@ -79,7 +79,7 @@
 	            {foreach from=$list item=item name=f1}
 	                <tr class="text-c">
 	                    <td>{$smarty.foreach.f1.iteration}</td>
-	                    <td>{$item->name}</td>
+	                    <td>{$item->user_id}</td>
 						<td>{if $item->source == 1}小程序{elseif $item->source == 2}app{/if}</td>
 						<td>{$item->add_date}</td>
 	                    <td>{$item->money}元</td>
