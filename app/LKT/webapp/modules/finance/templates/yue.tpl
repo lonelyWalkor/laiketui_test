@@ -92,7 +92,6 @@ td a{
 				<tr class="text-c">
 					<th width="150" aria-valuetext="user_id">用户ID</th>
 					<th width="130" aria-valuetext="user_name">用户名</th>
-					<th width="150" aria-valuetext="typename">会员等级</th>
 					<th width="150" aria-valuetext="money">金额</th>
 					<th width="130" aria-valuetext="source">来源</th>
 					<th width="150" aria-valuetext="add_date">时间</th>
@@ -105,7 +104,6 @@ td a{
 	                <tr class="text-c">
 	                    <td>{$item->user_id}</td>
 	                    <td>{$item->user_name}</td>
-	                    <td>{$item->typename}</td>
 						<td>
 							{if $item->type == 1 ||$item->type == 5 || $item->type == 13 || $item->type == 14 || $item->type == 19 || $item->type == 20 || $item->type == 22 || $item->type == 23}+{$item->money}{/if}
 							{if $item->type == 2 ||$item->type == 4 || $item->type == 11 || $item->type == 12 || $item->type == 21}-{$item->money}{/if}
