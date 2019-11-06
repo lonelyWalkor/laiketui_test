@@ -208,7 +208,7 @@ Page({
           var banner = res.data.banner; // 轮播图
           var twoList = res.data.twoList;     //产品显示
           var bgcolor = res.data.bgcolor;     //产品显示
-          var plug = res.data.plug;     //抽奖产品
+          var plug = res.data.plug;     
           var title = res.data.title;
           app.d.bgcolor = bgcolor;
           var arr = Object.keys(twoList[0].distributor);
@@ -493,7 +493,7 @@ Page({
         })
       }},5000);
     that.loadProductDetail();
-    //that.getContHeight();  
+
   },
 
   preventTouchMove: function () {
@@ -564,16 +564,6 @@ Page({
         userlogin: false
       })
       that.getOP(e.detail.userInfo)
-    } else {
-      // wx.showToast({
-      //   title: '没有授权，不能进入小程序个人中心！',
-      //   icon: 'none',
-      //   duration: 2000
-      // })
-      //没有授权需要弹框 
-      // that.setData({
-      //   userlogin: true
-      // });
     }
   },
   login: function () {
@@ -582,7 +572,6 @@ Page({
     //取出本地存储用户信息，解决需要每次进入小程序弹框获取用户信息
     var userInfo = wx.getStorageSync('userInfo');
     console.log(userInfo)
-    console.log(5555555555555)
     wx.login({
       success: res => {
         app.globalData.code = res.code
@@ -699,20 +688,5 @@ Page({
       }
     }
   },
- // getContHeight: function(){
-   // var that = this;
-   // //动态设置高度
-   // setTimeout(function () {
-   //   var query = wx.createSelectorQuery();
-   //   query.select('.cont').boundingClientRect();
-   //   query.exec(function (res) {
-   //     if (res[0] === null) return;
-   //     console.log('打印demo的元素的信息', res);
-   //     console.log('打印高度', res[0].height);
-      //  that.setData({
-      //    mainHeight: res[0].height + 330
-      //  })
-     // });
-  //  };, 5000);
-//  }
+
 });
