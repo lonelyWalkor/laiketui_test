@@ -37,7 +37,7 @@
         <table class="table table-border table-bordered table-bg table-hover table-sort" style=" margin: 0 auto;">
             <thead>
                 <tr class="text-c">
-                    <th>id</th>
+                    <th>ID</th>
                     <th>公告名称</th>
                     <th>公告图片</th>
                     <th>添加时间</th>
@@ -50,7 +50,7 @@
                 <tr class="text-c">
                     <td>{$item->id}</td>
                     <td>{$item->name}</td>
-                    <td><image class='pimg' src="{$uploadImg}{$item->img_url}" style="width: 100px;"/></td>
+                    <td><image class='pimg' src="{$uploadImg}{$item->img_url}" style="width: 100px;height:100px"/></td>
                     <td>{$item->time}</td>
                     <td>
                         <a style="text-decoration:none" class="ml-5" href="index.php?module=notice&action=modify&id={$item->id}&uploadImg={$uploadImg}" title="修改">

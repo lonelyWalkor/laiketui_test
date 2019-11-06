@@ -25,6 +25,16 @@
 
 <div class="pd-20">
     <form name="form1" action="index.php?module=notice&action=add" class="form form-horizontal" method="post" onsubmit="return checkUser()" enctype="multipart/form-data" >
+        
+        <div class="row cl">
+            <label class="form-label col-2"><span class="c-red">*</span>公告名称：</label>
+            <div class="formControls col-10"> 
+               <input type="text" name="notice" required="required" id="noticeId" style="width:280px">
+               <input type="hidden" id="hiddenId" >
+            </div>
+        </div>
+
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>公告图片：</label>
             <div class="formControls col-xs-8 col-sm-8"> 
@@ -35,13 +45,7 @@
             </div>
             <div class="col-4"> </div>
         </div>
-        <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>公告名称：</label>
-            <div class="formControls col-10"> 
-               <input type="text" name="notice" required="required" id="noticeId">
-               <input type="hidden" id="hiddenId" >
-            </div>
-        </div>
+        
 
 
         <div class="row cl">
