@@ -100,7 +100,7 @@
             {foreach from=$order item=item name=f1}
                 <tr class="text-c">
                     <td>{$item->id}</td>
-                    <td style="width: 60px">{$item->anonymous}</td>
+                    <td style="width: 60px">{$item->uid}</td>
                     <td>{$item->r_sNo}</td>
                     <td style="text-align: left;">{$item->p_name}</td>
                     <td style="width: 70px">
