@@ -13,11 +13,18 @@
 <title>关注设置积分</title>
 </head>
 <body>
-<nav class="breadcrumb" style="margin-top: 0px;"><i class="Hui-iconfont">&#xe654;</i> 小程序 <span class="c-gray en">&gt;</span> 首次关注设置积分 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:0px" href="#" onclick="location.href='index.php?module=software';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+
+<nav class="breadcrumb">
+    小程序 <span class="c-gray en">&gt;</span> 
+    积分参数 
+</nav>
+
+
+
 <div class="pd-20">
     <form name="form1" action="index.php?module=software&action=jifen" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <div class="row cl">
-            <label class="form-label col-2">默认积分值：</label>
+            <label class="form-label col-2">首次关注送积分：</label>
             <div class="formControls col-10 " >
                 <input type="number" class="input-text" value="{$r[0]->jifennum}" placeholder="" id="" name="jifennum">
             </div>
