@@ -20,18 +20,8 @@ class addressAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }else if($m == 'set_default'){
-            $this->set_default();
-        }else if($m == 'del_adds'){
-            $this->del_adds();
-        }else if($m == 'up_addsindex'){
-            $this->up_addsindex();
-        }else if($m == 'up_adds'){
-            $this->up_adds();
-        }else if($m == 'del_select'){
-            $this->del_select();
+        if($m){
+            $this->$m();
         }
 
         return;
@@ -40,6 +30,7 @@ class addressAction extends Action {
     public function getRequestMethods(){
         return Request :: POST;
     }
+
     // 地址管理
     public function index(){
         $db = DBAction::getInstance();
@@ -58,6 +49,7 @@ class addressAction extends Action {
         exit();
         return;
     }
+
     public function del_select()
     {
         $db = DBAction::getInstance();
@@ -88,6 +80,7 @@ class addressAction extends Action {
             exit();
         }
     }
+
     // 设置默认
     public function set_default(){
         $db = DBAction::getInstance();
@@ -198,6 +191,7 @@ class addressAction extends Action {
         exit();
         return;
     }
+    
     //页面跳转显示
     public function up_addsindex(){
          $db = DBAction::getInstance();
