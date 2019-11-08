@@ -204,17 +204,7 @@ class appAction extends Action {
             $rr = $db->select($sql);
             $Refere='';
             if(!empty($rr)){
-                // if(!$rr[0]->Referee){
-                //     $rr01 = $db->select("select id from lkt_user where Referee ='$openid' ");
-                //     if(!$rr01){
-                //         $sql = "update lkt_user set access_token = '$access_token',Referee = '$Referee' where wx_id = '$openid' ";
-                //     }else{
-                //         $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
-                //     }
-                // }else{
-                    $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
-                // }
-                    // print_r($sql);die;
+                $sql = "update lkt_user set access_token = '$access_token' where wx_id = '$openid' ";
                 $db->update($sql);
                 $user_id = $rr[0]->user_id;
               
@@ -295,13 +285,12 @@ class appAction extends Action {
                 $sql = "select max(id) as userid from lkt_user";
                 $r = $db->select($sql);
                 $rr = $r[0]->userid;
-                //            $user_id = $rr+1;
                 $user_id = 'user'.($rr+1);
                 // 在会员列表添加一条数据
 
                 // 默认头像和名称
                 if(empty($wxname) || $wxname == 'undefined'){
-                    $wxname = '简单的奇迹';
+                    $wxname = '来客电商';
                 }
                 if(empty($headimgurl) || $headimgurl == 'undefined'){
                     $headimgurl = 'https://lg-8tgp2f4w-1252524862.cos.ap-shanghai.myqcloud.com/moren.png';
@@ -380,6 +369,7 @@ class appAction extends Action {
             exit();
         }
     }
+
     public function referee_openid(){//推荐人储存
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
@@ -394,6 +384,7 @@ class appAction extends Action {
                     $db->update($sql01);
             }
     }
+
     public function secToTime($times){  
         $result = '00:00:00';  
         if ($times>0) {  
@@ -410,12 +401,11 @@ class appAction extends Action {
         $request = $this->getContext()->getRequest();
         // 获取信息
         $openid = $_POST['openid']; // 微信id
-           $sql_c = 'select sum(a.Goods_num) as Goods_num from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$openid.'\' and m.recycle = 0 and c.recycle = 0 order by Create_time desc';
-           // print_r($sql_c);die;
+        $sql_c = 'select sum(a.Goods_num) as Goods_num from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$openid.'\' and m.recycle = 0 and c.recycle = 0 order by Create_time desc';
         $r_c = $db->select($sql_c);
         $cart =$r_c[0]->Goods_num?$r_c[0]->Goods_num:0;
         echo json_encode(array('cart'=>$cart));
-            exit();
+        exit();
     } 
 }
 
