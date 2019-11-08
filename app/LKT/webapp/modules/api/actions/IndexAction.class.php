@@ -21,11 +21,10 @@ class IndexAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }elseif ($m == 'get_more') {
-            $this->get_more();
+        if($m){
+            $this->$m();
         }
+        
         return;
     }
 
