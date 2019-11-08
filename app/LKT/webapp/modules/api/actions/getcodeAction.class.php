@@ -14,9 +14,9 @@ require_once(MO_LIB_DIR . '/Tools.class.php');
 class getcodeAction extends Action {
 
     public function getDefaultView() {
-         $db = DBAction::getInstance();
+        $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-               //现在时间的前一天
+        //现在时间的前一天
         $datetime = date('Y-m-d H:i:s',time()-24*60*60);
         //现在时间的前七天
         $datetime1 = date('Y-m-d H:i:s',time()-7*24*60*60);
@@ -298,14 +298,7 @@ class getcodeAction extends Action {
                 $data = $tkt_r[0]->data;
             }
         }
-        //head' style="margin-bottom: 4px">头像
-        //nickname' style="margin-bottom: 4px">昵称
-        //qr' style="margin-bottom: 4px">二维码
-        //img' style="margin-bottom: 4px">图片
-        //title' >商品名称 
-        //thumb' >商品图片 
-        //marketprice' >商品现价    
-        //productprice' >商品原价
+        
 
         //创建底图   
         $dest = $this->create_imagecreatefromjpeg($bottom_img);
@@ -362,6 +355,8 @@ class getcodeAction extends Action {
         echo json_encode(array('status' => true,'url' => $url,'waittext'=>$waittext));
         exit;
     }
+
+    
     //创建图片 根据类型
     public function create_imagecreatefromjpeg($pic_path)
     {           

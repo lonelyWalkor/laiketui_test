@@ -11,22 +11,22 @@ require_once(MO_LIB_DIR . '/DBAction.class.php');
 class searchAction extends Action {
 
 	public function getDefaultView() {
-    return;
+      return;
   }
 
   public function execute(){
-    $db = DBAction::getInstance();
-    $request = $this->getContext()->getRequest();
+      $db = DBAction::getInstance();
+      $request = $this->getContext()->getRequest();
 
-    $m = addslashes(trim($request->getParameter('m')));
-    if($m == 'index'){
-      $this->index();
-    }else if($m == 'search'){
-      $this->search();
-    }else if($m == 'listdetail'){
-      $this->listdetail();
-    }
-    return;
+      $m = addslashes(trim($request->getParameter('m')));
+      if($m == 'index'){
+        $this->index();
+      }else if($m == 'search'){
+        $this->search();
+      }else if($m == 'listdetail'){
+        $this->listdetail();
+      }
+      return;
   }
 
 	public function getRequestMethods(){

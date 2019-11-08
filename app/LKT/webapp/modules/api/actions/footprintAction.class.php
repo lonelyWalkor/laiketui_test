@@ -31,6 +31,7 @@ class footprintAction extends Action {
     public function getRequestMethods(){
         return Request :: POST;
     }
+
     // 获取我的历史记录
     public function index(){
         $db = DBAction::getInstance();
@@ -162,6 +163,7 @@ class footprintAction extends Action {
         }
         return;
     }
+
     // 删除我的历史记录
     public function alldel()
     {
@@ -181,6 +183,8 @@ class footprintAction extends Action {
             exit(); 
         }
     }
+
+    
 }
 
 ?>

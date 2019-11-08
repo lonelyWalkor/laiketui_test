@@ -945,12 +945,6 @@ class userAction extends Action {
         }
 
         if(!empty($r)){
-//            $user['wx_name'] = $r[0]->wx_name;
-//            $user['headimgurl'] = $r[0]->headimgurl;
-//            $user['user_id'] = $r[0]->user_id;
-//            $user['money'] = $r001[0]->money;
-//            $user['score'] = $r001[0]->score;
-//            $user['transfer_multiple'] = $transfer_multiple;
             echo json_encode(array('status'=>1,'user'=>$user));
             exit();
         }else{

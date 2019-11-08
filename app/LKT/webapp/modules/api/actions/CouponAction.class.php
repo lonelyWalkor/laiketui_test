@@ -50,16 +50,6 @@ class CouponAction extends Action {
     public function index(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // $openid = trim($request->getParameter('openid')); // 微信id
-        //  if(!$openid || $openid=='undefined'){
-        //     //  echo json_encode(array('status'=>2,'err'=>'请登录'));
-        //     // exit;
-        // }
-        // 查询用户id
-        // $sql = "select user_id,Register_data from lkt_user where wx_id = '$openid' ";
-        // $user = $db->select($sql);
-        // $user_id = $user[0]->user_id;
-        // $Register_data = $user[0]->Register_data; // 注册时间
 
         $start_time_1 = date("Y-m-d H:i:s",mktime(0,0,0,date('m'),date('d'),date('Y'))); // 今天开始时间
         $end_time_1 = date("Y-m-d H:i:s",mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1); // 今天结束时间
@@ -81,7 +71,7 @@ class CouponAction extends Action {
         }
 
 
-  echo json_encode(array('list'=>$r_1));
+        echo json_encode(array('list'=>$r_1));
         exit();
 
     }
@@ -89,8 +79,8 @@ class CouponAction extends Action {
     //首页优惠券分离部分
     public function index_coupon($v){
 
-    $db = DBAction::getInstance();
-    $request = $this->getContext()->getRequest();
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
 
                 
                 $activity_id = $v->id; // 活动id
@@ -222,6 +212,8 @@ class CouponAction extends Action {
             exit();
         }
     }
+
+
     // 我的优惠券
     public function mycoupon(){
         $db = DBAction::getInstance();
@@ -354,6 +346,8 @@ class CouponAction extends Action {
             exit();
         }
     }
+
+
     // 立即使用
     public function immediate_use(){
         $db = DBAction::getInstance();
@@ -712,6 +706,7 @@ class CouponAction extends Action {
             }
         }
     }
+
 
     public function freight($freight,$num,$address,$db)
     {

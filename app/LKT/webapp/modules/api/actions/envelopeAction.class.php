@@ -33,6 +33,7 @@ class envelopeAction extends Action {
     public function getRequestMethods(){
         return Request :: POST;
     }
+    
     // 获取新闻详情
     public function index(){
         $db = DBAction::getInstance();

@@ -96,7 +96,6 @@ where a.status = 0 and a.num >0 and s_type like '%4%'
 
             $ttcid = $value->cid;
 
-            //$sql_s = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%-$ttcid-%' and a.status = 0 and a.num >0 group by c.pid  order by a.sort DESC LIMIT 0,10";
             $sql_s = "select a.id,a.product_title,a.volume,c.price,a.imgurl 
 from lkt_product_list AS a 
 RIGHT JOIN (select min(price) price,pid from lkt_configure group by pid)  AS c 
@@ -188,8 +187,6 @@ order by a.sort DESC LIMIT 0,10";
         //查询商品并分类显示返回JSON至小程序
         if($index == 0){
 
-            //$sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.status = 0 and a.num >0 and s_type like '%4%' group by c.pid  order by a.volume  DESC LIMIT $start,$end";
-            // print_r($sql_cs);die;
             $sql_cs = "select a.id,a.product_title,a.volume,a.imgurl,
 min(c.price) as price
 from lkt_product_list AS a RIGHT JOIN (select min(price) price,pid from lkt_configure group by pid) AS c ON a.id = c.pid 
@@ -218,7 +215,6 @@ group by c.pid  order by a.volume desc limit  $start,$end";
                
         }else{
             //查询商品并分类显示返回JSON至小程序
-            //$sql_t = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,c.name from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.num >0 and a.status = 0 and a.product_class like '%-$index-%' group by c.pid  order by a.sort DESC LIMIT $start,$end";
             $sql_t = "select a.id,a.product_title,a.volume,c.price,a.imgurl 
 from lkt_product_list AS a 
 RIGHT JOIN (select min(price) price,pid from lkt_configure group by pid)  AS c 
