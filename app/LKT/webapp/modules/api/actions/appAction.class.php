@@ -67,6 +67,7 @@ class appAction extends Action {
             echo json_encode(array('status'=>0,'err'=>'非法操作！'));
             exit();
         }
+
         if($code){
             $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid.'&secret='.$appsecret.'&js_code='.$code.'&grant_type=authorization_code';
             $ch = curl_init();
@@ -84,12 +85,13 @@ class appAction extends Action {
              $user['openid'] ='';
              $user['session_key'] ='';
         }
+
         $sql = "select * from lkt_background_color where status = 1";
         $r = $db -> select($sql);
         $user['bgcolor'] = $r[0]->color;
         $user['company'] = $company;
 
-               // 生成密钥
+        // 生成密钥
         $access_token = '';
         $str = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890';
         for ($i=0;$i<32;$i++){
@@ -109,15 +111,16 @@ class appAction extends Action {
                 $Referee = $pid;
             }
         }
+
         if($user['openid']){
             $data=$this->login($wxname,$headimgurl,$sex,$user['openid'],$Referee,$db,$access_token);
             $nickName = $data['nickName'];
             $avatarUrl = $data['avatarUrl'];
-             $user_id =$data['user_id'];
+            $user_id =$data['user_id'];
         }else{
             $nickName = '';
             $avatarUrl = '';
-             $user_id ='';
+            $user_id ='';
         }
 
         $sql = "select name from lkt_software where type = 0 and id = '$software_name' order by id desc";
@@ -133,6 +136,11 @@ class appAction extends Action {
         // 查询插件表里,状态为启用的插件
         $sql = "select * from lkt_plug_ins where status = 1 and type = 0 and software_id like '%$software_id%'";
         $r_c = $db->select($sql);
+        $coupon =  array();
+        $wallet =  array();
+        $sign = array();
+        $sign_image = '';
+        $sign_status = 0;
         if($r_c){
             foreach ($r_c as $k => $v) {
                 $v->image = $img . $v->image;
@@ -153,6 +161,7 @@ class appAction extends Action {
                     $sign[$k] = 0;
                 }
             }
+
             $time_start = date("Y-m-d H:i:s",mktime(0,0,0,date('m'),date('d'),date('Y'))); // 当前时间
             // 查询签到活动
             $sql = "select * from lkt_sign_activity where status = 1";
@@ -182,12 +191,13 @@ class appAction extends Action {
                 $sign_status = 0;
             }
 
-        echo json_encode(array('user'=>$user,'access_token'=>$access_token,'user_id'=>$user_id,'plug_ins'=>$r_c,'coupon'=>in_array(1,$coupon),'wallet'=>in_array(1,$wallet),'sign'=>in_array(1,$sign),'sign_status'=>$sign_status,'sign_image'=>$sign_image,'nickName'=>$nickName,'avatarUrl'=>$avatarUrl ) );
-            
+        }
+
+        echo json_encode(array('user'=>$user,'access_token'=>$access_token,'user_id'=>$user_id,'plug_ins'=>$r_c,'coupon'=>in_array(1,$coupon),'wallet'=>in_array(1,$wallet),'sign'=>in_array(1,$sign),'sign_status'=>$sign_status,'sign_image'=>$sign_image,'nickName'=>$nickName,'avatarUrl'=>$avatarUrl ) );   
         exit();
         return;
-        }
     }
+
     public function login($wxname,$headimgurl,$sex,$openid,$Referee,$db,$access_token){//添加会员
          // 根据wxid,查询会员信息
             $sql = "select * from lkt_user where wx_id = '$openid' ";
