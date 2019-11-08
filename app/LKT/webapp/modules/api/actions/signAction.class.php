@@ -28,14 +28,8 @@ class signAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }elseif ($m == 'sign') {
-            $this->sign();
-        }elseif ($m == 'integral') {
-            $this->integral();
-        }elseif ($m == 'transfer_jifen') {
-            $this->transfer_jifen();
+        if($m){
+          $this->$m();
         }
         return;
     }

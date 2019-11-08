@@ -27,18 +27,8 @@ class CouponAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }else if($m == 'receive'){
-            $this->receive();
-        }else if($m == 'mycoupon'){
-            $this->mycoupon();
-        }else if($m == 'my_coupon'){
-            $this->my_coupon();
-        }else if($m == 'immediate_use'){
-            $this->immediate_use();
-        }else if($m == 'getvou'){
-            $this->getvou();
+        if($m){
+            $this->$m();
         }
         return;
     }

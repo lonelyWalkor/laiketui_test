@@ -22,11 +22,10 @@ class envelopeAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }else if($m == 'share'){
-            $this->share();
+        if($m){
+            $this->$m();
         }
+        
         return;
     }
 

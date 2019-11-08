@@ -22,31 +22,10 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }else if($m == 'recOrder'){
-            $this->recOrder();
-        }else if($m == 'ok_Order'){
-            $this->ok_Order();
-        }else if($m == 'removeOrder'){
-            $this->removeOrder();
-        }else if($m == 'order_details'){
-            $this->order_details();
-        }else if($m == 'ReturnData'){
-            $this->ReturnData();
-        }else if($m == 'ReturnDataList'){
-            $this->ReturnDataList();
-        }else if($m == 'logistics'){
-            $this->logistics();
-        }else if($m == 'back_send'){
-            $this->back_send();
-        }else if($m == 'see_send'){
-            $this->see_send();
-        }else if($m == 'up_out_trade_no'){
-            $this->up_out_trade_no();
-        }else if($m == 'return_type'){
-            $this->return_type();
+        if($m){
+            $this->$m();
         }
+        
         return;
     }
 

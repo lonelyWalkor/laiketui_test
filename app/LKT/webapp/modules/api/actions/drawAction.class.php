@@ -22,20 +22,16 @@ class drawAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        
-        if($m == 'getFormid'){
-            $this -> getformid();
-        }elseif($m == 'ceshi'){
-            $this -> ceshi();
-        }else if($m == 'getdraw'){
-            $this->getdraw();
+        if($m){
+            $this->$m();
         }
+        
         return;
     } 
     
 
     //存formid
-    public function getformid(){
+    public function getFormid(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $uid = addslashes(trim($request->getParameter('userid')));

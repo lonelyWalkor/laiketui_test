@@ -19,13 +19,10 @@ class searchAction extends Action {
       $request = $this->getContext()->getRequest();
 
       $m = addslashes(trim($request->getParameter('m')));
-      if($m == 'index'){
-        $this->index();
-      }else if($m == 'search'){
-        $this->search();
-      }else if($m == 'listdetail'){
-        $this->listdetail();
+      if($m){
+          $this->$m();
       }
+        
       return;
   }
 

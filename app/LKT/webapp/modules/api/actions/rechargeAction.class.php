@@ -22,13 +22,10 @@ class rechargeAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }else if($m == 'recharge'){
-            $this->recharge();
-        }else if($m == 'cz'){
-            $this->cz();
+        if($m){
+            $this->$m();
         }
+        
         return;
     }
 

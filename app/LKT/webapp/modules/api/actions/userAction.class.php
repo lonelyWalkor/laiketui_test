@@ -20,42 +20,8 @@ class userAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }else if($m == 'material'){
-            $this->material();
-        }else if($m == 'details'){
-            $this->details();
-        }else if($m == 'secret_key'){
-            $this->secret_key();
-        }else if($m == 'withdrawals'){
-            $this->withdrawals();
-        }else if($m == 'share'){
-            $this->share();
-        }else if($m == 'recharge'){
-            $this->recharge();
-        }else if($m == 'withdrawals_list'){
-            $this->withdrawals_list();
-        }else if($m == 'AddressManagement'){
-            $this->AddressManagement();
-        }else if($m == 'getCityArr'){
-            $this->getCityArr();
-        }else if($m == 'getCountyInfo'){
-            $this->getCountyInfo();
-        }else if($m == 'Preservation'){
-            $this->Preservation();
-        }else if($m == 'SaveAddress'){
-            $this->SaveAddress();
-        }else if($m == 'verify_bank'){
-            $this->verify_bank();
-        }else if($m == 'selectuser'){//查询好友信息
-            $this->selectuser();
-        }else if($m == 'transfer'){//转账
-            $this->transfer();
-        }else if($m == 'perfect'){//更新电话号码
-            $this->perfect();
-        }else if($m == 'perfect_index'){//更新电话号码
-            $this->perfect_index();
+        if($m){
+          $this->$m();
         }
         return;
     }

@@ -21,9 +21,10 @@ class noticeAction extends Action {
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
     
-        if($m == 'index'){
-            $this->index();
+        if($m){
+            $this->$m();
         }
+        
 
 
         return;

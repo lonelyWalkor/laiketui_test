@@ -22,13 +22,10 @@ class payAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'pay'){
-            $this->pay();
-        }else if($m == 'recharge'){
-            $this->recharge();
-        }else if($m == 'cz'){
-            $this->cz();
+        if($m){
+            $this->$m();
         }
+        
         return;
     }
 

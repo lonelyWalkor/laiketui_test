@@ -79,23 +79,10 @@ class getcodeAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'code'){
-            $this->code();
-        }elseif($m == 'madeCode'){
-            $this->madeCode();
-        }elseif($m == 'createPromotion'){
-            $this->createPromotion();
-        }elseif($m == 'Send_Prompt'){
-            $this->Send_Prompt();
-        }elseif($m == 'getToken'){
-            $this->getToken();
-        }elseif($m == 're_code'){
-            $this->re_code();
-        }elseif($m == 're_password'){
-            $this->re_password();
-        }elseif($m == 'product_share'){
-            $this->product_share();
+        if($m){
+            $this->$m();
         }
+        
         return;
     }
 

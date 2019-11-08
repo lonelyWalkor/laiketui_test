@@ -28,45 +28,10 @@ class productAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $m = addslashes(trim($request->getParameter('m')));
-        if($m == 'index'){
-            $this->index();
-        }else if($m == 'add_cart'){
-            $this->add_cart();
-        }else if($m == 'listdetail'){
-            $this->listdetail();
-        }else if($m == 'get_more'){
-            $this->get_more();
-        }else if($m == 'Settlement'){ // 结算页面
-            $this->Settlement();
-        }else if($m == 'Shopping'){
-            $this->Shopping();
-        }else if($m == 'delcart'){
-            $this->delcart();
-        }else if($m == 'delAll_cart'){
-            $this->delAll_cart();
-        }else if($m == 'to_Collection'){
-            $this->to_Collection();
-        }else if($m == 'up_cart'){
-            $this->up_cart();
-        }else if($m == 'payment'){ // 生产订单
-            $this->payment();
-        }else if($m == 'up_order'){
-            $this->up_order();
-        }else if($m == 'comment'){
-            $this->comment();
-        }else if($m == 't_comment'){
-            $this->t_comment();
-        }else if($m == 'new_product'){
-            $this->new_product();
-        }else if($m == 'wallet_pay'){
-            $this->wallet_pay();
-        }else if ($m == 'select_size') {
-               //属性选择
-              $this->select_size();
-        }else if ($m == 'save_formid') {
-              //普通商品储存from_id 用于发货 退款等操作信息推送
-              $this->save_formid();
+        if($m){
+            $this->$m();
         }
+        
         return;
     }
 
