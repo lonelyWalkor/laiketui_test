@@ -86,27 +86,6 @@ class rechargeAction extends Action {
     public function cz(){
         echo json_encode(array('status'=>1));
         exit();
-        // $db = DBAction::getInstance();
-        // $request = $this->getContext()->getRequest();
-
-        // $openid = $_POST['openid']; // 微信id
-        // $cmoney = $_POST['cmoney']; // 充值金额
-        // $type = addslashes(trim($request->getParameter('type'))); // 参数
-        // // 查询会员信息
-        // $sql = "select * from lkt_user where wx_id = '$openid'";
-        // $r = $db -> select($sql);
-        // $money = $r[0]->money; // 用户金额
-        // $user_id = $r[0]->user_id; // 用户id
-        // if(empty($type)){
-        //     //事件
-        //     $event = '会员' . $user_id . '充值' . $money;
-        //     $sqll = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$user_id','$cmoney','$money','$event',1)";
-        //     $rr = $db->insert($sqll);
-        // }
-        // //修改金额   
-        // $sql = "update lkt_user set money = money+'$cmoney' where wx_id = '$openid'";
-        // $r = $db->update($sql);
-        // exit;
     }
 
     //充值

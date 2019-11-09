@@ -12,13 +12,7 @@ require_once(MO_LIB_DIR . '/ShowPager.class.php');
 require_once(MO_LIB_DIR . '/Tools.class.php');
 
 class CouponAction extends Action {
-    /*
-    时间2018年03月26日
-    修改内容：优惠券
-    修改人：段宏波
-    主要功能：处理小程序首页请求结果
-    公司：湖南壹拾捌号网络技术有限公司
-     */
+    
     public function getDefaultView() {
         return ;
     }

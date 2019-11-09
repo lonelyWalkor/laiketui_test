@@ -13,13 +13,7 @@ require_once(MO_LIB_DIR . '/Tools.class.php');
 require_once(MO_LIB_DIR . '/Timer.class.php');
 
 class productAction extends Action {
-    /*
-    时间2018年03月15日
-    修改内容：所有商品购买付款下订单等操作API请求
-    修改人：苏涛
-    主要功能：处理商品数据，返回购物请求结果
-    备注：api-JSON
-     */
+    
     public function getDefaultView() {
         $this->execute();
     }
