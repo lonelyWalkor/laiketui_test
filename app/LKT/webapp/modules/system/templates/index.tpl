@@ -15,7 +15,14 @@
 </head>
 
 <body>
-<nav class="breadcrumb" style="margin-left:10px;"><i class="Hui-iconfont">&#xe616;</i> 系统管理 <span class="c-gray en">&gt;</span> 系统参数 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    系统管理 <span class="c-gray en">&gt;</span> 
+    系统参数 
+</nav>
+
+
 <div class="page-container">
     <form name="form1" action="index.php?module=system" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
         <div id="tab-system" class="HuiTab">
@@ -58,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="row cl">
+            <div class="row cl" style="display:none">
                 <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>ip地址：</label>
                 <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" name="ip" value="{$ip}" class="input-text">
