@@ -136,28 +136,31 @@ class StatusAction extends Action {
    /*
 
    * 发送请求
-
    　@param $ordersNo string 订单号　
-
      @param $refund string 退款单号
-
      @param $price float 退款金额
-
      return array
-
    */
     private function wxrefundapi($ordersNo,$refund,$price){
-
+          $db = DBAction::getInstance();
+          $sql = "select * from lkt_config where id=1";
+          $r = $db->select($sql);
+          $appid = '';
+          $mch_id = '';
+          if($r){
+                $appid = $r[0]->appid; // 小程序唯一标识
+                $mch_id = $r[0]->mch_id; // 小程序的 app secret
+          } 
           //通过微信api进行退款流程
           $parma = array(
-            'appid'=> 'wx9d12fe23eb053c4f',
-            'mch_id'=> '1499256602',
+            'appid'=> $appid,
+            'mch_id'=> $mch_id,
             'nonce_str'=> $this->createNoncestr(),
             'out_refund_no'=> $refund,
             'out_trade_no'=> $ordersNo,
             'total_fee'=> $price,
             'refund_fee'=> $price,
-            'op_user_id' => '1499256602',
+            'op_user_id' => $mch_id,
           );
 
           $parma['sign'] = $this->getSign($parma);
@@ -167,6 +170,7 @@ class StatusAction extends Action {
           return $result;
 
     }
+
 
     /*
 
