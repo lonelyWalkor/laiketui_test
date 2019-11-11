@@ -396,8 +396,16 @@ class productAction extends Action {
                 $num = 0;
             }
             if($num >= $Goods_num){
-                    $sql = "insert into lkt_cart (user_id,Uid,Goods_id,Goods_num,Create_time,Size_id) values('$user_id','$Uid','$Goods_id','$Goods_num',CURRENT_TIMESTAMP,$size_id) ";
-                    $r = $db -> insert($sql,'last_insert_id');
+                    $sql = "select * from lkt_cart where user_id='$user_id' and Uid='$Uid' and Goods_id='$Goods_id' and Size_id='$size_id' ";
+                    $rs = $db->select($sql);
+                    $r = 0;
+                    if (count($rs)>0) {
+                        $sql = "update lkt_cart set Goods_num=Goods_num+$Goods_num where user_id='$user_id' and Uid='$Uid' and Goods_id='$Goods_id' and Size_id='$size_id' ";
+                        $r = $db->update($sql);
+                    }else{
+                        $sql = "insert into lkt_cart (user_id,Uid,Goods_id,Goods_num,Create_time,Size_id) values('$user_id','$Uid','$Goods_id','$Goods_num',CURRENT_TIMESTAMP,$size_id) ";
+                        $r = $db -> insert($sql,'last_insert_id');
+                    }
                     if($r){
                         echo json_encode(array('status'=>1,'cart_id'=>$r));
                     }else{
@@ -409,6 +417,7 @@ class productAction extends Action {
         }
         exit;
     }
+
     public function listdetail(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
