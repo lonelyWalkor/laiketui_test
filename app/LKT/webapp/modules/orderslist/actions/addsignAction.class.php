@@ -24,7 +24,7 @@ class addsignAction extends Action {
 		if($m =='close'){
 			$this->close($sNo);
 		}
-		// $sNo='20190905156765363859';
+		
 		//运费
 		$sql02 = "select * from lkt_express ";
 		$r02 = $db -> select($sql02);
@@ -160,16 +160,13 @@ class addsignAction extends Action {
 
 	           
 				}
-				      $r = $db -> selectrow("select id from lkt_order_details where r_sNo='" . $sNo ."'");
-				      // echo "select id from lkt_order_details where r_sNo='" . $sNo ."'";
-
-					$r01 = $db -> selectrow("select id from lkt_order_details where r_sNo='" . $sNo ."' and r_status >=2");
-					// echo "$r";echo "-----";echo "$r01";
+				    $r = $db -> selectrow("select id from lkt_order_details where r_sNo='" . $sNo ."'");
+				    $r01 = $db -> selectrow("select id from lkt_order_details where r_sNo='" . $sNo ."' and r_status >=2");
 					if($r == $r01){//全部子订单发货完全改变lkt_order表
 						$sqll = 'update lkt_order set status=2 where sNo="' . $sNo . '"';
 							$rl = $db -> update($sqll);
 					}
-				 $db->admin_record($admin_id,' 使订单号为 '.$sNo.' 的订单发货 ',7);
+				$db->admin_record($admin_id,' 使订单号为 '.$sNo.' 的订单发货 ',7);
 	            $db->commit();
 	            echo 1;
 				exit();

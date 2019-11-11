@@ -79,7 +79,6 @@ class kuaidishowAction extends Action {
             $params .= "$k=".urlencode($v)."&";     //默认UTF-8编码格式
         }
         $post_data = substr($params, 0, -1);
-        // $res = HttpTools::httpsRequest($url,$post_data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_URL, $url);
