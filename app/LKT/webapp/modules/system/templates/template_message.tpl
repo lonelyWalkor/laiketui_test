@@ -12,7 +12,14 @@
 
 </head>
 <body>
-<nav class="breadcrumb" style="line-height: 2.6rem"><i class="Hui-iconfont">&#xe616;</i> 系统管理 <span class="c-gray en">&gt;</span> 模板消息设置 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px;float: right;" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    小程序 <span class="c-gray en">&gt;</span> 
+    消息管理 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
 
 <div class="page-container">
 
