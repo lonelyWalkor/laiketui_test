@@ -230,13 +230,10 @@ class StatusAction extends Action {
       }
       $buff .= $k . "=" . $v . "&";
     }
-
     $reqPar = '';
-
     if (strlen($buff) > 0){
       $reqPar = substr($buff, 0, strlen($buff)-1);
     }
-
     return $reqPar;
 
   }
@@ -271,79 +268,39 @@ class StatusAction extends Action {
   //需要使用证书的请求
 
    private function postXmlSSLCurl($xml,$url,$second=30){
-
       $ch = curl_init();
-
       //超时时间
-
       curl_setopt($ch,CURLOPT_TIMEOUT,$second);
-
-      //这里设置代理，如果有的话
-
-      //curl_setopt($ch,CURLOPT_PROXY, '8.8.8.8');
-
-      //curl_setopt($ch,CURLOPT_PROXYPORT, 8080);
-
       curl_setopt($ch,CURLOPT_URL, $url);
-
       curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
-
       curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-
       //设置header
-
       curl_setopt($ch,CURLOPT_HEADER,FALSE);
-
       //要求结果为字符串且输出到屏幕上
-
       curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
-
       //设置证书
-
       //使用证书：cert 与 key 分别属于两个.pem文件
-
       //默认格式为PEM，可以注释
-
       $cert = str_replace('lib','filter',MO_LIB_DIR).'/apiclient_cert.pem';
-
       $key = str_replace('lib','filter',MO_LIB_DIR).'/apiclient_key.pem';
-
       curl_setopt($ch,CURLOPT_SSLCERTTYPE,'PEM');
-
       curl_setopt($ch,CURLOPT_SSLCERT, $cert);
-
       //默认格式为PEM，可以注释
-
       curl_setopt($ch,CURLOPT_SSLKEYTYPE,'PEM');
-
       curl_setopt($ch,CURLOPT_SSLKEY, $key);
-
       //post提交方式
-
       curl_setopt($ch,CURLOPT_POST, true);
-
       curl_setopt($ch,CURLOPT_POSTFIELDS,$xml);
-
       $data = curl_exec($ch);
-
       //返回结果
-
       if($data){
-
         curl_close($ch);
-
         return $data;
-
       }
-
       else {
-
         $error = curl_errno($ch);
-
         echo "curl出错，错误码:$error"."<br>";
-
         curl_close($ch);
-
         return false;
 
       }
@@ -355,39 +312,22 @@ class StatusAction extends Action {
    private function httpsRequest($url, $data=null) {
 
         // 1.初始化会话
-
         $ch = curl_init();
-
         // 2.设置参数: url + header + 选项
-
         // 设置请求的url
-
         curl_setopt($ch, CURLOPT_URL, $url);
-
         // 保证返回成功的结果是服务器的结果
-
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
         if(!empty($data)) {
-
             // 发送post请求
-
             curl_setopt($ch, CURLOPT_POST, 1);
-
             // 设置发送post请求参数数据
-
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
         }
-
         // 3.执行会话; $result是微信服务器返回的JSON字符串
-
         $result = curl_exec($ch);
-
         // 4.关闭会话
-
         curl_close($ch);
-
         return $result;
 
     }
@@ -395,47 +335,27 @@ class StatusAction extends Action {
 
 
    private function getAccessToken($appID, $appSerect) {
-
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appID."&secret=".$appSerect;
-
             // 时效性7200秒实现
-
             // 1.当前时间戳
-
             $currentTime = time();
-
             // 2.修改文件时间
-
             $fileName = "accessToken"; // 文件名
-
             if(is_file($fileName)) {
-
                 $modifyTime = filemtime($fileName);
-
                 if(($currentTime - $modifyTime) < 7200) {
-
                     // 可用, 直接读取文件的内容
-
                     $accessToken = file_get_contents($fileName);
-
                     return $accessToken;
-
                 }
-
             }
 
             // 重新发送请求
-
             $result = $this-> httpsRequest($url);
-
             $jsonArray = json_decode($result, true);
-
             // 写入文件
-
             $accessToken = $jsonArray['access_token'];
-
             file_put_contents($fileName, $accessToken);
-
             return $accessToken;
 
     }
