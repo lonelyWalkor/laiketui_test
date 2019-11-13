@@ -588,64 +588,7 @@
 
         });
 
-        //关闭更新
-        $(".aui-close").click( function () {
-            $(".dialog-simple").hide();
-        });
-        $(".ignore").click( function () {
-            $(".dialog-simple").hide();
-        });
-
-        //立即更新
-        $(".update-start").click( function () {
-            var that = $(this);
-            that.find("span").text('下载中,请稍后..');
-            $.ajax({
-                url: "index.php?module=index&upgrade=1&download=true",
-                cache: false,
-                success: function(res){
-                    if(res){
-                        var lkt_web_version = $(".lkt_web_version").val();
-                        var r=confirm("下载成功,是否立即更新?");
-                        if (r==true){
-                            parent.location.href='../index.php?updata='+lkt_web_version;
-                        }
-                        else{
-                            $(".dialog-simple").hide();
-                        }
-
-                    }else{
-                        alert('下载失败！');
-                    }
-
-                }
-            });
-        });
-
-        function chack_update() {
-            var version = $("#version").val();
-            $.ajax({
-                url: "index.php?module=index&upgrade="+version,
-                cache: false,
-                success: function(res){
-                    obj = JSON.parse(res);
-                    var status = obj.status;
-                    if(status == 1){
-                        var new_v = obj.lkt_web_version;
-                        var v_content = obj.detail;
-                        $(".lao_v").text(version);
-                        $(".new_v").text(new_v);
-                        $(".content_version").append(v_content);
-
-                        $(".dialog-simple").show();
-                    }else{
-                        $(".dialog-simple").hide();
-                    }
-
-                }
-            });
-        }
-        console.log(document.getElementById("skin"));
+        
     </script>
 {/literal}
 </body>
