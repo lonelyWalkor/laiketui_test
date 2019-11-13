@@ -17,8 +17,6 @@ class searchproAction extends Action {
     public function getDefaultView() {
 
       $db = DBAction::getInstance();
-
-
       $request = $this->getContext()->getRequest();
       $product_class = $request->getParameter('proc'); // 分类名称
       $product_title = $request->getParameter('proname'); // 标题
@@ -74,15 +72,15 @@ class searchproAction extends Action {
       if($product_title != ''){
         $condition .= " and a.product_title like '%$product_title%' ";
       }
+
       $sql = "select  a.id,a.product_title,a.imgurl,product_class from lkt_product_list as a where $condition" . ' order by status asc,a.add_date desc,a.sort desc ';
-      // print_r($sql);die;
       $r = $db->select($sql);
       $list = [];
       $status_num = 0;
+
       foreach ($r as $key => $value) {
         $pid =  $value -> id;
         $class =  $value -> product_class;
-        // $num =  $value -> num;
         $typestr=trim($class,'-');
         $typeArr=explode('-',$typestr);
         //  取数组最后一个元素 并查询分类名称
@@ -95,7 +93,6 @@ class searchproAction extends Action {
           $pname = '顶级';
         }
 
-
         foreach ($value as $k => $v) {
           $arr[$k] = $v;
         }
@@ -104,30 +101,20 @@ class searchproAction extends Action {
         $list[$key] = (object)$arr;
       }
 
-            // 查询系统参数
-
+        // 查询系统参数
         $sql1 = "select * from lkt_config where id = 1";
-
         $r_1 = $db->select($sql1);
-
         $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-
         $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-
         if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-
             $img = $uploadImg_domain . $uploadImg; // 图片路径
-
         }else{ // 不存在
-
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-
         }
-            foreach ($list as $ke => $ve) {
-               $list[$ke] -> image = $img.$ve -> imgurl;
-            }
-
-        // print_r($list);die;
+        
+        foreach ($list as $ke => $ve) {
+              $list[$ke] -> image = $img.$ve -> imgurl;
+        }
 
         $request->setAttribute("arr",$list);
         $request->setAttribute("class",$res);
@@ -141,16 +128,6 @@ class searchproAction extends Action {
 
     public function execute() {
 
-       $db = DBAction::getInstance();
-
-       $request = $this->getContext()->getRequest();
-       // var_dump($request);die;
-
-       
-
-       
-
-
 
     }
 
@@ -159,32 +136,18 @@ class searchproAction extends Action {
     public function addgroup(){
 
        $db = DBAction::getInstance();
-
        $request = $this->getContext()->getRequest();
-
        unset($_GET['module']);
-
        unset($_GET['action']);
-
        $set = $_GET;
-
        if(isset($set['starttime'])) $set['starttime'] = strtotime($set['starttime']);
-
        if(isset($set['radio']) && $set['radio'] == 1){
-
            $set['endtime'] = strtotime('+1year');
-
        }else if($set['radio'] == 2 && isset($set['endtime'])){
-
            $set['endtime'] = strtotime($set['endtime']);
-
        }
 
-       
-
        $request->setAttribute("set",$set);
-
-       
 
     }
 

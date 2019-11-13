@@ -17,7 +17,6 @@ class IndexAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // $store_id = $this->getContext()->getStorage()->read('store_id');
         $admin_name = $this->getContext()->getStorage()->read('admin_name');
         $proname = $request->getParameter("proname"); // 商品名字
         $username = $request->getParameter("username"); // 用户名字

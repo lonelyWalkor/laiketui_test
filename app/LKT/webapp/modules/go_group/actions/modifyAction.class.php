@@ -17,41 +17,38 @@ class modifyAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $id = addslashes(trim($request->getParameter('id'))); // 商品id
-        // $store_id = $this->getContext()->getStorage()->read('store_id'); // 商城id
         $product_class = $request->getParameter('cid'); // 分类名称
         $type = addslashes(trim($request->getParameter('type'))); // 用户id
-          $img = $this->img($db);
+        $img = $this->img($db);
 
-            $sql = "select MIN(b.group_title) AS group_title,MIN(b.id) AS id,MIN(b.g_status) AS g_status,b.group_id, MIN(b.group_data) AS group_data, MIN(b.group_level) AS group_level,min(b.is_show) as is_show,min(c.price) price,min(c.num) num,min(c.attribute) attribute,min(p.product_title) product_title, min(b.product_id) product_id from lkt_group_product as b 
+        $sql = "select MIN(b.group_title) AS group_title,MIN(b.id) AS id,MIN(b.g_status) AS g_status,b.group_id, MIN(b.group_data) AS group_data, MIN(b.group_level) AS group_level,min(b.is_show) as is_show,min(c.price) price,min(c.num) num,min(c.attribute) attribute,min(p.product_title) product_title, min(b.product_id) product_id from lkt_group_product as b 
                     left join lkt_configure as c on b.attr_id=c.id 
                     left join lkt_product_list as p on b.product_id=p.id 
                     where b.group_id=$id group by group_id";
-                    // print_r($sql);die;
-            $res = $db -> select($sql);
+        $res = $db -> select($sql);
             
         $msg = $res[0];
         $pid = $msg->product_id;
-            $group_data = unserialize($msg -> group_data);
+        $group_data = unserialize($msg -> group_data);
 
-            if($group_data->endtime =='changqi'){
-                  $dt=$group_data -> starttime;
-                    $dt=date('Y-m-d H:i:s',strtotime("$dt+1year"));
-                    
-                    $group_data -> endtime = $dt;
-            }
-            // print_r($group_data);die;
-            $group_level = unserialize($msg -> group_level);
+        if($group_data->endtime =='changqi'){
+            $dt=$group_data -> starttime;
+            $dt=date('Y-m-d H:i:s',strtotime("$dt+1year"));                    
+            $group_data -> endtime = $dt;
+        }
+
+        $group_level = unserialize($msg -> group_level);
 
         $g_status = $msg -> g_status;
-            $is_show = $msg -> is_show;
-            $firstkey = array_keys($group_level)[0];
-            $lastset = reset($group_level);
-            $lastset = explode('~',$lastset);
-            $lastset[] = $firstkey;
-            unset($group_level[$firstkey]);
+        $is_show = $msg -> is_show;
+        $firstkey = array_keys($group_level)[0];
+        $lastset = reset($group_level);
+        $lastset = explode('~',$lastset);
+        $lastset[] = $firstkey;
+        unset($group_level[$firstkey]);
 
-            $levelstr = '';
-            if(count($group_level) > 0){
+        $levelstr = '';
+        if(count($group_level) > 0){
                 foreach ($group_level as $k => $v) {
                     $num = $k;
                     $price = explode('~',$v);
@@ -77,13 +74,12 @@ class modifyAction extends Action {
         from lkt_configure as a 
         left join lkt_product_list as b on a.pid = b.id 
         where b.recycle = 0 and b.num >0 and a.num > 0 and b.id = $pid and a.recycle = 0 ";
-        // print_r($prosql);die;
+
         $proattr = $db -> select($prosql);
         if(!empty($proattr)){
             foreach ($proattr as $k => $v) {
                 $attrtype1 = unserialize($v -> attribute);
                 $attrtype1 = array_values($attrtype1);
-                // print_r($attrtype1);die;
                 $attrtype1 = implode(' ', $attrtype1);
 
                 $proattr[$k] -> attrtype = $attrtype1;
@@ -142,7 +138,8 @@ class modifyAction extends Action {
           }
         }
       }
-// print_r($proattr);die;
+
+
         $brandsql ="select brand_id,brand_name from lkt_brand_class where  recycle = 0";
         $brandres = $db -> select($brandsql);
             $request->setAttribute("brandres", $brandres);
@@ -163,7 +160,6 @@ class modifyAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 接收信息
-        // $store_id = $this->getContext()->getStorage()->read('store_id');
         $gdata = json_decode($request->getParameter('gdata'));
         $goods_id = $request->getParameter('goods_id');
         $glevel = $request->getParameter('glevel');
@@ -202,7 +198,7 @@ class modifyAction extends Action {
             foreach ($tuanZ as $k => $v) {
                 $str .= "($k,$goods_id,'$glevel','$gdata','$group_title','$group_id'),";
             }
-            // print_r($str);die;
+
             $str = substr($str, 0,strlen($str)-1);
             $respro = $db->insert($str);
 
@@ -232,25 +228,17 @@ class modifyAction extends Action {
     public function getRequestMethods(){
         return Request :: POST;
     }
- public function img($db){
-           // 查询系统参数
 
+    public function img($db){
+        // 查询系统参数
         $sql1 = "select * from lkt_config where id = 1";
-
         $r_1 = $db->select($sql1);
-
         $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-
         $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-
         if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-
             $img = $uploadImg_domain . $uploadImg; // 图片路径
-
         }else{ // 不存在
-
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-
         }
         return $img ;
     }

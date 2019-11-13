@@ -24,7 +24,6 @@ class addgroupAction extends Action{
         $gdata = json_decode($request->getParameter('gdata'));
         $goods_id = json_decode($request->getParameter('goods_id'));
         $glevel = $request->getParameter('glevel');
-         // return $this->getDefaultView();
         $group_title = $request->getParameter('group_title');
 
         $sel_attr_sql = "select c.id from lkt_configure as c
@@ -47,7 +46,7 @@ class addgroupAction extends Action{
         }else{
             $group_id=1;
         }
-// print_r($nu);die;
+
         $gdata = serialize($gdata);
         $glevel = serialize($glevel);
         $str = 'insert into lkt_group_product(attr_id,product_id,group_level,group_data,group_title,group_id) values';

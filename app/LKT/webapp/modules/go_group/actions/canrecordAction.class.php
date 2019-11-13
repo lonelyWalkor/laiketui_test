@@ -33,8 +33,6 @@ class canrecordAction extends Action {
 
 
         //查询是参团下的该用户下的拼团信息
-//        left join lkt_group_open as g on g.pcode = o.ptcode
-//        left join lkt_product_list as l on l.id = g.ptgoods_id
        $sql = "SELECT u.user_name,d.p_name,d.p_id as goods_id,d.sid as attr_id,o.* 
                     from lkt_order as o
                     LEFT JOIN lkt_user as u on o.user_id = u.user_id
@@ -42,7 +40,7 @@ class canrecordAction extends Action {
                     where  ptcode = '$ptcode'
                     ORDER BY add_time desc";
         $can_res = $db->select($sql);
-        // print_r($can_res);die;
+
         if($can_res){
             foreach ($can_res as $k => $v){
                 $order_no = $v->sNo;
@@ -57,8 +55,7 @@ class canrecordAction extends Action {
                 }
             }
         }
-//        var_dump($can_res);
-//        exit;
+
         $request->setAttribute("list", $can_res);
         $request->setAttribute("bstatus", $bstatus);
         return View :: INPUT;

@@ -15,7 +15,6 @@ class memberAction extends Action {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // $store_id = $this->getContext()->getStorage()->read('store_id'); // 商城id
         $uploadImg = $this->getContext()->getStorage()->read('uploadImg'); // 图片上传路径
         $serverURL = $this->getContext()->getStorage()->read('serverURL');
 
@@ -29,19 +28,16 @@ class memberAction extends Action {
         if(strpos($id, ',')){
           $id = substr($id, 0,-1);
         }
-        // $db->begin();
+
         $sql = 'update lkt_group_product set recycle = 1 where group_id="'.$id.'"';
-
         $res = $db -> update($sql);
-
         $r = $db -> select("select * from lkt_group_open where group_id=$id and ptstatus =1 ");
- // print_r("select * from lkt_group_open where group_id=$id and ptstatus =1 ");die;
                 if($r){
                     foreach ($r as $key01 => $value01) {
-                        // print_r(111);
+
                          $db->update("UPDATE `lkt_group_open` SET `ptstatus`='3' WHERE id = ".$value01->id);
                          $ee = $db->select("select user_id,z_price,sNo,pay from lkt_order where ptcode = '".$value01->ptcode."'");
-                         // print_r($ee);die;
+
                          if($ee){
                             foreach ($ee as $key02=> $value02) {
                                 $db->update("UPDATE `lkt_order_details` SET `r_status`='11' WHERE r_sNo = '".$value02->sNo."'");
@@ -55,8 +51,6 @@ class memberAction extends Action {
                     }
                      $db-> rollback();
                 }
-
-
         
         if($res <= 0){
             echo json_encode(array('status' => 0,'info' => '删除失败!'));exit;
@@ -72,8 +66,7 @@ class memberAction extends Action {
         $request = $this->getContext()->getRequest();
         $id = $request->getParameter('id');
         $type = trim($request->getParameter('type'));    //停止或开始产品砍价
-     
-        
+
         $str = '';
         if($type == 2){
             $str .= ',is_show = 1';
@@ -89,7 +82,6 @@ class memberAction extends Action {
         }else if($type == 3){
             $str .= ',is_show = 0';
         }
-
 
 
         $sql = "update lkt_group_product set g_status=$type$str where group_id = $id ";

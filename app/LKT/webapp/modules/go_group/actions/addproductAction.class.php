@@ -22,8 +22,8 @@ class addproductAction extends Action
       $product_class = $request->getParameter('cid'); // 分类名称
       $product_title = $request->getParameter('pro_name'); // 标题
       $brand_id = $request->getParameter('brand'); // 标题
-        $m = $request->getParameter('m');
-        // print_r($m);die;
+      $m = $request->getParameter('m');
+
         if($m != ''){
             $this->$m();
             exit;
@@ -174,7 +174,7 @@ class addproductAction extends Action
             }
             $vee->attr = implode(',',$attr);
         }
-          // print_r($res01);die;
+
         $request->setAttribute("class", $res);
         $request->setAttribute("arr", $list);
         $request->setAttribute("proattr", $res01);
@@ -240,7 +240,7 @@ class addproductAction extends Action
             }
             $v->attr = implode(',',$attr);
         }
-// print_r($res);die;
+
         echo json_encode(array('res'=>$res));exit;
 
     }
