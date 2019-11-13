@@ -65,31 +65,6 @@ class delAction extends Action {
         }
     }
 
-    // public function startgroup() {
-    //     $db = DBAction::getInstance();
-    //     $request = $this->getContext()->getRequest();
-    //     $id = addslashes(trim($request->getParameter('id')));
-
-    //     $sql = 'update lkt_group_buy set is_show=1 where status="'.$id.'"';
-    //     $res = $db -> update($sql);
-        
-    //     if($res > 0){
-    //         echo json_encode(array('status' => 1));exit;
-    //     }
-    // }
-    
-    // public function stopgroup() {
-    //     $db = DBAction::getInstance();
-    //     $request = $this->getContext()->getRequest();
-    //     $id = addslashes(trim($request->getParameter('id')));
-
-    //     $sql = 'update lkt_group_buy set is_show=0 where status="'.$id.'"';
-    //     $res = $db -> update($sql);
-        
-    //     if($res > 0){
-    //         echo json_encode(array('status' => 1));exit;
-    //     }
-    // }
 
     public function execute() {
 

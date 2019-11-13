@@ -151,11 +151,14 @@
 <title>拼团活动管理</title>
 </head>
 <body>
-<nav class="breadcrumb" style="font-size: 16px;"><span class="c-gray en"></span><i class="Hui-iconfont">&#xe67f;</i> 拼团列表
-  <span class="c-gray en">&gt;</span>拼团
 
-  <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+
+<nav class="breadcrumb">
+    拼团管理 <span class="c-gray en">&gt;</span> 
+    拼团列表  
 </nav>
+
+
 <div class="page-container pd-20 page_absolute">
   <div style="display: flex;flex-direction: row;font-size: 16px;" class="page_bgcolor">
     <div class="status qh {if $status==0}isclick{/if}"  style="border-radius: 2px 0px 0px 2px !important;"><a href="index.php?module=go_group&action=index&status=0" onclick="statusclick(0)">拼团商品</a></div>

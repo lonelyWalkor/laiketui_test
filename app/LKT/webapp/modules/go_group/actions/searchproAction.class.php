@@ -11,13 +11,9 @@
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 
 
-
 class searchproAction extends Action {
 
     
-
-
-
     public function getDefaultView() {
 
       $db = DBAction::getInstance();
@@ -26,9 +22,7 @@ class searchproAction extends Action {
       $request = $this->getContext()->getRequest();
       $product_class = $request->getParameter('proc'); // 分类名称
       $product_title = $request->getParameter('proname'); // 标题
-// var_dump($request);die;
       $proids = isset($_COOKIE['proids'])?$_COOKIE['proids']:'';
-      // var_dump($proids);die;
       $sql01 = "select cid,pname from lkt_product_class where sid = 0 ";
       $rr = $db->select($sql01);
       $res = '';

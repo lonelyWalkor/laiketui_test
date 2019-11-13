@@ -1,11 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:23
- * @LastEditTime: 2019-09-17 14:18:05
- * @LastEditors: Please set LastEditors
- -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -173,13 +165,7 @@
                 <span style="margin-left: 10px;font-size: 14px;color:#A8B0CB;">（活动标题如果不填写，默认为商品名称）</span>
             </div>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-2" style="margin-top: 0px;padding-right: 0px!important;height: 36px;line-height: 36px;">选择拼团商品：</label>
-            <div class="formControls col-10">
-                <input type="text" name="title" value="{$list[0]->group_title}" {if $g_status == 2 && $is_show == 1}disabled{/if}>
-                <span style="margin-left: 10px;font-size: 10px;color:#A8B0CB;">（未填写拼团标题则默认为商品标题）</span>
-            </div>
-        </div> -->
+
         <div class="row cl">
             <label class="form-label col-2" style="line-height: 25px;margin-top: 0px;padding-right: 0px;">选择拼团商品：</label>
             <div class="formControls col-10">

@@ -99,11 +99,16 @@
 <title>拼团活动管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><span class="c-gray en"></span><i class="Hui-iconfont">&#xe67f;</i> 拼团列表
-	<span class="c-gray en">&gt;</span>拼团
-	
-	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+
+
+<nav class="breadcrumb">
+    拼团管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=go_group">拼团列表</a> <span class="c-gray en">&gt;</span>
+    开团记录 <span class="c-gray en">&gt;</span>
+    <a href="javascript:history.go(-1)">返回</a>
 </nav>
+
+
 <div class="page-container pd-20 page_absolute">		
 	<div style="margin-top:10px;display: flex;flex-direction: row;">
 		<div class="status qh {if $status == 0}isclick{/if}"><a href="index.php?module=go_group&action=index&status=0" onclick="statusclick(0)">全部</a></div>
@@ -215,13 +220,7 @@ function excel(pageto) {
     location.href=location.href+'&pageto='+pageto+'&pagesize='+pagesize;
 }
 
-// $('#btn5')[0].addEventListener('change',function(){
-//    if(this.value == 'up'){
-//       dataUp('index.php?module=go_group&action=member&m=allpro&type=up&id=','确定');
-//    }else if(this.value == 'down'){
-//       dataDown('index.php?module=go_group&action=member&m=allpro&type=down&id=','确定');
-//    }
-// })
+
 
 function empty() {
 

@@ -1,11 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-26 13:55:23
- * @LastEditTime: 2019-09-17 14:15:25
- * @LastEditors: Please set LastEditors
- -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
