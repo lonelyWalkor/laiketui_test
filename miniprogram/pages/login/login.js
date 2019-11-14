@@ -14,9 +14,7 @@ Page({
 	
 	},
 	onUnload: function() {
-    // wx.navigateBack({
-    //   delta: 1
-    // })
+    
 	},
   getUserInfo: function (t) {
     wx.showLoading({

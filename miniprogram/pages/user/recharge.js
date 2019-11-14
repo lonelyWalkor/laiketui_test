@@ -7,12 +7,7 @@ Page({
   },
   //页面加载完成函数 remind: '加载中',
   onReady: function () {
-    // var that = this;
-    // setTimeout(function () {
-    //   that.setData({
-    //     remind: ''
-    //   });
-    // }, 1000);
+    
   },
   bindblur: function (e) {
     var money = e.detail.value;

@@ -1,5 +1,4 @@
 var app = getApp();
-// pages/logins/logins.js
 Page({
 
   data: {
@@ -218,11 +217,6 @@ Page({
           setTimeout(function () {
             that.clickPup()
             thatplus.onLoad()
-            // getCurrentPages()[getCurrentPages().length - 1].onLoad()
-            // wx.switchTab({
-            //   url: '../index/index',
-            // })
-
           }, 1800);
 
         }

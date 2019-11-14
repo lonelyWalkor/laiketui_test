@@ -100,7 +100,7 @@ Page({
             switch: res.data.switch//转账按钮（0 关闭  1.开启）
           })
          console.log(res.data.sign);
-         console.log(333336666);
+         
        },
        
        error: function (e) {
