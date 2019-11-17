@@ -64,7 +64,15 @@ function change(){
 <title>添加活动</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe6ca;</i> 优惠券管理 <span class="c-gray en">&gt;</span> 活动列表 <span class="c-gray en">&gt;</span> 添加活动 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=coupon';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+
+<nav class="breadcrumb">
+    插件管理 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=coupon">活动列表</a> <span class="c-gray en">&gt;</span> 
+    添加活动 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
 <div class="pd-20">
     <form name="form1" action="index.php?module=coupon&action=add" class="form form-horizontal" method="post" enctype="multipart/form-data">
          <input type="hidden" id="activity_type" value="{$activity_type}" >
@@ -83,9 +91,10 @@ function change(){
                 <div class="radio-box">
    
                      <input name="activity_type" type="radio" value="1" {if $activity_type == 1}checked="checked" {/if} onClick="show(this)"/>
-
                     <label for="sex-1">注册</label>
+                    
                 </div>
+
                 <div class="radio-box">
                     <input name="activity_type" type="radio" value="2" {if $activity_type == 2}checked="checked" {/if} onClick="show(this)"/>
                     <label for="sex-2">节日/活动</label>
