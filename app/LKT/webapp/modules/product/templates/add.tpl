@@ -299,13 +299,7 @@ function check(f) {
 
             </div>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>关键词：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$keyword}" placeholder="" id="keywordId" name="keyword">
-            </div>
-        </div>
- -->
+
         <div class="row cl" style="display:none">
             <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
             <div class="formControls col-4" style="width: 16.8%;">

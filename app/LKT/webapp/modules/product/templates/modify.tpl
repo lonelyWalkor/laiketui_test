@@ -229,12 +229,7 @@
                 <text style="line-height:30px;">*简洁表达商品，用来显示在首页商品，避免截取时不能表达是什么商品。</text>
             </div>
 
-<!--         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>商品条形码：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$scan}" placeholder="" id="scanId" name="scan">
-            </div>
-        </div> -->
+
         <div class="row cl">
             <label class="form-label col-2"><span class="c-red">*</span>商品类别：</label>
             <div class="formControls col-2"> <!-- <span class="select-box"> -->
@@ -282,19 +277,7 @@
                 （建议上传375px*375px）
             </div>
         </div>
-<!--         <div class="row cl">
-            <label class="form-label col-2"><span class="c-red">*</span>关键词：</label>
-            <div class="formControls col-4" style="width: 16.8%;">
-                <input type="text" class="input-text" value="{$keyword}" placeholder="" id="keywordId" name="keyword">
-            </div>
-        </div> -->
-<!--         {foreach from=$attr_group_list item=item name=f1}
-        <div>{$item.attr_group_name}:</div>
-            {foreach from=$item.attr_list item=item1 name=f1}
-            <div>{$item1.attr_name}</div>
-            
-            {/foreach}
-            {/foreach} -->
+
 
             <div class="row cl" style="display:none">
                 <label class="form-label col-2"><span class="c-red">*</span>重量：</label>
