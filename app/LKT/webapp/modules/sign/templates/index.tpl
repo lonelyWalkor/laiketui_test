@@ -44,7 +44,8 @@
 
 <nav class="breadcrumb">
     插件管理 <span class="c-gray en">&gt;</span> 
-    签到
+    签到 <span class="c-gray en">&gt;</span> 
+    活动列表
 </nav>
 
 

@@ -30,7 +30,15 @@
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe623;</i> 签到活动管理 <span class="c-gray en">&gt;</span> 积分设置 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    <a href="index.php?module=sign" >签到管理</a> <span class="c-gray en">&gt;</span> 
+    签到记录 <span class="c-gray en">&gt;</span> 
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
 <div class="pd-20">
     <div class="swivch">
         <a href="index.php?module=sign" class="btn1">活动列表</a>

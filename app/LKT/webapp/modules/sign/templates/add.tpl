@@ -24,6 +24,9 @@
 </nav>
 
 
+
+
+
     <div class="pd-20">
         <form name="form1" action="index.php?module=sign&action=add" class="form form-horizontal" method="post"
             enctype="multipart/form-data" onsubmit="return check(this)">
@@ -43,16 +46,11 @@
                 <div class="formControls col-10">
                     <input id="start_time" name="starttime" value="" class="scinput_s"
                         style="width: 180px; height:26px;font-size: 14px;vertical-align: middle;" placeholder="开始时间">
-                    -
+                    - 
                     <input id="end_time" name="endtime" value="" class="scinput_s"
                         style="width: 180px; height:26px;font-size: 14px;vertical-align: middle;" placeholder="结束时间">
 
-                    <!--                 <input name="starttime" size="8" readonly class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;" />
-                <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.starttime);" />
-                -
-                <input name="endtime" size="8" readonly  class="scinput_s" style="width: 200px;height:26px;font-size: 14px;vertical-align: middle;"/>
-                <img src="modpub/images/datetime.gif" style="cursor:pointer;" onclick="new Calendar().show(document.form1.endtime);" /> -->
-                    <div>如：选择2018.05.29——2018.05.30,活动日期为 2018.05.29 00:00:00——2018.05.30 23:59:59</div>
+                    
                 </div>
             </div>
 
