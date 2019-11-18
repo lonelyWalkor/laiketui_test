@@ -19,9 +19,7 @@ class IdentifyAction extends Action {
         $admin_id = $this->getContext()->getStorage()->read('admin_id');
         
         // 接收信息
-        $id = $request->getParameter('id'); // 产品id
-        // $id=11;
-        // $type = $request->getParameter('type');
+        $id = $request->getParameter('id'); // 产品id      
         $id = rtrim($id, ','); // 去掉最后一个逗号
         $id = explode(',',$id); // 变成数组
         $con =count($id);

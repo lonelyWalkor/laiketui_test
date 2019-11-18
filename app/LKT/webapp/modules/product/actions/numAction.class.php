@@ -73,7 +73,6 @@ class numAction extends Action {
         }
 
         $url = "index.php?module=product&action=num&product_title=".urlencode($product_title)."&pagesize=".urlencode($pagesize);
-//        $pages_show = $pager->multipage($url,ceil($total/$pagesize),$page, $para = '');
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
 
         $sql = "select * from lkt_config where id = '1'";
