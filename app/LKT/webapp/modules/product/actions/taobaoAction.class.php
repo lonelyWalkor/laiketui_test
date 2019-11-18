@@ -75,7 +75,7 @@ class taobaoAction extends Action {
             }
 
         }
-        // print_r($res);die;
+    
     $request->setAttribute("ctype",$res);
       return View :: INPUT;
     }
@@ -83,12 +83,9 @@ class taobaoAction extends Action {
     public function execute() {
       $db = DBAction::getInstance();
       $request = $this->getContext()->getRequest();
-      // print_r($request);die;
       $url = $request->getParameter('url');
-     $product_class = $request->getParameter('product_class');
-
+      $product_class = $request->getParameter('product_class');
       preg_match('|\.(.*).com|isU',$url, $type);
-      
       $type = $type[1];
       if ($type == "1688") {
           $ret = $this->getalbb($url,$product_class);
@@ -120,10 +117,8 @@ class taobaoAction extends Action {
       $text=file_get_contents($url);//将url地址上页面内容保存进$text
        preg_match_all('|<h3 class="tb-main-title" data-title="(.*)</h3>|isU',$text, $title);
        $title1 = iconv('GBK','UTF-8', $title[1][0]); 
-       // print_r($title1);
        $title2 = explode('">', $title1); 
        $dte['product_title']=$title2[0];//产品标题
-       // print_r($title2);die;
        $sql = "select * from lkt_product_list where product_title = '$title2[1]'";//查询是否有相同名称的商品
         $r001 = $db->select($sql);
         if(!empty($r001)){
@@ -154,9 +149,7 @@ class taobaoAction extends Action {
                 if(!empty($value02)){//判断单个值是否存在
 
                   $chicunid =$value01['chicunid'];
-                  // print_r($chicunid);die;
                   $idd=explode(':', $chicunid); 
-                  // print_r($type1);
                   if($type1 == 1 ){
                     $keyy = $idd[0];
                   }else{
@@ -167,12 +160,7 @@ class taobaoAction extends Action {
                   $colorid = $value02['colorid'] ;
                   $img = $value02['img'];
                   $colorname = $value02['colorname'];
-                  // echo "<br/>";
-                  //     print_r($idd[1]);
-                  //     echo "<br/>";
-                  //     print_r($colorid);
-                  //     echo "<br/>";
-                  //     echo '-----------------------------------';
+
                       if($type1 == 1 ){//尺寸
                         $ids = $idd[1].';'.$colorid;
                       }elseif ($type1 == 2) {//高度
@@ -213,7 +201,6 @@ class taobaoAction extends Action {
                   $colorid = $value02['colorid'] ;
                   $img = $value02['img'];
                   $colorname = $value02['colorname'];
-                  // print_r($colorname);die;
                   $ids =$colorid;
                   $price = $this->price($text,$keyy);//淘宝商品对应的商品规格价格及ID
                   foreach ($price as $key03 => $value03) {
@@ -224,8 +211,6 @@ class taobaoAction extends Action {
                         $pricee[$key03]['price'] = $value03['price'];
                         $pricee[$key03]['chicun'] = '默认';
                         $pricee[$key03]['img'] = $img;
-                        // $pricee[$key03]['colorname'] = iconv('GBK','UTF-8', $colorname);
-                        // $pricee[$key03]['color'] = iconv('GBK','UTF-8', $colorname); 
                         $pricee[$key03]['colorname'] = $colorname;
                         $pricee[$key03]['color'] = $colorname;
                       }
@@ -399,19 +384,16 @@ class taobaoAction extends Action {
             
             return $content;
         }
+
     function getalbb($url,$product_class){//1688抓取
       if(!empty($product_class)){
         $dte['product_class']=$product_class;
-     }else{
-         $dte['product_class']='-1-';
-     }
+       }else{
+           $dte['product_class']='-1-';
+       }
       $db = DBAction::getInstance();
       $text=file_get_contents($url);//将url地址上页面内容保存进$text
-      // $text = $this->getcurl($url);
-       // var_dump($text);die;
       preg_match('/<(h1)[^c]*class=\"d-title\"[^>]*>.*<\/\\1>/is', $text, $title);
-      // print_r($text);
-      // print_r($title);
        $product_title = preg_replace('/"/', '',$title[0]);
        preg_match('|<span>(.*)</span>|isU',$product_title,$product_title1);
 
@@ -469,9 +451,6 @@ class taobaoAction extends Action {
                 $tupian1[$key02]->img = '';
               }
               foreach ($chicun1 as $key03 => $value03) {
-
-                // $arr1['colorname'] = $title1 = iconv('GBK','UTF-8', $value02->name);
-                // $arr1['color'] = $title1 = iconv('GBK','UTF-8', $value02->name);
                 $arr1['colorname'] = $title1 = $value02->name;
                 $arr1['color'] = $title1 = $value02->name;
                 $arr1['img'] = $value02->img;
