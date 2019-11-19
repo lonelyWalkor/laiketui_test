@@ -93,7 +93,7 @@
                 <image class='img' src="{{icons.img}}"></image>
               </view>
               <view style='width:100%;'>
-                <text>{{icons.name}}</text>
+                <text class="menu-width">{{icons.name}}</text>
               </view>
             </navigator>
           </view>
