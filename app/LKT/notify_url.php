@@ -265,77 +265,75 @@ class order
 
         if(($ptnumber+1) < $man_num){
 
-            $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no')";
-            $res2 = $db -> insert($istsql2);    
-            $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";   
-            $res3 = $db -> insert($istsql3);
-            $updsql = "update lkt_group_open set ptnumber=ptnumber+1 where group_id='$groupid' and ptcode='$oid'";
-            $updres = $db -> update($updsql);
-            if($res2 > 0 && $res3>0){
+                $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no')";
+                $res2 = $db -> insert($istsql2);    
+                $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";   
+                $res3 = $db -> insert($istsql3);
+                $updsql = "update lkt_group_open set ptnumber=ptnumber+1 where group_id='$groupid' and ptcode='$oid'";
+                $updres = $db -> update($updsql);
+                if($res2 > 0 && $res3>0){
 
-                $idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
-                if(!empty($idres)) $idres = $idres[0] -> id;
-                    $db->commit();
-                    return  'code:1';
-            }else{
+                    $idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
+                    if(!empty($idres)) $idres = $idres[0] -> id;
+                        $db->commit();
+                        return  'code:1';
+                }else{
 
-                 $db->rollback();
-                 return  'code:2';
+                     $db->rollback();
+                     return  'code:2';
 
-            }
+                }
 
         }else if(($ptnumber+1) === $man_num){
 
-            $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no) values('$uid','$name','$tel',$buy_num,'$price','$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no')";
-            $res2 = $db -> insert($istsql2);    
-            $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";
-            $res3 = $db -> insert($istsql3);
-            $updsql = "update lkt_group_open set ptnumber=ptnumber+1,ptstatus=2 where group_id='$groupid' and ptcode='$oid'";
-            $updres = $db -> update($updsql);
-            $beres = $db -> update("update lkt_order set ptstatus=2,status=1 where pid='$groupid' and ptcode='$oid'");
+                $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no) values('$uid','$name','$tel',$buy_num,'$price','$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no')";
+                $res2 = $db -> insert($istsql2);    
+                $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime',-1,'$pro_size',$sizeid)";
+                $res3 = $db -> insert($istsql3);
+                $updsql = "update lkt_group_open set ptnumber=ptnumber+1,ptstatus=2 where group_id='$groupid' and ptcode='$oid'";
+                $updres = $db -> update($updsql);
+                $beres = $db -> update("update lkt_order set ptstatus=2,status=1 where pid='$groupid' and ptcode='$oid'");
 
-            if($beres < 1){
-                $db->rollback();
-                return  'code:3';
-              }
-
-            $selmsg = "select m.*,d.p_name,d.p_price,d.num,d.sid from (select o.id,o.user_id,o.ptcode,o.sNo,o.z_price,u.wx_id as uid from lkt_order as o left join lkt_user as u on o.user_id=u.user_id where o.pid='$groupid' and o.ptcode='$oid') as m left join lkt_order_details as d on m.sNo=d.r_sNo";
-            $msgres = $db -> select($selmsg);
-
-            foreach ($msgres as $k => $v) {
-
-                $beres = $db -> update("update lkt_configure set num=num-$v->num where id=$v->sid");
                 if($beres < 1){
                     $db->rollback();
-                    return  'code:4';
+                    return  'code:3';
                 }
 
-                $fromidsql = "select fromid,open_id from lkt_user_fromid where open_id='$v->uid' and id=(select max(id) from lkt_user_fromid where open_id='$v->uid')";
-                $fromidres = $db -> select($fromidsql);                           
-                foreach ($fromidres as $ke => $val) {
+                $selmsg = "select m.*,d.p_name,d.p_price,d.num,d.sid from (select o.id,o.user_id,o.ptcode,o.sNo,o.z_price,u.wx_id as uid from lkt_order as o left join lkt_user as u on o.user_id=u.user_id where o.pid='$groupid' and o.ptcode='$oid') as m left join lkt_order_details as d on m.sNo=d.r_sNo";
+                $msgres = $db -> select($selmsg);
 
-                    if($val -> open_id == $v -> uid){
-                        $msgres[$k] -> fromid = $val -> fromid;
+                foreach ($msgres as $k => $v) {
+
+                    $beres = $db -> update("update lkt_configure set num=num-$v->num where id=$v->sid");
+                    if($beres < 1){
+                        $db->rollback();
+                        return  'code:4';
                     }
 
-                }     
+                    $fromidsql = "select fromid,open_id from lkt_user_fromid where open_id='$v->uid' and id=(select max(id) from lkt_user_fromid where open_id='$v->uid')";
+                    $fromidres = $db -> select($fromidsql);                           
+                    foreach ($fromidres as $ke => $val) {
 
-            }           
+                        if($val -> open_id == $v -> uid){
+                            $msgres[$k] -> fromid = $val -> fromid;
+                        }
 
-            if($res2 > 0 && $res3 > 0){  
+                    }     
 
-                $sql = "select * from lkt_notice where id = '1'";
-                $r = $db->select($sql);
-                $template_id = $r[0]->group_success;
-                $db->commit();
-                $this -> Send_success($msgres,date('Y-m-d H:i:s',time()),$template_id,$pro_name);
+                }           
 
-            }else{
+                if($res2 > 0 && $res3 > 0){  
 
-                $db->rollback();
-                return  'code:5';
+                    $sql = "select * from lkt_notice where id = '1'";
+                    $r = $db->select($sql);
+                    $template_id = $r[0]->group_success;
+                    $db->commit();
+                    $this -> Send_success($msgres,date('Y-m-d H:i:s',time()),$template_id,$pro_name);
+                }else{
+                    $db->rollback();
+                    return  'code:5';
 
-            }
+                }
 
          }else if($ptnumber == $man_num){
 
@@ -344,24 +342,19 @@ class order
                 $db->rollback();
                 return  'code:6';
               }
-
               $db->commit();
               return  'code:7';
 
-
-         }else{
-
-
-
          }
+
 
         }else{
 
             $bere = $db -> update("update lkt_user set money=money+$price where user_id='$uid'");
-              if($beres < 1){
+            if($beres < 1){
                 $db->rollback();
                 return  'code:8';
-              }
+            }
 
         }
 
@@ -377,36 +370,17 @@ class order
     //存储微信的回调 
     $xml = PHP_VERSION <= 5.6 ? $GLOBALS['HTTP_RAW_POST_DATA']:file_get_contents('php://input');
     $notify->saveData($xml);
-
-    //验证签名，并回应微信。
-
-    //对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
-
-    //微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
-
-    //尽可能提高通知的成功率，但微信不保证通知最终能成功。
-
     if($notify->checkSign() == FALSE){
-
         $notify->setReturnParameter("return_code","FAIL");//返回状态码
-
         $notify->setReturnParameter("return_msg","签名失败");//返回信息
-
     }else{
-
         $notify->setReturnParameter("return_code","SUCCESS");//设置返回码
-
     }
 
     $returnXml = $notify->returnXml();
-
     echo $returnXml;
 
-    //==商户根据实际情况设置相应的处理流程，此处仅作举例=======
-
-
     //以log文件形式记录回调信息
-
     $log_ = new Log_();
     $log_name="./notify_url.log";//log文件路径
     $log_->log_result($log_name,"【接收到的notify通知】:\n".$xml."\n");
@@ -500,5 +474,4 @@ class order
     }
 
     
-
 ?>
