@@ -1,5 +1,4 @@
 <?php
-
 /**
 
  * 通用通知接口demo
@@ -16,38 +15,21 @@
 
 */
 
-
-
-
-
 session_name("money_mojavi");
-
 session_start();
-
 date_default_timezone_set('Asia/Chongqing');
-
 set_time_limit(0);
-
 require_once(dirname(__FILE__)."/webapp/config.php");
-
 require_once(MO_APP_DIR."/mojavi.php");
-
 require_once(dirname(__FILE__).'/webapp/config/db_config.php');
-
 require_once(dirname(__FILE__).'/webapp/lib/DBAction.class.php');
-
 require_once(dirname(__FILE__).'/webapp/lib/WxPayPubHelper/WxPayPubHelper.php');
-
 require_once(dirname(__FILE__).'/webapp/lib/WxPayPubHelper/log_.php');
-
 require_once(dirname(__FILE__) . '/webapp/lib/SysConst.class.php');
-
-
 
 $db = DBAction::getInstance();
 
 class order
-
 {
 
     // 付款后修改订单状态,并修改商品库存
@@ -118,6 +100,7 @@ class order
             }
 
 
+
             // 根据用户id、优惠券id,修改优惠券状态(已使用)
             $sql = "update lkt_coupon set type = 2 where user_id = '$userid' and id = '$coupon_id'";
             $db->update($sql);
@@ -163,7 +146,6 @@ class order
         $sql = "update lkt_user set money = money+'$cmoney' where wx_id = '$openid'";
         $r = $db->update($sql);
         exit;
-
     }
 
     //开团
@@ -194,14 +176,17 @@ class order
         $trade_no = $order['trade_no'];
         $status = $order['status'];
         $ordstatus = $status == 1?9:0;
+
         $group_num = 'KT'.substr(time(),5).mt_rand(10000,99999);
         $creattime = date('Y-m-d H:i:s');
         $time_over = explode(':', $time_over);
         $time_over = date('Y-m-d H:i:s',$time_over[0]*3600 + $time_over[1]*60 + time());
         $pro_size = $db -> select("select name,color,size from lkt_configure where id=$sizeid");
         $pro_size = $pro_size[0] -> name.$pro_size[0] -> color.$pro_size[0] -> size;
+
         $istsql1 = "insert into lkt_group_open(uid,ptgoods_id,ptcode,ptnumber,addtime,endtime,ptstatus,group_id) values('$uid',$pro_id,'$group_num',1,'$creattime','$time_over',$status,'$groupid')";
         $res1 = $db -> insert($istsql1);
+
         if($res1 < 1){
             $db->rollback();
             return $istsql1;
@@ -225,12 +210,10 @@ class order
             $db->rollback();
             return $istsql3;
         }
-        
         $db->commit();
 
-
+        
     } 
-
 
     //参团
     public function can_order($order){
@@ -267,9 +250,11 @@ class order
         $selsql = "select ptnumber,ptstatus,endtime from lkt_group_open where group_id='$groupid' and ptcode='$oid'";
         $selres = $db -> select($selsql);
         if(!empty($selres)){
+
             $ptnumber = $selres[0] -> ptnumber;
             $ptstatus = $selres[0] -> ptstatus;
             $endtime = strtotime($selres[0] -> endtime);
+
         }
 
         $ordernum = 'PT'.mt_rand(10000,99999).date('Ymd').substr(time(),5);
@@ -286,8 +271,8 @@ class order
             $res3 = $db -> insert($istsql3);
             $updsql = "update lkt_group_open set ptnumber=ptnumber+1 where group_id='$groupid' and ptcode='$oid'";
             $updres = $db -> update($updsql);
-
             if($res2 > 0 && $res3>0){
+
                 $idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
                 if(!empty($idres)) $idres = $idres[0] -> id;
                     $db->commit();
@@ -308,8 +293,8 @@ class order
             $updsql = "update lkt_group_open set ptnumber=ptnumber+1,ptstatus=2 where group_id='$groupid' and ptcode='$oid'";
             $updres = $db -> update($updsql);
             $beres = $db -> update("update lkt_order set ptstatus=2,status=1 where pid='$groupid' and ptcode='$oid'");
-            if($beres < 1){
 
+            if($beres < 1){
                 $db->rollback();
                 return  'code:3';
               }
@@ -318,6 +303,7 @@ class order
             $msgres = $db -> select($selmsg);
 
             foreach ($msgres as $k => $v) {
+
                 $beres = $db -> update("update lkt_configure set num=num-$v->num where id=$v->sid");
                 if($beres < 1){
                     $db->rollback();
@@ -327,6 +313,7 @@ class order
                 $fromidsql = "select fromid,open_id from lkt_user_fromid where open_id='$v->uid' and id=(select max(id) from lkt_user_fromid where open_id='$v->uid')";
                 $fromidres = $db -> select($fromidsql);                           
                 foreach ($fromidres as $ke => $val) {
+
                     if($val -> open_id == $v -> uid){
                         $msgres[$k] -> fromid = $val -> fromid;
                     }
@@ -336,6 +323,7 @@ class order
             }           
 
             if($res2 > 0 && $res3 > 0){  
+
                 $sql = "select * from lkt_notice where id = '1'";
                 $r = $db->select($sql);
                 $template_id = $r[0]->group_success;
@@ -343,6 +331,7 @@ class order
                 $this -> Send_success($msgres,date('Y-m-d H:i:s',time()),$template_id,$pro_name);
 
             }else{
+
                 $db->rollback();
                 return  'code:5';
 
@@ -351,9 +340,7 @@ class order
          }else if($ptnumber == $man_num){
 
               $bere = $db -> update("update lkt_user set money=money+$price where user_id='$uid'");
-
               if($beres < 1){
-
                 $db->rollback();
                 return  'code:6';
               }
@@ -371,9 +358,7 @@ class order
         }else{
 
             $bere = $db -> update("update lkt_user set money=money+$price where user_id='$uid'");
-
               if($beres < 1){
-
                 $db->rollback();
                 return  'code:8';
               }
@@ -385,32 +370,40 @@ class order
 }
 
 
-//=======================================================================================================================
 
     //使用通用通知接口
-    $notify = new Notify_pub();
-    //存储微信的回调 s
-    $xml = PHP_VERSION <= 5.6 ? $GLOBALS['HTTP_RAW_POST_DATA']:file_get_contents('php://input');
-    // $xml = $GLOBALS['HTTP_RAW_POST_DATA']:;   php <= 5.6
-    // $xml = file_get_contents('php://input');    //php >5.6
 
+    $notify = new Notify_pub();
+    //存储微信的回调 
+    $xml = PHP_VERSION <= 5.6 ? $GLOBALS['HTTP_RAW_POST_DATA']:file_get_contents('php://input');
     $notify->saveData($xml);
+
     //验证签名，并回应微信。
+
     //对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
+
     //微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
+
     //尽可能提高通知的成功率，但微信不保证通知最终能成功。
+
     if($notify->checkSign() == FALSE){
+
         $notify->setReturnParameter("return_code","FAIL");//返回状态码
+
         $notify->setReturnParameter("return_msg","签名失败");//返回信息
+
     }else{
+
         $notify->setReturnParameter("return_code","SUCCESS");//设置返回码
+
     }
 
     $returnXml = $notify->returnXml();
 
     echo $returnXml;
 
-    //==商户根据实际情况设置相应的处理流程=======
+    //==商户根据实际情况设置相应的处理流程，此处仅作举例=======
+
 
     //以log文件形式记录回调信息
 
@@ -419,38 +412,49 @@ class order
     $log_->log_result($log_name,"【接收到的notify通知】:\n".$xml."\n");
 
     if($notify->checkSign() == TRUE)
+
     {
 
         $log_->log_result($log_name,"【签名验证结果 succ】:\n".$notify->checkSign()."\n");
 
         if ($notify->data["return_code"] == "FAIL") {
+
             //此处应该更新一下订单状态，商户自行增删操作
+
             $log_->log_result($log_name,"【通信出错】:\n".$xml."\n");
 
         }
+
         elseif($notify->data["result_code"] == "FAIL"){
+
             //此处应该更新一下订单状态，商户自行增删操作
+
             $log_->log_result($log_name,"【业务出错】:\n".$xml."\n");
 
-        }else{
-           //此处应该更新一下订单状态，商户自行增删操作
+        }
+
+        else{
+
+
+
+            //此处应该更新一下订单状态，商户自行增删操作
             $trade_no = $notify->data["out_trade_no"];
             $type = substr($trade_no,0,2);
-            
-            if($type == 'CZ'){
 
+            if($type == 'CZ'){
                 $czsql = "select event from lkt_record where event = '$trade_no' ";
                 $czres = $db->select($czsql);
                 if(!$czres){
-
                     $order = new order;
                     $openid = $notify->data["openid"];
                     $cmoney = $notify->data["total_fee"]/100;
                     $order -> cz($openid,$cmoney,$trade_no); 
                 }
 
-            }
-            else if($type == 'PT'){
+
+
+            }else if($type == 'PT'){
+
                     $dsql = "select data from lkt_order_data where trade_no = '$trade_no'";
                     $dres = $db->select($dsql);
                     $data = unserialize($dres[0]->data);
@@ -461,6 +465,7 @@ class order
                         $ptres = $order -> can_order($data);
                     }
                     $log_->log_result($log_name,"【拼团处理结果】:\n".$ptres."\n");
+
             }else{
 
                 $sql = "select * from lkt_order where trade_no='$trade_no'";
@@ -473,21 +478,16 @@ class order
                         $r_u = $db->update($sql_u);
                         if($r_u){
                             $time =date("Y-m-d h:i:s",time()); // 当前时间
-                            $dsql = "select data from lkt_order_data where trade_no = '$trade_no'";
-                            $dres = $db->select($dsql);
-                            $data = unserialize($dres[0]->data);
-                            $order = new order;
-                            $gm_res = $order -> up_order($data);
-                            $log_->log_result($log_name,"【up_order】:\n".$gm_res."\n");
-                            $log_->log_result($log_name,"【data】:\n".$dres[0]->data."\n");
+                            
                         }
 
                     }
 
-                }// end if
 
 
-            }// end else
+                }
+
+            }
 
         }
 
