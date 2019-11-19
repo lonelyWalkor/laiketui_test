@@ -40,6 +40,7 @@ page{
   border-bottom: 1px solid #dedede;  
   /*文字14px*/  
   font-size: 14px; 
+  overflow:hidden;
 }  
 /*左侧栏list的item被选中时*/  
 .nav_left .nav_left_items.active{  
