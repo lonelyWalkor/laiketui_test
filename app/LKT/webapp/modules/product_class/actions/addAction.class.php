@@ -43,7 +43,7 @@ class addAction extends Action {
 
 
         // 接收分类id
-        $cid = intval($request->getParameter("cid")); // 分类id
+        $cid = intval($request->getParameter("val")); // 分类id
         $uploadImg = $this->getContext()->getStorage()->read('uploadImg'); // 图片上传位置
 
         $level = 0;
@@ -57,7 +57,6 @@ class addAction extends Action {
         }
         $level001 = $db->select("select max(level) as level  from lkt_product_class where recycle = 0 ".$co);
          $level01 = 0;
-        // print_r("select max(level) as level  from lkt_product_class where recycle = 0 ".$co);die;
         if($cid){
            $level01 = $level001[0]->level +1;
         }
@@ -75,7 +74,7 @@ class addAction extends Action {
             $resc = $db->select($sqlcd);
             $str_option[$cid] = $resc;
         }
-        //获取网页地址   xiaochengxu.laiketui.com/open/LKT/index.php
+        //获取网页地址   
         $dd = $_SERVER['PHP_SELF'];
         $ddd =explode('/', $dd);//打散成数组
         $dddd =array_pop($ddd);//去除数组最后一个元素
@@ -166,17 +165,6 @@ class addAction extends Action {
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('产品分类名称不能为空！');" .
-                "</script>";
-            return $this->getDefaultView();
-        }
-        //检查分类名称是否重复
-        $sql = "select * from lkt_product_class where recycle = 0 and pname = '$pname'";
-        $r = $db->select($sql);
-        // 如果有数据 并且 数据条数大于0
-        if ($r && count($r) > 0) {
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('产品分类名称 {$pname} 已经存在，请选用其他名称！');" .
                 "</script>";
             return $this->getDefaultView();
         }

@@ -103,7 +103,7 @@ td a{
                             </div>
                         </a>
                         {if $level <5}
-                        <a  style="text-decoration:none;width: 44%;" class="ml-5" href="index.php?module=product_class&action=add&cid={$item->cid}" title="在此分类下添加" >
+                        <a  style="text-decoration:none;width: 44%;" class="ml-5" href="index.php?module=product_class&action=add&val={$item->cid}" title="在此分类下添加" >
                         	<div style="align-items: center;font-size: 12px;display: flex;">
                             	<div style="margin:0 auto;;display: flex;align-items: center;"> 
                                     <img src="images/icon1/add_g.png"/>&nbsp;添加分类

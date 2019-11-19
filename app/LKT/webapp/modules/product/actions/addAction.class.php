@@ -18,7 +18,7 @@ class addAction extends Action {
 
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        //      print_r($request);die;
+
         /*** 报错不清除输入内容 ***/
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $brand_id1 = addslashes(trim($request->getParameter('brand_class'))); // 品牌
@@ -75,7 +75,6 @@ class addAction extends Action {
         }else{
             $initial = array();
         }
-// print_r($data);die;
 
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);
@@ -130,6 +129,7 @@ class addAction extends Action {
             }
     	 return $attr_group_list1;
     }
+
     public function product_class($product_class){//产品类别
         $db = DBAction::getInstance();
         $res = '';
@@ -212,6 +212,7 @@ class addAction extends Action {
         }
         return $res;
     }
+    
     public function brand($brand_id1){//品牌
         $db = DBAction::getInstance();
         $sql01 = "select brand_id ,brand_name from lkt_brand_class where status = 0 and recycle = 0 ";
