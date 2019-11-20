@@ -148,7 +148,6 @@ class searchAction extends Action {
       }
       $start = 10*($num-1);
       $end = 10;
-      //$sqlb = "select a.id,product_title,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_class like '%$cid%' and a.status = 0 group by c.pid order by $select $sort  LIMIT $start,$end";
       $sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,
 a.imgurl as img ,c.price 
 from lkt_product_list AS a RIGHT JOIN (select min(price) price,pid from lkt_configure group by pid) AS c
@@ -161,7 +160,6 @@ order by $select $sort LIMIT $start,$end
     }else{   //如果不是商品分类名称，则直接搜产品
       $type = 1;
       $keyword = addslashes($keyword);
-      //$sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,c.id as cid,c.yprice,c.img,c.name,c.color,min(c.price) as price from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.product_title like '%$keyword%' and a.status = 0 group by c.pid order by $select $sort";
       $sqlb = "select a.id,a.product_title,a.product_class,a.volume,a.s_type,
 a.imgurl as img ,c.price 
 from lkt_product_list AS a RIGHT JOIN (select min(price) price,pid from lkt_configure group by pid) AS c
@@ -242,9 +240,7 @@ order by $select $sort
         echo json_encode(array('status'=>1,'pro'=>$pro,'bg'=>$bg));exit();
     }
         $sql = "select * from lkt_product_list as a where a.recycle = 0 and a.num >0 and a.status = 0 and  a.product_class like '%-$id-' order by status asc,a.add_date desc,a.sort desc limit $start,$end ";
-        // print_r($sql);die;
         $r = $db->select($sql);
-// print_r($r);die;
         $status_num = 0;
         if($r){
         foreach ($r as $key => $value) {
@@ -316,7 +312,7 @@ order by $select $sort
                     }  
                 }
             }
-            // print_r($k);die;
+            
             return $k;
     }
      function distribution($db,$img,$paegr){
@@ -331,7 +327,7 @@ order by $select $sort
             $r_cs = $db->select($sql_cs);
             if($r_cs){
                 foreach ($r_cs as $keyc => $value) {
-                  // print_r($value->imgurl);die;
+                  
                     $value->imgurl = $img . $value->imgurl;
                     $product[$keyc] = array('id' => $value->id,'name' => $value->product_title,'price' => $value->price,'price_yh' => $value->yprice,'imgurl' => $value->imgurl,'volume' => $value->volume,'s_type' => $value->s_type);
                 }

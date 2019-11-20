@@ -15,12 +15,10 @@ require_once(MO_LIB_DIR . '/Timer.class.php');
 class groupbuyAction extends Action {
 
     public function getDefaultView() {
+        
         $db = DBAction::getInstance();
-
         $request = $this->getContext()->getRequest();
-
         $sql = 'select m.*,l.product_title as pro_name from (select min(p.attr_id) as attr_id,product_id,p.group_price,p.group_id,c.img,c.price as market_price from lkt_group_product as p left join lkt_configure as c where p.group_id=(select status from lkt_group_buy where is_show=1) group by p.product_id limit 8) as m left join lkt_product_list as l on m.product_id=l.id';
-        // print_r($sql);die;
         $res = $db -> select($sql);
         
         // 查询系统参数
@@ -1225,11 +1223,6 @@ class groupbuyAction extends Action {
             $msgres = $db -> select($selmsg);
             
             foreach ($msgres as $k => $v) {
-                // $updres = $db -> update("update lkt_configure set num=num-$v->num where id=$v->sid");
-                // if($updres < 1){
-                //     $db->rollback();
-                //     echo json_encode(array('code' => 3,'sql'=>"update lkt_configure set num=num-$v->num where id=$v->sid"));exit;
-                // }
                 $fromidsql = "select fromid,open_id from lkt_user_fromid where open_id='$v->uid' and id=(select max(id) from lkt_user_fromid where open_id='$v->uid')";
                 $fromidres = $db -> select($fromidsql);                           
                 foreach ($fromidres as $ke => $val) {
@@ -1237,17 +1230,18 @@ class groupbuyAction extends Action {
                         $msgres[$k] -> fromid = $val -> fromid;
                     }
                 }     
-            }           
+            }       
+
             if($res2 > 0 && $res3 > 0){  
                 $sql = "select * from lkt_notice where id = '1'";
                 $r = $db->select($sql);
                 $template_id = $r[0]->group_success;
    
-              $this -> Send_success($msgres,date('Y-m-d H:i:s',time()),$template_id,$pro_name);
-              $db->commit();
-              // echo "2";
-              echo json_encode(array('order' => $msgres,'gcode' => $oid,'code' => 2));exit;
+                $this -> Send_success($msgres,date('Y-m-d H:i:s',time()),$template_id,$pro_name);
+                $db->commit();
+                echo json_encode(array('order' => $msgres,'gcode' => $oid,'code' => 2));exit;
             }
+
          }else if($ptnumber == $man_num){//该团已满，需重新参团或开团
                 $updres = $db -> update("update lkt_user set money=money+$price where user_id='$uid' ");
                 if($updres < 1){
@@ -1366,8 +1360,6 @@ class groupbuyAction extends Action {
         $request = $this->getContext()->getRequest();
         $oid = addslashes(trim($request->getParameter('id')));        
         $groupid = addslashes(trim($request->getParameter('groupid')));
-        //$oid = 'PT477202018052532946';
-        //$groupid = '28548';
         $sql = "select m.*,c.img from (select o.user_id,o.ptcode,o.sNo,o.ptstatus,o.z_price,o.name,o.add_time,o.sheng,o.shi,o.xian,o.address,o.mobile,o.status,o.num,d.p_name,d.p_price,d.deliver_time,d.arrive_time,d.sid,d.express_id,d.courier_num from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.pid='$groupid' and o.sNo='$oid') as m left join lkt_configure as c on m.sid=c.id";
         $res = $db -> select($sql);
         
@@ -1648,41 +1640,23 @@ class groupbuyAction extends Action {
     /*
 
    * 发送请求
-
    　@param $ordersNo string 订单号　
-
      @param $refund string 退款单号
-
      @param $price float 退款金额
-
      return array
-
    */
 
     private function wxrefundapi($ordersNo,$refund,$price){
-
           //通过微信api进行退款流程
-
-
-
           $parma = array(
-
             'appid'=> 'wx9d12fe23eb053c4f',
-
             'mch_id'=> '1499256602',
-
             'nonce_str'=> $this->createNoncestr(),
-
             'out_refund_no'=> $refund,
-
             'out_trade_no'=> $ordersNo,
-
             'total_fee'=> $price,
-
             'refund_fee'=> $price,
-
             'op_user_id' => '1499256602',
-
           );
 
           $parma['sign'] = $this->getSign($parma);
