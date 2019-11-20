@@ -62,6 +62,7 @@ class addFavoritesAction extends Action {
         
         return;
     }
+    
     // 查看收藏
     public function collection(){
         $db = DBAction::getInstance();
@@ -128,6 +129,7 @@ select l.id,a.id as pid,a.product_title,a.imgurl as img,c.price
         }
         return;
     }
+
     public function alldel()
     {
         $db = DBAction::getInstance();

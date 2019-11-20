@@ -130,11 +130,6 @@ class userAction extends Action {
         if($r_c){
             foreach ($r_c as $k => $v) {
                 $v->subtitle_image = $img . $v->subtitle_image;
-                // if(strpos($v->code,'红包') !== false){ 
-                //     if(!$rfhb){
-                //         unset($r_c[$k]);
-                //     }
-                // }
             }
 
         }
@@ -145,6 +140,7 @@ class userAction extends Action {
         exit();
         return;
     }
+
     // 同步资料
     public function material(){
         $db = DBAction::getInstance();
@@ -298,6 +294,7 @@ class userAction extends Action {
             return;
         }
     }
+
     // 获取用户手机号
     public function secret_key(){
         $db = DBAction::getInstance();
@@ -462,6 +459,7 @@ class userAction extends Action {
 
         return;
     }
+
     public function verify_bank()
     {
         $request = $this->getContext()->getRequest();
@@ -478,6 +476,7 @@ class userAction extends Action {
             exit();
         }
     }
+
     // 验证卡号是否跟银行匹配
     function bankInfo($card,$bankList) { 
       $card_8 = substr($card, 0, 8); 
@@ -498,6 +497,7 @@ class userAction extends Action {
       } 
       return ''; 
     } 
+    
     // 打开红包
     public function share(){
         $db = DBAction::getInstance();
