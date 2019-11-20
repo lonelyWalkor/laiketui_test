@@ -1,4 +1,5 @@
 <?php
+//分页类
 class showPager {
     public $total_record; //记录总数
     public $pagesize; //每一页显示的记录数
