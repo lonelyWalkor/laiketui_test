@@ -72,9 +72,9 @@ class IndexAction extends Action {
             }
             $res = $db->select($sql);
             $res_all = $db->select($sql1);
-            // print_r($res);die;
+            
             if ($res) {
-                       //            echo $sql;exit;
+
                 foreach ($res as $k => $v){
 
             //                查询商品属性
@@ -101,7 +101,7 @@ class IndexAction extends Action {
                                 $v->openmoney =($KC_arr[1]*$v->price)/100;//开团 人价格
                                 $v->canmoney =$KC_arr[0]*$v->price/100;//参团 人价格
                             }
-                           // print_r(121212);die;
+                           
                             $cfg = unserialize($gp_res[0]->group_data);
                             $v->start_time = $cfg->starttime;
                             $v->end_time = $cfg->endtime;
@@ -127,12 +127,12 @@ class IndexAction extends Action {
                 }
             }
 
-            // print_r($res);die;
+            
             $total = count($res_all);
             $pager = new ShowPager($total, $pagesize, $page);
             $url = "index.php?module=go_group&action=index&status=$status&proname=$proname&username=$username&group_num=$group_num&group_status=$group_status&pagesize=" . urlencode($pagesize);
             $pages_show = $pager->multipage($url, $total, $page, $pagesize, $start, $para = '');
-            // print_r($res);die;
+            
             $request->setAttribute("list",$res);
             $request->setAttribute("type",$type);
             $request->setAttribute("status",$status);
@@ -180,7 +180,7 @@ class IndexAction extends Action {
         where $and" . " 
         group by g.group_id 
         order by MIN(g.id) DESC limit $start,$pagesize";
-                // print_r($sql);die;
+        
         $res = $db -> select($sql);
         $res1 = $db -> select("select MIN(g.group_title) AS group_title,MIN(g.id) AS gid,MIN(g.g_status) AS g_status,g.group_id,MIN(group_data) AS group_data,MIN(group_level) AS group_level,min(g.is_show) as is_show,min(p.product_title) as product_title,min(p.imgurl) as imgurl,min(c.price) as price
             from lkt_group_product as g 
@@ -232,7 +232,7 @@ class IndexAction extends Action {
         $pager = new ShowPager($total, $pagesize, $page);
         $url = "index.php?module=go_group&action=index&proname=" . urlencode($proname) . "&pagesize=" . urlencode($pagesize);
         $pages_show = $pager->multipage($url, $total, $page, $pagesize, $start, $para = '');
-        // print_r($res);die;
+        
         $request->setAttribute("list",$res);
         $request->setAttribute("pageto",$pageto);     
         $request->setAttribute("status",$status);
@@ -250,26 +250,20 @@ class IndexAction extends Action {
     public function getRequestMethods(){
         return Request :: NONE;
     }
+
     public function img($db){
-           // 查询系统参数
-
+        // 查询系统参数
         $sql1 = "select * from lkt_config where id = 1";
-
         $r_1 = $db->select($sql1);
-
         $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-
         $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
 
         if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-
             $img = $uploadImg_domain . $uploadImg; // 图片路径
-
         }else{ // 不存在
-
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-
         }
+        
         return $img ;
     }
 

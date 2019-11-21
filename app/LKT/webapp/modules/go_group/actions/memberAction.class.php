@@ -74,7 +74,6 @@ class memberAction extends Action {
            $re= $db->select("select lkt_product_list.recycle ,lkt_product_list.status from lkt_group_product,lkt_product_list where group_id = $id and lkt_group_product.product_id = lkt_product_list.id");
            if($re){
                 if($re[0]->recycle ==1 ||$re[0]->status ==1){
-                    // $this->delpro($id);
                      echo json_encode(array('status' => 0,'info' => '操作失败!'));exit;
                 }
            }

@@ -38,9 +38,8 @@ class kaituanAction extends Action {
         
 
         $sql= "select a.*,b.user_id,b.user_name,c.product_title,d.starttime from lkt_group_open as a,lkt_user as b ,lkt_product_list as c ,lkt_group_buy as d where ".$con ." order by a.addtime desc";
-        // print_r($sql);die;
         $re = $db->select($sql);
-        // print_r($re);die;
+ 
         if(!empty($re)){
           foreach ($re as $key => $value) {
             $uid = $value->user_id;
@@ -68,7 +67,8 @@ class kaituanAction extends Action {
             }
           }
         }
-   $sql001 = "select a.*,b.user_id,b.user_name,c.product_title,d.starttime from lkt_group_open as a,lkt_user as b ,lkt_product_list as c ,lkt_group_buy as d where ".$con;
+
+        $sql001 = "select a.*,b.user_id,b.user_name,c.product_title,d.starttime from lkt_group_open as a,lkt_user as b ,lkt_product_list as c ,lkt_group_buy as d where ".$con;
         $r_pager = $db->select($sql001);
         if($r_pager){
             $total = count($r_pager);

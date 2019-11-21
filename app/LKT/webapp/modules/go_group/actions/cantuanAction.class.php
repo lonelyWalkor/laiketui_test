@@ -36,9 +36,8 @@ class cantuanAction extends Action {
         if($user){
             $con .= " and u.user_name like '%$user%'";
         }
+
         //查询是参团下的该用户下的拼团信息
-//        left join lkt_group_open as g on g.pcode = o.ptcode
-//        left join lkt_product_list as l on l.id = g.ptgoods_id
         $sql = "SELECT u.user_name,d.p_name,d.p_id as goods_id,d.sid as attr_id ,o.add_time,o.sNo,o.z_price 
                     from lkt_order as o
                     LEFT JOIN lkt_user as u on o.user_id = u.user_id
@@ -46,7 +45,7 @@ class cantuanAction extends Action {
                     WHERE $con
                     ORDER BY o.add_time desc  limit $start,$pagesize ";
         $can_res = $db->select($sql);
-        // print_r($sql);die;
+
         if($can_res){
             foreach ($can_res as $k => $v){
                 $order_no = $v->sNo;
