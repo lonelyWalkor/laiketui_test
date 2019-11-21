@@ -10,7 +10,6 @@
 
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/ServerPath.class.php');
 require_once(MO_LIB_DIR . '/Timer.class.php');
 class IndexAction extends Action {
 

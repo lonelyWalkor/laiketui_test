@@ -6,7 +6,6 @@
  */
 
 require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ServerPath.class.php');
 require_once(MO_LIB_DIR . '/ShowPager.class.php');
 
 class addproductAction extends Action

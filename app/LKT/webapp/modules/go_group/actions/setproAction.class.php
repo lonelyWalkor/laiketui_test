@@ -6,7 +6,7 @@
  */
 
 require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ServerPath.class.php');
+
 
 class setproAction extends Action
 {
