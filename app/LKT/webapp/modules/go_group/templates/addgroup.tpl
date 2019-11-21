@@ -51,16 +51,6 @@
 		<div id="tab-category" class="HuiTab">
 			<div class="tabCon">
 			  <div style="height:490px;overflow-y: scroll;">
-				<!-- <div class="row cl">
-					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>拼团人数：</label>
-					<div class="formControls col-xs-8 col-sm-9">
-						<input type="number" max="50" min="1" class="input-text" value="" placeholder="" id="" name="peoplenum" style="width:60px;">&nbsp;&nbsp;~&nbsp;
-						<input type="number" max="50" min="1" class="input-text" value="" placeholder="" id="" name="peoplemax" style="width:60px;">
-						<span style="margin-left: 10px;font-size: 10px;color:red;">（只能为大于0且小于等于50的整数）</span>
-					</div>
-					<div class="col-3">
-					</div>
-				</div> -->
 				<div class="row cl">
 					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>拼团人数设置：</label>
 					<div class="formControls col-xs-8 col-sm-9" style="background-color: #F5F5F5;margin-bottom: 10px;border-radius: 5px;padding: 10px;">
@@ -397,20 +387,7 @@ $(function(){
 	$("#tab-category").Huitab({
 		index:0
 	});
-	/*$("#form-category-add").validate({
-		rules:{
-			
-		},
-		onkeyup:false,
-		focusCleanup:true,
-		success:"valid",
-		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
-		}
-	});*/
+	
 	
 });
 

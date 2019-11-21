@@ -271,7 +271,7 @@
         <div class="row cl" >
             <label class="form-label col-xs-4 col-sm-3"style="margin-top: 0px;padding-right: 0px!important;height: 36px;line-height: 36px;"><span class="c-red">*</span>开始时间：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" {if $g_status == 2 && $is_show == 1}disabled{/if}{if $g_status == 2 && $is_show == 0}disabled{/if} value="{$group_data->starttime}" autocomplete="off" placeholder="" id="group_start_time" name="starttime" style="width:150px;">
+                <input type="text" class="input-text" {if $g_status == 2 && $is_show == 1}disabled{/if}{if $g_status == 2 && $is_show == 0}disabled{/if} value="{$group_data->starttime}" autocomplete="off" placeholder="" id="group_start_time" name="starttime" style="width:180px;">
             </div>
             <div class="col-3">
             </div>
@@ -280,17 +280,17 @@
             <label class="form-label col-xs-4 col-sm-3" style="margin-top: 0px;padding-right: 0px!important;height: 36px;line-height: 36px;"><span class="c-red">*</span>结束时间：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 {if $g_status==2&&$is_show==1}
-                    <input type="text" {if $g_status == 2 && $is_show == 1}disabled{/if} class="input-text" style="width:150px;" value='{$group_data->endtime}' disabled>
+                    <input type="text" {if $g_status == 2 && $is_show == 1}disabled{/if} class="input-text" style="width:180px;" value='{$group_data->endtime}' disabled>
                 {else}
                     <div style="margin-top: 0px;">
                         <input type="hidden" {if $group_data->overtype==1}value='{$group_data->endtime}'{else}value=""{/if} name='ischang'>
 
-                        <input type="radio" value="2" placeholder="" id="endtime" name="endtime" onchange="radioChange(2)" {if $group_data->overtype==2}checked{/if}><span style="margin-left: 10px;">定期结束</span><input type="text" class="input-text" {if $group_data->overtype==2}value="{$group_data->endtime}"{else}value=""{/if} placeholder="" id="group_end_time" name="group_end_time" style="width:150px;margin-left: 10px;">
+                        <input type="radio" value="2" placeholder="" id="endtime" name="endtime" onchange="radioChange(2)" {if $group_data->overtype==2}checked{/if}><span style="margin-left: 10px;">定期结束</span><input type="text" class="input-text" {if $group_data->overtype==2}value="{$group_data->endtime}"{else}value=""{/if} placeholder="" id="group_end_time" name="group_end_time" style="width:180px;margin-left: 10px;">
                     </div>
                     <div style="margin-top: 15px;">
                         <input type="radio" value="1" placeholder="" id="ctime" {if $group_data->overtype==1}checked{/if} name="endtime" onchange="radioChange(1)" >
                         <span style="margin-left: 10px;">长期</span>
-                        <input type="text" {if $g_status == 2 && $is_show == 1}disabled{/if} class="input-text" autocomplete="off" {if $group_data->overtype==1}value='{$group_data->endtime}'{else}value=""{/if} placeholder="" id="end_year" name="end_year" style="width:150px;margin-left: 30px;" disabled>
+                        <input type="text" {if $g_status == 2 && $is_show == 1}disabled{/if} class="input-text" autocomplete="off" {if $group_data->overtype==1}value='{$group_data->endtime}'{else}value=""{/if} placeholder="" id="end_year" name="end_year" style="width:180px;margin-left: 30px;" disabled>
                     </div>
                 {/if}
             </div>

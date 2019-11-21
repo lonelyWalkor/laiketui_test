@@ -179,6 +179,7 @@
 				</select>
 				<input type="text" name="p_name" value="" placeholder="请输入商品名称">
 				<input  id="my_query" class="btn btn-success" type="button" style="margin-left: 5px;background-color: #2890ff!important;" onclick="query()" value="查询">
+				 <span style="margin-left: 10px;font-size: 14px;color:#A8B0CB;">（只能选择一款商品）</span>
 			</div>
 		</div>
 
@@ -247,7 +248,7 @@
 		<div class="row cl" >
 			<label class="form-label col-xs-4 col-sm-3"  style="margin-top: 9px;padding-right: 0px!important;height: 36px;line-height: 36px;"><span class="c-red">*</span>开始时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" autocomplete="off" placeholder="" id="group_start_time" name="starttime" style="width:150px;">
+				<input type="text" class="input-text" value="" autocomplete="off" placeholder="" id="group_start_time" name="starttime" style="width:180px;">
 			</div>
 			<div class="col-3">
 			</div>
@@ -257,12 +258,12 @@
 			<div class="formControls col-xs-8 col-sm-9">
 				<div style="margin-top: 0px;">
 					<input type="radio" value="2" placeholder="" id="endtime" name="endtime" onchange="radioChange(2)" checked ><span style="margin-left: 10px;">定期结束</span>
-					<input type="text" class="input-text" autocomplete="off" value="" placeholder="" id="group_end_time" name="group_end_time" style="width:150px;margin-left: 10px;">
+					<input type="text" class="input-text" autocomplete="off" value="" placeholder="" id="group_end_time" name="group_end_time" style="width:180px;margin-left: 10px;">
 				</div>
 				<div style="margin-top: 15px;">
 					<input type="radio" value="1" placeholder="" id="ctime" name="endtime" onchange="radioChange(1)" >
 					<span style="margin-left: 10px;">长期</span>
-					<input type="text" class="input-text" autocomplete="off" value="" placeholder="" id="end_year" name="end_year" style="width:150px;margin-left: 34px;" disabled>
+					<input type="text" class="input-text" autocomplete="off" value="" placeholder="" id="end_year" name="end_year" style="width:180px;margin-left: 34px;" disabled>
 					<span style="margin-left: 10px;font-size: 10px;color:#97A0B4;">（长期的默认期限是一年,开始时间和结束时间不能小于现在时间,且开始时间不能大于结束时间）</span>
 				</div>
 			</div>
@@ -569,20 +570,7 @@
 			}
 		}
 
-		// function addlever() {
-
-		// 	var node = '<div class="manlevel">' +
-		// 			'<input type="number"  max="50" min="1" class="input-text ct-rs" value="3" name="min_man" style="width:60px;" onkeyup="onkeyup1(this)">&nbsp;&nbsp;人团&nbsp;&nbsp;' +
-		// 			'<span style="margin-left:20px;">折扣价: 参团' +
-		// 			'</span><input type="number" class="input-text" value=""  name="canprice" style="width:80px;margin-left:5px;" onkeyup="onkeyup1(this)">&nbsp;%' +
-		// 			'<span style="margin-left: 10px;">开团</span>' +
-		// 			'<input type="number" class="input-text" value=""  name="memberprice" style="width:80px;margin-left:5px;" onkeyup="onkeyup1(this)">&nbsp;%' +
-		// 			'<input class="btn btn-primary radius" type="button" onclick="removepro(event)" value="删除" style="margin-left:10px;height: 36px!important;">' +
-		// 			'</div>';
-
-		// 	var setlevel = $('#setlevel');
-		// 	setlevel.append(node);
-		// }
+		
 
 		function onkeyup1(ob){
 			if(ob.value.length==1){ob.value=ob.value.replace(/[^1-9]/g,'')}else{ob.value=ob.value.replace(/\D/g,'')}
