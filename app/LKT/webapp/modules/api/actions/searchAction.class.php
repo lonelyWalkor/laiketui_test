@@ -235,10 +235,7 @@ order by $select $sort
       $bg = $img.$r_c[0]->bg;
     }
 
-      if($status111 && $status111 ==1){
-       $pro = $this->distribution($db,$img,$paegr);//分销
-        echo json_encode(array('status'=>1,'pro'=>$pro,'bg'=>$bg));exit();
-    }
+      
         $sql = "select * from lkt_product_list as a where a.recycle = 0 and a.num >0 and a.status = 0 and  a.product_class like '%-$id-' order by status asc,a.add_date desc,a.sort desc limit $start,$end ";
         $r = $db->select($sql);
         $status_num = 0;
@@ -288,13 +285,13 @@ order by $select $sort
     public function class_sort($product_class)//根据类别查询下一级
     {
           $db = DBAction::getInstance();
-         $typestr=trim($product_class,'-');
-            $typeArr=explode('-',$typestr);
-            //  取数组最后一个元素 并查询分类名称
-            $cid = end($typeArr);//找到本级ID
-            $k[] = '-'.$product_class.'-';
+          $typestr=trim($product_class,'-');
+          $typeArr=explode('-',$typestr);
+          //  取数组最后一个元素 并查询分类名称
+          $cid = end($typeArr);//找到本级ID
+          $k[] = '-'.$product_class.'-';
            
-            if(!empty($cid)){//循环下一级
+          if(!empty($cid)){//循环下一级
                 $sql_e = "select cid,pname from lkt_product_class where recycle = 0 and sid = $cid";
                 $r_e = $db->select($sql_e);
                 if($r_e){
@@ -313,30 +310,9 @@ order by $select $sort
                 }
             }
             
-            return $k;
+          return $k;
     }
-     function distribution($db,$img,$paegr){
-      $pagesize =10;
-        if ($paegr) {
-            $start = ($paegr - 1) * $pagesize;
-        } else {
-             $start = 0;
-        }
-        $product='';
-            $sql_cs = "select a.id,a.product_title,a.volume,min(c.price) as price,c.yprice,a.imgurl,a.s_type from lkt_product_list AS a RIGHT JOIN lkt_configure AS c ON a.id = c.pid where a.status = 0 and a.num >0 and  a.recycle = 0 and is_distribution = 1 group by c.pid  order by a.volume desc limit  $start,$pagesize";
-            $r_cs = $db->select($sql_cs);
-            if($r_cs){
-                foreach ($r_cs as $keyc => $value) {
-                  
-                    $value->imgurl = $img . $value->imgurl;
-                    $product[$keyc] = array('id' => $value->id,'name' => $value->product_title,'price' => $value->price,'price_yh' => $value->yprice,'imgurl' => $value->imgurl,'volume' => $value->volume,'s_type' => $value->s_type);
-                }
-            }
-            return $product;
-
-
-
-    }
+     
 
 }
 
