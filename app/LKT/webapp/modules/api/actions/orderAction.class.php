@@ -38,7 +38,7 @@ class orderAction extends Action {
     {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $id = trim($request->getParameter('id')); //订单id
+        $id = addslashes(trim($request->getParameter('id'))); //订单id
         $oid = trim($request->getParameter('oid')); // 订单号
         $sql = "select r_status from lkt_order_details where id = '$id'";
         $r = $db->select($sql);
@@ -271,7 +271,7 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息
-        $id = trim($request->getParameter('id')); // 订单详情id
+        $id = addslashes(trim($request->getParameter('id'))); // 订单详情id
         $time = date('Y-m-d H:i:s');
 
         $sql01 = "select b.drawid,b.sNo from lkt_order_details as a ,lkt_order as b where a.id = '$id' and b.sNo=a.r_sNo";
@@ -310,7 +310,7 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息
-        $sNo = trim($request->getParameter('sNo')); // 订单号
+        $sNo = addslashes(trim($request->getParameter('sNo'))); // 订单号
         $time = date('Y-m-d H:i:s');
         //查询订单是不是抽奖订单，要是抽奖订单确认收货就直接关闭订单
         $sql01 = "select drawid,otype from lkt_order where sNo='$sNo'";
@@ -353,11 +353,11 @@ class orderAction extends Action {
 
         $request = $this->getContext()->getRequest();
         // 获取信息
-        $id = trim($request->getParameter('id'));// 订单详情id 
-        $details = $request->getParameter('details');
-        $type = trim($request->getParameter('type'));
-        $courier_num=trim($request->getParameter('courier_num')); ;//kuaididanhao
-        $express_id=trim($request->getParameter('express_id')); ;//kuaididanhao
+        $id = addslashes(trim($request->getParameter('id')));// 订单详情id 
+        $details = addslashes($request->getParameter('details'));
+        $type = addslashes(trim($request->getParameter('type')));
+        $courier_num=addslashes(trim($request->getParameter('courier_num'))) ;//kuaididanhao
+        $express_id=addslashes(trim($request->getParameter('express_id'))) ;//kuaididanhao
         if($express_id && $courier_num){
                 $sql01 = "select * from lkt_express where id = '$express_id'";
                 $r01 = $db->select($sql01);
@@ -416,8 +416,8 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息
-        $openid = $request->getParameter('openid');// 微信id
-        $id = trim($request->getParameter('id'));// 订单id
+        $openid = addslashes($request->getParameter('openid'));// 微信id
+        $id = addslashes(trim($request->getParameter('id')));// 订单id
 
         $sql = "select user_id from lkt_user where wx_id = '$openid'";
         $rr = $db->select($sql);
@@ -655,7 +655,7 @@ class orderAction extends Action {
         $oid = $_POST['oid']; // 订单号
         $otype = $_POST['otype']; // 状态
         // $re_type = $_POST['re_type']; // 退货类型
-        $re_type = trim($request->getParameter('re_type'));
+        $re_type = addslashes(trim($request->getParameter('re_type')));
         $back_remark = htmlentities($_POST['back_remark']); // 退货原因
         $res = $db->select("select * from lkt_order_details where id = '$id'");//查询售后之前的状态
         if($res){
@@ -783,13 +783,13 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息 
-        $kdcode = trim($request->getParameter('kdcode'));
-        $kdname = trim($request->getParameter('kdname'));
-        $lxdh = trim($request->getParameter('lxdh'));
-        $lxr = trim($request->getParameter('lxr'));
-        $address = trim($request->getParameter('address'));
-        $uid = trim($request->getParameter('uid'));
-        $oid = trim($request->getParameter('oid'));
+        $kdcode = addslashes(trim($request->getParameter('kdcode')));
+        $kdname = addslashes(trim($request->getParameter('kdname')));
+        $lxdh = addslashes(trim($request->getParameter('lxdh')));
+        $lxr = addslashes(trim($request->getParameter('lxr')));
+        $address = addslashes(trim($request->getParameter('address')));
+        $uid = addslashes(trim($request->getParameter('uid')));
+        $oid = addslashes(trim($request->getParameter('oid')));
 
         $sql = "insert into lkt_return_goods(name,tel,express,express_num,uid,oid,add_data,address) values('$lxr','$lxdh','$kdname','$kdcode','$uid','$oid',CURRENT_TIMESTAMP,'$address')";
         $rid = $db->insert($sql,'last_insert_id');
@@ -814,7 +814,7 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息 
-        $order_id = trim($request->getParameter('order_id')); // 订单详情id
+        $order_id = addslashes(trim($request->getParameter('order_id'))); // 订单详情id
 
         $sql = "select address,name,tel from lkt_user_address where uid = 'admin'";
         $r_1 = $db->select($sql);
@@ -856,14 +856,14 @@ class orderAction extends Action {
     public function up_out_trade_no(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $coupon_id = trim($request->getParameter('coupon_id')); // 优惠券id
-        $allow = trim($request->getParameter('allow')); // 用户使用消费金
-        $coupon_money = trim($request->getParameter('coupon_money')); // 付款金额
-        $order_id = trim($request->getParameter('order_id')); // 订单号
-        $user_id = trim($request->getParameter('user_id')); // 微信id
-        $d_yuan = trim($request->getParameter('d_yuan')); // 抵扣余额
-        $trade_no = trim($request->getParameter('trade_no')); // 微信支付单号
-        $pay =  trim($request->getParameter('pay'));
+        $coupon_id = addslashes(trim($request->getParameter('coupon_id'))); // 优惠券id
+        $allow = addslashes(trim($request->getParameter('allow'))); // 用户使用消费金
+        $coupon_money = addslashes(trim($request->getParameter('coupon_money'))); // 付款金额
+        $order_id = addslashes(trim($request->getParameter('order_id'))); // 订单号
+        $user_id = addslashes(trim($request->getParameter('user_id'))); // 微信id
+        $d_yuan = addslashes(trim($request->getParameter('d_yuan'))); // 抵扣余额
+        $trade_no = addslashes(trim($request->getParameter('trade_no'))); // 微信支付单号
+        $pay =  addslashes(trim($request->getParameter('pay')));
         $array = array('coupon_id' => $coupon_id,'allow' => $allow,'coupon_money' => $coupon_money,'order_id' => $order_id,'user_id' => $user_id,'d_yuan' => $d_yuan,'trade_no' => $trade_no,'pay' => $pay);
         $data = serialize($array);
 

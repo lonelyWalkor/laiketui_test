@@ -96,10 +96,10 @@ class searchAction extends Action {
   public function search(){
     $db = DBAction::getInstance();
     $request = $this->getContext()->getRequest();
-    $keyword = trim($request -> getParameter('keyword')); // 关键词
-    $num = trim($request->getParameter('num')); //  '次数'
-    $select = trim($request->getParameter('select')); //  选中的方式 0 默认  1 销量   2价格
-    $sort = trim($request->getParameter('sort')); // 排序方式  1 asc 升序   0 desc 降序
+    $keyword = addslashes(trim($request -> getParameter('keyword'))); // 关键词
+    $num = addslashes(trim($request->getParameter('num'))); //  '次数'
+    $select = addslashes(trim($request->getParameter('select'))); //  选中的方式 0 默认  1 销量   2价格
+    $sort = addslashes(trim($request->getParameter('sort'))); // 排序方式  1 asc 升序   0 desc 降序
     // 查询系统参数
     $sql = "select * from lkt_config where id = 1";
     $r_1 = $db->select($sql);
@@ -190,10 +190,10 @@ order by $select $sort
   public function listdetail(){
     $db = DBAction::getInstance();
     $request = $this->getContext()->getRequest();
-    $id = trim($request->getParameter('cid')); //  '分类ID'
-    $paegr = trim($request->getParameter('page')); //  '页面'
-    $select = trim($request->getParameter('select')); //  选中的方式 0 默认  1 销量   2价格
-    $status111 =$request->getParameter('status');//分销才传status
+    $id = addslashes(trim($request->getParameter('cid'))); //  '分类ID'
+    $paegr = addslashes(trim($request->getParameter('page'))); //  '页面'
+    $select = addslashes(trim($request->getParameter('select'))); //  选中的方式 0 默认  1 销量   2价格
+    $status111 =addslashes($request->getParameter('status'));//分销才传status
    
     if($select == 0){
       $select = 'a.add_date'; 
@@ -203,7 +203,7 @@ order by $select $sort
       $select = 'price'; 
     }
 
-    $sort = trim($request->getParameter('sort')); // 排序方式  1 asc 升序   0 desc 降序
+    $sort = addslashes(trim($request->getParameter('sort'))); // 排序方式  1 asc 升序   0 desc 降序
     if($sort){
       $sort = ' asc '; 
     }else{

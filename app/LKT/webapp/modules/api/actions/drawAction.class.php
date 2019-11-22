@@ -153,9 +153,9 @@ class drawAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
-        $openid = trim($request->getParameter('openid')); // 本人微信id
-        $referee_openid = trim($request->getParameter('referee_openid')); // 本人微信id
-        $order_id = trim($request->getParameter('order_id')); // 订单id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 本人微信id
+        $referee_openid = addslashes(trim($request->getParameter('referee_openid'))); // 本人微信id
+        $order_id = addslashes(trim($request->getParameter('order_id'))); // 订单id
         
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";

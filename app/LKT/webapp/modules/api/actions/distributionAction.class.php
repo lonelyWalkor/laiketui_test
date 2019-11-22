@@ -41,8 +41,8 @@ class distributionAction extends Action {
 
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $order_id = $request->getParameter('order_id'); // 订单号
-        $user_id = $request->getParameter('userid'); // 微信id
+        $order_id = addslashes($request->getParameter('order_id')); // 订单号
+        $user_id = addslashes($request->getParameter('userid')); // 微信id
         echo json_encode(array('res'=>'请购买商业授权!','status'=>1));
         exit();
         
@@ -52,7 +52,7 @@ class distributionAction extends Action {
 
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $ptcode = $request->getParameter('ptcode'); // 开团号
+        $ptcode = addslashes($request->getParameter('ptcode')); // 开团号
        echo json_encode(array('res'=>'请购买商业授权!','status'=>1));
         exit();
     
@@ -61,7 +61,7 @@ class distributionAction extends Action {
    public function commission(){//返现
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $order_id = $request->getParameter('order_id'); // 订单号
+        $order_id = addslashes($request->getParameter('order_id')); // 订单号
         echo json_encode(array('res'=>'请购买商业授权!','status'=>1));
         exit();
    }
@@ -71,7 +71,7 @@ class distributionAction extends Action {
         $request = $this->getContext()->getRequest();
          $pagesize = 10;
         // 每页显示多少条数据
-        $page = $request -> getParameter('page');
+        $page = addslashes($request -> getParameter('page'));
 
         // 页码
         if($page){
@@ -79,7 +79,7 @@ class distributionAction extends Action {
         }else{
             $start = 0;
         }
-        $openid = $request -> getParameter('openid');
+        $openid = addslashes($request -> getParameter('openid'));
        echo json_encode(array('res'=>'请购买商业授权!','status'=>1));
         exit();
 
@@ -89,7 +89,7 @@ class distributionAction extends Action {
         $request = $this->getContext()->getRequest();
          $pagesize = 10;
         // 每页显示多少条数据
-        $page = $request -> getParameter('page');
+        $page = addslashes($request -> getParameter('page'));
 
         // 页码
         if($page){
@@ -97,7 +97,7 @@ class distributionAction extends Action {
         }else{
             $start = 0;
         }
-        $openid = $request -> getParameter('openid');
+        $openid = addslashes($request -> getParameter('openid'));
           echo json_encode(array('res'=>'请购买商业授权!','status'=>1));
         exit();
 
@@ -105,7 +105,7 @@ class distributionAction extends Action {
       public function show(){//佣金详情
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $id = $request -> getParameter('id');
+        $id = addslashes($request -> getParameter('id'));
            echo json_encode(array('res'=>'请购买商业授权!','status'=>1));
         exit();
     }

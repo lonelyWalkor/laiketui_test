@@ -54,8 +54,8 @@ class addressAction extends Action {
     {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = trim($request->getParameter('openid')); // 微信id
-        $arr = trim($request->getParameter('id_arr')); // 微信id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
+        $arr = addslashes(trim($request->getParameter('id_arr'))); // 微信id
         $sql = "select * from lkt_user where wx_id = '$openid'";
         $r = $db->select($sql);
         if($r){

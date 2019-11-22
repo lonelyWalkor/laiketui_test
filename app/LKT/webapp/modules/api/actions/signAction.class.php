@@ -35,7 +35,7 @@ class signAction extends Action {
     public function index(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = trim($request->getParameter('openid')); // 微信id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -163,9 +163,9 @@ class signAction extends Action {
     public function sign(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = trim($request->getParameter('openid')); // 微信id
-        $year = trim($request->getParameter('year')); // 年
-        $month = trim($request->getParameter('month')); // 月
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
+        $year = addslashes(trim($request->getParameter('year'))); // 年
+        $month = addslashes(trim($request->getParameter('month'))); // 月
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -284,7 +284,7 @@ class signAction extends Action {
     public function integral(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = trim($request->getParameter('openid')); // 微信id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);

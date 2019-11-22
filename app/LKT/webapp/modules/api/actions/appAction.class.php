@@ -37,13 +37,13 @@ class appAction extends Action {
         $request = $this->getContext()->getRequest();
         // 获取临时凭证
         $code = $_POST['code'];
-        $software_name = trim($request->getParameter('software_name')); // 软件名
-        $edition = trim($request->getParameter('edition')); // 版本号
+        $software_name = addslashes(trim($request->getParameter('software_name'))); // 软件名
+        $edition = addslashes(trim($request->getParameter('edition'))); // 版本号
 
-        $wxname = $_POST['nickName']; // 微信昵称
-        $headimgurl = $_POST['avatarUrl']; // 微信头像
-        $sex = $_POST['gender']; // 性别
-        $pid =$request->getParameter('referee_openid');
+        $wxname = addslashes($_POST['nickName']); // 微信昵称
+        $headimgurl = addslashes($_POST['avatarUrl']); // 微信头像
+        $sex = addslashes($_POST['gender']); // 性别
+        $pid =addslashes($request->getParameter('referee_openid'));
        // 查询小程序配置
         $sql = "select * from lkt_config where id=1";
         $r = $db->select($sql);
@@ -373,8 +373,8 @@ class appAction extends Action {
     public function referee_openid(){//推荐人储存
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid =$request->getParameter('openid');
-        $referee_openid =$request->getParameter('referee_openid');
+        $openid = addslashes($request->getParameter('openid'));
+        $referee_openid = addslashes($request->getParameter('referee_openid'));
         $sql = "select Referee,user_id from lkt_user where wx_id = '$openid'";//判断有没有推荐人
             $rr = $db->select($sql);
             $userid = $rr[0]->user_id;
@@ -400,8 +400,8 @@ class appAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息
-        $openid = $_POST['openid']; // 微信id
-        $sql_c = 'select sum(a.Goods_num) as Goods_num from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$openid.'\' and m.recycle = 0 and c.recycle = 0 order by Create_time desc';
+        $openid = addslashes($_POST['openid']); // 微信id
+        $sql_c = 'select count(a.Goods_num) as Goods_num from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$openid.'\' and m.recycle = 0 and c.recycle = 0 order by Create_time desc';
         $r_c = $db->select($sql_c);
         $cart =$r_c[0]->Goods_num?$r_c[0]->Goods_num:0;
         echo json_encode(array('cart'=>$cart));

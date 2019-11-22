@@ -163,8 +163,8 @@ class userAction extends Action {
     public function verify_paw(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = $request->getParameter('openid');
-        $ypwd = $request->getParameter('password');
+        $openid = addslashes($request->getParameter('openid'));
+        $ypwd = addslashes($request->getParameter('password'));
         $and = '';
         if($ypwd){
             $ypwd = md5($ypwd);
@@ -344,7 +344,7 @@ class userAction extends Action {
         $Bank_name = $_POST['Bank_name']; // 银行名称
         $Cardholder = $_POST['Cardholder']; // 持卡人
         $Bank_card_number = $_POST['Bank_card_number']; // 银行卡号
-        $openid = $_POST['openid']; // 微信id
+        $openid = addslashes($_POST['openid']); // 微信id
         $mobile = $_POST['mobile']; // 联系电话
         // 提现金额不为数字
         if(is_numeric($amoney) == false){
@@ -505,7 +505,7 @@ class userAction extends Action {
         // 接收信息
         $n = $_POST['n']; // 参数
         $id = $_POST['id']; // 新闻id
-        $openid = $_POST['openid']; // 微信id
+        $openid = addslashes($_POST['openid']); // 微信id
         
         if($n == 0){
             // 根据新闻id,查询新闻信息
@@ -615,7 +615,7 @@ class userAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 接收信息
-        $openid = $_POST['openid']; // 微信id
+        $openid = addslashes($_POST['openid']); // 微信id
         $sql = "select * from lkt_user where wx_id = '$openid'";
         $r = $db->select($sql);
         if($r){
@@ -683,7 +683,7 @@ class userAction extends Action {
     public function getCityArr(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();   
-        $count = $_POST['count']; // 接收前台传过来省的行数
+        $count = addslashes($_POST['count']); // 接收前台传过来省的行数
         if($count == ''){
             $count = 0;
         }else{
@@ -720,8 +720,8 @@ class userAction extends Action {
     public function getCountyInfo(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $count = $_POST['count']; // 接收前台传过来省的行数
-        $column = $_POST['column']; // 接收前台传过来市的行数
+        $count = addslashes($_POST['count']); // 接收前台传过来省的行数
+        $column = addslashes($_POST['column']); // 接收前台传过来市的行数
         // 查询省的编号
         $sql = "select * from admin_cg_group a where a.G_ParentID=0";
         $r = $db->select($sql);
@@ -761,9 +761,9 @@ class userAction extends Action {
     public function Preservation(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();   
-        $sheng = $_POST['sheng'];
-        $shi = $_POST['shi'];
-        $xuan = $_POST['xuan'];
+        $sheng = addslashes($_POST['sheng']);
+        $shi = addslashes($_POST['shi']);
+        $xuan = addslashes($_POST['xuan']);
 
         // 查询省的编号
         $sql = "select * from admin_cg_group a where a.G_ParentID=0";
@@ -808,13 +808,13 @@ class userAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取小程序传过来的值
-        $openid = $_POST['openid'];
-        $user_name = $_POST['user_name']; // 联系人
-        $mobile = $_POST['mobile']; // 联系电话
-        $province = $_POST['province']; // 省
-        $city = $_POST['city']; // 市
-        $county = $_POST['county']; // 县 
-        $address = $_POST['address']; // 详细地址
+        $openid = addslashes($_POST['openid']);
+        $user_name = addslashes($_POST['user_name']); // 联系人
+        $mobile = addslashes($_POST['mobile']); // 联系电话
+        $province = addslashes($_POST['province']); // 省
+        $city = addslashes($_POST['city']); // 市
+        $county = addslashes($_POST['county']); // 县 
+        $address = addslashes($_POST['address']); // 详细地址
         // 查询省的编号
         $sql ="select GroupID from admin_cg_group where G_CName='$province'";
         $r = $db->select($sql);
@@ -924,9 +924,9 @@ class userAction extends Action {
         $request = $this->getContext()->getRequest();
         //开启事务
         $db->begin();
-        $user_id = $_POST['user_id'];
-        $openid = $_POST['openid'];
-        $money = $_POST['money'];
+        $user_id = addslashes($_POST['user_id']);
+        $openid = addslashes($_POST['openid']);
+        $money = addslashes($_POST['money']);
         $date_time = date('Y-m-d H:i:s',time());
         if($money <= 0 || $money == ''){
             echo json_encode(array('status'=>1,'err'=>'正确填写转账金额'));
@@ -989,7 +989,7 @@ class userAction extends Action {
     {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $user_id = trim($request->getParameter('user_id')); // 微信id
+        $user_id = addslashes(trim($request->getParameter('user_id'))); // 微信id
         $sql002 = "select real_name as name,mobile,sex,province,city,county,wechat_id,birthday from lkt_user where user_id = '$user_id'";
         $r002 = $db->select($sql002);//好友
         if($r002){
@@ -1009,15 +1009,15 @@ class userAction extends Action {
 
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $user_id = trim($request->getParameter('user_id')); // 微信id
-        $name = trim($request->getParameter('name')); // 姓名
-        $mobile = trim($request->getParameter('mobile')); // mobile
-        $province = trim($request->getParameter('province')); // province
-        $city = trim($request->getParameter('city')); // city
-        $county = trim($request->getParameter('county')); // county
-        $wx_id = trim($request->getParameter('wx_id')); // wx_id
-        $sex = trim($request->getParameter('sex')); // sex
-        $date = trim($request->getParameter('date')); // date
+        $user_id = addslashes(trim($request->getParameter('user_id'))); // 微信id
+        $name = addslashes(trim($request->getParameter('name'))); // 姓名
+        $mobile = addslashes(trim($request->getParameter('mobile'))); // mobile
+        $province = addslashes(trim($request->getParameter('province'))); // province
+        $city = addslashes(trim($request->getParameter('city'))); // city
+        $county = addslashes(trim($request->getParameter('county'))); // county
+        $wx_id = addslashes(trim($request->getParameter('wx_id'))); // wx_id
+        $sex = addslashes(trim($request->getParameter('sex'))); // sex
+        $date = addslashes(trim($request->getParameter('date'))); // date
 
         $name = base64_encode($name);
         $name = base64_decode($name);

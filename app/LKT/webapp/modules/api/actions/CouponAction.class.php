@@ -122,8 +122,8 @@ class CouponAction extends Action {
     public function receive(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = trim($request->getParameter('openid')); // 微信id
-        $id = trim($request->getParameter('id')); // 活动id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
+        $id = addslashes(trim($request->getParameter('id'))); // 活动id
 
         // 查询用户id
         $sql = "select user_id,Register_data from lkt_user where wx_id = '$openid' ";
@@ -202,7 +202,7 @@ class CouponAction extends Action {
     public function mycoupon(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = trim($request->getParameter('openid')); // 微信id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
         
         // 根据微信id,查询用户id
         $sql = "select user_id from lkt_user where wx_id = '$openid' ";
@@ -336,8 +336,8 @@ class CouponAction extends Action {
     public function immediate_use(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $id = trim($request->getParameter('id')); // 优惠券id
-        $openid = trim($request->getParameter('openid')); // 微信id
+        $id = addslashes(trim($request->getParameter('id'))); // 优惠券id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
         // 根据微信id,查询用户id
         $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
@@ -386,8 +386,8 @@ class CouponAction extends Action {
     public function my_coupon(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = trim($request->getParameter('openid')); // 微信id
-        $cart_id = trim($request->getParameter('cart_id')); //  购物车id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
+        $cart_id = addslashes(trim($request->getParameter('cart_id'))); //  购物车id
 
         $typestr=trim($cart_id,','); // 移除两侧的逗号
         $typeArr=explode(',',$typestr); // 字符串打散为数组
@@ -566,10 +566,10 @@ class CouponAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
-        $cart_id = trim($request->getParameter('cart_id')); // 购物车id
-        $coupon_money = trim($request->getParameter('coupon_money')); // 付款金额
-        $openid = trim($request->getParameter('openid')); // 微信id
-        $coupon_id = trim($request->getParameter('coupon_id')); // 优惠券id
+        $cart_id = addslashes(trim($request->getParameter('cart_id'))); // 购物车id
+        $coupon_money = addslashes(trim($request->getParameter('coupon_money'))); // 付款金额
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
+        $coupon_id = addslashes(trim($request->getParameter('coupon_id'))); // 优惠券id
         // 根据活动id,查询活动信息
         $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);

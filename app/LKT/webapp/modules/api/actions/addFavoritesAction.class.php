@@ -134,7 +134,7 @@ select l.id,a.id as pid,a.product_title,a.imgurl as img,c.price
     {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = trim($request->getParameter('openid')); // 微信id
+        $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
         $sql_user = 'select user_id from lkt_user where wx_id=\''.$openid.'\'';
         $r_user = $db->select($sql_user);
         $userid = $r_user['0']->user_id;

@@ -38,16 +38,16 @@ class productAction extends Action {
         $request = $this->getContext()->getRequest();
 
         // 获取产品id
-        $id = trim($request->getParameter('pro_id'));
-        $openid = trim($request->getParameter('openid'));
+        $id = addslashes(trim($request->getParameter('pro_id')));
+        $openid = addslashes(trim($request->getParameter('openid')));
 
         // 根据微信id,查询用户id
         // 获取类别值id，用于区分是抽奖和其他
-        $type1 = $request->getParameter('type1');
-        $choujiangid = $request->getParameter('choujiangid');
-        $wx_id = $request->getParameter('wx_id');
+        $type1 = addslashes($request->getParameter('type1'));
+        $choujiangid = addslashes($request->getParameter('choujiangid'));
+        $wx_id = addslashes($request->getParameter('wx_id'));
 
-        $t_user_id = $request->getParameter('userid');
+        $t_user_id = addslashes($request->getParameter('userid'));
 
         if($type1 == 1){
             $sql0101="select * from lkt_draw where id = '$choujiangid'";
@@ -372,11 +372,11 @@ class productAction extends Action {
     public function add_cart(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $Uid = trim($request->getParameter('uid')); //  '微信id',
-        $Goods_id = trim($request->getParameter('pid')); //  '产品id',
-        $Goods_num = trim($request->getParameter('num')); //  '数量',
-        $size_id =trim($request->getParameter('sizeid')); //  '商品属性id',
-        $pro_type =trim($request->getParameter('pro_type')); //  '点击类型',
+        $Uid = addslashes(trim($request->getParameter('uid'))); //  '微信id',
+        $Goods_id = addslashes(trim($request->getParameter('pid'))); //  '产品id',
+        $Goods_num = addslashes(trim($request->getParameter('num'))); //  '数量',
+        $size_id = addslashes(trim($request->getParameter('sizeid'))); //  '商品属性id',
+        $pro_type = addslashes(trim($request->getParameter('pro_type'))); //  '点击类型',
         if(empty($Uid) || empty($Goods_id) || empty($Goods_id) || empty($size_id)){
             echo json_encode(array('status'=>0,'info'=>'添加失败请重新提交!!'));
         }else{
@@ -421,9 +421,9 @@ class productAction extends Action {
     public function listdetail(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $id = trim($request->getParameter('cid')); //  '分类ID'
-        $paegr = trim($request->getParameter('page')); //  '页面'
-        $select = trim($request->getParameter('select')); //  选中的方式 0 默认  1 销量   2价格
+        $id = addslashes(trim($request->getParameter('cid'))); //  '分类ID'
+        $paegr = addslashes(trim($request->getParameter('page'))); //  '页面'
+        $select = addslashes(trim($request->getParameter('select'))); //  选中的方式 0 默认  1 销量   2价格
         if($select == 0){
              $select = 'a.add_date'; 
         }elseif ($select == 1) {
@@ -432,7 +432,7 @@ class productAction extends Action {
              $select = 'c.price'; 
         }
 
-        $sort = trim($request->getParameter('sort')); // 排序方式  1 asc 升序   0 desc 降序
+        $sort = addslashes(trim($request->getParameter('sort'))); // 排序方式  1 asc 升序   0 desc 降序
         if($sort){
              $sort = ' asc '; 
         }else{
@@ -476,8 +476,8 @@ class productAction extends Action {
     public function get_more(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $id = trim($request->getParameter('cid')); //  '分类ID'
-        $paegr = trim($request->getParameter('page')); //  '分页显示'
+        $id = addslashes(trim($request->getParameter('cid'))); //  '分类ID'
+        $paegr = addslashes(trim($request->getParameter('page'))); //  '分页显示'
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -565,10 +565,10 @@ class productAction extends Action {
     public function Settlement(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $cart_id = trim($request->getParameter('cart_id')); //  购物车id
-        $uid = trim($request->getParameter('uid')); // 微信id
-        $type = trim($request->getParameter('type')); //  类型，1直接购买，0购物车购买
-        $num1 = trim($request->getParameter('num1')); // 直接购买数量
+        $cart_id = addslashes(trim($request->getParameter('cart_id'))); //  购物车id
+        $uid = addslashes(trim($request->getParameter('uid'))); // 微信id
+        $type = addslashes(trim($request->getParameter('type'))); //  类型，1直接购买，0购物车购买
+        $num1 = addslashes(trim($request->getParameter('num1'))); // 直接购买数量
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -965,7 +965,7 @@ class productAction extends Action {
         }
 
         $arr = [];
-        $uid = trim($request->getParameter('user_id')); //  '分类ID'
+        $uid = addslashes(trim($request->getParameter('user_id'))); //  '分类ID'
         $sql_c = 'select a.*,c.price,c.attribute,c.img,c.num as pnum,m.product_title,c.id AS sizeid from lkt_cart AS a LEFT JOIN lkt_product_list AS m  ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where c.num >0 and a.Uid = \''.$uid.'\' order by Create_time desc';
         
         $r_c = $db->select($sql_c);
@@ -1033,7 +1033,7 @@ class productAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         //购物车商品
-        $carts = $request->getParameter('carts');
+        $carts = addslashes($request->getParameter('carts'));
         //用户id
         $userid = addslashes(trim($request->getParameter('user_id')));
 
@@ -1087,9 +1087,9 @@ class productAction extends Action {
     public function up_cart(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $cart_id = trim($request->getParameter('cart_id'));
-        $num = trim($request->getParameter('num'));
-        $user_id = trim($request->getParameter('user_id'));
+        $cart_id = addslashes(trim($request->getParameter('cart_id')));
+        $num = addslashes(trim($request->getParameter('num')));
+        $user_id = addslashes(trim($request->getParameter('user_id')));
 
         $sql_num = "select c.num from lkt_cart as a LEFT JOIN lkt_configure AS c ON a.Size_id = c.id where a.id = '$cart_id'";
         $r_num = $db->select($sql_num);
@@ -1119,8 +1119,8 @@ class productAction extends Action {
     public function wallet_pay(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $uid = trim($request->getParameter('uid')); // 微信id
-        $total = trim($request->getParameter('total')); // 付款余额
+        $uid = addslashes(trim($request->getParameter('uid'))); // 微信id
+        $total = addslashes(trim($request->getParameter('total'))); // 付款余额
         // 根据微信id,查询用户列表(支付密码,钱包余额,用户id)
         $sql_user = "select password,money,user_id from lkt_user where wx_id='$uid'";
         $r_user = $db->select($sql_user);
@@ -1155,17 +1155,17 @@ class productAction extends Action {
         $db->begin();
 
         $request = $this->getContext()->getRequest();
-        $cart_id = trim($request->getParameter('cart_id')); // 购物车id
-        $uid = trim($request->getParameter('uid')); // 微信id
-        $type = trim($request->getParameter('type')); // 用户支付方式
-        $coupon_id = trim($request->getParameter('coupon_id')); // 优惠券id
-        $r_name =  trim($request->getParameter('name')); // 自动满减金额名称
-        $reduce_money =  trim($request->getParameter('reduce_money')); // 自动满减金额
-        $allow = trim($request->getParameter('allow')); // 用户使用积分
-        $red_packet = trim($request->getParameter('red_packet')); // 用户使用红包
-        $typee = trim($request->getParameter('typee')); // 1直接购买类型0购物车购买
-        $num = trim($request->getParameter('num')); // 直接购买数量
-        $total = $_POST['total']; // 付款金额
+        $cart_id = addslashes(trim($request->getParameter('cart_id'))); // 购物车id
+        $uid = addslashes(trim($request->getParameter('uid'))); // 微信id
+        $type = addslashes(trim($request->getParameter('type'))); // 用户支付方式
+        $coupon_id = addslashes(trim($request->getParameter('coupon_id'))); // 优惠券id
+        $r_name =  addslashes(trim($request->getParameter('name'))); // 自动满减金额名称
+        $reduce_money =  addslashes(trim($request->getParameter('reduce_money'))); // 自动满减金额
+        $allow = addslashes(trim($request->getParameter('allow'))); // 用户使用积分
+        $red_packet = addslashes(trim($request->getParameter('red_packet'))); // 用户使用红包
+        $typee = addslashes(trim($request->getParameter('typee'))); // 1直接购买类型0购物车购买
+        $num = addslashes(trim($request->getParameter('num'))); // 直接购买数量
+        $total = addslashes($_POST['total']); // 付款金额
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -1440,14 +1440,14 @@ class productAction extends Action {
     public function up_order(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $coupon_id = trim($request->getParameter('coupon_id')); // 优惠券id
-        $allow = trim($request->getParameter('allow')); // 用户使用消费金
-        $coupon_money = trim($request->getParameter('coupon_money')); // 付款金额
-        $order_id = trim($request->getParameter('order_id')); // 订单号
-        $user_id = trim($request->getParameter('user_id')); // 微信id
-        $d_yuan = trim($request->getParameter('d_yuan')); // 抵扣余额
-        $trade_no = trim($request->getParameter('trade_no')); // 微信支付单号
-        $pay =  trim($request->getParameter('pay'));
+        $coupon_id = addslashes(trim($request->getParameter('coupon_id'))); // 优惠券id
+        $allow = addslashes(trim($request->getParameter('allow'))); // 用户使用消费金
+        $coupon_money = addslashes(trim($request->getParameter('coupon_money'))); // 付款金额
+        $order_id = addslashes(trim($request->getParameter('order_id'))); // 订单号
+        $user_id = addslashes(trim($request->getParameter('user_id'))); // 微信id
+        $d_yuan = addslashes(trim($request->getParameter('d_yuan'))); // 抵扣余额
+        $trade_no = addslashes(trim($request->getParameter('trade_no'))); // 微信支付单号
+        $pay =  addslashes(trim($request->getParameter('pay')));
         // 根据微信id,查询用户id
         $sql_user = 'select user_id,money from lkt_user where wx_id=\''.$user_id.'\'';
         $r_user = $db->select($sql_user);
@@ -1571,10 +1571,10 @@ class productAction extends Action {
     public function comment(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $order_id = trim($request->getParameter('order_id')); // 订单号
-        $user_id = trim($request->getParameter('user_id')); // 微信id
-        $pid = trim($request->getParameter('pid')); // 商品id
-        $attribute_id = trim($request->getParameter('attribute_id')); // 属性id
+        $order_id = addslashes(trim($request->getParameter('order_id'))); // 订单号
+        $user_id = addslashes(trim($request->getParameter('user_id'))); // 微信id
+        $pid = addslashes(trim($request->getParameter('pid'))); // 商品id
+        $attribute_id = addslashes(trim($request->getParameter('attribute_id'))); // 属性id
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -1619,10 +1619,10 @@ class productAction extends Action {
         $db = DBAction::getInstance();
         $db->begin();
         $request = $this->getContext()->getRequest();
-        $type = trim($request->getParameter('type'));
+        $type = addslashes(trim($request->getParameter('type')));
         if($type == 'file'){
             //处理评论图片
-            $id = trim($request->getParameter('id'));//评论ID
+            $id = addslashes(trim($request->getParameter('id')));//评论ID
             // 查询配置表信息
             $sql = "select * from lkt_config where id = '1'";
             $r = $db->select($sql);
@@ -1778,10 +1778,10 @@ class productAction extends Action {
     public function new_product(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $id = trim($request->getParameter('cid')); //  '分类ID'
-        $paegr = trim($request->getParameter('page')); //  '页面'
+        $id = addslashes(trim($request->getParameter('cid'))); //  '分类ID'
+        $paegr = addslashes(trim($request->getParameter('page'))); //  '页面'
 
-        $select = trim($request->getParameter('select')); //  选中的方式 0 默认  1 销量   2价格
+        $select = addslashes(trim($request->getParameter('select'))); //  选中的方式 0 默认  1 销量   2价格
         if($select == 0){
              $select = 'a.add_date'; 
         }elseif ($select == 1) {
@@ -1790,7 +1790,7 @@ class productAction extends Action {
              $select = 'price'; 
         }
 
-        $sort = trim($request->getParameter('sort')); // 排序方式  1 asc 升序   0 desc 降序
+        $sort = addslashes(trim($request->getParameter('sort'))); // 排序方式  1 asc 升序   0 desc 降序
         if($sort){
              $sort = ' asc '; 
         }else{
