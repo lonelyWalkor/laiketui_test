@@ -38,7 +38,7 @@ class rechargeAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 接收信息
-        $openid = $_POST['openid']; // 微信id
+        $openid = addslashes($_POST['openid']); // 微信id
         
         // 查询会员信息
         $sql = "select * from lkt_user where wx_id = '$openid'";
@@ -94,8 +94,8 @@ class rechargeAction extends Action {
         $request = $this->getContext ()->getRequest ();
 
         // 接收信息
-        $openid = $_POST['openid']; // 微信id
-        $cmoney = $_POST['cmoney']; // 充值金额
+        $openid = addslashes($_POST['openid']); // 微信id
+        $cmoney = addslashes($_POST['cmoney']); // 充值金额
 
         // 查询余额参数表
         $sql = "select cz_multiple from lkt_finance_config where id = 1";

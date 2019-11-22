@@ -35,8 +35,8 @@ class addFavoritesAction extends Action {
     public function index(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $openid = $_POST['openid']; // 微信id
-        $pid = $_POST['pid']; // 产品id
+        $openid = addslashes($_POST['openid']); // 微信id
+        $pid = addslashes($_POST['pid']); // 产品id
         // 根据微信id,查询用户id
         $sql = "select user_id from lkt_user where wx_id = '$openid' ";
         $r = $db->select($sql);
@@ -68,7 +68,7 @@ class addFavoritesAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
-        $openid = $_POST['openid']; // 微信id
+        $openid = addslashes($_POST['openid']); // 微信id
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -116,7 +116,7 @@ select l.id,a.id as pid,a.product_title,a.imgurl as img,c.price
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
-        $id = $_POST['id']; // 收藏id
+        $id = addslashes($_POST['id']); // 收藏id
         // 根据收藏id,删除收藏表信息
         $sql = "delete from lkt_user_collection where id = '$id'";
         $r = $db->delete($sql);

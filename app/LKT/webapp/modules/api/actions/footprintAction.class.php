@@ -36,7 +36,7 @@ class footprintAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         
-        $openid = $_POST['openid']; // 微信id
+        $openid = addslashes($_POST['openid']); // 微信id
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);

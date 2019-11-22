@@ -36,7 +36,7 @@ class appAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取临时凭证
-        $code = $_POST['code'];
+        $code = addslashes($_POST['code']);
         $software_name = addslashes(trim($request->getParameter('software_name'))); // 软件名
         $edition = addslashes(trim($request->getParameter('edition'))); // 版本号
 

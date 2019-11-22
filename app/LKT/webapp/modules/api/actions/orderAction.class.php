@@ -94,9 +94,9 @@ class orderAction extends Action {
         }
 
         // 获取信息
-        $openid = $_POST['openid']; // 微信id
-        $order_type = $_POST['order_type']; // 订单状态(代付款：payment  代发货：send 待收货：receipt 待评价：evaluate)
-        $otype = $_POST['otype']; // 订单类型(全部订单：pay   拼团订单：pay6)
+        $openid = addslashes($_POST['openid']); // 微信id
+        $order_type = addslashes($_POST['order_type']); // 订单状态(代付款：payment  代发货：send 待收货：receipt 待评价：evaluate)
+        $otype = addslashes($_POST['otype']); // 订单类型(全部订单：pay   拼团订单：pay6)
          if($otype == 'pay6'){
             $res = "and a.otype='pt'"; // 我的拼团
         }else{
@@ -518,8 +518,8 @@ class orderAction extends Action {
                 $order_failure = '24';
             }
         // 获取信息
-        $id = $_POST['order_id']; // 订单id
-        $type1 = $_POST['type1']; // 
+        $id = addslashes($_POST['order_id']); // 订单id
+        $type1 = addslashes($_POST['type1']); // 
 
         $sql = "select sNo,z_price,add_time,name,mobile,address,drawid,user_id,status,coupon_id,consumer_money,coupon_activity_name,pid,otype,ptcode,red_packet from lkt_order where id = '$id'";
 
@@ -651,9 +651,9 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息
-        $id = $_POST['id']; // 订单详情id
-        $oid = $_POST['oid']; // 订单号
-        $otype = $_POST['otype']; // 状态
+        $id = addslashes($_POST['id']); // 订单详情id
+        $oid = addslashes($_POST['oid']); // 订单号
+        $otype = addslashes($_POST['otype']); // 状态
         // $re_type = $_POST['re_type']; // 退货类型
         $re_type = addslashes(trim($request->getParameter('re_type')));
         $back_remark = htmlentities($_POST['back_remark']); // 退货原因
@@ -714,8 +714,8 @@ class orderAction extends Action {
         }
 
         // 获取信息
-        $openid = $_POST['openid']; // 微信id
-        $order_type = $_POST['order_type']; // 参数
+        $openid = addslashes($_POST['openid']); // 微信id
+        $order_type = addslashes($_POST['order_type']); // 参数
         $sql = "select user_id from lkt_user where wx_id = '$openid'";
         $r = $db->select($sql);
         if($r){

@@ -342,9 +342,9 @@ class signAction extends Action {
     public function transfer_jifen(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $user_id = $_POST['user_id'];
-        $openid = $_POST['openid'];
-        $jifen = $_POST['jifen'];
+        $user_id = addslashes($_POST['user_id']);
+        $openid = addslashes($_POST['openid']);
+        $jifen = addslashes($_POST['jifen']);
         $date_time = date('Y-m-d H:i:s',time());
         if($jifen <= 0 || $jifen == ''){
             echo json_encode(array('status'=>1,'err'=>'正确填写转账金额'));

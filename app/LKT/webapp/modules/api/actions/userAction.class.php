@@ -34,8 +34,8 @@ class userAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息
-        $openid = $_POST['openid']; // 微信id
-        // print_r($openid);die;
+        $openid = addslashes($_POST['openid']); // 微信id
+     
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -147,10 +147,10 @@ class userAction extends Action {
         $request = $this->getContext()->getRequest();
         // 获取信息
         $db->query("set names 'utf8'");
-        $openid = $_POST['openid']; // 微信id
-        $nickName = $_POST['nickName']; // 微信昵称
-        $avatarUrl = $_POST['avatarUrl']; // 微信头像
-        $gender = $_POST['gender']; // 性别
+        $openid = addslashes($_POST['openid']); // 微信id
+        $nickName = addslashes($_POST['nickName']); // 微信昵称
+        $avatarUrl = addslashes($_POST['avatarUrl']); // 微信头像
+        $gender = addslashes($_POST['gender']); // 性别
         // 根据微信id,修改用户昵称、微信昵称、微信头像、性别
         $sql = "update lkt_user set user_name='$nickName',wx_name='$nickName',sex='$gender',headimgurl='$avatarUrl' where wx_id = '$openid'";
         $r = $db->update($sql);
@@ -193,7 +193,7 @@ class userAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 接收信息
-        $openid = $_POST['openid']; // 微信id
+        $openid = addslashes($_POST['openid']); // 微信id
         // 查询单位
         $sql = "select * from lkt_finance_config where id = 1";
         $r_1 = $db->select($sql);
@@ -337,15 +337,15 @@ class userAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 接收信息
-        $money = $_POST['money']; // 金额
-        $min_amount = $_POST['min_amount']; // 最少提现金额
-        $max_amount = $_POST['max_amount']; // 最大提现金额
-        $amoney = $_POST['amoney']; // 提现金额
-        $Bank_name = $_POST['Bank_name']; // 银行名称
-        $Cardholder = $_POST['Cardholder']; // 持卡人
-        $Bank_card_number = $_POST['Bank_card_number']; // 银行卡号
+        $money = addslashes($_POST['money']); // 金额
+        $min_amount = addslashes($_POST['min_amount']); // 最少提现金额
+        $max_amount = addslashes($_POST['max_amount']); // 最大提现金额
+        $amoney = addslashes($_POST['amoney']); // 提现金额
+        $Bank_name = addslashes($_POST['Bank_name']); // 银行名称
+        $Cardholder = addslashes($_POST['Cardholder']); // 持卡人
+        $Bank_card_number = addslashes($_POST['Bank_card_number']); // 银行卡号
         $openid = addslashes($_POST['openid']); // 微信id
-        $mobile = $_POST['mobile']; // 联系电话
+        $mobile = addslashes($_POST['mobile']); // 联系电话
         // 提现金额不为数字
         if(is_numeric($amoney) == false){
             echo json_encode(array('status'=>0,'info'=>'请输入数字!'));
@@ -503,8 +503,8 @@ class userAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 接收信息
-        $n = $_POST['n']; // 参数
-        $id = $_POST['id']; // 新闻id
+        $n = addslashes($_POST['n']); // 参数
+        $id = addslashes($_POST['id']); // 新闻id
         $openid = addslashes($_POST['openid']); // 微信id
         
         if($n == 0){

@@ -38,7 +38,7 @@ class envelopeAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取新闻id
-        $id = $_POST['id'];
+        $id = addslashes($_POST['id']);
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -73,8 +73,8 @@ class envelopeAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 获取信息
-        $id = $_POST['id']; // 文章id
-        $openid = $_POST['openid']; // 微信id
+        $id = addslashes($_POST['id']); // 文章id
+        $openid = addslashes($_POST['openid']); // 微信id
         /* ----- 分享成功 -----*/
         // 根据文章id,修改文章分享次数
         $sql = "update lkt_article set share_num = share_num+1 where Article_id = '$id'";

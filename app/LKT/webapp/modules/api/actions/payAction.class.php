@@ -39,8 +39,8 @@ class payAction extends Action {
         $request = $this->getContext ()->getRequest ();
 
         // 接收信息
-        $openid = $_POST['openid']; // 微信id
-        $cmoney = $_POST['cmoney']; // 充值金额
+        $openid = addslashes($_POST['openid']); // 微信id
+        $cmoney = addslashes($_POST['cmoney']); // 充值金额
         $type = addslashes(trim($request->getParameter('type')));
         if($type == 'PT'){
             $pay = 'PT';
