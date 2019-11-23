@@ -30,7 +30,16 @@ function check(f){
 <title>修改颜色</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 颜色管理 <span class="c-gray en">&gt;</span> 背景颜色管理 <span class="c-gray en">&gt;</span> 修改颜色 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=bgcolor';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+
+
+<nav class="breadcrumb">
+    小程序 <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=bgcolor">前台背景颜色</a> <span class="c-gray en">&gt;</span>  
+    修改颜色 <span class="c-gray en">&gt;</span>
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
 <div class="pd-20">
     <form name="form1" action="index.php?module=bgcolor&action=modify" class="form form-horizontal" method="post" onsubmit="return check(this);"  enctype="multipart/form-data" >
         <input type="hidden" name="id" value="{$id}" />
