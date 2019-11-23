@@ -44,9 +44,13 @@
 </head>
 
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 配置管理 
-	<span class="c-gray en">&gt;</span> 积分设置 <i class="Hui-iconfont">&#xe68f;</i></a>
+
+<nav class="breadcrumb">
+    <a href="index.php?module=sign" >配置管理</a> <span class="c-gray en">&gt;</span> 
+    积分设置
 </nav>
+
+
 <div class="page-container" style="padding-top: 0px;">
     
     <form name="form1" action="" class="form form-horizontal" method="post"   enctype="multipart/form-data" >

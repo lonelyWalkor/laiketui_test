@@ -41,7 +41,7 @@ class addsignAction extends Action {
 		        $rcf = $db -> select($sqlcf);
 		        $uploadImg = $rcf[0] -> uploadImg;
 		}
-		// print_r($res_p);die;
+		
         $request -> setAttribute("uploadImg", $uploadImg);
 		$request -> setAttribute("express", $r02);
 		$request -> setAttribute("id", $id);
