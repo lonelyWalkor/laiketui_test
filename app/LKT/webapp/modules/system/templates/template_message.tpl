@@ -16,8 +16,7 @@
 
 <nav class="breadcrumb">
     小程序 <span class="c-gray en">&gt;</span> 
-    消息管理 <span class="c-gray en">&gt;</span> 
-    <a href="javascript:history.go(-1)">返回</a>
+    消息管理
 </nav>
 
 
@@ -115,7 +114,7 @@
                       <div class="col-sm-8 col-xs-12">  
                               
                               <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" data-original-title="" title=""> 
-                              <input type="hidden" name="token" value="41f48483"> 
+                              
                               
                        </div> 
                 </div>

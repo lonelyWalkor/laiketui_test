@@ -37,8 +37,7 @@
 
 <nav class="breadcrumb">
     小程序 <span class="c-gray en">&gt;</span> 
-    支付设置 <span class="c-gray en">&gt;</span> 
-    <a href="javascript:history.go(-1)">返回</a>
+    支付设置
 </nav>
 
 <div class="page-container">

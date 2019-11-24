@@ -18,8 +18,8 @@
 
 
 <nav class="breadcrumb">
-    系统管理 <span class="c-gray en">&gt;</span> 
-    系统参数 
+    小程序 <span class="c-gray en">&gt;</span> 
+    系统设置
 </nav>
 
 
