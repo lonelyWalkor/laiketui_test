@@ -41,13 +41,13 @@
                 <div class="col-4"> </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>公司名称：</label>
+                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>小程序名称：</label>
                 <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" name="company" value="{$company}" class="input-text">
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>小程序id：</label>
+                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>小程序ID：</label>
                 <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" name="appid" value="{$appid}" class="input-text">
                 </div>
@@ -152,7 +152,7 @@ KindEditor.ready(function(K) {
   K('#image').click(function() {
     editor.loadPlugin('image', function() {
       editor.plugin.imageDialog({
-        //showRemote : false, //网络图片不开启
+        showRemote : false, //网络图片不开启
         //showLocal : false, //不开启本地图片上传
         imageUrl : K('#picurl').val(),
           clickFn : function(url, title, width, height, border, align) {
