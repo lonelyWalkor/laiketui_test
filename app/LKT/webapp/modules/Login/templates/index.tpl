@@ -68,7 +68,7 @@
     </div>
 </div>
 <footer>
-<p>来客电商 <i> © </i> 专注于小程序电商开发平台</p>
+<p>来客电商 <i> © </i> 专注用户体验的全场景商城系统 - 可免费商用</p>
 <p>湖南壹拾捌号网络技术有限公司&nbsp;版权所有  <a href="http://www.miibeian.gov.cn" class="ipId" style="color: #97a0b4;">湘ICP备17020355号-2</a></p>
 </footer>
 
