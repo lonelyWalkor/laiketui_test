@@ -86,7 +86,6 @@ td a{
 				<tr class="text-c">
 					<th width="150" aria-valuetext="user_id">用户ID</th>
 					<th width="130" aria-valuetext="user_name">用户名</th>
-					<th width="150" aria-valuetext="mobile">手机号码</th>
 					<th width="150" aria-valuetext="sign_score">充值积分</th>
 					<th width="130" aria-valuetext="source">来源</th>
 					<th width="150" aria-valuetext="sign_time">时间</th>
@@ -99,9 +98,7 @@ td a{
 	                <tr class="text-c">
 	                    <td>{$item->user_id}</td>
 	                    <td>{$item->user_name}</td>
-	         			<td>
-	         				{$item->mobile}
-	         			</td>
+	         			
 	                    <td>
 							{if $item->type ==0 ||$item->type ==2|| $item->type ==4 || $item->type ==6 || $item->type ==7}+{$item->sign_score}{/if}
 							{if $item->type ==1 ||$item->type ==3 ||$item->type ==5}-{$item->sign_score}{/if}
