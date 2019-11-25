@@ -21,7 +21,13 @@
 {/literal}
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe62e;</i> 配置管理 <span class="c-gray en">&gt;</span> 菜单列表 </nav>
+
+<nav class="breadcrumb">
+        配置管理 <span class="c-gray en">&gt;</span> 
+        菜单列管理
+    </nav>
+
+
 <div class="pd-20">
     <div class="text-c">
         <form name="form1" action="index.php" method="get" style="background: #fff;">

@@ -113,7 +113,7 @@
                     </div>
                     <div class="radio-box">
                         <input type="radio" id="sex-2" name="type" value="2">
-                        <label for="sex-2">app</label>
+                        <label for="sex-2">APP</label>
                     </div>
                 </div>
             </div>
@@ -127,10 +127,8 @@
             <div class="row cl">
                 <label class="form-label col-4"></label>
                 <div class="formControls col-4 ">
-                    <button id="btn1" class="btn btn-primary radius" type="submit" name="Submit"><i
-                            class="Hui-iconfont">&#xe632;</i> 提 交</button>
-                    <button  class="btn btn-secondary radius" type="button" name="reset" onclick='history.go(-1)'><i
-                            class="Hui-iconfont">&#xe632;</i> 返 回</button>
+                    <button  class="btn btn-primary radius" type="submit" name="Submit">提 交</button>
+                    <button  class="btn btn-secondary radius" type="button" name="reset" onclick='history.go(-1)'>返 回</button>
                 </div>
             </div>
         </form>

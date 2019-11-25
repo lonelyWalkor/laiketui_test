@@ -120,7 +120,7 @@
           </div>
           <div class="radio-box">
             <input type="radio" id="sex-2" name="type" value="2" {if $type==2}checked{/if}> <label
-              for="sex-2">app</label>
+              for="sex-2">APP</label>
           </div>
         </div>
       </div>
