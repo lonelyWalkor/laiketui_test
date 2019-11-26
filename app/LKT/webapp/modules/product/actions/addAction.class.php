@@ -408,7 +408,6 @@ class addAction extends Action {
         // 发布产品
         $sql = "insert into lkt_product_list(product_title,subtitle,product_class,brand_id,weight,imgurl,content,num,s_type,add_date,volume,freight,initial,status) " .
             "values('$product_title','$subtitle','$product_class','$brand_id','$weight','$image','$content','$z_num','$type',CURRENT_TIMESTAMP,'$volume','$freight','$initial','2')";
-            // print_r($sql);die;
         $id1 = $db->insert($sql,'last_insert_id'); // 得到添加数据的id
         if($id1){
             $files=($_FILES['imgurls']['tmp_name']);
@@ -446,8 +445,8 @@ class addAction extends Action {
                 $attribute = $va['attribute'];//属性，数组转字符串
 
                 $sql = "insert into lkt_configure(costprice,yprice,price,img,pid,num,unit,attribute,total_num) values('$costprice','$yprice','$price','$img','$id1','$num','$unit','$attribute','$num')";//成本价 ，原价，现价，商品图片，ID ，数量，单位，属性 
-                 $r_attribute = $db->insert($sql,'last_insert_id'); 
-                  // 在库存记录表里，添加一条入库信息
+                $r_attribute = $db->insert($sql,'last_insert_id'); 
+                // 在库存记录表里，添加一条入库信息
                 $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id1','$r_attribute','$num',0,CURRENT_TIMESTAMP)";
                 $db->insert($sql);
 

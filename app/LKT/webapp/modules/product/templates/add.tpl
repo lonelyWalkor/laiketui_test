@@ -280,7 +280,7 @@ function check(f) {
                     <input type="hidden" name="oldpic" value="">
                 {/if}
 
-                <input type="hidden" id="picurl" name="image" datatype="*" nullmsg="请选择图片"/>
+                <input type="hidden" id="picurl" value="{$image}" name="image" datatype="*" nullmsg="请选择图片"/>
                 <button class="btn btn-success" id="image" type="button">选择图片</button>
 
 （建议上传160px*160px）
