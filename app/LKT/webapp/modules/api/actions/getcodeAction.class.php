@@ -27,7 +27,7 @@ class getcodeAction extends Action {
         $oldtime = date('Y-m-d H:i:s',time()-5*60-24*60*60);
         $sql01 = "select * from lkt_draw where end_time >='$oldtime'and end_time<'$datetime'";//查询符合条件的活动ID
         $re01 = $db -> select($sql01);
-        // print_r($sql01);die;
+        
         if(!empty($re01)){
             foreach ($re01 as $key01 => $value01) {
                $draw_id = $value01->id;//活动ID
@@ -277,7 +277,6 @@ class getcodeAction extends Action {
                 $bottom_img = $uploadImg.$tkt_r[0]->bg;
                 $data = $tkt_r[0]->data;
             }
-            // var_dump($bottom_img);exit;
         }else{
             //分销
             if(!empty($r)){
@@ -292,7 +291,6 @@ class getcodeAction extends Action {
         $datas = json_decode($data);
         foreach ($datas as $key => $value) {
             $data = [];
-            // $data =$this->getRealData((array)$value);
             foreach ($value as $k => $v) {
                 if($k=='left' ||$k=='top' ||$k=='width' ||$k=='height'||$k=='size'){
                    $v =  intval(str_replace('px', '',$v)) * 2;
@@ -735,7 +733,6 @@ class getcodeAction extends Action {
             fclose($res);
             $filename = $erweima;
         }
-        // exit;
         /*二维码组合底图1*/
         $src = imagecreatefromjpeg($dirName.$filename);
         list($width, $height, $type, $attr) = getimagesize($dirName.$filename);
@@ -750,6 +747,7 @@ class getcodeAction extends Action {
         $url='http://'.$_SERVER['HTTP_HOST'].'/duan/LKT/images/'.$pic;/* end 保存*/
         return $url;
     }
+    
     function createPromotion (){
         $url = [];
          $db = DBAction::getInstance();
