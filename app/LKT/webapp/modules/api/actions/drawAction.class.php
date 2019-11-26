@@ -251,7 +251,6 @@ class drawAction extends Action {
                 $commodityAttr[$key] = array('priceId' => $value->id,'price' => $value->price,'stock' => $value->num,'img' => $cimgurl, 'attrValueList' => $attrValueList);
             }
         }
-        /* 获取商品属性 */
         echo json_encode(array('status'=>1,'arr'=>$arr,'user'=>$user,'commodityAttr'=>$commodityAttr));
         exit;
 

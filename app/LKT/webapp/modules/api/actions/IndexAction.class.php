@@ -164,8 +164,8 @@ order by a.sort DESC LIMIT 0,10";
     public function get_more(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $paegr = trim($request->getParameter('page')); //  '显示位置'
-        $index = trim($request->getParameter('index')); //  '分类ID'
+        $paegr = addslashes(trim($request->getParameter('page'))); //  '显示位置'
+        $index = addslashes(trim($request->getParameter('index'))); //  '分类ID'
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);

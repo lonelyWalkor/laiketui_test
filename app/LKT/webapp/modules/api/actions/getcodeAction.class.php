@@ -112,9 +112,9 @@ class getcodeAction extends Action {
         // header('content-type:image/jpeg');  测试时可打开此项 直接显示图片
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $path =$request->getParameter('path');
-        $width = $request->getParameter('width');
-        $id =trim($request->getParameter('id'));
+        $path = addslashes($request->getParameter('path'));
+        $width = addslashes($request->getParameter('width'));
+        $id = addslashes(trim($request->getParameter('id')));
         // 查询系统参数
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
@@ -170,28 +170,28 @@ class getcodeAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
-        $product_img =$request->getParameter('product_img_path');
+        $product_img = addslashes($request->getParameter('product_img_path'));
         $str_r = trim(strrchr($product_img, '/'),'/');
         if($str_r){
           $product_img = $str_r;
         }
-        $type =$request->getParameter('type');
-        $product_title =$request->getParameter('product_title');
+        $type = addslashes($request->getParameter('type'));
+        $product_title = addslashes($request->getParameter('product_title'));
         if(strlen($product_title)>18){
             $product_title = mb_substr($product_title, 0, 18, 'utf-8').'...';
         } 
-        $pid =$request->getParameter('pid');
-        $price =$request->getParameter('price');
-        $yprice =$request->getParameter('yprice');
-        $nickname =$request->getParameter('nickname');
-        $head = $request->getParameter('head');
-        $regenerate = trim($request->getParameter('regenerate'));
+        $pid = addslashes($request->getParameter('pid'));
+        $price = addslashes($request->getParameter('price'));
+        $yprice = addslashes($request->getParameter('yprice'));
+        $nickname = addslashes($request->getParameter('nickname'));
+        $head = addslashes($request->getParameter('head'));
+        $regenerate = addslashes(trim($request->getParameter('regenerate')));
         
         //默认底图和logo
         $logo ='../LKT/images/ditu/logo.png';
 
-        $path = $request->getParameter('path');
-        $id = $request->getParameter('id');
+        $path = addslashes($request->getParameter('path'));
+        $id = addslashes($request->getParameter('id'));
 
 
         // 生成密钥
@@ -496,7 +496,7 @@ class getcodeAction extends Action {
         }else{ // 不存在
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
-        $pid = $request->getParameter('pid');
+        $pid = addslashes($request->getParameter('pid'));
         $path_name = str_replace('/','_',$path);
         $filename= $path_name.'_share_'.$id.'_'.$pid.'.jpeg';///   
         $imgDir = 'product_share_img/';
@@ -506,26 +506,14 @@ class getcodeAction extends Action {
         if(is_file($newFilePath)){
             return $newFilePath; 
         }else{
-            $scene = $request->getParameter('scene');
+            $scene = addslashes($request->getParameter('scene'));
             //获取三个重要参数 页面路径  图片宽度  文章ID
-            //--B $arr = ["page"=> $path, "width"=>$width,'scene'=>$scene];
-            //--A
-            $arr = ["path"=> $path.'?'.$scene, "width"=>$width];
+             $arr = ["path"=> $path.'?'.$scene, "width"=>$width];
             $data = json_encode($arr);
             //把数据转化JSON 并发送
-            // 接口A: 适用于需要的码数量较少的业务场景 接口地址：
             $url = 'https://api.weixin.qq.com/wxa/getwxacode?access_token=' . $AccessToken;
-            // 接口B：适用于需要的码数量极多的业务场景
-            // $url = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' . $AccessToken;
-            // 接口C：适用于需要的码数量较少的业务场景
-            // $url = 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' . $AccessToken;
-            //获取二维码API地址
-
             $da = $this->httpsRequest($url,$data);
             //发送post带参数请求 
-            // var_dump($da);exit;
-            // header('content-type:image/jpeg');
-            // echo $da;exit;
             $newFile = fopen($newFilePath,"w"); //打开文件准备写入
             fwrite($newFile,$da); //写入二进制流到文件
             fclose($newFile); //关闭文件
@@ -617,16 +605,14 @@ class getcodeAction extends Action {
     {
             $db = DBAction::getInstance();
             $request = $this->getContext()->getRequest();
-            $openid = trim($request->getParameter('user_id'));  //--
-            $form_id = trim($request->getParameter('form_id'));//--
-            $page = trim($request->getParameter('page'));      //--
-            // $oid = trim($request->getParameter('oid'));
-            $f_price = trim($request->getParameter('price'));
-            $f_sNo = trim($request->getParameter('order_sn'));
-            $f_pname = trim($request->getParameter('f_pname'));
-            $time = trim($request->getParameter('time'));
+            $openid = addslashes(trim($request->getParameter('user_id')));  
+            $form_id = addslashes(trim($request->getParameter('form_id')));
+            $page = addslashes(trim($request->getParameter('page')));      
+            $f_price = addslashes(trim($request->getParameter('price')));
+            $f_sNo = addslashes(trim($request->getParameter('order_sn')));
+            $f_pname = addslashes(trim($request->getParameter('f_pname')));
+            $time = addslashes(trim($request->getParameter('time')));
             $time =$time ?$time :date("Y-m-d H:i:s",time());
-            // $time =date("Y-m-d H:i:s",time());
             $sql = "select * from lkt_config where id=1";
             $r = $db->select($sql);
             if($r){
@@ -684,9 +670,9 @@ class getcodeAction extends Action {
     function madeCode(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $id =trim($request->getParameter('id'));
-        $wx_id =$request->getParameter('openid');
-        // 查询公司名称
+        $id = addslashes(trim($request->getParameter('id')));
+        $wx_id = addslashes($request->getParameter('openid'));
+        
         $sql = "select * from lkt_config where id=1";
         $r = $db->select($sql);
         $company = $r[0]->company;
@@ -752,7 +738,7 @@ class getcodeAction extends Action {
         $url = [];
          $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $wx_id =$request->getParameter('openid');
+        $wx_id = addslashes($request->getParameter('openid'));
 
         $sql = "select image,x,y,kuan from lkt_extension ";
         $r = $db->select($sql);

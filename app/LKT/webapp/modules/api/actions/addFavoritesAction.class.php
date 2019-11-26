@@ -84,7 +84,6 @@ class addFavoritesAction extends Action {
         $sql = "select user_id from lkt_user where wx_id = '$openid'";
         $r = $db->select($sql);
         $user_id = $r[0]->user_id;
-        //$sql ="select l.id,a.id as pid,a.product_title,a.imgurl as img,min(c.price) as price from lkt_user_collection as l left join lkt_product_list AS a on l.p_id = a.id RIGHT JOIN lkt_configure AS c ON a.id = c.pid where l.user_id = '$user_id' and a.num >0 group by c.pid order by l.add_time desc";
         $sql ="
 select l.id,a.id as pid,a.product_title,a.imgurl as img,c.price 
     from lkt_user_collection as l, lkt_product_list AS a,(select min(price) price,pid from lkt_configure group by pid) AS c

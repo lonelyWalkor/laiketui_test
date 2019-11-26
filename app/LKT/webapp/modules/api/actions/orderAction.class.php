@@ -39,7 +39,7 @@ class orderAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $id = addslashes(trim($request->getParameter('id'))); //订单id
-        $oid = trim($request->getParameter('oid')); // 订单号
+        $oid = addslashes(trim($request->getParameter('oid'))); // 订单号
         $sql = "select r_status from lkt_order_details where id = '$id'";
         $r = $db->select($sql);
         if($r){

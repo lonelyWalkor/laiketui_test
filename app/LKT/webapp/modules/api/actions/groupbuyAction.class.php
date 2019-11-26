@@ -109,14 +109,14 @@ class groupbuyAction extends Action {
     public function grouphome(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $sort = trim($request->getParameter('sort')); // 排序方式  1 asc 升序   0 desc 降序
+        $sort = addslashes(trim($request->getParameter('sort'))); // 排序方式  1 asc 升序   0 desc 降序
         if($sort){
              $sort = SORT_ASC ; 
         }else{
              $sort = SORT_DESC ; 
         }
 
-        $select = trim($request->getParameter('select')); //  选中的方式 0 默认  1 销量   2价格
+        $select = addslashes(trim($request->getParameter('select'))); //  选中的方式 0 默认  1 销量   2价格
         if($select == 0){
             $select = 'id'; 
             $sort = SORT_DESC ; 
@@ -138,7 +138,7 @@ class groupbuyAction extends Action {
         $pagesize =  10;
          // $pagesize = 2 ;
         // 每页显示多少条数据
-        $page = $request->getParameter('page');
+        $page = addslashes($request->getParameter('page'));
         if ($page) {
             $start = ($page - 1) * $pagesize;
         } else {
@@ -206,7 +206,7 @@ class groupbuyAction extends Action {
     public function morepro() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $page = $request->getParameter('page');
+        $page = addslashes($request->getParameter('page'));
         $groupid = addslashes(trim($request->getParameter('groupid')));
         
         $total = $page*8;
