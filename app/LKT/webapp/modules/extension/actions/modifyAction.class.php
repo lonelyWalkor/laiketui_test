@@ -24,7 +24,6 @@ class modifyAction extends Action {
             $data = json_decode($r[0]->data); // 推广图
             $res = $r[0];
         }
-        // $data = json_decode($data);
         // 查询配置表信息
         $sql = "select * from lkt_config where id = 1";
         $r_1 = $db->select($sql);
