@@ -9,19 +9,11 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="Bookmark" href="/favicon.ico" >
 <link rel="Shortcut Icon" href="/favicon.ico" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="lib/html5shiv.js"></script>
-<script type="text/javascript" src="lib/respond.min.js"></script>
-<![endif]-->
 <link rel="stylesheet" type="text/css" href="style/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="style/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css" href="style/lib/Hui-iconfont/1.0.7/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="style/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="style/css/style.css" />
-<!--[if IE 6]>
-<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script>DD_belatedPNG.fix('*');</script>
-<![endif]-->
 <!--/meta 作为公共模版分离出去-->
 {literal}
 <style type="text/css">
@@ -201,30 +193,6 @@
    } 
 
 
-//    function getCookie(c_name)
-//   {
-//   if (document.cookie.length>0)
-//     {
-//     c_start=document.cookie.indexOf(c_name + "=")
-//     if (c_start!=-1)
-//       { 
-//       c_start=c_start + c_name.length+1 
-//       c_end=document.cookie.indexOf(";",c_start)
-//       if (c_end==-1) c_end=document.cookie.length
-//       return unescape(document.cookie.substring(c_start,c_end))
-//       } 
-//     }
-//   return ""
-//   }
-  
-//    function delCookie(name)
-// {
-// var exp = new Date();
-// exp.setTime(exp.getTime() - 1);
-// var cval=getCookie(name);
-// if(cval!=null)
-// document.cookie= name + "="+cval+";expires="+exp.toGMTString();
-// }
  
     function group_tijiao() {
 
@@ -271,20 +239,7 @@ $(function(){
 	$("#tab-category").Huitab({
 		index:0
 	});
-	/*$("#form-category-add").validate({
-		rules:{
-			
-		},
-		onkeyup:false,
-		focusCleanup:true,
-		success:"valid",
-		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
-		}
-	});*/
+
 });
 
 </script>

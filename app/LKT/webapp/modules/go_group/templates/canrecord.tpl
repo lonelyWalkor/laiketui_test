@@ -98,11 +98,6 @@
 <script type="text/javascript" src="style/js/jquery.js"></script>
 
 <script type="text/javascript" src="style/js/jquery.min.js"></script>
-<!-- <script type="text/javascript" src="style/js/layer/layer.js"></script> -->
-<!--<script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>-->
-<!-- <script type="text/javascript" src="style/js/jquery.dataTables.min.js"></script> -->
-<!--<script type="text/javascript" src="style/js/H-ui.js"></script>
-<script type="text/javascript" src="style/js/H-ui.admin.js"></script>-->
 
 </body>
 </html>

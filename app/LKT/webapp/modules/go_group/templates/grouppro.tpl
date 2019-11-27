@@ -336,20 +336,7 @@ $(function(){
 	$("#tab-category").Huitab({
 		index:0
 	});
-	/*$("#form-category-add").validate({
-		rules:{
-			
-		},
-		onkeyup:false,
-		focusCleanup:true,
-		success:"valid",
-		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
-		}
-	});*/
+	
 });
 
 </script>
