@@ -97,6 +97,7 @@ class addAction extends Action {
         $request->setAttribute("attr_group_list",$attr_group_list?$attr_group_list:'');
         return View :: INPUT;
     }
+    
     public function attr($attribute){//属性
       		$checked_attr_list=$attribute?$attribute:'';
             $attr_group_list=array();
@@ -180,8 +181,7 @@ class addAction extends Action {
                 }
             }
         }else{
-            // print_r(2);
-                    //获取产品类别
+            //获取产品类别
             $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle =0";
             $r = $db->select($sql);
             
@@ -237,6 +237,7 @@ class addAction extends Action {
         }
         return $brand;
     }
+
     public function execute(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
@@ -255,8 +256,6 @@ class addAction extends Action {
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 产品图片
         $volume = trim($request->getParameter('volume')); //拟定销量
         $freight = $request->getParameter('freight'); // 运费
-        //      return $this->getDefaultView();
-       
         
         if($product_title == ''){
             header("Content-type:text/html;charset=utf-8");
@@ -274,6 +273,7 @@ class addAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }
+
         if($brand_id == '0'||$brand_id == ''){
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
@@ -457,6 +457,7 @@ class addAction extends Action {
                     $r_num = $r_num;
                 }
             }
+
             if($r_num == count($attributes)){//判断属性是否添加完全
                 if($c_num < 1){//库存不足，下架（0::上架 1:下架）
                     $sql_1 = "update lkt_product_list set status='1' where id = '$id1'";
@@ -495,17 +496,8 @@ class addAction extends Action {
         }
         return;
     }
- /**
-     * [array_key_remove description]
-     * <p>Copyright (c) 2018-2019</p>
-     * <p>Company: www.laiketui.com</p>
-     * @Author  苏涛
-     * @version 2.0
-     * @date    2019-01-08T17:44:00+0800
-     * @param   [type]                   $arr [description]
-     * @param   [type]                   $key [description]
-     * @return  [type]          删除指定数组元素[description]
-     */
+
+    //删除指定数组元素[description]
     public static function array_key_remove($arr, $key)
     {
         if (!array_key_exists($key, $arr)) {
@@ -518,6 +510,7 @@ class addAction extends Action {
         }
         return $arr;
     }
+
     public function getRequestMethods(){
         return Request :: POST;
     }

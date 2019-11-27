@@ -99,7 +99,6 @@ class IndexAction extends Action {
         $pager = new ShowPager($total,$pagesize,$page);//[total_record] => 12 [pagesize] => 10 [total_pages] => 2 [cur_page] => 1 [offset] => 0 [_pernum] => 10
 
         $sql = "select * from lkt_product_list as a where $condition order by id desc,status asc,a.add_date desc,a.sort desc limit $start,$pagesize ";
-        // print_r($sql);die;
         $r = $db->select($sql);
         $list = [];
         $status_num = 0;
@@ -131,14 +130,9 @@ class IndexAction extends Action {
               $pname = '顶级';
             }
             if($num == 0 && $value->status == 0){ // 当库存为0 并且商品还为上架状态
-                // 根据商品id，修改商品状态（下架）
-                // $sql = "update lkt_product_list set status = 1 where id = '$pid'";
-                // $db->update($sql);
                 $status_num += 1;
-                // 根据商品id，把商品下的属性全部下架
-                // $sql = "update lkt_configure set status = 4 where pid = '$pid'";
-                // $db->update($sql);
             }
+
             $sql = "select id,num,unit,price from lkt_configure where pid = '$pid'";//根据商品ID去查询商品对应的规格
             $r_s = $db->select($sql);
             if($r_s){
@@ -225,7 +219,8 @@ class IndexAction extends Action {
             }
             return $k;
     }
-//所有的商品分类
+
+    //所有的商品分类
     public function product_class($rr,$product_class){
         $db = DBAction::getInstance();
          $res='';

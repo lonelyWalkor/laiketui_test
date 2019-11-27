@@ -22,8 +22,8 @@ class seeAction extends Action {
         // 根据产品id，查询产品产品信息
         $sql = "select * from lkt_product_list where id = '$id'";
         $r = $db->select($sql);
-         $status=0;
-         // print_r($sql);die;
+        $status=0;
+
         if($r){
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
@@ -39,7 +39,7 @@ class seeAction extends Action {
             $status = $r[0]->status; // 上下架状态
              $initial = $r[0]->initial;//初始值
         }
-// print_r($data);die;
+
         $arr = explode(',',$s_type);
 
         if (!empty($brand_class)) {

@@ -10,17 +10,14 @@ class copyAction extends Action {
     public function getDefaultView() {
          $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-
         // 接收信息
         $id = intval($request->getParameter("id")); // 产品id
-
         $sql = "select * from lkt_config where id = '1'";
         $r = $db->select($sql);
         $uploadImg = $r[0]->uploadImg; // 图片上传位置
         // 根据产品id，查询产品产品信息
         $sql = "select * from lkt_product_list where id = '$id'";
         $r = $db->select($sql);
-        // print_r($r);die;
         if($r){
             $product_title = $r[0]->product_title; // 产品标题
             $subtitle = $r[0]->subtitle; // 副标题
@@ -47,8 +44,8 @@ class copyAction extends Action {
         //运费
 
         $sql = "select id,name from lkt_freight order by id ";
-            $r_freight = $db->select($sql);
-            $freight_list = '';
+        $r_freight = $db->select($sql);
+        $freight_list = '';
         if($r_freight){
             foreach ($r_freight as $key => $value) {
                 $freight_id1 = $value->id ; // 运费规则id
@@ -171,8 +168,8 @@ class copyAction extends Action {
         }else{
             $initial = array();
         }
+
         $initial = (object)$initial;
-// print_r($brand);die;
         $attr_group_list = json_encode($attr_group_list);
         $checked_attr_list = json_encode($checked_attr_list);
         $request->setAttribute("volume",$volume);
@@ -196,9 +193,8 @@ class copyAction extends Action {
     }
 
     public function execute(){
-          $db = DBAction::getInstance();
+        $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-//      print_r($request);die;
         // 接收数据
         $attr = $request->getParameter('attr'); // 属性
         $uploadImg = addslashes(trim($request->getParameter('uploadImg'))); // 图片路径
@@ -214,9 +210,7 @@ class copyAction extends Action {
         $oldpic = addslashes(trim($request->getParameter('oldpic'))); // 产品图片
         $imgurls = $request->getParameter('imgurls'); // 产品图片
         $volume = trim($request->getParameter('volume')); //拟定销量
-        $freight = $request->getParameter('freight'); // 运费
-//      return $this->getDefaultView();
-        
+        $freight = $request->getParameter('freight'); // 运费        
 
         if($product_title == ''){
             header("Content-type:text/html;charset=utf-8");
@@ -306,7 +300,6 @@ class copyAction extends Action {
                     $attr_list_srt .= $v['attr_group_name'] . '-' . $v['attr_name'];
                 }
                 $z_num += $value['num'];
-//              $value['total_num'] = $value['num'];
                 if ($value['img'] == '') {
                     header("Content-type:text/html;charset=utf-8");
                 echo "<script type='text/javascript'>" .
@@ -345,7 +338,7 @@ class copyAction extends Action {
             }
         }
 
-// print_r( count($attributes));die;
+
         if(count($s_type) == 0){
             $type = 0;
         }else{
@@ -464,6 +457,7 @@ class copyAction extends Action {
         }
         return;
     }
+
     public static function array_key_remove($arr, $key)
     {
         if (!array_key_exists($key, $arr)) {
@@ -476,6 +470,7 @@ class copyAction extends Action {
         }
         return $arr;
     }
+    
     public function getRequestMethods(){
         return Request :: POST;
     }

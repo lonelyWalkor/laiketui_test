@@ -137,10 +137,10 @@ class modifyAction extends Action {
         $imgurls = $db->select($imgs_sql);
 
         //查询规格数据
-$size = "select * from lkt_configure where pid = '$id' and recycle =0";
-$res_size = $db->select($size);
-$attr_group_list = [];
-$checked_attr_list = [];
+        $size = "select * from lkt_configure where pid = '$id' and recycle =0";
+        $res_size = $db->select($size);
+        $attr_group_list = [];
+        $checked_attr_list = [];
   		if ($res_size) {
 
             $arrar_t = unserialize($res_size[0]->attribute);
@@ -460,9 +460,6 @@ $checked_attr_list = [];
         foreach ($attributes as $ke => $va) {
             $num = $va['num'];
             $cid = $va['cid'];
-           
-            // $va['total_num'] =0;
-            // $va['ctime'] = date('Y-m-d H:m:s',time());
             $va = $this->array_key_remove($va, 'cid');
 
             if ($cid) {
@@ -475,8 +472,7 @@ $checked_attr_list = [];
                 $va['total_num'] = $ccc ? $ccc[0]->total_num : 0;
                 $z_num1 =0;
                 if($num > $cnums){
-                        $z_num1 = $num - $cnums; // 传过来的剩余数量 - 数据库里的剩余数量
-                        // 在库存记录表里，添加一条入库信息
+                    $z_num1 = $num - $cnums; // 传过来的剩余数量 - 数据库里的剩余数量
                     $sql = "insert into lkt_stock(product_id,attribute_id,flowing_num,type,add_date) values('$id','$cid','$z_num1',0,CURRENT_TIMESTAMP)";
                     $db->insert($sql);
                     $va['total_num'] = $va['total_num']+$z_num1;
@@ -489,7 +485,6 @@ $checked_attr_list = [];
                 }else{
                     $va['total_num'] = $va['total_num'];
                 }
-// print_r($va);
                 
                 $r_attribute = $db->modify($va, 'lkt_configure', " `id` = '$cid' and recycle = 0 ");
                 $attribute_id = $cid;

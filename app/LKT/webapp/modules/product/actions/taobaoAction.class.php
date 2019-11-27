@@ -21,63 +21,38 @@ class taobaoAction extends Action {
       $db = DBAction::getInstance();
       $request = $this->getContext()->getRequest();
       //获取产品类别
-
-        $sql = "select cid,pname from lkt_product_class where sid = 0 ";
-
-        $r = $db->select($sql);
-
-        $res = '';
-
-        foreach ($r as $key => $value) {
-
+      $sql = "select cid,pname from lkt_product_class where sid = 0 ";
+      $r = $db->select($sql);
+      $res = '';
+      foreach ($r as $key => $value) {
             $c = '-'.$value->cid.'-';
-
             $res .= '<option  value="-'.$value->cid.'-">'.$value->pname.'</option>';
-
             //循环第一层
-
             $sql_e = "select cid,pname from lkt_product_class where sid = $value->cid";
-
             $r_e = $db->select($sql_e);
-
             if($r_e){
-
                 $hx = '-----';
-
                 foreach ($r_e as $ke => $ve){
-
                    $cone = $c . $ve->cid.'-';
-
                    $res .= '<option  value="'.$cone.'">'.$hx.$ve->pname.'</option>';
-
                    //循环第二层
-
                    $sql_t = "select cid,pname from lkt_product_class where sid = $ve->cid";
-
                    $r_t = $db->select($sql_t);
-
                     if($r_t){
-
                         $hxe = $hx.'-----';
-
                         foreach ($r_t as $k => $v){
-
                            $ctow = $cone . $v->cid.'-';
-
                            $res .= '<option  value="'.$ctow.'">'.$hxe.$v->pname.'</option>';
-
                         }
-
                     }
-
                 }
-
             }
-
         }
+
     
-    $request->setAttribute("ctype",$res);
+      $request->setAttribute("ctype",$res);
       return View :: INPUT;
+    
     }
 
     public function execute() {
@@ -266,8 +241,7 @@ class taobaoAction extends Action {
                  }else{
                     $kee = '";';
                     $dd= explode($kee , $price001[1][0]);//价格
-                    // print_r($dd);die;
-                      foreach ($dd as $key01 => $value01) {
+                    foreach ($dd as $key01 => $value01) {
                                if(!empty($value01) && $value01 !='{'){
                                   $dd1 = 'id'.$value01;
                                   
@@ -327,8 +301,7 @@ class taobaoAction extends Action {
     function color($text){//淘宝商品对应的商品规格颜色包括图片
           preg_match_all('|<dl class="J_Prop tb-prop tb-clear  J_Prop_Color ">(.*)</dl>|isU',$text, $color);
           if(!empty($color[1][0])){
-                preg_match_all('|<li (.*)</li>|isU',$color[1][0], $color1);
-               // print_r($color1);die;
+              preg_match_all('|<li (.*)</li>|isU',$color[1][0], $color1);
               if(!empty($color1)){
                     foreach ($color1[1] as $key => $value) {
 
@@ -337,17 +310,11 @@ class taobaoAction extends Action {
                      preg_match_all('|<font>(.*)</font>|isU',$dd, $color2id);
                       $arr[$key]['colorid'] = $color2id[1][0];//尺寸对应的ID
                       $urlimg = $color2id[1][2];//尺寸对应的图片地址
-                      // print_r($urlimg);die;
                       if(!empty($urlimg)){
                         preg_match_all("/(?:\()(.*)(?:\))/i",$urlimg,$img);
-                        // print_r($img);die;
                         if(!empty($img[1][0])){
-
-                          $img = $this->getImage('https:'.$img[1][0]);//储存图片
-                          
-                          // $dte['imgurl'] = $img['file_name'];
+                          $img = $this->getImage('https:'.$img[1][0]);//储存图片                          
                           $arr[$key]['img'] = $img['file_name'];
-                          // $dd[] = $img['file_name'];
                           unset($img['file_name']);
                         }else{
                         
@@ -562,7 +529,6 @@ function getImage($url,$save_dir='./images/',$filename='',$type=0){
             "location.href='index.php?module=product';</script>";
             return '成功了'.$id;
           }else{
-           // echo "失败了1";
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
             "alert('商品已经获取成功, 是否跳转到产品列表?');" .
