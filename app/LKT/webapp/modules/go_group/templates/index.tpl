@@ -523,15 +523,6 @@
         <iframe id="ifm" scrolling="yes" src="" height="100%" width="100%"></iframe>
     </div>
 </div>
-<!--_footer 作为公共模版分离出去-->
-<!-- <script type="text/javascript" src="style/lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="style/lib/layer/2.1/layer.js"></script> -->
-<!--/_footer 作为公共模版分离出去-->
-<!-- <script type="text/javascript" src="style/js/H-ui.js"></script> -->
-<!--请在下方写此页面业务相关的脚本-->
-<!-- <script type="text/javascript" src="style/lib/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="style/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="style/lib/laypage/1.2/laypage.js"></script> -->
 {literal}
 <script type="text/javascript">
 
@@ -741,10 +732,6 @@ function closeMask(id, url, content) {
                 if (res.status == "1") {
                     layer.msg(content + "成功!");
                     window.location.reload();
-                    // let ifs = $(".show_iframe").eq(0).find("iframe")[0].contentWindow.document;
-                    // ifs.location.reload();
-                      // location.replace(location.href);
-                   
                 }
                 else if (res.status == "2") {
                     layer.msg(res.info);
