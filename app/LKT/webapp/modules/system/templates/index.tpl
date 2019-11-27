@@ -47,13 +47,13 @@
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>小程序ID：</label>
+                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>小程序AppID：</label>
                 <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" name="appid" value="{$appid}" class="input-text">
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>小程序密钥：</label>
+                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>小程序Appsecret：</label>
                 <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" name="appsecret" value="{$appsecret}" class="input-text">
                 </div>
