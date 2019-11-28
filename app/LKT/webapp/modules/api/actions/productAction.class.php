@@ -155,13 +155,6 @@ class productAction extends Action {
             $imgurl = $img.$res['0']->img;
             $content = $res['0']->content;
 
-            /*
-            $newa = substr($uploadImg_domain,0,strrpos($uploadImg_domain,'/'));
-            if($newa == 'http:/' || $newa == 'https:/' ){
-                $newa = $uploadImg_domain;
-            }
-            */
-
             $str = $uploadImg_domain;
             $search = '~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i';
             $url = $uploadImg_domain;
