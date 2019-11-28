@@ -46,9 +46,7 @@ class productAction extends Action {
         $type1 = addslashes($request->getParameter('type1'));
         $choujiangid = addslashes($request->getParameter('choujiangid'));
         $wx_id = addslashes($request->getParameter('wx_id'));
-
         $t_user_id = addslashes($request->getParameter('userid'));
-
         if($type1 == 1){
             $sql0101="select * from lkt_draw where id = '$choujiangid'";
             $re = $db->select($sql0101);
