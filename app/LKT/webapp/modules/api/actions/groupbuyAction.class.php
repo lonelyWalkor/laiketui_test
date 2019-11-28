@@ -275,12 +275,15 @@ class groupbuyAction extends Action {
             $content = '';
         }
 
-        $newa = substr($uploadImg_domain,0,strrpos($uploadImg_domain,'/'));
-        if($newa == 'http:/' || $newa == 'https:/' ){
-            $newa = $uploadImg_domain;
-        }
+        
+        $str = $uploadImg_domain;
+        $search = '~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i';
+        $url = $uploadImg_domain;
+        $url = trim($url);
+        preg_match_all($search, $url ,$matches);
+        $newa = $matches[1][0].$matches[3][0];
+
         $guigeres -> content = preg_replace('/(<img.+?src=")(.*?)/',"$1$newa$2", $content);
-        // $guigeres -> content ='';
         $imgsql = 'select product_url from lkt_product_img where product_id='.$gid;
         $imgres = $db -> select($imgsql);
         
