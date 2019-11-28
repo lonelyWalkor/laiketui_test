@@ -550,33 +550,7 @@ $(function() {
 })
 var isShow = false
 $(function(){
-    var ue = UE.getEditor('editor');
-    $("#islabel1").hide()
-    $("#islabel2").hide()
-    $("#islabel3").hide()
-    $("#ischange").click(function(e) {
-        isShow = !isShow
-        if(isShow){
-            $('#iaaaa').remove()
-            $("#islabel1").show()
-            $("#islabel2").show()
-            $("#islabel3").show()
-            return
-        }       
-
-        $("#islabel1").hide()
-        $("#islabel2").hide()
-        $("#islabel3").hide()
-        $('#iaaaa').hide()
-        $("#ishidden").append(`<input type="hidden" name="is_distribution" value="0" id="iaaaa">`)
-    })
-        var distribution =$("input[name='distribution']").val();
-    if(distribution == 1){
-        $("#islabel1").show()
-        $("#islabel2").show()
-        $("#islabel3").show()
-    }
-
+    var ue = UE.getEditor('editor');    
 });
 
 KindEditor.ready(function (K) {

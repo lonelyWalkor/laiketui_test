@@ -19,6 +19,7 @@ class addAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
 
+
         /*** 报错不清除输入内容 ***/
         $product_title = addslashes(trim($request->getParameter('product_title'))); // 产品标题
         $brand_id1 = addslashes(trim($request->getParameter('brand_class'))); // 品牌

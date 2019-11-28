@@ -120,7 +120,6 @@ class productAction extends Action {
 
         // 根据产品id,查询产品数据
         $sql = "select a.*,c.price,c.yprice,c.attribute,c.img from lkt_product_list AS a LEFT JOIN lkt_configure AS c ON a.id = c.pid where a.id = '$id' and a.status = 0 and  a.num > 0 and c.recycle = 0";
-        // print_r($sql);die;
         $res = $db -> select($sql);
         if(!$res){
             if( $collection_id){    
@@ -151,15 +150,25 @@ class productAction extends Action {
             if($r_p){
                 $pname = $r_p['0']->pname;
             }
-            // $pname = $r_p['0']->pname;
+            
             $product = [];
             $imgurl = $img.$res['0']->img;
             $content = $res['0']->content;
 
+            /*
             $newa = substr($uploadImg_domain,0,strrpos($uploadImg_domain,'/'));
             if($newa == 'http:/' || $newa == 'https:/' ){
                 $newa = $uploadImg_domain;
             }
+            */
+
+            $str = $uploadImg_domain;
+            $search = '~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i';
+            $url = $uploadImg_domain;
+            $url = trim($url);
+            preg_match_all($search, $url ,$matches);
+            $newa = $matches[1][0].$matches[3][0];
+
             $new_content = preg_replace('/(<img.+?src=")(.*?)/',"$1$newa$2", $content);
 
             $freight_id = $res[0]->freight;
