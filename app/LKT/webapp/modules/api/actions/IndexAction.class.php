@@ -1,5 +1,4 @@
 <?php
-
 /**
 
  * [Laike System] Copyright (c) 2018 laiketui.com
@@ -31,6 +30,7 @@ class IndexAction extends Action {
     public function getRequestMethods(){
         return Request :: POST;
     }
+
     // 获取小程序首页数据
     public function index(){
         $db = DBAction::getInstance();

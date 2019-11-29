@@ -32,6 +32,7 @@ class productAction extends Action {
     public function getRequestMethods(){
         return Request :: POST;
     }
+    
     // 获取产品详情
     public function index(){
         $db = DBAction::getInstance();
@@ -1251,10 +1252,8 @@ class productAction extends Action {
                 if(!empty($r_c)){
                       $product = (array)$r_c['0']; // 转数组
                      if($typee == 1){//直接购买
-                        // echo "121212";
                         $product['Goods_num'] = $num; // 商品价格
                      }
-                     // print_r($num);die;
                   
                     $product['photo_x'] = $img.$product['img'];/* 拼接图片链接*/
                     $num = $product['Goods_num']; // 商品数量
@@ -1533,12 +1532,6 @@ class productAction extends Action {
                 $p_name = $value->p_name; // 商品名称
                 $sid = $value->sid; // 商品属性id
                 $pname .= $p_name;
-                // // 根据商品id,修改商品数量
-                // $sql_p = "update lkt_configure set  num = num - $num where id = $sid";
-                // $r_p = $db->update($sql_p); 
-                // // 根据商品id,修改卖出去的销量
-                // $sql_x = "update lkt_product_list set volume = volume + $num,num = num-$num where id = $pid";
-                // $r_x = $db->update($sql_x); 
             }
             $time =date("Y-m-d H:i:s",time()); // 当前时间
             if($r_u>=0){
