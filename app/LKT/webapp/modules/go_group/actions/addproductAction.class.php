@@ -16,7 +16,6 @@ class addproductAction extends Action
     {
 
       $db = DBAction::getInstance();
-
       $request = $this->getContext()->getRequest();
       $product_class = $request->getParameter('cid'); // 分类名称
       $product_title = $request->getParameter('pro_name'); // 标题
@@ -161,7 +160,6 @@ class addproductAction extends Action
                 from lkt_configure as a 
                 left join lkt_product_list as b on a.pid = b.id 
                 where b.recycle = 0 and b.num >0 and a.num > 0 and b.status = 0 group by a.pid ";
-                // print_r($sql01);die;
         $res01 = $db->select($sql01);
         foreach($res01 as $k =>$vee){
 
@@ -189,7 +187,6 @@ class addproductAction extends Action
         public function pro_query(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // $store_id = $this->getContext()->getStorage()->read('store_id');
         $my_class = addslashes(trim($request->getParameter('my_class')));
         $my_brand = addslashes(trim($request->getParameter('my_brand')));
         $pro_name = addslashes(trim($request->getParameter('pro_name')));
@@ -214,21 +211,13 @@ class addproductAction extends Action
      // 查询系统参数
 
         $sql1 = "select * from lkt_config where id = 1";
-
         $r_1 = $db->select($sql1);
-
         $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-
         $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-
         if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-
             $img = $uploadImg_domain . $uploadImg; // 图片路径
-
         }else{ // 不存在
-
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-
         }
         foreach($res as $k =>$v){
             $v->image = $img.$v->imgurl;
@@ -247,10 +236,7 @@ class addproductAction extends Action
     public function execute()
     {
 
-        $db = DBAction::getInstance();
 
-        $request = $this->getContext()->getRequest();
-        var_dump($request);exit;
     }
 
 

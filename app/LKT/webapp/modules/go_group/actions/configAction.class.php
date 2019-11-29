@@ -43,7 +43,6 @@ class configAction extends Action{
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $retype = $request->getParameter('retype');
-        // $store_id = $this->getContext()->getStorage()->read('store_id');
         $group_time = $request->getParameter('group_time');//拼团时限
         $open_num = $request->getParameter('open_num');//开团数量
         $can_num = $request->getParameter('can_num');//参团数量
