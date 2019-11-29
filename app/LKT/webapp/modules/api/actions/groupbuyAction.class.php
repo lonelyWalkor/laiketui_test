@@ -306,32 +306,24 @@ class groupbuyAction extends Action {
             $imgarr[0] = $img.$im;
             $guigeres -> images = $imgarr;
         }
-        // print_r($imgarr);die;
         $contsql = 'select * from lkt_group_product where group_id="'.$group_id.'"';
         $contres = $db -> select($contsql);
-        // print_r($contres);die;
         if($contres){
             $cfg = unserialize($contres[0]->group_data);
-                    $contres[0]->start_time = $cfg->starttime;
-                    
+                    $contres[0]->start_time = $cfg->starttime;                   
                     if ($cfg -> endtime =='changqi') {
                     $dt=$cfg -> starttime;
                     $dt=date('Y-m-d H:i:s',strtotime("$dt+1year"));
-                    $end_time = strtotime($dt);
-                 
+                    $end_time = strtotime($dt);                
                 }else{
-                    $end_time = strtotime($cfg -> endtime);
-                    
+                    $end_time = strtotime($cfg -> endtime);                   
                 }
-
-                   $contres[0]->endtime = $end_time;
+                    $contres[0]->endtime = $end_time;
         }
         list($contres) = $contres;
         
-
         $commodityAttr = [];
             $sql_size = "select g.*,p.attribute,p.num,p.price,p.yprice,p.img,p.id from lkt_group_product as g left join lkt_configure as p on g.attr_id=p.id where g.product_id = '$gid' and group_id='$group_id'";
-            // print_r($sql_size);die;
             $r_size = $db->select($sql_size);
             $array_price = [];
             $array_yprice = [];
@@ -371,12 +363,9 @@ class groupbuyAction extends Action {
                     
                 }
                 
-               
-
                 $guigeres -> man_num = $min_man;
                 $guigeres -> market_price = $r_size[0]->price;//原价
                 
-               
                 foreach ($r_size as $key => $value) {
                     $attribute = unserialize($value->attribute);
                     $attributes = [];
@@ -416,8 +405,6 @@ class groupbuyAction extends Action {
                          $guigeres -> rule = '';
                 }
                     
-               
-               
                     $skuBeanList[$key] = array('name' => $name,'imgurl' => $cimgurl,'cid' => $value->id,'member_price' => $openmoney,'price' => $value->price,'count' => $value->num,'attributes' => $attributes);
                     for ($i=0; $i < count($attrList); $i++) {
                         $attr = $attrList[$i]['attr'];
@@ -498,7 +485,6 @@ class groupbuyAction extends Action {
             }
 
         $sql_kt = "select g.id, g.ptcode,g.ptnumber,g.endtime,u.user_name,u.headimgurl,g.group_id from lkt_group_open as g left join lkt_user as u on g.uid=u.wx_id where g.group_id='$group_id' and g.ptgoods_id=$gid and g.ptstatus=1 ";
-        // print_r($sql_kt);die;
         $res_kt = $db -> select($sql_kt);
         $groupList = [];
         if(!empty($res_kt)){
@@ -507,8 +493,6 @@ class groupbuyAction extends Action {
                 $ptcode = $value->ptcode;
                 if( $guigeres -> man_num - $value->ptnumber <1){
                     up_su_status($db,$idddd,$ptcode);//过期修改拼团成功订单
-                       // $updsql = "update lkt_group_open set ptstatus=2 where id='$idddd'";
-                       //  $updres = $db -> update($updsql);
                     unset($value);
                 }else{
                     $res_kt[$key] -> leftTime = strtotime($value -> endtime) - time();
@@ -526,7 +510,7 @@ class groupbuyAction extends Action {
         $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
         
         $share = array('friends' => true, 'friend' => false);
-        // 
+
         echo json_encode(array('control' =>$contres,'share'=>$share,'detail' => $guigeres,'attrList'=>$attrList,'skuBeanList'=>$skuBeanList,'comments'=>$arr,'comnum' => $com_num,'groupList' => $groupList,'isplug' => $plugopen));exit;
     } 
 
@@ -641,7 +625,6 @@ class groupbuyAction extends Action {
 
          // 根据用户id,查询开团数
         $r_a1 = $db->select('select * from lkt_group_config');
-        // print_r($r_a1);die;
         if($r_a1){
            $dat['open_num'] =$r_a1[0]->open_num;//开团人数 
            $dat['can_num'] =$r_a1[0]->can_num;//参团人数 
@@ -663,7 +646,6 @@ class groupbuyAction extends Action {
         }
         // 根据用户id,查询收货地址
         $sql_a = 'select * from lkt_user_address where uid=(select user_id from lkt_user where wx_id="'.$uid.'") and is_default = 1';
-        // print_r($sql_a);die;
         $r_a = $db->select($sql_a);
         if($r_a){
             $arr['addemt']=0; // 有收货地址
@@ -743,7 +725,6 @@ class groupbuyAction extends Action {
         if(!empty($groupres)){
             $groupres[0]->groupnum=$groupres[0]->can_num;//可同时进行的参团数
             $groupres[0]->man_num=$man_num;//拼团人数
-            // $groupres[0]->productnum=$groupres[0]->;//用户参团可购买产品数
             $groupres[0]->status=$groupid;//活动编号
             $groupres[0]->time_over=$groupres[0]->group_time.":0";//活动时限
             list($groupres) = $groupres;
@@ -756,7 +737,7 @@ class groupbuyAction extends Action {
             $groupres[0]->time_over="1:0";//活动时限
             list($groupres) = $groupres;
         }
-        // print_r($groupsql);die;
+
         $havesql = "select count(*) as have from lkt_order where pid='$groupid' and user_id='$userid' and ptstatus=1";
         $haveres = $db -> select($havesql);
         
@@ -951,10 +932,8 @@ class groupbuyAction extends Action {
         $res -> isSelf = true;
          
      }else{
-             // print_r(111);die;
         $res = $groupmsg[0];
         $goodsql = "select z.*,l.product_title as pro_name from (select m.*,c.num,c.img as image,c.yprice,c.price from (select * from lkt_group_product where group_id='$groupid' and product_id=$res->ptgoods_id) as m left join lkt_configure as c on m.attr_id=c.id) as z left join lkt_product_list as l on z.product_id=l.id";
-            // print_r($goodsql);die;
         $goods = $db -> select($goodsql);
         $res -> p_name = $goods[0] -> pro_name;
 
@@ -987,9 +966,8 @@ class groupbuyAction extends Action {
                 $min_price = $biliArr[0] * $res -> price / 100;//拼团价格
         $res -> gprice = sprintf("%.2f", $min_price);
      }
-     // print_r($biliArr[1]);die;
+
        $memsql = "select i.user_id,u.headimgurl from lkt_order as i left join lkt_user as u on i.user_id=u.user_id where i.ptcode='$oid' and i.pid='$groupid'  order by i.id asc";
-       // print_r($memsql);die;
        $groupmember = $db -> select($memsql);
  
         $man_num = $db -> select("select * from lkt_group_config where id='1'");//用户参团可购买产品数
@@ -1016,18 +994,18 @@ class groupbuyAction extends Action {
                         $res -> groupStatus = '未付款';
                         break;
                 }
-                // print_r($res -> endtime);die;
+
                 
                 $res -> leftTime = strtotime($res -> endtime) - time();    
                 //group_price as price,g.member_price
                     $sql_size = "select g.*,p.attribute,p.num,p.img,p.yprice,p.price,p.id from lkt_group_product as g left join lkt_configure as p on g.attr_id=p.id where g.product_id = '$gid' and group_id='$groupid'";
-                         // print_r($sql_size);die;
+    
                     $r_size = $db->select($sql_size);
 
                     $skuBeanList = [];
                     $attrList = [];
                     if ($r_size) {
-                     // print_r($biliArr[1]);die;
+   
                         $attrList = [];
                         $a = 0;
                         $attr = [];
@@ -1215,7 +1193,7 @@ class groupbuyAction extends Action {
                 foreach ($se as $key01 => $value02) {
                    $r_sNo = $value02->sNo;
                     $updresy = $db -> update("update lkt_order_details set r_status=1 where r_sNo='$r_sNo'");
-                        // print_r("update lkt_order_details set r_status=1 where r_sNo='$r_sNo'");
+  
                 }
             }
             if($updres < 1){
