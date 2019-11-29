@@ -63,7 +63,6 @@ class addressAction extends Action {
 
          if(!empty($arr)){
             $arrid = explode(',', $arr);
-            // print_r($arrid);die;
             foreach ($arrid as $key => $value) {
                 if($value !=''){
                     $sql = "delete from lkt_user_address where uid = '$user_id' and id = '$value'";
@@ -176,7 +175,8 @@ class addressAction extends Action {
         $r03 = $db->select($sql03);
         $xian = $r03[0]->GroupID;
         $address_xq = $province . $city . $county . $address; // 带省市县的详细地址
-        if(preg_match("/^1[34578]\d{9}$/", $mobile)){
+
+        if(preg_match("/^1[2345678]\d{9}$/", $mobile)){
             $sql04 = "update lkt_user_address set name = '$user_name',tel= '$mobile',sheng='$sheng',city ='$shi',quyu ='$xian',address ='$address',address_xq ='$address_xq',code ='$code',uid ='$uid',is_default='$is_default' where id = '$id_arr'";
             $r04 = $db->update($sql04);
             if($r04 >=0){
@@ -238,7 +238,7 @@ class addressAction extends Action {
             echo json_encode(array('adds'=>$r,'province'=>$province,'city'=>$city,'county'=>$county));
             exit();
         }else{
-            echo json_encode(array('status'=>0,'info'=>'手机号码有误！'));
+            echo json_encode(array('status'=>0,'info'=>'操作有误！'));
         }
 
         return;
