@@ -250,9 +250,7 @@ class orderAction extends Action {
                             }
                            
                         }
-                        // if($r_status > 0){
-                        //     $rew['status'] = $r_status;
-                        // }
+                        
                     }
                     $rew['list'] = $product;
                 }
@@ -261,7 +259,7 @@ class orderAction extends Action {
         }else{
             $order = '';
         }
-         // print_r($order);
+        
         echo json_encode(array('status'=>1,'order'=>$order));
         exit();
         return;
@@ -387,7 +385,6 @@ class orderAction extends Action {
             'to' => '',                 //目的地城市
             'resultv2' => '1'           //开启行政区域解析
         );
-        // var_dump($param);die;
         //请求参数
         $post_data = array();
         $post_data["customer"] = $customer;
@@ -399,7 +396,6 @@ class orderAction extends Action {
             $params .= "$k=".urlencode($v)."&";     //默认UTF-8编码格式
         }
         $post_data = substr($params, 0, -1);
-        // $res = HttpTools::httpsRequest($url,$post_data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -872,10 +868,6 @@ class orderAction extends Action {
 
         $sql = "insert into lkt_order_data(trade_no,data,addtime) values('$trade_no','$data',CURRENT_TIMESTAMP)";
         $rid = $db->insert($sql);
-
-        // $yesterday= date("Y-m-d",strtotime("-1 day"));
-        // $sql = "delete from lkt_order_data where addtime < '$yesterday'";
-        // $db->delete($sql);
 
         echo json_encode(array('status'=>$rid));
         exit();
