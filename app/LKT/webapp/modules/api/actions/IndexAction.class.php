@@ -6,47 +6,20 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once('BaseAction.class.php');
 
-class IndexAction extends Action {
+class IndexAction extends BaseAction {
     
-    public function getDefaultView() {
-        return ;
-    }
-
-    public function execute(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-            $this->$m();
-        }
-        
-        return;
-    }
-
-    public function getRequestMethods(){
-        return Request :: POST;
-    }
-
     // 获取小程序首页数据
     public function index(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
-        $title = $r_1[0]->company;
-        $logo = $img.$r_1[0]->logo;
+
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+        $title = $appConfig['appName'];
+        $logo = $appConfig['logo'];
+
         // 查询轮播图,根据排序、轮播图id顺序排列
         $sql = "select * from lkt_banner order by sort,id";
         $r = $db->select($sql);
@@ -138,9 +111,7 @@ order by a.sort DESC LIMIT 0,10";
                 $v->image = $img . $v->image;
                 
                 if(strpos($v->code,'FX') !== false){ 
-                    // if(!$rfhb){
-                        unset($plug[$k]);
-                    // }
+                    unset($plug[$k]);
                 }
             }
         }
@@ -166,16 +137,9 @@ order by a.sort DESC LIMIT 0,10";
         $request = $this->getContext()->getRequest();
         $paegr = addslashes(trim($request->getParameter('page'))); //  '显示位置'
         $index = addslashes(trim($request->getParameter('index'))); //  '分类ID'
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
+
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
 
         if(!$paegr){
             $paegr = 1;

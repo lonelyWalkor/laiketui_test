@@ -7,31 +7,10 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once('BaseAction.class.php');
 require_once(MO_LIB_DIR . '/Timer.class.php');
 
-class productAction extends Action {
-    
-    public function getDefaultView() {
-        $this->execute();
-    }
-
-    public function execute(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-            $this->$m();
-        }
-        
-        return;
-    }
-
-    public function getRequestMethods(){
-        return Request :: POST;
-    }
+class productAction extends BaseAction {
     
     // 获取产品详情
     public function index(){
@@ -73,21 +52,9 @@ class productAction extends Action {
             $type01 ='';
         }
 
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{
-                // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
-
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+        $uploadImg_domain =  $appConfig['uploadImgUrl'];
         $type = 0;
         $collection_id = '';
         $zhekou = '';
@@ -439,20 +406,10 @@ class productAction extends Action {
         }else{
              $sort = ' desc '; 
         }
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+
         if(!$paegr){
             $paegr = 1;
         }
@@ -480,19 +437,9 @@ class productAction extends Action {
         $id = addslashes(trim($request->getParameter('cid'))); //  '分类ID'
         $paegr = addslashes(trim($request->getParameter('page'))); //  '分页显示'
         // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+
         if(!$paegr){
             $paegr = 1;
         }
@@ -570,20 +517,9 @@ class productAction extends Action {
         $uid = addslashes(trim($request->getParameter('uid'))); // 微信id
         $type = addslashes(trim($request->getParameter('type'))); //  类型，1直接购买，0购物车购买
         $num1 = addslashes(trim($request->getParameter('num1'))); // 直接购买数量
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+        
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
 
         //地址
         $address = [];
@@ -950,20 +886,9 @@ class productAction extends Action {
     public function Shopping(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
 
         $arr = [];
         $uid = addslashes(trim($request->getParameter('user_id'))); //  '分类ID'
@@ -1167,20 +1092,9 @@ class productAction extends Action {
         $typee = addslashes(trim($request->getParameter('typee'))); // 1直接购买类型0购物车购买
         $num = addslashes(trim($request->getParameter('num'))); // 直接购买数量
         $total = addslashes($_POST['total']); // 付款金额
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+        
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
 
         if($r_name){
             $coupon_activity_name = $r_name;
@@ -1568,20 +1482,9 @@ class productAction extends Action {
         $user_id = addslashes(trim($request->getParameter('user_id'))); // 微信id
         $pid = addslashes(trim($request->getParameter('pid'))); // 商品id
         $attribute_id = addslashes(trim($request->getParameter('attribute_id'))); // 属性id
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+        
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
 
         $sql_user = 'select user_id from lkt_user where wx_id=\''.$user_id.'\'';
         $r_user = $db->select($sql_user);
@@ -1789,20 +1692,9 @@ class productAction extends Action {
         }else{
              $sort = ' desc '; 
         }
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+        
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
 
         if(!$paegr){
             $paegr = 1;

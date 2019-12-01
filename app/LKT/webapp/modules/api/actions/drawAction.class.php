@@ -50,6 +50,7 @@ class drawAction extends Action {
             }
         }
     }
+
     public function ceshi(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
@@ -108,6 +109,7 @@ class drawAction extends Action {
             }
         }
     }
+    
     public function Send_success($rew){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();

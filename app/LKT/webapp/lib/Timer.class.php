@@ -1,13 +1,12 @@
 <?php
-//转换到HTML
 
 function huodongzhuangtai($db){//监测拼团活动有没有过期的，改变其活动状态
 	$rrr=$db -> select("select * from lkt_group_product order by group_id desc");
-	// print_r($rrr);die;
+
 	if($rrr){
 		foreach ($rrr as $key => $value) {
 			$cfg = unserialize($value->group_data);
-      // print_r($cfg);
+
 			$starttime = $cfg->starttime;
             $end_time = $cfg->endtime;
             $g_status = $value->g_status;
@@ -25,9 +24,7 @@ function huodongzhuangtai($db){//监测拼团活动有没有过期的，改变�
             }
 
             if($end_time <$data || $g_status == 3){//处理过期的
-              // print_r($value->id);
-              // print_r($end_time);
-              // print_r($data);die;
+
   				$res = $db->update("UPDATE `lkt_group_product` SET `g_status`='3' WHERE id = ".$value->id);
 
   				$r = $db -> select("select * from lkt_group_open where group_id=$value->group_id and ptstatus =1 ");
@@ -35,10 +32,10 @@ function huodongzhuangtai($db){//监测拼团活动有没有过期的，改变�
   				if($r){
 
   					foreach ($r as $key01 => $value01) {
-  						// print_r(111);
+
   						 $db->update("UPDATE `lkt_group_open` SET `ptstatus`='3' WHERE id = ".$value01->id);
   						 $ee = $db->select("select user_id,z_price,sNo,pay from lkt_order where ptcode = '".$value01->ptcode."'");
-  						 // print_r($ee);die;
+
   						 if($ee){
   						 	foreach ($ee as $key02=> $value02) {
   						 		$db->update("UPDATE `lkt_order_details` SET `r_status`='11' WHERE r_sNo = '".$value02->sNo."'");
@@ -76,15 +73,12 @@ function huodongzhuangtai($db){//监测拼团活动有没有过期的，改变�
 	}
 	function select_num($db,$group_id){//查询该拼团活动拼团人数 
 		$man_num = $db -> select("select *  from lkt_group_product where group_id ='$group_id'");
-		// print_r($man_num);
+
 		if ($man_num) {
 			$biliArr = unserialize($man_num[0]->group_level);
  			foreach ($biliArr as $key => $value) {
-                           $groupman = $key;
-                            // $KC_arr = explode("~",$value);
-                            // $openmoney =($KC_arr[1]*$v->price)/100;//开团 人价格
-                            // $canmoney =$KC_arr[0]*$v->price/100;//参团 人价格
-                        }
+              $groupman = $key;
+      }
 		}else{
 			$groupman=0;
 		}

@@ -12,6 +12,7 @@ require_once(MO_LIB_DIR . '/ShowPager.class.php');
 require_once(MO_LIB_DIR . '/Tools.class.php');
 
 class footprintAction extends Action {
+    
     public function getDefaultView() {
         return ;
     }
