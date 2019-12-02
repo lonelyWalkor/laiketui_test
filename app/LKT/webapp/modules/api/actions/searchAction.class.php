@@ -7,46 +7,18 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-class searchAction extends Action {
+require_once('BaseAction.class.php');
 
-	public function getDefaultView() {
-      return;
-  }
+class searchAction extends BaseAction {
 
-  public function execute(){
-      $db = DBAction::getInstance();
-      $request = $this->getContext()->getRequest();
-
-      $m = addslashes(trim($request->getParameter('m')));
-      if($m){
-          $this->$m();
-      }
-        
-      return;
-  }
-
-	public function getRequestMethods(){
-		return Request :: POST;
-	}
+	
 
   public function index(){
     $db = DBAction::getInstance();
     $request = $this->getContext()->getRequest();
-    // 查询系统参数
-    $sql = "select * from lkt_config where id = 1";
-    $r_1 = $db->select($sql);
-    if($r_1){
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
-    }else{
-        $img = '';
-    }
+
+    $appConfig = $this->getAppInfo();
+    $img = $appConfig['imageRootUrl'];
 
     //查询商品并分类显示返回JSON至小程序
     $sql_c = "select cid,pname,img,bg from lkt_product_class where sid=0 and recycle != 1 order by sort desc";
@@ -100,20 +72,9 @@ class searchAction extends Action {
     $num = addslashes(trim($request->getParameter('num'))); //  '次数'
     $select = addslashes(trim($request->getParameter('select'))); //  选中的方式 0 默认  1 销量   2价格
     $sort = addslashes(trim($request->getParameter('sort'))); // 排序方式  1 asc 升序   0 desc 降序
-    // 查询系统参数
-    $sql = "select * from lkt_config where id = 1";
-    $r_1 = $db->select($sql);
-    if($r_1){
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
-    }else{
-        $img = '';
-    }
+
+    $appConfig = $this->getAppInfo();
+    $img = $appConfig['imageRootUrl'];
 
     if($select == 0){
       $select = 'a.add_date'; 
@@ -209,20 +170,10 @@ order by $select $sort
     }else{
       $sort = ' desc '; 
     }
-    // 查询系统参数
-    $sql = "select * from lkt_config where id = 1";
-    $r_1 = $db->select($sql);
-    if($r_1){
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
-    }else{
-        $img = '';
-    }
+
+    $appConfig = $this->getAppInfo();
+    $img = $appConfig['imageRootUrl'];
+
     if(!$paegr){
       $paegr = 1;
     }

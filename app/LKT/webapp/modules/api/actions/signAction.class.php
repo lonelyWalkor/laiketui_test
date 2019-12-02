@@ -7,49 +7,19 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
-
-class signAction extends Action {
+require_once('BaseAction.class.php');
+class signAction extends BaseAction {
     
-    public function getDefaultView() {
-        return ;
-    }
-
-    public function execute(){
-
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-          $this->$m();
-        }
-        return;
-    }
-
-    public function getRequestMethods(){
-        return Request :: POST;
-    }
+    
     // 点击签到
     public function index(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+        
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+
 
         // 查询签到参数
         $sql = "select * from lkt_sign_config where id = 1";
@@ -166,21 +136,10 @@ class signAction extends Action {
         $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
         $year = addslashes(trim($request->getParameter('year'))); // 年
         $month = addslashes(trim($request->getParameter('month'))); // 月
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        if($r_1){
-            $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+        
 
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }else{
-            $img = '';
-        }
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
 
         // 查询签到参数
         $sql = "select * from lkt_sign_config where id = 1";
@@ -285,18 +244,12 @@ class signAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $openid = addslashes(trim($request->getParameter('openid'))); // 微信id
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+        
 
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
-        $logo = $img . $r_1[0]->logo;
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+        $logo = $img . $appConfig['logo'];
+
         // 根据微信id,查询用户id、积分
         $sql = "select user_id,score from lkt_user where wx_id = '$openid'";
         $r_2 = $db->select($sql);
