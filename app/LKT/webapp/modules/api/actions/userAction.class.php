@@ -1,8 +1,7 @@
 <?php
-
 /**
 
- * [Laike System] Copyright (c) 2018 laiketui.com
+ * [Laike System] Copyright (c) 2017-2020 laiketui.com
 
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
@@ -33,20 +32,20 @@ class userAction extends BaseAction {
         // 查询会员信息
         $sql = "select * from lkt_user where wx_id = '$openid' ";
         $r = $db -> select($sql);
+        $user = array();
+        $user['headimgurl'] = '';
+        $user['wx_name'] = '';
+        $user['user_id'] = '';
+        $user_id = '';
         if($r){
             $user['headimgurl'] = $r[0]->headimgurl;
             $user['wx_name'] = $r[0]->wx_name;
             $user['user_id'] = $r[0]->user_id;
-            $wx_name = $r[0]->user_id;
-        }else{
-            $user['headimgurl'] = '';
-            $user['wx_name'] = '';
-            $user['user_id'] = '';
-            $wx_name = '';
+            $user_id = $r[0]->user_id;
         }
 
         // 查询会员信息
-        $sqlu = "select u.user_name from lkt_user_distribution as d LEFT JOIN lkt_user as u  ON d.pid = u.user_id where d.user_id = '$wx_name' ";
+        $sqlu = "select u.user_name from lkt_user_distribution as d LEFT JOIN lkt_user as u  ON d.pid = u.user_id where d.user_id = '$user_id' ";
         $ru = $db -> select($sqlu);
         if($ru){
             $tjr = '经纪人:'.$ru[0]->user_name;
@@ -59,12 +58,12 @@ class userAction extends BaseAction {
         $res_order= [];
         foreach ($num_arr as $key => $value) {
             if($value == '4'){
-                $sql_order = "select num from lkt_order_details where r_status = '$value' and  user_id = '$wx_name'" ;
+                $sql_order = "select num from lkt_order_details where r_status = '$value' and  user_id = '$user_id'" ;
                 $order_num = $db -> selectrow($sql_order);
                 $res_order[$key] =  $order_num;
             }else{
                 if($value==1){
-                    $sql_order01 = "select drawid from lkt_order where status = '$value' and  user_id = '$wx_name'" ;
+                    $sql_order01 = "select drawid from lkt_order where status = '$value' and  user_id = '$user_id'" ;
                     $re = $db->select($sql_order01);
                     if(!empty($re)){//未发货
                         foreach ($re as $key001 => $value001) {
@@ -84,14 +83,14 @@ class userAction extends BaseAction {
                     }
                     $res_order[$key] =  sizeof($re);
                 }else{
-                    $sql_order = "select num from lkt_order where status = '$value' and  user_id = '$wx_name'" ;
+                    $sql_order = "select num from lkt_order where status = '$value' and  user_id = '$user_id'" ;
                     $order_num = $db -> selectrow($sql_order);
                     $res_order[$key] =  $order_num; 
                 }
             }
         }
         //控制红包显示
-        $sqlfhb = "select user_id from lkt_red_packet_users where user_id = '$wx_name'";
+        $sqlfhb = "select user_id from lkt_red_packet_users where user_id = '$user_id'";
         $rfhb = $db->select($sqlfhb);
         // 查询插件表里,状态为启用的插件
         $sql = "select id,subtitle_name,subtitle_image,subtitle_url,code from lkt_plug_ins where status = 1 and type = 0 and software_id = 3 order by sort";
@@ -157,7 +156,7 @@ class userAction extends BaseAction {
         }
     }
 
-    // 请求我的详细数据
+    // 请求我的钱包
     public function details(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
@@ -276,14 +275,9 @@ class userAction extends BaseAction {
             echo json_encode(array('status'=>0,'info'=>'手机号码没获取!'));
             exit();
         }else{
-            // 查询小程序配置
-            $sql = "select * from lkt_config where id=1";
-            $r = $db->select($sql);
-            if($r){
-                $appid = $r[0]->appid; // 小程序唯一标识
-            }else{
-                $appid = '';
-            }
+            
+            $appConfig = $this->getAppInfo();
+            $appid = $appConfig['appid']; 
 
             include_once "wxBizDataCrypt.php";
             $data = '';
@@ -846,8 +840,8 @@ class userAction extends BaseAction {
     public function selectuser(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $user_id = $_POST['user_id'];
-        $openid = $_POST['openid'];
+        $user_id = addslashes($_POST['user_id']);
+        $openid = addslashes($_POST['openid']);
         $sql = "select * from lkt_user where user_id = '$user_id'";
         $r = $db->select($sql);
         if($r){
