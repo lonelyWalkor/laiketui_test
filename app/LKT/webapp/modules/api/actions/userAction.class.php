@@ -808,7 +808,8 @@ class userAction extends BaseAction {
         }else{
             $xian = 0;
         }
-        if(preg_match("/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$/", $mobile)){
+        
+        if(preg_match("/^1[2345678]\d{9}$/", $mobile)){
             // 根据微信id,查询会员id
             $sql = "select * from lkt_user where wx_id = '$openid'";
             $r = $db->select($sql);
@@ -843,7 +844,7 @@ class userAction extends BaseAction {
     }
 
     public function selectuser(){
-         $db = DBAction::getInstance();
+        $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $user_id = $_POST['user_id'];
         $openid = $_POST['openid'];

@@ -7,30 +7,10 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once('BaseAction.class.php');
 
-class addFavoritesAction extends Action {
+class addFavoritesAction extends BaseAction {
     
-    public function getDefaultView() {
-        return ;
-    }
-
-    public function execute(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-            $this->$m();
-        }
-        return;
-    }
-
-    public function getRequestMethods(){
-        return Request :: POST;
-    }
-
     // 点击收藏
     public function index(){
         $db = DBAction::getInstance();
@@ -69,16 +49,9 @@ class addFavoritesAction extends Action {
         $request = $this->getContext()->getRequest();
 
         $openid = addslashes($_POST['openid']); // 微信id
-        // 查询系统参数
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
+        
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
         
         // 根据微信id,查询用户id
         $sql = "select user_id from lkt_user where wx_id = '$openid'";

@@ -179,7 +179,6 @@ class orderAction extends Action {
                     $rre = $db->select("select * from lkt_group_open where ptcode = '$ptt' ");
                     if($rre){
                         foreach ($rre as $key => $value) {
-                            // print_r($value);die;
                             $endtime = $value->endtime;//过期时间
                             $new1 = date("Y-m-d H:i:s");//当前时间
                             $ptstatus = $value->ptstatus;//状态 1.拼团中，2 拼团成功

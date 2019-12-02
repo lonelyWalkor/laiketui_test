@@ -106,11 +106,8 @@ class payAction extends Action {
         //统一接口prepay_id
         $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
         $xml = $this->http_request($url,$post_xml);
-        // var_dump($xml);exit;
         $array = $this->xml($xml);//全要大写
 
-        // var_dump($array,$array['RETURN_CODE']);
-                    //print_r($array) ;exit;
         if($array['RETURN_CODE'] == 'SUCCESS' && $array['RESULT_CODE'] == 'SUCCESS'){
             $time = time();
             $tmp=[];//临时数组用于签名
