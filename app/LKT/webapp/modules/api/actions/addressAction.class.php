@@ -7,30 +7,10 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
+require_once('BaseAction.class.php');
 
-class addressAction extends Action {
-
-    public function getDefaultView() {
-
-        return ;
-    }
-
-    public function execute(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-            $this->$m();
-        }
-
-        return;
-    }
-
-    public function getRequestMethods(){
-        return Request :: POST;
-    }
-
+class addressAction extends BaseAction {
+   
     // 地址管理
     public function index(){
         $db = DBAction::getInstance();
@@ -59,7 +39,7 @@ class addressAction extends Action {
         $sql = "select * from lkt_user where wx_id = '$openid'";
         $r = $db->select($sql);
         if($r){
-           $user_id = $r[0]->user_id;
+         $user_id = $r[0]->user_id;
 
          if(!empty($arr)){
             $arrid = explode(',', $arr);
@@ -223,7 +203,6 @@ class addressAction extends Action {
             }else{
                 $city = '';
             }
-
             
             // 根据市查询县
             $sql03 = "select G_CName from admin_cg_group a where a.GroupID='$quyu'";
@@ -234,7 +213,6 @@ class addressAction extends Action {
                 $county = '';
             }
             
-
             echo json_encode(array('adds'=>$r,'province'=>$province,'city'=>$city,'county'=>$county));
             exit();
         }else{

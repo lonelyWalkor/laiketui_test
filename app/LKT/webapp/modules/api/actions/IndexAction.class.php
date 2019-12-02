@@ -18,7 +18,7 @@ class IndexAction extends BaseAction {
         $appConfig = $this->getAppInfo();
         $img = $appConfig['imageRootUrl'];
         $title = $appConfig['appName'];
-        $logo = $img.$appConfig['logo'];
+        $logo = $appConfig['logo'];
 
         // 查询轮播图,根据排序、轮播图id顺序排列
         $sql = "select * from lkt_banner order by sort,id";

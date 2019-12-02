@@ -50,12 +50,18 @@ class BaseAction extends Action {
 
         $title = $r_1[0]->company;
         $logo = $img.$r_1[0]->logo;
-
+        $appid = $r_1[0]->appid; // 小程序唯一标识
+        $appsecret = $r_1[0]->appsecret; // 小程序的 app secret
+        
         $array = array();
         $array['imageRootUrl'] = $img;
         $array['appName'] = $title;
         $array['logo'] = $logo;
         $array['uploadImgUrl'] = $uploadImg_domain;
+        $array['appid'] = $appid;
+        $array['appsecret'] = $appsecret;
+
+
 
         return $array;
     }

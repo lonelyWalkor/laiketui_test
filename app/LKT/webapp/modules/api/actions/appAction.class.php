@@ -7,30 +7,10 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once('BaseAction.class.php');
 
-class appAction extends Action {
+class appAction extends BaseAction {
 
-    public function getDefaultView() {
-
-        return;
-    }
-
-    public function execute(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-            $this->$m();
-        }
-        return;
-    }
-
-    public function getRequestMethods(){
-        return Request :: POST;
-    }
     // 获取用户会话密钥
     public function index(){
         $db = DBAction::getInstance();
@@ -44,24 +24,14 @@ class appAction extends Action {
         $headimgurl = addslashes($_POST['avatarUrl']); // 微信头像
         $sex = addslashes($_POST['gender']); // 性别
         $pid =addslashes($request->getParameter('referee_openid'));
-       // 查询小程序配置
-        $sql = "select * from lkt_config where id=1";
-        $r = $db->select($sql);
+       
 
-        if($r){
-            $appid = $r[0]->appid; // 小程序唯一标识
-            $appsecret = $r[0]->appsecret; // 小程序的 app secret
-            $company = $r[0]->company; // 小程序的 标题
-            // 查询系统参数
-            $uploadImg_domain = $r[0]->uploadImg_domain; // 图片上传域名
-            $uploadImg = $r[0]->uploadImg; // 图片上传位置
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+        $appid = $appConfig['appid']; // 小程序唯一标识
+        $appsecret = $appConfig['appsecret']; // 小程序的 app secret
+        $company = $appConfig['appName']; // 小程序的 标题
 
-            if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-                $img = $uploadImg_domain . $uploadImg; // 图片路径
-            }else{ // 不存在
-                $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-            }
-        }
 
         if (!$appid || !$appsecret) {
             echo json_encode(array('status'=>0,'err'=>'非法操作！'));

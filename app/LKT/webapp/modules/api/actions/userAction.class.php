@@ -23,7 +23,7 @@ class userAction extends BaseAction {
         $appConfig = $this->getAppInfo();
         $img = $appConfig['imageRootUrl'];
         $company = $appConfig['appName'];
-        $logo = $img.$appConfig['logo'];
+        $logo = $appConfig['logo'];
         
         
         // 获取文章信息
