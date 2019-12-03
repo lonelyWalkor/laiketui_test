@@ -1,34 +1,18 @@
 <!DOCTYPE html>
-
 <html lang="en" class="app">
-
-
-
   <head>
-
     <meta charset="utf-8">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>公众平台管理系统</title>
-
+    <title></title>
     <script  type="text/javascript" src="style/tgt/util.js"></script>
     <link rel="stylesheet" href="style/assets/css/bootstrap.min.css" type="text/css" />
-    
 {literal}
-
     <script>
-
       var require = {
-
         urlArgs: 'v=2018070213'
-
       };
-
     </script>
-
     <script src="style/tgt/require.js"></script>
     <script src="style/tgt/config.js"></script>
     <script src="style/js/jquery.min.js"></script>
@@ -36,443 +20,223 @@
     <script type="text/javascript" src="style/tgt/jquery.form.js"></script>
     <script type="text/javascript" src="style/tgt/tooltipbox.js"></script>
     <script type="text/javascript" src="style/tgt/sceollFix.js"></script>
+    <script src="style/tgt/common.js"></script>
+    <script language='javascript' src="style/tgt/designer.js"></script>
+    <script language='javascript' src="style/tgt/jquery.contextMenu.js"></script>
+    <link href="style/tgt/jquery.contextMenu.css" rel="stylesheet">
+{/literal}
+  </head>
+  <body>
+{literal}
+<style type="text/css">
+.red {
+    float: left;
+    color: red
+}
 
+.white {
+    float: left;
+    color: #fff
+}
+
+.tooltipbox {
+    background: #fef8dd;
+    border: 1px solid #c40808;
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: center;
+    height: 20px;
+    color: #c40808;
+    padding: 2px 5px 1px 5px;
+    border-radius: 3px;
+    z-index: 1000;
+}
+
+.red {
+    float: left;
+    color: red
+}
+
+.bg-light .nav-primary>ul>li>ul.nav>li>a {
+        margin: 0 0 0 10px;
+}
+
+
+#poster {
+  width: 320px;
+  height: 504px;
+  border: 1px solid #ccc;
+  position: relative
+}
+
+#poster .bg {
+  position: absolute;
+  width: 100%;
+  z-index: 0
+}
+
+#poster .drag[type=img] img,
+#poster .drag[type=thumb] img {
+  width: 100%;
+  height: 100%;
+}
+
+#poster .drag {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 1px solid #000;
+}
+
+#poster .drag[type=nickname] {
+  width: 80px;
+  height: 40px;
+  font-size: 16px;
+  font-family: 黑体;
+}
+
+                  
+#poster .drag img {
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+}
+
+                  
+#poster .rRightDown,
+.rLeftDown,
+.rLeftUp,
+.rRightUp,
+.rRight,
+.rLeft,
+.rUp,
+.rDown {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  z-index: 1;
+  font-size: 0;
+}
+
+#poster .rRightDown,
+.rLeftDown,
+.rLeftUp,
+.rRightUp,
+.rRight,
+.rLeft,
+.rUp,
+.rDown {
+  background: #C00;
+}
+
+.rLeftDown,
+.rRightUp {
+  cursor: ne-resize;
+}
+
+                  
+.rRightDown,
+.rLeftUp {
+  cursor: nw-resize;
+}
+
+.rRight,
+.rLeft {
+  cursor: e-resize;
+}
+
+.rUp,
+.rDown {
+  cursor: n-resize;
+}
+
+                  
+.rLeftDown {
+  left: -4px;
+  bottom: -4px;
+}
+
+.rRightUp {
+  right: -4px;
+  top: -4px;
+}
+
+.rRightDown {
+  right: -4px;
+  bottom: -4px;
+}
+
+                  
+.rRightDown {
+  background-color: #00F;
+}
+
+.rLeftUp {
+  left: -4px;
+  top: -4px;
+}
+
+                  
+.rRight {
+  right: -4px;
+  top: 50%;
+  margin-top: -4px;
+}
+
+.rLeft {
+  left: -4px;
+  top: 50%;
+  margin-top: -4px;
+}
+
+.rUp {
+  top: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+
+                  
+.rDown {
+  bottom: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+
+                  
+.context-menu-layer {
+  z-index: 9999;
+}
+
+.context-menu-list {
+  z-index: 9999;
+}
+
+</style>
 {/literal}
 
-  </head>
-
-
-
-  <body>
-
-
-
-    {literal}
-
-    <style type="text/css">
-
-      .red {
-
-        float: left;
-
-        color: red
-
-      }
-
-      
-
-      .white {
-
-        float: left;
-
-        color: #fff
-
-      }
-
-      
-
-      .tooltipbox {
-
-        background: #fef8dd;
-
-        border: 1px solid #c40808;
-
-        position: absolute;
-
-        left: 0;
-
-        top: 0;
-
-        text-align: center;
-
-        height: 20px;
-
-        color: #c40808;
-
-        padding: 2px 5px 1px 5px;
-
-        border-radius: 3px;
-
-        z-index: 1000;
-
-      }
-
-      
-
-      .red {
-
-        float: left;
-
-        color: red
-
-      }
-
-      
-
-      .bg-light .nav-primary>ul>li>ul.nav>li>a {
-
-        margin: 0 0 0 10px;
-
-      }
-
-    </style>
-
-    {/literal}
-
-    <section class="vbox hidden-bsection">
-
-
-
-
-
-
-
-
-
-      <section>
-
-        <section class="hbox stretch">
-
-          <script src="style/tgt/common.js"></script>
-
-          <section>
-
-            <section class="vbox">
-
-              <section class="scrollable padder" style="padding-top:10px;">
-
-                <script language='javascript' src="style/tgt/designer.js"></script>
-
-                <script language='javascript' src="style/tgt/jquery.contextMenu.js"></script>
-
-                <link href="style/tgt/jquery.contextMenu.css" rel="stylesheet">
-
-                {literal}
-
-                <style type='text/css'>
-
-                  #poster {
-
-                    width: 320px;
-
-                    height: 504px;
-
-                    border: 1px solid #ccc;
-
-                    position: relative
-
-                  }
-
-                  
-
-                  #poster .bg {
-
-                    position: absolute;
-
-                    width: 100%;
-
-                    z-index: 0
-
-                  }
-
-                  
-
-                  #poster .drag[type=img] img,
-
-                  #poster .drag[type=thumb] img {
-
-                    width: 100%;
-
-                    height: 100%;
-
-                  }
-
-                  
-
-                  #poster .drag {
-
-                    position: absolute;
-
-                    width: 80px;
-
-                    height: 80px;
-
-                    border: 1px solid #000;
-
-                  }
-
-                  
-
-                  #poster .drag[type=nickname] {
-
-                    width: 80px;
-
-                    height: 40px;
-
-                    font-size: 16px;
-
-                    font-family: 黑体;
-
-                  }
-
-                  
-
-                  #poster .drag img {
-
-                    position: absolute;
-
-                    z-index: 0;
-
-                    width: 100%;
-
-                  }
-
-                  
-
-                  #poster .rRightDown,
-
-                  .rLeftDown,
-
-                  .rLeftUp,
-
-                  .rRightUp,
-
-                  .rRight,
-
-                  .rLeft,
-
-                  .rUp,
-
-                  .rDown {
-
-                    position: absolute;
-
-                    width: 7px;
-
-                    height: 7px;
-
-                    z-index: 1;
-
-                    font-size: 0;
-
-                  }
-
-                  
-
-                  #poster .rRightDown,
-
-                  .rLeftDown,
-
-                  .rLeftUp,
-
-                  .rRightUp,
-
-                  .rRight,
-
-                  .rLeft,
-
-                  .rUp,
-
-                  .rDown {
-
-                    background: #C00;
-
-                  }
-
-                  
-
-                  .rLeftDown,
-
-                  .rRightUp {
-
-                    cursor: ne-resize;
-
-                  }
-
-                  
-
-                  .rRightDown,
-
-                  .rLeftUp {
-
-                    cursor: nw-resize;
-
-                  }
-
-                  
-
-                  .rRight,
-
-                  .rLeft {
-
-                    cursor: e-resize;
-
-                  }
-
-                  
-
-                  .rUp,
-
-                  .rDown {
-
-                    cursor: n-resize;
-
-                  }
-
-                  
-
-                  .rLeftDown {
-
-                    left: -4px;
-
-                    bottom: -4px;
-
-                  }
-
-                  
-
-                  .rRightUp {
-
-                    right: -4px;
-
-                    top: -4px;
-
-                  }
-
-                  
-
-                  .rRightDown {
-
-                    right: -4px;
-
-                    bottom: -4px;
-
-                  }
-
-                  
-
-                  .rRightDown {
-
-                    background-color: #00F;
-
-                  }
-
-                  
-
-                  .rLeftUp {
-
-                    left: -4px;
-
-                    top: -4px;
-
-                  }
-
-                  
-
-                  .rRight {
-
-                    right: -4px;
-
-                    top: 50%;
-
-                    margin-top: -4px;
-
-                  }
-
-                  
-
-                  .rLeft {
-
-                    left: -4px;
-
-                    top: 50%;
-
-                    margin-top: -4px;
-
-                  }
-
-                  
-
-                  .rUp {
-
-                    top: -4px;
-
-                    left: 50%;
-
-                    margin-left: -4px;
-
-                  }
-
-                  
-
-                  .rDown {
-
-                    bottom: -4px;
-
-                    left: 50%;
-
-                    margin-left: -4px;
-
-                  }
-
-                  
-
-                  .context-menu-layer {
-
-                    z-index: 9999;
-
-                  }
-
-                  
-
-                  .context-menu-list {
-
-                    z-index: 9999;
-
-                  }
-
-                </style>
-
-                {/literal}
+<section class="scrollable padder" style="padding-top:10px;">
 
                 <div class="main rightlist">
-
                   <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
-
                     <input type="hidden" name="id" value="{$res->id}" />
-
                     <input type="hidden" name="https_name" class="https_name" value="{$uploadImg}" />
-
                     <div class='panel panel-default'>
-
                       <div class='panel-heading'>
-
                         海报修改
-
                       </div>
 
                       <div class='panel-body'>
-
-
-
                         <div class="form-group">
-
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 海报名称</label>
-
                           <div class="col-sm-9 col-xs-12">
-
                             <input type="text" name="title" class="form-control" value="{$res->name}" />
-
                           </div>
-
                         </div>
 
                         <div class="form-group">
-
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 海报类型</label>
-
                           <div class="col-sm-9 col-xs-12">
-
                         <label class="radio-inline">
 
                             <input type="radio" {if $res->type ==1} checked='checked"{/if} name="type" value="1"  /> 文章海报
@@ -480,25 +244,14 @@
                         </label>
 
 
-
                    <label class="radio-inline">
-
                             <input type="radio" {if $res->type ==2} checked="checked"{/if}  name="type" value="2"  /> 红包
-
                         </label>
-
-
 
                         <label class="radio-inline">
-
                             <input type="radio" {if $res->type ==3} checked="checked"{/if} name="type" value="3"  /> 商品海报
-
                         </label>
 
-
-
-                           
-
                           </div>
 
                         </div>
@@ -506,25 +259,17 @@
 
 
                         <div class="form-group">
-
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 生成二维码关键词</label>
-
                           <div class="col-sm-9 col-xs-12">
-
                             <input type="text" name="keyword" class="form-control" value="{$res->keyword}" />
-
                             <span class='help-block'>如果是商品海报 ，回复关键词是 关键词+商品ID</span>
-
                           </div>
-
                         </div>
 
 
 
                         <div class="form-group">
-
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否默认</label>
-
                           <div class="col-sm-9 col-xs-12">
 
                         {if $res->isdefault == 1}
@@ -1049,124 +794,72 @@
                 </div>
 
 {literal}
-
-                <script language='javascript'>
+<script language='javascript'>
 
                   $('form').submit(function() {
-
                     if($(':input[name=title]').isEmpty()) {
-
                       Tip.focus($(':input[name=title]'), '请输入海报名称!');
-
                       return false;
-
                     }
 
                     if($(':input[name=type]:checked').length <= 0) {
-
                       Tip.focus($(':input[name=title]'), '请选择海报类型!');
-
                       return false;
-
                     }
 
                     if($(':input[name=keyword]').isEmpty()) {
-
                       Tip.focus($(':input[name=keyword]'), '请输入回复关键词!');
-
                       return false;
-
                     }
 
                     if($(':radio[name=type]:checked').val() == '4') {
-
-
-
                       if($(':radio[name=paytype]:checked').val() == '1') {
-
-
-
                         var recmoney = parseFloat($(':input[name=recmoney]').val());
-
                         if(recmoney > 0) {
-
                           if(recmoney < 1) {
-
                             Tip.select($(':input[name=recmoney]'), '微信企业付款需支付1元以上!', 'bottom');
-
                             return false;
-
                           }
-
                         }
 
                         var submoney = parseFloat($(':input[name=submoney]').val());
-
                         if(submoney > 0) {
-
                           if(submoney < 1) {
-
                             Tip.select($(':input[name=submoney]'), '微信企业付款需支付1元以上!', 'bottom');
-
                             return false;
-
                           }
-
                         }
-
                       }
-
                     }
 
                     var data = [];
 
                     $('.drag').each(function() {
-
                       var obj = $(this);
-
                       var type = obj.attr('type');
-
                       var left = obj.css('left'),
-
                         top = obj.css('top');
-
                       var d = {
-
                         left: left,
-
                         top: top,
-
                         type: obj.attr('type'),
-
                         width: obj.css('width'),
-
                         height: obj.css('height')
-
                       };
 
                       if(type == 'nickname' || type == 'title' || type == 'marketprice' || type == 'productprice') {
-
                         d.size = obj.attr('size');
-
                         d.color = obj.attr('color');
-
                       } else if(type == 'qr') {
-
                         d.size = obj.attr('size');
-
                       } else if(type == 'img') {
-
                         d.src = obj.attr('src');
-
                       }
-
                       data.push(d);
 
                     });
 
                     $(':input[name=data]').val(JSON.stringify(data));
-
-
 
                     return true;
 
@@ -1175,177 +868,100 @@
 
 
                   function bindEvents(obj) {
-
-
-
                     var index = obj.attr('index');
-
-
-
                     var rs = new Resize(obj, {
-
                       Max: true,
-
                       mxContainer: "#poster"
-
                     });
 
                     rs.Set($(".rRightDown", obj), "right-down");
-
                     rs.Set($(".rLeftDown", obj), "left-down");
-
                     rs.Set($(".rRightUp", obj), "right-up");
-
                     rs.Set($(".rLeftUp", obj), "left-up");
-
                     rs.Set($(".rRight", obj), "right");
-
                     rs.Set($(".rLeft", obj), "left");
-
                     rs.Set($(".rUp", obj), "up");
-
                     rs.Set($(".rDown", obj), "down");
-
                     rs.Scale = true;
-
                     var type = obj.attr('type');
-
                     if(type == 'nickname' || type == 'img' || type == 'title' || type == 'marketprice' || type == 'productprice') {
-
                       rs.Scale = false;
-
                     }
 
                     new Drag(obj, {
-
                       Limit: true,
-
                       mxContainer: "#poster"
-
                     });
 
                     $('.drag .remove').unbind('click').click(function() {
-
                       $(this).parent().remove();
-
                     })
 
-
-
                     $.contextMenu({
-
                       selector: '.drag[index=' + index + ']',
-
                       callback: function(key, options) {
-
                         var index = parseInt($(this).attr('zindex'));
-
-
-
                         if(key == 'next') {
-
                           var nextdiv = $(this).next('.drag');
-
                           if(nextdiv.length > 0) {
-
                             nextdiv.insertBefore($(this));
-
                           }
-
                         } else if(key == 'prev') {
-
                           var prevdiv = $(this).prev('.drag');
-
                           if(prevdiv.length > 0) {
-
                             $(this).insertBefore(prevdiv);
-
                           }
-
                         } else if(key == 'last') {
-
                           var len = $('.drag').length;
-
                           if(index >= len - 1) {
-
                             return;
-
                           }
-
                           var last = $('#poster .drag:last');
-
                           if(last.length > 0) {
-
                             $(this).insertAfter(last);
-
                           }
 
                         } else if(key == 'first') {
-
                           var index = $(this).index();
-
                           if(index <= 1) {
-
                             return;
-
                           }
 
                           var first = $('#poster .drag:first');
-
                           if(first.length > 0) {
-
                             $(this).insertBefore(first);
-
                           }
 
                         } else if(key == 'delete') {
-
                           $(this).remove();
-
                         }
 
                         var n = 1;
-
                         $('.drag').each(function() {
-
                           $(this).css("z-index", n);
-
                           n++;
-
                         })
-
                       },
 
                       items: {
-
                         "next": {
-
                           name: "调整到上层"
-
                         },
 
                         "prev": {
-
                           name: "调整到下层"
-
                         },
 
                         "last": {
-
                           name: "调整到最顶层"
-
                         },
 
                         "first": {
-
                           name: "调整到最低层"
-
                         },
 
                         "delete": {
-
                           name: "删除元素"
-
                         }
 
                       }
@@ -1353,9 +969,7 @@
                     });
 
                     obj.unbind('click').click(function() {
-
                       bind($(this));
-
                     })
 
 
@@ -1363,346 +977,174 @@
                   }
 
                   var imgsettimer = 0;
-
                   var nametimer = 0;
-
                   var bgtimer = 0;
 
-
-
                   function bindType(type) {
-
                     $("#goodsparams").hide();
-
                     $(".type4").hide();
-
                     if(type == '4') {
-
                       $(".type4").show();
-
                     } else if(type == '3') {
-
                       $("#goodsparams").show();
-
                     }
-
                   }
 
-
-
                   function clearTimers() {
-
                     clearInterval(imgsettimer);
-
                     clearInterval(nametimer);
-
                     clearInterval(bgtimer);
-
-
-
                   }
 
 
 
                   function getImgUrl(val) {
-
                     var https_name = $(".https_name").val();
-
                     if(val.indexOf('http://') == -1) {
-
                       val = https_name + val;
-
                     }
-
                     return val;
-
                   }
 
-
-
                   function bind(obj) {
-
                     var imgset = $('#imgset'),
-
                       nameset = $("#nameset"),
-
                       qrset = $('#qrset');
-
                     imgset.hide(), nameset.hide(), qrset.hide();
-
                     clearTimers();
-
                     var type = obj.attr('type');
-
                     if(type == 'img') {
-
                       imgset.show();
-
                       var src = obj.attr('src');
-
                       var input = imgset.find('input');
-
                       var img = imgset.find('img');
-
                       if(typeof(src) != 'undefined' && src != '') {
-
                         input.val(src);
-
                         img.attr('src', getImgUrl(src));
-
                       }
 
-
-
                       imgsettimer = setInterval(function() {
-
                         if(input.val() != src && input.val() != '') {
-
                           var url = getImgUrl(input.val());
-
                           obj.attr('src', input.val()).find('img').attr('src', url);
-
                         }
-
                       }, 10);
-
-
 
                     } else if(type == 'nickname' || type == 'title' || type == 'marketprice' || type == 'productprice') {
 
-
-
                       nameset.show();
-
                       var color = obj.attr('color') || "#000";
-
                       var size = obj.attr('size') || "16";
-
                       var input = nameset.find('input:first');
-
                       var namesize = nameset.find('#namesize');
-
                       var picker = nameset.find('.sp-preview-inner');
-
                       input.val(color);
-
                       namesize.val(size.replace("px", ""));
-
                       picker.css({
-
                         'background-color': color,
-
                         'font-size': size
-
                       });
-
 
 
                       nametimer = setInterval(function() {
-
                         obj.attr('color', input.val()).find('.text').css('color', input.val());
-
                         obj.attr('size', namesize.val() + "px").find('.text').css('font-size', namesize.val() + "px");
-
                       }, 10);
 
 
-
                     } else if(type == 'qr') {
-
                       qrset.show();
-
                       var size = obj.attr('size') || "3";
-
                       var sel = qrset.find('#qrsize');
-
                       sel.val(size);
-
                       sel.unbind('change').change(function() {
-
                         obj.attr('size', sel.val())
-
                       });
-
                     }
-
                   }
 
-
-
                   $(function() {
-
                     $('.drag').each(function(){
-
                         bindEvents($(this));
-
                     })
 
                     $(':radio[name=type]').click(function() {
-
                       var type = $(this).val();
-
                       bindType(type);
-
                     })
 
                     //改变背景
-
                     $('#bgset').find('button:first').click(function() {
-
                       var oldbg = $(':input[name=bg]').val();
-
                       bgtimer = setInterval(function() {
-
                         var bg = $(':input[name=bg]').val();
-
                         if(oldbg != bg && bg != '') {
-
                           bg = getImgUrl(bg);
-
                           $('#poster .bg').remove();
-
                           var bgh = $("<img src='" + bg + "' class='bg' />");
-
-
-
                           var first = $('#poster .drag:first');
-
                           if(first.length > 0) {
-
                             bgh.insertBefore(first);
-
                           } else {
-
                             $('#poster').append(bgh);
-
                           }
-
                           oldbg = bg;
-
                           clearInterval(bgtimer);
-
                         }
-
                       }, 1000);
 
                     })
 
-
-
                     $('.btn-com').click(function() {
-
-
-
                       var imgset = $('#imgset'),
-
                         nameset = $("#nameset"),
-
                         qrset = $('#qrset');
-
                       imgset.hide(), nameset.hide(), qrset.hide();
-
                       clearTimers();
-
-
-
-                      // if($('#poster img').length <= 0) {
-
-                      //   //alert('请选择背景图片!');
-
-                      //   //return;
-
-                      // }
-
                       var type = $(this).data('type');
-
                       var img = "";
-
                       if(type == 'qr') {
-
                         img = '<img src="style/tgt/qr.jpg" />';
-
                       } else if(type == 'head') {
-
                         img = '<img src="style/tgt/moren.png" />';
-
                       } else if(type == 'img' || type == 'thumb') {
-
                         img = '<img src="style/tgt/kdd.png" />';
-
                       } else if(type == 'nickname') {
-
                         img = '<div class=text>昵称</div>';
-
                       } else if(type == 'title') {
-
                         img = '<div class=text>商品名称</div>';
-
                       } else if(type == 'marketprice') {
-
                         img = '<div class=text>商品现价</div>';
-
                       } else if(type == 'productprice') {
-
                         img = '<div class=text>商品原价</div>';
-
                       }
 
                       var index = $('#poster .drag').length + 1;
-
                       var obj = $('<div class="drag" type="' + type + '" index="' + index + '" style="z-index:' + index + '">' + img + '<div class="rRightDown"> </div><div class="rLeftDown"> </div><div class="rRightUp"> </div><div class="rLeftUp"> </div><div class="rRight"> </div><div class="rLeft"> </div><div class="rUp"> </div><div class="rDown"></div></div>');
 
-
-
                       $('#poster').append(obj);
-
-
-
                       bindEvents(obj);
-
-
-
                     });
 
-
-
                     $('.drag').click(function() {
-
                       bind($(this));
-
                     })
-
-
 
                   })
 
-
-
                   var currentCouponType = null;
 
-
-
                   function selectCoupon(type) {
-
                     currentCouponType = type;
-
                     $('#modal-module-menus-coupon').modal();
-
                   }
-
 
 
                   function select_coupon(o) {
 
-
-
                     $(":input[name=" + currentCouponType + "couponid]").val(o.id);
-
                     $("." + currentCouponType + "group").find('button').html("[" + o.id + "]" + o.couponname);
-
                     $("#modal-module-menus-coupon .close").click();
-
-
 
                   }
 
@@ -1711,39 +1153,23 @@
                 </div>
 
                 <script language='javascript'>
-
                   require(['bootstrap'], function($) {
-
                     $('.btn').each(function() {
-
-
-
                       if($(this).closest('td').css('position') == 'relative') {
-
                         return true;
-
                       }
 
                       $(this).hover(function() {
-
                         $(this).tooltip('show');
-
                       }, function() {
-
                         $(this).tooltip('hide');
-
                       });
-
                     })
-
-
 
                   });
 
                   $('.js-clip').each(function() {
-
                     util.clip(this, $(this).attr('data-url'));
-
                   });
 
                 </script>

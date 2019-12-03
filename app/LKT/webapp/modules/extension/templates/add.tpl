@@ -216,12 +216,7 @@
 
     {/literal}
 
-    <section class="vbox hidden-bsection">
-      <section>
-        <section class="hbox stretch">
-          <section>
-            <section class="vbox">
-              <section class="scrollable padder" style="padding-top:10px;">
+<section class="scrollable padder" style="padding-top:10px;">
                 <div class="main rightlist">
                   <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="" />
@@ -304,26 +299,16 @@
                                       <div class="form-group" id="bgset">
                                         <label class="col-xs-12 col-sm-3 col-md-2 control-label">背景图片</label>
                                         <div class="col-sm-9 col-xs-12">
-
-
                                           <div class="input-group ">
-
                                             <input type="text" name="bg" value="" class="form-control" autocomplete="off">
-
                                             <span class="input-group-btn">
-
         <button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button>
-
       </span>
-
                                           </div>
 
                                           <div class="input-group " style="margin-top:.5em;">
-
                                             <img src="style/tgt/nopic.jpg" onerror="this.src='style/tgt/nopic.jpg'; this.title='图片未找到.'" class="img-responsive img-thumbnail" width="150" />
-
                                             <em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="deleteImage(this)">×</em>
-
                                           </div> <span class='help-block'>背景图片尺寸: 640 * 1008</span>
 
                                         </div>
@@ -333,18 +318,11 @@
                                       </div>
 
                                       <div class="form-group">
-
                                         <label class="col-xs-12 col-sm-3 col-md-3 control-label">海报元素</label>
-
                                         <div class="col-sm-9 col-xs-12">
-
-
                                           <button class='btn btn-default btn-com' type='button' data-type='qr' style="margin-bottom: 4px">二维码</button>
-
                                           <button class='btn btn-default btn-com' type='button' data-type='img' style="margin-bottom: 4px">图片</button>
-
                                           <span id="goodsparams">
-
                                                                   <button class='btn btn-default btn-com' type='button' data-type='title' >商品名称</button>    
 
                                                                   <button class='btn btn-default btn-com' type='button' data-type='thumb' >商品图片</button>    
@@ -360,75 +338,43 @@
                                       </div>
 
                                       <div id='qrset' style='display:none'>
-
                                         <div class="form-group">
-
                                           <label class="col-xs-12 col-sm-3 col-md-3 control-label">二维码尺寸</label>
-
                                           <div class="col-sm-9 col-xs-12">
-
                                             <select id='qrsize' class='form-control'>
-
                                               <option value='1'>1</option>
-
                                               <option value='2'>2</option>
-
                                               <option value='3'>3</option>
-
                                               <option value='4'>4</option>
-
                                               <option value='5'>5</option>
-
                                               <option value='6'>6</option>
-
                                             </select>
-
                                           </div>
-
-
-
                                         </div>
-
                                       </div>
 
-
-
                                       <div id='nameset' style='display:none'>
-
                                         <div class="form-group">
-
                                           <label class="col-xs-12 col-sm-3 col-md-3 control-label">昵称颜色</label>
-
                                           <div class="col-sm-9 col-xs-12 wid100">
 
 {literal}
 
                                             <script type="text/javascript">
-
                                               require(["jquery", "util"], function($, util) {
-
                                                 $(function() {
-
                                                   $(".colorpicker").each(function() {
-
                                                     var elm = this;
-
                                                     util.colorpicker(elm, function(color) {
-
                                                       $(elm).parent().prev().prev().val(color.toHexString());
-
                                                       $(elm).parent().prev().css("background-color", color.toHexString());
-
                                                     });
 
                                                   });
 
                                                   $(".colorclean").click(function() {
-
                                                     $(this).parent().prev().prev().val("");
-
                                                     $(this).parent().prev().css("background-color", "#FFF");
-
                                                   });
 
                                                 });
@@ -442,13 +388,9 @@
                                             <div class="row row-fix">
 
                                               <div class="col-xs-8 col-sm-8" style="padding-right:0;">
-
                                                 <div class="input-group">
-
                                                   <input class="form-control" type="text" name="color" placeholder="请选择颜色" value="">
-
                                                   <span class="input-group-addon" style="width:35px;border-left:none;background-color:"></span>
-
                                                   <span class="input-group-btn">
 
             <button class="btn btn-default colorpicker" type="button">选择颜色 <i class="fa fa-caret-down"></i></button>
@@ -456,144 +398,79 @@
             <button class="btn btn-default colorclean" type="button"><span><i class="fa fa-remove"></i></span></button>
 
                                                   </span>
-
                                                 </div>
-
                                               </div>
-
                                             </div>
-
                                           </div>
-
-
 
                                         </div>
 
                                         <div class="form-group">
-
                                           <label class="col-xs-12 col-sm-3 col-md-3 control-label">昵称大小</label>
-
                                           <div class="col-sm-4">
-
                                             <div class='input-group wid100'>
-
                                               <input type="text" id="namesize" class="form-control namesize" placeholder="例如: 14,16" />
-
                                               <div class='input-group-addon'>px</div>
-
                                             </div>
-
                                           </div>
-
                                         </div>
-
                                       </div>
 
                                       <div class="form-group" id="imgset" style="display:none">
-
                                         <label class="col-xs-12 col-sm-3 col-md-3 control-label">图片设置</label>
-
                                         <div class="col-sm-9 col-xs-12">
-
-
-
                                           <div class="input-group ">
-
                                             <input type="text" name="img" value="" class="form-control" autocomplete="off">
-
                                             <span class="input-group-btn">
-
         <button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button>
-
       </span>
 
                                           </div>
 
                                           <div class="input-group " style="margin-top:.5em;">
-
                                             <img src="style/tgt/nopic.jpg" onerror="this.src='style/tgt/nopic.jpg'; this.title='图片未找到.'" class="img-responsive img-thumbnail" width="150" />
-
                                             <em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="deleteImage(this)">×</em>
-
                                           </div>
-
                                         </div>
-
                                       </div>
 
-
-
                                     </div>
-
                                   </div>
-
                                 </td>
-
                               </tr>
-
                             </table>
-
                           </div>
-
                         </div>
 
 
 
                     <div class="form-group">
-
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label">生成等待文字</label>
-
                           <div class="col-sm-9 col-xs-12">
-
-
-
                             <textarea name="waittext" class="form-control"></textarea>
-
                             <span class="help-block">例如：您的专属海报正在拼命生成中，请等待片刻...</span>
-
-
-
                           </div>
 
                     </div>
 
-
                       </div>
-
-
-
-                     
 
                       <div class="panel-body">
 
-
-
                         <div class="form-group">
-
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
-
                           <div class="col-sm-9 col-xs-12">
-
                             <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
-
-                            <input type="hidden" name="token" value="41f48483" />
-
+                            <input type="hidden" name="token" value="" />
                             <input type="hidden" name="data" value="" />
-
                             <input type="button" name="back" onclick='history.back()' style='margin-left:10px;' value="返回列表" class="btn btn-default" />
-
                           </div>
 
                         </div>
-
                       </div>
-
                     </div>
-
                   </form>
-
                 </div>
-
 
 {literal}
 <script type="text/javascript">
