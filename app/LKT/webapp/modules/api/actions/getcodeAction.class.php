@@ -231,7 +231,6 @@ class getcodeAction extends Action {
 
         $pic = $lu_token.'-'.$type.'-'.$pid.'-ewm.jpg';
         if($regenerate || !$img_token){
-             //通过控制access_token 来校验不同二维码
              @unlink ($uploadImg.$imgDir.$pic);
              $lu_token = md5($utoken);
              $sql = "update lkt_user set img_token = '$utoken' where user_id = '$id' ";
