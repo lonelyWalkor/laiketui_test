@@ -207,7 +207,7 @@ class getcodeAction extends Action {
         $img_token = isset($uur[0]) ? $uur[0]->img_token:false;
 
        //定义固定分享图片储存路径 以便删除
-        $imgDir = 'product_share_img/';
+        $imgDir = '/';
         $sql = "select * from lkt_config where id=1";
         $r = $db->select($sql);
         if($r){
@@ -223,7 +223,7 @@ class getcodeAction extends Action {
             }
             $product_img = $uploadImg.$product_img;
             $font_file_path = dirname(dirname(MO_WEBAPP_DIR));
-            $font_file  = $font_file_path.substr($uploadImg,2);
+            $font_file  = $font_file_path.'/LKT/style/font/';
         }
 
         $tkt_sql = "select * from lkt_extension where type ='$type' and isdefault='1' ";
@@ -297,6 +297,7 @@ class getcodeAction extends Action {
                 }
                 $data[$k] = $v;
             }
+
            if($value->type == 'head'){
                 $this->write_img($dest,$data,$head);
            }else if($value->type == 'nickname'){
@@ -423,9 +424,7 @@ class getcodeAction extends Action {
             $width = imagesx($dest)*2;
         }
 
-        $font_file = $fontfile.'simhei.ttf';
-
-        // var_dump($font_file);
+        $font_file = $fontfile.'msyh.ttf';
         $colors = $this->hex2rgb($data['color']);
         $color  = imagecolorallocate($dest,$colors['red'], $colors['green'], $colors['blue']);//背景色
         $string = $this->autowrap($data['size'], 0, $font_file, $string,$width);
@@ -499,7 +498,7 @@ class getcodeAction extends Action {
         $pid = addslashes($request->getParameter('pid'));
         $path_name = str_replace('/','_',$path);
         $filename= $path_name.'_share_'.$id.'_'.$pid.'.jpeg';///   
-        $imgDir = 'product_share_img/';
+        $imgDir = '/';
         $width = 430;
         //要生成的图片名字
         $newFilePath = $uploadImg.$imgDir.$filename;
