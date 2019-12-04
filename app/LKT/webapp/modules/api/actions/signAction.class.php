@@ -10,7 +10,6 @@
 require_once('BaseAction.class.php');
 class signAction extends BaseAction {
     
-    
     // 点击签到
     public function index(){
         $db = DBAction::getInstance();
@@ -20,6 +19,12 @@ class signAction extends BaseAction {
         $appConfig = $this->getAppInfo();
         $img = $appConfig['imageRootUrl'];
 
+        $imgurl = ''; // 签到图片
+        $min_score = ''; // 最少领取积分
+        $max_score = ''; // 最大领取积分
+        $continuity_three = ''; // 连续签到7天
+        $continuity_twenty = ''; // 连续签到20天
+        $activity_overdue = ''; // 连续签到30天
 
         // 查询签到参数
         $sql = "select * from lkt_sign_config where id = 1";
@@ -31,14 +36,8 @@ class signAction extends BaseAction {
             $continuity_three = $r[0]->continuity_three; // 连续签到7天
             $continuity_twenty = $r[0]->continuity_twenty; // 连续签到20天
             $activity_overdue = $r[0]->activity_overdue; // 连续签到30天
-        }else{
-            $imgurl = ''; // 签到图片
-            $min_score = ''; // 最少领取积分
-            $max_score = ''; // 最大领取积分
-            $continuity_three = ''; // 连续签到7天
-            $continuity_twenty = ''; // 连续签到20天
-            $activity_overdue = ''; // 连续签到30天
         }
+        
         $num = 0;
 
         if(!$openid || $openid=='undefined'){

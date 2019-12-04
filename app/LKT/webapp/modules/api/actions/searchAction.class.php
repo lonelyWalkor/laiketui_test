@@ -11,8 +11,6 @@ require_once('BaseAction.class.php');
 
 class searchAction extends BaseAction {
 
-	
-
   public function index(){
     $db = DBAction::getInstance();
     $request = $this->getContext()->getRequest();
