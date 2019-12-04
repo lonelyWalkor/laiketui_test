@@ -7,29 +7,10 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once('BaseAction.class.php');
 
-class CouponAction extends Action {
+class CouponAction extends BaseAction {
     
-    public function getDefaultView() {
-        return ;
-    }
-
-    public function execute(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-            $this->$m();
-        }
-        return;
-    }
-
-    public function getRequestMethods(){
-        return Request :: POST;
-    }
     // 获取小程序优惠券活动
     public function index(){
         $db = DBAction::getInstance();
@@ -318,7 +299,6 @@ class CouponAction extends Action {
 
                 $list[] = $v;
                 unset($v);
-                // print_r($v);die;
             }
         }
 

@@ -7,31 +7,9 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once('BaseAction.class.php');
 
-class payAction extends Action {
-
-    public function getDefaultView() {
-
-        return ;
-    }
-
-    public function execute(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-            $this->$m();
-        }
-        
-        return;
-    }
-
-    public function getRequestMethods(){
-        return Request :: POST;
-    }
+class payAction extends BaseAction {
 
     //提交支付
     public function pay(){  
@@ -49,6 +27,17 @@ class payAction extends Action {
         }
 
         $dingdanhao = $pay.date("ymdhis").rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
+        
+        $appid = ''; // 如果是公众号 就是公众号的appid
+        $body = ''; // 公司名称
+        $mch_id = ''; // 商户id
+        $mch_key = ''; // 商户key
+        $nonce_str = ''; // 随机字符串
+        $notify_url = '';
+        $openid = $openid; // 微信id
+        $out_trade_no = $dingdanhao; // 商户订单号
+        $spbill_create_ip = ''; // ip地址
+
         // 查询系统配置
         $ss = "select * from lkt_config where id = 1";
         $rs = $db->select($ss);
@@ -63,16 +52,6 @@ class payAction extends Action {
             $openid =       $openid; // 微信id
             $out_trade_no = $dingdanhao; // 商户订单号
             $spbill_create_ip = $rs[0]->ip; // ip地址
-        }else{
-            $appid = ''; // 如果是公众号 就是公众号的appid
-            $body = ''; // 公司名称
-            $mch_id = ''; // 商户id
-            $mch_key = ''; // 商户key
-            $nonce_str = ''; // 随机字符串
-            $notify_url = '';
-            $openid = $openid; // 微信id
-            $out_trade_no = $dingdanhao; // 商户订单号
-            $spbill_create_ip = ''; // ip地址
         }
 
         $total_fee =    $cmoney*100; // 因为充值金额最小是1 而且单位为分 如果是充值1元所以这里需要*100
