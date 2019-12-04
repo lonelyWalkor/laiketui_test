@@ -271,33 +271,23 @@
                         <div class="form-group">
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否默认</label>
                           <div class="col-sm-9 col-xs-12">
-
                         {if $res->isdefault == 1}
-
                         <label class="radio-inline">
-
                             <input type="radio" name="isdefault" value="1" checked /> 是
-
                         </label>
 
                         <label class="radio-inline">
-
                             <input type="radio" name="isdefault" value="0" /> 否
-
                         </label>
 
                         {else}
 
                         <label class="radio-inline">
-
                             <input type="radio" name="isdefault" value="1" /> 是
-
                         </label>
 
                         <label class="radio-inline">
-
                             <input type="radio" name="isdefault" value="0" checked/> 否
-
                         </label>
 
                         {/if}
@@ -311,19 +301,11 @@
                         <div class="form-group">
 
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 海报设计</label>
-
                           <div class="col-sm-9 col-xs-12">
-
                             <table style='width:100%;'>
-
                               <tr>
-
                                 <td style='width:320px;' valign='top'>
-
                                   <div id='poster'>
-
-
-
                                          {if $res->bg != ''}
 
                                           <img src='{$uploadImg}{$res->bg}' class='bg'/>
@@ -332,52 +314,28 @@
 
                                           {if $data != ''}
 
-  
-
                                           {foreach from=$data item=d key=key name=f1}
 
                                           <div class="drag" type="{$d->type}" index="{$key+1}" style="zindex:{$key+1};left:{$d->left};top:{$d->top};
-
                                                width:{$d->width};height:{$d->height}" 
-
-                                               src="{$d->src}" size="{$d->size}" color="{$d->color}"
-
-                                               > 
-
+                                               src="{$d->src}" size="{$d->size}" color="{$d->color}" > 
                                                {if $d->type=='qr'}
-
                                                  <img src="style/tgt/qr.jpg" />
-
                                                {elseif $d->type=='head'}
-
                                                   <img src="style/tgt/moren.png" />
-
                                                {elseif $d->type=='thumb'}
-
                                                   <img src="style/tgt/kdd.png" />
-
                                                 {elseif $d->type =='img'}
-
                                                   <img src="{$d->src}" />
-
                                                   
-
                                                 {elseif $d->type =='nickname'}
-
                                                    <div class=text style="font-size:{$d->size};color:{$d->color}">昵称</div> 
-
                                                {elseif $d->type =='title'}
-
                                                    <div class=text style="font-size:{$d->size};color:{$d->color}">商品名称</div> 
-
                                                    {elseif $d->type =='marketprice'}
-
                                                    <div class=text style="font-size:{$d->size};color:{$d->color}">商品现价</div> 
-
                                                    {elseif $d->type =='productprice'}
-
                                                    <div class=text style="font-size:{$d->size};color:{$d->color}">商品原价</div> 
-
                                                 {/if}
 
                                               <div class="rRightDown"> </div><div class="rLeftDown"> </div><div class="rRightUp"> </div><div class="rLeftUp"> </div><div class="rRight"> </div><div class="rLeft"> </div><div class="rUp"> </div><div class="rDown"></div>
@@ -389,132 +347,80 @@
                                           {/if}
 
                                   </div>
-
-
-
                                 </td>
 
                                 <td valign='top'>
-
                                   <div class='panel panel-default'>
-
                                     <div class='panel-body'>
-
                                       <div class="form-group" id="bgset">
-
                                         <label class="col-xs-12 col-sm-3 col-md-2 control-label">背景图片</label>
-
                                         <div class="col-sm-9 col-xs-12">
-
 {literal}
 
                                           <script type="text/javascript">
-
                                             function showImageDialog(elm, opts, options) {
-
                                               require(["util"], function(util) {
-
                                                 var btn = $(elm);
-
                                                 var ipt = btn.parent().prev();
-
-                                                var val = ipt.val();
-
-                                                
-
+                                                var val = ipt.val();                                        
                                                 options = {
-
                                                   'global': false,
-
                                                   'class_extra': '',
-
                                                   'direct': true,
-
                                                   'multiple': false
-
                                                 };
 
                                                 util.image(val, function(url) {
-                                                  // debugger
 
                                                    var imgInfo = JSON.parse(url._raw);
-
-                                                    // console.log(imgInfo.height)
-                                                    // console.log(imgInfo.width)                          
+                      
                                                     if(imgInfo.height != 1008 || imgInfo.width != 640){
                                                           alert('背景图片尺寸不符！')
                                                                   return;
                                                     }else{
                                                       if(url.url) {
-                                                    // console.log('xx2')
 
                                                           ipt.val(url.attachment);
-
                                                           ipt.attr("filename", url.filename);
-
                                                           ipt.attr("url", url.url);
 
-                                                   
                                                       }
                                                     }
 
 
-                                                
-
                                                   if(url.media_id) {
-
                                                     if(img.length > 0) {
-
                                                       img.get(0).src = "";
-
                                                     }
-
                                                     ipt.val(url.media_id);
-
                                                   }
-
                                                 }, null, options);
-
                                               });
-
                                             }
 
 
 
                                             function deleteImage(elm) {
-
                                               require(["jquery"], function($) {
-
                                                 $(elm).prev().attr("src", "style/tgt/nopic.jpg");
-
                                                 $(elm).parent().prev().find("input").val("");
-
                                               });
-
                                             }
 
                                           </script>
-
 {/literal}
 
                                           <div class="input-group ">
 
                                             <input type="text" name="bg" value="{$res->bg}" class="form-control" autocomplete="off">
-
                                             <span class="input-group-btn">
-
         <button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button>
-
       </span>
-
                                           </div>
 
                                           <div class="input-group " style="margin-top:.5em;">
-
                                             <img src="style/tgt/nopic.jpg" onerror="this.src='style/tgt/nopic.jpg'; this.title='图片未找到.'" class="img-responsive img-thumbnail" width="150" />
-
                                             <em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="deleteImage(this)">×</em>
-
                                           </div> <span class='help-block'>背景图片尺寸: 640 * 1008</span>
 
                                         </div>
@@ -524,22 +430,11 @@
                                       </div>
 
                                       <div class="form-group">
-
                                         <label class="col-xs-12 col-sm-3 col-md-3 control-label">海报元素</label>
-
                                         <div class="col-sm-9 col-xs-12">
-
-                                         <!--  <button class='btn btn-default btn-com' type='button' data-type='head' style="margin-bottom: 4px">头像</button>
-
-                                          <button class='btn btn-default btn-com' type='button' data-type='nickname' style="margin-bottom: 4px">昵称</button> -->
-
                                           <button class='btn btn-default btn-com' type='button' data-type='qr' style="margin-bottom: 4px">二维码</button>
-
                                           <button class='btn btn-default btn-com' type='button' data-type='img' style="margin-bottom: 4px">图片</button>
-
                                           <span id="goodsparams">
-
-                                           <!-- <span id="goodsparams" style="display:none"> -->
 
                                                                   <button class='btn btn-default btn-com' type='button' data-type='title' >商品名称</button>    
 
@@ -562,69 +457,42 @@
                                           <label class="col-xs-12 col-sm-3 col-md-3 control-label">二维码尺寸</label>
 
                                           <div class="col-sm-9 col-xs-12">
-
                                             <select id='qrsize' class='form-control'>
-
                                               <option value='1'>1</option>
-
                                               <option value='2'>2</option>
-
                                               <option value='3'>3</option>
-
                                               <option value='4'>4</option>
-
                                               <option value='5'>5</option>
-
                                               <option value='6'>6</option>
-
                                             </select>
-
                                           </div>
-
-
-
                                         </div>
 
                                       </div>
 
 
-
                                       <div id='nameset' style='display:none'>
-
                                         <div class="form-group">
-
                                           <label class="col-xs-12 col-sm-3 col-md-3 control-label">昵称颜色</label>
-
                                           <div class="col-sm-9 col-xs-12 wid100">
 
 {literal}
 
                                             <script type="text/javascript">
-
                                               require(["jquery", "util"], function($, util) {
-
                                                 $(function() {
-
                                                   $(".colorpicker").each(function() {
-
                                                     var elm = this;
-
                                                     util.colorpicker(elm, function(color) {
-
                                                       $(elm).parent().prev().prev().val(color.toHexString());
-
                                                       $(elm).parent().prev().css("background-color", color.toHexString());
-
                                                     });
 
                                                   });
 
                                                   $(".colorclean").click(function() {
-
                                                     $(this).parent().prev().prev().val("");
-
                                                     $(this).parent().prev().css("background-color", "#FFF");
-
                                                   });
 
                                                 });
@@ -636,15 +504,10 @@
 {/literal}
 
                                             <div class="row row-fix">
-
                                               <div class="col-xs-8 col-sm-8" style="padding-right:0;">
-
                                                 <div class="input-group">
-
                                                   <input class="form-control" type="text" name="color" placeholder="请选择颜色" value="{$res->color}">
-
                                                   <span class="input-group-addon" style="width:35px;border-left:none;background-color:"></span>
-
                                                   <span class="input-group-btn">
 
             <button class="btn btn-default colorpicker" type="button">选择颜色 <i class="fa fa-caret-down"></i></button>
@@ -652,31 +515,20 @@
             <button class="btn btn-default colorclean" type="button"><span><i class="fa fa-remove"></i></span></button>
 
                                                   </span>
-
                                                 </div>
-
                                               </div>
-
                                             </div>
-
                                           </div>
-
-
 
                                         </div>
 
                                         <div class="form-group">
 
                                           <label class="col-xs-12 col-sm-3 col-md-3 control-label">昵称大小</label>
-
                                           <div class="col-sm-4">
-
                                             <div class='input-group wid100'>
-
                                               <input type="text" id="namesize" class="form-control namesize" placeholder="例如: 14,16" />
-
                                               <div class='input-group-addon'>px</div>
-
                                             </div>
 
                                           </div>
@@ -756,38 +608,22 @@
                       </div>
 
 
-
-                     
-
                       <div class="panel-body">
 
-
-
                         <div class="form-group">
-
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
-
                           <div class="col-sm-9 col-xs-12">
-
                             <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
-
-                            <input type="hidden" name="token" value="41f48483" />
-
+                            <input type="hidden" name="token" value="" />
                             <input type="hidden" name="data" value="{$res->data}" />
-
                             <input type="button" name="back" onclick='history.back()' style='margin-left:10px;' value="返回列表" class="btn btn-default" />
-
                           </div>
 
                         </div>
 
                       </div>
 
-
-
                     </div>
-
-
 
                   </form>
 
