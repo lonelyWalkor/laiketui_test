@@ -538,15 +538,9 @@
                                       </div>
 
                                       <div class="form-group" id="imgset" style="display:none">
-
                                         <label class="col-xs-12 col-sm-3 col-md-3 control-label">图片设置</label>
-
                                         <div class="col-sm-9 col-xs-12">
-
-
-
                                           <div class="input-group ">
-
                                             <input type="text" name="img" value="{$res->image}" class="form-control" autocomplete="off">
 
                                             <span class="input-group-btn">
@@ -569,8 +563,6 @@
 
                                       </div>
 
-
-
                                     </div>
 
                                   </div>
@@ -592,15 +584,8 @@
                           <label class="col-xs-12 col-sm-3 col-md-2 control-label">生成等待文字</label>
 
                           <div class="col-sm-9 col-xs-12">
-
-
-
                             <textarea name="waittext" class="form-control">{$res->waittext}</textarea>
-
                             <span class="help-block">例如：您的专属海报正在拼命生成中，请等待片刻...</span>
-
-
-
                           </div>
 
                         </div>

@@ -47,7 +47,7 @@ class addressAction extends BaseAction {
                     $sql = "delete from lkt_user_address where uid = '$user_id' and id = '$value'";
                     $r = $db->delete($sql);
                 }
-                
+               
            }
            echo json_encode(array('status'=>1,'succ'=>'删除成功!'));
            exit();
