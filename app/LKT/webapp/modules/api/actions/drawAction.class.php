@@ -11,7 +11,6 @@ require_once('BaseAction.class.php');
 
 class drawAction extends BaseAction {
 
-    
     //存formid
     public function getFormid(){
         $db = DBAction::getInstance();

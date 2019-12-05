@@ -1,7 +1,7 @@
 <?php
 /**
 
- * 通用通知接口demo
+ * 通用通知接口
 
  * ====================================================
 
@@ -98,8 +98,6 @@ class order
                 $sql_combined = "update lkt_order set pay = 'combined_Pay' where sNo = '$order_id' and user_id = '$userid' ";
                 $r_combined = $db->update($sql_combined);
             }
-
-
 
             // 根据用户id、优惠券id,修改优惠券状态(已使用)
             $sql = "update lkt_coupon set type = 2 where user_id = '$userid' and id = '$coupon_id'";
@@ -390,27 +388,17 @@ class order
     {
 
         $log_->log_result($log_name,"【签名验证结果 succ】:\n".$notify->checkSign()."\n");
-
         if ($notify->data["return_code"] == "FAIL") {
-
             //此处应该更新一下订单状态，商户自行增删操作
-
             $log_->log_result($log_name,"【通信出错】:\n".$xml."\n");
 
         }
-
         elseif($notify->data["result_code"] == "FAIL"){
-
             //此处应该更新一下订单状态，商户自行增删操作
-
             $log_->log_result($log_name,"【业务出错】:\n".$xml."\n");
 
         }
-
         else{
-
-
-
             //此处应该更新一下订单状态，商户自行增删操作
             $trade_no = $notify->data["out_trade_no"];
             $type = substr($trade_no,0,2);
@@ -424,8 +412,6 @@ class order
                     $cmoney = $notify->data["total_fee"]/100;
                     $order -> cz($openid,$cmoney,$trade_no); 
                 }
-
-
 
             }else if($type == 'PT'){
 

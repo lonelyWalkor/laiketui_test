@@ -535,7 +535,6 @@ class productAction extends BaseAction {
         }else{
             $userid = ''; // 用户id
             $user_money = ''; // 用户余额
-            // $user_consumer_money = ''; // 用户消费金
         }
 
         // 根据用户id,查询收货地址
@@ -565,7 +564,7 @@ class productAction extends BaseAction {
 
         $typestr=trim($cart_id,','); // 移除两侧的逗号
         $typeArr=explode(',',$typestr); // 字符串打散为数组
-        //  取数组最后一个元素 并查询分类名称
+        //取数组最后一个元素 并查询分类名称
         $zong =0;
 
         //新增分销分销等级商品不能再次购买

@@ -99,6 +99,7 @@ class CouponAction extends BaseAction {
                 }
                 return $v ;
     }
+    
     // 点击领取
     public function receive(){
         $db = DBAction::getInstance();

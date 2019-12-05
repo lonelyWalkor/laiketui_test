@@ -9,7 +9,10 @@
  */
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 
-class testAction extends Action {
+/*
+定时器类
+*/
+class crontabAction extends Action {
 
 	public function getDefaultView() {
         $db = DBAction::getInstance();
