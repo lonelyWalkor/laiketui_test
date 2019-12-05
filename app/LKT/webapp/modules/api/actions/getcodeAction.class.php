@@ -481,7 +481,6 @@ class getcodeAction extends Action {
 
     //获得二维码
     public function get_share_qrcode($path,$width,$id,$AccessToken) {
-        // header('content-type:image/jpeg');  测试时可打开此项 直接显示图片
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 查询系统参数

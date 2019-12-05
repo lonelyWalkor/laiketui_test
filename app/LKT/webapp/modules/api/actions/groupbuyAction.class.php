@@ -135,8 +135,8 @@ class groupbuyAction extends Action {
         }else{ // 不存在
             $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
         }
+        
         $pagesize =  10;
-         // $pagesize = 2 ;
         // 每页显示多少条数据
         $page = addslashes($request->getParameter('page'));
         if ($page) {
@@ -145,7 +145,6 @@ class groupbuyAction extends Action {
             $start = 0;
         }
 
-        // $rrr = huodongzhuangtai($db);////监测拼团活动有没有过期的，改变其活动状态
         $sqltime =  "select min(g.attr_id) AS attr_id,min(g.id) AS id,min(g.group_title) AS group_title,min(g.product_id) AS product_id,min(g.group_level) AS group_level,min(g.group_data) AS group_data,min(p.product_title) AS product_title,min(p. STATUS) AS STATUS,min(p.product_class) AS product_class,min(p.imgurl) AS imgurl,min(c.price) AS price,min(c.num) AS num,g.group_id from lkt_group_product as g 
                 left join lkt_product_list as p on g.product_id=p.id 
                 left join lkt_configure as c on g.attr_id=c.id 
@@ -810,10 +809,10 @@ class groupbuyAction extends Action {
 
         $istsql1 = "insert into lkt_group_open(uid,ptgoods_id,ptcode,ptnumber,addtime,endtime,ptstatus,group_id,sNo) values('$uid',$pro_id,'$group_num',1,'$creattime','$time_over',$status,'$groupid','$ordernum')";
         $res1 = $db -> insert($istsql1);
-            // echo "$ordernum";
+
          $nu = $db -> update("update lkt_product_list set volume=volume+$buy_num,num=num-$buy_num where id='$pro_id'");
          $nu11 = $db -> update("update lkt_configure set num=num-$buy_num where id='$sizeid'");//改变库存和销量
-            // print_r($nu);die;
+
         if($res1 < 1){
             $db->rollback();
             echo json_encode(array('code' => 0,'sql'=>$istsql1));exit;
@@ -829,7 +828,7 @@ class groupbuyAction extends Action {
         $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,status,otype,ptcode,pid,ptstatus,trade_no,source) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime',$ordstatus,'pt','$group_num','$groupid',$status,'$trade_no','1')";
 
         $res2 = $db -> insert($istsql2);
-        // echo "$ordernum";
+
         if($res2 < 1){
             $db->rollback();
             echo json_encode(array('code' => 0,'sql'=>$istsql2));exit;
@@ -839,7 +838,7 @@ class groupbuyAction extends Action {
         $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid,freight) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime','$ordstatus','$size',$sizeid,'$freight')";
 
         $res3 = $db -> insert($istsql3);
-        // echo "$ordernum";
+
         if($res3 < 1){
             $db->rollback();
             echo json_encode(array('code' => 0,'sql'=>$istsql3));exit;
@@ -997,7 +996,7 @@ class groupbuyAction extends Action {
 
                 
                 $res -> leftTime = strtotime($res -> endtime) - time();    
-                //group_price as price,g.member_price
+ 
                     $sql_size = "select g.*,p.attribute,p.num,p.img,p.yprice,p.price,p.id from lkt_group_product as g left join lkt_configure as p on g.attr_id=p.id where g.product_id = '$gid' and group_id='$groupid'";
     
                     $r_size = $db->select($sql_size);
