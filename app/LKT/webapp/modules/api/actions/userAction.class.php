@@ -9,7 +9,6 @@
 require_once('BaseAction.class.php');
 
 class userAction extends BaseAction {
-
     
     // 请求我的数据
     public function index(){
@@ -17,7 +16,6 @@ class userAction extends BaseAction {
         $request = $this->getContext()->getRequest();
         // 获取信息
         $openid = addslashes($_POST['openid']); // 微信id
-     
         
         $appConfig = $this->getAppInfo();
         $img = $appConfig['imageRootUrl'];
@@ -103,7 +101,6 @@ class userAction extends BaseAction {
         }
         $support = '来客电商提供技术支持';
         // 状态 0：未付款 1：未发货 2：待收货 3：待评论 4：退货 5:已完成 6 订单关闭 9拼团中 10 拼团失败-未退款 11 拼团失败-已退款
-        // 抽奖状态（0.参团中 1.待抽奖 2.参团失败 3.抽奖失败 4.抽奖成功）
         echo json_encode(array('status'=>1,'support'=>$support,'tjr'=>$tjr,'user'=>$user,'th'=>$res_order['4'],'dfk_num'=>$res_order['0'],'dfh_num'=>$res_order['1'],'dsh_num'=>$res_order['2'],'dpj_num'=>$res_order['3'],'company'=>$company,'logo'=>$logo,'article'=>$r_2,'plug_ins'=>$r_c));
         exit();
         return;
