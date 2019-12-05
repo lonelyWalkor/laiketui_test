@@ -7,29 +7,11 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once('BaseAction.class.php');
 
-class drawAction extends Action {
+class drawAction extends BaseAction {
 
-    public function getDefaultView() {
-        return;
-        
-    }
-
-    public function execute(){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $m = addslashes(trim($request->getParameter('m')));
-        if($m){
-            $this->$m();
-        }
-        
-        return;
-    } 
     
-
     //存formid
     public function getFormid(){
         $db = DBAction::getInstance();
