@@ -10,8 +10,6 @@
 
 require_once(MO_LIB_DIR . '/DBAction.class.php');
 
-
-
 class addAction extends Action {
 
     public function getDefaultView() {

@@ -22,7 +22,7 @@ class setAction extends Action {
         if($r){
             $r = $r[0];
         }
-        // var_dump($r,$r->name);
+
         $request->setAttribute("list",$r);
         return View :: INPUT;
     }

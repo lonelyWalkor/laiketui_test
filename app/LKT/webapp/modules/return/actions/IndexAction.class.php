@@ -97,7 +97,7 @@ class IndexAction extends Action {
         $sql1 = "select * from lkt_user_address where uid = 'admin'";
         $r01 = $db->select($sql1);
         $status = $r01?'1':'2';
-        // print_r($r);die;
+
         $request->setAttribute("status",$status);
         $request->setAttribute("pages_show",$pages_show);
         $request->setAttribute("r_type",$r_type);

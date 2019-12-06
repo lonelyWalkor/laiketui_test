@@ -17,7 +17,6 @@ class viewAction extends Action {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $id = intval($request->getParameter("id")); // 产品id
-        // 根据产品id，查询产品产品信息
         $sql = "select * from lkt_order_details where id = '$id'";
         $r = $db->select($sql);
        

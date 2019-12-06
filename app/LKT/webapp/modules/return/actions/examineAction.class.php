@@ -32,7 +32,7 @@ class examineAction extends Action {
             //判断单个商品退款是否有使用优惠
             $sql_id = "select a.id,m.freight,a.trade_no,a.sNo,a.pay,a.z_price,a.user_id,a.allow,a.spz_price,a.reduce_price,a.coupon_price,m.p_price,a.consumer_money from lkt_order as a LEFT JOIN lkt_order_details AS m ON a.sNo = m.r_sNo where m.id = '$id' and m.r_status = '4' ";
             $order_res = $db -> select($sql_id);
-            // echo $sql_id;exit;
+
             $allow = $order_res[0] -> allow;
             $reduce_price = $order_res[0] -> reduce_price;
             $coupon_price = $order_res[0] -> coupon_price;
