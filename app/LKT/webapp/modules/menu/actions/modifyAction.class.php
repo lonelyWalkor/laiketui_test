@@ -16,7 +16,6 @@ class modifyAction extends Action {
             $space = "---";
             $s_id = $r_1[0]->s_id; // 上级id
             $title = $r_1[0]->title; // 菜单名称
-//            $name = $r_1[0]->name; // 菜单标识
             $image = $r_1[0]->image; // 图片
             $image1 = $r_1[0]->image1; // 图片
             $url = $r_1[0]->url; // 路径
@@ -170,14 +169,12 @@ class modifyAction extends Action {
         }
         $request->setAttribute('id', $id);
         $request->setAttribute('title', $title );
-//        $request->setAttribute('name', $name );
         $request->setAttribute('url', $url );
         $request->setAttribute('sort', $sort );
         $request->setAttribute('type', $type );
         $request->setAttribute('level', $level );
         $request->setAttribute('image', $image );
         $request->setAttribute('image1', $image1 );
-//        $request->setAttribute('type', $type );
         $request->setAttribute('cid', $cid);
         $request->setAttribute("level",$level-1);
         $request->setAttribute("list",$list);
@@ -191,7 +188,6 @@ class modifyAction extends Action {
 		$db = DBAction::getInstance();
 		$request = $this->getContext()->getRequest();
         $admin_id = $this->getContext()->getStorage()->read('admin_id');
-
         // 接收数据 
         $id = $request->getParameter("id");
         $title = addslashes(trim($request->getParameter('title'))); // 菜单名称
@@ -289,13 +285,11 @@ class modifyAction extends Action {
         $r = $db->update($sql);
         if($r == -1) {
             $db->admin_record($admin_id,' 修改菜单id为 '.$id.' 失败 ',2);
-
             //跳转
             jump($_SESSION['url'],'未知原因，修改失败！');
             
         } else {
             $db->admin_record($admin_id,' 修改菜单id为 '.$id.' 的信息',2);
-
             //跳转
             jump($_SESSION['url'],'修改成功！');
 

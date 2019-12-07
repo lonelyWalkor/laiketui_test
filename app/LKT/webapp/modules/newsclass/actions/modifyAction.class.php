@@ -18,7 +18,6 @@ class modifyAction extends Action {
 
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        // 接收分类id
         $cat_id = intval($request->getParameter("cat_id"));
         // 根据分类id,查询新闻分类表
         $sql = "select * from lkt_news_class where cat_id = '$cat_id'";
