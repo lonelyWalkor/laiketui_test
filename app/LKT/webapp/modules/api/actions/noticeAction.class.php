@@ -20,17 +20,11 @@ class noticeAction extends BaseAction {
         }else{
             $con= '1=1 order by time desc';
         }
-        // 获取信息
-        $sql = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
         
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+        $uploadImg_domain = $appConfig['uploadImgUrl'];
+
         $sql = "select * from lkt_set_notice where $con";
         $r = $db->select($sql);
         if(!empty($r)){
