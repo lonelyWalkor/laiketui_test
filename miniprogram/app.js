@@ -12,7 +12,6 @@ App({
     h_color: '#FF63477',
     order: {},
     ceshiUrl: util.getUri(),
-    // ceshiUrl: 'https://xiaochengxu.laiketui.com/open/LKT/index.php?module=api&software_name=3&edition=1.0',
     titlee: '',
     bgcolor: '',
 

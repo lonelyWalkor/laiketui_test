@@ -19,8 +19,6 @@ class piAction extends Action {
         $this->execute();
     }
 
-
-
     public function execute(){
         $request = $this->getContext()->getRequest();
         $methodName = addslashes(trim($request->getParameter('m'))); //调用哪个方法

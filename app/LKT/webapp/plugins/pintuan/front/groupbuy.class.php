@@ -8,6 +8,10 @@
 
  */
 
+/**
+ * 插件拼团测试类
+ * execute是默认方法
+ */
 class groupbuy {
 
     public function execute() {
