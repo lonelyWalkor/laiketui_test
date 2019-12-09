@@ -54,8 +54,6 @@ class PluginAction {
         $array['appid'] = $appid;
         $array['appsecret'] = $appsecret;
 
-
-
         return $array;
     }
 

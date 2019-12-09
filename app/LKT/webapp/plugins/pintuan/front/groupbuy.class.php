@@ -104,6 +104,42 @@ class groupbuy extends PluginAction {
         }
     }
 
+
+    public function morepro() {
+        $db = DBAction::getInstance();
+        $page = addslashes($_REQUEST['page']);
+        $groupid = addslashes(trim($_REQUEST['groupid']));
+        
+        $total = $page*8;
+        $sql = "select min(attr_id) as attr_id,product_id,min(group_price) group_price,min(group_id) group_id,min(pro_name) pro_name,min(image) image,min(market_price) market_price from lkt_group_product where group_id='$groupid' group by product_id limit $total,8";
+        $res = $db -> select($sql);
+        
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+
+     	if(!empty($res)){
+	        $groupid = $res[0] -> group_id;
+	        $sqlsum = "select sum(m.num) as sum,m.p_id from (select o.num,d.p_id from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.pid='$groupid' and o.status>0) as m group by m.p_id"; 
+	        $ressum = $db -> select($sqlsum);
+        
+	        foreach ($res as $k => $v) {
+	            $v -> sum = 0;
+	            $res[$k] = $v;
+	            $res[$k] -> imgurl = $img.$v -> image;
+	            if(!empty($ressum)){
+	                foreach ($ressum as $ke => $val) {
+	                    if($val -> p_id == $v -> product_id){
+	                       $res[$k] -> sum = $val -> sum;
+	                    }
+	                }
+	            }  
+	        }     
+        echo json_encode(array('code' => 1,'list' => $res));exit;
+     }else{
+        echo json_encode(array('code' => 1,'list' => false));exit;
+     }
+    } 
+
 }
 
 ?>
