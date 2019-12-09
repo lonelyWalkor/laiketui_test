@@ -20,14 +20,14 @@ class groupbuy extends PluginAction {
 
     public function grouphome(){
         $db = DBAction::getInstance();
-        $sort = addslashes(trim($this->getParameter('sort'))); // 排序方式  1 asc 升序   0 desc 降序
+        $sort = addslashes(trim($_REQUEST['sort'])); // 排序方式  1 asc 升序   0 desc 降序
         if($sort){
              $sort = SORT_ASC ; 
         }else{
              $sort = SORT_DESC ; 
         }
 
-        $select = addslashes(trim($this->getParameter('select'))); //  选中的方式 0 默认  1 销量   2价格
+        $select = addslashes(trim($_REQUEST['select'])); //  选中的方式 0 默认  1 销量   2价格
         if($select == 0){
             $select = 'id'; 
             $sort = SORT_DESC ; 
@@ -42,7 +42,7 @@ class groupbuy extends PluginAction {
         
         $pagesize =  10;
         // 每页显示多少条数据
-        $page = addslashes($this->getParameter('page'));
+        $page = addslashes($_REQUEST['page']);
         if ($page) {
             $start = ($page - 1) * $pagesize;
         } else {
