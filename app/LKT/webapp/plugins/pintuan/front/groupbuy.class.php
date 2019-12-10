@@ -511,7 +511,7 @@ class groupbuy extends PluginAction {
     }
 
     public function payfor(){
-        
+
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $uid = addslashes(trim($request->getParameter('uid')));
@@ -646,6 +646,102 @@ class groupbuy extends PluginAction {
         echo json_encode(array('is_add' => $arr['addemt'],'buymsg' => $arr['adds'],'proattr' => $attrres,'money' => $money,'user_name' => $user_name,'groupres' => $groupres,'isself' => $is_self,'yunfei' => $yunfei,'dat'=>$dat));exit;
 
     }
+
+
+    public function creatgroup(){
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        $uid = addslashes(trim($request->getParameter('uid')));
+        $form_id = addslashes(trim($request->getParameter('fromid')));
+        $pro_id = intval(trim($request->getParameter('pro_id')));//商品ID
+        $man_num =  intval(trim($request->getParameter('man_num')));
+        $time_over = addslashes(trim($request->getParameter('time_over')));
+        $sizeid = intval(trim($request->getParameter('sizeid')));//规格id
+        $groupid = addslashes(trim($request->getParameter('groupid')));
+        $pro_name = addslashes(trim($request->getParameter('ptgoods_name')));
+        $price = (float)(trim($request->getParameter('price')));
+        $y_price = (float)(trim($request->getParameter('d_price')));
+        $name = addslashes(trim($request->getParameter('name')));
+        $sheng = intval(trim($request->getParameter('sheng')));
+        $shi = intval(trim($request->getParameter('shi')));
+        $quyu = intval(trim($request->getParameter('quyu')));
+        $address = addslashes(trim($request->getParameter('address')));
+        $tel = addslashes(trim($request->getParameter('tel')));
+        $lack = intval(trim($request->getParameter('lack')));
+        $buy_num = intval(trim($request->getParameter('num')));
+        $paytype = addslashes(trim($request->getParameter('paytype')));
+        $trade_no = addslashes(trim($request->getParameter('trade_no')));
+        $status = intval(trim($request->getParameter('status')));
+        $ordstatus = $status == 1?9:0;
+        $db->begin();
+        $num = substr(time(),5).mt_rand(10000,99999);
+        $num1 = 'KT'.$num;
+        $sql_user = "select count(id) as a from lkt_order where sNo = '$num1'";
+        $ordernum = 'PT'.mt_rand(10000,99999).date('Ymd').substr(time(),5);
+        $n = $db->select($sql_user);
+        $aa = $n[0]->a ;
+        do {
+          $group_num = 'KT'.$num;
+        } while ($aa > 0);
+
+        $creattime = date('Y-m-d H:i:s');
+        $time_over = explode(':', $time_over);
+        $time_over = date('Y-m-d H:i:s',$time_over[0]*3600 + $time_over[1]*60 + time());
+        //运费
+        $freight = $this ->friends($pro_id,$sheng,$buy_num);
+        if($freight == -1){
+            $freight  = 0;
+        }
+        $pro_size = $db -> select("select attribute from lkt_configure where id=$sizeid");
+       //写入配置
+        $attribute = unserialize($pro_size[0]->attribute);
+        $size = '';
+        foreach ($attribute as $ka => $va) {
+              $size .= $va.' ';
+        }
+
+        $istsql1 = "insert into lkt_group_open(uid,ptgoods_id,ptcode,ptnumber,addtime,endtime,ptstatus,group_id,sNo) values('$uid',$pro_id,'$group_num',1,'$creattime','$time_over',$status,'$groupid','$ordernum')";
+        $res1 = $db -> insert($istsql1);
+
+        $nu = $db -> update("update lkt_product_list set volume=volume+$buy_num,num=num-$buy_num where id='$pro_id'");
+        $nu11 = $db -> update("update lkt_configure set num=num-$buy_num where id='$sizeid'");//改变库存和销量
+
+        if($res1 < 1){
+            $db->rollback();
+            echo json_encode(array('code' => 0,'sql'=>$istsql1));exit;
+        }
+        
+
+        $user_id = $db -> select("select user_id from lkt_user where wx_id='$uid' ");
+        $uid = $user_id[0] -> user_id;
+        $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,status,otype,ptcode,pid,ptstatus,trade_no,source) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime',$ordstatus,'pt','$group_num','$groupid',$status,'$trade_no','1')";
+        $res2 = $db -> insert($istsql2);
+        if($res2 < 1){
+            $db->rollback();
+            echo json_encode(array('code' => 0,'sql'=>$istsql2));exit;
+        }
+        
+
+        $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid,freight) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime','$ordstatus','$size',$sizeid,'$freight')";
+        $res3 = $db -> insert($istsql3);
+        if($res3 < 1){
+            $db->rollback();
+            echo json_encode(array('code' => 0,'sql'=>$istsql3));exit;
+        }
+               
+        
+        $idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
+        if(!empty($idres)) $idres = $idres[0] -> id;
+        if($res1 > 0 && $res2 > 0 && $res3 > 0){
+            $db->commit();
+            echo json_encode(array('order' => $ordernum,'gcode' => $group_num,'group_num' => $group_num,'id' => $idres,'code' => 1));exit;
+        }else{
+            $db->rollback();
+            echo json_encode(array('code' => 0));exit;
+        }
+        
+       
+    } 
 
 }
 
