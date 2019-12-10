@@ -18,6 +18,14 @@ require_once(MO_WEBAPP_DIR."/plugins/PluginAction.class.php");
 
 class groupbuy extends PluginAction {
 
+    //默认执行方法
+    public function execute() {
+        $request = $this->getContext()->getRequest();
+        $test = addslashes(trim($request->getParameter('oh'))); //调用哪个方法
+        echo $test;
+        return ;
+    }
+
     public function grouphome(){
         $db = DBAction::getInstance();
         $sort = addslashes(trim($_REQUEST['sort'])); // 排序方式  1 asc 升序   0 desc 降序

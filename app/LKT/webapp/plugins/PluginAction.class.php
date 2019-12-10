@@ -16,6 +16,13 @@ require_once(MO_LIB_DIR . '/Tools.class.php');
 */
 class PluginAction {
 
+    public $context = null;
+
+    function __construct($context)
+    {
+        $this->context = $context;
+    }
+
     //默认执行方法
     public function execute() {
         echo "hello";
@@ -55,6 +62,13 @@ class PluginAction {
         $array['appsecret'] = $appsecret;
 
         return $array;
+    }
+
+    public function getContext ()
+    {
+
+        return $this->context;
+
     }
 
     
