@@ -510,6 +510,143 @@ class groupbuy extends PluginAction {
 
     }
 
+    public function payfor(){
+        
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        $uid = addslashes(trim($request->getParameter('uid')));
+        $oid = addslashes(trim($request->getParameter('oid')));
+        $num = addslashes(trim($request->getParameter('num')));
+        $groupid = addslashes(trim($request->getParameter('groupid')));
+        $sizeid = intval(trim($request->getParameter('sizeid')));
+
+         // 根据用户id,查询开团数
+        $r_a1 = $db->select('select * from lkt_group_config');
+        if($r_a1){
+           $dat['open_num'] =$r_a1[0]->open_num;//开团人数 
+           $dat['can_num'] =$r_a1[0]->can_num;//参团人数 
+        }else{
+            $dat['open_num'] =10;//设置的开团数 
+           $dat['can_num'] =10;//设置的参团数 
+        }
+        $r_a2 = $db->selectrow("select id from lkt_group_open where uid='$uid' and ptstatus = 1 ");
+        $r_a3 = $db->selectrow("select id from lkt_order where uid=(select user_id from lkt_user where wx_id='$uid' and ptstatus = 1 ");
+        if($r_a2){
+            $dat['num'] = $r_a2;
+        }else{
+             $dat['num'] = 0;//自己已开团数
+        }
+        if($r_a2){
+            $dat['cnum'] = $r_a3;
+        }else{
+             $dat['cnum'] = 0;//自己已参团数
+        }
+        // 根据用户id,查询收货地址
+        $sql_a = 'select * from lkt_user_address where uid=(select user_id from lkt_user where wx_id="'.$uid.'") and is_default = 1';
+        $r_a = $db->select($sql_a);
+        if($r_a){
+            $arr['addemt']=0; // 有收货地址
+            // 根据用户id、默认地址,查询收货地址信息
+             $arr['adds'] =!empty($r_a)?(array)$r_a['0']:array(); // 收货地址
+        }else{
+            $arr['addemt']=1; // 没有收货地址
+            $arr['adds'] = ''; // 收货地址
+        }
+        
+        $attrsql = "select m.*,l.product_title as pro_name ,l.freight from (select c.attribute,c.img as image,g.*,c.num,c.price from lkt_group_product as g left join lkt_configure as c on g.attr_id=c.id where g.group_id='$groupid' and g.attr_id=$sizeid) as m left join lkt_product_list as l on m.product_id=l.id";
+        $attrres = $db -> select($attrsql);
+
+        list($attrres) = $attrres;
+
+        //团长价与参团价
+          $group_level = unserialize($attrres -> group_level);
+          foreach ($group_level as $k_ => $v_){
+                $biliArr = explode('~',$v_);
+                $man_num = $k_;
+
+                $nn= $db -> select("select open_discount from lkt_group_config where id =1");
+                if($nn){
+                    $open_discount = $nn[0]->open_discount;//是否开启团长优惠，开启就显示团长价格，未开启就显示拼团价
+                    if($open_discount == 1){//开启
+                            $openmoney =($biliArr[1]*$attrres->price)/100;//开团 人价格
+                    }else{                
+                            $openmoney =($biliArr[0]*$attrres->price)/100;//开团 人价格
+                    }
+                }else{                
+                            $openmoney =($biliArr[0]*$attrres->price)/100;//开团 人价格
+                    }
+                
+
+            }
+               
+                $canmoney =$biliArr[0]*$attrres->price/100;//参团 人价格
+                $attrres->group_price = sprintf("%.2f", $canmoney);  //拼团价格
+                $attrres->member_price =sprintf("%.2f", $openmoney);//团长价格
+        //计算运费
+        $yunfei = 0;
+        $yunfei = $yunfei + $this->freight1($attrres->freight,$num,$arr['adds'],$db);
+        $attribute = unserialize($attrres->attribute);
+        $size = '';
+        foreach ($attribute as $ka => $va) {
+            $size .= ' '.$va;
+        }
+        $attrres->size = $size;
+
+        // 查询系统参数
+        $sql1 = "select * from lkt_config where id = 1";
+        $r_1 = $db->select($sql1);
+        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
+        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
+        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
+            $img = $uploadImg_domain . $uploadImg; // 图片路径
+        }else{ // 不存在
+            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
+        }
+        $attrres -> image = $img.$attrres -> image;
+
+        $moneysql = 'select user_id,user_name,money from lkt_user where wx_id="'.$uid.'" ';
+        $moneyres = $db -> select($moneysql);
+        
+        if(!empty($moneyres)){
+            list($moneyres) = $moneyres;
+            $money = $moneyres -> money;
+            $user_name = $moneyres -> user_name;
+            $userid = $moneyres -> user_id;
+        }
+        $selfsql = "select count(*) as isset from lkt_order where user_id='$userid' and ptcode='$oid'";
+        $is_self = $db -> select($selfsql);
+        $is_self = $is_self[0] -> isset;
+        
+        $groupsql = "select * from lkt_group_config ";
+        $groupres = $db -> select($groupsql);
+        if(!empty($groupres)){
+            $groupres[0]->groupnum=$groupres[0]->can_num;//可同时进行的参团数
+            $groupres[0]->man_num=$man_num;//拼团人数
+            $groupres[0]->status=$groupid;//活动编号
+            $groupres[0]->time_over=$groupres[0]->group_time.":0";//活动时限
+            list($groupres) = $groupres;
+        }else{
+
+            $groupres[0] = new stdClass();
+            $groupres[0]->groupnum = '10';//可同时进行的参团数
+            $groupres[0]->man_num=$man_num;//拼团人数
+            $groupres[0]->status=$groupid;//活动编号
+            $groupres[0]->time_over="1:0";//活动时限
+            list($groupres) = $groupres;
+        }
+
+        $havesql = "select count(*) as have from lkt_order where pid='$groupid' and user_id='$userid' and ptstatus=1";
+        $haveres = $db -> select($havesql);
+        
+        if(!empty($haveres)){
+           $have = $haveres[0] -> have;
+        }
+        $attrres -> have = $have;
+        
+        echo json_encode(array('is_add' => $arr['addemt'],'buymsg' => $arr['adds'],'proattr' => $attrres,'money' => $money,'user_name' => $user_name,'groupres' => $groupres,'isself' => $is_self,'yunfei' => $yunfei,'dat'=>$dat));exit;
+
+    }
+
 }
 
 ?>
