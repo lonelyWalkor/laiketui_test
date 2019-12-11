@@ -580,16 +580,9 @@ class groupbuy extends PluginAction {
         }
         $attrres->size = $size;
 
-        // 查询系统参数
-        $sql1 = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql1);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+
         $attrres -> image = $img.$attrres -> image;
 
         $moneysql = 'select user_id,user_name,money from lkt_user where wx_id="'.$uid.'" ';
@@ -962,13 +955,13 @@ class groupbuy extends PluginAction {
         $ordstatus = $status == 1?9:0;
 
         $creattime = date('Y-m-d H:i:s');
-              $pro_size = $db -> select("select attribute from lkt_configure where id=$sizeid");
+        $pro_size = $db -> select("select attribute from lkt_configure where id=$sizeid");
        //写入配置
-                    $attribute = unserialize($pro_size[0]->attribute);
-                    $pro_size = '';
-                    foreach ($attribute as $ka => $va) {
-                        $pro_size .= $va.' ';
-                    }
+        $attribute = unserialize($pro_size[0]->attribute);
+        $pro_size = '';
+        foreach ($attribute as $ka => $va) {
+            $pro_size .= $va.' ';
+        }
         $selsql = "select ptnumber,ptstatus,endtime from lkt_group_open where group_id='$groupid' and ptcode='$oid'";
         $selres = $db -> select($selsql);
         if(!empty($selres)){
@@ -979,41 +972,39 @@ class groupbuy extends PluginAction {
         $ordernum = 'PT'.mt_rand(10000,99999).date('Ymd').substr(time(),5);
         $user_id = $db -> select("select user_id from lkt_user where wx_id='$uid' ");
         $uid = $user_id[0] -> user_id;
-        // $freight  =0;
         //运费
         $freight = $this ->friends($pro_id,$sheng,$buy_num);
-       if($endtime >= time()){
-        if(($ptnumber+1) < $man_num){//拼团中，未满
-            
-            $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no,source) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no','1')";
-            $res2 = $db -> insert($istsql2);   
-            if($res2 < 1){
-                $db->rollback();
-                echo json_encode(array('code' => 3,'sql'=>$istsql2));exit;
-            }
+        if($endtime >= time()){
+            if(($ptnumber+1) < $man_num){//拼团中，未满
+                
+                $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no,source) values('$uid','$name','$tel',$buy_num,$price,'$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no','1')";
+                $res2 = $db -> insert($istsql2);   
+                if($res2 < 1){
+                    $db->rollback();
+                    echo json_encode(array('code' => 3,'sql'=>$istsql2));exit;
+                }
 
-            $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid,freight) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime','$ordstatus','$pro_size',$sizeid,'$freight')";   
-            $res3 = $db -> insert($istsql3);
-            $nu = $db -> update("update lkt_product_list set volume=volume+$buy_num,num=num-$buy_num where id='$pro_id'");
-         $nu11 = $db -> update("update lkt_configure set num=num-$buy_num where id='$sizeid'");//改变库存和销量
-            if($res3 < 1){
-                $db->rollback();
-                echo json_encode(array('code' => 3,'sql'=>$istsql3));exit;
-            }
+                $istsql3 = "insert into lkt_order_details(user_id,p_id,p_name,p_price,num,r_sNo,add_time,r_status,size,sid,freight) values('$uid',$pro_id,'$pro_name',$y_price,$buy_num,'$ordernum','$creattime','$ordstatus','$pro_size',$sizeid,'$freight')";   
+                $res3 = $db -> insert($istsql3);
+                $nu = $db -> update("update lkt_product_list set volume=volume+$buy_num,num=num-$buy_num where id='$pro_id'");
+                $nu11 = $db -> update("update lkt_configure set num=num-$buy_num where id='$sizeid'");//改变库存和销量
+                if($res3 < 1){
+                    $db->rollback();
+                    echo json_encode(array('code' => 3,'sql'=>$istsql3));exit;
+                }
 
-            $updsql = "update lkt_group_open set ptnumber=ptnumber+1 where group_id='$groupid' and ptcode='$oid'";
-            $updres = $db -> update($updsql);
-            if($updres < 1){
-                $db->rollback();
-                echo json_encode(array('code' => 3,'sql'=>$updsql));exit;
-            }
+                $updsql = "update lkt_group_open set ptnumber=ptnumber+1 where group_id='$groupid' and ptcode='$oid'";
+                $updres = $db -> update($updsql);
+                if($updres < 1){
+                    $db->rollback();
+                    echo json_encode(array('code' => 3,'sql'=>$updsql));exit;
+                }
 
-            $db->commit();
-            $idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
+                $db->commit();
+                $idres = $db -> select("select id from lkt_order where sNo='$ordernum'");
                 if(!empty($idres)) $idres = $idres[0] -> id;
-           
-              echo json_encode(array('order' => $ordernum,'gcode' => $oid,'group_num' => $oid,'ptnumber' => $ptnumber, 'id' => $idres,'endtime' => $endtime,'code' => 1));exit;
-
+               
+                echo json_encode(array('order' => $ordernum,'gcode' => $oid,'group_num' => $oid,'ptnumber' => $ptnumber, 'id' => $idres,'endtime' => $endtime,'code' => 1));exit;
 
         }else if(($ptnumber+1) === $man_num){//拼团正好满
             $istsql2 = "insert into lkt_order(user_id,name,mobile,num,z_price,sNo,sheng,shi,xian,address,pay,add_time,otype,ptcode,pid,ptstatus,status,trade_no,source) values('$uid','$name','$tel',$buy_num,'$price','$ordernum',$sheng,$shi,$quyu,'$address','$paytype','$creattime','pt','$oid','$groupid',$status,$ordstatus,'$trade_no','1')";
@@ -1146,16 +1137,8 @@ class groupbuy extends PluginAction {
         $res = $db -> select($sql);
         
 
-        // 查询系统参数
-        $sql1 = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql1);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
         
         
         foreach ($res as $k => $v) {
@@ -1200,16 +1183,9 @@ class groupbuy extends PluginAction {
         $sql = "select m.*,c.img from (select o.user_id,o.ptcode,o.sNo,o.ptstatus,o.z_price,o.name,o.add_time,o.sheng,o.shi,o.xian,o.address,o.mobile,o.status,o.num,d.p_name,d.p_price,d.deliver_time,d.arrive_time,d.sid,d.express_id,d.courier_num from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where o.pid='$groupid' and o.sNo='$oid') as m left join lkt_configure as c on m.sid=c.id";
         $res = $db -> select($sql);
         
-        // 查询系统参数
-        $sql1 = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql1);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+        
         $address = array();
         if(!empty($res)) {
             $res = $res[0];
