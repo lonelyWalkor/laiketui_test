@@ -418,18 +418,11 @@ class groupbuy extends PluginAction {
         $checked = intval($request->getParameter('checked'));
 
         $page = $page*8;
-        // 查询系统参数
-        $sql1 = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql1);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
-            $condition = '';
-            switch ($checked) {
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+
+        $condition = '';
+        switch ($checked) {
                 case 1:
                     $condition .= " and a.CommentType='GOOD'";
                     break;
@@ -442,19 +435,16 @@ class groupbuy extends PluginAction {
                 default:
                     $condition = '';
                     break;
-            }
-        
+        }
         
         //查询此商品评价记录
         $sql_c = "select a.id,a.add_time,a.content,a.CommentType,a.size,m.user_name,m.headimgurl from lkt_comments AS a LEFT JOIN lkt_user AS m ON a.uid = m.user_id where a.pid = '$pid'".$condition." limit $page,8";
-
-            $r_c = $db->select($sql_c);
-            $arr=[];
-          if(!empty($r_c)){
+        $r_c = $db->select($sql_c);
+        $arr=[];
+        if(!empty($r_c)){
             foreach ($r_c as $key => $value) {
                 $va = (array)$value;
                 $va['time'] = substr($va['add_time'],0,10);
-                //-------------2018-05-03  修改  作用:返回评论图片
                 $comments_id = $va['id'];
                 $comments_sql = "select comments_url from lkt_comments_img where comments_id = '$comments_id' ";
                 $comment_res = $db->select($comments_sql);
@@ -468,7 +458,6 @@ class groupbuy extends PluginAction {
                     }
                     $va['images'] = $array_c;
                 }
-                //-------------2018-07-27  修改
                 $ad_sql = "select content from lkt_reply_comments where cid = '$comments_id' and uid = 'admin' ";
                 $ad_res = $db->select($ad_sql);
                 if($ad_res){
@@ -487,6 +476,7 @@ class groupbuy extends PluginAction {
       }else{
         echo json_encode(array('comment' =>false));exit;
       }
+
     }
     
     public function getformid(){
@@ -494,7 +484,6 @@ class groupbuy extends PluginAction {
         $request = $this->getContext()->getRequest();
         $uid = addslashes(trim($request->getParameter('userid')));
         $formid = addslashes(trim($request->getParameter('from_id')));
-        
         $fromidsql = "select count(*) as have from lkt_user_fromid where open_id='$uid'";
         $fromres = $db -> select($fromidsql);
         $fromres = intval($fromres[0] -> have);
@@ -519,7 +508,6 @@ class groupbuy extends PluginAction {
         $num = addslashes(trim($request->getParameter('num')));
         $groupid = addslashes(trim($request->getParameter('groupid')));
         $sizeid = intval(trim($request->getParameter('sizeid')));
-
          // 根据用户id,查询开团数
         $r_a1 = $db->select('select * from lkt_group_config');
         if($r_a1){
