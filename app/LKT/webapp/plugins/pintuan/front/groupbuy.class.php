@@ -743,6 +743,208 @@ class groupbuy extends PluginAction {
        
     } 
 
+
+    public function can_group(){
+        $db = DBAction::getInstance();
+        $request = $this->getContext()->getRequest();
+        $oid = addslashes(trim($request->getParameter('oid')));
+        $groupid = addslashes(trim($request->getParameter('groupid')));
+        $gid = addslashes(trim($request->getParameter('gid')));
+        $user_id = addslashes(trim($request->getParameter('userid')));
+        
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+
+        $groupmsg = $db -> select("select * from lkt_group_open where ptcode='$oid'");
+        if($user_id && $user_id!='undefined'){
+            $userid = $db -> select("select user_id from lkt_user where wx_id='$user_id' ");
+            $userid = $userid[0] -> user_id;
+            $isrecd = $db -> select("select count(*) as recd from lkt_order where ptcode='$oid' and pid='$groupid' and user_id='$userid'");
+            $recd = $isrecd[0] -> recd;
+        }else{
+            $recd=0;
+        }
+
+        
+        if($recd > 0){
+            $sql = "select m.*,d.p_name,d.p_price,d.sid from (select k.*,p.name,p.num,p.sheng,p.shi,p.xian,p.address,p.mobile,p.status from lkt_group_open as k right join lkt_order as p on k.ptcode=p.ptcode where p.ptcode='$oid' and p.user_id='$userid') as m left join lkt_order_details as d on m.sNo=d.r_sNo";
+            $res = $db -> select($sql);
+       
+        if($res){
+            $ptgoods_id = $res[0]->ptgoods_id;
+            $aa = $db -> select("select group_level from lkt_group_product where group_id='$groupid' and product_id=$ptgoods_id");
+            $res = $res[0];
+            $image = $db -> select("select img,yprice,price from lkt_configure where id=$res->sid");
+            $group_level = unserialize($aa[0] -> group_level);
+            foreach ($group_level as $k_ => $v_){
+                        $biliArr = explode('~',$v_);
+                        $nn1= $db -> select("select open_discount from lkt_group_config where id =1");
+                        if($nn1){
+                            $open_discount = $nn1[0]->open_discount;//是否开启团长优惠，开启就显示团长价格，未开启就显示拼团价
+                            if($open_discount == 1){//开启
+                                    $min_price = $biliArr[1] * $image[0] -> price / 100;//团长价格
+                                    $res -> p_price = sprintf("%.2f", $min_price);
+                            }else{                
+                                    $min_price = $biliArr[0] * $image[0] -> price / 100;//团长价格
+                                    $res -> p_price = sprintf("%.2f", $min_price);
+                            }
+                        }else{                
+                                    $min_price = $biliArr[0] * $image[0] -> price / 100;//团长价格
+                                    $res -> p_price = sprintf("%.2f", $min_price);
+                        }
+
+            }
+                
+            $res -> img = $img.$image[0] -> img;
+            $res -> yprice = $image[0] -> price;
+            $res -> p_price = sprintf("%.2f", $min_price);
+            }else{
+                $res = (object)array();
+            }
+            $res -> isSelf = true;
+         
+         }else{
+            $res = $groupmsg[0];
+            $goodsql = "select z.*,l.product_title as pro_name from (select m.*,c.num,c.img as image,c.yprice,c.price from (select * from lkt_group_product where group_id='$groupid' and product_id=$res->ptgoods_id) as m left join lkt_configure as c on m.attr_id=c.id) as z left join lkt_product_list as l on z.product_id=l.id";
+            $goods = $db -> select($goodsql);
+            $res -> p_name = $goods[0] -> pro_name;
+
+            $res -> yprice = $goods[0] -> price;
+            $res -> price = $goods[0] -> price;
+            $res -> img = $img.$goods[0] -> image;
+            $res -> p_num = $goods[0] -> num;
+            $res -> isSelf = false;
+
+            $group_level = unserialize($goods[0]-> group_level);
+            foreach ($group_level as $k_ => $v_){
+                            $biliArr = explode('~',$v_);
+
+                            $nn1= $db -> select("select open_discount from lkt_group_config where id =1");
+                            if($nn1){
+                                $open_discount = $nn1[0]->open_discount;//是否开启团长优惠，开启就显示团长价格，未开启就显示拼团价
+                                if($open_discount == 1){//开启
+                                        $openmoney =($biliArr[1]*$res -> price)/100;//开团 人价格
+                                        $res -> p_price = sprintf("%.2f", $openmoney);
+                                }else{                
+                                        $openmoney =($biliArr[0]*$res -> price)/100;//开团 人价格
+                                        $res -> p_price = sprintf("%.2f", $openmoney);
+                                }
+                            }else{                
+                                        $openmoney =($biliArr[0]*$res -> price)/100;//开团 人价格
+                                        $res -> p_price = sprintf("%.2f", $openmoney);
+                                }
+                            
+            }
+            $min_price = $biliArr[0] * $res -> price / 100;//拼团价格
+            $res -> gprice = sprintf("%.2f", $min_price);
+         }
+
+        $memsql = "select i.user_id,u.headimgurl from lkt_order as i left join lkt_user as u on i.user_id=u.user_id where i.ptcode='$oid' and i.pid='$groupid'  order by i.id asc";
+        $groupmember = $db -> select($memsql);
+ 
+        $man_num = $db -> select("select * from lkt_group_config where id='1'");//用户参团可购买产品数
+        $is_overdue = is_overdue($db,$groupid);//查询该拼团活动是否过期 1 过期，0 没有
+        if(isset($man_num[0]) && $is_overdue==0){
+                $nn= $man_num[0] -> open_num + $man_num[0] -> can_num;
+               $res -> productnum = $nn;//用户参团可购买产品数
+               $res -> groupmember = $groupmember;
+               $sumsql = "select count(m.sNo) as sum from (select o.sNo from lkt_order as o left join lkt_order_details as d on o.sNo=d.r_sNo where d.p_id='$res->ptgoods_id') as m";
+               $sumres = $db -> select($sumsql);
+               
+               if(!empty($sumres)) $res -> sum = $sumres[0] -> sum;
+                switch ($res -> ptstatus) {
+                    case 1:
+                        $res -> groupStatus = '拼团中';
+                        break;
+                    case 2:
+                        $res -> groupStatus = '拼团成功';
+                        break;
+                    case 3:
+                        $res -> groupStatus = '拼团失败';
+                        break;
+                    default:
+                        $res -> groupStatus = '未付款';
+                        break;
+                }
+                
+                $res -> leftTime = strtotime($res -> endtime) - time();    
+                $sql_size = "select g.*,p.attribute,p.num,p.img,p.yprice,p.price,p.id from lkt_group_product as g left join lkt_configure as p on g.attr_id=p.id where g.product_id = '$gid' and group_id='$groupid'";
+                $r_size = $db->select($sql_size);
+                $skuBeanList = [];
+                $attrList = [];
+                    if ($r_size) {
+                        $attrList = [];
+                        $a = 0;
+                        $attr = [];
+                        foreach ($r_size as $key => $value) {
+                            $tuanzhang = $biliArr[1] * $value->price / 100;//团长价
+                            $value->member_price = sprintf("%.2f", $tuanzhang);
+                            $pin = $biliArr[0] * $value->price / 100;//拼团价
+                            $value->price = sprintf("%.2f", $pin);
+                            
+                            $array_price[$key] = $value->price;
+                            $array_yprice[$key] = $value->price;
+                            $attribute = unserialize($value->attribute);
+                            $attnum = 0;
+                            $arrayName = [];
+                            foreach ($attribute as $k => $v) {
+                                if(!in_array($k, $arrayName)){
+                                    array_push($arrayName, $k);
+                                    $kkk = $attnum++;
+                                    $attrList[$kkk] = array('attrName' => $k,'attrType' => '1','id' => md5($k),'attr' => [],'all'=>[]);
+                                }
+                            }
+                        }
+                        foreach ($r_size as $key => $value) {
+                            $attribute = unserialize($value->attribute);
+                            $attributes = [];
+                            $name = '';
+                            foreach ($attribute as $k => $v) {
+                               $attributes[] = array('attributeId' => md5($k), 'attributeValId' => md5($v));
+                               $name .= $v;
+                            }
+                            $cimgurl = $img.$value->img;
+                            $skuBeanList[$key] = array('name' => $name,'imgurl' => $cimgurl,'cid' => $value->id,'price' => $value->price,'count' => $value->num,'attributes' => $attributes);
+                            
+                            for ($i=0; $i < count($attrList); $i++) {
+                                $attr = $attrList[$i]['attr'];
+                                $all = $attrList[$i]['all'];
+                                foreach ($attribute as $k => $v) {
+                                    if($attrList[$i]['attrName'] == $k){
+                                        $attr_array = array('attributeId' => md5($k), 'id' =>md5($v), 'attributeValue' => $v, 'enable' => false, 'select' => false);
+                                        if(empty($attr)){
+                                            array_push($attr, $attr_array);
+                                            array_push($all, $v);
+                                        }else{
+                                            if(!in_array($v, $all)){
+                                                array_push($attr, $attr_array);
+                                                array_push($all, $v);
+                                            }
+                                        }
+                                    }
+                                }
+                                $attrList[$i]['all'] =$all;
+                                $attrList[$i]['attr'] =$attr;
+                            }
+                        }
+
+                    }
+
+                $plugsql = "select status from lkt_plug_ins where type = 0 and software_id = 3 and code = 'PT'";
+                $plugopen = $db -> select($plugsql);
+                $plugopen = !empty($plugopen)?$plugopen[0] -> status:0;
+
+                $prostatus = $db -> select("select status from lkt_product_list where id='$gid'");
+                $prostatus = $prostatus[0] -> status;
+                
+                echo json_encode(array('groupmsg' => $res,'groupMember' => $groupmember,'skuBeanList' => $skuBeanList,'attrList' => $attrList,'isplug' => $plugopen,'prostatus' => $prostatus));exit;
+        }else{
+           echo json_encode(array('groupmsg' => 0,'groupMember' => 0,'skuBeanList' => 0,'attrList' => 0,'isplug' => 0));exit; 
+        }
+
+
+    } 
+
 }
 
 ?>
