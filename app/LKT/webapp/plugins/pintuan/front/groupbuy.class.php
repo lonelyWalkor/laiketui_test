@@ -390,14 +390,14 @@ class groupbuy extends PluginAction
                 $idddd = $value->id;
                 $ptcode = $value->ptcode;
                 if ($guigeres->man_num - $value->ptnumber < 1) {
-                    up_su_status($db, $idddd, $ptcode);//过期修改拼团成功订单
+                    $this->up_su_status($db, $idddd, $ptcode);//过期修改拼团成功订单
                     unset($value);
                 } else {
                     $res_kt[$key]->leftTime = strtotime($value->endtime) - time();
                     if (strtotime($value->endtime) - time() > 0) {
                         array_push($groupList, $res_kt[$key]);
                     } else {
-                        up_status($db, $idddd, $ptcode);//过期修改拼团订单
+                        $this->up_status($db, $idddd, $ptcode);//过期修改拼团订单
 
                     }
                 }
@@ -1337,37 +1337,29 @@ class groupbuy extends PluginAction
         $endtime = explode(':', $endtime);
         $endtime = $endtime[0] . '小时' . $endtime[1] . '分钟';
 
-        $sql = "select * from lkt_config where id=1";
+        $opentime = array('value' => $opentime, "color" => "#173177");
+        $f_pname = array('value' => $f_pname, "color" => "#173177");
+        $f_sNo = array('value' => $f_sNo, "color" => "#173177");
+        $f_price = array('value' => $f_price, "color" => "#173177");
+        $endtime = array('value' => $endtime, "color" => "#173177");
+        $sum = array('value' => $sum, "color" => "#173177");
+        $member = array('value' => $member, "color" => "#173177");
+        $tishi = array('value' => '您可以邀请您的好友一起来拼团，邀请的人越多，成功的几率越高哦!', "color" => "#FF4500");
+        $o_data = array('keyword1' => $member, 'keyword2' => $opentime, 'keyword3' => $endtime, 'keyword4' => $f_price, 'keyword5' => $sum, 'keyword6' => $f_sNo, 'keyword7' => $f_pname, 'keyword8' => array('value' => '已开团-待成团', "color" => "#FF4500"), 'keyword9' => $tishi);
+        $AccessToken = $this->getAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' . $AccessToken;
+
+        $sql = "select * from lkt_notice where id = '1'";
         $r = $db->select($sql);
-        if ($r) {
-            $appid = $r[0]->appid; // 小程序唯一标识
-            $appsecret = $r[0]->appsecret; // 小程序的 app secret
+        $template_id = $r[0]->group_pay_success;
 
-            $opentime = array('value' => $opentime, "color" => "#173177");
-            $f_pname = array('value' => $f_pname, "color" => "#173177");
-            $f_sNo = array('value' => $f_sNo, "color" => "#173177");
-            $f_price = array('value' => $f_price, "color" => "#173177");
-            $endtime = array('value' => $endtime, "color" => "#173177");
-            $sum = array('value' => $sum, "color" => "#173177");
-            $member = array('value' => $member, "color" => "#173177");
-            $tishi = array('value' => '您可以邀请您的好友一起来拼团，邀请的人越多，成功的几率越高哦!', "color" => "#FF4500");
-            $o_data = array('keyword1' => $member, 'keyword2' => $opentime, 'keyword3' => $endtime, 'keyword4' => $f_price, 'keyword5' => $sum, 'keyword6' => $f_sNo, 'keyword7' => $f_pname, 'keyword8' => array('value' => '已开团-待成团', "color" => "#FF4500"), 'keyword9' => $tishi);
+        $data = json_encode(array('access_token' => $AccessToken, 'touser' => $openid, 'template_id' => $template_id, 'form_id' => $form_id, 'page' => $page, 'data' => $o_data));
 
-            $AccessToken = $this->getAccessToken($appid, $appsecret);
-            $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' . $AccessToken;
+        $da = $this->httpsRequest($url, $data);
 
-            $sql = "select * from lkt_notice where id = '1'";
-            $r = $db->select($sql);
-            $template_id = $r[0]->group_pay_success;
+        echo json_encode($da);
 
-            $data = json_encode(array('access_token' => $AccessToken, 'touser' => $openid, 'template_id' => $template_id, 'form_id' => $form_id, 'page' => $page, 'data' => $o_data));
-
-            $da = $this->httpsRequest($url, $data);
-
-            echo json_encode($da);
-
-            exit();
-        }
+        exit();
 
     }
 
@@ -1391,45 +1383,30 @@ class groupbuy extends PluginAction
         $minute = ceil(($endtime % 3600) / 60);
         $endtime = $hours . '小时' . $minute . '分钟';
 
-        $sql = "select * from lkt_config where id=1";
+        $opentime = array('value' => $opentime, "color" => "#173177");
+        $f_pname = array('value' => $f_pname, "color" => "#173177");
+        $f_sNo = array('value' => $f_sNo, "color" => "#173177");
+        $f_price = array('value' => $f_price, "color" => "#173177");
+        $endtime = array('value' => $endtime, "color" => "#173177");
+        $sum = array('value' => $sum, "color" => "#173177");
+        $man_num = array('value' => $man_num, "color" => "#173177");
+        $o_data = array('keyword1' => $f_pname, 'keyword2' => $f_price, 'keyword3' => $sum, 'keyword4' => $endtime, 'keyword5' => array('value' => '待成团', "color" => "#FF4500"), 'keyword6' => $opentime, 'keyword7' => $man_num, 'keyword8' => $f_sNo);
+        $AccessToken = $this->getAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' . $AccessToken;
+        $sql = "select * from lkt_notice where id = '1'";
         $r = $db->select($sql);
-        if ($r) {
-            $appid = $r[0]->appid; // 小程序唯一标识
-            $appsecret = $r[0]->appsecret; // 小程序的 app secret
-            $opentime = array('value' => $opentime, "color" => "#173177");
-            $f_pname = array('value' => $f_pname, "color" => "#173177");
-            $f_sNo = array('value' => $f_sNo, "color" => "#173177");
-            $f_price = array('value' => $f_price, "color" => "#173177");
-            $endtime = array('value' => $endtime, "color" => "#173177");
-            $sum = array('value' => $sum, "color" => "#173177");
-            $man_num = array('value' => $man_num, "color" => "#173177");
-            $o_data = array('keyword1' => $f_pname, 'keyword2' => $f_price, 'keyword3' => $sum, 'keyword4' => $endtime, 'keyword5' => array('value' => '待成团', "color" => "#FF4500"), 'keyword6' => $opentime, 'keyword7' => $man_num, 'keyword8' => $f_sNo);
-            $AccessToken = $this->getAccessToken($appid, $appsecret);
-            $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' . $AccessToken;
-            $sql = "select * from lkt_notice where id = '1'";
-            $r = $db->select($sql);
-            $template_id = $r[0]->group_pending;
-            $data = json_encode(array('access_token' => $AccessToken, 'touser' => $openid, 'template_id' => $template_id, 'form_id' => $form_id, 'page' => $page, 'data' => $o_data));
-            $da = $this->httpsRequest($url, $data);
-            echo json_encode($da);
-            exit();
-        }
+        $template_id = $r[0]->group_pending;
+        $data = json_encode(array('access_token' => $AccessToken, 'touser' => $openid, 'template_id' => $template_id, 'form_id' => $form_id, 'page' => $page, 'data' => $o_data));
+        $da = $this->httpsRequest($url, $data);
+        echo json_encode($da);
+        exit();
 
     }
 
     public function Send_success($arr, $endtime, $template_id, $pro_name)
     {
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $sql = "select * from lkt_config where id=1";
-        $r = $db->select($sql);
-        if ($r) {
-            $appid = $r[0]->appid; // 小程序唯一标识
-            $appsecret = $r[0]->appsecret; // 小程序的 app secret
-            $AccessToken = $this->getAccessToken($appid, $appsecret);
-            $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' . $AccessToken;
-
-        }
+        $AccessToken = $this->getAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' . $AccessToken;
 
         foreach ($arr as $k => $v) {
             $data = array();
@@ -1451,32 +1428,6 @@ class groupbuy extends PluginAction
 
 
     }
-
-    function getAccessToken($appID, $appSerect)
-    {
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $appID . "&secret=" . $appSerect;
-        // 时效性7200秒实现
-        // 1.当前时间戳
-        $currentTime = time();
-        // 2.修改文件时间
-        $fileName = "accessToken"; // 文件名
-        if (is_file($fileName)) {
-            $modifyTime = filemtime($fileName);
-            if (($currentTime - $modifyTime) < 7200) {
-                // 可用, 直接读取文件的内容
-                $accessToken = file_get_contents($fileName);
-                return $accessToken;
-            }
-        }
-        // 重新发送请求
-        $result = $this->httpsRequest($url);
-        $jsonArray = json_decode($result, true);
-        // 写入文件
-        $accessToken = $jsonArray['access_token'];
-        file_put_contents($fileName, $accessToken);
-        return $accessToken;
-    }
-
 
     /*
    * 生成随机字符串方法
@@ -1807,6 +1758,42 @@ class groupbuy extends PluginAction
             return 0;
         }
 
+    }
+
+
+    function up_status($db,$id,$ptcode){//过期修改拼团未成功订单
+        $updres = $db -> update("update lkt_group_open set ptstatus=3 where id='$id'");//时间到了拼团未满
+        $updres1 = $db -> update( "update lkt_order set status=11,ptstatus = 3 where ptcode='$ptcode'");//订单状态
+        // echo "update lkt_order set status=10,ptstatus = 3 where pid='$group_id'";
+        $ds =$db -> select("select sNo,z_price,user_id from lkt_order where ptcode='$ptcode'");
+        if($ds){
+            foreach ($ds as $key => $value) {
+                $r_sNo =$value->sNo;
+                $updres2 = $db -> update("update lkt_order_details set r_status=11 where r_sNo='$r_sNo'");//订单详情
+                $db->update("UPDATE lkt_user SET money =money+$value->z_price WHERE user_id = '".$value->user_id."'");
+                $event = $value->user_id.'退回拼团金额'.$value->z_price.'';
+                $sqlldr = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$value->user_id','$value->z_price','','$event',5)";
+
+                // print_r($sqlldr);
+                $beres1 = $db->insert($sqlldr);
+            }
+        }
+
+        return;
+    }
+
+    function up_su_status($db,$id,$ptcode){//过期修改拼团成功订单
+        $updres = $db -> update("update lkt_group_open set ptstatus=2 where id='$id'");//时间到了拼团未满
+        $updres1 = $db -> update( "update lkt_order set status=1,ptstatus = 2 where ptcode='$ptcode'");//订单状态
+        $ds =$db -> select("select sNo from lkt_order where ptcode='$ptcode'");
+        if($ds){
+            foreach ($ds as $key => $value) {
+                $r_sNo =$value->sNo;
+                $updres2 = $db -> update("update lkt_order_details set r_status=1 where r_sNo='$r_sNo'");////订单详情
+                // echo "update lkt_order_details set r_status=1 where r_sNo='$r_sNo''";
+            }
+        }
+        return;
     }
 
 }

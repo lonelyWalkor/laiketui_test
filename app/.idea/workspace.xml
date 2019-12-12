@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc8729d6-df23-4eb0-a394-9673d89caddc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/LKT/webapp/plugins/PluginAction.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/LKT/webapp/plugins/PluginAction.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LKT/webapp/plugins/pintuan/front/groupbuy.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/LKT/webapp/plugins/pintuan/front/groupbuy.class.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,22 +21,22 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="php" value="11" />
+          <entry key="php" value="94" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PHP" value="11" />
+          <entry key="PHP" value="94" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="php" value="3" />
+          <entry key="php" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PHP" value="3" />
+          <entry key="PHP" value="4" />
         </counts>
       </usages-collector>
     </session>
@@ -45,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LKT/webapp/plugins/pintuan/front/groupbuy.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="851" column="23" lean-forward="true" selection-start-line="851" selection-start-column="23" selection-end-line="851" selection-end-column="23" />
+            <state relative-caret-position="158">
+              <caret line="390" column="41" lean-forward="true" selection-start-line="390" selection-start-column="41" selection-end-line="390" selection-end-column="41" />
               <folding>
                 <element signature="e#7#184#0#PHP" expanded="true" />
               </folding>
@@ -57,15 +58,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LKT/webapp/plugins/PluginAction.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-167" />
+            <state relative-caret-position="915">
+              <caret line="67" column="27" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="27" />
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LKT/webapp/modules/api/actions/groupbuyAction.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="972" column="27" selection-start-line="972" selection-start-column="27" selection-end-line="972" selection-end-column="27" />
+            <state relative-caret-position="83">
+              <caret line="493" column="42" lean-forward="true" selection-start-line="493" selection-start-column="42" selection-end-line="493" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -73,8 +76,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LKT/webapp/lib/Timer.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="58" column="4" selection-start-line="58" selection-start-column="4" selection-end-line="72" selection-end-column="5" />
+            <state relative-caret-position="30">
+              <caret line="2" column="25" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -86,6 +89,14 @@
       <find>cangroup</find>
       <find>can_group</find>
       <find>is_overdue</find>
+      <find>getAccessToken</find>
+      <find>up_status</find>
+      <find>up_su_status</find>
+      <find>delkuncun</find>
+      <find>addkuncun</find>
+      <find>guoqi</find>
+      <find>select_num</find>
+      <find>huodongzhuangtai</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -95,6 +106,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/LKT/webapp/lib/Timer.class.php" />
+        <option value="$PROJECT_DIR$/LKT/webapp/plugins/PluginAction.class.php" />
         <option value="$PROJECT_DIR$/LKT/webapp/plugins/pintuan/front/groupbuy.class.php" />
       </list>
     </option>
@@ -135,30 +147,6 @@
               <item name="LKT" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="app" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="LKT" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="LKT" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="LKT" type="462c0819:PsiDirectoryNode" />
-              <item name="webapp" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="actions" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -192,19 +180,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1576137311881</updated>
-      <workItem from="1576137315405" duration="5046000" />
+      <workItem from="1576137315405" duration="6799000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5046000" />
+    <option name="totallyTimeSpent" value="6799000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1324" height="745" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.661562" visible="true" weight="0.2301092" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.661562" visible="true" weight="0.2301092" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" />
@@ -221,7 +209,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="right" id="Structure" order="4" sideWeight="0.33843797" side_tool="true" visible="true" weight="0.10530421" />
+      <window_info active="true" anchor="right" id="Structure" order="4" sideWeight="0.33843797" side_tool="true" visible="true" weight="0.10530421" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,27 +221,29 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/LKT/webapp/plugins/PluginAction.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-167" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LKT/webapp/modules/api/actions/groupbuyAction.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="972" column="27" selection-start-line="972" selection-start-column="27" selection-end-line="972" selection-end-column="27" />
+        <state relative-caret-position="915">
+          <caret line="67" column="27" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LKT/webapp/lib/Timer.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="58" column="4" selection-start-line="58" selection-start-column="4" selection-end-line="72" selection-end-column="5" />
+        <state relative-caret-position="30">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LKT/webapp/modules/api/actions/groupbuyAction.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="83">
+          <caret line="493" column="42" lean-forward="true" selection-start-line="493" selection-start-column="42" selection-end-line="493" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LKT/webapp/plugins/pintuan/front/groupbuy.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="851" column="23" lean-forward="true" selection-start-line="851" selection-start-column="23" selection-end-line="851" selection-end-column="23" />
+        <state relative-caret-position="158">
+          <caret line="390" column="41" lean-forward="true" selection-start-line="390" selection-start-column="41" selection-end-line="390" selection-end-column="41" />
           <folding>
             <element signature="e#7#184#0#PHP" expanded="true" />
           </folding>

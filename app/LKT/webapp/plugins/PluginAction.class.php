@@ -64,6 +64,50 @@ class PluginAction {
         return $array;
     }
 
+    //获取小程序全局唯一后台接口调用凭据
+    function getAccessToken()
+    {
+        $config = $this->getAppInfo();
+        $appID = $config['appid'];
+        $appSerect = $config['appsecret'];
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $appID . "&secret=" . $appSerect;
+        // 时效性7200秒实现
+        // 1.当前时间戳
+        $currentTime = time();
+        // 2.修改文件时间
+        $fileName = "accessToken"; // 文件名
+        if (is_file($fileName)) {
+            $modifyTime = filemtime($fileName);
+            if (($currentTime - $modifyTime) < 7200) {
+                // 可用, 直接读取文件的内容
+                $accessToken = file_get_contents($fileName);
+                return $accessToken;
+            }
+        }
+        // 重新发送请求
+        $result = $this->httpsRequest($url);
+        $jsonArray = json_decode($result, true);
+        // 写入文件
+        $accessToken = $jsonArray['access_token'];
+        file_put_contents($fileName, $accessToken);
+        return $accessToken;
+    }
+
+    function httpsRequest($url, $data = null)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if (!empty($data)) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
+
     public function getContext ()
     {
 
