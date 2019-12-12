@@ -96,7 +96,7 @@ Page({
     })
 
     app.request.wxRequest({
-      url: '&action=groupbuy&m=payfor',
+      url: '&action=pi&p=pintuan&c=groupbuy&m=payfor',
       data: {
         uid: uid,
         sizeid: options.sizeid,
@@ -378,7 +378,7 @@ Page({
       if (address) {
 
         wx.request({
-          url: app.d.ceshiUrl + '&action=groupbuy&m=isgrouppacked',
+          url: app.d.ceshiUrl + '&action=pi&p=pintuan&c=groupbuy&m=isgrouppacked',
           method: 'post',
           data: {
             oid: that.options.oid, // 微信支付  
@@ -448,7 +448,7 @@ Page({
   isgroupfull: function() {
     var that = this
     wx.request({
-      url: app.d.ceshiUrl + '&action=groupbuy&m=isgrouppacked',
+      url: app.d.ceshiUrl + '&action=pi&p=pintuan&c=groupbuy&m=isgrouppacked',
       method: 'post',
       data: {
         oid: that.options.oid, // 微信支付  
@@ -524,7 +524,7 @@ Page({
     var freight = that.data.freight;
     var total = coupon_money * num + freight;
     app.request.wxRequest({
-      url: '&action=groupbuy&m=createGroup',
+      url: '&action=pi&p=pintuan&c=groupbuy&m=createGroup',
       data: {
         uid: app.globalData.userInfo.openid,
         fromid: that.data.form_id,

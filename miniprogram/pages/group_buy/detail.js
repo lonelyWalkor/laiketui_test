@@ -62,7 +62,7 @@ Page({
       console.log('监听成功')
     }
     app.request.wxRequest({
-      url:'&action=groupbuy&m=getgoodsdetail',
+      url:'&action=pi&p=pintuan&c=groupbuy&m=getgoodsdetail',
       data: { gid: gid, group_id: group_id, userid:app.globalData.userInfo.openid},
       method:'post',
       success:function(res){
@@ -555,7 +555,7 @@ Page({
   sendFormid:function(fromid,page){
       var that = this
       app.request.wxRequest({
-        url: '&action=groupbuy&m=getFormid',
+        url: '&action=pi&p=pintuan&c=groupbuy&m=getFormid',
         data: { from_id: fromid, userid: app.globalData.userInfo.openid, page: page},
         method: 'post',
         success:function(){

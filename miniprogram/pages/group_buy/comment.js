@@ -43,7 +43,7 @@ Page({
   onShow: function () {
     var that = this
     app.request.wxRequest({
-      url: '&action=groupbuy&m=getcomment',
+      url: '&action=pi&p=pintuan&c=groupbuy&m=getcomment',
       data: { pid: that.pid, page: that.data.page, checked: that.data.checked },
       method: 'post',
       success: function (res) {
@@ -67,7 +67,7 @@ Page({
   getMore: function () {
     var that = this
     app.request.wxRequest({
-      url: '&action=groupbuy&m=getcomment',
+      url: '&action=pi&p=pintuan&c=groupbuy&m=getcomment',
       data: { pid: that.pid, page: that.data.page, checked: that.data.checked },
       method: 'post',
       success: function (res) {
@@ -131,7 +131,7 @@ Page({
          loading:false
        })
       app.request.wxRequest({
-         url: '&action=groupbuy&m=getcomment',
+        url: '&action=pi&p=pintuan&c=groupbuy&m=getcomment',
          data: { pid: that.pid, page: that.data.page, checked: that.data.checked },
          method: 'post',
          success: function (res) {

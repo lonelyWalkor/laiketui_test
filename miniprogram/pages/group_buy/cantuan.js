@@ -39,7 +39,7 @@ Page({
     options = this.data.options;
     var openid = app.globalData.userInfo.openid;
       app.request.wxRequest({
-        url: '&action=groupbuy&m=cangroup',
+        url: '&action=pi&p=pintuan&c=groupbuy&m=cangroup',
         data: { oid: options.id, groupid: options.groupid, gid: options.pro_id, userid: app.globalData.userInfo.openid },
         method: 'post',
         success: function (res) {
@@ -418,7 +418,7 @@ Page({
   },
   sendFormid: function (fromid, page) {
     app.request.wxRequest({
-      url: '&action=groupbuy&m=getFormid',
+      url: '&action=pi&p=pintuan&c=groupbuy&m=getFormid',
       data: { from_id: fromid, userid: app.globalData.userInfo.openid },
       method: 'post',
       success: function () {

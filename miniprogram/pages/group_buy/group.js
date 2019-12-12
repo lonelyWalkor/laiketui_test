@@ -40,7 +40,7 @@ Page({
     var sort = that.data.sort;
     //ajax请求数据
     wx.request({
-      url: app.d.ceshiUrl + '&action=groupbuy&m=grouphome',
+      url: app.d.ceshiUrl + '&action=pi&p=pintuan&c=groupbuy&m=grouphome',
       method: 'post',
       data: {
         cid: 1,
@@ -213,7 +213,7 @@ Page({
     var page = that.data.page;
     //ajax请求数据
     wx.request({
-      url: app.d.ceshiUrl + '&action=groupbuy&m=grouphome',
+      url: app.d.ceshiUrl + '&action=pi&p=pintuan&c=groupbuy&m=grouphome',
       method: 'post',
       data: {
         cid: 1,
@@ -264,7 +264,7 @@ Page({
     var select = that.data.select;
     var sort = that.data.sort;
     wx.request({
-      url: app.d.ceshiUrl + '&action=groupbuy&m=grouphome',
+      url: app.d.ceshiUrl + '&action=pi&p=pintuan&c=groupbuy&m=grouphome',
       method: 'post',
       data: {
         page: page,
@@ -340,7 +340,7 @@ Page({
     var page = that.data.page;
     //ajax请求数据
     wx.request({
-      url: app.d.ceshiUrl + '&action=groupbuy&m=grouphome',
+      url: app.d.ceshiUrl + '&action=pi&p=pintuan&c=groupbuy&m=grouphome',
       method: 'post',
       data: {
         cid: 1,

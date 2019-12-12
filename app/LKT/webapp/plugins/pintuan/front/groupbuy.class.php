@@ -740,7 +740,7 @@ class groupbuy extends PluginAction
     }
 
 
-    public function can_group()
+    public function cangroup()
     {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
@@ -839,7 +839,7 @@ class groupbuy extends PluginAction
         $groupmember = $db->select($memsql);
 
         $man_num = $db->select("select * from lkt_group_config where id='1'");//用户参团可购买产品数
-        $is_overdue = is_overdue($db, $groupid);//查询该拼团活动是否过期 1 过期，0 没有
+        $is_overdue = $this->is_overdue($db, $groupid);//查询该拼团活动是否过期 1 过期，0 没有
         if (isset($man_num[0]) && $is_overdue == 0) {
             $nn = $man_num[0]->open_num + $man_num[0]->can_num;
             $res->productnum = $nn;//用户参团可购买产品数
@@ -1791,6 +1791,22 @@ class groupbuy extends PluginAction
         } else {
             return 0;
         }
+    }
+
+    function is_overdue($db,$group_id){//查询该拼团活动是否过期 1 过期，0 没有
+        $rrr=$db -> select("select * from lkt_group_product where group_id =$group_id ");
+        $cfg = unserialize($rrr[0]->group_data);
+        $end_time = $cfg->endtime;
+        $data = date('Y-m-d H:i:s', time());
+        if($rrr[0]->recycle ==1){//活动已删除
+            return 1;
+        }
+        if($end_time<$data){
+            return 1;
+        }else{
+            return 0;
+        }
+
     }
 
 }
