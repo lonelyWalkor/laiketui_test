@@ -1102,8 +1102,7 @@ class groupbuy extends PluginAction {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $oid = addslashes(trim($request->getParameter('oid')));
-        $selsql = "select ptnumber from lkt_group_open where ptcode='$oid'";
-        
+        $selsql = "select ptnumber from lkt_group_open where ptcode='$oid'";       
         $selres = $db -> select($selsql);
         if($selres){
             $hasnum = $selres[0] -> ptnumber;
@@ -1119,11 +1118,9 @@ class groupbuy extends PluginAction {
         $request = $this->getContext()->getRequest();
         $uid = addslashes(trim($request->getParameter('uid')));        
         $page = intval(trim($request->getParameter('page')));
-        $cid = intval(trim($request->getParameter('cid')));
-        
+        $cid = intval(trim($request->getParameter('cid')));       
         $pagesize = 5;
-        $msgsta = $page*$pagesize;
-        
+        $msgsta = $page*$pagesize;        
         $condition = '';
         if($cid > 0){
            $condition .= ' and ptstatus='.$cid;
@@ -1134,42 +1131,39 @@ class groupbuy extends PluginAction {
             $groupid = $gmsg[0] -> status;
         }
         $sql = "select i.pro_id,i.ptcode,i.ptordercode,i.ptrefundcode,i.ptgoods_name as name,i.ptstatus,i.per_price as totalPrice,i.orderstatus,c.img from lkt_group_info as i left join lkt_configure as c on i.ptgoods_norm_id=c.id where i.pid='$groupid' and i.uid='$uid'".$condition." limit $msgsta,$pagesize";
-        $res = $db -> select($sql);
-        
-
+        $res = $db -> select($sql);      
         $appConfig = $this->getAppInfo();
         $img = $appConfig['imageRootUrl'];
-        
-        
+              
         foreach ($res as $k => $v) {
             $res[$k] -> groupNum = $man_num;
             $res[$k] -> img = $img.$v -> img;
             $sqlsum = "select count(pid) as sum from lkt_group_info where pid='$groupid' and orderstatus>0 and pro_id='$v->pro_id' group by pro_id";
             $ressum = $db -> select($sqlsum);
             if(!empty($ressum)) $res[$k] -> sum = $ressum[0] -> sum;
-         switch ($v -> orderstatus) {
-            case 0:
-                $res[$k] -> groupStatus = '未付歀';
-                break;
-            case 1:
-                $res[$k] -> groupStatus = '待成团';
-                break;
-            case 2:
-                $res[$k] -> groupStatus = '拼团成功-未发货';
-                break;
-            case 3:
-                $res[$k] -> groupStatus = '拼团成功-已发货';
-                break;
-            case 4:
-                $res[$k] -> groupStatus = '拼团成功-已签收';
-                break;
-            case 5:
-                $res[$k] -> groupStatus = '拼团失败-未退款';
-                break;
-            default:
-                $res[$k] -> groupStatus = '已退款';
-                break;
-         }
+             switch ($v -> orderstatus) {
+                case 0:
+                    $res[$k] -> groupStatus = '未付歀';
+                    break;
+                case 1:
+                    $res[$k] -> groupStatus = '待成团';
+                    break;
+                case 2:
+                    $res[$k] -> groupStatus = '拼团成功-未发货';
+                    break;
+                case 3:
+                    $res[$k] -> groupStatus = '拼团成功-已发货';
+                    break;
+                case 4:
+                    $res[$k] -> groupStatus = '拼团成功-已签收';
+                    break;
+                case 5:
+                    $res[$k] -> groupStatus = '拼团失败-未退款';
+                    break;
+                default:
+                    $res[$k] -> groupStatus = '已退款';
+                    break;
+             }
         }
          
         echo json_encode(array('groupmsg' => $res,'groupid' => $groupid));exit;
@@ -1449,43 +1443,11 @@ class groupbuy extends PluginAction {
             return $accessToken;
     }
 
-    /*
-
-   * 发送请求
-   　@param $ordersNo string 订单号　
-     @param $refund string 退款单号
-     @param $price float 退款金额
-     return array
-   */
-
-    private function wxrefundapi($ordersNo,$refund,$price){
-          //通过微信api进行退款流程
-          $parma = array(
-            'appid'=> 'wx9d12fe23eb053c4f',
-            'mch_id'=> '1499256602',
-            'nonce_str'=> $this->createNoncestr(),
-            'out_refund_no'=> $refund,
-            'out_trade_no'=> $ordersNo,
-            'total_fee'=> $price,
-            'refund_fee'=> $price,
-            'op_user_id' => '1499256602',
-          );
-          $parma['sign'] = $this->getSign($parma);
-          $xmldata = $this->arrayToXml($parma);
-          $xmlresult = $this->postXmlSSLCurl($xmldata,'https://api.mch.weixin.qq.com/secapi/pay/refund');
-          $result = $this->xmlToArray($xmlresult);
-          return $result;
-
-    }
-
-
+    
 
     /*
-
    * 生成随机字符串方法
-
    */
-
     protected function createNoncestr($length = 32 ){
          $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
          $str ="";
@@ -1493,15 +1455,10 @@ class groupbuy extends PluginAction {
             $str.= substr($chars, mt_rand(0, strlen($chars)-1), 1);
          }
          return $str;
-
     }
 
-
-
     /*
-
    * 对要发送到微信统一下单接口的数据进行签名
-
    */
    protected function getSign($Obj){
      foreach ($Obj as $k => $v){
@@ -1541,7 +1498,6 @@ class groupbuy extends PluginAction {
     return $reqPar;
 
   }
-
 
 
   //数组转字符串方法
@@ -1645,7 +1601,6 @@ class groupbuy extends PluginAction {
 
 
         $data = serialize($array);
-
         $sql = "insert into lkt_order_data(trade_no,data,addtime) values('$trade_no','$data',CURRENT_TIMESTAMP)";
         $rid = $db->insert($sql);
 
