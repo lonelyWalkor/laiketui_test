@@ -1621,20 +1621,17 @@ class groupbuy extends PluginAction
 
     //过期修改拼团未成功订单
     function up_status($db,$id,$ptcode){
-        $updres = $db -> update("update lkt_group_open set ptstatus=3 where id='$id'");//时间到了拼团未满
-        $updres1 = $db -> update( "update lkt_order set status=11,ptstatus = 3 where ptcode='$ptcode'");//订单状态
-        // echo "update lkt_order set status=10,ptstatus = 3 where pid='$group_id'";
+        $db -> update("update lkt_group_open set ptstatus=3 where id='$id'");//时间到了拼团未满
+        $db -> update( "update lkt_order set status=11,ptstatus = 3 where ptcode='$ptcode'");//订单状态
         $ds =$db -> select("select sNo,z_price,user_id from lkt_order where ptcode='$ptcode'");
         if($ds){
             foreach ($ds as $key => $value) {
                 $r_sNo =$value->sNo;
-                $updres2 = $db -> update("update lkt_order_details set r_status=11 where r_sNo='$r_sNo'");//订单详情
+                $db -> update("update lkt_order_details set r_status=11 where r_sNo='$r_sNo'");//订单详情
                 $db->update("UPDATE lkt_user SET money =money+$value->z_price WHERE user_id = '".$value->user_id."'");
                 $event = $value->user_id.'退回拼团金额'.$value->z_price.'';
                 $sqlldr = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$value->user_id','$value->z_price','','$event',5)";
-
-                // print_r($sqlldr);
-                $beres1 = $db->insert($sqlldr);
+                $db->insert($sqlldr);
             }
         }
 
@@ -1643,8 +1640,8 @@ class groupbuy extends PluginAction
 
     //过期修改拼团成功订单
     function up_su_status($db,$id,$ptcode){
-        $updres = $db -> update("update lkt_group_open set ptstatus=2 where id='$id'");//时间到了拼团未满
-        $updres1 = $db -> update( "update lkt_order set status=1,ptstatus = 2 where ptcode='$ptcode'");//订单状态
+        $db -> update("update lkt_group_open set ptstatus=2 where id='$id'");//时间到了拼团未满
+        $db -> update( "update lkt_order set status=1,ptstatus = 2 where ptcode='$ptcode'");//订单状态
         $ds =$db -> select("select sNo from lkt_order where ptcode='$ptcode'");
         if($ds){
             foreach ($ds as $key => $value) {
