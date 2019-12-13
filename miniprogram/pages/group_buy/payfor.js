@@ -760,7 +760,7 @@ Page({
   //发送数据到客户微信上
   openGroupNotice: function(order_sn, member, endtime, price, sum, user_id, form_id, f_pname, path) {
     app.request.wxRequest({
-      url: '&action=groupbuy&m=Send_open',
+      url: '&action=pi&p=pintuan&c=groupbuy&m=Send_open',
       method: 'post',
       data: {
         page: path,

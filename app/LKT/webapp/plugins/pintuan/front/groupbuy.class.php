@@ -638,7 +638,7 @@ class groupbuy extends PluginAction
  }
 
 
-    public function creatgroup()
+    public function createGroup()
     {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
