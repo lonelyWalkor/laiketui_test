@@ -18,15 +18,21 @@ class PluginAction {
 
     public $context = null;
 
-    function __construct($context)
+    function __construct($context=null)
     {
         $this->context = $context;
     }
+
 
     //默认执行方法
     public function execute() {
         echo "hello";
         return ;
+    }
+
+    //支付的异步回调函数
+    public function notify($trade_no,$order){
+        return "success";
     }
 
     //封装请求参数方法
