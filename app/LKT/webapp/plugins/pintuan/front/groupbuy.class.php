@@ -8,7 +8,8 @@
 require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
 
 /**
- * 插件拼团测试类
+ * 作者：Ketter
+ * 插件拼团类
  * 请求路径构造
  * http://localhost/open/app/LKT/index.php?module=api&action=pi&p=pintuan&c=groupbuy&m=grouphome&sort=asc&select=0&page=1
  */
