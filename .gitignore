@@ -1,5 +1,7 @@
 .DS_Store
 */.DS_Store
+.idea
+app/.idea/workspace.xml
 app/data/install.lock
 app/install/webapp/_cache/
 app/install/webapp/_compile/
