@@ -1,4 +1,11 @@
 <?php
+/**
+
+ * [Laike System] Copyright (c) 2017-2020 laiketui.com
+
+ * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
+
+ */
 
 define('WEB_PATH', str_replace('\\', "/", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), 'install'))));
 
