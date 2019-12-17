@@ -196,8 +196,6 @@ class Home extends PluginAction
                     }
                 }
 
-                $startdate = date("$year-$month-01 00:00:00", strtotime(date("Y-m-d"))); // 月开始时间
-                $enddate = date('Y-m-d 23:59:59', strtotime("$startdate +1 month -1 day")); // 月结束时间
 
                 $y_time = date('Y', strtotime(date("Y-m-d"))); // 本年年份
                 $m_time = date('m', strtotime(date("Y-m-d"))); // 本月月份
@@ -213,7 +211,6 @@ class Home extends PluginAction
                 $sign_time = [];
                 $sql = "select sign_time from lkt_sign_record where user_id = '$user_id' and sign_time like '$time1%' and type = 0";
                 $r_2 = $db->select($sql);
-                // var_dump($sql,$r_2);
                 if ($r_2) {
                     foreach ($r_2 as $k => $v) {
                         $y = date("Y", strtotime($v->sign_time));
@@ -233,9 +230,7 @@ class Home extends PluginAction
                     echo json_encode(array('status' => 0, 'sign_time' => $sign_time, 'err' => '暂无签到记录！', 'num' => 0, 'details' => $details));
                     exit;
                 }
-                //------------------------
             } else {
-                // $day = 1;
                 echo json_encode(array('status' => 2, 'err' => '活动已结束！'));
                 exit;
             }
@@ -320,9 +315,9 @@ class Home extends PluginAction
                 $sql02 = "update lkt_user set score = score + '$jifen'  where user_id = '$user_id'";
                 $r02 = $db->update($sql02);//好友
                 $sql0001 = "insert into lkt_sign_record (user_id,sign_score,record,sign_time,type) values ('$user_id001','$jifen','转积分给好友','$date_time','3')"; //本人
-                $r0001 = $db->insert($sql0001);
+                $db->insert($sql0001);
                 $sql0002 = "insert into lkt_sign_record (user_id,sign_score,record,sign_time,type) values ('$user_id','$jifen','好友转积分','$date_time','4')";//好友
-                $r0002 = $db->insert($sql0002);
+                $db->insert($sql0002);
                 if ($r01 > 0 && $r02 > 0) {
                     echo json_encode(array('status' => 1, 'err' => '转账成功！'));
                     exit();
