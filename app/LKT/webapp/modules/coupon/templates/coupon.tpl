@@ -49,10 +49,11 @@
     <div class="text-c"> 
         <form name="form1" action="index.php" method="get">
             <input type="hidden" name="module" value="coupon" />
+            <input type="hidden" name="action" value="coupon" />
             <input type="hidden" name="ok" value="1" />
             <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
-            <input type="text" name="name" size='8' value="{$name}" id="name" placeholder="用户id" style="width:200px" class="input-text">
+            <input type="text" name="name" size='8' value="{$name}" id="name" placeholder="用户ID" style="width:200px" class="input-text">
             <input name="" id="" class="btn btn-success" type="submit" value="查询">
             <input type="button" value="重 置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="resetButton()"  />
         </form>
