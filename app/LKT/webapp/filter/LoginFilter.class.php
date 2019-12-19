@@ -30,16 +30,11 @@ class LoginFilter extends Filter {
             if($this->getContext()->getUser()->isAuthenticated()){
 				// 获取管理员id
 				$name = $this->getContext()->getStorage()->read('admin_id');
-                $login_time = $this->getContext()->getStorage()->read('login_time');
-                $caozuo_time = $login_time + 60*5;
-                $time = time();
-
                 $db = DBAction::getInstance();
 
 				$sql = "select * from lkt_admin where name ='$name'";
 				$r = $db->select($sql);
                 $role = $r[0]->role;
-                $status = $r[0]->status;
                 $sql = "select * from lkt_role where id = '$role'";
                 $rr = $db->select($sql);
                 if($rr[0]->permission != ''){
@@ -57,7 +52,7 @@ class LoginFilter extends Filter {
                 }else{
                     $permission = unserialize($rr[0]->permission);
                 }
-                // print_r($permission);die;
+
                 $permission[]="AdminLogin&action=index";
                 $permission[]="index&action=index";
                 $permission[]="end&action=index";
@@ -69,7 +64,6 @@ class LoginFilter extends Filter {
 
                 $res =$request ->parameters; // 获取参数
                 if($res){ // 存在
-                    $module = $res['module']; // 获取module值
                     if(!empty($res['action'])){
                         $rew .= '&action=' . $res['action'];
                     }else{
