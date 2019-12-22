@@ -13,7 +13,7 @@ require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
  * 请求路径构造
  * http://localhost/open/app/LKT/index.php?module=api&action=pi&p=pintuan&c=groupbuy&m=grouphome&sort=asc&select=0&page=1
  */
-class groupbuy extends PluginAction
+class groupbuyAction extends PluginAction
 {
 
     //默认执行方法

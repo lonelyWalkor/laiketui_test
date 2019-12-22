@@ -13,7 +13,7 @@ require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
  * 请求路径构造
  * http://localhost/open/app/LKT/index.php?module=api&action=pi&p=sign&c=Home&m=index
  */
-class Home extends PluginAction
+class HomeAction extends PluginAction
 {
 
     // 点击签到

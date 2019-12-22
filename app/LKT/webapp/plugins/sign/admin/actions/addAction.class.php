@@ -6,14 +6,14 @@
  */
 require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
 
-class add extends PluginAction {
+class addAction extends PluginAction {
 
   public function getDefaultView() {
     $db = DBAction::getInstance();
     $request = $this->getContext()->getRequest();
     $sql = "select * from lkt_config where id = '1'";
     $r = $db->select($sql);
-    
+
 
     return View :: INPUT;
   }
