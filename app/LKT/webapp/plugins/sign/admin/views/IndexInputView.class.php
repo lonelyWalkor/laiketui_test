@@ -7,7 +7,8 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-class IndexInputView extends SmartyView {
+require_once(MO_WEBAPP_DIR . "/plugins/PluginInputView.class.php");
+class IndexInputView extends PluginInputView {
     public function execute() {
 		$request = $this->getContext()->getRequest();
 		$this->setAttribute("uploadImg",$request->getAttribute("uploadImg"));

@@ -26,7 +26,7 @@ class piAction extends Action {
         $pluginName = addslashes(trim($request->getParameter('p'))); //插件名称，文件名
         if($pluginName){
             require_once(MO_WEBAPP_DIR."/plugins/".$pluginName."/front/".$className."Action.class.php");
-            $className = $className."Action";
+            $className = $className.'Action';
             $plugin = new $className($this->getContext());
             if ($methodName) {
                 $plugin->$methodName();

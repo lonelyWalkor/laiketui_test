@@ -1,16 +1,11 @@
 <?php
-
 /**
-
- * [Laike System] Copyright (c) 2018 laiketui.com
-
+ * [Laike System] Copyright (c) 2017-2020 laiketui.com
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
-
  */
+require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
 
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-
-class setscoreAction extends Action {
+class setscoreAction extends PluginAction {
 
 	public function getDefaultView() {
         $db = DBAction::getInstance();

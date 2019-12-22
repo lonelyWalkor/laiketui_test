@@ -1,17 +1,11 @@
 <?php
-
 /**
-
- * [Laike System] Copyright (c) 2018 laiketui.com
-
+ * [Laike System] Copyright (c) 2017-2020 laiketui.com
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
-
  */
-require_once(MO_LIB_DIR . '/DBAction.class.php');
-require_once(MO_LIB_DIR . '/ShowPager.class.php');
-require_once(MO_LIB_DIR . '/Tools.class.php');
+require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
 
-class IndexAction extends Action {
+class IndexAction extends PluginAction {
 
     public function getDefaultView() {
         $db = DBAction::getInstance();
@@ -36,7 +30,7 @@ class IndexAction extends Action {
         }else{
             $activity_overdue = 0;
         }
-        
+
         $sql = "select * from lkt_config where id = '1'";
         $r = $db->select($sql);
         $uploadImg = $r[0]->uploadImg; // 图片上传位置
@@ -52,7 +46,7 @@ class IndexAction extends Action {
             foreach ($r as $k => $v) {
                 $dtime = date("Y-m-d H:i:s");
                 $dtime1 = date('Y-m-d H:i:s',strtotime('-2 day'));//判断过期后多久活动删除
- 
+
                 if($dtime>$v->endtime){//判断该活动是否过期
                     $v->status = '2';
                     if($activity_overdue > 0 && $dtime1>$v->endtime){//过期活动删除
