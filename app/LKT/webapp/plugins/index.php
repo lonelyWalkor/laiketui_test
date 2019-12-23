@@ -18,3 +18,4 @@ function LaikeAuto($class)
 
 spl_autoload_register('LaikeAuto');
 
+//我想在这里做更多的事情，，，，在慢慢构思中
