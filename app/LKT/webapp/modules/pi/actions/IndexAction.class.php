@@ -15,7 +15,7 @@ class IndexAction extends Action {
         $methodName = addslashes(trim($request->getParameter('m'))); //调用哪个方法
         $className = addslashes(trim($request->getParameter('c'))); //调用哪个类文件
         $pluginName = addslashes(trim($request->getParameter('p'))); //插件名称，文件名
-
+        $className = $className==''?"Home":$className;
         $request -> setAttribute("c", $className);
         $request -> setAttribute("p", $pluginName);
 
