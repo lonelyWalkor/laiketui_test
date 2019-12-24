@@ -16,14 +16,14 @@
 <body>
 
 <nav class="breadcrumb">
-    <a href="index.php?module=sign" >签到管理</a> <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=pi&p=sign" >签到管理</a> <span class="c-gray en">&gt;</span>
     签到参数 <span class="c-gray en">&gt;</span> 
     <a href="javascript:history.go(-1)">返回</a>
 </nav>
 
 
 <div class="page-container">
-    <form name="form1" action="index.php?module=sign&action=config" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
+    <form name="form1" action="index.php?module=pi&p=sign&c=config" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
         <input type="hidden" name="plug_ins_id" value="{$plug_ins_id}" >
         <div id="tab-system" class="HuiTab">
             <div class="row cl">

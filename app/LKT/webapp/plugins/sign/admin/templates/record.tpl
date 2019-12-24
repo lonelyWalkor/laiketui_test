@@ -33,7 +33,7 @@
 
 
 <nav class="breadcrumb">
-    <a href="index.php?module=sign" >签到管理</a> <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=pi&p=sign" >签到管理</a> <span class="c-gray en">&gt;</span>
     签到记录 <span class="c-gray en">&gt;</span> 
     <a href="javascript:history.go(-1)">返回</a>
 </nav>
@@ -41,8 +41,8 @@
 
 <div class="pd-20">
     <div class="swivch">
-        <a href="index.php?module=sign" class="btn1">活动列表</a>
-        <a href="index.php?module=sign&action=record" class="btn1" style="background-color: #62b3ff;color: #fff;">签到记录</a>
+        <a href="index.php?module=pi&p=sign" class="btn1">活动列表</a>
+        <a href="index.php?module=pi&p=sign&c=record" class="btn1" style="background-color: #62b3ff;color: #fff;">签到记录</a>
         <div class="clearfix" style="margin-top: 0px;"></div>
     </div>
     <div class="mt-20 text-c">

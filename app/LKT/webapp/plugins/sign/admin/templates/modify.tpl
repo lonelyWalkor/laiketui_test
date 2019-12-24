@@ -15,7 +15,7 @@
 <body>
 
 <nav class="breadcrumb">
-    <a href="index.php?module=sign" >签到管理</a> <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=pi&p=sign" >签到管理</a> <span class="c-gray en">&gt;</span>
     修改活动 <span class="c-gray en">&gt;</span> 
     <a href="javascript:history.go(-1)">返回</a>
 </nav>
@@ -23,7 +23,7 @@
 
 
 <div class="pd-20">
-    <form name="form1" action="index.php?module=sign&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" >
+    <form name="form1" action="index.php?module=pi&p=sign&c=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <input type="hidden" name="id" value="{$id}">
         <input type="hidden" name="uploadImg" value="{$uploadImg}">
         <input type="hidden" name="status" class="status" value="{$status}">

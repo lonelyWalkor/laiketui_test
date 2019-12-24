@@ -18,7 +18,7 @@
    
 
 <nav class="breadcrumb">
-    <a href="index.php?module=sign" >签到管理</a> <span class="c-gray en">&gt;</span> 
+    <a href="index.php?module=pi&p=sign" >签到管理</a> <span class="c-gray en">&gt;</span>
     添加活动 <span class="c-gray en">&gt;</span> 
     <a href="javascript:history.go(-1)">返回</a>
 </nav>
@@ -28,7 +28,7 @@
 
 
     <div class="pd-20">
-        <form name="form1" action="index.php?module=sign&action=add" class="form form-horizontal" method="post"
+        <form name="form1" action="index.php?module=pi&p=sign&c=add" class="form form-horizontal" method="post"
             enctype="multipart/form-data" onsubmit="return check(this)">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>活动图片：</label>

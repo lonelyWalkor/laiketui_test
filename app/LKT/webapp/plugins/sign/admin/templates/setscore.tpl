@@ -65,8 +65,8 @@
 <div class="page-container" style="padding-top: 0px;">
     <div class="swivch" style="margin-bottom: 20px;">
     		
-        <a href="index.php?module=sign" class="btn1">活动列表</a>
-        <a href="index.php?module=sign&action=record" class="btn1">签到记录</a>
+        <a href="index.php?module=pi&p=sign" class="btn1">活动列表</a>
+        <a href="index.php?module=pi&p=sign&c=record" class="btn1">签到记录</a>
         <div class="clearfix" style="margin-top: 5px;"></div>
     </div>
     <form name="form1" action="" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
@@ -246,7 +246,7 @@
          str += '}';
          //console.log(data);
          $.ajax({
-               url:"index.php?module=sign&action=setscore",
+               url:"index.php?module=pi&p=sign&c=setscore",
                type:"post",
                data:{bili:bili,data:str},
                dataType:"json",
