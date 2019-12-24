@@ -114,13 +114,13 @@ class modifyAction extends PluginAction {
         if($r == -1) {
             echo "<script type='text/javascript'>" .
                 "alert('未知原因，活动修改失败！');" .
-                "location.href='index.php?module=sign';</script>";
+                "location.href='index.php?module=pi&p=sign';</script>";
             return $this->getDefaultView();
         } else {
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('活动修改成功！');" .
-                "location.href='index.php?module=sign';</script>";
+                "location.href='index.php?module=pi&p=sign';</script>";
         }
 	}
 

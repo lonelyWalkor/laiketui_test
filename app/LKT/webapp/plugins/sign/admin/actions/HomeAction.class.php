@@ -71,7 +71,7 @@ class HomeAction extends PluginAction {
                 }
             }
         }
-        $url = "index.php?module=sign&action=Index&pagesize=".urlencode($pagesize);
+        $url = "index.php?module=pi&p=sign&c=Home&pagesize=".urlencode($pagesize);
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
 
         $request->setAttribute("uploadImg",$uploadImg);

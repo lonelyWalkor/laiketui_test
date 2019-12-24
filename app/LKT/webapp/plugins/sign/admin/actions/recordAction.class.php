@@ -50,7 +50,7 @@ class recordAction extends PluginAction {
         }else{
             $list = [];
         }
-        $url = "index.php?module=sign&action=record&source=".urlencode($source)."&name=".urlencode($name)."&tel=".urlencode($tel)."&pagesize=".urlencode($pagesize);
+        $url = "index.php?module=pi&p=sign&c=record&source=".urlencode($source)."&name=".urlencode($name)."&tel=".urlencode($tel)."&pagesize=".urlencode($pagesize);
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');
 
         $request->setAttribute("source",$source);

@@ -30,7 +30,7 @@ class delAction extends PluginAction {
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('删除成功！');" .
-                "location.href='index.php?module=sign';</script>";
+                "location.href='index.php?module=pi&p=sign';</script>";
             return;
         }
         
