@@ -60,7 +60,7 @@ class HomeAction extends PluginAction {
                     }
                 }else{
                     if ($v->starttime < $dtime ) {
-                       //更新数据表
+                        //更新数据表
                         $sql02 = "update lkt_sign_activity set status = 1 where id = ".$v->id;
                         $r02 = $db->update($sql02);
                     }
