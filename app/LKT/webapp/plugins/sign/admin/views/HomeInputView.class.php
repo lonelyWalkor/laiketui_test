@@ -14,7 +14,7 @@ class HomeInputView extends PluginInputView {
 		$this->setAttribute("uploadImg",$request->getAttribute("uploadImg"));
         $this->setAttribute("list",$request->getAttribute("list"));
         $this->setAttribute("pages_show",$request->getAttribute("pages_show"));
-		$this->setTemplate("home.tpl");
+        $this->setTemplate("home.tpl");
     }
 }
 ?>

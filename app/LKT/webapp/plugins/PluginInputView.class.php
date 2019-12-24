@@ -36,7 +36,6 @@ class PluginInputView {
     }
 
     public function setTemplate($path) {
-
         $this->view->setTemplate(MO_WEBAPP_DIR."/plugins/".$this->pluginName."/admin/templates/".$path);
     }
 

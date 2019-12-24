@@ -3,7 +3,6 @@
  * [Laike System] Copyright (c) 2017-2020 laiketui.com
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
  */
-
 require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
 
 class HomeAction extends PluginAction {
@@ -66,7 +65,7 @@ class HomeAction extends PluginAction {
                         $r02 = $db->update($sql02);
                     }
                 }
-                // print_r($dtime);die;
+
                 if($v->image == ''){
                     $v->image = 'nopic.jpg';
                 }

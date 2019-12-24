@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -7,10 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-{php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
-
+    {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 <title>活动列表</title>
 {literal}
 <style>
@@ -43,18 +39,18 @@
 <body>
 
 <nav class="breadcrumb">
-    插件管理 <span class="c-gray en">&gt;</span> 
-    签到 <span class="c-gray en">&gt;</span> 
+    插件管理 <span class="c-gray en">&gt;</span>
+    签到 <span class="c-gray en">&gt;</span>
     活动列表
 </nav>
 
 
 <div class="pd-20">
     <div class="swivch">
-    	
+
         <a href="index.php?module=sign" class="btn1" style="background-color: #62b3ff;color: #fff;">活动列表</a>
         <a href="index.php?module=sign&action=record" class="btn1">签到记录</a>
-        
+
         <div class="clearfix" style="margin-top: 0px;"></div>
     </div>
     <div class="mt-20" style="clear:both;">
@@ -87,20 +83,20 @@
                     <td>
                         <a style="text-decoration:none" class="ml-5" href="index.php?module=sign&action=modify&id={$item->id}&uploadImg={$uploadImg}" title="修改">
                         	<div style="align-items: center;font-size: 12px;display: flex;">
-                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+                            	<div style="margin:0 auto;;display: flex;align-items: center;">
                                 <img src="images/icon1/xg.png"/>&nbsp;修改
                             	</div>
             				</div>
                         </a>
-                        
+
                             <a style="text-decoration:none" class="ml-5" href="index.php?module=sign&action=del&id={$item->id}&uploadImg={$uploadImg}" onclick="return confirm('确定要删除此活动吗?')">
                             	<div style="align-items: center;font-size: 12px;display: flex;">
-	                            	<div style="margin:0 auto;;display: flex;align-items: center;"> 
+	                            	<div style="margin:0 auto;;display: flex;align-items: center;">
 	                                <img src="images/icon1/del.png"/>&nbsp;删除
 	                            	</div>
             					</div>
                             </a>
-                        
+
                     </td>
                 </tr>
                 {/foreach}

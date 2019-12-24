@@ -23,7 +23,6 @@ class PluginAction {
         $this->context = $context;
     }
 
-
     //默认执行方法
     public function execute() {
         echo "hello";
