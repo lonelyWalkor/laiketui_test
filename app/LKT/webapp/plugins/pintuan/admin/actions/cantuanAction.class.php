@@ -71,7 +71,7 @@ class cantuanAction extends PluginAction {
             $total = 0;
         }
         $pager = new ShowPager($total,$pagesize,$page);
-        $url = "index.php?module=pi&p=go_group&action=cantuan&user=".urlencode($user)."&status=".urlencode($status)."&product_title=".urlencode($product_title)."&pagesize=".urlencode($pagesize);
+        $url = "index.php?module=pi&p=pintuan&action=cantuan&user=".urlencode($user)."&status=".urlencode($status)."&product_title=".urlencode($product_title)."&pagesize=".urlencode($pagesize);
         $pages_show = $pager->multipage($url,$total,$page,$pagesize,$start,$para = '');// url 总条数 当前页码  每页显示条数 
          $request -> setAttribute('pages_show', $pages_show);//分页
         $request->setAttribute("list", $can_res);

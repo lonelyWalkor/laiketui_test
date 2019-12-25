@@ -205,13 +205,13 @@
          tuanZ1 = JSON.stringify(tuanZ);
          
             $.ajax({
-               url:"index.php?module=pi&p=go_group&c=setpro",
+               url:"index.php?module=pi&p=pintuan&c=setpro",
                type:"post",
                data:{goods_id:goods_id,tuanZ:tuanZ1},
                dataType:"json",
                success:function(data) {
                    if(data.code == 1){
-                   		location.href = 'index.php?module=pi&p=go_group&c=addgroup';
+                   		location.href = 'index.php?module=pi&p=pintuan&c=addgroup';
                    }else{
                     layer.msg('发布失败!');  
                    }

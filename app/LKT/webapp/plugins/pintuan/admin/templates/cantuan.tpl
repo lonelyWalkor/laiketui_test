@@ -66,15 +66,15 @@
 	
 	
 	<div style="margin-top:10px;display: flex;flex-direction: row;">
-		<div class="status qh {if $status == 0}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=index&status=0" onclick="statusclick(0)">全部</a></div>
-		<div class="status qh {if $status == 1}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=index&status=1" onclick="statusclick(1)">未开始</a></div>
-		<div class="status qh {if $status == 2}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=index&status=2" onclick="statusclick(2)">进行中</a></div>
-		<div class="status qh {if $status == 3}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=index&status=3" onclick="statusclick(3)">已结束</a></div>
-		<div class="status qh {if $status == 4}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=kaituan&status=4" onclick="statusclick(4)">开团记录</a></div>
-		<div class="status qh {if $status == 5}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=cantuan&status=5" onclick="statusclick(5)">参团记录</a></div>
+		<div class="status qh {if $status == 0}isclick{/if}"><a href="index.php?module=pi&p=pintuan&c=Home&status=0" onclick="statusclick(0)">全部</a></div>
+		<div class="status qh {if $status == 1}isclick{/if}"><a href="index.php?module=pi&p=pintuan&c=Home&status=1" onclick="statusclick(1)">未开始</a></div>
+		<div class="status qh {if $status == 2}isclick{/if}"><a href="index.php?module=pi&p=pintuan&c=Home&status=2" onclick="statusclick(2)">进行中</a></div>
+		<div class="status qh {if $status == 3}isclick{/if}"><a href="index.php?module=pi&p=pintuan&c=Home&status=3" onclick="statusclick(3)">已结束</a></div>
+		<div class="status qh {if $status == 4}isclick{/if}"><a href="index.php?module=pi&p=pintuan&c=kaituan&status=4" onclick="statusclick(4)">开团记录</a></div>
+		<div class="status qh {if $status == 5}isclick{/if}"><a href="index.php?module=pi&p=pintuan&c=cantuan&status=5" onclick="statusclick(5)">参团记录</a></div>
 	</div>
 	<form name="form1" action="index.php" method="get">
-        <input type="hidden" name="module" value="go_group" />
+        <input type="hidden" name="module" value="pintuan" />
         <input type="hidden" name="action" value="cantuan" />
         <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 		<input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入商品名称" autocomplete="off" style="width:200px" class="input-text">

@@ -149,7 +149,7 @@ class addproductAction extends PluginAction
         }
         
         $pager = new ShowPager($total, $pagesize, $page);
-        $url = "index.php?module=pi&p=go_group&action=addproduct&cid=" . urlencode($product_class) . "&product_title=" . urlencode($product_title) . "&pagesize=" . urlencode($pagesize);
+        $url = "index.php?module=pi&p=pintuan&action=addproduct&cid=" . urlencode($product_class) . "&product_title=" . urlencode($product_title) . "&pagesize=" . urlencode($pagesize);
         $pages_show = $pager->multipage($url, $total, $page, $pagesize, $start, $para = '');
         $brandsql = "select brand_id,brand_name from lkt_brand_class where  recycle = 0";
         $brandres = $db -> select($brandsql);
