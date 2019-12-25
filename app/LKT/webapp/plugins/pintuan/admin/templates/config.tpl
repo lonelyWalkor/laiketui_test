@@ -134,17 +134,17 @@
 	拼团设置
 </nav>
 <div class="swivch page_bgcolor swivch_bot" style="    padding-left: 10px;display: flex;">
-	<a href="index.php?module=go_group&action=index&status=0" class="btn1" style="height: 42px !important">拼团商品</a>
-	<a href="index.php?module=go_group&action=index&status=4" class="btn1" style="height: 42px !important">开团记录</a>
-	<a href="index.php?module=go_group&action=index&status=5" class="btn1" style="height: 42px !important">参团记录</a>
-	<a href="index.php?module=go_group&action=config" class="btn1 active1 swivch_active" style="border-right: 1px solid #ddd!important;width: 112px !important;height: 42px !important;">拼团设置</a>
+	<a href="index.php?module=pi&p=go_group&c=Home&status=0" class="btn1" style="height: 42px !important">拼团商品</a>
+	<a href="index.php?module=pi&p=go_group&c=Home&status=4" class="btn1" style="height: 42px !important">开团记录</a>
+	<a href="index.php?module=pi&p=go_group&c=Home&status=5" class="btn1" style="height: 42px !important">参团记录</a>
+	<a href="index.php?module=pi&p=go_group&c=config" class="btn1 active1 swivch_active" style="border-right: 1px solid #ddd!important;width: 112px !important;height: 42px !important;">拼团设置</a>
 
 	<div class="clearfix" style="margin-top: 0px;"></div>
 </div>
 <div class="page_h16"></div>
 <div class="page-container" style="border-left: #edf1f5 10px solid;">
 
-	<form name="form1" action="index.php?module=go_group&action=config" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
+	<form name="form1" action="index.php?module=pi&p=go_group&c=config" class="form form-horizontal" method="post"   enctype="multipart/form-data" >
 		<div class="config-box">
 {*			<input type="hidden" name="plug_ins_id" value="" placeholder="111" >*}
 			<div id="tab-system" class="HuiTab">

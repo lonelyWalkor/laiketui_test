@@ -8,7 +8,7 @@
 
  */
 
-class setproInputView extends SmartyView {
+class setproInputView extends PluginInputView {
 
     public function execute() {
 

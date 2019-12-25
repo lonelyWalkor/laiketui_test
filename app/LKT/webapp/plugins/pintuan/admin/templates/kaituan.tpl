@@ -103,7 +103,7 @@
 
 <nav class="breadcrumb">
     拼团管理 <span class="c-gray en">&gt;</span> 
-    <a href="index.php?module=go_group">拼团列表</a> <span class="c-gray en">&gt;</span>
+    <a href="index.php?module=pi&p=go_group">拼团列表</a> <span class="c-gray en">&gt;</span>
     开团记录 <span class="c-gray en">&gt;</span>
     <a href="javascript:history.go(-1)">返回</a>
 </nav>
@@ -111,12 +111,12 @@
 
 <div class="page-container pd-20 page_absolute">		
 	<div style="margin-top:10px;display: flex;flex-direction: row;">
-		<div class="status qh {if $status == 0}isclick{/if}"><a href="index.php?module=go_group&action=index&status=0" onclick="statusclick(0)">全部</a></div>
-		<div class="status qh {if $status == 1}isclick{/if}"><a href="index.php?module=go_group&action=index&status=1" onclick="statusclick(1)">未开始</a></div>
-		<div class="status qh {if $status == 2}isclick{/if}"><a href="index.php?module=go_group&action=index&status=2" onclick="statusclick(2)">进行中</a></div>
-		<div class="status qh {if $status == 3}isclick{/if}"><a href="index.php?module=go_group&action=index&status=3" onclick="statusclick(3)">已结束</a></div>
-		<div class="status qh {if $status == 4}isclick{/if}"><a href="index.php?module=go_group&action=kaituan&status=4" onclick="statusclick(4)">开团记录</a></div>
-		<div class="status qh {if $status == 5}isclick{/if}"><a href="index.php?module=go_group&action=cantuan&status=5" onclick="statusclick(5)">参团记录</a></div>
+		<div class="status qh {if $status == 0}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=Home&status=0" onclick="statusclick(0)">全部</a></div>
+		<div class="status qh {if $status == 1}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=Home&status=1" onclick="statusclick(1)">未开始</a></div>
+		<div class="status qh {if $status == 2}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=Home&status=2" onclick="statusclick(2)">进行中</a></div>
+		<div class="status qh {if $status == 3}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=Home&status=3" onclick="statusclick(3)">已结束</a></div>
+		<div class="status qh {if $status == 4}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=kaituan&status=4" onclick="statusclick(4)">开团记录</a></div>
+		<div class="status qh {if $status == 5}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=cantuan&status=5" onclick="statusclick(5)">参团记录</a></div>
 	</div>
 	<div class="text-c" >
         <form name="form1" action="index.php" method="get">
@@ -249,7 +249,7 @@ function resetButton(){
         })
 
         function canprecord(ptcode) {
-            $("#ifm").attr("src","index.php?module=go_group&action=canrecord&ptcode="+ptcode);
+            $("#ifm").attr("src","index.php?module=pi&p=go_group&c=canrecord&ptcode="+ptcode);
             $(".tc-box").show();
         }
         $(".tc-box").click(function () {

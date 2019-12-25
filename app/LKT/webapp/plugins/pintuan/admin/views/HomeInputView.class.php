@@ -7,7 +7,7 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-class HomeInputView extends SmartyView {
+class HomeInputView extends PluginInputView {
     public function execute() {
 		$request = $this->getContext()->getRequest();
 		$this->setAttribute("list",$request->getAttribute("list"));
@@ -27,7 +27,7 @@ class HomeInputView extends SmartyView {
 			header("Content-Disposition: attachment;filename=user-$r.xls");
 			$this->setTemplate("excel.tpl");
 		} else {
-			$this->setTemplate('index.tpl');
+			$this->setTemplate('home.tpl');
 		}
     }
 }

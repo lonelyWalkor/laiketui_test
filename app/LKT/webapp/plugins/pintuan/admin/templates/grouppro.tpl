@@ -274,7 +274,7 @@
             tuan += '}';
 
             $.ajax({
-               url:"index.php?module=go_group&action=modify&set=gpro",
+               url:"index.php?module=pi&p=go_group&c=modify&set=gpro",
                type:"post",
                data:{gprice:str,mprice:tuan},
                dataType:"json",
@@ -284,7 +284,7 @@
                        // window.parent.location.reload();
                        // var index = parent.layer.getFrameIndex(window.name);
                        // parent.layer.close(index);
-                       location.href = 'index.php?module=go_group&action=Index';
+                       location.href = 'index.php?module=pi&p=go_group&c=Home';
                    }
                },
              })
@@ -300,7 +300,7 @@ function system_category_del(obj,id,control){
   layer.confirm('确认要删除吗？',function(index){        
     $.ajax({
       type: "post",
-      url: "index.php?module=go_group&action=modify&set=delpro",
+      url: "index.php?module=pi&p=go_group&c=modify&set=delpro",
       dataType: "json",
       data:{id:id},
       success: function(data){

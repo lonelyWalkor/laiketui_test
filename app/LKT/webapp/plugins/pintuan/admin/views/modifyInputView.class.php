@@ -7,7 +7,7 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-class modifyInputView extends SmartyView {
+class modifyInputView extends PluginInputView {
     public function execute() {
 		$request = $this->getContext()->getRequest();
 		$this->setAttribute("group_data",$request->getAttribute("group_data"));

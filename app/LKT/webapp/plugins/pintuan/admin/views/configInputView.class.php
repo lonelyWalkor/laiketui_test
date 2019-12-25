@@ -8,7 +8,7 @@
 
  */
 
-class configInputView extends SmartyView {
+class configInputView extends PluginInputView {
 
 	
 

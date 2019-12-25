@@ -7,7 +7,7 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
 
  */
-class delInputView extends SmartyView {
+class delInputView extends PluginInputView {
     public function execute() {
 		$request = $this->getContext()->getRequest();
 		

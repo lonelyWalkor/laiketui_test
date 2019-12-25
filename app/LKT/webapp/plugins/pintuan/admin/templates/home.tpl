@@ -185,20 +185,20 @@
 <div class="page-container pd-20 page_absolute">
     <div style="display: flex;flex-direction: row;font-size: 16px;" class="page_bgcolor">
         <div class="status qh {if $status==0}isclick{/if}" style="border-radius: 2px 0px 0px 2px !important;"><a
-                    href="index.php?module=go_group&action=index&status=0" onclick="statusclick(0)">拼团商品</a></div>
-        <div class="status qh {if $status==4}isclick{/if}"><a href="index.php?module=go_group&action=index&status=4"
+                    href="index.php?module=pi&p=go_group&c=Home&status=0" onclick="statusclick(0)">拼团商品</a></div>
+        <div class="status qh {if $status==4}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=Home&status=4"
                                                               onclick="statusclick(4)">开团记录</a></div>
-        <div class="status qh {if $status==5}isclick{/if}"><a href="index.php?module=go_group&action=index&status=5"
+        <div class="status qh {if $status==5}isclick{/if}"><a href="index.php?module=pi&p=go_group&c=Home&status=5"
                                                               onclick="statusclick(5)">参团记录</a></div>
         <div class="status qh {if $status==6}isclick{/if}" style="border-radius: 0px 2px 2px 0px !important;"><a
-                    href="index.php?module=go_group&action=config" onclick="statusclick(5)">拼团设置</a></div>
+                    href="index.php?module=pi&p=go_group&c=config" onclick="statusclick(5)">拼团设置</a></div>
     </div>
     <div class="page_h16"></div>
     <div class="text-c">
         {if  $status==4 || $status==5}
             <form name="form1" action="index.php" method="get" style="display: flex;">
                 <input type="hidden" name="module" value="go_group"/>
-                <input type="hidden" name="action" value="index"/>
+                <input type="hidden" name="action" value="Home"/>
                 <input type="text" name="proname" size='8' value="{$proname}" id="" placeholder="请输入商品名称"
                        style="width:200px" class="input-text">
                 <input type="text" name="username" size='8' value="{$username}" id="" placeholder="请输入会员名称"
@@ -224,7 +224,7 @@
         {else}
             <form name="form1" action="index.php" method="get" style="display: flex;align-items: center;">
                 <input type="hidden" name="module" value="go_group"/>
-                <input type="hidden" name="action" value="index"/>
+                <input type="hidden" name="action" value="Home"/>
                 <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize"/>
                 <input type="text" name="proname" size='8' value="{$proname}" id="" placeholder="请输入商品名称"
                        style="width:200px" class="input-text" autocomplete="off">
@@ -248,7 +248,7 @@
 
         {else}
             <div class="page_h16"></div>
-            <a class="btn newBtn radius" href="index.php?module=go_group&action=addproduct">
+            <a class="btn newBtn radius" href="index.php?module=pi&p=go_group&c=addproduct">
                 <div style="height: 100%;display: flex;align-items: center;">
                     <img src="images/icon1/add.png"/>&nbsp;添加拼团
                 </div>
@@ -485,7 +485,7 @@
                         <td class="tab_editor">
                             <div class="tab_block">
                                 <div>
-                                    <a href="index.php?module=go_group&action=modify&id={$item->group_id}" title="编辑">
+                                    <a href="index.php?module=pi&p=go_group&c=modify&id={$item->group_id}" title="编辑">
 
                                         <img src="images/icon1/ck.png"/>&nbsp;{if $item->g_status==2&&$item->is_show==1}查看{else}编辑{/if}
 
@@ -525,7 +525,7 @@
                                     {/if}
                                     {if $item->g_status!=2}
                                         <a title="删除" href="javascript:;"
-                                           onclick="delgrouppro1(this,{$item->group_id},'index.php?module=go_group&action=member&m=delpro&id=')"
+                                           onclick="delgrouppro1(this,{$item->group_id},'index.php?module=pi&p=go_group&c=member&m=delpro&id=')"
                                            class="ml-5" data-g_status="{$item->g_status}">
 
                                             <img src="images/icon1/del.png"/>&nbsp;删除
@@ -650,11 +650,11 @@
                 type_ = '隐藏';
             }
 
-            var url = 'index.php?module=go_group&action=member&m=contpro&type=' + type + '&id=';
+            var url = 'index.php?module=pi&p=go_group&c=member&m=contpro&type=' + type + '&id=';
             console.log(url);
             confirm_aj(text, id, url, type_);
             return false;
-            $.post("index.php?module=go_group&action=member&m=contpro", {'id': id, 'type': type}, function (res) {
+            $.post("index.php?module=pi&p=go_group&c=member&m=contpro", {'id': id, 'type': type}, function (res) {
                 $(".maskNew").remove();
 
                 if (res.status == 1) {
@@ -735,7 +735,7 @@
                 text = '是否结束所选拼团活动？';
                 type_ = '结束';
             }
-            var url = 'index.php?module=go_group&action=member&m=is_market&type=' + type + '&id=';
+            var url = 'index.php?module=pi&p=go_group&c=member&m=is_market&type=' + type + '&id=';
 
             confirm_aj(text, id, url, type_);
         }
@@ -822,7 +822,7 @@
         })
 
         function canprecord(ptcode) {
-            $("#ifm").attr("src", "index.php?module=go_group&action=canrecord&ptcode=" + ptcode);
+            $("#ifm").attr("src", "index.php?module=pi&p=go_group&c=canrecord&ptcode=" + ptcode);
             $(".tc-box").show();
         }
 

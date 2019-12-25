@@ -8,7 +8,7 @@
 
  */
 
-class addproductInputView extends SmartyView {
+class addproductInputView extends PluginInputView {
 
     public function execute() {
 

@@ -3,7 +3,7 @@
  * [Laike System] Copyright (c) 2017-2020 laiketui.com
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
  */
-require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
+
 
 
 class HomeAction extends PluginAction {
@@ -125,7 +125,7 @@ class HomeAction extends PluginAction {
             
             $total = count($res_all);
             $pager = new ShowPager($total, $pagesize, $page);
-            $url = "index.php?module=go_group&action=index&status=$status&proname=$proname&username=$username&group_num=$group_num&group_status=$group_status&pagesize=" . urlencode($pagesize);
+            $url = "index.php?module=pi&p=go_group&c=index&status=$status&proname=$proname&username=$username&group_num=$group_num&group_status=$group_status&pagesize=" . urlencode($pagesize);
             $pages_show = $pager->multipage($url, $total, $page, $pagesize, $start, $para = '');
             
             $request->setAttribute("list",$res);
@@ -225,7 +225,7 @@ class HomeAction extends PluginAction {
 
         $total = count($res1);  
         $pager = new ShowPager($total, $pagesize, $page);
-        $url = "index.php?module=go_group&action=index&proname=" . urlencode($proname) . "&pagesize=" . urlencode($pagesize);
+        $url = "index.php?module=pi&p=go_group&c=index&proname=" . urlencode($proname) . "&pagesize=" . urlencode($pagesize);
         $pages_show = $pager->multipage($url, $total, $page, $pagesize, $start, $para = '');
         
         $request->setAttribute("list",$res);

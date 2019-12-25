@@ -350,14 +350,14 @@ function oneYearPast(time)
     
    	  gdata = JSON.stringify(gdata);
  	    $.ajax({
-               url:"index.php?module=go_group&action=addgroup",
+               url:"index.php?module=pi&p=go_group&c=addgroup",
                type:"post",
                data:{gdata:gdata,glevel:glevel},
                dataType:"json",
                success:function(data) {
                    if(data.code == 1){
                    	   layer.msg('添加成功!',{time:1000},function(){
-                           window.location.href = 'index.php?module=go_group';
+                           window.location.href = 'index.php?module=pi&p=go_group';
                        });             	        
                    }else{
                     layer.msg('发布失败!');  

@@ -8,7 +8,7 @@
 
  */
 
-class groupproInputView extends SmartyView {
+class groupproInputView extends PluginInputView {
 
 	
 
