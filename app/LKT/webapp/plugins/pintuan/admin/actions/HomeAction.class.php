@@ -6,7 +6,7 @@
 require_once(MO_WEBAPP_DIR . "/plugins/PluginAction.class.php");
 
 
-class IndexAction extends PluginAction {
+class HomeAction extends PluginAction {
 
     public function getDefaultView() {
         $db = DBAction::getInstance();

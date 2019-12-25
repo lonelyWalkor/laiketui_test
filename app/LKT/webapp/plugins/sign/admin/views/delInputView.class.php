@@ -8,7 +8,6 @@
 
  */
 
-require_once(MO_WEBAPP_DIR . "/plugins/PluginInputView.class.php");
 class delInputView extends PluginInputView {
 
 	

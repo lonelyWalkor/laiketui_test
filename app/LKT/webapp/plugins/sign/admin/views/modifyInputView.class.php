@@ -4,7 +4,6 @@
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
  */
 
-require_once(MO_WEBAPP_DIR . "/plugins/PluginInputView.class.php");
 class modifyInputView extends PluginInputView {
 
     public function execute() {
