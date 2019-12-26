@@ -1,352 +1,364 @@
 <?php
 /**
-
  * [Laike System] Copyright (c) 2017-2020 laiketui.com
-
  * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
-
  */
 
 define('WEB_PATH', str_replace('\\', "/", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), 'install'))));
 
-class step3Action extends Action {
-	
-	public function execute() {
-		
-		$request = $this -> getContext() -> getRequest();
-		$admin = $request -> getParameter('admin');
-		$db = $request -> getParameter('db');
-		$step = $this -> getContext() -> getStorage() -> read('step');
+class step3Action extends Action
+{
 
-		if ($step == 2) {
-			header("Content-type: text/html;charset=utf-8");
-			echo "<script language='javascript'>" . "alert('环境检测没有通过，请调整环境后重试！');" . "location.href='index.php?action=step2';</script>";
-			return;
+    public function execute()
+    {
 
-		} else {
+        $request = $this->getContext()->getRequest();
+        $admin = $request->getParameter('admin');
+        $db = $request->getParameter('db');
+        $step = $this->getContext()->getStorage()->read('step');
 
-			if (!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])) {
-				header("Content-type: text/html;charset=utf-8");
-				echo "<script language='javascript'>" . "alert('请填写完整管理员信息！');" . "location.href='index.php?action=step2';</script>";
-				return;
-
-			} else if ($admin[1] != $admin[2]) {
-				header("Content-type: text/html;charset=utf-8");
-				echo "<script language='javascript'>" . "alert('确认密码和密码不一致!');" . "location.href='index.php?action=step2';</script>";
-				return;
-
-			} else {
-
-				$info = (array)$admin;
-				list($info['username'], $info['password'], $info['repassword'], $info['email']) = $admin;
-				$this -> getContext() -> getStorage() -> write('admin_info', $info);
-			}
-
-			if (!is_array($db) || empty($db[0]) || empty($db[1]) || empty($db[2]) || empty($db[3])) {
-
-				header("Content-type: text/html;charset=utf-8");
-				echo "<script language='javascript'>" . "alert('请填写完整的数据库配置!');" . "location.href='index.php?action=step2';</script>";
-
-				return;
-
-			} else {
-
-				$DB = (array)$db;
-				list($DB['type'], $DB['hostname'], $DB['database'], $DB['username'], $DB['password'], $DB['hostport'], $DB['prefix']) = $db;
-				$DB['params']["\PDO::ATTR_PERSISTENT "] = TRUE;
-				$DB['params']["\PDO::ATTR_CASE "] = \PDO::CASE_LOWER;
-				$this -> getContext() -> getStorage() -> write('db_config', $DB);
-				$dbname = $DB['database'];
-				unset($db);
-
-			}
-
-		}
-
-		$url = 'index.php';
-
-		$request -> setAttribute("url", $url);
-		//第一步创建数据库配置文件
-		$res_one = $this -> create_database_tab();
-		//连接数据库
-		$db = $this -> DB($DB['hostname'], $DB['username'], $DB['password'],$DB['hostport']);
-		//检测mysql版本
-		$mysql_server_info = $db->server_info;
-		$mysql_version = substr($mysql_server_info,0,strrpos($mysql_server_info,"."));
-		
-		if($mysql_version < 5.5){
-            $_SESSION['install_error'] = true;
+        if ($step == 2) {
             header("Content-type: text/html;charset=utf-8");
-			echo "<script language='javascript'>alert('您的mysql版本低于5.5，请调整环境后重试！');location.href='index.php?action=step2';</script>";
-			return;
-			exit;
+            echo "<script language='javascript'>" . "alert('环境检测没有通过，请调整环境后重试！');" . "location.href='index.php?action=step2';</script>";
+            return;
+
+        } else {
+
+            if (!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])) {
+                header("Content-type: text/html;charset=utf-8");
+                echo "<script language='javascript'>" . "alert('请填写完整管理员信息！');" . "location.href='index.php?action=step2';</script>";
+                return;
+
+            } else if ($admin[1] != $admin[2]) {
+                header("Content-type: text/html;charset=utf-8");
+                echo "<script language='javascript'>" . "alert('确认密码和密码不一致!');" . "location.href='index.php?action=step2';</script>";
+                return;
+
+            } else {
+
+                $info = (array)$admin;
+                list($info['username'], $info['password'], $info['repassword'], $info['email']) = $admin;
+                $this->getContext()->getStorage()->write('admin_info', $info);
+            }
+
+            if (!is_array($db) || empty($db[0]) || empty($db[1]) || empty($db[2]) || empty($db[3])) {
+
+                header("Content-type: text/html;charset=utf-8");
+                echo "<script language='javascript'>" . "alert('请填写完整的数据库配置!');" . "location.href='index.php?action=step2';</script>";
+
+                return;
+
+            } else {
+
+                $DB = (array)$db;
+                list($DB['type'], $DB['hostname'], $DB['database'], $DB['username'], $DB['password'], $DB['hostport'], $DB['prefix']) = $db;
+                $DB['params']["\PDO::ATTR_PERSISTENT "] = TRUE;
+                $DB['params']["\PDO::ATTR_CASE "] = \PDO::CASE_LOWER;
+                $this->getContext()->getStorage()->write('db_config', $DB);
+                $dbname = $DB['database'];
+                unset($db);
+
+            }
+
         }
 
-		//第二步创建数据库
-		$res_two = $this -> create_database($DB['database'], $db);
+        $url = 'index.php';
 
-		//第三步创建数据表
-		$res_two = $this -> create_db_tables($DB['prefix'], $db, $DB['database']);
+        $request->setAttribute("url", $url);
+        //第一步创建数据库配置文件
+        $res_one = $this->create_database_tab();
+        //连接数据库
+        $db = $this->DB($DB['hostname'], $DB['username'], $DB['password'], $DB['hostport']);
+        //检测mysql版本
+        $mysql_server_info = $db->server_info;
+        $mysql_version = substr($mysql_server_info, 0, strrpos($mysql_server_info, "."));
 
-		//最后添加管理员
-		$res_for = $this -> insert_member($db, $DB['prefix'], $info);
+        if ($mysql_version < 5.5) {
+            $_SESSION['install_error'] = true;
+            header("Content-type: text/html;charset=utf-8");
+            echo "<script language='javascript'>alert('您的mysql版本低于5.5，请调整环境后重试！');location.href='index.php?action=step2';</script>";
+            return;
+            exit;
+        }
 
-		$_SESSION['install_step'] = '3';
+        //第二步创建数据库
+        $res_two = $this->create_database($DB['database'], $db);
 
-		return View::INPUT;
+        //第三步创建数据表
+        $res_two = $this->create_db_tables($DB['prefix'], $db, $DB['database']);
 
-	}
+        //最后添加管理员
+        $res_for = $this->insert_member($db, $DB['prefix'], $info);
 
-	public function getDefaultView() {
-		$request = $this -> getContext() -> getRequest();
-		$admin = $request -> getParameter('admin');
-		if (!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])) {
+        $_SESSION['install_step'] = '3';
 
-				header("Content-type: text/html;charset=utf-8");
-				echo "<script language='javascript'>" . "alert('请填写完整管理员信息！');" . "location.href='index.php?action=step2';</script>";
-				return;
+        return View::INPUT;
 
-		}
-		return View::INPUT;
+    }
 
-	}
+    public function getDefaultView()
+    {
+        $request = $this->getContext()->getRequest();
+        $admin = $request->getParameter('admin');
+        if (!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])) {
 
-	public function getRequestMethods() {
-		return Request::POST;
+            header("Content-type: text/html;charset=utf-8");
+            echo "<script language='javascript'>" . "alert('请填写完整管理员信息！');" . "location.href='index.php?action=step2';</script>";
+            return;
 
-	}
+        }
+        return View::INPUT;
 
-	public function test() {
+    }
 
-		$request = $this -> getContext() -> getRequest();
+    public function getRequestMethods()
+    {
+        return Request::POST;
 
-		// 获取输入的用户名
+    }
 
-		$servername = trim(strtolower($request -> getParameter("localhost")));
+    public function test()
+    {
 
-		$username = trim(strtolower($request -> getParameter("user")));
+        $request = $this->getContext()->getRequest();
 
-		$password = trim(strtolower($request -> getParameter("password")));
+        // 获取输入的用户名
 
-		$db = new mysqli($servername, $username, $password);
+        $servername = trim(strtolower($request->getParameter("localhost")));
 
-		if ($db -> connect_error) {
+        $username = trim(strtolower($request->getParameter("user")));
 
-			echo 0;
+        $password = trim(strtolower($request->getParameter("password")));
 
-		} else {
+        $db = new mysqli($servername, $username, $password);
 
-			echo 1;
+        if ($db->connect_error) {
 
-		}
+            echo 0;
 
-		exit ;
+        } else {
 
-	}
+            echo 1;
 
-	function show_log($msg, $class = '') {
+        }
 
-		echo "<script type='text/javascript'>show_log('$msg', '$class')</script>";
+        exit;
 
-		@flush();
+    }
 
-		@ob_flush();
+    function show_log($msg, $class = '')
+    {
 
-	}
+        echo "<script type='text/javascript'>show_log('$msg', '$class')</script>";
 
-	public function DB($servername, $username, $password) {
-		$db = new mysqli($servername, $username, $password);
-		if ($db -> connect_error) {
-			header("Content-type: text/html;charset=utf-8");
-			echo "<script language='javascript'>" . "alert('数据库连接失败，有可能密码错误或者数据库没有访问权限!');" . "location.href='index.php?action=step2';</script>";
-			return;
-			exit ;
-		} else {
-			return $db;
-		}
+        @flush();
 
-	}
+        @ob_flush();
 
-	//第一步创建数据库配置文件
+    }
 
-	function create_database_tab() {
+    public function DB($servername, $username, $password , $hostport)
+    {
+        if ($hostport!='3306'){
+            $servername = $servername.":".$hostport;
+        }
+        $db = new mysqli($servername, $username, $password);
+        if ($db->connect_error) {
+            header("Content-type: text/html;charset=utf-8");
+            echo "<script language='javascript'>" . "alert('数据库连接失败，有可能密码错误或者数据库没有访问权限!');" . "location.href='index.php?action=step2';</script>";
+            return;
+            exit;
+        } else {
+            return $db;
+        }
 
-		$db_config = $this -> getContext() -> getStorage() -> read('db_config');
+    }
 
-		if (is_array($db_config)) {
+    //第一步创建数据库配置文件
 
-			//读取配置内容
+    function create_database_tab()
+    {
 
-			unset($db_config['params']);
+        $db_config = $this->getContext()->getStorage()->read('db_config');
 
-			$conf = file_get_contents(WEB_PATH . 'data/database.tpl');
+        if (is_array($db_config)) {
 
-			//替换配置项
+            //读取配置内容
 
-			foreach ($db_config as $name => $value) {
+            unset($db_config['params']);
 
-				$conf = str_replace("[{$name}]", $value, $conf);
+            $conf = file_get_contents(WEB_PATH . 'data/database.tpl');
 
-			}
+            //替换配置项
 
-			//创建数据库连接文件
+            foreach ($db_config as $name => $value) {
 
-			if (file_put_contents(WEB_PATH . 'LKT/webapp/config/db_config.php', $conf)) {
+                $conf = str_replace("[{$name}]", $value, $conf);
 
-				// $this->show_log('数据库连接文件创建成功');
+            }
 
-				file_put_contents(WEB_PATH . 'install/webapp/config/db_config.php', $conf);
+            //创建数据库连接文件
 
-				return true;
+            if (file_put_contents(WEB_PATH . 'LKT/webapp/config/db_config.php', $conf)) {
 
-				// 添加数据库记录
+                // $this->show_log('数据库连接文件创建成功');
 
-			} else {
+                file_put_contents(WEB_PATH . 'install/webapp/config/db_config.php', $conf);
 
-				// $this->show_log('数据库连接文件创建失败！');
+                return true;
 
-				$type = true;
+                // 添加数据库记录
 
-				$_SESSION['install_error'] = $type;
+            } else {
 
-			}
+                // $this->show_log('数据库连接文件创建失败！');
 
-		} else {
+                $type = true;
 
-			return false;
+                $_SESSION['install_error'] = $type;
 
-		}
+            }
 
-	}
+        } else {
 
-	//第二步创建数据库
+            return false;
 
-	public function create_database($database, $db) {
+        }
 
-		$conn = $db;
+    }
 
-		// 检测连接
+    //第二步创建数据库
 
-		if ($conn -> connect_error) {
+    public function create_database($database, $db)
+    {
 
-			die("连接失败: " . $conn -> connect_error);
+        $conn = $db;
 
-		}
+        // 检测连接
 
-		$sql = "CREATE DATABASE `$database` CHARACTER SET utf8 COLLATE utf8_general_ci ";
+        if ($conn->connect_error) {
 
-		$r = $conn -> query($sql);
+            die("连接失败: " . $conn->connect_error);
 
-		$conn -> query("set names utf8");
+        }
 
-		if ($r) {
+        $sql = "CREATE DATABASE `$database` CHARACTER SET utf8 COLLATE utf8_general_ci ";
 
-			return true;
+        $r = $conn->query($sql);
 
-		} else {
+        $conn->query("set names utf8");
 
-			$sqp_drop = "DROP database $database;";
+        if ($r) {
 
-			$_drop = $conn -> query($sqp_drop);
+            return true;
 
-			$rrr = $conn -> query($sql);
+        } else {
 
-			return $rrr;
+            $sqp_drop = "DROP database $database;";
 
-		}
+            $_drop = $conn->query($sqp_drop);
 
-	}
+            $rrr = $conn->query($sql);
 
-	function create_db_tables($prefix = '', $db, $database) {
+            return $rrr;
 
-		//读取SQL文件
+        }
 
-		$sql_use = "use $database";
+    }
 
-		$db -> query($sql_use);
+    function create_db_tables($prefix = '', $db, $database)
+    {
 
-		$this -> show_log(WEB_PATH . 'data/install.sql');
+        //读取SQL文件
 
-		$sql = file_get_contents(WEB_PATH . 'data/install.sql');
+        $sql_use = "use $database";
 
-		$sql = str_replace("\r", "\n", $sql);
+        $db->query($sql_use);
 
-		$sql = explode(";\n", $sql);
+        $this->show_log(WEB_PATH . 'data/install.sql');
 
-		$orginal = "lkt_";
+        $sql = file_get_contents(WEB_PATH . 'data/install.sql');
 
-		$sql = str_replace(" `{$orginal}", " `{$prefix}", $sql);
+        $sql = str_replace("\r", "\n", $sql);
 
-		$tables_num = 0;
+        $sql = explode(";\n", $sql);
 
-		//开始安装
+        $orginal = "lkt_";
 
-		$this -> show_log('开始安装数据库...');
+        $sql = str_replace(" `{$orginal}", " `{$prefix}", $sql);
 
-		foreach ($sql as $value) {
+        $tables_num = 0;
 
-			$value = trim($value);
+        //开始安装
 
-			if (empty($value))
-				continue;
+        $this->show_log('开始安装数据库...');
 
-			if (substr($value, 0, 12) == 'CREATE TABLE') {
+        foreach ($sql as $value) {
 
-				$name = preg_replace("/^CREATE TABLE `(\w+)` .*/s", "\\1", $value);
-				$tables_num++;
-				$msg = "创建数据表{$name}";
+            $value = trim($value);
 
-				if (false !== $db -> query($value)) {
-					$this -> show_log($msg . '...成功');
-				} else {
-					$this-> show_log($value . '...失败！');
-				}
+            if (empty($value))
+                continue;
 
-			} else {
-				$db -> query($value);
-			}
+            if (substr($value, 0, 12) == 'CREATE TABLE') {
 
-		}
+                $name = preg_replace("/^CREATE TABLE `(\w+)` .*/s", "\\1", $value);
+                $tables_num++;
+                $msg = "创建数据表{$name}";
 
-		//查询表的数量
-		$sql = "select count(*) as num from information_schema.tables where table_schema='$database'";
-	    $obj = mysqli_query($db,$sql);
-	    $database_tn = 0;
-	    while($row = mysqli_fetch_assoc($obj)){
-	        $database_tn = $row['num'];
-	    }
-		
-		if($database_tn != $tables_num){
-			header("Content-type: text/html;charset=utf-8");
-			echo "<script language='javascript'>" . "alert('创建数据失败!');" . "location.href='index.php?action=step2';</script>";
-			return;
-			exit ;
-		}
+                if (false !== $db->query($value)) {
+                    $this->show_log($msg . '...成功');
+                } else {
+                    $this->show_log($value . '...失败！');
+                }
 
-	}
+            } else {
+                $db->query($value);
+            }
 
-	function insert_member($db, $prefix, $admin) {
+        }
 
-		$password = md5($admin['password']);
+        //查询表的数量
+        $sql = "select count(*) as num from information_schema.tables where table_schema='$database'";
+        $obj = mysqli_query($db, $sql);
+        $database_tn = 0;
+        while ($row = mysqli_fetch_assoc($obj)) {
+            $database_tn = $row['num'];
+        }
 
-		$sql ="INSERT INTO `lkt_admin` (`id`, `sid`, `name`, `password`, `admin_type`, `permission`, `role`, `status`, `add_date`, `recycle`, `nickname`, `birthday`, `sex`, `tel`, `token`, `ip`) VALUES ('1', '0', '{$admin['username']}', '{$password}', '1', NULL, '1', NULL, '2018-09-25 16:55:26', '0', 'lkt', '1936-2-1', '2', '86453408', '', '127.0.0.1')";
-		//执行sql
+        if ($database_tn != $tables_num) {
+            header("Content-type: text/html;charset=utf-8");
+            echo "<script language='javascript'>" . "alert('创建数据失败!');" . "location.href='index.php?action=step2';</script>";
+            return;
+            exit;
+        }
 
-		$db -> query($sql);
+    }
 
-		$request = $this -> getContext() -> getRequest();
+    function insert_member($db, $prefix, $admin)
+    {
 
-		$url = $request -> getParameter('url');
+        $password = md5($admin['password']);
 
-		$domain = $url . '/LKT/index.php?module=api';
+        $sql = "INSERT INTO `lkt_admin` (`id`, `sid`, `name`, `password`, `admin_type`, `permission`, `role`, `status`, `add_date`, `recycle`, `nickname`, `birthday`, `sex`, `tel`, `token`, `ip`) VALUES ('1', '0', '{$admin['username']}', '{$password}', '1', NULL, '1', NULL, '2018-09-25 16:55:26', '0', 'lkt', '1936-2-1', '2', '86453408', '', '127.0.0.1')";
+        //执行sql
 
-		$uploadImg_domain = $url;
+        $db->query($sql);
 
-		$sql = "update `{$prefix}config` set domain = '$domain', uploadImg_domain = '$uploadImg_domain',modify_date = CURRENT_TIMESTAMP where id = '1'";
+        $request = $this->getContext()->getRequest();
 
-		$db -> query($sql);
+        $url = $request->getParameter('url');
 
-	}
+        $domain = $url . '/LKT/index.php?module=api';
+
+        $uploadImg_domain = $url;
+
+        $sql = "update `{$prefix}config` set domain = '$domain', uploadImg_domain = '$uploadImg_domain',modify_date = CURRENT_TIMESTAMP where id = '1'";
+
+        $db->query($sql);
+
+    }
 
 }
+
 ?>
