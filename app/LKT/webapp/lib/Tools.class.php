@@ -36,5 +36,19 @@ function jump($url,$msg=null){
 	exit;
 }
 
+function goBack($msg=null){
+    $url = $_SERVER['HTTP_REFERER'];
+    if($msg){
+        echo "<script type='text/javascript'>" .
+            "alert('$msg');" .
+            "location.href='$url';</script>";
+    }else{
+        echo "<script type='text/javascript'>" .
+            "location.href='$url';</script>";
+    }
+    exit;
+}
+
+
 
 ?>

@@ -50,22 +50,16 @@ class configAction extends PluginAction{
         $msg = '';
         if($group_time == ''){
             $msg = '拼团时限不能为空！';
-             return $this->getDefaultView();
         }else if($group_time < 0){
             $msg = '拼团时限必须为正整数！';
-             return $this->getDefaultView();
         }else if($open_num == ''){
             $msg = '开团数量不能为空！';
-             return $this->getDefaultView();
         }else if($open_num < 0){
             $msg = '开团数量必须为正整数！';
-             return $this->getDefaultView();
         }else if($can_num == ''){
             $msg = '参团数量不能为空！';
-             return $this->getDefaultView();
         }else if($can_num < 0){
             $msg = '参团数量必须为正整数！';
-             return $this->getDefaultView();
         }
 
         if($msg == ''){
@@ -83,25 +77,13 @@ class configAction extends PluginAction{
                 $res = $db->update($up_sql);
             }
             if($res){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('设置成功！');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('设置成功!');
             }else{
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('设置失败！');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('设置失败!');
             }
 
         }else{
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('$msg');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack($msg);
         }
 
 

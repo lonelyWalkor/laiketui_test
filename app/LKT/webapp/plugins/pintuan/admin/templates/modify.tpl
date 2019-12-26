@@ -150,7 +150,7 @@
     <i class="Hui-iconfont">&#xe6ca;</i>
     插件管理
     <span class="c-gray en">&gt;</span>
-    <a style="margin-top: 10px;" onclick="location.href='index.php?module=pi&p=go_group&c=Home';">拼团 </a>
+    <a style="margin-top: 10px;" onclick="location.href='index.php?module=pi&p=pintuan&c=Home';">拼团 </a>
     <span class="c-gray en">&gt;</span>
     编辑拼团商品
 </nav>
@@ -517,14 +517,14 @@
 
                 gdata = JSON.stringify(gdata);
                 $.ajax({
-                    url: "index.php?module=pi&p=go_group&c=modify",
+                    url: "index.php?module=pi&p=pintuan&c=modify",
                     type: "post",
                     data: {glevel:glevel,gdata:gdata,tuanZ:pList,goods_id:goods_id,g_status:g_status,group_title:title,old_goods_id:old_goods_id},
                     dataType: "json",
                     success:function(data) {
                         if(data.code == 1){
                             alert('修改成功!');
-                                window.location.href = 'index.php?module=pi&p=go_group&c=Home';
+                                window.location.href = 'index.php?module=pi&p=pintuan&c=Home';
                            
                         }else{
                             alert('未知原因,修改失败!');
@@ -533,14 +533,14 @@
                 })
                 return  false;
                 $.ajax({
-                    url:"index.php?module=pi&p=go_group&c=addgroup",
+                    url:"index.php?module=pi&p=pintuan&c=addgroup",
                     type:"post",
                     data:{gdata:gdata,glevel:glevel,tuanZ:pList,goods_id:goods_id},
                     dataType:"json",
                     success:function(data) {
                         if(data.code == 1){
                             alert('添加成功!');
-                                window.location.href = 'index.php?module=pi&p=go_group&c=Home';
+                                window.location.href = 'index.php?module=pi&p=pintuan&c=Home';
                             
                         }else{
                             alert('发布失败!');
@@ -568,7 +568,7 @@
                     type:"POST",
                     dataType:"json",
                     data:{my_brand:my_brand,my_class:my_class,pro_name:pro_name},
-                    url:"index.php?module=pi&p=go_group&c=addproduct&m=pro_query",
+                    url:"index.php?module=pi&p=pintuan&c=addproduct&m=pro_query",
                     success:function(data){
 
                         var res = data.res;

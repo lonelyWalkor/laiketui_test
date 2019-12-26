@@ -27,7 +27,12 @@ class IndexAction extends Action {
             if ($methodName) {
                 $plugin->$methodName();
             }else{
-                $plugin->getDefaultView();
+                if($_SERVER['REQUEST_METHOD'] == 'GET'){
+                    $plugin->getDefaultView();
+                }else{
+                    $plugin->execute();
+                }
+
             }
 
         }
@@ -37,7 +42,7 @@ class IndexAction extends Action {
     }
 
     public function execute() {
-
+        $this->getDefaultView();
     }
 
     public function getRequestMethods(){
