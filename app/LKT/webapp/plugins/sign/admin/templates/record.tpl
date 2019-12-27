@@ -47,8 +47,9 @@
     </div>
     <div class="mt-20 text-c">
         <form name="form1" action="index.php" method="get">
-            <input type="hidden" name="module" value="sign" />
-            <input type="hidden" name="action" value="record" />
+            <input type="hidden" name="module" value="pi" />
+            <input type="hidden" name="p" value="sign" />
+            <input type="hidden" name="c" value="record" />
             <input type="hidden" name="pagesize" value="{$pagesize}" />
             <select name="source" class="select" style="width: 120px;height: 31px;vertical-align: middle;">
                 <option value="" selected>用户来源</option>
