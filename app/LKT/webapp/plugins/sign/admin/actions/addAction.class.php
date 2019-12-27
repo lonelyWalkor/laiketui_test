@@ -8,13 +8,7 @@
 class addAction extends PluginAction {
 
   public function getDefaultView() {
-    $db = DBAction::getInstance();
-    $request = $this->getContext()->getRequest();
-    $sql = "select * from lkt_config where id = '1'";
-    $r = $db->select($sql);
-
-
-    return View :: INPUT;
+        return View :: INPUT;
   }
 
   public function execute() {

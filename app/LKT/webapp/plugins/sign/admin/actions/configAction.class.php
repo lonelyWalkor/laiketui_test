@@ -69,102 +69,50 @@ class configAction extends PluginAction {
         }
         
         if(is_numeric($min_score) == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('领取的最少积分请输入数字!');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack('领取的最少积分请输入数字!');
         }
         if($min_score <= 0){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('领取的最少积分不能为负数或0!');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack('领取的最少积分不能为负数或0!');
         }
         if(is_numeric($max_score) == ''){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('领取的最少积分请输入数字!');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack('领取的最少积分请输入数字!');
         }
         if($max_score <= 0){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('领取的最少积分不能为负数或0!');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack('领取的最少积分不能为负数或0!');
         }
         if($max_score < $min_score){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('领取的最大积分不能小于领取的最少积分!');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack('领取的最大积分不能小于领取的最少积分!');
         }
         if ($continuity_three) {
             if(is_numeric($continuity_three) == ''){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('连续签到7天请输入数字!');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('连续签到7天请输入数字!');
             }
             if($continuity_three < 0){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('连续签到7天不能为负数!');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('连续签到7天不能为负数!');
             }
         }
         if($continuity_twenty){
            if(is_numeric($continuity_twenty) == ''){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('连续签到20天请输入数字!');" .
-                    "</script>";
-                return $this->getDefaultView();
+               goBack('连续签到20天请输入数字!');
             }
             if($continuity_twenty < 0){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('连续签到20天不能为负数!');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('连续签到20天不能为负数!');
             } 
         }
         if($continuity_thirty){
             if(is_numeric($continuity_thirty) == ''){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('连续签到30天请输入数字!');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('连续签到30天请输入数字!');
             }
             if($continuity_thirty < 0){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('连续签到30天不能为负数!');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('连续签到30天不能为负数!');
             }
         }
         if($activity_overdue){
             if(is_numeric($activity_overdue) == ''){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('活动过期删除时间请输入数字!');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('活动过期删除时间请输入数字!');
             }
             if($activity_overdue < 0){
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('活动过期删除时间不能为负数!');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack('活动过期删除时间不能为负数!');
             }
         }
         
@@ -174,29 +122,17 @@ class configAction extends PluginAction {
             $sql = "update lkt_sign_config set imgurl = '$imgurl',activity_overdue = '$activity_overdue',min_score = '$min_score',max_score = '$max_score',continuity_three = '$continuity_three',continuity_twenty = '$continuity_twenty',continuity_thirty = '$continuity_thirty',modify_date = CURRENT_TIMESTAMP where plug_ins_id = '$plug_ins_id'";
             $r_1 = $db->update($sql);
             if($r_1 == -1) {
-                echo "<script type='text/javascript'>" .
-                    "alert('未知原因，签到参数修改失败！');" .
-                    "location.href='index.php?module=plug_ins';</script>";
-                return $this->getDefaultView();
+                goBack('未知原因，签到参数修改失败!');
             } else {
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('签到参数修改成功！');" .
-                    "location.href='index.php?module=plug_ins';</script>";
+                goBack('签到参数修改成功!');
             }
         }else{
             $sql = "insert into lkt_sign_config(plug_ins_id,imgurl,activity_overdue,min_score,max_score,continuity_three,continuity_twenty,continuity_thirty,modify_date) values('$plug_ins_id','$imgurl','$activity_overdue','$min_score','$max_score','$continuity_three','$continuity_twenty','$continuity_thirty',CURRENT_TIMESTAMP)";
             $r_1 = $db->insert($sql);
             if($r_1 == -1) {
-                echo "<script type='text/javascript'>" .
-                    "alert('未知原因，签到参数添加失败！');" .
-                    "location.href='index.php?module=plug_ins';</script>";
-                return $this->getDefaultView();
+                goBack('未知原因，签到参数添加失败!');
             } else {
-                header("Content-type:text/html;charset=utf-8");
-                echo "<script type='text/javascript'>" .
-                    "alert('签到参数添加成功！');" .
-                    "location.href='index.php?module=plug_ins';</script>";
+                goBack('签到参数添加成功!');
             }
         }
         return;
