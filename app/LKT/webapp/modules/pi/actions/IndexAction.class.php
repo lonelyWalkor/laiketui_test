@@ -19,7 +19,6 @@ class IndexAction extends Action {
         $className = $className==''?"Home":$className;
         $request -> setAttribute("c", $className);
         $request -> setAttribute("p", $pluginName);
-
         if($pluginName){
             require_once(MO_WEBAPP_DIR."/plugins/".$pluginName."/admin/actions/".$className."Action.class.php");
             $className = $className.'Action';

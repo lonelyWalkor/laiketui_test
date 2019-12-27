@@ -10,7 +10,6 @@ class HomeAction extends PluginAction {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-
         $pagesize = $request -> getParameter('pagesize');
         $pagesize = $pagesize ? $pagesize:'10';
         // 每页显示多少条数据

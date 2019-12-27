@@ -50,7 +50,6 @@ class configAction extends PluginAction {
         $request = $this->getContext()->getRequest();
         // 接收信息
         $plug_ins_id = intval($request->getParameter('plug_ins_id'));
-        // $imgurl= addslashes($request->getParameter('imgurl')); // 活动图片
         $imgurl = addslashes($request->getParameter('imgurl')); // 新活动图片
         $oldpic= addslashes($request->getParameter('oldpic')); // 原活动图片
         $min_score = addslashes(trim($request->getParameter('min_score'))); // 领取的最少积分
