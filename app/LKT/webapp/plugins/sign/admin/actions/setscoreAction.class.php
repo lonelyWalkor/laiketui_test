@@ -14,7 +14,6 @@ class setscoreAction extends PluginAction {
         $res = $db -> select($sql);
         $bili = '';
         $str = '[';
-        //$res = array_reverse($res);
         foreach ($res as $k => $v) {
         	if($v -> lever == -1){
                $bili = $v -> ordernum;
