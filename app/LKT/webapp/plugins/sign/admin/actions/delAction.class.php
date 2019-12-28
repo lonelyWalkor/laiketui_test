@@ -26,11 +26,7 @@ class delAction extends PluginAction {
         $sql = 'delete from lkt_sign_activity where id='.$id;
         $res = $db -> delete($sql);
         if($res > 0){
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('删除成功！');" .
-                "location.href='index.php?module=pi&p=sign';</script>";
-            return;
+            jump("index.php?module=pi&p=sign","删除成功!");
         }
         
     }

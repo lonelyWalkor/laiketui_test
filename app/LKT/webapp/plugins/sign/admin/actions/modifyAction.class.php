@@ -56,35 +56,19 @@ class modifyAction extends PluginAction {
             $image = $oldpic;
         }
         if($starttime == ''){
-            header('Content-Type: text/html;charset=utf-8');
-            echo "<script type='text/javascript'>" .
-                "alert('活动开始时间不能为空！');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack("活动开始时间不能为空!");
         }
         $starttime = date('Y-m-d H:i:s',strtotime($starttime));
         if($endtime == ''){
-            header('Content-Type: text/html;charset=utf-8');
-            echo "<script type='text/javascript'>" .
-                "alert('活动结束时间不能为空！');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack("活动结束时间不能为空!");
         }
         // $endtime = date('Y-m-d 23:59:59',strtotime($endtime));
         if($starttime >= $endtime){
-            header('Content-Type: text/html;charset=utf-8');
-            echo "<script type='text/javascript'>" .
-                "alert('活动开始时间不能大于等于活动结束时间！');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack("活动开始时间不能大于等于活动结束时间!");
         }
         $time = date('Y-m-d H:i:s');
         if($time >= $endtime){
-            header('Content-Type: text/html;charset=utf-8');
-            echo "<script type='text/javascript'>" .
-                "alert('活动还没开始就已经结束！');" .
-                "</script>";
-            return $this->getDefaultView();
+            goBack("活动还没开始就已经结束!");
         }
         // 查询所有签到活动
         $sql = "select * from lkt_sign_activity where id != '$id'";
@@ -92,11 +76,7 @@ class modifyAction extends PluginAction {
         if($r){
           for ($i=0; $i < count($r); $i++) {
             if($starttime >= $r[$i]->starttime && $starttime < $r[$i]->endtime || $endtime > $r[$i]->starttime && $endtime <= $r[$i]->endtime){
-                header('Content-Type: text/html;charset=utf-8');
-                echo "<script type='text/javascript'>" .
-                    "alert('活动有冲突！');" .
-                    "</script>";
-                return $this->getDefaultView();
+                goBack("活动有冲突!");
             }
           }
         }
@@ -112,15 +92,9 @@ class modifyAction extends PluginAction {
             $r = $db->update($sql);
         }
         if($r == -1) {
-            echo "<script type='text/javascript'>" .
-                "alert('未知原因，活动修改失败！');" .
-                "location.href='index.php?module=pi&p=sign';</script>";
-            return $this->getDefaultView();
+            goBack("未知原因,活动修改失败!");
         } else {
-            header("Content-type:text/html;charset=utf-8");
-            echo "<script type='text/javascript'>" .
-                "alert('活动修改成功！');" .
-                "location.href='index.php?module=pi&p=sign';</script>";
+            jump("index.php?module=pi&p=sign","活动修改成功!");
         }
 	}
 
