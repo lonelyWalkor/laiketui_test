@@ -9,12 +9,7 @@ require_once(MO_LIB_DIR . '/Timer.class.php');
 
 class memberAction extends PluginAction {
     public function getDefaultView() {
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $uploadImg = $this->getContext()->getStorage()->read('uploadImg'); // 图片上传路径
-        $serverURL = $this->getContext()->getStorage()->read('serverURL');
 
-        
     }
 
     public function delpro(){
