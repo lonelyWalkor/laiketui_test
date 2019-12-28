@@ -12,10 +12,12 @@ class IndexInputView extends SmartyView {
         $pluginName = $request->getAttribute("p") ; //插件名称，文件名
         if($pluginName){
             $path = MO_WEBAPP_DIR."/_compile/pi/";
-            $p = scandir($path);
-            foreach ($p as $val) {
-                if ($val != "." && $val != "..") {
-                    unlink($path . $val);
+            if(is_dir($path)){
+                $p = scandir($path);
+                foreach ($p as $val) {
+                    if ($val != "." && $val != "..") {
+                        unlink($path . $val);
+                    }
                 }
             }
             require_once(MO_WEBAPP_DIR."/plugins/".$pluginName."/admin/views/".$className."InputView.class.php");
