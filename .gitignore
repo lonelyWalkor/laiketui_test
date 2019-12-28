@@ -3,7 +3,6 @@
 .idea
 app/.idea/workspace.xml
 app/data/install.lock
-app/install/webapp/_compile/
 app/LKT/webapp/_compile/
 app/LKT/webapp/config/db_config.php
 app/install/webapp/config/db_config.php
