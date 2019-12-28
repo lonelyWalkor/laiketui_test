@@ -53,9 +53,7 @@ class setproAction extends PluginAction
     public function execute()
     {
 
-        $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $store_id = $this->getContext()->getStorage()->read('store_id');
         $tuanZ = $request->getParameter('tuanZ');
         $goods_id = $request->getParameter('goods_id');
         $this->getContext()->getStorage()->write('tuanZ', $tuanZ);

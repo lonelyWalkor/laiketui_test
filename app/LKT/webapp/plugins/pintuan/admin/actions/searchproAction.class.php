@@ -130,7 +130,6 @@ class searchproAction extends PluginAction {
 
     public function addgroup(){
 
-       $db = DBAction::getInstance();
        $request = $this->getContext()->getRequest();
        unset($_GET['module']);
        unset($_GET['action']);

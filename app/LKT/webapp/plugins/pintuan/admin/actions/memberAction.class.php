@@ -5,9 +5,9 @@
  */
 
 
-require_once(MO_LIB_DIR . '/Timer.class.php');
 
 class memberAction extends PluginAction {
+
     public function getDefaultView() {
 
     }
@@ -34,7 +34,7 @@ class memberAction extends PluginAction {
                                 $db->update("UPDATE `lkt_order_details` SET `r_status`='11' WHERE r_sNo = '".$value02->sNo."'");
                                 $db->update("UPDATE lkt_user SET money =money+$value02->z_price WHERE user_id = '".$value02->user_id."'");
                                 $event = $value02->user_id.'退回拼团金额'.$value02->z_price.'';
-                                 $sqlldr = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$value02->user_id','$value02->z_price','','$event',5)";
+                                $sqlldr = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$value02->user_id','$value02->z_price','','$event',5)";
                                 $beres1 = $db->insert($sqlldr);
                             }
                          }
@@ -76,7 +76,7 @@ class memberAction extends PluginAction {
 
         $sql = "update lkt_group_product set g_status=$type$str where group_id = $id ";
         $res = $db -> update($sql);
-        $rrr = guoqi($db,$id);////处理点击停止活动，处理该活动下面所有进行中拼团停止，拼团成功的则不变
+        $this->guoqi($db,$id);////处理点击停止活动，处理该活动下面所有进行中拼团停止，拼团成功的则不变
         if($res < 0){
             echo json_encode(array('status' => 0,'info' => '操作失败!'));exit;
         }else{
@@ -135,6 +135,30 @@ class memberAction extends PluginAction {
 
     public function getRequestMethods(){
         return Request :: POST;
+    }
+
+    function guoqi($db, $group_id)
+    {//处理点击停止活动，处理该活动下面所有进行中拼团停止，拼团成功的则不变
+
+        $r = $db->select("select * from lkt_group_open where group_id=$group_id and ptstatus < 2 ");
+
+        if ($r) {
+
+            foreach ($r as $key01 => $value01) {
+                $db->update("UPDATE `lkt_group_open` SET `ptstatus`='3' WHERE id = " . $value01->id);
+                $ee = $db->select("select user_id,z_price,sNo,pay from lkt_order where ptcode = '" . $value01->ptcode . "'");
+                if ($ee) {
+                    foreach ($ee as $key02 => $value02) {
+                        $db->update("UPDATE `lkt_order_details` SET `r_status`='11' WHERE r_sNo = '" . $value02->sNo . "'");
+                        $db->update("UPDATE lkt_user SET money =money+$value02->z_price WHERE user_id = '" . $value02->user_id . "'");
+                        $event = $value02->user_id . '退回拼团金额' . $value02->z_price . '';
+                        $sqlldr = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$value02->user_id','$value02->z_price','','$event',5)";
+                        $beres1 = $db->insert($sqlldr);
+                    }
+                }
+                $db->update("UPDATE `lkt_order` SET `ptstatus`='3', `status`='11' WHERE ptcode = " . $value01->ptcode);
+            }
+        }
     }
 
 }
