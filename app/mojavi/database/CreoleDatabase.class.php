@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -40,13 +40,11 @@
  *                                      etc).
  * # <b>username</b>       - [none]   - The database user.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage database
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: CreoleDatabase.class.php 743 2005-01-06 15:53:16Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class CreoleDatabase extends Database
 {
@@ -60,7 +58,7 @@ class CreoleDatabase extends Database
      *
      * @throws <b>DatabaseException</b> If a connection could not be created.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function connect ()
@@ -193,7 +191,7 @@ class CreoleDatabase extends Database
      *
      * @return array An associative array of connection parameters.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function & loadDSN (&$array)
@@ -244,7 +242,7 @@ class CreoleDatabase extends Database
      * @throws <b>DatabaseException</b> If an error occurs while shutting down
      *                                 this database.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function shutdown ()
