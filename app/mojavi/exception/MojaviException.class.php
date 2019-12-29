@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -14,13 +14,11 @@
  * provides an additional method for printing up a detailed view of an
  * exception.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage exception
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: MojaviException.class.php 707 2004-12-28 17:48:28Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class MojaviException extends Exception
 {
@@ -42,7 +40,7 @@ class MojaviException extends Exception
      * @param string The error message.
      * @param int    The error code.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function __construct ($message = null, $code = 0)
@@ -63,7 +61,7 @@ class MojaviException extends Exception
      *
      * @return string This exception's name.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getName ()
@@ -83,7 +81,7 @@ class MojaviException extends Exception
      *               - html
      *               - plain
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function printStackTrace ($format = 'html')
@@ -310,7 +308,7 @@ class MojaviException extends Exception
      *
      * @param string An exception name.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     protected function setName ($name)
