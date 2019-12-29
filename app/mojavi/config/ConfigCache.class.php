@@ -14,7 +14,7 @@
  * make it easy-to-use, yet still provide a PHP formatted result for direct
  * inclusion into your modules.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

@@ -12,7 +12,7 @@
 /**
  * FilterConfigHandler allows you to register filters with the system.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

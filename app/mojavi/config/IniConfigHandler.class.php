@@ -14,7 +14,7 @@
  * provides a central location for parsing ini files and detecting required
  * categories.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

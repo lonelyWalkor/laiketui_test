@@ -14,7 +14,7 @@
  * presentation. By providing a core set of methods used by the framework,
  * automation in the form of security and validation can occur.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage action
  *
  */

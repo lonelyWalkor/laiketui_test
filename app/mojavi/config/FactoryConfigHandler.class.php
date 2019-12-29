@@ -13,7 +13,7 @@
  * FactoryConfigHandler allows you to specify which factory implementation the
  * system will use.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

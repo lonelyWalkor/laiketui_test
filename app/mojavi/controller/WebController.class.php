@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * WebController provides web specific methods to Controller such as, url
  * redirection.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage controller
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: WebController.class.php 765 2005-02-01 02:10:41Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class WebController extends Controller
 {
@@ -43,7 +41,7 @@ abstract class WebController extends Controller
      *
      * @return string A URL to a Mojavi resource.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function genURL ($url = null, $parameters = array())
@@ -99,7 +97,7 @@ abstract class WebController extends Controller
      *
      * @return string A content type.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getContentType ()
@@ -116,7 +114,7 @@ abstract class WebController extends Controller
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     protected function initialize ()
@@ -143,7 +141,7 @@ abstract class WebController extends Controller
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function redirect ($url, $delay = 0)
@@ -180,7 +178,7 @@ abstract class WebController extends Controller
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setContentType ($type)

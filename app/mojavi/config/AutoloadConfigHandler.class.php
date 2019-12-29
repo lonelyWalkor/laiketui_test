@@ -13,7 +13,7 @@
  * AutoloadConfigHandler allows you to specify a list of classes that will
  * automatically be included for you upon first use.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

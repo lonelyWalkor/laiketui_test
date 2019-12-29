@@ -13,7 +13,7 @@
  * ParameterParser is used to take parameter lists in Mojavi configuration
  * files and return them in literal array form.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

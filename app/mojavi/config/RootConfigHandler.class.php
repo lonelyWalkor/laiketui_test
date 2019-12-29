@@ -13,7 +13,7 @@
  * RootConfigHandler allows you to specify configuration handlers for the
  * application or on a module level.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

@@ -12,7 +12,7 @@
 /**
  * ValidatorConfigHandler allows you to register validators with the system.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

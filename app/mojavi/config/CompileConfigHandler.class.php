@@ -13,7 +13,7 @@
  * CompileConfigHandler gathers multiple files and puts them into a single file.
  * Upon creation of the new file, all comments and blank lines are removed.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

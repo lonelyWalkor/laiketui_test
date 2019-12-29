@@ -17,7 +17,7 @@
  *
  * # <b>prefix</b> - The text prepended to all defined constant names.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

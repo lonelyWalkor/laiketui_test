@@ -13,7 +13,7 @@
  * ActionStack keeps a list of all requested actions and provides accessor
  * methods for retrieving individual entries.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage action
  *
  */

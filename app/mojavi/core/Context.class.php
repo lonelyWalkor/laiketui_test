@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -15,13 +15,11 @@
  * current controller, request, and user implementation instances are also
  * provided.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage core
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: Context.class.php 704 2004-12-28 14:23:12Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class Context extends MojaviObject
 {
@@ -51,7 +49,7 @@ class Context extends MojaviObject
      * @param Storage         The current Storage implementation instance.
      * @param DatabaseManager The current DatabaseManager instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function __construct ($controller, $request, $user, $storage,
@@ -77,7 +75,7 @@ class Context extends MojaviObject
      * @return string The currently executing action name, if one is set,
      *                otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getActionName ()
@@ -97,7 +95,7 @@ class Context extends MojaviObject
      *
      * @return Controller The current Controller implementation instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getController ()
@@ -124,7 +122,7 @@ class Context extends MojaviObject
      * @throws <b>DatabaseException</b> If the requested database name does
      *                                  not exist.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getDatabaseConnection ($name = 'default')
@@ -148,7 +146,7 @@ class Context extends MojaviObject
      *
      * @return DatabaseManager The current DatabaseManager instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getDatabaseManager ()
@@ -166,7 +164,7 @@ class Context extends MojaviObject
      * @return string An absolute filesystem path to the directory of the
      *                currently executing module, if one is set, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getModuleDirectory ()
@@ -187,7 +185,7 @@ class Context extends MojaviObject
      * @return string The currently executing module name, if one is set,
      *                otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getModuleName ()
@@ -207,7 +205,7 @@ class Context extends MojaviObject
      *
      * @return Request The current Request implementation instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getRequest ()
@@ -224,7 +222,7 @@ class Context extends MojaviObject
      *
      * @return Storage The current Storage implementation instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getStorage ()
@@ -241,7 +239,7 @@ class Context extends MojaviObject
      *
      * @return User The current User implementation instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getUser ()

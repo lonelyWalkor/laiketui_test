@@ -13,7 +13,7 @@
  * ActionStackEntry represents information relating to a single Action request
  * during a single HTTP request.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage action
  *
  * @author ketter (ketter@laiketui.com)

@@ -13,7 +13,7 @@
  * ModuleConfigHandler reads module configuration files to determine the status
  * of a module.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

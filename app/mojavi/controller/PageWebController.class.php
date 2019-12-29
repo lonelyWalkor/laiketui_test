@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * PageWebController allows you to dispatch a request by specifying a module
  * and action name in the dispatch() method.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage controller
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: PageWebController.class.php 746 2005-01-12 19:54:07Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class PageWebController extends WebController
 {
@@ -37,7 +35,7 @@ class PageWebController extends WebController
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function dispatch ($moduleName, $actionName, $parameters = null)

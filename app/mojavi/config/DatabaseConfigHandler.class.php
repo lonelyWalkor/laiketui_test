@@ -14,7 +14,7 @@
  * configuration file that will be created for you automatically upon first
  * request.
  *
- * @package    core
+ * @package    laiketui
  * @subpackage config
  *
  * @author ketter (ketter@laiketui.com)

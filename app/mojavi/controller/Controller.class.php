@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * Controller directs application flow.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage controller
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: Controller.class.php 777 2005-08-17 15:26:07Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class Controller extends MojaviObject
 {
@@ -53,8 +51,8 @@ abstract class Controller extends MojaviObject
      *
      * @return bool true, if the action exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function actionExists ($moduleName, $actionName)
     {
@@ -86,8 +84,8 @@ abstract class Controller extends MojaviObject
      *                                  the user implementation is not of type
      *                                  SecurityUser.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function forward ($moduleName, $actionName)
     {
@@ -295,7 +293,7 @@ abstract class Controller extends MojaviObject
      * @return Action An Action implementation instance, if the action exists,
      *                otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getAction ($moduleName, $actionName)
@@ -339,7 +337,7 @@ abstract class Controller extends MojaviObject
      * @return ActionStack An ActionStack instance, if the action stack is
      *                     enabled, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getActionStack ()
@@ -356,7 +354,7 @@ abstract class Controller extends MojaviObject
      *
      * @return Context A Context instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getContext ()
@@ -376,7 +374,7 @@ abstract class Controller extends MojaviObject
      * @return Model A Model implementation instance, if the model exists,
      *               otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getGlobalModel ($modelName)
@@ -406,7 +404,7 @@ abstract class Controller extends MojaviObject
      * @throws <b>ControllerException</b> If a controller implementation
      *                                    instance has not been created.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function getInstance ()
@@ -437,7 +435,7 @@ abstract class Controller extends MojaviObject
      * @return Model A Model implementation instance, if the model exists,
      *               otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getModel ($moduleName, $modelName)
@@ -477,8 +475,8 @@ abstract class Controller extends MojaviObject
      *             - View::RENDER_CLIENT
      *             - View::RENDER_VAR
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getRenderMode ()
     {
@@ -498,7 +496,7 @@ abstract class Controller extends MojaviObject
      * @return View A View implementation instance, if the model exists,
      *              otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getView ($moduleName, $viewName)
@@ -541,7 +539,7 @@ abstract class Controller extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     protected function initialize ()
@@ -591,7 +589,7 @@ abstract class Controller extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function loadGlobalFilters ($filterChain)
@@ -630,7 +628,7 @@ abstract class Controller extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function loadModuleFilters ($filterChain)
@@ -684,8 +682,8 @@ abstract class Controller extends MojaviObject
      *
      * @return bool true, if the model exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function modelExists ($moduleName, $modelName)
     {
@@ -706,8 +704,8 @@ abstract class Controller extends MojaviObject
      *
      * @return bool true, if the module exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function moduleExists ($moduleName)
     {
@@ -730,7 +728,7 @@ abstract class Controller extends MojaviObject
      * @throws <b>FactoryException</b> If a new controller implementation
      *                                 instance cannot be created.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function newInstance ($class)
@@ -802,8 +800,8 @@ abstract class Controller extends MojaviObject
      *
      * @throws <b>RenderException</b> - If an invalid render mode has been set.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setRenderMode ($mode)
     {
@@ -833,7 +831,7 @@ abstract class Controller extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function shutdown ()
@@ -865,7 +863,7 @@ abstract class Controller extends MojaviObject
      *
      * @return bool true, if the view exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function viewExists ($moduleName, $viewName)
