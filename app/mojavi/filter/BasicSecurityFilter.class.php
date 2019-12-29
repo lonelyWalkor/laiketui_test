@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -15,13 +15,11 @@
  * verifies the user has the same credential by calling the hasCredential()
  * method of SecurityUser.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage filter
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: BasicSecurityFilter.class.php 766 2005-02-03 04:44:01Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class BasicSecurityFilter extends SecurityFilter
 {
@@ -37,7 +35,7 @@ class BasicSecurityFilter extends SecurityFilter
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function execute ($filterChain)

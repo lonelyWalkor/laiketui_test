@@ -1,11 +1,11 @@
 <?php
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -18,13 +18,11 @@
  *                                    called?
  * # <b>session_name</b> - [Mojavi] - The name of the session.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage storage
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: SessionStorage.class.php 707 2004-12-28 17:48:28Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class SessionStorage extends Storage
 {
@@ -45,7 +43,7 @@ class SessionStorage extends Storage
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this Storage.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)
@@ -84,7 +82,7 @@ class SessionStorage extends Storage
      *
      * @return mixed Data associated with the key.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & read ($key)
@@ -115,7 +113,7 @@ class SessionStorage extends Storage
      *
      * @return mixed Data associated with the key.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & remove ($key)
@@ -143,7 +141,7 @@ class SessionStorage extends Storage
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function shutdown ()
@@ -160,7 +158,7 @@ class SessionStorage extends Storage
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function over ()
@@ -203,7 +201,7 @@ class SessionStorage extends Storage
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function write ($key, &$data)

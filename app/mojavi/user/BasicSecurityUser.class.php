@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * BasicSecurityUser will handle any type of data as a credential.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage user
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: BasicSecurityUser.class.php 690 2004-12-21 20:47:50Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class BasicSecurityUser extends SecurityUser
 {
@@ -56,7 +54,7 @@ class BasicSecurityUser extends SecurityUser
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function addCredential ($credential)
@@ -78,7 +76,7 @@ class BasicSecurityUser extends SecurityUser
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function clearCredentials ()
@@ -98,7 +96,7 @@ class BasicSecurityUser extends SecurityUser
      *
      * @return bool true, if this user has the credential, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function hasCredential ($credential)
@@ -122,7 +120,7 @@ class BasicSecurityUser extends SecurityUser
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this User.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)
@@ -155,7 +153,7 @@ class BasicSecurityUser extends SecurityUser
      *
      * @return bool true, if this user is authenticated, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function isAuthenticated ()
@@ -174,7 +172,7 @@ class BasicSecurityUser extends SecurityUser
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function removeCredential ($credential)
@@ -213,7 +211,7 @@ class BasicSecurityUser extends SecurityUser
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAuthenticated ($authenticated)
@@ -239,7 +237,7 @@ class BasicSecurityUser extends SecurityUser
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function shutdown ()

@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * Storage allows you to customize the way Mojavi stores its persistent data.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage storage
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: Storage.class.php 668 2004-12-16 01:16:43Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class Storage extends ParameterHolder
 {
@@ -39,7 +37,7 @@ abstract class Storage extends ParameterHolder
      *
      * @return Context A Context instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getContext ()
@@ -63,7 +61,7 @@ abstract class Storage extends ParameterHolder
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this Storage.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)
@@ -92,7 +90,7 @@ abstract class Storage extends ParameterHolder
      * @throws <b>FactoryException</b> If a storage implementation instance
      *                                 cannot be created.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function newInstance ($class)
@@ -131,7 +129,7 @@ abstract class Storage extends ParameterHolder
      * @throws <b>StorageException</b> If an error occurs while reading data from
      *                                 this storage.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function & read ($key);
@@ -151,7 +149,7 @@ abstract class Storage extends ParameterHolder
      * @throws <b>StorageException</b> If an error occurs while removing data from
      *                                 this storage.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function & remove ($key);
@@ -166,7 +164,7 @@ abstract class Storage extends ParameterHolder
      * @throws <b>StorageException</b> If an error occurs while shutting down
      *                                 this storage.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function shutdown ();
@@ -187,7 +185,7 @@ abstract class Storage extends ParameterHolder
      * @throws <b>StorageException</b> If an error occurs while writing to this
      *                                 storage.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function write ($key, &$data);

@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * LoggerManager provides accessibility and management of all loggers.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage logging
  *
- * @author     Sean Kerr (skerr@mojavi.org)
- * @copyright  (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since      3.0.0
- * @version    $Id: LoggerManager.class.php 757 2005-01-28 18:06:13Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class LoggerManager extends MojaviObject
 {
@@ -42,8 +40,8 @@ class LoggerManager extends MojaviObject
      * @return Logger A Logger, if a logger with the name exists, otherwise
      *                null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public static function getLogger ($name = 'default')
     {
@@ -66,7 +64,7 @@ class LoggerManager extends MojaviObject
      *
      * @return array An indexed array of logger names.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function getLoggerNames ()
@@ -85,8 +83,8 @@ class LoggerManager extends MojaviObject
      *
      * @return bool true, if the logger exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public static function hasLogger ($name)
     {
@@ -107,7 +105,7 @@ class LoggerManager extends MojaviObject
      * @throws <b>LoggingException</b> If the logger name is 'default', which
      *                                 cannot be removed.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function & removeLogger ($name)
@@ -155,7 +153,7 @@ class LoggerManager extends MojaviObject
      *
      * @throws <b>LoggingException</b> If a logger with the name already exists.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function setLogger ($name, $logger)
@@ -185,7 +183,7 @@ class LoggerManager extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function shutdown ()

@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * Appender allows you to specify a destination for log data and provide
  * a custom layout for it, through which all log messages will be formatted.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage logging
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: Appender.class.php 761 2005-01-29 06:20:01Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class Appender extends MojaviObject
 {
@@ -40,8 +38,8 @@ abstract class Appender extends MojaviObject
      *
      * @return Layout A Layout instance, if one has been set, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getLayout ()
     {
@@ -59,8 +57,8 @@ abstract class Appender extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setLayout ($layout)
     {
@@ -76,7 +74,7 @@ abstract class Appender extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function shutdown ();
@@ -90,8 +88,8 @@ abstract class Appender extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     abstract function write (&$data);
 

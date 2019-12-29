@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * Filter provides a way for you to intercept incoming requests or outgoing
  * responses.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage filter
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: Filter.class.php 569 2004-12-05 06:25:47Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class Filter extends ParameterHolder
 {
@@ -42,8 +40,8 @@ abstract class Filter extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     abstract function execute ($filterChain);
 
@@ -54,7 +52,7 @@ abstract class Filter extends ParameterHolder
      *
      * @return Context The current Context instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public final function getContext ()
@@ -78,7 +76,7 @@ abstract class Filter extends ParameterHolder
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this Filter.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)

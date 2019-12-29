@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * Toolkit provides basic utility methods.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage util
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: Toolkit.class.php 500 2004-11-28 02:28:53Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class Toolkit extends MojaviObject
 {
@@ -35,7 +33,7 @@ class Toolkit extends MojaviObject
      * @return string A class or interface name, if one can be extracted,
      *                otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function extractClassName ($filename)
@@ -72,7 +70,7 @@ class Toolkit extends MojaviObject
      *
      * @return bool true, if the path is absolute, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function isPathAbsolute ($path)

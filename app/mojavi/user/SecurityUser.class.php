@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * SecurityUser provides advanced security manipulation methods.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage user
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: SecurityUser.class.php 690 2004-12-21 20:47:50Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class SecurityUser extends User
 {
@@ -34,7 +32,7 @@ abstract class SecurityUser extends User
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function addCredential ($credential);
@@ -46,7 +44,7 @@ abstract class SecurityUser extends User
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function clearCredentials ();
@@ -60,7 +58,7 @@ abstract class SecurityUser extends User
      *
      * @return bool true, if this user has the credential, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function hasCredential ($credential);
@@ -72,7 +70,7 @@ abstract class SecurityUser extends User
      *
      * @return bool true, if this user is authenticated, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function isAuthenticated ();
@@ -86,7 +84,7 @@ abstract class SecurityUser extends User
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function removeCredential ($credential);
@@ -100,7 +98,7 @@ abstract class SecurityUser extends User
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function setAuthenticated ($authenticated);

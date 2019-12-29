@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -27,13 +27,11 @@
  * # <b>type_error</b> - [Input is not a number] - An error message to use when
  *                                                 input is not a number.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage validator
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: NumberValidator.class.php 513 2004-12-01 14:41:30Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class NumberValidator extends Validator
 {
@@ -51,7 +49,7 @@ class NumberValidator extends Validator
      * @return bool true, if this validator executes successfully, otherwise
      *              false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function execute (&$value, &$error)
@@ -126,7 +124,7 @@ class NumberValidator extends Validator
      * @return bool true, if initialization completes successfully, otherwise
      *              false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)

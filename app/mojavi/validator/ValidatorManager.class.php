@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * ValidatorManager provides management for request parameters and their
  * associated validators.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage validator
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: ValidatorManager.class.php 656 2004-12-14 20:39:21Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class ValidatorManager extends MojaviObject
 {
@@ -42,7 +40,7 @@ class ValidatorManager extends MojaviObject
      *
      * @retun void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function clear ()
@@ -62,8 +60,8 @@ class ValidatorManager extends MojaviObject
      *
      * @return bool true, if validation completed successfully, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function execute ()
     {
@@ -148,7 +146,7 @@ class ValidatorManager extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context)
@@ -169,7 +167,7 @@ class ValidatorManager extends MojaviObject
      * @param string  A group name.
      * @param string  A parent array.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function registerName ($name, $required = true,
@@ -244,7 +242,7 @@ class ValidatorManager extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function registerValidator ($name, $validator, $parent = null)
@@ -277,7 +275,7 @@ class ValidatorManager extends MojaviObject
      *
      * @return bool true, if validation completes successfully, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function validate (&$name, &$data, $parent)

@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -14,13 +14,11 @@
  * as attributes, errors and parameters. It is also possible to manipulate the
  * request method originally sent by the user.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage request
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: Request.class.php 640 2004-12-10 14:10:30Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class Request extends ParameterHolder
 {
@@ -68,8 +66,8 @@ abstract class Request extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function clearAttributes ()
     {
@@ -90,7 +88,7 @@ abstract class Request extends ParameterHolder
      *               a specified parameter doesn't exist an empty string will
      *               be returned for its value.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & extractParameters ($names)
@@ -124,8 +122,8 @@ abstract class Request extends ParameterHolder
      * @return mixed An attribute value, if the attribute exists, otherwise
      *               null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function & getAttribute ($name)
     {
@@ -150,8 +148,8 @@ abstract class Request extends ParameterHolder
      *
      * @return array An indexed array of attribute names.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getAttributeNames ()
     {
@@ -169,8 +167,8 @@ abstract class Request extends ParameterHolder
      *
      * @return string An error message, if the error exists, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getError ($name)
     {
@@ -195,7 +193,7 @@ abstract class Request extends ParameterHolder
      *
      * @return array An indexed array of error names.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getErrorNames ()
@@ -212,8 +210,8 @@ abstract class Request extends ParameterHolder
      *
      * @return array An associative array of errors.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getErrors ()
     {
@@ -231,8 +229,8 @@ abstract class Request extends ParameterHolder
      *             - Request::GET
      *             - Request::POST
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getMethod ()
     {
@@ -250,8 +248,8 @@ abstract class Request extends ParameterHolder
      *
      * @return bool true, if the attribute exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function hasAttribute ($name)
     {
@@ -269,8 +267,8 @@ abstract class Request extends ParameterHolder
      *
      * @return bool true, if the error exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function hasError ($name)
     {
@@ -287,8 +285,8 @@ abstract class Request extends ParameterHolder
      *
      * @return bool true, if any error exist, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function hasErrors ()
     {
@@ -311,7 +309,7 @@ abstract class Request extends ParameterHolder
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this Request.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function initialize ($context, $parameters = null);
@@ -328,7 +326,7 @@ abstract class Request extends ParameterHolder
      * @throws <b>FactoryException</b> If a request implementation instance
      *                                 cannot be created.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function newInstance ($class)
@@ -362,8 +360,8 @@ abstract class Request extends ParameterHolder
      * @return mixed An attribute value, if the attribute was removed,
      *               otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function & removeAttribute ($name)
     {
@@ -393,8 +391,8 @@ abstract class Request extends ParameterHolder
      * @return string An error message, if the error was removed, otherwise
      *                null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function & removeError ($name)
     {
@@ -427,8 +425,8 @@ abstract class Request extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setAttribute ($name, $value)
     {
@@ -450,8 +448,8 @@ abstract class Request extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setAttributeByRef ($name, &$value)
     {
@@ -473,7 +471,7 @@ abstract class Request extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAttributes ($attributes)
@@ -496,7 +494,7 @@ abstract class Request extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAttributesByRef (&$attributes)
@@ -521,8 +519,8 @@ abstract class Request extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setError ($name, $message)
     {
@@ -545,8 +543,8 @@ abstract class Request extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setErrors ($errors)
     {
@@ -569,8 +567,8 @@ abstract class Request extends ParameterHolder
      * @throws <b>MojaviException</b> - If the specified request method is
      *                                  invalid.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setMethod ($method)
     {
@@ -599,7 +597,7 @@ abstract class Request extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function shutdown ();

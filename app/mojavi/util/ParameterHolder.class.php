@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * ParameterHolder provides a base class for managing parameters.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage util
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: ParameterHolder.class.php 762 2005-01-29 06:30:25Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class ParameterHolder
 {
@@ -39,7 +37,7 @@ abstract class ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function clearParameters ()
@@ -61,7 +59,7 @@ abstract class ParameterHolder
      * @return mixed A parameter value, if the parameter exists, otherwise
      *               null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & getParameter ($name, $default = null)
@@ -87,7 +85,7 @@ abstract class ParameterHolder
      *
      * @return array An indexed array of parameter names.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getParameterNames ()
@@ -104,7 +102,7 @@ abstract class ParameterHolder
      *
      * @return array An associative array of parameters.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & getParameters ()
@@ -123,7 +121,7 @@ abstract class ParameterHolder
      *
      * @return bool true, if the parameter exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function hasParameter ($name)
@@ -143,8 +141,8 @@ abstract class ParameterHolder
      * @return string A parameter value, if the parameter was removed,
      *                otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function & removeParameter ($name)
     {
@@ -176,8 +174,8 @@ abstract class ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setParameter ($name, $value)
     {
@@ -199,8 +197,8 @@ abstract class ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setParameterByRef ($name, $value)
     {
@@ -222,7 +220,7 @@ abstract class ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setParameters ($parameters)
@@ -245,7 +243,7 @@ abstract class ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setParametersByRef (&$parameters)

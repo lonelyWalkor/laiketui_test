@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -14,13 +14,11 @@
  * customized by supplying attributes, which a template can manipulate and
  * display.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage view
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: View.class.php 755 2005-01-27 19:36:09Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class View extends MojaviObject
 {
@@ -108,7 +106,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function clearAttributes ();
@@ -123,7 +121,7 @@ abstract class View extends MojaviObject
      *
      * @return string A decorated template.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     protected function & decorate (&$content)
@@ -185,8 +183,8 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     abstract function execute ();
 
@@ -200,7 +198,7 @@ abstract class View extends MojaviObject
      * @return mixed An attribute value, if the attribute exists, otherwise
      *               null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function & getAttribute ($name);
@@ -212,7 +210,7 @@ abstract class View extends MojaviObject
      *
      * @return array An indexed array of attribute names.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function getAttributeNames ();
@@ -224,7 +222,7 @@ abstract class View extends MojaviObject
      *
      * @return Context The current Context instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public final function getContext ()
@@ -242,7 +240,7 @@ abstract class View extends MojaviObject
      * @return string An absolute filesystem path to this views decorator
      *                template directory.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getDecoratorDirectory ()
@@ -260,7 +258,7 @@ abstract class View extends MojaviObject
      * @return string A template filename, if a template has been set, otherwise
      *                null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getDecoratorTemplate ()
@@ -278,7 +276,7 @@ abstract class View extends MojaviObject
      * @return string An absolute filesystem path to this views template
      *                directory.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getDirectory ()
@@ -306,7 +304,7 @@ abstract class View extends MojaviObject
      *
      * @return array An associative array of decorator slots.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     protected function & getSlots ()
@@ -324,7 +322,7 @@ abstract class View extends MojaviObject
      * @return string A template filename, if a template has been set, otherwise
      *                null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getTemplate ()
@@ -348,7 +346,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function importAttributes ($names, $files = false, $errors = true,
@@ -485,8 +483,8 @@ abstract class View extends MojaviObject
      * @return bool true, if initialization completes successfully, otherwise
      *              false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function initialize ($context)
     {
@@ -511,7 +509,7 @@ abstract class View extends MojaviObject
      *
      * @return bool true, if this view is a decorating view, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function isDecorator ()
@@ -531,7 +529,7 @@ abstract class View extends MojaviObject
      *
      * @throws <b>RenderException</b> If the pre-render check fails.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     protected function preRenderCheck ()
@@ -593,7 +591,7 @@ abstract class View extends MojaviObject
      * @return mixed An attribute value, if the attribute was removed,
      *               otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function & removeAttribute ($name);
@@ -610,7 +608,7 @@ abstract class View extends MojaviObject
      *                the controller render mode is View::RENDER_VAR, otherwise
      *                null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function & render ();
@@ -625,7 +623,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function setAttribute ($name, $value);
@@ -640,7 +638,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function setAttributeByRef ($name, &$value);
@@ -655,7 +653,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function setAttributes ($values);
@@ -670,7 +668,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function setAttributesByRef (&$values);
@@ -684,7 +682,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setDecoratorDirectory ($directory)
@@ -706,7 +704,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setDecoratorTemplate ($template)
@@ -739,7 +737,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setDirectory ($directory)
@@ -763,7 +761,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setSlot ($attributeName, $moduleName, $actionName)
@@ -787,7 +785,7 @@ abstract class View extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setTemplate ($template)

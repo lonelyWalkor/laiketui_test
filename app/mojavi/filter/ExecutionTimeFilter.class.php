@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -22,13 +22,11 @@
  *                           client response will be replaced by the execution
  *                           time.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage filter
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: ExecutionTimeFilter.class.php 666 2004-12-15 04:35:08Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class ExecutionTimeFilter extends Filter
 {
@@ -45,7 +43,7 @@ class ExecutionTimeFilter extends Filter
      *
      * @return double The execution time in seconds.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function calculateTime ($start, $end)
@@ -72,8 +70,8 @@ class ExecutionTimeFilter extends Filter
      *
      * @throws <b>FilterException</b> If an erro occurs during execution.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function execute ($filterChain)
     {
@@ -172,7 +170,7 @@ class ExecutionTimeFilter extends Filter
      *
      * @throws <b>FilterException</b> If an error occurs during initialization.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)

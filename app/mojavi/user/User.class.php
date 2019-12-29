@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -15,13 +15,11 @@
  * rather easy by allowing user attributes to be stored in namespaces, which
  * help organize data.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage user
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: User.class.php 761 2005-01-29 06:20:01Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class User extends ParameterHolder
 {
@@ -53,8 +51,8 @@ class User extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function clearAttributes ()
     {
@@ -75,8 +73,8 @@ class User extends ParameterHolder
      * @return mixed An attribute value, if the attribute exists, otherwise
      *               null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function & getAttribute ($name, $ns = MO_USER_NAMESPACE)
     {
@@ -105,8 +103,8 @@ class User extends ParameterHolder
      * @return array An indexed array of attribute names, if the namespace
      *               exists, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getAttributeNames ($ns = MO_USER_NAMESPACE)
     {
@@ -131,7 +129,7 @@ class User extends ParameterHolder
      *
      * @return array An associative array of attributes.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & getAttributeNamespace ($ns = MO_USER_NAMESPACE)
@@ -157,8 +155,8 @@ class User extends ParameterHolder
      *
      * @return array An indexed array of attribute namespaces.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getAttributeNamespaces ()
     {
@@ -174,7 +172,7 @@ class User extends ParameterHolder
      *
      * @return Context A Context instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getContext ()
@@ -194,8 +192,8 @@ class User extends ParameterHolder
      *
      * @return bool true, if the attribute exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function hasAttribute ($name, $ns = MO_USER_NAMESPACE)
     {
@@ -220,7 +218,7 @@ class User extends ParameterHolder
      *
      * @return bool true, if the namespace exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function hasAttributeNamespace ($ns)
@@ -244,7 +242,7 @@ class User extends ParameterHolder
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this User.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)
@@ -286,7 +284,7 @@ class User extends ParameterHolder
      * @throws <b>FactoryException</b> If a user implementation instance cannot
      *                                 be created.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function newInstance ($class)
@@ -321,8 +319,8 @@ class User extends ParameterHolder
      * @return mixed An attribute value, if the attribute was removed,
      *               otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function & removeAttribute ($name, $ns = MO_USER_NAMESPACE)
     {
@@ -352,7 +350,7 @@ class User extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function removeAttributeNamespace ($ns)
@@ -381,8 +379,8 @@ class User extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setAttribute ($name, $value, $ns = MO_USER_NAMESPACE)
     {
@@ -412,8 +410,8 @@ class User extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setAttributeByRef ($name, &$value, $ns = MO_USER_NAMESPACE)
     {
@@ -443,7 +441,7 @@ class User extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAttributes ($attributes, $ns = MO_USER_NAMESPACE)
@@ -475,7 +473,7 @@ class User extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAttributesByRef (&$attributes, $ns = MO_USER_NAMESPACE)
@@ -504,7 +502,7 @@ class User extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function shutdown ()

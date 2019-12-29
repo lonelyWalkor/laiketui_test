@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * Logger provides an easy way to manage multiple log destinations and write
  * to them all simultaneously.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage logging
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: Logger.class.php 761 2005-01-29 06:20:01Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class Logger extends MojaviObject
 {
@@ -84,8 +82,8 @@ class Logger extends MojaviObject
      * @return Appender An Appender, if an appender with the name exists,
      *                  otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getAppender ($name)
     {
@@ -106,8 +104,8 @@ class Logger extends MojaviObject
      *
      * @return int The exit priority level.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getExitPriority ()
     {
@@ -126,8 +124,8 @@ class Logger extends MojaviObject
      *
      * @return int The priority level.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function getPriority ()
     {
@@ -145,7 +143,7 @@ class Logger extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function log ($message)
@@ -199,8 +197,8 @@ class Logger extends MojaviObject
      * @return Appender An Appender, if one with the name exists, otherwise
      *                  null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function removeAppender ($name)
     {
@@ -235,7 +233,7 @@ class Logger extends MojaviObject
      * @throws <b>LoggingException</b> If an appender with the name already
      *                                 exists.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAppender ($name, $appender)
@@ -267,8 +265,8 @@ class Logger extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setExitPriority ($priority)
     {
@@ -286,8 +284,8 @@ class Logger extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
+     * @author ketter (ketter@laiketui.com)
+     * @since  3.0.0
      */
     public function setPriority ($priority)
     {
@@ -303,7 +301,7 @@ class Logger extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function shutdown ()

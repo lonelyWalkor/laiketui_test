@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * WebRequest provides additional support for web-only client requests such as
  * cookie and file manipulation.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage request
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: WebRequest.class.php 644 2004-12-10 14:29:11Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class WebRequest extends Request
 {
@@ -36,7 +34,7 @@ class WebRequest extends Request
      * @return array An associative array of file information, if the file
      *               exists, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFile ($name)
@@ -73,7 +71,7 @@ class WebRequest extends Request
      *                                           partially uploaded)
      *             - <b>UPLOAD_ERR_NO_FILE</b>   (no file was uploaded)
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFileError ($name)
@@ -99,7 +97,7 @@ class WebRequest extends Request
      *
      * @return string A file name, if the file exists, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFileName ($name)
@@ -123,7 +121,7 @@ class WebRequest extends Request
      *
      * @return array An indexed array of file names.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFileNames ()
@@ -140,7 +138,7 @@ class WebRequest extends Request
      *
      * @return array An associative array of files.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFiles ()
@@ -159,7 +157,7 @@ class WebRequest extends Request
      *
      * @return string A file path, if the file exists, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFilePath ($name)
@@ -185,7 +183,7 @@ class WebRequest extends Request
      *
      * @return int A file size, if the file exists, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFileSize ($name)
@@ -214,7 +212,7 @@ class WebRequest extends Request
      *
      * @return string A file type, if the file exists, otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFileType ($name)
@@ -240,7 +238,7 @@ class WebRequest extends Request
      *
      * @return bool true, if the file exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function hasFile ($name)
@@ -259,7 +257,7 @@ class WebRequest extends Request
      *
      * @return bool true, if the file error exists, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function hasFileError ($name)
@@ -283,7 +281,7 @@ class WebRequest extends Request
      *
      * @return bool true, if any file errors occured, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function hasFileErrors ()
@@ -312,7 +310,7 @@ class WebRequest extends Request
      *
      * @return bool true, if any files exist, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function hasFiles ()
@@ -336,7 +334,7 @@ class WebRequest extends Request
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this Request.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)
@@ -381,7 +379,7 @@ class WebRequest extends Request
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function loadParameters ()
@@ -452,7 +450,7 @@ class WebRequest extends Request
      * @throws FileException If a major error occurs while attempting to move
      *                       the file.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function moveFile ($name, $file, $fileMode = 0666, $create = true,
@@ -529,7 +527,7 @@ class WebRequest extends Request
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function shutdown ()

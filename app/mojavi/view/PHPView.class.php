@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * A view that uses PHP to render templates.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage view
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: PHPView.class.php 740 2005-01-03 15:37:58Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class PHPView extends View
 {
@@ -39,7 +37,7 @@ abstract class PHPView extends View
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function clearAttributes ()
@@ -60,7 +58,7 @@ abstract class PHPView extends View
      *
      * @return string A decorated template.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     protected function & decorate (&$content)
@@ -99,7 +97,7 @@ abstract class PHPView extends View
      * @return mixed An attribute value, if the attribute exists, otherwise
      *               null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & getAttribute ($name)
@@ -125,7 +123,7 @@ abstract class PHPView extends View
      *
      * @return array An indexed array of attribute names.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getAttributeNames ()
@@ -163,7 +161,7 @@ abstract class PHPView extends View
      * @return mixed An attribute value, if the attribute was removed,
      *               otherwise null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & removeAttribute ($name)
@@ -196,7 +194,7 @@ abstract class PHPView extends View
      *                the controller render mode is View::RENDER_VAR, otherwise
      *                null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & render ()
@@ -268,7 +266,7 @@ abstract class PHPView extends View
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAttribute ($name, $value)
@@ -291,7 +289,7 @@ abstract class PHPView extends View
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAttributeByRef ($name, &$value)
@@ -314,7 +312,7 @@ abstract class PHPView extends View
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAttributes ($attributes)
@@ -337,7 +335,7 @@ abstract class PHPView extends View
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setAttributesByRef (&$attributes)

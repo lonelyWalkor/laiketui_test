@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -27,13 +27,11 @@
  *                                       session timestamp will be stored.
  * # <b>session_name</b> - [Mojavi]    - The name of the session.
  *
- * @package    mojavi
+ * @package    laiketui
  * @subpackage storage
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: PostgreSQLSessionStorage.class.php 697 2004-12-28 04:45:48Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class PostgreSQLSessionStorage extends SessionStorage
 {
@@ -61,7 +59,7 @@ class PostgreSQLSessionStorage extends SessionStorage
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this Storage.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($context, $parameters = null)
@@ -104,7 +102,7 @@ class PostgreSQLSessionStorage extends SessionStorage
      *
      * @return bool true, if the session was closed, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function sessionClose ()
@@ -127,7 +125,7 @@ class PostgreSQLSessionStorage extends SessionStorage
      *
      * @throws <b>DatabaseException</b> If the session cannot be destroyed.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function sessionDestroy ($id)
@@ -171,7 +169,7 @@ class PostgreSQLSessionStorage extends SessionStorage
      *
      * @throws <b>DatabaseException</b> If any old sessions cannot be cleaned.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function sessionGC ($lifetime)
@@ -216,7 +214,7 @@ class PostgreSQLSessionStorage extends SessionStorage
      * @throws <b>DatabaseException</b> If a connection with the database does
      *                                  not exist or cannot be created.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function sessionOpen ($path, $name)
@@ -247,7 +245,7 @@ class PostgreSQLSessionStorage extends SessionStorage
      *
      * @throws <b>DatabaseException</b> If the session cannot be read.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function sessionRead ($id)
@@ -316,7 +314,7 @@ class PostgreSQLSessionStorage extends SessionStorage
      *
      * @throws <b>DatabaseException</b> If the session data cannot be written.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function sessionWrite ($id, &$data)
@@ -361,7 +359,7 @@ class PostgreSQLSessionStorage extends SessionStorage
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function shutdown ()
