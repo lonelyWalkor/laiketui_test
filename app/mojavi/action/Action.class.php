@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -14,13 +14,9 @@
  * presentation. By providing a core set of methods used by the framework,
  * automation in the form of security and validation can occur.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage action
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     1.0.0
- * @version   $Id: Action.class.php 665 2004-12-15 04:31:19Z seank $
  */
 abstract class Action extends MojaviObject
 {
@@ -55,8 +51,6 @@ abstract class Action extends MojaviObject
      *               - The parent module of the view that will be executed.
      *               - The view that will be executed.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
      */
     abstract function execute ();
 
@@ -67,8 +61,6 @@ abstract class Action extends MojaviObject
      *
      * @return Context The current Context instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
      */
     public final function getContext ()
     {
@@ -84,8 +76,6 @@ abstract class Action extends MojaviObject
      *
      * @return mixed Data that indicates the level of security for this action.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
      */
     public function getCredential ()
     {
@@ -108,8 +98,6 @@ abstract class Action extends MojaviObject
      *               - The parent module of the view that will be executed.
      *               - The view that will be executed.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
      */
     public function getDefaultView ()
     {
@@ -130,9 +118,6 @@ abstract class Action extends MojaviObject
      *             - Request::POST
      *             - Request::NONE
      *
-     * @see Request
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
      */
     public function getRequestMethods ()
     {
@@ -154,8 +139,6 @@ abstract class Action extends MojaviObject
      *               - The parent module of the view that will be executed.
      *               - The view that will be executed.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
      */
     public function handleError ()
     {
@@ -174,8 +157,6 @@ abstract class Action extends MojaviObject
      * @return bool true, if initialization completes successfully, otherwise
      *              false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
      */
     public function initialize ($context)
     {
@@ -193,8 +174,6 @@ abstract class Action extends MojaviObject
      *
      * @return bool true, if this action requires security, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
      */
     public function isSecure ()
     {
@@ -212,8 +191,6 @@ abstract class Action extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
      */
     public function registerValidators ($validatorManager)
     {
@@ -227,8 +204,6 @@ abstract class Action extends MojaviObject
      *
      * @return bool true, if validation completes successfully, otherwise false.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
      */
     public function validate ()
     {

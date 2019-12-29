@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -14,13 +14,11 @@
  * provides a central location for parsing ini files and detecting required
  * categories.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage config
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: IniConfigHandler.class.php 506 2004-11-29 02:30:31Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class IniConfigHandler extends ConfigHandler
 {
@@ -41,7 +39,7 @@ abstract class IniConfigHandler extends ConfigHandler
      * @throws <b>ParseException</b> If a requested configuration file is
      *                               improperly formatted.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     protected function & parseIni ($config)

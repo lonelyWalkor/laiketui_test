@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -20,10 +20,8 @@
  * @package    mojavi
  * @subpackage config
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: DefineConfigHandler.class.php 744 2005-01-07 17:28:15Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class DefineConfigHandler extends IniConfigHandler
 {

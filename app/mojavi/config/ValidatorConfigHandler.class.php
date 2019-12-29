@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * ValidatorConfigHandler allows you to register validators with the system.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage config
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: ValidatorConfigHandler.class.php 748 2005-01-13 20:43:27Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class ValidatorConfigHandler extends IniConfigHandler
 {
@@ -39,7 +37,7 @@ class ValidatorConfigHandler extends IniConfigHandler
      * @throws <b>ParseException</b> If a requested configuration file is
      *                               improperly formatted.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & execute ($config)
@@ -143,7 +141,7 @@ class ValidatorConfigHandler extends IniConfigHandler
      * @param array  An associative array of file/parameter data.
      * @param array  A validators array.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function generateRegistration ($method, &$data, &$methods, &$names,
@@ -270,7 +268,7 @@ class ValidatorConfigHandler extends IniConfigHandler
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function loadAttributes (&$config, &$methods, &$names, &$validators,
@@ -396,7 +394,7 @@ class ValidatorConfigHandler extends IniConfigHandler
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function loadNames (&$config, &$method, &$methods, &$names, &$ini,
@@ -520,7 +518,7 @@ class ValidatorConfigHandler extends IniConfigHandler
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private function loadValidators (&$config, &$validators, &$ini, &$list,

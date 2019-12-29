@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * FactoryConfigHandler allows you to specify which factory implementation the
  * system will use.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage config
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: FactoryConfigHandler.class.php 560 2004-12-05 04:18:34Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class FactoryConfigHandler extends IniConfigHandler
 {
@@ -40,7 +38,7 @@ class FactoryConfigHandler extends IniConfigHandler
      * @throws <b>ParseException</b> If a requested configuration file is
      *                               improperly formatted.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & execute ($config)

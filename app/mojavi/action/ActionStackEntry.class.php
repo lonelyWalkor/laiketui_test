@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * ActionStackEntry represents information relating to a single Action request
  * during a single HTTP request.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage action
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: ActionStackEntry.class.php 506 2004-11-29 02:30:31Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class ActionStackEntry extends MojaviObject
 {
@@ -48,7 +46,7 @@ class ActionStackEntry extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function __construct ($moduleName, $actionName, $actionInstance)
@@ -66,7 +64,7 @@ class ActionStackEntry extends MojaviObject
      *
      * @return string An action name.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getActionName ()
@@ -81,7 +79,7 @@ class ActionStackEntry extends MojaviObject
      *
      * @return Action An action implementation instance.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getActionInstance ()
@@ -97,7 +95,7 @@ class ActionStackEntry extends MojaviObject
      * @return string A string representing the microtime this entry was
      *                created.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getMicrotime ()
@@ -112,7 +110,7 @@ class ActionStackEntry extends MojaviObject
      *
      * @return string A module name.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getModuleName ()
@@ -130,7 +128,7 @@ class ActionStackEntry extends MojaviObject
      *
      * @return string An action name.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & getPresentation ()
@@ -147,7 +145,7 @@ class ActionStackEntry extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function setPresentation (&$presentation)    

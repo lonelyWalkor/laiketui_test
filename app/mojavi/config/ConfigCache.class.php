@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -14,13 +14,11 @@
  * make it easy-to-use, yet still provide a PHP formatted result for direct
  * inclusion into your modules.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage config
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: ConfigCache.class.php 741 2005-01-03 19:38:23Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class ConfigCache extends MojaviObject
 {
@@ -50,7 +48,7 @@ class ConfigCache extends MojaviObject
      *                                       does not have an associated
      *                                       configuration handler.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private static function callHandler ($handler, $config, $cache)
@@ -150,7 +148,7 @@ class ConfigCache extends MojaviObject
      * @throws <b>ConfigurationException</b> If a requested configuration file
      *                                       does not exist.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function checkConfig ($config)
@@ -199,7 +197,7 @@ class ConfigCache extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function clear ()
@@ -221,7 +219,7 @@ class ConfigCache extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private static function clearCache ($directory)
@@ -274,7 +272,7 @@ class ConfigCache extends MojaviObject
      *
      * @return string An absolute filesystem path to a cache filename.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function getCacheName ($config)
@@ -311,7 +309,7 @@ class ConfigCache extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function import ($config, $once = true)
@@ -345,7 +343,7 @@ class ConfigCache extends MojaviObject
      * @throws <b>ConfigurationException</b> If a configuration related error
      *                                       occurs.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private static function loadConfigHandlers ()
@@ -433,7 +431,7 @@ class ConfigCache extends MojaviObject
      *
      * @throws <b>CacheException</b> If the cache file cannot be written.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     private static function writeCacheFile ($config, $cache, &$data, $append)

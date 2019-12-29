@@ -1,12 +1,12 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -14,13 +14,11 @@
  * file pertaining to any information they like and still have it auto-generate
  * PHP code.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage config
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: ConfigHandler.class.php 707 2004-12-28 17:48:28Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 abstract class ConfigHandler extends ParameterHolder
 {
@@ -37,7 +35,7 @@ abstract class ConfigHandler extends ParameterHolder
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function addReplacement ($oldValue, $newValue)
@@ -62,7 +60,7 @@ abstract class ConfigHandler extends ParameterHolder
      * @throws <b>ParseException</b> If a requested configuration file is
      *                               improperly formatted.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     abstract function & execute ($config);
@@ -80,7 +78,7 @@ abstract class ConfigHandler extends ParameterHolder
      * @throws <b>InitializationException</b> If an error occurs while
      *                                        initializing this ConfigHandler.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function initialize ($parameters = null)
@@ -104,7 +102,7 @@ abstract class ConfigHandler extends ParameterHolder
      *
      * @return string A literalized value.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function literalize ($value)
@@ -161,7 +159,7 @@ abstract class ConfigHandler extends ParameterHolder
      *
      * @return string The new value.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function & replaceConstants ($value)
@@ -189,7 +187,7 @@ abstract class ConfigHandler extends ParameterHolder
      *
      * @return string The new path.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function & replacePath ($path)

@@ -1,25 +1,21 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * ActionStack keeps a list of all requested actions and provides accessor
  * methods for retrieving individual entries.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage action
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: ActionStack.class.php 774 2005-03-14 02:06:45Z seank $
  */
 class ActionStack extends MojaviObject
 {
@@ -44,7 +40,7 @@ class ActionStack extends MojaviObject
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function addEntry ($moduleName, $actionName, $actionInstance)
@@ -67,7 +63,7 @@ class ActionStack extends MojaviObject
      *
      * @return ActionStackEntry An action stack entry implementation.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getEntry ($index)
@@ -93,7 +89,7 @@ class ActionStack extends MojaviObject
      *
      * @return ActionStackEntry An action stack entry implementation.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getFirstEntry ()
@@ -120,7 +116,7 @@ class ActionStack extends MojaviObject
      *
      * @return ActionStackEntry An action stack entry implementation.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getLastEntry ()
@@ -147,7 +143,7 @@ class ActionStack extends MojaviObject
      *
      * @return int The size of this stack.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function getSize ()

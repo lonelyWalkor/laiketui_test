@@ -1,25 +1,23 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * ParameterParser is used to take parameter lists in Mojavi configuration
  * files and return them in literal array form.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage config
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: ParameterParser.class.php 501 2004-11-28 02:29:16Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class ParameterParser extends MojaviObject
 {
@@ -39,7 +37,7 @@ class ParameterParser extends MojaviObject
      *                parameters, if any parameters exists, otherwise the string
      *                form of null.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public static function & parse (&$array, $identifer = 'param')

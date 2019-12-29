@@ -1,24 +1,22 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | This file is part of the Mojavi package.                                  |
-// | Copyright (c) 2003, 2004 Sean Kerr.                                       |
+// | This file is part of the core package.                                    |
+// | Copyright (c) laiketui.com                                                |
 // |                                                                           |
 // | For the full copyright and license information, please view the LICENSE   |
 // | file that was distributed with this source code. You can also view the    |
-// | LICENSE file online at http://www.mojavi.org.                             |
+// | LICENSE file online at http://www.laiketui.com                            |
 // +---------------------------------------------------------------------------+
 
 /**
  * FilterConfigHandler allows you to register filters with the system.
  *
- * @package    mojavi
+ * @package    core
  * @subpackage config
  *
- * @author    Sean Kerr (skerr@mojavi.org)
- * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
- * @since     3.0.0
- * @version   $Id: FilterConfigHandler.class.php 318 2004-11-12 21:33:48Z seank $
+ * @author ketter (ketter@laiketui.com)
+ * @since  3.0.0
  */
 class FilterConfigHandler extends IniConfigHandler
 {
@@ -39,7 +37,7 @@ class FilterConfigHandler extends IniConfigHandler
      * @throws <b>ParseException</b> If a requested configuration file is
      *                               improperly formatted.
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function & execute ($config)
