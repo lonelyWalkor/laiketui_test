@@ -10,7 +10,7 @@ set_time_limit(7200);
 require_once(dirname(__FILE__)."/webapp/config.php");
 
 // +---------------------------------------------------------------------------+
-// | An absolute filesystem path to the mojavi/mojavi.php script.              |
+// | An absolute filesystem path to the LaiKeTui/laiketui.php script.              |
 // +---------------------------------------------------------------------------+
 require_once(MO_APP_DIR."/laiketui.php");
 
