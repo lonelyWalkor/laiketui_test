@@ -97,15 +97,8 @@ class searchproAction extends PluginAction {
       }
 
         // 查询系统参数
-        $sql1 = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql1);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
         
         foreach ($list as $ke => $ve) {
               $list[$ke] -> image = $img.$ve -> imgurl;

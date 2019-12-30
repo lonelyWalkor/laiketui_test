@@ -13,7 +13,9 @@ class modifyAction extends PluginAction {
         $id = addslashes(trim($request->getParameter('id'))); // 商品id
         $product_class = $request->getParameter('cid'); // 分类名称
         $type = addslashes(trim($request->getParameter('type'))); // 用户id
-        $img = $this->img($db);
+        $appConfig = $this->getAppInfo();
+        $img = $appConfig['imageRootUrl'];
+
 
         $sql = "select MIN(b.group_title) AS group_title,MIN(b.id) AS id,MIN(b.g_status) AS g_status,b.group_id, MIN(b.group_data) AS group_data, MIN(b.group_level) AS group_level,min(b.is_show) as is_show,min(c.price) price,min(c.num) num,min(c.attribute) attribute,min(p.product_title) product_title, min(b.product_id) product_id from lkt_group_product as b 
                     left join lkt_configure as c on b.attr_id=c.id 
@@ -223,19 +225,7 @@ class modifyAction extends PluginAction {
         return Request :: POST;
     }
 
-    public function img($db){
-        // 查询系统参数
-        $sql1 = "select * from lkt_config where id = 1";
-        $r_1 = $db->select($sql1);
-        $uploadImg_domain = $r_1[0]->uploadImg_domain; // 图片上传域名
-        $uploadImg = $r_1[0]->uploadImg; // 图片上传位置
-        if(strpos($uploadImg,'../') === false){ // 判断字符串是否存在 ../
-            $img = $uploadImg_domain . $uploadImg; // 图片路径
-        }else{ // 不存在
-            $img = $uploadImg_domain . substr($uploadImg,2); // 图片路径
-        }
-        return $img ;
-    }
+
 }
 
 ?>
