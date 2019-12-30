@@ -13,7 +13,7 @@ require_once(dirname(__FILE__)."/webapp/config.php");
 // +---------------------------------------------------------------------------+
 // | An absolute filesystem path to the mojavi/mojavi.php script.              |
 // +---------------------------------------------------------------------------+
-require_once(MO_APP_DIR."/mojavi.php");
+require_once(MO_APP_DIR."/laiketui.php");
 
 // +---------------------------------------------------------------------------+
 // | Create our controller. For this file we're going to use a front           |

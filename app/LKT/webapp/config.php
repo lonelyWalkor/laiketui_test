@@ -21,7 +21,7 @@ define('MO_ERROR_REPORTING', E_ALL | E_STRICT);
 // | An absolute filesystem path to the mojavi package. This directory         |
 // | contains all the Mojavi packages.                                         |
 // +---------------------------------------------------------------------------+
-define('MO_APP_DIR', dirname(dirname(dirname(__FILE__))).'/mojavi');
+define('MO_APP_DIR', dirname(dirname(dirname(__FILE__))).'/LaiKeTui');
 
 // +---------------------------------------------------------------------------+
 // | An absolute filesystem path to your web application directory. This       |

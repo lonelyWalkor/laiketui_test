@@ -10,7 +10,7 @@
 // +---------------------------------------------------------------------------+
 
 
-define('MO_APP_NAME',          'Mojavi');
+define('MO_APP_NAME',          'LaiKeTui');
 
 define('MO_APP_MAJOR_VERSION', '3');
 

@@ -10,7 +10,7 @@
 // +---------------------------------------------------------------------------+
 
 /**
- * MojaviException is the base class for all Mojavi related exceptions and
+ * MojaviException is the base class for all LaiKeTui related exceptions and
  * provides an additional method for printing up a detailed view of an
  * exception.
  *
@@ -179,7 +179,7 @@ class MojaviException extends Exception
                       <head>
                       <meta http-equiv="Content-Type"
                             content="text/html; charset=iso-8859-1"/>
-                      <title>Mojavi Exception</title>
+                      <title>LaiKeTui Exception</title>
                       <style type="text/css">
 
                       #exception {
@@ -272,7 +272,7 @@ class MojaviException extends Exception
                               <th colspan="2">Info</th>
                           </tr>
                           <tr>
-                              <td class="title">Mojavi Version:</td>
+                              <td class="title">LaiKeTui Version:</td>
                               <td>' . MO_APP_VERSION . '</td>
                           </tr>
                           <tr>
