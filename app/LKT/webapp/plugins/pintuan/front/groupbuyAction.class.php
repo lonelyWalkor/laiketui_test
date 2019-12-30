@@ -19,9 +19,7 @@ class groupbuyAction extends PluginAction
     //默认执行方法
     public function execute()
     {
-        $request = $this->getContext()->getRequest();
-        $test = addslashes(trim($request->getParameter('oh'))); //调用哪个方法
-        echo $test;
+
         return;
     }
 
@@ -1856,7 +1854,7 @@ class groupbuyAction extends PluginAction
             } else if ($ptnumber == $man_num) {
 
                 $bere = $db->update("update lkt_user set money=money+$price where user_id='$uid'");
-                if ($beres < 1) {
+                if ($bere < 1) {
                     $db->rollback();
                     return 'code:6';
                 }
@@ -1869,7 +1867,7 @@ class groupbuyAction extends PluginAction
         } else {
 
             $bere = $db->update("update lkt_user set money=money+$price where user_id='$uid'");
-            if ($beres < 1) {
+            if ($bere < 1) {
                 $db->rollback();
                 return 'code:8';
             }
