@@ -10,9 +10,9 @@ class configAction extends PluginAction {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         $plug_ins_id = intval($request->getParameter("id")); // 插件id
-        $sql = "select * from lkt_config where id = '1'";
-        $r = $db->select($sql);
-        $uploadImg = $r[0]->uploadImg; // 图片上传位置
+
+        $appConfig = $this->getAppInfo();
+        $uploadImg = $appConfig['imageRootUrl'];
 
         $sql = "select * from lkt_sign_config where plug_ins_id = '$plug_ins_id'";
         $r = $db->select($sql);
@@ -59,6 +59,9 @@ class configAction extends PluginAction {
         $continuity_thirty = addslashes(trim($request->getParameter('continuity_thirty'))); // 连续签到30天
         $activity_overdue = addslashes(trim($request->getParameter('activity_overdue'))); // 活动过期删除时间
 
+        $appConfig = $this->getAppInfo();
+        $uploadImg = $appConfig['imageRootUrl'];
+        
         if($imgurl){
             $imgurl = preg_replace('/.*\//','',$imgurl);
             if($imgurl != $oldpic){
