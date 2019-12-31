@@ -31,7 +31,7 @@ class setproAction extends PluginAction
             $attrid = '';
 
             foreach ($res as $key => $value) {
-                $value->image = ServerPath::getimgpath($value->img,$store_id);
+                $value->image = $this->getimgpath($value->img);
                 $attr = unserialize($value->attribute);
                 $attr = array_values($attr);
 
@@ -66,6 +66,16 @@ class setproAction extends PluginAction
     public function getRequestMethods()
     {
         return Request :: POST;
+    }
+
+    public function getimgpath($img){
+
+        $appConfig = $this->getAppInfo();
+        $uploadImg = $appConfig['imageRootUrl'];
+        $image = $uploadImg . $img;
+        return $image;
+
+        return $image;
     }
     
 }

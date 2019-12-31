@@ -8,9 +8,7 @@
 class delAction extends PluginAction {
 
     public function getDefaultView() {
-        
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
+
         if(isset($_GET['use']) && $_GET['use'] == 1){
             $this -> delgroup();
         }else if(isset($_GET['use']) && $_GET['use'] == 2){

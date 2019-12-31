@@ -30,33 +30,11 @@ class groupproAction extends PluginAction {
     }
 
     public function getimgpath($img){
-        $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
-        $store_id = $this->getContext()->getStorage()->read('store_id');
 
-        $sql = "select * from lkt_files_record where store_id = '$store_id' and image_name='$img'";
-        $res = $db -> select($sql);
-
-        $serverURL = $this->getContext()->getStorage()->read('serverURL');
-        $uploadImg = $this->getContext()->getStorage()->read('uploadImg');
-
-
-        if(!empty($res)){
-            $store_id = $res[0] -> store_id;
-            $store_type = $res[0] -> store_type;
-            $upload_mode = $res[0] -> upload_mode;
-            if($upload_mode == 2){
-                $image = $serverURL['OSS'] . '/' . $store_id . '/' . $store_type . '/' .$img;
-            }else if($upload_mode == 3){
-                $image = $serverURL['tenxun'] . '/' . $store_id . '/' . $store_type . '/' .$img;
-            }else if($upload_mode == 4){
-                $image = $serverURL['qiniu'] . '/' . $store_id . '/' . $store_type . '/' .$img;
-            }else{
-                $image = $uploadImg . $img;
-            }
-        }else{
-            $image = $uploadImg . $img;
-        }
+        $appConfig = $this->getAppInfo();
+        $uploadImg = $appConfig['imageRootUrl'];
+        $image = $uploadImg . $img;
+        return $image;
 
         return $image;
     }
