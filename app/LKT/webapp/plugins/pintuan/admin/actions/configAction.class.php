@@ -39,13 +39,11 @@ class configAction extends PluginAction{
     public function execute(){
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $retype = $request->getParameter('retype');
         $group_time = $request->getParameter('group_time');//拼团时限
         $open_num = $request->getParameter('open_num');//开团数量
         $can_num = $request->getParameter('can_num');//参团数量
         $can_again = $request->getParameter('can_again');//是否重复参团 1 是 0 否
         $open_discount = $request->getParameter('open_discount');//团长优惠 1 是 0 否
-        $image = $request->getParameter('image');//轮播图
         $rule = $request->getParameter('rule');//规则
         $msg = '';
         if($group_time == ''){

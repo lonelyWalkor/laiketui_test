@@ -8,22 +8,8 @@ class canrecordAction extends PluginAction {
     public function getDefaultView() {
         $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
-        $store_id = $this->getContext()->getStorage()->read('store_id'); // 商城id
         $ptcode = $request->getParameter('ptcode');
         $bstatus = $request->getParameter('bstatus');
-
-        // 导出
-        $pagesize = $request->getParameter('pagesize');
-        $pagesize = $pagesize ? $pagesize : 10;
-        // 每页显示多少条数据
-        $page = $request->getParameter('page');
-
-        if ($page) {
-            $start = ($page - 1) * $pagesize;
-        } else {
-            $start = 0;
-        }
-
 
         //查询是参团下的该用户下的拼团信息
        $sql = "SELECT u.user_name,d.p_name,d.p_id as goods_id,d.sid as attr_id,o.* 

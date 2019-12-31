@@ -61,7 +61,7 @@ class configAction extends PluginAction {
 
         $appConfig = $this->getAppInfo();
         $uploadImg = $appConfig['imageRootUrl'];
-        
+
         if($imgurl){
             $imgurl = preg_replace('/.*\//','',$imgurl);
             if($imgurl != $oldpic){

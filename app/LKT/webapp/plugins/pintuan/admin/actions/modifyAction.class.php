@@ -12,7 +12,6 @@ class modifyAction extends PluginAction {
         $request = $this->getContext()->getRequest();
         $id = addslashes(trim($request->getParameter('id'))); // 商品id
         $product_class = $request->getParameter('cid'); // 分类名称
-        $type = addslashes(trim($request->getParameter('type'))); // 用户id
         $appConfig = $this->getAppInfo();
         $img = $appConfig['imageRootUrl'];
 

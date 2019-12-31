@@ -15,7 +15,6 @@ class searchproAction extends PluginAction {
       $request = $this->getContext()->getRequest();
       $product_class = $request->getParameter('proc'); // 分类名称
       $product_title = $request->getParameter('proname'); // 标题
-      $proids = isset($_COOKIE['proids'])?$_COOKIE['proids']:'';
       $sql01 = "select cid,pname from lkt_product_class where sid = 0 ";
       $rr = $db->select($sql01);
       $res = '';

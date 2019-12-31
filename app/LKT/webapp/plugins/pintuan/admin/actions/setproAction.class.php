@@ -24,12 +24,8 @@ class setproAction extends PluginAction
 
         } else if (isset($_GET['from']) && $_GET['from'] == 'attr') {
             $str = $this->getContext()->getStorage()->read('susu');
-            $arr = array();
-            $idarr = explode(',', $str);
             $sql = 'select c.*,l.product_title from lkt_configure as c left join lkt_product_list as l on c.pid=l.id where l.store_id = '.$store_id.' and c.pid in (' . $str . ') order by c.pid';
             $res = $db->select($sql);
-            $attrid = '';
-
             foreach ($res as $key => $value) {
                 $value->image = $this->getimgpath($value->img);
                 $attr = unserialize($value->attribute);
