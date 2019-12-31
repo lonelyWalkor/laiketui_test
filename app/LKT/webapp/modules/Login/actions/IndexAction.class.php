@@ -50,7 +50,7 @@ class IndexAction extends Action {
 		$password = md5($request->getParameter("pwd"));
 
         if($name == '' || $password == ''){
-			$this ->jump('index.php?module=Login','登录失败！');
+			jump('index.php?module=Login','登录失败！');
         };
         
         // 查询表lkt_admin里的用户名,密码,权限.根据输入的用户名在数据库存在，而且输入的密码要跟数据库密码一样
@@ -60,7 +60,7 @@ class IndexAction extends Action {
 			// 没有查询到匹配值就在lkt_record表里添加一组数据
 			$sql="insert into lkt_record (user_id,event) values ('$name','登录密码错误') ";
 			$r= $db -> update($sql);
-			$this ->jump('index.php?module=Login','登录失败！');
+			jump('index.php?module=Login','登录失败！');
 		}
 
 		// 获取管理员id、管理员类型和管理员许可信息
@@ -69,7 +69,7 @@ class IndexAction extends Action {
 		$admin_permission = unserialize($result[0]->permission);
         $status = $result[0]->status;
         if($status == 1){
-            $this ->jump('index.php?module=Login','登录失败！');
+            jump('index.php?module=Login','登录失败！');
         }
         // 生成session_id
         $access_token = session_id();
@@ -101,7 +101,7 @@ class IndexAction extends Action {
 		$this->getContext()->getStorage()->write('admin_type',$admin_type);
 		$this->getContext()->getStorage()->write('admin_permission',$admin_permission);
 		// 登录成功后跳转地址
-		$this ->jump('index.php?module=AdminLogin');
+		jump('index.php?module=AdminLogin');
         return;
     }
 
@@ -109,17 +109,6 @@ class IndexAction extends Action {
 		return Request :: POST;
 	}
 
-	function jump($url,$msg=null){
-		if($msg){
-			echo "<script type='text/javascript'>" .
-					"alert('$msg');" .
-					"location.href='$url';</script>";
-		}else{
-			echo "<script type='text/javascript'>" .
-					"location.href='$url';</script>";
-		}
-		exit;
-	}
 
 	
 }

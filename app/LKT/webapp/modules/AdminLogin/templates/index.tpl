@@ -704,13 +704,12 @@
 	<div>
 			<span>联系地址：长沙市岳麓区绿地中央广场5栋3408</span>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<span>0731-86453408</span>
+			<span><a style="color: red" href="http://www.laiketui.com/question/" target="_blank">BUG提交</a></span>
 	</div>
 
 	<div>
 			<span>
-				<a class="ba" href="http://www.laiketui.com">Copyright&nbsp;©&nbsp;2019&nbsp;壹拾捌号网络版权所有[官方网站]&nbsp;&nbsp;</a>
-				<a class="ba" href="http://www.miibeian.gov.cn">湘ICP备17020355号</a>
+				<a class="ba" href="http://www.laiketui.com">Copyright&nbsp;©&nbsp;2020&nbsp;壹拾捌号网络版权所有[官方网站]&nbsp;&nbsp;</a>
 			</span>
 	</div>
 </div>
