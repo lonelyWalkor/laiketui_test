@@ -70,7 +70,6 @@
                     <th>来源</th>
                     <th>签到积分</th>
                     <th>事件</th>
-                    <th>联系电话</th>
                     <th>签到时间</th>
                 </tr>
             </thead>
@@ -82,7 +81,6 @@
                     <td>{if $item->source == 1}小程序{elseif $item->source == 2}app{/if}</td>
                     <td>{$item->sign_score}</td>
                     <td>{$item->record}</td>
-                    <td>{$item->mobile}</td>
                     <td>{$item->sign_time}</td>
                 </tr>
                 {/foreach}
