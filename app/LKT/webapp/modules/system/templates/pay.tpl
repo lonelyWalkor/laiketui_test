@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>商户key：</label>
+                <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>API密钥：</label>
                 <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" name="mch_key" value="{$mch_key}" class="input-text">
                 </div>
