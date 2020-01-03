@@ -89,7 +89,7 @@ function check(f){
                 href="index.php?module=brand_class">
                 返回
             </a>
-              <!--   <input type="button" name="button" value="返 回"  class="btn btn-primary radius" onclick="javascript :history.back(-1);"> -->
+
             </div>
         </div>
     </form>

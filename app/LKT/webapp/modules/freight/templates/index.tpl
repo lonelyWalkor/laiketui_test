@@ -107,32 +107,6 @@ function is_default(id){
     }else{
         confirm1('确认要修改默认吗？',id,2)
     }
-    // if(y_id == id){
-    //     $("#is_default_"+id).attr("checked",false);
-    //
-    // }else{
-    //     $("#is_default_"+y_id).attr("checked",false);
-    //     $("#is_default_"+id).attr("checked",true);
-    // }
-    //
-    // $.ajax({
-    //     type:'post',
-    //     url: "index.php?module=freight&action=is_default",
-    //     data: {
-    //         id:id
-    //     },
-    //     success: function(res){
-    //         var res = JSON.parse( res );
-    //
-    //         if(res.status == 1 ){
-    //             alert('修改成功');
-    //             location.href="index.php?module=freight";
-    //         }else{
-    //             alert('修改失败');
-    //             location.href="index.php?module=freight";
-    //         }
-    //     }
-    // });
 }
 
 var Id = '';
