@@ -262,7 +262,6 @@ class userAction extends BaseAction {
 
     // 获取用户手机号
     public function secret_key(){
-        $db = DBAction::getInstance();
         $request = $this->getContext()->getRequest();
         // 接收信息
         $encryptedData = $request->getParameter('encryptedData'); // 加密数据
@@ -274,8 +273,8 @@ class userAction extends BaseAction {
         }else{
             
             $appConfig = $this->getAppInfo();
-            $appid = $appConfig['appid']; 
 
+            $appid = $appConfig['appid'];
             include_once "wxBizDataCrypt.php";
             $data = '';
             $pc = new WXBizDataCrypt($appid, $sessionKey);
