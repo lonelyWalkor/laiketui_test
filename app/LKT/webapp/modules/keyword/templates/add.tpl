@@ -23,7 +23,7 @@
 
 
 <div class="pd-20">
-  <form name="form1" action="index.php?module=keyword&action=Add" class="form form-horizontal" method="post" enctype="multipart/form-data" >
+  <form name="form1" action="index.php?module=keyword&action=Add" class="form form-horizontal" method="post"  >
  
     <div class="row cl">
       <label class="form-label col-2"><span class="c-red"></span>关键词：</label>

@@ -53,7 +53,7 @@
                             	</div>
             				</div>
                         </a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=keyword&action=Del&id={$res.id}">
+                        <a style="text-decoration:none" class="ml-5" href="index.php?module=keyword&action=Del&id={$res.id}" onclick="return confirm('确定删除吗？')">
                         	<div style="align-items: center;font-size: 12px;display: flex;">
                             	<div style="margin:0 auto;;display: flex;align-items: center;"> 
                                 <img src="images/icon1/del.png"/>&nbsp;删除
