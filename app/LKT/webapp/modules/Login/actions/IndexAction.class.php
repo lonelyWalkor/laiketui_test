@@ -15,31 +15,6 @@ class IndexAction extends Action {
 		return View :: INPUT;
 	}
 
-	function get_client_ip($type = 0,$client=true) 
-	{
-        $type       =  $type ? 1 : 0;
-        static $ip  =   NULL;
-        if ($ip !== NULL) return $ip[$type];
-        if($client){
-            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                $pos    =   array_search('unknown',$arr);
-                if(false !== $pos) unset($arr[$pos]);
-                $ip     =   trim($arr[0]);
-            }elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-                $ip     =   $_SERVER['HTTP_CLIENT_IP'];
-            }elseif (isset($_SERVER['REMOTE_ADDR'])) {
-                $ip     =   $_SERVER['REMOTE_ADDR'];
-            }
-        }elseif (isset($_SERVER['REMOTE_ADDR'])) {
-            $ip     =   $_SERVER['REMOTE_ADDR'];
-        }
-        // 防止IP伪造
-        $long = sprintf("%u",ip2long($ip));
-        $ip   = $long ? array($ip, $long) : array('0.0.0.0', 0);
-        return $ip[$type];
-    }
-
 	public function execute(){
 		$db=DBAction::getInstance();
 		// 获取输入的信息 
@@ -73,7 +48,7 @@ class IndexAction extends Action {
         }
         // 生成session_id
         $access_token = session_id();
-        $ip = $this->get_client_ip();
+        $ip = get_client_ip();
         $aid = $result[0]->id;
         //修改token
         $sql = "update lkt_admin set token = '$access_token',ip = '$ip' where id = '$aid'";
@@ -83,9 +58,7 @@ class IndexAction extends Action {
 		$r= $db -> update($sql);
         $db->admin_record($name,' 登录成功 ',0);
 
-        // 设置该用户为登录状态
-		$this->getContext()->getUser()->setAuthenticated(true);
-		// 将数据存储起来
+        // 将数据存储起来
 		$sql = "select * from lkt_config where id = '1' ";
         $r2 = $db->select($sql);
 		$uploadImg = "";
@@ -93,9 +66,10 @@ class IndexAction extends Action {
 			 $uploadImg = $r2[0]->uploadImg; // 图片上传位置
 			 
 		}
-		$this->getContext()->getStorage()->write('uploadImg',$uploadImg);
         $login_time = time();
-
+        // 设置该用户为登录状态
+        $this->getContext()->getUser()->setAuthenticated(true);
+        $this->getContext()->getStorage()->write('uploadImg',$uploadImg);
         $this->getContext()->getStorage()->write('login_time',$login_time);
 		$this->getContext()->getStorage()->write('admin_id',$admin_id);
 		$this->getContext()->getStorage()->write('admin_type',$admin_type);
