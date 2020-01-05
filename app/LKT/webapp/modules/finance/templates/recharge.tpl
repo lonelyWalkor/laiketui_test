@@ -42,7 +42,6 @@
 				<th width="150">用户昵称</th>
 				<th width="130">操作金额</th>
 				<th width="50">来源</th>
-				<th width="50">手机号码</th>
 				<th width="150">添加时间</th>
 				<th width="100">类型</th>
 			</tr>
@@ -54,7 +53,6 @@
 					<td>{$item->user_name}</td>
 					<td>{$item->money}</td>
 					<td>{if $item->source == 1}小程序{elseif $item->source == 2}app{/if}</td>
-					<td>{$item->mobile}</td>
 					<td>{$item->add_date}</td>
 					<td>
 						{if $item->type == 1}充值{/if}
