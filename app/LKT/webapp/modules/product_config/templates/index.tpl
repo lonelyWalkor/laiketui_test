@@ -13,7 +13,11 @@
 <title>产品参数</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe616;</i> 产品管理 <span class="c-gray en">&gt;</span> 产品参数 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb">
+    配置管理 <span class="c-gray en">&gt;</span>
+    <a href="index.php?module=product_config">库存设置</a>
+</nav>
+
 <div class="page-container">
     <form name="form1" action="index.php?module=product_config" class="form form-horizontal" method="post" enctype="multipart/form-data" >
         <div id="tab-system" class="HuiTab">
