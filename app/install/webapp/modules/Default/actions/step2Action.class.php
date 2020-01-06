@@ -17,9 +17,10 @@ class step2Action extends Action
 
         $type = isset($_SESSION['install_error']) ? $_SESSION['install_error'] : [];
         if (isset($_SESSION['install_error'])) {
+            $msg = " 编号 400".$_SESSION['install_error'];
             header("Content-type: text/html;charset=utf-8");
             echo "<script language='javascript'>" .
-                "alert('环境检测没有通过，请调整环境后重试！');" .
+                "alert('环境检测没有通过，请调整环境后重试！".$msg."');" .
                 "location.href='index.php?action=step1';</script>";
             return;
         }

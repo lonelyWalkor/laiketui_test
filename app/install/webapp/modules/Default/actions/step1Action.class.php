@@ -45,7 +45,7 @@ class step1Action extends Action
         //PHP版本检测
         if(PHP_VERSION < 5.4){
             $config[1][4] = 'error';
-            $_SESSION['install_error'] = $type;
+            $_SESSION['install_error'] = 1;
         }
 
         //附件上传检测
@@ -57,7 +57,7 @@ class step1Action extends Action
         if(empty($tmp['GD Version'])){
             $config[4][3] = '未安装';
             $config[4][4] = 'error';
-            $_SESSION['install_error'] = $type;
+            $_SESSION['install_error'] = 2;
         } else {
             $config[4][3] = $tmp['GD Version'];
         }
@@ -92,7 +92,7 @@ class step1Action extends Action
                     } else {
                         $val[1] = '<span style="color:#f30">[×]不存在</span>';
                         $val[2] = 'error';
-                        $_SESSION['install_error'] = $type;
+                        $_SESSION['install_error'] = 3;
                     }
 
                 }
@@ -110,7 +110,7 @@ class step1Action extends Action
                     if(!is_writable(dirname(REAL_PATH . $val[3]))) {
                         $val[1] = '<span style="color:#f30">[×]不存在</span>';
                         $val[2] = 'error';
-                        $_SESSION['install_error'] = $type;
+                        $_SESSION['install_error'] = 4;
                     }
 
                 }
@@ -135,7 +135,7 @@ class step1Action extends Action
                 $val[1] = '<span style="color:#f30">[×]不支持</span>';
                 $val[2] = 'error';
                 $val[3] = '开启';
-                $_SESSION['install_error'] = $type;
+                $_SESSION['install_error'] = 5;
 
             }
 
