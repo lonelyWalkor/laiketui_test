@@ -20,10 +20,10 @@ class step1Action extends Action
 
     public function getDefaultView ()
     {
+        session_start();
         unset($_SESSION);
         session_destroy();
-        session_start();
-
+        
         //设置目录权限
         @chmod(WEB_PATH, 0777);
         $request = $this->getContext()->getRequest();
@@ -43,7 +43,7 @@ class step1Action extends Action
 
 
         //PHP版本检测
-        if(PHP_VERSION < 5.4){
+        if(PHP_VERSION < 5.4 || phpversion()< 5.4 ){
             $config[1][4] = 'error';
             $_SESSION['install_error'] = 1;
         }

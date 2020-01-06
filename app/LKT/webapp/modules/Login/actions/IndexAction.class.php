@@ -12,7 +12,7 @@ class IndexAction extends Action {
 		$this->getContext()->getUser()->setAuthenticated(false);
 		$request->setAttribute("name",$request->getParameter("name"));
         $request->setAttribute("password",$request->getParameter("password"));
-		return View :: INPUT;
+        return View :: INPUT;
 	}
 
 	public function execute(){
