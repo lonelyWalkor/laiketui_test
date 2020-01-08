@@ -29,7 +29,6 @@ class addAction extends Action {
         $num = addslashes(trim($request->getParameter('num'))); // 数量
         $start_time = $request->getParameter('start_time'); // 活动开始时间
         $end_time = $request->getParameter('end_time'); // 活动结束时间
-        $image=$request->getParameter('image');
 
         $sql = "select cid,pname from lkt_product_class where sid = 0 and recycle != 1 ";
         $r = $db->select($sql);
@@ -211,7 +210,6 @@ class addAction extends Action {
         }
         if($rr == -1 ){
             $db->admin_record($admin_id,' 添加活动失败 ',1);
-            // echo $sql;exit;
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
                 "alert('未知原因，活动添加失败！');" .

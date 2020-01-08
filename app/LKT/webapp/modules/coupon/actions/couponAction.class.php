@@ -18,7 +18,6 @@ class couponAction extends Action {
         $request = $this->getContext()->getRequest();
         $sql = "select * from lkt_coupon_config where id = '1'";
         $r_1 = $db->select($sql);
-        $activity_overdue = $r_1[0]->activity_overdue; // 活动过期删除时间
 
         $name = addslashes(trim($request->getParameter('name'))); // 用户id
 
@@ -50,7 +49,6 @@ class couponAction extends Action {
         if($r){
             foreach ($r as $k => $v) {
                 $id = $v->id; // 优惠券id
-                $hid = $v->hid; // 活动id
                 $expiry_time = $v->expiry_time; // 到期时间
 
                 $sql = "select * from lkt_coupon_config where id = 1";
