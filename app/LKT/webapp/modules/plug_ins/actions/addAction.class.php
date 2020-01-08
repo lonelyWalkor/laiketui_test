@@ -12,14 +12,7 @@ class addAction extends Action {
 	}
 
 	public function execute(){
-		$db = DBAction::getInstance();
-		$request = $this->getContext()->getRequest();
-         // $image = $request->getParameter('filename'); 
-         // print_r($image);die;
-        // if($$_FILES['file']){
-            
-        // }
-        //获取表单提交的压缩文件
+		//获取表单提交的压缩文件
         $file = $_FILES['file'];
         //获取文件名
         $name = $file['name'];

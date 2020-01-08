@@ -55,11 +55,10 @@ class modifyAction extends Action {
                 $rew .= "<option  value='".$arr_list['id']."'>".$arr_list['name']."</option>";
             } 
         }
-        
-      //获取网页地址   xiaochengxu.laiketui.com/open/LKT/index.php
+
         $dd = $_SERVER['PHP_SELF'];
         $ddd =explode('/', $dd);//打散成数组
-        $dddd =array_pop($ddd);//去除数组最后一个元素
+        array_pop($ddd);//去除数组最后一个元素
         if($ddd){
             $pic = implode('/', $ddd);
 
