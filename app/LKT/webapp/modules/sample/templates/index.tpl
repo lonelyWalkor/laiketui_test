@@ -200,7 +200,7 @@ form .select{
             </tr>
             </thead>
             <tbody>
-            {foreach from=$list item=item name=f1}
+
                 <tr class="text-c">
                     <td >
                         <div style="display: flex;align-items: center;height: 60px;">
@@ -281,7 +281,7 @@ form .select{
                         </a>
                     </td>
                 </tr>
-            {/foreach}
+
             </tbody>
         </table>
     </div>
