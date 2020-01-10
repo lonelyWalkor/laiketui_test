@@ -6,96 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-
 {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
-
 <title>商品列表管理</title>
-{literal}
-<style type="text/css">
-td a{
-    width: 44%;
-    float: left;
-    margin: 2%!important;
-}
-#btn1:hover{
-    background-color: #2299e4!important;
-}
-#btn2:hover{
-    background-color: #57a821!important;
-}
-#btn3:hover{
-    background-color: #299998!important;
-}
-#btn4:hover{
-    background-color: #ff2c26!important;
-}
-#btn5:hover{
-    background-color: #fd741d!important;
-}
-#btn6:hover{
-    background-color: #e5e5e5!important;
-}
-#btn7:hover{
-    background-color: #225a1f!important;
-}
-#btn8:hover{
-    border:1px solid #2890ff!important;
-    color: #2890ff!important;
-}
-#btn9:hover{
-    background-color: #2481e5!important;
-}
-form .select{
-    width: 140px!important;
-}
-.proSpan{
-    font-size: 12px;
-    border-radius: 4px;
-    color:#ffffff;margin:
-        0px 5px;padding: 0px 3px;
-}
-.xp{
-    background-color: #68c8c7;
-}
-.rx{
-    background-color: #ff6c60;
-}
-.tj{
-    background-color: #feb04c;
-}
-.sytj {background-color: #007d65;}
-.paginationDiv {
-    width: 100%;
-    background-color: #fff;
-    padding: 20px 0;
-    height: 30px;
-    line-height: 30px;
-    box-sizing: content-box;
-    border-top: none;
-}
-.changePaginationNum {
-    float: left;
-    margin-left: 20px;
-}
-.showDataNum {
-    float: left;
-    margin-left: 20px;
-    color: #414658;
-}
-.pagination {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    padding-left: 0;
-    list-style: none;
-    border-radius: .25rem;
-    float: right;
-    margin-right: 20px;
-    height: 30px;
-}
-</style>
-{/literal}
+
 </head>
 <body>
 <nav class="breadcrumb">
@@ -131,7 +44,7 @@ form .select{
             </select>
             <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入商品名称" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="btn9" class="btn btn-success" type="submit" value="查询">
-            <input type="button" value="重 置" id="btn8" style="border: 1px solid #D5DBE8; color: #6a7076;" class="reset" onclick="resetButton()"  />
+            <input type="button" value="重 置" id="btn8"  class="btn" onclick="resetButton()"  />
         </form>
     </div>
     <div style="clear:both;margin-top: 10px;" class="btnDiv">
