@@ -3838,3 +3838,14 @@ div.check-version-dialog .aui-content .title {
 .icon-smile:before {
     content: "\e783";
 }
+
+.lk_form select{
+    width: 180px;
+    height: 31px;
+    vertical-align: middle;
+}
+
+.lk_del_btn{
+    background: #fff;
+    border: none;
+}

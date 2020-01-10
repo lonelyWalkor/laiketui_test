@@ -18,72 +18,49 @@
 
 <div class="pd-20">
     <div class="text-c">
-        <form name="form1" action="index.php" method="get">
+        <form name="form1" action="index.php" method="get" class="lk_form" >
             <input type="hidden" name="module" value="product" />
             <input type="hidden" name="pagesize" value="{$pagesize}" id="pagesize" />
 
-            <select name="cid" class="select" style="width: 80px;height: 31px;vertical-align: middle;" id="cid">
+            <select name="cid" class="select" id="cid">
                 <option value="0" >请选择商品分类</option>
-                {$class}
+
             </select>
-            <select name="brand_id" class="select" style="width: 80px;height: 31px;vertical-align: middle;" id="brand_id">
+            <select name="brand_id" class="select" id="brand_id">
                 <option value="0" >请选择商品品牌</option>
-                {$rew}
+
             </select>
-            <select name="s_type" class="select" style="width: 80px;height: 31px;vertical-align: middle;" id="s_type">
+            <select name="s_type" class="select" id="s_type">
                 <option value="0" >请选择商品类型</option>
                 <option value="1" {if $s_type == 1}selected="selected"{/if} >新品</option>
                 <option value="2" {if $s_type == 2}selected="selected"{/if}>热销</option>
                 <option value="3" {if $s_type == 3}selected="selected"{/if}>推荐</option>
             </select>
-            <select name="status" class="select" style="width: 80px;height: 31px;vertical-align: middle;" id="status">
+            <select name="status" class="select" id="status">
                 <option value="0" >请选择商品状态</option>
                 <option value="2" {if $status == 2}selected="selected"{/if}>上架</option>
                 <option value="1" {if $status == 1}selected="selected"{/if}>下架</option>
                 <option value="3" {if $status == 3}selected="selected"{/if}>待上架</option>
             </select>
+
             <input type="text" name="product_title" size='8' value="{$product_title}" id="product_title" placeholder="请输入商品名称" autocomplete="off" style="width:200px" class="input-text">
             <input name="" id="btn9" class="btn btn-success" type="submit" value="查询">
             <input type="button" value="重 置" id="btn8"  class="btn" onclick="resetButton()"  />
+
         </form>
     </div>
     <div style="clear:both;margin-top: 10px;" class="btnDiv">
-        <a class="btn radius" id="btn1" style="background-color:#38b4ed;color: #fff;" href="index.php?module=product&action=add">
-            <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/add.png"/>&nbsp;发布商品
-            </div>
-        </a>
-        <a class="btn radius btn_up" id="btn2" style="background-color:#77c037;color: #fff;" href="javascript:;" onclick="operation(1)">
-            <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/sj.png"/>&nbsp;<span>商品上架</span>
-            </div>
-        </a>
-        <a class="btn radius btn_xp" id="btn3" style="background-color:#42b4b3;color: #fff;" href="javascript:;" onclick="operation(3)">
-            <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/xp.png"/>&nbsp;<span>设为新品</span>
-            </div>
-        </a>
-        <a class="btn radius btn_rx" id="btn4" style="background-color:#ff453d;color: #fff;" href="javascript:;" onclick="operation(5)">
-            <div style="height: 100%;display: flex;align-items: center;">
-                <img src="images/icon1/rx.png"/>&nbsp;<span>设为热销</span>
-            </div>
-        </a>
-        <a class="btn radius btn_tj" id="btn5" style="background-color:#fe9331;color: #fff;">
-            <div style="height: 100%;display: flex;align-items: center;" href="javascript:;" onclick="operation(7)">
-                <img src="images/icon1/tj.png"/>&nbsp;<span>设为推荐</span>
-            </div>
-        </a>
 
-        <a class="btn radius btn_sytj" id="btn7" style="background-color:#007d65;color: #fff;">
-            <div style="height: 100%;display: flex;align-items: center;" href="javascript:;" onclick="operation(10)">
-                <img src="images/icon1/tj.png"/>&nbsp;<span>设为首页推荐</span>
-            </div>
-        </a>
+        <a class="btn btn-secondary radius"  href="#" >发布商品</a>
+        <a class="btn btn-primary radius" href="#"  >商品上架</a>
+        <a class="btn btn-success radius" href="#"  >设为新品</a>
+        <a class="btn btn-danger radius" href="#"  >设为热销</a>
+        <a class="btn btn-warning radius" href="#"  >设为推荐</a>
 
-        <a href="javascript:;" id="btn6" onclick="datadel()" style="background: #fff;color: #6a7076;border: none;" class="btn btn-danger radius">
-            <div style="height: 100%;display: flex;align-items: center;">
+
+
+        <a href="javascript:;" id="btn6" class="lk_del_btn btn radius" >
                 <img src="images/icon1/del.png"/>&nbsp;删除
-            </div>
         </a>
     </div>
     <div class="mt-20">
