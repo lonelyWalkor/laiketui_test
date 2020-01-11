@@ -17,6 +17,7 @@
 </nav>
 
 <div class="pd-20">
+
     <div class="text-c">
         <form name="form1" action="index.php" method="get" class="lk_form" >
             <input type="hidden" name="module" value="product" />
@@ -49,140 +50,98 @@
 
         </form>
     </div>
+
     <div style="clear:both;margin-top: 10px;" class="btnDiv">
 
-        <a class="btn btn-secondary radius"  href="#" >发布商品</a>
-        <a class="btn btn-primary radius" href="#"  >商品上架</a>
-        <a class="btn btn-success radius" href="#"  >设为新品</a>
-        <a class="btn btn-danger radius" href="#"  >设为热销</a>
-        <a class="btn btn-warning radius" href="#"  >设为推荐</a>
+        <div class="btn-group">
 
+            <a class="btn btn-secondary radius"  href="#" >发布商品</a>
+            <a class="btn btn-primary radius" href="#"  >商品上架</a>
+            <a class="btn btn-success radius" href="#"  >设为新品</a>
+            <a class="btn btn-danger radius" href="#"  >设为热销</a>
+            <a class="btn btn-warning radius" href="#"  >设为推荐</a>
+            <a href="javascript:;"  class="lk_del_btn btn radius" >
+                <span style="color:#333">删 除</span>
+            </a>
 
+        </div>
 
-        <a href="javascript:;" id="btn6" class="lk_del_btn btn radius" >
-                <img src="images/icon1/del.png"/>&nbsp;删除
-        </a>
     </div>
-    <div class="mt-20">
-        <div class="mt-20 table-scroll" style="overflow: scroll; width: 100%; height: 495px;">
-        <table class="table table-border table-bordered table-bg table-hover table-sort">
-            <thead>
-            <tr class="text-c">
-                <th width="40">
-                    
-                    <div style="display: flex;align-items: center;height: 60px;">
-                            <input  style="display:block" name="ipt1" id="ipt1" type="checkbox" value="" class="inputC"  >
-                            <label for="ipt1" ></label>
-                    </div>
 
-                </th>
-                {*<th>商品编号</th>*}
-                <th>商品图片</th>
-                <th>商品标题</th>
-                <th>分类名称</th>
-                <!-- <th>发布时间</th> -->
-                <th>商品品牌</th>
-                <th>价格</th>
-                <th>库存</th>
-                <th>销量</th>
-                <th>状态</th>
-                <th style="width: 250px;">操作</th>
-            </tr>
-            </thead>
-            <tbody>
+    <div class="mt-10">
 
-                <tr class="text-c">
-                    <td >
-                        <div style="display: flex;align-items: center;height: 60px;">
-                            <input name="id[]"  id="{$item->id}" type="checkbox" class="inputC orders_select" value="{$item->id}">
-                            <label for="{$item->id}"></label>
-                        </div>
-                    </td>
-                    {*<td style="min-width: 70px;">{$item->product_number}</td>*}
-                    <td style="min-width: 70px;">{if $item->img != ''}<span>暂无图片</span>{else}<img onclick="pimg(this)" style="width: 50px;height: 50px;" src="../LKT/images/{$item->imgurl}">{/if}</td>
-                    <td class="tableTitle">{$item->product_title}
-                        {foreach from=$item->s_type item=item1 name=f2}
-                            {if $item1 == 1}<span class="proSpan xp">新品</span>{/if}
-                            {if $item1 == 2}<span class="proSpan rx">热销</span>{/if}
-                            {if $item1 == 3}<span class="proSpan tj">推荐</span>{/if}
-                            {if $item1 == 4}<span class="proSpan sytj">首页推荐</span>{/if}
-                        {/foreach}
-                    </td>
-                    <td style="min-width: 140px;">{$item->pname}</td>
-                    <!-- <td style="min-width: 70px;">{$item->add_date}</td> -->
-                    <td style="min-width: 70px;">{if $item->brand_name != ''}{$item->brand_name}{else}无{/if}</td>
-                    <td><span style="color:red;">{$item->price}</span></td>
-                    <td {if $item->num <= $min_inventory}style="color: red;" {/if}>{$item->num}{$item->unit}</td>
-                    <td style="min-width: 40px;">{$item->volume}</td>
-                    <td style="min-width: 70px;" class="sp_up">
-                        {if $item->status == 2}<span >待上架</span>
-                        {elseif $item->status == 0}<span >已上架</span>
-                        {else}<span >已下架</span>{/if}
-                        
-                    </td>
-                    <td style="width: 250px;">
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=see&id={$item->id}&product_title={$item->product_title}&url=Index&uploadImg={$uploadImg}" title="查看">
-                            <div style="align-items: center;font-size: 12px;display: flex;">
-                                <div style="margin: 0 auto;display: flex;align-items: center;">
-                                <img src="images/icon1/ck.png"/>&nbsp;查看
-                                </div>
-                            </div>
-                        </a>
-                        {if $item->num != 0}
-                            {if $item->status == 0}
-                                <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=shelves&id={$item->id}&url=Index" title="下架">
-                                    <div style="align-items: center;font-size: 12px;display: flex;">
-                                        <div style="margin: 0 auto;display: flex;align-items: center;">
-                                        <img src="images/icon1/xj.png"/>&nbsp;下架
-                                        </div>
-                                    </div>
-                                </a>
-                            {else}
-                                <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=shelves&id={$item->id}&url=Index" title="上架">
-                                    <div style="align-items: center;font-size: 12px;display: flex;">
-                                        <div style="margin: 0 auto;display: flex;align-items: center;">
-                                        <img src="images/icon1/sj_g.png"/>&nbsp;上架
-                                        </div>
-                                    </div>
-                                </a>
-                            {/if}
-                        {/if}
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=modify&id={$item->id}&uploadImg={$uploadImg}" title="修改">
-                            <div style="align-items: center;font-size: 12px;display: flex;">
-                                <div style="margin: 0 auto;display: flex;align-items: center;">
-                                    <img src="images/icon1/xg.png"/>&nbsp;修改
-                                </div> 
-                            </div>
-                        </a>
-                        <a style="text-decoration:none" class="ml-5" href="index.php?module=product&action=copy&id={$item->id}&uploadImg={$uploadImg}" title="复制">
-                            <div style="align-items: center;font-size: 12px;display: flex;">
-                                <div style="margin: 0 auto;display: flex;align-items: center;">
-                                    <img src="images/icon1/xg.png"/>&nbsp;复制
-                                </div> 
-                            </div>
-                        </a>
-                        <a  title="删除" style="text-decoration:none" class="ml-5" onclick="del(this,{$item->id})">
-                            <div style="align-items: center;font-size: 12px;display: flex;">
-                                <div style="margin: 0 auto;display: flex;align-items: center;">
-                                <img src="images/icon1/del.png"/>&nbsp;删除
-                                </div>
-                            </div>
-                            
-                        </a>
-                    </td>
-                </tr>
+        <div class="mt-10 table-scroll" style="overflow: scroll; width: 100%; height: 495px;">
 
-            </tbody>
-        </table>
+            <div class="codeView docs-example">
+                <table class="table table-border table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>商品名称</th>
+                        <th>商品名称</th>
+                        <th>商品名称</th>
+                        <th>商品名称</th>
+                        <th>商品名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>类别</th>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>
+                            <a class="lk_table_a" href="#" ><span class="view_span">查 看</span></a>
+                            <a class="lk_table_a" href="#" ><span class="down_span">下 架</span></a>
+                            <a class="lk_table_a" href="#" > <span class="up_span">上 架</span></a>
+                            <a class="lk_table_a" href="#" ><span class="modify_span">修 改</span></a>
+                            <a class="lk_table_a" href="#" ><span class="del_span">删 除</span> </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>类别</th>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>
+                            <a class="lk_table_a" href="#" ><span class="view_span">查 看</span></a>
+                            <a class="lk_table_a" href="#" ><span class="down_span">下 架</span></a>
+                            <a class="lk_table_a" href="#" > <span class="up_span">上 架</span></a>
+                            <a class="lk_table_a" href="#" ><span class="modify_span">修 改</span></a>
+                            <a class="lk_table_a" href="#" ><span class="del_span">删 除</span> </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>类别</th>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>表格内容</td>
+                        <td>
+                            <a class="lk_table_a" href="#" ><span class="view_span">查 看</span></a>
+                            <a class="lk_table_a" href="#" ><span class="down_span">下 架</span></a>
+                            <a class="lk_table_a" href="#" > <span class="up_span">上 架</span></a>
+                            <a class="lk_table_a" href="#" ><span class="modify_span">修 改</span></a>
+                            <a class="lk_table_a" href="#" ><span class="del_span">删 除</span> </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
     </div>
     </div>
-    <div style="text-align: center;display: flex;justify-content: center;">{$pages_show}</div>
+    <div class="lk_page">{$pages_show}</div>
+
+
 </div>
 
-<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
-    <div id="innerdiv" style="position:absolute;"><img id="bigimg" src="" />
-    </div>
-</div>
 
 {php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
 

@@ -3849,3 +3849,69 @@ div.check-version-dialog .aui-content .title {
     background: #fff;
     border: none;
 }
+
+
+.lk_del_btn img{
+    vertical-align: middle;
+}
+
+.lk_del_btn span{
+    color: #333;
+    background-image: url(../../images/icon1/del.png);
+    background-repeat-x: no-repeat;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+
+.lk_page{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.lk_table_a{
+    text-decoration:none;
+    height: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.view_span{
+    color: #333;
+    background-image: url(../../images/icon1/ck.png);
+    background-repeat-x: no-repeat;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+
+.down_span{
+    color: #333;
+    background-image: url(../../images/icon1/xj.png);
+    background-repeat-x: no-repeat;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+.up_span{
+    color: #333;
+    background-image: url(../../images/icon1/sj_g.png);
+    background-repeat-x: no-repeat;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+.modify_span{
+    color: #333;
+    background-image: url(../../images/icon1/xg.png);
+    background-repeat-x: no-repeat;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+.del_span{
+    color: #333;
+    background-image: url(../../images/icon1/del.png);
+    background-repeat-x: no-repeat;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+
+
+
