@@ -14,4 +14,3 @@
 
 <script language="javascript"  src="style/js/check.js"> </script>
 <script type="text/javascript" src="style/js/laydate/laydate.js"></script>
-

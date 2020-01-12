@@ -3857,10 +3857,9 @@ div.check-version-dialog .aui-content .title {
 
 .lk_del_btn span{
     color: #333;
-    background-image: url(../../images/icon1/del.png);
+    background: url(../../images/icon1/del.png) no-repeat;
     background-repeat-x: no-repeat;
     padding-left: 15px;
-    vertical-align: middle;
 }
 
 .lk_page{
@@ -3878,40 +3877,49 @@ div.check-version-dialog .aui-content .title {
 
 .view_span{
     color: #333;
-    background-image: url(../../images/icon1/ck.png);
+    background: url(../../images/icon1/ck.png) no-repeat;
     background-repeat-x: no-repeat;
     padding-left: 15px;
-    vertical-align: middle;
 }
 
 .down_span{
     color: #333;
-    background-image: url(../../images/icon1/xj.png);
+    background: url(../../images/icon1/xj.png) no-repeat;
     background-repeat-x: no-repeat;
     padding-left: 15px;
-    vertical-align: middle;
 }
 .up_span{
     color: #333;
-    background-image: url(../../images/icon1/sj_g.png);
+    background: url(../../images/icon1/sj_g.png) no-repeat;
     background-repeat-x: no-repeat;
     padding-left: 15px;
-    vertical-align: middle;
 }
 .modify_span{
     color: #333;
-    background-image: url(../../images/icon1/xg.png);
+    background: url(../../images/icon1/xg.png) no-repeat;
     background-repeat-x: no-repeat;
     padding-left: 15px;
-    vertical-align: middle;
 }
 .del_span{
     color: #333;
-    background-image: url(../../images/icon1/del.png);
+    background: url(../../images/icon1/del.png) no-repeat;
     background-repeat-x: no-repeat;
     padding-left: 15px;
-    vertical-align: middle;
 }
 
-
-
+.lk_checkbox input[type="checkbox"] + label::before {
+    content: "\a0";  /*不换行空格*/
+    display: inline-block;
+    vertical-align: .2em;
+    width: .9em;
+    height: .9em;
+    margin-right: .2em;
+    border-radius: .2em;
+    background-color: silver;
+    text-indent: .15em;
+    line-height: .65;  /*行高不加单位，子元素将继承数字乘以自身字体尺寸而非父元素行高*/
+}
+.lk_checkbox  input[type="checkbox"]:checked + label::before {
+    content: "\2713";
+    background-color: yellowgreen;
+}

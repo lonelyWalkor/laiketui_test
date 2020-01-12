@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
+
 <title>商品列表管理</title>
 
 </head>
@@ -76,6 +77,12 @@
                 <table class="table table-border table-bordered table-hover">
                     <thead>
                     <tr>
+                        <th class="lk_checkbox">
+
+                            <input name="ipt1" id="ipt1" type="checkbox" value=""   >
+                            <label for="ipt1" >全选</label>
+
+                        </th>
                         <th>ID</th>
                         <th>商品名称</th>
                         <th>商品名称</th>
@@ -87,7 +94,11 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <th>类别</th>
+                        <td  class="lk_checkbox" >
+                            <input id="ipt2" type="checkbox" value=""   >
+                            <label for="ipt2" ></label>
+                        </td>
+                        <td>1</td>
                         <td>表格内容</td>
                         <td>表格内容</td>
                         <td>表格内容</td>
@@ -102,7 +113,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>类别</th>
+                        <td  class="lk_checkbox" >
+                            <input id="ipt3" type="checkbox" value=""   >
+                            <label for="ipt3" ></label>
+                        </td>
+                        <td>2</td>
                         <td>表格内容</td>
                         <td>表格内容</td>
                         <td>表格内容</td>
@@ -117,7 +132,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>类别</th>
+                        <td  class="lk_checkbox" >
+                            <input id="ipt4" type="checkbox" value=""   >
+                            <label for="ipt4" ></label>
+                        </td>
+                        <td>3</td>
                         <td>表格内容</td>
                         <td>表格内容</td>
                         <td>表格内容</td>
@@ -141,6 +160,12 @@
 
 
 </div>
+
+{literal}
+<script type="text/javascript">
+
+</script>
+{/literal}
 
 
 {php}include BASE_PATH."/modules/assets/templates/footer.tpl";{/php}
