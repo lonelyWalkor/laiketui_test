@@ -42,7 +42,9 @@
 
   <nav class="breadcrumb">
     插件管理 <span class="c-gray en">&gt;</span>
-    <a href="index.php?module=plug_ins">插件列表</a>
+    <a href="index.php?module=plug_ins">插件列表</a> <span class="c-gray en">&gt;</span>
+    上传插件 <span class="c-gray en">&gt;</span>
+    <a href="javascript:history.go(-1)">返回</a>
   </nav>
 
 
