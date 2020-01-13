@@ -15,7 +15,6 @@ class modifyAction extends Action {
         // 根据插件id，查询插件信息
         $sql = "select * from lkt_plug_ins where id = '$id'";
         $r = $db->select($sql);
-        // print_r($r);die;
 
         if($r){
             $software_id = $r[0]->software_id; // 软件id

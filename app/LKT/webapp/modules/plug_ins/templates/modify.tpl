@@ -29,7 +29,14 @@ function change(){
 <title>修改插件</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe646;</i>插件管理 <span class="c-gray en">&gt;</span> 插件列表 <span class="c-gray en">&gt;</span> 修改插件 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="#" onclick="location.href='index.php?module=plug_ins';" title="关闭" ><i class="Hui-iconfont">&#xe6a6;</i></a></nav>
+<nav class="breadcrumb">
+    插件管理 <span class="c-gray en">&gt;</span>
+    <a href="index.php?module=plug_ins">插件列表</a> <span class="c-gray en">&gt;</span>
+    编辑插件 <span class="c-gray en">&gt;</span>
+    <a href="javascript:history.go(-1)">返回</a>
+</nav>
+
+
 <div class="pd-20">
   <form name="form1" action="index.php?module=plug_ins&action=modify" class="form form-horizontal" method="post" enctype="multipart/form-data" >
     <input type="hidden" name="id" value="{$id}" >
