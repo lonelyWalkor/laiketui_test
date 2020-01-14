@@ -451,10 +451,6 @@ function resetButton(){
         $("#brand_id").val("");
         $("#s_type").val("");
         $("#status").val("");
-        // $("#cid option[value='0']").attr("selected", "selected");
-        // $("#brand_id option[value='0']").attr("selected", "selected");
-        // $("#s_type option[value='0']").attr("selected", "selected");
-        // $("#status option[value='0']").attr("selected", "selected");
 }
 </script>
 {/literal}
