@@ -183,10 +183,12 @@ function confirm (content,id){
 			    	}
 			    });
 			}
+
 			function closeMask1(){
 				$(".maskNew").remove();
 				location.replace(location.href);
 			}
+
 			function appendMask(content,src){
 				$("body").append(`
 						<div class="maskNew">
@@ -205,6 +207,7 @@ function confirm (content,id){
 						</div>	
 					`)
 			}
+			
 			function confirm1 (content,id,content1){
 				$("body").append(`
 						<div class="maskNew">
