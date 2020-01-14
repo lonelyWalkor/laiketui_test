@@ -207,7 +207,7 @@ function confirm (content,id){
 						</div>	
 					`)
 			}
-			
+
 			function confirm1 (content,id,content1){
 				$("body").append(`
 						<div class="maskNew">

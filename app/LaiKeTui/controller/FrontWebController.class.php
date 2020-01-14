@@ -35,7 +35,7 @@ class FrontWebController extends WebController
      *
      * @return void
      *
-     * @author Sean Kerr (skerr@mojavi.org)
+     * @author ketter (ketter@laiketui.com)
      * @since  3.0.0
      */
     public function dispatch ()
