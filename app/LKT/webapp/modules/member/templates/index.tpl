@@ -35,17 +35,11 @@
                 添加管理员
            	 </div>
         </button>
-        <!--<button class="btn radius" onclick="multiple_del()" style="height:36px;width: 84px;" >
-        	<div style="height: 100%;display: flex;align-items: center;font-size: 14px;background: #fff;text-align: center;">
-                <img src="images/icon1/del.png"/>&nbsp;删除
-           	</div>
-        </button>-->
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
                 <tr class="text-c">
-                    <!--<th width="25"><input type="checkbox" name="" value=""></th>-->
                     <th width="30">id</th>
                     <th width="150px">管理员账号</th>
                     <th>添加人</th>
@@ -57,7 +51,6 @@
             <tbody>
             {foreach from=$list item=item name=f1}
                 <tr class="text-c">
-                    <!--<td><input type="checkbox" value="{$item->id}" name="del[]"></td>-->
                     <td>{$item->id}</td>
                     <td>{$item->name}</td>
                     <td>{$item->admin_name}</td>
@@ -108,14 +101,6 @@
 
 {literal}
 <script type="text/javascript">
-// $('.table-sort').dataTable({
-//     "aaSorting": [[ 1, "asc" ]],//默认第几个排序
-//     "bStateSave": true,//状态保存
-//     "aoColumnDefs": [
-//       //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-//       {"orderable":false,"aTargets":[0,5]}// 制定列不参与排序
-//     ]
-// });
 
 /*删除*/
 function del(obj,id){
@@ -215,33 +200,7 @@ function confirm (content,id){
 			</div>	
 		`)
 }
-// function closeMask2(id,content){
-// 	$(".maskNew").remove();
-//     $.ajax({
-//     	type:"post",
-//     	url:"index.php?module=member&action=status&id="+id,
-//     	async:true,
-//     	success:function(res){
-//     		console.log(res.status);
-//     		if(content=="启用"){
-//     			if(res.status==1){
-//     			appendMask("启用成功","cg");
-// 	    		}
-// 	    		else{
-// 	    			appendMask("启用失败","ts");
-// 	    		}
-//     		}
-//     		else{
-//     			if(res.status==1){
-//     			appendMask("禁用成功","cg");
-// 	    		}
-// 	    		else{
-// 	    			appendMask("禁用失败","ts");
-// 	    		}
-//     		}
-//     	}
-//     });
-// }
+
 function confirm1 (content,id,content1){
 	$("body").append(`
 			<div class="maskNew">
