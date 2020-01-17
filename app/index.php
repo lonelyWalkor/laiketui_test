@@ -16,8 +16,8 @@ $_SESSION["INSTALL_PATH"]=INSTALL_PATH;
 clearstatcache();
 $path ='../'.basename(dirname(__FILE__)).'/';
 if(!is_file('./data/install.lock')){
-  header('Location: ./install');
+  header('Location: ./install/index.php');
 }else{
-  header("Location: ./LKT");
+  header("Location: ./LKT/index.php");
 }
 ?>
