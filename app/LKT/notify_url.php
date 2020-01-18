@@ -265,7 +265,7 @@ class order
 
 $notify = new Notify_pub();
 //存储微信的回调
-$xml = PHP_VERSION <= 5.6 ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents('php://input');
+$xml = isset($GLOBALS['HTTP_RAW_POST_DATA'])? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents('php://input');
 $notify->saveData($xml);
 if ($notify->checkSign() == FALSE) {
     $notify->setReturnParameter("return_code", "FAIL");//返回状态码
