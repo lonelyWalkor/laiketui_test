@@ -1505,7 +1505,7 @@ INSERT INTO `lkt_product_img` VALUES ('1', '154164716539.jpg', '1', '', '2018-04
 INSERT INTO `lkt_product_img` VALUES ('0', '157190702561.png', '2', '', '2019-10-24 16:50:25');
 INSERT INTO `lkt_product_img` VALUES ('0', '15719072704.png', '3', '', '2019-10-24 16:54:30');
 INSERT INTO `lkt_product_img` VALUES ('0', '157190795624.png', '4', '', '2019-10-24 17:05:56');
-
+ALTER TABLE `lkt_product_img` ADD `seq` TINYINT NOT NULL DEFAULT '0' AFTER `product_id`;
 
 LOCK TABLES `lkt_product_img` WRITE;
 /*!40000 ALTER TABLE `lkt_product_img` DISABLE KEYS */;

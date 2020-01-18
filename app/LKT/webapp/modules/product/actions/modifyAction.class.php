@@ -410,7 +410,8 @@ class modifyAction extends Action {
 
         if($files[0]){
             $ql_img = "delete from lkt_product_img  where product_id = '$id'";
-            $r = $db->delete($ql_img);
+            $db->delete($ql_img);
+
             foreach($files as $key => $file){
                 // 移动到框架应用对应目录下
                 //重命名
@@ -428,8 +429,7 @@ class modifyAction extends Action {
                 if($info){
                     //循环遍历插入
                     $sql_img = "insert into lkt_product_img(id,product_url,product_id,add_date) " . "values(0,'$imgsURL_name','$id',CURRENT_TIMESTAMP)";
-                    
-                    $r = $db->insert($sql_img);
+                    $db->insert($sql_img);
                 }
             }
         }
