@@ -220,12 +220,10 @@ class order
                 }
 
                 if ($res2 > 0 && $res3 > 0) {
-
                     $sql = "select * from lkt_notice where id = '1'";
                     $r = $db->select($sql);
                     $template_id = $r[0]->group_success;
                     $db->commit();
-                    $this->Send_success($msgres, date('Y-m-d H:i:s', time()), $template_id, $pro_name);
                 } else {
                     $db->rollback();
                     return 'code:5';
