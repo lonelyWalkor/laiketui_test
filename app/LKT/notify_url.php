@@ -13,7 +13,6 @@ session_start();
 date_default_timezone_set('Asia/Chongqing');
 set_time_limit(0);
 require_once(dirname(__FILE__) . "/webapp/config.php");
-require_once(MO_APP_DIR . "/mojavi.php");
 require_once(dirname(__FILE__) . '/webapp/config/db_config.php');
 require_once(dirname(__FILE__) . '/webapp/lib/DBAction.class.php');
 require_once(dirname(__FILE__) . '/webapp/lib/WxPayPubHelper/WxPayPubHelper.php');

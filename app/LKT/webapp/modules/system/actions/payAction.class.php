@@ -101,8 +101,6 @@ class payAction extends Action {
         //异步通知配置文件
         $sql = "select appid,appsecret,mch_key,mch_id from lkt_config where id=1";
         $r_db = $db -> select($sql);
-        // $f_db = $r_db[0];
-                // var_dump($f_db,$r_db,$sql);
         $db_config = [];
 
         foreach ($r_db[0] as $key => $value) {
