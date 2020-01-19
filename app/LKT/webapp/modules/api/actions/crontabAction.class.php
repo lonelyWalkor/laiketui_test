@@ -208,7 +208,6 @@ class crontabAction extends Action
         $da = $this->httpsRequest($url, $data);
         $delsql = "delete from lkt_user_fromid where open_id='$uid' and fromid='$fromid'";
         $db->delete($delsql);
-        var_dump(json_encode($da));
     }
 
     /*
@@ -362,13 +361,11 @@ class crontabAction extends Action
     public function Send_success($arr, $template_id)
     {
         $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
         $sql = "select * from lkt_config where id=1";
         $r = $db->select($sql);
         if ($r) {
             $appid = $r[0]->appid; // 小程序唯一标识
             $appsecret = $r[0]->appsecret; // 小程序的 app secret
-
             $AccessToken = $this->getAccessToken($appid, $appsecret);
             $url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' . $AccessToken;
 
@@ -384,14 +381,10 @@ class crontabAction extends Action
             $z_price = $v->z_price . '元';
             $minidata = array('keyword1' => array('value' => $v->p_name, 'color' => "#173177"), 'keyword2' => array('value' => $p_price, 'color' => "#173177"), 'keyword3' => array('value' => $z_price, 'color' => "#173177"), 'keyword4' => array('value' => $v->sNo, 'color' => "#173177"), 'keyword5' => array('value' => '拼团失败', 'color' => "#FF4500"), 'keyword6' => array('value' => $v->add_time, 'color' => "#173177"));
             $data['data'] = $minidata;
-
             $data = json_encode($data);
-
-            $da = $this->httpsRequest($url, $data);
+            $this->httpsRequest($url, $data);
             $delsql = "delete from lkt_user_fromid where open_id='$v->uid' and fromid='$v->fromid'";
-            $re2 = $db->delete($delsql);
-
-            var_dump(json_encode($da));
+            $db->delete($delsql);
 
         }
 
@@ -400,7 +393,6 @@ class crontabAction extends Action
     public function get_fromid($openid, $type = '')
     {
         $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
         if (empty($type)) {
             $fromidsql = "select fromid,open_id from lkt_user_fromid where open_id='$openid' and id=(select max(id) from lkt_user_fromid where open_id='$openid')";
             $fromidres = $db->select($fromidsql);
@@ -413,7 +405,7 @@ class crontabAction extends Action
             }
         } else {
             $delsql = "delete from lkt_user_fromid where open_id='$openid' and fromid='$type'";
-            $re2 = $db->delete($delsql);
+            $db->delete($delsql);
             $fromidsql = "select fromid,open_id from lkt_user_fromid where open_id='$openid' and id=(select max(id) from lkt_user_fromid where open_id='$openid')";
             $fromidres = $db->select($fromidsql);
             if ($fromidres) {
@@ -503,14 +495,10 @@ class crontabAction extends Action
 
                 if ($end_time < $data || $g_status == 3) {//处理过期的
 
-                    $res = $db->update("UPDATE `lkt_group_product` SET `g_status`='3' WHERE id = " . $value->id);
-
+                    $db->update("UPDATE `lkt_group_product` SET `g_status`='3' WHERE id = " . $value->id);
                     $r = $db->select("select * from lkt_group_open where group_id=$value->group_id and ptstatus =1 ");
-
                     if ($r) {
-
                         foreach ($r as $key01 => $value01) {
-
                             $db->update("UPDATE `lkt_group_open` SET `ptstatus`='3' WHERE id = " . $value01->id);
                             $ee = $db->select("select user_id,z_price,sNo,pay from lkt_order where ptcode = '" . $value01->ptcode . "'");
                             if ($ee) {
@@ -519,18 +507,13 @@ class crontabAction extends Action
                                     $db->update("UPDATE lkt_user SET money =money+$value02->z_price WHERE user_id = '" . $value02->user_id . "'");
                                     $event = $value02->user_id . '退回拼团金额' . $value02->z_price . '';
                                     $sqlldr = "insert into lkt_record (user_id,money,oldmoney,event,type) values ('$value02->user_id','$value02->z_price','','$event',5)";
-                                    $beres1 = $db->insert($sqlldr);
+                                    $db->insert($sqlldr);
                                 }
-
                             }
-
                             $db->update("UPDATE `lkt_order` SET `ptstatus`='3', `status`='11' WHERE ptcode = " . $value01->ptcode);
                         }
-
                     }
-
                 }// end if
-
             } // end foreach
         } //end if 
 
