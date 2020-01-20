@@ -1,11 +1,13 @@
 <?php
 /**
+ * [Laike System] Copyright (c) 2017-2020 laiketui.com
+ * Laike is not a free software, it under the license terms, visited http://www.laiketui.com/ for more details.
+ *
  * 通用通知接口
  * ====================================================
  * 支付完成后，微信会把相关支付和用户信息发送到商户设定的通知URL，
  * 商户接收回调信息后，根据需要设定相应的处理流程。
  *
- * 这里举例使用log文件形式记录回调信息。
  */
 
 session_name("money_mojavi");
@@ -19,8 +21,6 @@ require_once(dirname(__FILE__) . '/webapp/lib/DBAction.class.php');
 require_once(dirname(__FILE__) . '/webapp/lib/WxPayPubHelper/WxPayPubHelper.php');
 require_once(dirname(__FILE__) . '/webapp/lib/WxPayPubHelper/log_.php');
 require_once(dirname(__FILE__) . '/webapp/lib/SysConst.class.php');
-
-$db = DBAction::getInstance();
 
 class order
 {
@@ -258,9 +258,9 @@ class order
 
 }
 
+$db = DBAction::getInstance();
 
 //使用通用通知接口
-
 $notify = new Notify_pub();
 //存储微信的回调
 $xml = isset($GLOBALS['HTTP_RAW_POST_DATA'])? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents('php://input');
