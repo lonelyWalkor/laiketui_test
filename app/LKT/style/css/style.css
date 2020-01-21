@@ -3857,7 +3857,7 @@ div.check-version-dialog .aui-content .title {
 
 .lk_del_btn span{
     color: #333;
-    background: url(../../images/icon1/del.png) no-repeat;
+    background: url(../../images/icon1/del.png) no-repeat bottom left;
     background-repeat-x: no-repeat;
     padding-left: 15px;
 }
@@ -3877,32 +3877,32 @@ div.check-version-dialog .aui-content .title {
 
 .view_span{
     color: #333;
-    background: url(../../images/icon1/ck.png) no-repeat;
+    background: url(../../images/icon1/ck.png) no-repeat bottom left;
     background-repeat-x: no-repeat;
     padding-left: 15px;
 }
 
 .down_span{
     color: #333;
-    background: url(../../images/icon1/xj.png) no-repeat;
+    background: url(../../images/icon1/xj.png) no-repeat bottom left;
     background-repeat-x: no-repeat;
     padding-left: 15px;
 }
 .up_span{
     color: #333;
-    background: url(../../images/icon1/sj_g.png) no-repeat;
+    background: url(../../images/icon1/sj_g.png) no-repeat bottom left;
     background-repeat-x: no-repeat;
     padding-left: 15px;
 }
 .modify_span{
     color: #333;
-    background: url(../../images/icon1/xg.png) no-repeat;
+    background: url(../../images/icon1/xg.png) no-repeat bottom left;
     background-repeat-x: no-repeat;
     padding-left: 15px;
 }
 .del_span{
     color: #333;
-    background: url(../../images/icon1/del.png) no-repeat;
+    background: url(../../images/icon1/del.png) no-repeat bottom left;
     background-repeat-x: no-repeat;
     padding-left: 15px;
 }
