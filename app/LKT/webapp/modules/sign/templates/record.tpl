@@ -10,24 +10,7 @@
 
 {php}include BASE_PATH."/modules/assets/templates/top.tpl";{/php}
 <title>签到列表</title>
-{literal}
-<style>
-	.btn1{
-    	width: 80px;
-     	height: 40px;
-     	line-height: 40px;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	    float: left;
-	    color: #6a7076;
-	    background-color: #fff;
-    }
-    .btn1:hover{
-    	text-decoration: none;
-    }
-</style>
-{/literal}
+
 </head>
 <body>
 
@@ -40,11 +23,15 @@
 
 
 <div class="pd-20">
-    <div class="swivch">
-        <a href="index.php?module=sign" class="btn1">活动列表</a>
-        <a href="index.php?module=sign&action=record" class="btn1" style="background-color: #62b3ff;color: #fff;">签到记录</a>
-        <div class="clearfix" style="margin-top: 0px;"></div>
+
+
+    <div style="display: flex;flex-direction: row;font-size: 16px;" class="page_bgcolor">
+        <div class="status qh "><a href="index.php?module=sign">活动列表</a></div>
+        <div class="status qh isclick"><a href="index.php?module=sign&action=record">签到记录</a></div>
+        <div class="status qh " ><a href="index.php?module=sign&action=config">签到设置</a></div>
     </div>
+
+
     <div class="mt-20 text-c">
         <form name="form1" action="index.php" method="get">
             <input type="hidden" name="module" value="sign" />
