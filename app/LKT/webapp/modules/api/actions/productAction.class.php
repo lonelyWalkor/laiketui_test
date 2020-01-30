@@ -370,6 +370,9 @@ class productAction extends BaseAction {
                     if (count($rs)>0) {
                         $sql = "update lkt_cart set Goods_num=Goods_num+$Goods_num where user_id='$user_id' and Uid='$Uid' and Goods_id='$Goods_id' and Size_id='$size_id' ";
                         $r = $db->update($sql);
+                        $sql = "select * from lkt_cart  where user_id='$user_id' and Uid='$Uid' and Goods_id='$Goods_id' and Size_id='$size_id' ";
+                        $r2 = $db->select($sql);
+                        $r = $r2[0]->id;
                     }else{
                         $sql = "insert into lkt_cart (user_id,Uid,Goods_id,Goods_num,Create_time,Size_id) values('$user_id','$Uid','$Goods_id','$Goods_num',CURRENT_TIMESTAMP,$size_id) ";
                         $r = $db -> insert($sql,'last_insert_id');
@@ -531,7 +534,6 @@ class productAction extends BaseAction {
         if($r_user){
             $userid = $r_user['0']->user_id; // 用户id
             $user_money = $r_user['0']->money; // 用户余额
-            // $user_consumer_money = $r_user['0']->consumer_money; // 用户消费金
         }else{
             $userid = ''; // 用户id
             $user_money = ''; // 用户余额
@@ -580,18 +582,17 @@ class productAction extends BaseAction {
         $usort = 0;
 
         foreach ($typeArr as $key => $value) {
+            //echo "select m.status,c.num  from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where  a.id = '$value'";
             $r_c01 = $db->select("select m.status,c.num  from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where  a.id = '$value'");
-            if($r_c01[0]->status&&$r_c01[0]->status != 0){
-                  
-                $res = $db -> delete('delete from lkt_cart where id="'.$value.'"');
-            
+            if($r_c01 && $r_c01[0]->status&&$r_c01[0]->status != 0){
+                $db -> delete('delete from lkt_cart where id="'.$value.'"');
                 echo json_encode(array('status'=>3,'err'=>'存在下架商品！'));
-                                exit;
+                exit;
             }
-            if($r_c01[0]->num&&$r_c01[0]->num ==0){
-                $res = $db -> delete('delete from lkt_cart where id="'.$value.'"');
+            if($r_c01 && $r_c01[0]->num&&$r_c01[0]->num ==0){
+                $db -> delete('delete from lkt_cart where id="'.$value.'"');
                 echo json_encode(array('status'=>3,'err'=>'存在库存不足商品！'));
-                                exit;
+                exit;
             }
             // 联合查询返回购物信息
             $sql_c = "select a.Goods_num,a.Goods_id,a.id,m.product_title,m.volume,c.price,c.attribute,c.img,c.yprice,m.freight,m.product_class from lkt_cart AS a LEFT JOIN lkt_product_list AS m ON a.Goods_id = m.id LEFT JOIN lkt_configure AS c ON a.Size_id = c.id  where c.num >0 and m.status ='0' and a.id = '$value'";
@@ -634,7 +635,7 @@ class productAction extends BaseAction {
                 if($type==1){
                      $product['Goods_num']=$num1;
                 }
-                // print_r($product['Goods_num']);die;
+
                 //计算运费
                 $yunfei = $yunfei + $this->freight($product['freight'],$product['Goods_num'],$address,$db);
                 $product['yunfei'] = $yunfei;//运费

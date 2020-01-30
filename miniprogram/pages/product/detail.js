@@ -570,6 +570,14 @@ Page({
       that.addShopCart(e, sizeid)
     }
   },
+  //购物车直接结算
+  Settlement:function(){
+    console.log('-Settlement-')
+    wx.switchTab({
+      url: '../cart/cart'
+    })
+    return;
+  },
   addShopCart: function (e, sizeid) {
     //添加到购物车
     var that = this;
