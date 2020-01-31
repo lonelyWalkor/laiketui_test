@@ -615,22 +615,6 @@ class productAction extends BaseAction {
                     $status_id = $Goods_id;
                 }
 
-                if(array_key_exists($Goods_id, $distributor_products)){ // 检查数组里是否有指定的键名或索引
-                    $discount = false;
-                    $grade_id = $distributor_products[$Goods_id];
-                    if($grade_id){
-                        $sql_grade = "select sort from lkt_distribution_grade where id = '$grade_id' ";
-                        $r_grade = $db -> select($sql_grade);
-                        if($r_grade){
-                            $gsort = $r_grade[0]->sort;
-                            if($gsort <= $usort){
-                                echo json_encode(array('status'=>0,'err'=>'存在无法购买的商品！'));
-                                exit;
-                                break;
-                            }
-                        }
-                    }
-                }
 
                 if($type==1){
                      $product['Goods_num']=$num1;
