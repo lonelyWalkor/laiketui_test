@@ -977,7 +977,6 @@ class productAction extends BaseAction {
 
     public function addFavorites($openid,$pid){
         $db = DBAction::getInstance();
-        $request = $this->getContext()->getRequest();
         $sql = "select user_id from lkt_user where wx_id = '$openid'";
         $r = $db->select($sql);
         if($r){
@@ -988,7 +987,7 @@ class productAction extends BaseAction {
             if (!$r) {
                 // 在收藏表里添加一条数据
                 $sql = "insert into lkt_user_collection(user_id,p_id,add_time) values('$user_id','$pid',CURRENT_TIMESTAMP)";
-                $r = $db->insert($sql);
+                $db->insert($sql);
             }
         }
     }
@@ -1691,7 +1690,7 @@ class productAction extends BaseAction {
         if($r){
             $product = [];
             foreach ($r as $k => $v) {
-                $imgurl = $img.$v->imgurl;/* end 保存*/
+                $imgurl = $img.$v->imgurl;
                 $pid = $v->id;
                 $sql_ttt = "select price,yprice from lkt_configure where pid ='$pid' order by price asc ";
                 $r_ttt = $db->select($sql_ttt);
