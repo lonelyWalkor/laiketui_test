@@ -243,7 +243,7 @@ class productAction extends BaseAction {
             $commodityAttr = [];
             $sql_size = "select * from lkt_configure where pid = '$id' AND num > 0 and recycle = 0";
             $r_size = $db->select($sql_size);
-            // print_r($r_size);die;
+            
             $array_price = [];
             $array_yprice = [];
             $skuBeanList = [];
@@ -1221,7 +1221,7 @@ class productAction extends BaseAction {
                     foreach ($attribute as $ka => $va) {
                         $size .= $va.' ';
                     }
-                    // print_r($num);die;
+
                     // 循环插入订单附表
                    $sql_d = 'insert into lkt_order_details(user_id,p_id,p_name,p_price,num,unit,r_sNo,add_time,r_status,size,sid,freight) VALUES '."('$userid','$pid','$product_title','$price','$num','$unit','$sNo',CURRENT_TIMESTAMP,0,'$size','$size_id','$freight')";
 

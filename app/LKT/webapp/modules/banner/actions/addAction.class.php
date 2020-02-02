@@ -33,15 +33,11 @@ class addAction extends Action {
 
         if($image){
             $image = preg_replace('/.*\//','',$image);
-
         }else{
             echo "<script type='text/javascript'>" .
-
                 "alert('轮播图不能为空！');" .
-
                 "</script>";
             return $this->getDefaultView();
-
         }
 
         // 添加轮播图
@@ -55,10 +51,8 @@ class addAction extends Action {
                 "</script>";
             return $this->getDefaultView();
         }else{
-
             header("Content-type:text/html;charset=utf-8");
             echo "<script type='text/javascript'>" .
-
                 "alert('添加成功！');" .
                 "location.href='index.php?module=banner';</script>";
             return $this->getDefaultView();

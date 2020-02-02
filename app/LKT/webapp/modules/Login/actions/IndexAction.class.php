@@ -34,7 +34,7 @@ class IndexAction extends Action {
 		if(!$result){
 			// 没有查询到匹配值就在lkt_record表里添加一组数据
 			$sql="insert into lkt_record (user_id,event) values ('$name','登录密码错误') ";
-			$r= $db -> update($sql);
+			$db -> update($sql);
 			jump('index.php?module=Login','登录失败！');
 		}
 
