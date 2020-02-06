@@ -121,46 +121,31 @@ class step3Action extends Action
     {
 
         $request = $this->getContext()->getRequest();
-
         // 获取输入的用户名
-
         $servername = trim(strtolower($request->getParameter("localhost")));
-
         $username = trim(strtolower($request->getParameter("user")));
-
         $password = trim(strtolower($request->getParameter("password")));
-
         $db = new mysqli($servername, $username, $password);
-
         if ($db->connect_error) {
-
             echo 0;
-
         } else {
-
             echo 1;
-
         }
-
         exit;
-
     }
 
     function show_log($msg, $class = '')
     {
 
         echo "<script type='text/javascript'>show_log('$msg', '$class')</script>";
-
         @flush();
-
         @ob_flush();
-
     }
 
-    public function DB($servername, $username, $password , $hostport)
+    public function DB($servername, $username, $password, $hostport)
     {
-        if ($hostport!='3306'){
-            $servername = $servername.":".$hostport;
+        if ($hostport != '3306') {
+            $servername = $servername . ":" . $hostport;
         }
         $db = new mysqli($servername, $username, $password);
         if ($db->connect_error) {
