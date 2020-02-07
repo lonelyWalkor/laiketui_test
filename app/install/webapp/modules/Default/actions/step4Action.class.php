@@ -24,17 +24,12 @@ class step4Action extends Action
     {
 
         if ($_SESSION['install_step'] < 3 || !isset($_SESSION['install_step'])) {
-
             header("Content-type: text/html;charset=utf-8");
-
             echo "<script language='javascript'>" . "alert('安装失败，请重新开始！');" . "location.href='index.php?action=step1';</script>";
-
             return;
 
         }
-
         file_put_contents(WEB_PATH . 'data/install.lock',"laiketui".date("Y-m-d h:i:s",time()));
-
         return View::INPUT;
 
 

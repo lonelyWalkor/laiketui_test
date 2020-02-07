@@ -20,7 +20,6 @@ class step1Action extends Action
 
     public function getDefaultView ()
     {
-        session_start();
         unset($_SESSION);
         session_destroy();
         

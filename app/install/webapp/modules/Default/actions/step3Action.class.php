@@ -23,19 +23,15 @@ class step3Action extends Action
             return;
 
         } else {
-
             if (!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])) {
                 header("Content-type: text/html;charset=utf-8");
                 echo "<script language='javascript'>" . "alert('请填写完整管理员信息！');" . "location.href='index.php?action=step2';</script>";
                 return;
-
             } else if ($admin[1] != $admin[2]) {
                 header("Content-type: text/html;charset=utf-8");
                 echo "<script language='javascript'>" . "alert('确认密码和密码不一致!');" . "location.href='index.php?action=step2';</script>";
                 return;
-
             } else {
-
                 $info = (array)$admin;
                 list($info['username'], $info['password'], $info['repassword'], $info['email']) = $admin;
                 $this->getContext()->getStorage()->write('admin_info', $info);
@@ -45,7 +41,6 @@ class step3Action extends Action
 
                 header("Content-type: text/html;charset=utf-8");
                 echo "<script language='javascript'>" . "alert('请填写完整的数据库配置!');" . "location.href='index.php?action=step2';</script>";
-
                 return;
 
             } else {
@@ -83,13 +78,10 @@ class step3Action extends Action
 
         //第二步创建数据库
         $res_two = $this->create_database($DB['database'], $db);
-
         //第三步创建数据表
         $res_two = $this->create_db_tables($DB['prefix'], $db, $DB['database']);
-
         //最后添加管理员
         $res_for = $this->insert_member($db, $DB['prefix'], $info);
-
         $_SESSION['install_step'] = '3';
 
         return View::INPUT;
@@ -167,41 +159,21 @@ class step3Action extends Action
         $db_config = $this->getContext()->getStorage()->read('db_config');
 
         if (is_array($db_config)) {
-
             //读取配置内容
-
             unset($db_config['params']);
-
             $conf = file_get_contents(WEB_PATH . 'data/database.tpl');
-
             //替换配置项
-
             foreach ($db_config as $name => $value) {
-
                 $conf = str_replace("[{$name}]", $value, $conf);
-
             }
 
             //创建数据库连接文件
-
             if (file_put_contents(WEB_PATH . 'LKT/webapp/config/db_config.php', $conf)) {
-
-                // $this->show_log('数据库连接文件创建成功');
-
                 file_put_contents(WEB_PATH . 'install/webapp/config/db_config.php', $conf);
-
                 return true;
-
-                // 添加数据库记录
-
             } else {
-
-                // $this->show_log('数据库连接文件创建失败！');
-
                 $type = true;
-
                 $_SESSION['install_error'] = $type;
-
             }
 
         } else {
@@ -324,22 +296,14 @@ class step3Action extends Action
     {
 
         $password = md5($admin['password']);
-
         $sql = "INSERT INTO `lkt_admin` (`id`, `sid`, `name`, `password`, `admin_type`, `permission`, `role`, `status`, `add_date`, `recycle`, `nickname`, `birthday`, `sex`, `tel`, `token`, `ip`) VALUES ('1', '0', '{$admin['username']}', '{$password}', '1', NULL, '1', NULL, '2018-09-25 16:55:26', '0', 'lkt', '1936-2-1', '2', '86453408', '', '127.0.0.1')";
         //执行sql
-
         $db->query($sql);
-
         $request = $this->getContext()->getRequest();
-
         $url = $request->getParameter('url');
-
         $domain = $url . '/LKT/index.php?module=api';
-
         $uploadImg_domain = $url;
-
         $sql = "update `{$prefix}config` set domain = '$domain', uploadImg_domain = '$uploadImg_domain',modify_date = CURRENT_TIMESTAMP where id = '1'";
-
         $db->query($sql);
 
     }
