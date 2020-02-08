@@ -190,35 +190,20 @@ class step3Action extends Action
     {
 
         $conn = $db;
-
         // 检测连接
-
         if ($conn->connect_error) {
-
             die("连接失败: " . $conn->connect_error);
-
         }
-
         $sql = "CREATE DATABASE `$database` CHARACTER SET utf8 COLLATE utf8_general_ci ";
-
         $r = $conn->query($sql);
-
         $conn->query("set names utf8");
-
         if ($r) {
-
             return true;
-
         } else {
-
             $sqp_drop = "DROP database $database;";
-
             $_drop = $conn->query($sqp_drop);
-
             $rrr = $conn->query($sql);
-
             return $rrr;
-
         }
 
     }
@@ -227,38 +212,23 @@ class step3Action extends Action
     {
 
         //读取SQL文件
-
         $sql_use = "use $database";
-
         $db->query($sql_use);
-
         $this->show_log(WEB_PATH . 'data/install.sql');
-
         $sql = file_get_contents(WEB_PATH . 'data/install.sql');
-
         $sql = str_replace("\r", "\n", $sql);
-
         $sql = explode(";\n", $sql);
-
         $orginal = "lkt_";
-
         $sql = str_replace(" `{$orginal}", " `{$prefix}", $sql);
-
         $tables_num = 0;
 
         //开始安装
-
         $this->show_log('开始安装数据库...');
-
         foreach ($sql as $value) {
-
             $value = trim($value);
-
             if (empty($value))
                 continue;
-
             if (substr($value, 0, 12) == 'CREATE TABLE') {
-
                 $name = preg_replace("/^CREATE TABLE `(\w+)` .*/s", "\\1", $value);
                 $tables_num++;
                 $msg = "创建数据表{$name}";
