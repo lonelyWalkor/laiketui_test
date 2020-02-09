@@ -12,9 +12,6 @@ Page({
   //页面加载完成函数
   onReady: function () {
     var that = this;
-    // setTimeout(function () {
-      
-    // }, 1000);
   },
   onLoad: function (options) {
     that = this;
