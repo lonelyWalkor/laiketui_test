@@ -469,6 +469,7 @@ Page({
   onLoad: function (e) {
     var that = this;
     //签到活动弹窗,勿删
+    /*
     setTimeout(function(){
       that.setData({
         sign_image: app.globalData.userInfo.sign_image ? app.globalData.userInfo.sign_image:'', // 签到图片
@@ -492,6 +493,7 @@ Page({
           showModal: false
         })
       }},5000);
+    */
     that.loadProductDetail();
 
   },
