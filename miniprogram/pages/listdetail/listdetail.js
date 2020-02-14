@@ -118,11 +118,6 @@ Page({
             })
           }
         } else {
-          // wx.showToast({
-          //   title: '没有更多数据！',
-          //   icon: 'none',
-          //   duration: 2000
-          // });
           that.setData({
             period: true
           });

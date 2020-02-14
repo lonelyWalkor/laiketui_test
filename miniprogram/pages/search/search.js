@@ -51,13 +51,7 @@ Page({
     // app.userlogin(true);
     var cont = this.data.cont;
     var that = this;
-    // if (cont > 1) {
-    //   that.onLoad();
-    // } else {
-    //   that.setData({
-    //     cont: cont + 1
-    //   })
-    // }
+    
   },
   onLoad: function (options) {
 

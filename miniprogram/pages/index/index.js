@@ -67,10 +67,6 @@ Page({
     var page = that.data.page;
     var index = that.data.tabid;
     var current = that.data.current;
-  //   console.log(that)
-  //  console.log(page)
-  //  console.log(index)
-  //   console.log(66666)
     wx.request({
       url: app.d.ceshiUrl + '&action=Index&m=get_more',
       method: 'post',
@@ -91,25 +87,13 @@ Page({
         });
 
         if (prolist == '' || res.data.status == 0) {
-          // wx.showToast({
-          //   title: '已为您全部加载完毕!',
-          //   icon:'none',
-          //   duration: 2000
-          // });
           return false;
         }else{
           
           var twoList = that.data.twoList;
-          // var indexTwoData = twoList[0].twodata// 获取首页的数据对象
-          // twoList[current].twodata.push(prolist)
-          // for (var i = 0; i < prolist.length; i++) {
-          //   twoList[current].twodata.push(prolist[i])
-          // }
           
           twoList[current].twodata.push(...prolist)
           var indexTwoData = twoList[0].twodata
-          // console.log(twoList)
-          // console.log('6666')
           that.setData({
             page: page + 1,
             twoList: twoList,
@@ -215,13 +199,7 @@ Page({
           var banner_num = Object.keys(banner); // 轮播图
           var notice = res.data.notice;
           var indexTwoData = twoList[0].twodata// 获取首页的数据对象
-          // var indexTwoDataObj = twoList[0].twodata// 获取首页的数据对象
-          // // 将首页的数据对象合为一个数组
-          // if (twoList && twoList[0] && indexTwoDataObj) {
-          //   var indexTwoData = Object.values(indexTwoDataObj).reduce((a, b) => [...a, ...b], []);
-          // }
-          // console.log(twoList);
-          // console.log(indexTwoData);
+          
           app.globalData.logoimg = res.data.logo
           app.globalData.title = res.data.title
           that.setData({
@@ -287,13 +265,7 @@ Page({
           var banner_num = Object.keys(banner); // 轮播图
           var notice = res.data.notice;
           var indexTwoData = twoList[0].twodata// 获取首页的数据对象
-          // var indexTwoDataObj = twoList[0].twodata// 获取首页的数据对象
-          // // 将首页的数据对象合为一个数组
-          // if (twoList && twoList[0] && indexTwoDataObj) {
-          //   var indexTwoData = Object.values(indexTwoDataObj).reduce((a, b) => [...a, ...b], []);
-          // }
-          // console.log(twoList);
-          // console.log(indexTwoData);
+          
           app.globalData.logoimg = res.data.logo
           app.globalData.title = res.data.title
           that.setData({
