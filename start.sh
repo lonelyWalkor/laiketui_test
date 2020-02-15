@@ -1,0 +1,2 @@
+#!/bin/bash
+php-fpm && nginx && sleep 60 && /bin/chown -R  www-data:www-data /data/www/scfoodcc/code/runtime &&  /bin/bash /data/www/scfoodcc/env/test/clear_log.sh /data/www/scfoodcc/env/test/log_rotate.conf

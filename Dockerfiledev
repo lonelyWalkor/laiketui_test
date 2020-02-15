@@ -1,0 +1,20 @@
+FROM registry.cn-shanghai.aliyuncs.com/lingdian/nginx-fpm-codebase
+
+#clone code
+RUN mkdir -p /data/www && cd /data/www && \
+    mkdir -p /data/www/open/code/runtime && \
+    mkdir -p /data/www/open/code/public/upload/qrcode && \
+    mkdir -p /data/www/open/code/public/export && \
+    chown -R www-data:www-data /data/www/open/code/public/upload/qrcode && \
+    chown -R www-data:www-data /data/www/open/code/runtime && \
+    chown -R www-data:www-data /data/www/open/code/public/export
+
+COPY ./  /data/www/open
+
+## replace file
+RUN sed -i  's/pm.max_children = 20/pm.max_children = 20/g' /usr/local/etc/php-fpm.conf
+
+# use own sh
+ENTRYPOINT ["/bin/bash"]
+
+CMD ["/data/www/open/start.sh"]
