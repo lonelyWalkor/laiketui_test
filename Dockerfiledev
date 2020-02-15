@@ -2,7 +2,7 @@
 FROM privatebin/nginx-fpm-alpine
 
 
-COPY ./  /srv/data
+COPY ./app  /srv/data
 
 ## replace file
 # RUN sed -i  's/pm.max_children = 20/pm.max_children = 20/g' /usr/local/etc/php-fpm.conf
@@ -11,3 +11,5 @@ COPY ./  /srv/data
 # ENTRYPOINT ["/bin/bash"]
 
 # CMD ["/data/www/open/start.sh"]
+
+# docker run -d -p 5000:8080 registry.cn-hangzhou.aliyuncs.com/enjoysala/laiketui_test:test
